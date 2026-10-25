@@ -1,0 +1,377 @@
+{
+ "modules": {
+  "Customers": {
+   "mainForm": "TCustomerMainForm",
+   "units": 7,
+   "routines": 122,
+   "failed": 0
+  },
+  "Accounts": {
+   "mainForm": "TAccountMainForm",
+   "units": 8,
+   "routines": 136,
+   "failed": 0
+  },
+  "Transactions": {
+   "mainForm": "TTransactionsMainForm",
+   "units": 4,
+   "routines": 170,
+   "failed": 0
+  },
+  "CloseDay": {
+   "mainForm": "TsbCloseDayForm",
+   "units": 3,
+   "routines": 69,
+   "failed": 0
+  },
+  "RateManagement": {
+   "mainForm": "TRateManagementForm",
+   "units": 2,
+   "routines": 68,
+   "failed": 0
+  },
+  "ProfitClosing": {
+   "mainForm": "TSBProfiClosingMainFormImpl",
+   "units": 2,
+   "routines": 102,
+   "failed": 0
+  },
+  "RefEdit": {
+   "mainForm": "TRefEditForm",
+   "units": 1,
+   "routines": 63,
+   "failed": 0
+  },
+  "BalanceRefEdit": {
+   "mainForm": "TBalanceRefEditX",
+   "units": 1,
+   "routines": 63,
+   "failed": 0
+  },
+  "BankInfo": {
+   "mainForm": "TBankInfoX",
+   "units": 3,
+   "routines": 65,
+   "failed": 0
+  },
+  "Avalute": {
+   "mainForm": "TAvaluteX",
+   "units": 1,
+   "routines": 61,
+   "failed": 0
+  },
+  "PaymentDecree": {
+   "mainForm": "TPaymentDecree",
+   "units": 8,
+   "routines": 112,
+   "failed": 0
+  },
+  "AboutBanks": {
+   "mainForm": "TAboutBanks",
+   "units": 3,
+   "routines": 68,
+   "failed": 0
+  },
+  "LastRates": {
+   "mainForm": "TFrmOldCourses",
+   "units": 1,
+   "routines": 58,
+   "failed": 0
+  },
+  "RepairNew": {
+   "mainForm": "TRepairNewMain",
+   "units": 4,
+   "routines": 152,
+   "failed": 0
+  },
+  "CreditManager": {
+   "mainForm": "TFrmCreditManager",
+   "units": 6,
+   "routines": 106,
+   "failed": 0
+  },
+  "ContractCorrection": {
+   "mainForm": "TFrmContractCorrection",
+   "units": 2,
+   "routines": 61,
+   "failed": 0
+  },
+  "MainFacilities": {
+   "mainForm": "TMainFacilities",
+   "units": 14,
+   "routines": 175,
+   "failed": 0
+  },
+  "DepositManager": {
+   "mainForm": "TFrmDepositManager",
+   "units": 4,
+   "routines": 97,
+   "failed": 0
+  },
+  "DepositCorrection": {
+   "mainForm": "TFrmDepositCorrection",
+   "units": 1,
+   "routines": 53,
+   "failed": 0
+  },
+  "CreditsArchive": {
+   "mainForm": "TFrmCreditsArcive",
+   "units": 1,
+   "routines": 58,
+   "failed": 0
+  },
+  "DepositsArchive": {
+   "mainForm": "TFrmDepositsArchive",
+   "units": 4,
+   "routines": 73,
+   "failed": 0
+  },
+  "SessionMgr": {
+   "mainForm": "TSessionMgrForm",
+   "units": 3,
+   "routines": 70,
+   "failed": 0
+  },
+  "TransactionsReporter": {
+   "mainForm": "TFrmTransactionsViewer",
+   "units": 4,
+   "routines": 78,
+   "failed": 0
+  },
+  "QueryExporter": {
+   "mainForm": "TQueryExporterForm",
+   "units": 2,
+   "routines": 56,
+   "failed": 0
+  },
+  "CashSymbols": {
+   "mainForm": "TCashSymbolX",
+   "units": 1,
+   "routines": 53,
+   "failed": 0
+  },
+  "TuningTransactions": {
+   "mainForm": "TTuningTransaction",
+   "units": 4,
+   "routines": 88,
+   "failed": 0
+  },
+  "LVPCSSManager": {
+   "mainForm": "TLVPCSSForm",
+   "units": 23,
+   "routines": 291,
+   "failed": 0
+  },
+  "BackupCreator": {
+   "mainForm": "TSBBackupCreatorMainForm",
+   "units": 1,
+   "routines": 51,
+   "failed": 0
+  },
+  "TuningAccZones": {
+   "mainForm": "TTuningAcc_ZonesForm",
+   "units": 1,
+   "routines": 47,
+   "failed": 0
+  },
+  "CustomersInformations": {
+   "mainForm": "TCustomersInformations",
+   "units": 1,
+   "routines": 90,
+   "failed": 0
+  },
+  "ExpertAnalys": {
+   "mainForm": "TExpertAnalysX",
+   "units": 8,
+   "routines": 98,
+   "failed": 0
+  },
+  "TuningAccTypes": {
+   "mainForm": "TFrmTuningAccTypes",
+   "units": 1,
+   "routines": 49,
+   "failed": 0
+  },
+  "Administration": {
+   "mainForm": "TAdministrationForm",
+   "units": 24,
+   "routines": 345,
+   "failed": 1
+  },
+  "RollbackDay": {
+   "mainForm": "TFormRollbackDay",
+   "units": 1,
+   "routines": 49,
+   "failed": 0
+  },
+  "TransactionManager": {
+   "mainForm": "TTransactionManagerForm",
+   "units": 5,
+   "routines": 162,
+   "failed": 0
+  },
+  "Account": {
+   "mainForm": "TAccountForm",
+   "units": 8,
+   "routines": 131,
+   "failed": 0
+  },
+  "CustomerOrder": {
+   "mainForm": "Tcustomers_orders",
+   "units": 12,
+   "routines": 289,
+   "failed": 0
+  },
+  "OutAccount": {
+   "mainForm": "TAccountForm",
+   "units": 14,
+   "routines": 270,
+   "failed": 0
+  },
+  "OutBalanceRefEdit": {
+   "mainForm": "TBalanceRefEditX",
+   "units": 1,
+   "routines": 56,
+   "failed": 0
+  },
+  "OutTransactionManager": {
+   "mainForm": "TTransactionManagerForm",
+   "units": 7,
+   "routines": 249,
+   "failed": 0
+  },
+  "OutTuningAccTypes": {
+   "mainForm": "TFlagsEditor",
+   "units": 1,
+   "routines": 49,
+   "failed": 0
+  },
+  "CustomerOperations": {
+   "mainForm": "TCO_Main",
+   "units": 55,
+   "routines": 667,
+   "failed": 0
+  }
+ },
+ "notPorted": [],
+ "missingUnits": {
+  "designintf": [
+   "Customers"
+  ],
+  "designeditors": [
+   "Customers"
+  ],
+  "co_statement_unit": [
+   "CustomerOperations"
+  ],
+  "wordxp": [
+   "CustomerOperations"
+  ]
+ },
+ "emptySources": [
+  "Packages/sboapi50/SBOConnectCached.pas",
+  "Packages/sboapi50/SBAppInfo.pas"
+ ],
+ "dfmErrors": [
+  [
+   "Packages/SBCM_ContractState/OrderUnit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SBCM_PercentConverting/UnitCalcedPercentRPT.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Accounts/AccountAboutImpl.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/PaymentDecree/UntMainReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/PaymentDecree/UntSecondReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/AboutBanks/UntQRPBanks.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CreditManager/MuzaffarUnit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainFacilities/InventarCard.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainFacilities/UntDifferenceReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainFacilities/UntRptMainF.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainFacilities/UntTraffics.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/TransactionsReporter/TransactionViewerRptUnit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/LVPCSSManager_Azer/Unit_ReportinX.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/ExpertAnalys/MainReportUnit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/ExpertAnalys/TurnOverReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Administration/AdministrationGroupReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Administration/AdministrationUserAdvGranReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Administration/AdministrationUserGranReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Customer's_orders(new)/Ocx/q_report.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Customer_Operations/CO_MemorialRep1_unit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Customer_Operations/CO_reportUnit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Customer_Operations/MemorialRep.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Customer_Operations/co_Order_Rep_unit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Customer_Operations/co_Order_unit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Customer_Operations/co_order_qrep_unit.dfm",
+   "binary dfm"
+  ]
+ ]
+}

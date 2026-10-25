@@ -1,0 +1,135 @@
+// Generated from SBSrvIntf.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("SBSrvIntf", ["SysUtils"]);
+  const C = [U];
+  U.defClass("ENoDataFound", "Exception", {}, {});
+  U.defClass("EDataCorrupted", "Exception", {}, {});
+  U.init(async () => {
+    U.const("satActive", 1);
+    U.const("satPassive", 2);
+    U.const("satActivePassive", 3);
+    U.const("satfNoAdd", 1);
+    U.const("satfNoAddChild", 2);
+    U.const("satfNoControl", 4);
+    U.const("satfCommitImmediate", 8);
+    U.const("SError_InvalidFlag", (-(20001)));
+    U.const("SError_AccountBalanceNotZero", (-(20002)));
+    U.const("SError_DebitAccountArested", (-(20003)));
+    U.const("SError_CreditAccountArested", (-(20004)));
+    U.const("SError_DebitBalanceViolation", (-(20005)));
+    U.const("SError_CreditBalanceViolation", (-(20005)));
+    U.const("SError_NullAmounts", (-(20006)));
+    U.const("SError_AccessDenied", (-(20028)));
+    U.const("atsDelayed", 1);
+    U.const("atsCommited", 2);
+    U.const("atsRejected", 3);
+    U.const("SError_Disconnected", (-(28)));
+    U.const("sPN_CloseDay", "close_day");
+    U.const("sPN_IsDayOpened", "is_day_opened");
+    U.const("sPN_CommitNewRates", "commit_new_rates");
+    U.const("sPN_OpenDay", "open_day");
+    U.const("sPN_CloseDayProfits", "close_day_profits");
+    U.const("sPN_CalculateRateDifference", "calc_rate_difference");
+    U.const("sPN_CorrectLAmount", "correct_lamount");
+    U.const("sPN_GenTempID", "gen_temp_id");
+    U.const("sPN_AddAccount", "add_account");
+    U.const("sPN_AddCustomer", "add_customer");
+    U.const("sPN_UpdateAccount", "upd_account");
+    U.const("sPN_UpdateCustomer", "upd_customer");
+    U.const("sPN_CloseAccount", "close_account");
+    U.const("sPN_CloseCustomer", "close_customer");
+    U.const("sPN_GetDate", "get_date");
+    U.const("sPN_CreateSID", "create_sid");
+    U.const("sPN_DestroySID", "destroy_sid");
+    U.const("sPN_GetObjectType", "get_sid_object_type");
+    U.const("sPN_GetAccessID", "get_access_id");
+    U.const("sPN_GetAccessName", "get_access_name");
+    U.const("sPN_RegAccess", "reg_access");
+    U.const("sPN_UnRegAccess", "unreg_access");
+    U.const("sPN_GrantUserAccess", "access_user_grant");
+    U.const("sPN_RevokeUserAccess", "access_user_revoke");
+    U.const("sPN_GetAccessDescription", "get_access_descr");
+    U.const("sPN_GetUserName", "GetUserName");
+    U.const("sPN_AddSecurityLink", "link_add");
+    U.const("sPN_RemoveSecurityLink", "link_remove");
+    U.const("sPN_BuildDefaultSecurity", "build_default_security");
+    U.const("sPN_GetUserID", "get_user_id");
+    U.const("sPN_GetGroupID", "get_group_id");
+    U.const("sPN_GetTypeID", "get_type_id");
+    U.const("sPN_SetAccSID", "set_acc_sid");
+    U.const("sPN_AddGroup", "group_add");
+    U.const("sPN_EditGroup", "group_edit");
+    U.const("sPN_DeleteGroup", "group_delete");
+    U.const("sPN_AddUser", "user_add");
+    U.const("sPN_EditUser", "user_edit");
+    U.const("sPN_DeleteUser", "user_delete");
+    U.const("sPN_UserSetPassword", "user_set_password");
+    U.const("sPN_GetTaskID", "get_task_id");
+    U.const("sPN_AddTaskQuery", "add_task_query");
+    U.const("sPN_UpdateTaskQuery", "upd_task_query");
+    U.const("sPN_DeleteTaskQuery", "del_task_query");
+    U.const("sPN_ExecuteTaskQuery", "execute_task_query");
+    U.const("sPN_CheckAccBalance", "check_account_balance");
+    U.const("sPN_CorrectAccBalance", "correct_account_balance");
+    U.const("sPN_GetOption", "get_option");
+    U.const("sPN_AddTransaction", "transaction_add");
+    U.const("sPN_DelTransaction", "transaction_delete");
+    U.const("sPN_RejectTransaction", "transaction_reject");
+    U.const("sPN_GetTransactionStatus", "transaction_get_status");
+    U.const("sPN_TransactionCommit", "transaction_commit");
+    U.const("sPN_TransactionsCommit", "transactions_commit");
+    U.const("sPN_TransactionsDelayedCommit", "transactions_delayed_commit");
+    U.const("sPN_TransactionsTempDelete", "transactions_temp_delete");
+    U.const("sPN_TransactionsTempCommit", "transactions_temp_commit");
+    U.const("sPN_GroupMembershipArray", "group_membership_array");
+    U.const("sPN_Group_Roles_Array", "group_roles_array");
+    U.const("sPN_SidRightsArray", "sid_rights_array");
+    U.const("sPN_ModuleGetSid", "module_get_sid");
+    U.const("sPN_AccessCheck", "access_check");
+    U.const("sPN_UserReCreateRepository", "user_recreate_repository");
+    U.const("sPN_GetError", "get_error");
+    U.const("sPN_GetMessage", "get_message");
+    U.const("sPN_KillSession", "KillSession");
+    U.const("sPN_KillAll", "KillAll");
+    U.const("sPN_GetSessionID", "GetSessionID");
+    U.const("sPN_SendMessage", "SendMessage");
+    U.const("sPN_ModuleAdd", "add_module");
+    U.const("sPN_ModuleDrop", "del_module");
+    U.const("sPN_DeleteTaskActions", "del_task_actions");
+    U.const("SError_AccessDeniedInsert", 20280);
+    U.const("SError_AccessDeniedDelete", 20281);
+    U.const("SError_AccessDeniedUpdate", 20282);
+    U.const("sPN_AccessDeniedInsert", "ORA-20280: Access is denied for Insert");
+    U.const("sPN_AccessDeniedDelete", "ORA-20280: Access is denied for Delete");
+    U.const("sPN_AccessDeniedUpdate", "ORA-20280: Access is denied for Update");
+    U.const("sPN_GetLoginUserID", "UserID");
+    U.const("sPN_FlagExsist", "FlagExsist");
+    U.const("MsgName_MsgToUser", "MsgToUser_");
+    U.const("MsgName_MessageBroadcast", "MessageBroadcast");
+    U.const("MsgName_ShutdownUserSession", "Shutdown_");
+    U.const("MsgName_Shutdown", "Shutdown");
+  });
+  U.func("Sb_PackArray", async function Sb_PackArray(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"arr": $.copyArg(p0), result: '', "index": 0};
+  await $.fixArgs(L0, ["arr"]);
+  L0["result"] = "";
+  { const $t1 = (await $.call(C, "High", [L0["arr"]]));
+    L0["index"] = (await $.call(C, "Low", [L0["arr"]]));
+    let $t2 = true;
+    for (;;) {
+      if (!$t2) { L0["index"] = $.succ(L0["index"], 1); }
+      $t2 = false;
+      if (!($.ord(L0["index"]) <= $.ord($t1))) break;
+      L0["result"] = (await $.call(C, "Format", ["%s,%s", [L0["result"], (await $.idx(L0["arr"], [L0["index"]]))]]));
+      await $.tick();
+    }
+  }
+  await $.stmt((await $.call(C, "Delete", [$.ref(async () => L0["result"], async ($t3) => { L0["result"] = $t3; }), 1, 1])));
+  return L0.result;
+}, {"params": ["Arr"], "kind": "function", "ptypes": ["TConstArray"]});
+  return U;
+}
