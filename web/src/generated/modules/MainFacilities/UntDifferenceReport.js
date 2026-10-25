@@ -1,0 +1,13 @@
+// Generated from UntDifferenceReport.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("UntDifferenceReport", ["Windows", "SysUtils", "Messages", "Classes", "Graphics", "Controls", "StdCtrls", "ExtCtrls", "Forms", "Quickrpt", "QRCtrls", "MFDataModule"]);
+  const C = [U];
+  U.defClass("TRPTDifferenceReport", "TQuickRep", {"qrband1": {"name": "QRBand1", "type": "TQRBand"}, "qrdbtext1": {"name": "QRDBText1", "type": "TQRDBText"}, "qrdbtext2": {"name": "QRDBText2", "type": "TQRDBText"}, "qrdbtext3": {"name": "QRDBText3", "type": "TQRDBText"}, "qrband2": {"name": "QRBand2", "type": "TQRBand"}, "qrlabel1": {"name": "QRLabel1", "type": "TQRLabel"}, "qrdbtext4": {"name": "QRDBText4", "type": "TQRDBText"}, "qrexpr1": {"name": "QRExpr1", "type": "TQRExpr"}, "qrlabel2": {"name": "QRLabel2", "type": "TQRLabel"}, "qrlabel3": {"name": "QRLabel3", "type": "TQRLabel"}, "qrlabel4": {"name": "QRLabel4", "type": "TQRLabel"}, "qrlabel5": {"name": "QRLabel5", "type": "TQRLabel"}, "qrlabel6": {"name": "QRLabel6", "type": "TQRLabel"}, "qrlabel7": {"name": "QRLabel7", "type": "TQRLabel"}, "qrexpr2": {"name": "QRExpr2", "type": "TQRExpr"}, "qrshape1": {"name": "QRShape1", "type": "TQRShape"}, "qrshape2": {"name": "QRShape2", "type": "TQRShape"}, "qrshape3": {"name": "QRShape3", "type": "TQRShape"}, "qrshape4": {"name": "QRShape4", "type": "TQRShape"}, "qrshape5": {"name": "QRShape5", "type": "TQRShape"}, "qrshape6": {"name": "QRShape6", "type": "TQRShape"}, "qrshape7": {"name": "QRShape7", "type": "TQRShape"}, "qrshape8": {"name": "QRShape8", "type": "TQRShape"}, "qrshape9": {"name": "QRShape9", "type": "TQRShape"}, "qrband3": {"name": "QRBand3", "type": "TQRBand"}, "qrlabel8": {"name": "QRLabel8", "type": "TQRLabel"}, "qrlabel9": {"name": "QRLabel9", "type": "TQRLabel"}, "qrshape11": {"name": "QRShape11", "type": "TQRShape"}, "qrshape12": {"name": "QRShape12", "type": "TQRShape"}, "qrshape10": {"name": "QRShape10", "type": "TQRShape"}, "qrshape13": {"name": "QRShape13", "type": "TQRShape"}, "qrshape14": {"name": "QRShape14", "type": "TQRShape"}, "qrshape15": {"name": "QRShape15", "type": "TQRShape"}, "qrshape16": {"name": "QRShape16", "type": "TQRShape"}, "qrshape17": {"name": "QRShape17", "type": "TQRShape"}, "qrlabel10": {"name": "QRLabel10", "type": "TQRLabel"}, "qrreporttitle": {"name": "QRReportTitle", "type": "TQRLabel"}, "qrexpr3": {"name": "QRExpr3", "type": "TQRExpr"}, "qrexpr4": {"name": "QRExpr4", "type": "TQRExpr"}, "qrexpr5": {"name": "QRExpr5", "type": "TQRExpr"}, "qrlabel11": {"name": "QRLabel11", "type": "TQRLabel"}}, {});
+  U.init(async () => {
+    U.var_("RPTDifferenceReport", null, "TRPTDifferenceReport");
+  });
+  return U;
+}

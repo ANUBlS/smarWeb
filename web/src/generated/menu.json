@@ -1,0 +1,721 @@
+{
+ "tree": [
+  {
+   "caption": "Balans",
+   "action": 0,
+   "params": {
+    "SplashTarget": "SmartBank"
+   },
+   "children": [
+    {
+     "caption": "Əməliyyat günü",
+     "action": 0,
+     "params": {
+      "SplashTarget": "OperationDay"
+     },
+     "children": [
+      {
+       "caption": "Hesablar",
+       "action": 2,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Yeni hesablar",
+       "action": 64,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əməliyyatlar",
+       "action": 3,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Günün sənədləri",
+       "action": 60,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Ödəmə tapşırığı",
+       "action": 20,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Müştərilər",
+     "action": 0,
+     "params": {
+      "SplashTarget": "Customers"
+     },
+     "children": [
+      {
+       "caption": "Bankın müştəriləri",
+       "action": 1,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştəri üzrə əməliyyatlar",
+       "action": 78,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Bankın hesabatları",
+     "action": 0,
+     "params": {
+      "SplashTarget": "BankReports"
+     },
+     "children": [
+      {
+       "caption": "Balans",
+       "action": 0,
+       "params": {
+        "SplashTarget": "BankReports"
+       },
+       "children": [
+        {
+         "caption": "Tarix aralığına balans",
+         "action": 10,
+         "params": {},
+         "children": []
+        },
+        {
+         "caption": "Günbəgün Balans",
+         "action": 38,
+         "params": {},
+         "children": []
+        }
+       ]
+      },
+      {
+       "caption": "Hesablar",
+       "action": 0,
+       "params": {
+        "SplashTarget": "Default"
+       },
+       "children": [
+        {
+         "caption": "Hesabdan çıxa",
+         "action": 12,
+         "params": {},
+         "children": []
+        },
+        {
+         "caption": "Yeni Hesabdan çıxarış",
+         "action": 62,
+         "params": {},
+         "children": []
+        },
+        {
+         "caption": "Qalıq-dövriyyə cədvəli",
+         "action": 9,
+         "params": {},
+         "children": []
+        },
+        {
+         "caption": "Tarix aralığına \"Qalıq-Dövriyyə\" cədvəli",
+         "action": 47,
+         "params": {},
+         "children": []
+        },
+        {
+         "caption": "Kontrol lenti",
+         "action": 22,
+         "params": {},
+         "children": []
+        },
+        {
+         "caption": "Günbəgün Qalıq-dövriyyə cədvəli",
+         "action": 58,
+         "params": {},
+         "children": []
+        }
+       ]
+      },
+      {
+       "caption": "Sənədlər",
+       "action": 0,
+       "params": {
+        "SplashTarget": "Default"
+       },
+       "children": [
+        {
+         "caption": "Memorial orderlər",
+         "action": 11,
+         "params": {},
+         "children": []
+        }
+       ]
+      },
+      {
+       "caption": "Kassa sənədləri",
+       "action": null,
+       "params": {},
+       "children": [
+        {
+         "caption": "Kassa sənədləri",
+         "action": 21,
+         "params": {},
+         "children": []
+        },
+        {
+         "caption": "Sərəncam",
+         "action": 39,
+         "params": {},
+         "children": []
+        }
+       ]
+      },
+      {
+       "caption": "Gəlir-xərc hesabatı",
+       "action": null,
+       "params": {},
+       "children": [
+        {
+         "caption": "Gəlir-xərc hesabatı",
+         "action": 41,
+         "params": {},
+         "children": []
+        }
+       ]
+      },
+      {
+       "caption": "Məzənnə fərqi",
+       "action": 19,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hasabat-analitik kompleksi",
+       "action": 17,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Valyuta dəyişmə əməliyyatları",
+       "action": 25,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Valyuta mövqeyi",
+       "action": 14,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Açılmış Hesablar",
+       "action": 48,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Finance State",
+       "action": 65,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Finance State Sec",
+       "action": 66,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Kreditlər",
+     "action": 0,
+     "params": {
+      "SplashTarget": "CreditManagement"
+     },
+     "children": [
+      {
+       "caption": "Kreditlərin idarə olunması",
+       "action": 29,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kreditlərdə düzəlişlər",
+       "action": 30,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Arxiv Kreditlər",
+       "action": 34,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Depozitlər",
+     "action": 0,
+     "params": {
+      "SplashTarget": "DepositManagement"
+     },
+     "children": [
+      {
+       "caption": "Depozitlərin idarə olunması",
+       "action": 32,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Depozitlərdə düzəlişlər",
+       "action": 33,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Arxiv Depozitlər",
+       "action": 35,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Məlumatlar",
+     "action": 0,
+     "params": {
+      "SplashTarget": "References"
+     },
+     "children": [
+      {
+       "caption": "Valyutalar",
+       "action": 18,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Balans hesabları",
+       "action": 15,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştərilərin mənsübiyyəti",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "customer_relation"
+       },
+       "children": []
+      },
+      {
+       "caption": "Müştərilərin sahəsi",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "customer_branch",
+        "Caption": "Müştərilərin sahəsi"
+       },
+       "children": []
+      },
+      {
+       "caption": "Filialları",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "filial",
+        "Caption": "Filialları"
+       },
+       "children": []
+      },
+      {
+       "caption": "Vergi",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "tax_area",
+        "Caption": "Nalog"
+       },
+       "children": []
+      },
+      {
+       "caption": "Fəaliyyət sahəsi",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "customer_action_area",
+        "Caption": "Fəaliyyət sahəsi"
+       },
+       "children": []
+      },
+      {
+       "caption": "Təşkilat forması",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "organization_type",
+        "Caption": "Təşkilat forması"
+       },
+       "children": []
+      },
+      {
+       "caption": "Müştərilərin qrupları",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "customer_group",
+        "Caption": "Müştərilərin qrupları"
+       },
+       "children": []
+      },
+      {
+       "caption": "Müştərilərin mülkiyyət növü",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "customer_estate_type",
+        "Caption": "Müştərilərin mülkiyyət növü"
+       },
+       "children": []
+      },
+      {
+       "caption": "Valyuta Məzənnələri",
+       "action": 27,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Banklar Haqqında Məlumat",
+       "action": 26,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Shifr",
+       "action": 7,
+       "params": {
+        "Mode": "edit",
+        "RefName": "REPORT_SYMBOL",
+        "Caption": "Shifr"
+       },
+       "children": []
+      },
+      {
+       "caption": "Kassa simvolu",
+       "action": 42,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Komissiya əməliyyatları",
+       "action": 43,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Balans bolgüləri",
+       "action": 49,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hesab növləri",
+       "action": 53,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Reqionlar",
+       "action": 61,
+       "params": {
+        "Child": "agro_village",
+        "RefName": "agro_region",
+        "Caption": "Reqionlar"
+       },
+       "children": []
+      },
+      {
+       "caption": "Sahələr",
+       "action": 61,
+       "params": {
+        "Child": "agro_kredit_purpose",
+        "RefName": "agro_kredit_target",
+        "Caption": "Sahələr"
+       },
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Sistem servisi",
+     "action": 0,
+     "params": {
+      "SplashTarget": "SystemServices"
+     },
+     "children": [
+      {
+       "caption": "Günün qaytarılması",
+       "action": 55,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Bank haqqında məlumat",
+       "action": 16,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Yeni Valyuta məzənnələri",
+       "action": 5,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Məlumatın arxivləşdirilməsi",
+       "action": 45,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Gəlir-zərərlərin bağlanması",
+       "action": 6,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Arxiv Günə duzəliş",
+       "action": 28,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əməliyyat gününün bağlanması",
+       "action": 4,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sorğular",
+       "action": 40,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Əsas vəsaitlər",
+     "action": 0,
+     "params": {
+      "SplashTarget": "Assets"
+     },
+     "children": [
+      {
+       "caption": "Əsas vəsaitlərin idarə olunması",
+       "action": 31,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Beynalxalq köçürmələr",
+     "action": 0,
+     "params": {
+      "SplashTarget": "SWIFT"
+     },
+     "children": [
+      {
+       "caption": "X.Ö.H.K.S",
+       "action": 44,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "İdarəetmə",
+     "action": 0,
+     "params": {
+      "SplashTarget": "Administration"
+     },
+     "children": [
+      {
+       "caption": "İdarəetmə",
+       "action": 54,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sesiyaların idarə olunması",
+       "action": 36,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Analiz",
+     "action": 0,
+     "params": {
+      "SplashTarget": "ExpertAnalysis"
+     },
+     "children": [
+      {
+       "caption": "Ekspres Analiz",
+       "action": 51,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştəri hesablarının Analizi",
+       "action": 50,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Günün sənədlərinin analizi",
+       "action": 37,
+       "params": {},
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "caption": "Balansdan kənar",
+   "action": 0,
+   "params": {
+    "SplashTarget": "OperationDay"
+   },
+   "children": [
+    {
+     "caption": "Əməliyyat günü",
+     "action": 0,
+     "params": {
+      "SplashTarget": "OperationDay"
+     },
+     "children": [
+      {
+       "caption": "Hesablar",
+       "action": 68,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Balansdankənar sənədlər",
+       "action": 70,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Müştərilər",
+     "action": 0,
+     "params": {
+      "SplashTarget": "Customers"
+     },
+     "children": [
+      {
+       "caption": "Müştərinin sərəncamları",
+       "action": 67,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Bankın hesabatları",
+     "action": 0,
+     "params": {
+      "SplashTarget": "BankReports"
+     },
+     "children": [
+      {
+       "caption": "Balans",
+       "action": 0,
+       "params": {
+        "SplashTarget": "BankReports"
+       },
+       "children": []
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "actions": {
+  "1": "Customers",
+  "2": "Accounts",
+  "3": "Transactions",
+  "4": "CloseDay",
+  "5": "RateManagement",
+  "6": "ProfitClosing",
+  "7": "RefEdit",
+  "15": "BalanceRefEdit",
+  "16": "BankInfo",
+  "18": "Avalute",
+  "20": "PaymentDecree",
+  "26": "AboutBanks",
+  "27": "LastRates",
+  "28": "RepairNew",
+  "29": "CreditManager",
+  "30": "ContractCorrection",
+  "31": "MainFacilities",
+  "32": "DepositManager",
+  "33": "DepositCorrection",
+  "34": "CreditsArchive",
+  "35": "DepositsArchive",
+  "36": "SessionMgr",
+  "37": "TransactionsReporter",
+  "40": "QueryExporter",
+  "42": "CashSymbols",
+  "43": "TuningTransactions",
+  "44": "LVPCSSManager",
+  "45": "BackupCreator",
+  "49": "TuningAccZones",
+  "50": "CustomersInformations",
+  "51": "ExpertAnalys",
+  "53": "TuningAccTypes",
+  "54": "Administration",
+  "55": "RollbackDay",
+  "60": "TransactionManager",
+  "61": "Account",
+  "64": "Account",
+  "67": "CustomerOrder",
+  "68": "OutAccount",
+  "69": "OutBalanceRefEdit",
+  "70": "OutTransactionManager",
+  "75": "OutTuningAccTypes",
+  "78": "CustomerOperations"
+ },
+ "reportActions": [
+  9,
+  10,
+  11,
+  12,
+  14,
+  17,
+  19,
+  21,
+  22,
+  25,
+  38,
+  39,
+  41,
+  46,
+  47,
+  48,
+  58,
+  62,
+  65,
+  66
+ ]
+}

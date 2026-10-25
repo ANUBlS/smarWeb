@@ -1,0 +1,13 @@
+// Generated from UnitCalcedPercentRPT.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("UnitCalcedPercentRPT", ["Windows", "SysUtils", "Messages", "Classes", "Graphics", "Controls", "StdCtrls", "ExtCtrls", "Forms", "Quickrpt", "QRCtrls", "PercentConvertingDataModule"]);
+  const C = [U];
+  U.defClass("TCalcedPercentRpt", "TQuickRep", {"pageheaderband": {"name": "PageHeaderBand", "type": "TQRBand"}, "qrlabel1": {"name": "QRLabel1", "type": "TQRLabel"}, "qrsysdata1": {"name": "QRSysData1", "type": "TQRSysData"}, "qrlabel2": {"name": "QRLabel2", "type": "TQRLabel"}, "qheader": {"name": "QHeader", "type": "TQRGroup"}, "qrband1": {"name": "QRBand1", "type": "TQRBand"}, "qfooter": {"name": "QFooter", "type": "TQRBand"}, "qrlabel3": {"name": "QRLabel3", "type": "TQRLabel"}, "qrdbtext1": {"name": "QRDBText1", "type": "TQRDBText"}, "qrlabel4": {"name": "QRLabel4", "type": "TQRLabel"}, "qrlabel5": {"name": "QRLabel5", "type": "TQRLabel"}, "qrlabel6": {"name": "QRLabel6", "type": "TQRLabel"}, "qrlabel7": {"name": "QRLabel7", "type": "TQRLabel"}, "qrlabel8": {"name": "QRLabel8", "type": "TQRLabel"}, "qrlabel9": {"name": "QRLabel9", "type": "TQRLabel"}, "qrlabel10": {"name": "QRLabel10", "type": "TQRLabel"}, "qrlabel11": {"name": "QRLabel11", "type": "TQRLabel"}, "qrlabel12": {"name": "QRLabel12", "type": "TQRLabel"}, "qrdbtext2": {"name": "QRDBText2", "type": "TQRDBText"}, "qrdbtext3": {"name": "QRDBText3", "type": "TQRDBText"}, "qrdbtext4": {"name": "QRDBText4", "type": "TQRDBText"}, "qrdbtext5": {"name": "QRDBText5", "type": "TQRDBText"}, "qrdbtext6": {"name": "QRDBText6", "type": "TQRDBText"}, "qrdbtext7": {"name": "QRDBText7", "type": "TQRDBText"}, "qrdbtext8": {"name": "QRDBText8", "type": "TQRDBText"}, "qrdbtext9": {"name": "QRDBText9", "type": "TQRDBText"}, "qrdbtext10": {"name": "QRDBText10", "type": "TQRDBText"}, "qrlabel13": {"name": "QRLabel13", "type": "TQRLabel"}, "qrexpr1": {"name": "QRExpr1", "type": "TQRExpr"}, "qrexpr2": {"name": "QRExpr2", "type": "TQRExpr"}, "qrexpr3": {"name": "QRExpr3", "type": "TQRExpr"}, "qrexpr4": {"name": "QRExpr4", "type": "TQRExpr"}, "qrexpr5": {"name": "QRExpr5", "type": "TQRExpr"}, "qrexpr6": {"name": "QRExpr6", "type": "TQRExpr"}, "qrexpr7": {"name": "QRExpr7", "type": "TQRExpr"}, "qrexpr8": {"name": "QRExpr8", "type": "TQRExpr"}, "pageheaderband1": {"name": "PageHeaderBand1", "type": "TQRBand"}, "qrsysdata3": {"name": "QRSysData3", "type": "TQRSysData"}, "qrlabel14": {"name": "QRLabel14", "type": "TQRLabel"}}, {});
+  U.init(async () => {
+    U.var_("CalcedPercentRpt", null, "TCalcedPercentRpt");
+  });
+  return U;
+}
