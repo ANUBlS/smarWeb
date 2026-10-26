@@ -34,9 +34,10 @@ export class TAction extends TBasicAction {
   protected _imageIndex = -1;
 
   get Caption() { return this._caption; }
-  set Caption(v: string) { this._caption = str(v); invalidate(); }
+  set Caption(v: string) { const n = str(v); if (n !== this._caption) { this._caption = n; invalidate(); } }
   get Checked() { return this._checked; }
   set Checked(v: boolean) {
+    if (!!v === this._checked) return;
     this._checked = !!v;
     if (v && this.GroupIndex > 0 && this.ActionList) {
       for (const a of this.ActionList.actions()) if (a !== this && a.GroupIndex === this.GroupIndex) a._checked = false;
@@ -44,13 +45,13 @@ export class TAction extends TBasicAction {
     invalidate();
   }
   get Enabled() { return this._enabled; }
-  set Enabled(v: boolean) { this._enabled = !!v; invalidate(); }
+  set Enabled(v: boolean) { if (!!v !== this._enabled) { this._enabled = !!v; invalidate(); } }
   get Visible() { return this._visible; }
-  set Visible(v: boolean) { this._visible = !!v; invalidate(); }
+  set Visible(v: boolean) { if (!!v !== this._visible) { this._visible = !!v; invalidate(); } }
   get Hint() { return this._hint; }
   set Hint(v: string) { this._hint = str(v); }
   get ImageIndex() { return this._imageIndex; }
-  set ImageIndex(v: number) { this._imageIndex = num(v); invalidate(); }
+  set ImageIndex(v: number) { if (num(v) !== this._imageIndex) { this._imageIndex = num(v); invalidate(); } }
   get Index() { return this.ActionList ? this.ActionList.actions().indexOf(this) : -1; }
 
   override async execFrom(sender: TComponent | null): Promise<boolean> {
@@ -107,17 +108,18 @@ export class TMenuItem extends TComponent {
   linked = new Set<string>();
 
   get Caption() { return this.lv('caption', this._caption) as string; }
-  set Caption(v: string) { this._caption = str(v); this.linked.delete('caption'); invalidate(); }
+  set Caption(v: string) { const n = str(v), c = n !== this._caption; this._caption = n; this.linked.delete('caption'); if (c) invalidate(); }
   get Checked() { return this.lv('checked', this._checked) as boolean; }
   set Checked(v: boolean) {
+    if (!!v === this._checked) return;
     this._checked = !!v; this.linked.delete('checked');
     if (v && this.RadioItem && this.Parent) for (const s of this.Parent.items) if (s !== this && s.RadioItem && s.GroupIndex === this.GroupIndex) s._checked = false;
     invalidate();
   }
   get Enabled() { return this.lv('enabled', this._enabled) as boolean; }
-  set Enabled(v: boolean) { this._enabled = !!v; this.linked.delete('enabled'); invalidate(); }
+  set Enabled(v: boolean) { const n = !!v, c = n !== this._enabled; this._enabled = n; this.linked.delete('enabled'); if (c) invalidate(); }
   get Visible() { return this.lv('visible', this._visible) as boolean; }
-  set Visible(v: boolean) { this._visible = !!v; this.linked.delete('visible'); invalidate(); }
+  set Visible(v: boolean) { const n = !!v, c = n !== this._visible; this._visible = n; this.linked.delete('visible'); if (c) invalidate(); }
   get Hint() { return this.lv('hint', this._hint) as string; }
   set Hint(v: string) { this._hint = str(v); }
   get ImageIndex() { return this.lv('imageindex', this._imageIndex) as number; }

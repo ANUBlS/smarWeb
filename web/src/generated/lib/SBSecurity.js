@@ -14,7 +14,7 @@ export default function define($) {
   });
   U.func("Sb_CreateSecurityDescriptor", async function Sb_CreateSecurityDescriptor(Self, p0, p1, p2) {
   const C = $.chain(Self, U);
-  const L0 = {"userid": $.copyArg(p0), "groupid": $.copyArg(p1), "typeid": $.copyArg(p2), result: null};
+  const L0 = {"userid": $.copyArg(p0), "groupid": $.copyArg(p1), "typeid": $.copyArg(p2), result: 0};
   await $.fixArgs(L0, ["userid", "groupid", "typeid"]);
   {
     const $t1 = (await $.mv((await $.v(C, "sboapiDataModule")), "SBSecurity"));
@@ -214,7 +214,7 @@ export default function define($) {
 }, {"params": ["Sid"], "kind": "function", "ptypes": ["TSid"]});
   U.func("Sb_GetUserID", async function Sb_GetUserID(Self) {
   const C = $.chain(Self, U);
-  const L0 = {result: null};
+  const L0 = {result: 0};
   {
     const $t21 = (await $.mv((await $.v(C, "sboapiDataModule")), "SBSecurity"));
     try {
@@ -233,7 +233,7 @@ export default function define($) {
 }, {"params": [], "kind": "function", "ptypes": []});
   U.func("Sb_GetGroupID", async function Sb_GetGroupID(Self) {
   const C = $.chain(Self, U);
-  const L0 = {result: null};
+  const L0 = {result: 0};
   {
     const $t23 = (await $.mv((await $.v(C, "sboapiDataModule")), "SBUtil"));
     try {

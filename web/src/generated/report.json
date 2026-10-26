@@ -194,7 +194,7 @@
   },
   "Administration": {
    "mainForm": "TAdministrationForm",
-   "units": 24,
+   "units": 23,
    "routines": 345,
    "failed": 1
   },
@@ -251,34 +251,865 @@
    "units": 55,
    "routines": 667,
    "failed": 0
+  },
+  "XCreditsConstruction": {
+   "mainForm": "TCreditsManagerForConstruction",
+   "units": 34,
+   "routines": 560,
+   "failed": 2
+  },
+  "XCreditsMgr": {
+   "mainForm": "TCMMainForm",
+   "units": 1,
+   "routines": 46,
+   "failed": 0
+  },
+  "XCreditsMgrSB": {
+   "mainForm": "TCreditsmgr_sb",
+   "units": 2,
+   "routines": 65,
+   "failed": 0
+  },
+  "XCreditArchive": {
+   "mainForm": "TFormArchiveCredit",
+   "units": 3,
+   "routines": 88,
+   "failed": 0
+  },
+  "XGuaranty": {
+   "mainForm": "TGuaranty",
+   "units": 2,
+   "routines": 62,
+   "failed": 0
+  },
+  "XGuarantee": {
+   "mainForm": "TGuaranteeMgr",
+   "units": 12,
+   "routines": 141,
+   "failed": 0
+  },
+  "XProblemCredits": {
+   "mainForm": "TProblemCreditMgr",
+   "units": 9,
+   "routines": 125,
+   "failed": 0
+  },
+  "XProblemCreditMgr": {
+   "mainForm": "TProblemCreditManager",
+   "units": 3,
+   "routines": 80,
+   "failed": 0
+  },
+  "XEnforcement": {
+   "mainForm": "TExecutionManager",
+   "units": 3,
+   "routines": 145,
+   "failed": 0
+  },
+  "XAcceptedPortfel": {
+   "mainForm": "TAcceptedportfell",
+   "units": 13,
+   "routines": 161,
+   "failed": 0
+  },
+  "XCourtManager": {
+   "mainForm": "TCourtmgr",
+   "units": 10,
+   "routines": 123,
+   "failed": 0
+  },
+  "XLawModule": {
+   "mainForm": "TLawmodule",
+   "units": 5,
+   "routines": 121,
+   "failed": 0
+  },
+  "XOnlineCourt": {
+   "mainForm": "TOnline_court_conturolImpl",
+   "units": 1,
+   "routines": 79,
+   "failed": 0
+  },
+  "XCalcRateAccount": {
+   "mainForm": "TCRAMainForm",
+   "units": 6,
+   "routines": 89,
+   "failed": 0
+  },
+  "XNewDeposits": {
+   "mainForm": "TNewDepositsManagerImpl",
+   "units": 2,
+   "routines": 118,
+   "failed": 0
+  },
+  "XNewDepositsArchive": {
+   "mainForm": "TNewDepositsManagerArchiveFormImpl",
+   "units": 2,
+   "routines": 89,
+   "failed": 0
+  },
+  "XDepositsMgr": {
+   "mainForm": "TfrmDepositsManager",
+   "units": 2,
+   "routines": 94,
+   "failed": 0
+  },
+  "XDepositsMgrNew": {
+   "mainForm": "TDepositsManager_new",
+   "units": 2,
+   "routines": 115,
+   "failed": 0
+  },
+  "XSecurities": {
+   "mainForm": "Tnew",
+   "units": 4,
+   "routines": 95,
+   "failed": 0
+  },
+  "XInvestment": {
+   "mainForm": "TFrm_Investisiya",
+   "units": 2,
+   "routines": 103,
+   "failed": 0
+  },
+  "XSwiftIntl": {
+   "mainForm": "TINTERNATIONAL_SWIFT",
+   "units": 3,
+   "routines": 73,
+   "failed": 0
+  },
+  "XSwiftManager": {
+   "mainForm": "TSWIFT_MAIN",
+   "units": 30,
+   "routines": 544,
+   "failed": 0
+  },
+  "XSwiftClearing": {
+   "mainForm": "TSwift_Form",
+   "units": 10,
+   "routines": 166,
+   "failed": 0
+  },
+  "XWesternUnion": {
+   "mainForm": "TWesternUnionForm",
+   "units": 4,
+   "routines": 77,
+   "failed": 0
+  },
+  "XMoneyTransfers": {
+   "mainForm": "TMoneyTransfers",
+   "units": 1,
+   "routines": 75,
+   "failed": 0
+  },
+  "XPayments": {
+   "mainForm": "TPaymentsForm",
+   "units": 4,
+   "routines": 84,
+   "failed": 0
+  },
+  "XPaymentViewer": {
+   "mainForm": "TPaymentViewer",
+   "units": 2,
+   "routines": 74,
+   "failed": 0
+  },
+  "XOnlinePayment": {
+   "mainForm": "TOnlineView",
+   "units": 2,
+   "routines": 82,
+   "failed": 0
+  },
+  "XBBPayings": {
+   "mainForm": "TBBPayingsForm",
+   "units": 3,
+   "routines": 58,
+   "failed": 0
+  },
+  "XCallBack": {
+   "mainForm": "TCallBackTransactionsForm",
+   "units": 1,
+   "routines": 52,
+   "failed": 0
+  },
+  "XTranceTransaction": {
+   "mainForm": "TTranceTransaction",
+   "units": 3,
+   "routines": 85,
+   "failed": 0
+  },
+  "XPbfTransactions": {
+   "mainForm": "Tfrmpbf_transaction",
+   "units": 11,
+   "routines": 110,
+   "failed": 0
+  },
+  "XEmanet": {
+   "mainForm": "TEmanet",
+   "units": 2,
+   "routines": 82,
+   "failed": 0
+  },
+  "XEmanatViews": {
+   "mainForm": "TEmwanat_view",
+   "units": 2,
+   "routines": 78,
+   "failed": 0
+  },
+  "XExpress": {
+   "mainForm": "TExpress",
+   "units": 29,
+   "routines": 315,
+   "failed": 0
+  },
+  "XExchange": {
+   "mainForm": "TExchangeMGR_X",
+   "units": 28,
+   "routines": 291,
+   "failed": 0
+  },
+  "XAsanFinance": {
+   "mainForm": "TASANFinanceForm",
+   "units": 7,
+   "routines": 93,
+   "failed": 0
+  },
+  "XPlatformSif": {
+   "mainForm": "TSif",
+   "units": 5,
+   "routines": 149,
+   "failed": 0
+  },
+  "XAdif": {
+   "mainForm": "TFormADIF",
+   "units": 6,
+   "routines": 99,
+   "failed": 0
+  },
+  "XAddXml": {
+   "mainForm": "TADDXML",
+   "units": 2,
+   "routines": 75,
+   "failed": 0
+  },
+  "XTaxes": {
+   "mainForm": "TTAXS",
+   "units": 3,
+   "routines": 83,
+   "failed": 0
+  },
+  "XCards": {
+   "mainForm": "TMAINFORM",
+   "units": 79,
+   "routines": 664,
+   "failed": 0
+  },
+  "XCustomersOrders": {
+   "mainForm": "TCustomersorders",
+   "units": 11,
+   "routines": 81,
+   "failed": 0
+  },
+  "XCustAnalysis": {
+   "mainForm": "TCustAnalyz",
+   "units": 4,
+   "routines": 81,
+   "failed": 0
+  },
+  "XRelatedPersons": {
+   "mainForm": "TFormRelatedPersons",
+   "units": 1,
+   "routines": 52,
+   "failed": 0
+  },
+  "XPCustService": {
+   "mainForm": "TPCustServiceForm",
+   "units": 59,
+   "routines": 717,
+   "failed": 0
+  },
+  "XGoAml": {
+   "mainForm": "TGoAml_ServiceForm",
+   "units": 6,
+   "routines": 140,
+   "failed": 0
+  },
+  "XBlackList": {
+   "mainForm": "TBlackInst",
+   "units": 5,
+   "routines": 112,
+   "failed": 0
+  },
+  "XThomson": {
+   "mainForm": "TThomson",
+   "units": 1,
+   "routines": 50,
+   "failed": 0
+  },
+  "XToksik": {
+   "mainForm": "TToksik",
+   "units": 2,
+   "routines": 72,
+   "failed": 0
+  },
+  "XPrudensial": {
+   "mainForm": "TPrudensial",
+   "units": 3,
+   "routines": 82,
+   "failed": 0
+  },
+  "XAccBalanceCheck": {
+   "mainForm": "TAccBalanceCheckForm",
+   "units": 1,
+   "routines": 53,
+   "failed": 0
+  },
+  "XBalanceAnalys": {
+   "mainForm": "TFormBalanceAnalys",
+   "units": 3,
+   "routines": 91,
+   "failed": 0
+  },
+  "XSaldoEditor": {
+   "mainForm": "TSaldoEditorForm",
+   "units": 2,
+   "routines": 93,
+   "failed": 0
+  },
+  "XMasterBook": {
+   "mainForm": "TMasterBook",
+   "units": 2,
+   "routines": 53,
+   "failed": 0
+  },
+  "XOrder": {
+   "mainForm": "TOrderForm",
+   "units": 6,
+   "routines": 63,
+   "failed": 0
+  },
+  "XOutAvalute": {
+   "mainForm": "Tout_AvaluteForm",
+   "units": 1,
+   "routines": 54,
+   "failed": 0
+  },
+  "XRepair": {
+   "mainForm": "TRepairMainForm",
+   "units": 4,
+   "routines": 93,
+   "failed": 0
+  },
+  "XOutRepair": {
+   "mainForm": "TOut_RepairFrm",
+   "units": 4,
+   "routines": 159,
+   "failed": 0
+  },
+  "XFixedAssets": {
+   "mainForm": "TFixedAssetsImpl",
+   "units": 3,
+   "routines": 74,
+   "failed": 0
+  },
+  "XMainResource": {
+   "mainForm": "TMainResource",
+   "units": 39,
+   "routines": 270,
+   "failed": 0
+  },
+  "XResource": {
+   "mainForm": "Tresource",
+   "units": 5,
+   "routines": 79,
+   "failed": 0
+  },
+  "XProperties": {
+   "mainForm": "TPropertiesFrm",
+   "units": 18,
+   "routines": 202,
+   "failed": 0
+  },
+  "XBudget": {
+   "mainForm": "TfrmBudgetMgr",
+   "units": 12,
+   "routines": 135,
+   "failed": 0
+  },
+  "XFinancePro": {
+   "mainForm": "TFINANCEPRO",
+   "units": 1,
+   "routines": 70,
+   "failed": 0
+  },
+  "XRatesViewer": {
+   "mainForm": "TFrmRates",
+   "units": 1,
+   "routines": 47,
+   "failed": 0
+  },
+  "XCountries": {
+   "mainForm": "TCountries",
+   "units": 1,
+   "routines": 54,
+   "failed": 0
+  },
+  "XCalendar": {
+   "mainForm": "TCalendar",
+   "units": 3,
+   "routines": 66,
+   "failed": 0
+  },
+  "XCcBuilding": {
+   "mainForm": "TCC_Building",
+   "units": 8,
+   "routines": 153,
+   "failed": 0
+  },
+  "XCcBuyers": {
+   "mainForm": "Tcc_Buyers",
+   "units": 21,
+   "routines": 327,
+   "failed": 0
+  },
+  "XCcCashOp": {
+   "mainForm": "TCC_CashOperation",
+   "units": 6,
+   "routines": 75,
+   "failed": 0
+  },
+  "XCcBuildings2": {
+   "mainForm": "TccBuildingsForm",
+   "units": 5,
+   "routines": 88,
+   "failed": 0
+  },
+  "XCcBuyers2": {
+   "mainForm": "TccBuyersForm",
+   "units": 3,
+   "routines": 46,
+   "failed": 0
+  },
+  "XCableContracts": {
+   "mainForm": "TCableContractsX",
+   "units": 5,
+   "routines": 82,
+   "failed": 0
+  },
+  "XCableCorrection": {
+   "mainForm": "TCableCorrect",
+   "units": 1,
+   "routines": 48,
+   "failed": 0
+  },
+  "XCableManager": {
+   "mainForm": "TCableMan",
+   "units": 9,
+   "routines": 81,
+   "failed": 0
+  },
+  "XCableSettings": {
+   "mainForm": "TCableSettings",
+   "units": 1,
+   "routines": 83,
+   "failed": 0
+  },
+  "XExcelImport": {
+   "mainForm": "TExcelimp",
+   "units": 1,
+   "routines": 59,
+   "failed": 0
+  },
+  "XOutExcelImport": {
+   "mainForm": "TOutExcelImp",
+   "units": 1,
+   "routines": 75,
+   "failed": 0
+  },
+  "XFullImport": {
+   "mainForm": "TFull_ImportImpl",
+   "units": 4,
+   "routines": 74,
+   "failed": 0
+  },
+  "XImportService": {
+   "mainForm": "TFormImportService",
+   "units": 2,
+   "routines": 53,
+   "failed": 0
+  },
+  "XQkImport": {
+   "mainForm": "TQK_Import",
+   "units": 7,
+   "routines": 123,
+   "failed": 0
+  },
+  "XSimCorp": {
+   "mainForm": "TSimCorp",
+   "units": 2,
+   "routines": 87,
+   "failed": 0
+  },
+  "XAdmLogs": {
+   "mainForm": "TAdmLogs",
+   "units": 4,
+   "routines": 60,
+   "failed": 0
+  },
+  "XSbLogs": {
+   "mainForm": "TSBLogs",
+   "units": 4,
+   "routines": 57,
+   "failed": 0
+  },
+  "XUserManager": {
+   "mainForm": "TSecurityManagerForm",
+   "units": 1,
+   "routines": 46,
+   "failed": 0
+  },
+  "XUniversalSettings": {
+   "mainForm": "TSBUniversalSettings",
+   "units": 3,
+   "routines": 62,
+   "failed": 0
+  },
+  "XBusinessProcesses": {
+   "mainForm": "TBusinessProcessSetup",
+   "units": 10,
+   "routines": 92,
+   "failed": 0
+  },
+  "XTranslator": {
+   "mainForm": "TFormTranslator",
+   "units": 1,
+   "routines": 54,
+   "failed": 0
+  },
+  "XTickets": {
+   "mainForm": "TTicketsManager",
+   "units": 13,
+   "routines": 81,
+   "failed": 0
+  },
+  "XPutyovka": {
+   "mainForm": "TPutyukova",
+   "units": 1,
+   "routines": 73,
+   "failed": 0
+  },
+  "XInsCustomers": {
+   "mainForm": "TInsCustomersForm",
+   "units": 18,
+   "routines": 202,
+   "failed": 0
+  },
+  "XInsurances": {
+   "mainForm": "TInsurancesForm",
+   "units": 1,
+   "routines": 60,
+   "failed": 0
+  },
+  "XInsPayments": {
+   "mainForm": "TfmPaymentsMain",
+   "units": 3,
+   "routines": 69,
+   "failed": 0
+  },
+  "XInsAccountDoc": {
+   "mainForm": "TAccountDoc",
+   "units": 2,
+   "routines": 67,
+   "failed": 0
+  },
+  "XInsAccountState": {
+   "mainForm": "TAccountState",
+   "units": 2,
+   "routines": 61,
+   "failed": 0
+  },
+  "XInsAutoDict": {
+   "mainForm": "TfmAutoDict",
+   "units": 1,
+   "routines": 49,
+   "failed": 0
+  },
+  "XInsDictChilde": {
+   "mainForm": "TfmDictChilde",
+   "units": 1,
+   "routines": 61,
+   "failed": 0
+  },
+  "XInsAuto": {
+   "mainForm": "Tauto",
+   "units": 2,
+   "routines": 48,
+   "failed": 0
+  },
+  "XInsBlankMain": {
+   "mainForm": "TBlankMain",
+   "units": 5,
+   "routines": 110,
+   "failed": 0
+  },
+  "XInsReinsReceive": {
+   "mainForm": "TMainReInsReceive",
+   "units": 2,
+   "routines": 98,
+   "failed": 0
+  },
+  "XInsRights": {
+   "mainForm": "TIns_Rights",
+   "units": 1,
+   "routines": 70,
+   "failed": 0
+  },
+  "XInsResponsibility": {
+   "mainForm": "TMainResponsibility",
+   "units": 2,
+   "routines": 71,
+   "failed": 0
+  },
+  "XInsTravel": {
+   "mainForm": "TMainTravel",
+   "units": 2,
+   "routines": 70,
+   "failed": 0
+  },
+  "XInsCargo": {
+   "mainForm": "TMaincargo",
+   "units": 2,
+   "routines": 69,
+   "failed": 0
+  },
+  "XInsMyAccident": {
+   "mainForm": "TMy_Personal_Accident",
+   "units": 2,
+   "routines": 71,
+   "failed": 0
+  },
+  "XInsPersonalAccMain": {
+   "mainForm": "TMainPersonalAcc",
+   "units": 3,
+   "routines": 81,
+   "failed": 0
+  },
+  "XInsPersonalAccident": {
+   "mainForm": "TPAccidentBlank",
+   "units": 1,
+   "routines": 75,
+   "failed": 0
+  },
+  "XInsPersonalAccPolicy": {
+   "mainForm": "TPAccPolicy",
+   "units": 2,
+   "routines": 66,
+   "failed": 0
+  },
+  "XInsPersonalAccSuggest": {
+   "mainForm": "TPAccidentSuggest",
+   "units": 1,
+   "routines": 68,
+   "failed": 0
+  },
+  "XInsMedical": {
+   "mainForm": "TfmMedical",
+   "units": 2,
+   "routines": 83,
+   "failed": 0
+  },
+  "XInsMedBlank": {
+   "mainForm": "TfmMedBlank",
+   "units": 3,
+   "routines": 74,
+   "failed": 0
+  },
+  "XInsMedPolicy": {
+   "mainForm": "TfmMEDPolicy",
+   "units": 1,
+   "routines": 68,
+   "failed": 0
+  },
+  "XInsMedSuggestion": {
+   "mainForm": "TfmMEDSuggestion",
+   "units": 1,
+   "routines": 67,
+   "failed": 0
+  },
+  "XInsMotorKasko": {
+   "mainForm": "TfmMotorKasco",
+   "units": 2,
+   "routines": 66,
+   "failed": 0
+  },
+  "XInsMotorKascoIns": {
+   "mainForm": "TfmInsMotorKasco",
+   "units": 3,
+   "routines": 91,
+   "failed": 0
+  },
+  "XInsFullMotor": {
+   "mainForm": "TPMFMain",
+   "units": 2,
+   "routines": 79,
+   "failed": 0
+  },
+  "XInsFullMotorCasco": {
+   "mainForm": "TInsFullMotorCasco",
+   "units": 8,
+   "routines": 113,
+   "failed": 0
+  },
+  "XInsMkBlank": {
+   "mainForm": "TfmMKBlank",
+   "units": 6,
+   "routines": 141,
+   "failed": 0
+  },
+  "XInsMkCorporate": {
+   "mainForm": "TfrmInsKorporativKasco",
+   "units": 3,
+   "routines": 82,
+   "failed": 0
+  },
+  "XInsMkPolicy": {
+   "mainForm": "TfmMKPolicy",
+   "units": 3,
+   "routines": 94,
+   "failed": 0
+  },
+  "XInsMkSuggestion": {
+   "mainForm": "TfmMKSuggestion",
+   "units": 3,
+   "routines": 92,
+   "failed": 0
+  },
+  "XInsMfBlank": {
+   "mainForm": "TMFBlank",
+   "units": 2,
+   "routines": 78,
+   "failed": 0
+  },
+  "XInsMfPolicy": {
+   "mainForm": "TMFPolicy",
+   "units": 1,
+   "routines": 68,
+   "failed": 0
+  },
+  "XInsMfSuggestion": {
+   "mainForm": "TMFSuggestion",
+   "units": 3,
+   "routines": 77,
+   "failed": 0
+  },
+  "XInsCPropMain": {
+   "mainForm": "TfrmMainCProperty",
+   "units": 2,
+   "routines": 78,
+   "failed": 0
+  },
+  "XInsCPropBlank": {
+   "mainForm": "TCProperty",
+   "units": 3,
+   "routines": 81,
+   "failed": 0
+  },
+  "XInsCPropPolicy": {
+   "mainForm": "TCPropertyPolicy",
+   "units": 2,
+   "routines": 68,
+   "failed": 0
+  },
+  "XInsCPropSuggest": {
+   "mainForm": "TCPropertySuggest",
+   "units": 1,
+   "routines": 70,
+   "failed": 0
+  },
+  "XInsConstructionMain": {
+   "mainForm": "TConstructionMain",
+   "units": 2,
+   "routines": 78,
+   "failed": 0
+  },
+  "XInsConstructionBlank": {
+   "mainForm": "TConstraction",
+   "units": 2,
+   "routines": 78,
+   "failed": 0
+  },
+  "XInsConstructionPolicy": {
+   "mainForm": "TConstructionPolicy",
+   "units": 1,
+   "routines": 67,
+   "failed": 0
+  },
+  "XInsConstructionSuggest": {
+   "mainForm": "TConstructionSuggest",
+   "units": 1,
+   "routines": 73,
+   "failed": 0
   }
  },
- "notPorted": [],
- "missingUnits": {
-  "designintf": [
-   "Customers"
-  ],
-  "designeditors": [
-   "Customers"
-  ],
-  "co_statement_unit": [
-   "CustomerOperations"
-  ],
-  "wordxp": [
-   "CustomerOperations"
+ "notPorted": [
+  [
+   "Packages/CreditsManagerConstruction/PrnDbgeh.pas",
+   "AdjustLineBreaks",
+   "asm block"
   ]
- },
+ ],
+ "missingUnits": {},
  "emptySources": [
   "Packages/sboapi50/SBOConnectCached.pas",
   "Packages/sboapi50/SBAppInfo.pas"
  ],
  "dfmErrors": [
   [
+   "Packages/SBGeneral/cap_UntMainReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SBGeneral/cap_UntSecondReport.dfm",
+   "binary dfm"
+  ],
+  [
    "Packages/SBCM_ContractState/OrderUnit.dfm",
    "binary dfm"
   ],
   [
+   "Packages/SWIFT_MANAGER_IBAN_NEW/qrp1.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SWIFT_MANAGER_IBAN_NEW/qrp5.dfm",
+   "binary dfm"
+  ],
+  [
    "Packages/SBCM_PercentConverting/UnitCalcedPercentRPT.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/StatementPr/UnitRep.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainResource/UnitRepGroupNB.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainResource/UnitRepGroupNL.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SBGeneral/UntIntervalRpt.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SBGeneral/UntMain_Report.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SBGeneral/UntSecond_Report.dfm",
    "binary dfm"
   ],
   [
@@ -371,6 +1202,166 @@
   ],
   [
    "Packages/Customer_Operations/co_order_qrep_unit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CreditsManagerConstruction/OrderMgrUnit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CreditsManagerConstruction/PrnDgDlg.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CreditsManagerConstruction/PropStorageEditEh.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CreditsManagerConstruction/PrvFrmEh.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CreditsManagerConstruction/RepSeduleImpl.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CreditsManagerConstruction/ReportImpl.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CreditsManagerConstruction/RichEdEh.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SWIFT_MANAGER_IBAN_NEW/CalculatorEh.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SWIFT_MANAGER_IBAN_NEW/qr5.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SWIFT_MANAGER_IBAN_NEW/qrp1.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SWIFT_MANAGER_IBAN_NEW/qrp5.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Payments/Unit1.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/PBF_Transactions_XE/frmpbfReportImpl.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/ExpressManager_nbc/OrderPrintXUnit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/ExpressManager_nbc/UnitCreditReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/ExchangeMGR-NBC/UnitDateExch.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/ExchangeMGR-NBC/UnitReestr.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/ExchangeMGR-NBC/UnitRepTurn.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/TAXSMGR/Unit1.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Cards_New/cards_azericard/Unit16.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/PCustService/UnitInvoceRep.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/PCustService/UntIntervalRpt.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/PCustService/UntQRReceiptSefr.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/PCUST_Servic/UnitFiziki.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/PCUST_Servic/UnitHuquqi.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/Order/OrderReportUnit.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainResource/UnitRepGroupNB.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainResource/UnitRepGroupNL.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/MainResource/Unit_All_Rep.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/properties/PropQReportImpl.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CableManager/CableAbout.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/CableManager/qrpCableRep.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/AdmLogs/About.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/SBLogs/About1.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/UniversalSettings/About1.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/BusinessProcesses/BusProcSet/About1.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/TicketsMan/TicketsRepImpl.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/TicketsMan/Unit1.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/TicketsMan/UntMainReport.dfm",
+   "binary dfm"
+  ],
+  [
+   "Packages/TicketsMan/UntSecondReport.dfm",
    "binary dfm"
   ]
  ]

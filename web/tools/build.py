@@ -17,6 +17,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from dfm2json import parse_file as parse_dfm  # noqa: E402
 from modules import ACTIONS, REPORT_ACTIONS  # noqa: E402
+from extra_modules import EXTRA, EXTRA_ROOT, CATEGORY_ORDER, FIRST_ACTION  # noqa: E402
 from pas2js import parse_unit_file, collect_sigs, gen_unit, PasError  # noqa: E402
 
 REPO = os.environ.get('SMARWEB_REPO') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')) + '/'
@@ -36,7 +37,19 @@ qexport4dialog qexport4xls qexport4pdf grimgctrl oraclenavigator
 currencyedit searchedit dbviewcombobox hintbox searchcombo nlslocalizer nlsdialogs ldialogs cmexcelexport
 excelexporter evanescence cmdbsearchedit cmhintdblookupcombobox fieldsearchedit sbplgax50_tlb cryptomodellib_tlb
 sbtranslateproc sboutils sbplg50 axplugin pluginmanager inisource formregistry qrpdffilt pdfconst qr5const bsdkdll lzw
-qrxlsfilt qrwebfilt qrhtmlfilt qrexpr qrextra qrprev qrtee qrcomp qrexport'''.split())
+qrxlsfilt qrwebfilt qrhtmlfilt qrexpr qrextra qrprev qrtee qrcomp qrexport
+actnpopup appevnts chart clocale comstrs dbactns dbxjson designer designeditors designintf dsgnintf encddecd
+frxclass frxcross frxdbset frxexportbiff frxexportrtf frxexportxls frxpreview fs_synmemo gifimg pngimage
+idcoder idcoder00e idcoder3to4 idcodermime idcoderuue idcoderxxe idiohandler idiohandlersocket idiohandlerstack
+idexception idstack idmultipartformdata idsmtp idmessage idftp idhttpheaderinfo idassignednumbers
+invokeregistry ioutils keyboard olectnrs platformdefaultstyleactnctrls qcontrols qforms qpropfilereh rabase
+racontrolsvcl rio shdocvw shfolder soaphttpclient stdactns teengine teeprocs tntstdctrls winprocs wintypes word97
+wordxp xsbuiltins co_statement_unit system.json json superobject generics.collections uitypes
+syncommons syncrypto synpdf synlz syntable syngdiplus synzip synlizard mormotreport mormot'''.split())
+
+# Third-party libraries bundled in the repository that the runtime provides (or that only serve
+# reports/PDF/compression): never transpiled even when their sources are found.
+NATIVE_DIRS = ('Quickrep505/',)
 
 SKIP_DIR_RE = re.compile(r'(__history|copy of|copy \(|\d{2}\.\d{2}\.\d{4}|\d{8}|_old|old\b|---|backup|/origin/|/fssrc/)', re.I)
 
@@ -147,10 +160,16 @@ def main():
     modules = {}
     for num, (name, d) in ACTIONS.items():
         modules.setdefault(name, d)
+    only = set(filter(None, os.environ.get('ONLY_MODULES', '').split(',')))
+    for name, d, _cat, _cap in EXTRA:
+        modules.setdefault(name, d)
+    if only:
+        modules = {k: v for k, v in modules.items() if k in only}
 
     for name, d in modules.items():
         paths = [f for f in glob.glob(REPO + d + '/*.pas') if not f.endswith('_TLB.pas')
-                 and os.path.basename(f).lower() not in ('forms.pas',)]
+                 and os.path.basename(f).lower() not in ('forms.pas',)
+                 and os.path.basename(f)[:-4].lower() not in NATIVE]
         module_units[name] = paths
         own = {os.path.basename(p)[:-4].lower() for p in paths}
         queue = list(paths)
@@ -171,6 +190,8 @@ def main():
                     report['missingUnits'].setdefault(ul, []).append(name)
                     continue
                 lp = pick(cands, d)
+                if any(nd in lp for nd in NATIVE_DIRS):
+                    continue
                 lib_units[ul] = lp
                 if lp not in seen:
                     seen.add(lp)
@@ -184,10 +205,12 @@ def main():
 
     sigs = {}
     records = {}
+    import pas2js as _p2j
     for p, u in all_units.items():
         if u:
             collect_sigs(u, sigs)
             records.update(u['records'])
+            _p2j.ALIASES.update(u.get('aliases', {}))
 
     def emit(path, outdir):
         u = load(path)
@@ -228,6 +251,29 @@ def main():
     with open(OUT + 'lib/index.js', 'w', encoding='utf-8') as fh:
         fh.write('// Generated library manifest\nexport default %s;\n' % json.dumps(lib_manifest, ensure_ascii=False, indent=1))
 
+    # per-module closure of library units, so the browser loads only what a module needs
+    lib_file = {ln: os.path.basename(p)[:-4] for ln, p in lib_units.items()}
+    always = sorted(n for n, p in lib_units.items() if '/sboapi50/' in p)
+
+    def uses_of(path):
+        u = all_units.get(path)
+        return [x.lower() for x in (u['uses'] if u else [])]
+
+    def lib_closure(paths):
+        seen, queue = set(always), list(always)
+        for p in paths:
+            for ul in uses_of(p):
+                if ul in lib_units and ul not in seen:
+                    seen.add(ul)
+                    queue.append(ul)
+        while queue:
+            ln = queue.pop()
+            for ul in uses_of(lib_units[ln]):
+                if ul in lib_units and ul not in seen:
+                    seen.add(ul)
+                    queue.append(ul)
+        return sorted(lib_file[x] for x in seen)
+
     for name, paths in module_units.items():
         outdir = OUT + 'modules/' + name
         man = []
@@ -237,7 +283,7 @@ def main():
                 r['source'] = p[len(REPO):]
                 man.append(r)
         main = next((m['activeForm'] for m in man if m['activeForm']), None)
-        manifest = {'name': name, 'dir': modules[name], 'mainForm': main, 'units': man}
+        manifest = {'name': name, 'dir': modules[name], 'mainForm': main, 'units': man, 'lib': lib_closure(paths)}
         with open(outdir + '/index.js', 'w', encoding='utf-8') as fh:
             fh.write('// Generated module manifest\nexport default %s;\n' % json.dumps(manifest, ensure_ascii=False, indent=1))
         report['modules'][name] = {'mainForm': main, 'units': len(man), 'routines': sum(m['ok'] for m in man),
@@ -259,9 +305,28 @@ def main():
     with open(OUT + 'enums.json', 'w', encoding='utf-8') as fh:
         json.dump(enum_names, fh)
 
-    menu = {'tree': decode_menu(),
-            'actions': {str(k): v[0] for k, v in ACTIONS.items()},
-            'reportActions': sorted(REPORT_ACTIONS)}
+    tree = decode_menu()
+    actions = {str(k): v[0] for k, v in ACTIONS.items()}
+    # Off-balance reference books that are registered (actions 69, 75) but missing from this INI's tree
+    for root in tree:
+        if root['caption'].startswith('Balansdan'):
+            if not any(c['caption'] == 'Məlumatlar' for c in root['children']):
+                root['children'].insert(len(root['children']) - 1, {'caption': 'Məlumatlar', 'action': 0, 'params': {}, 'children': [
+                    {'caption': 'Balansdankənar hesablar', 'action': 69, 'params': {}, 'children': []},
+                    {'caption': 'Hesab növləri', 'action': 75, 'params': {}, 'children': []}]})
+    # Modules present in the repository but not in the SmartBank.ini tree
+    cats = {}
+    for i, (name, _d, cat, cap) in enumerate(EXTRA):
+        if name not in report['modules']:
+            continue
+        act = FIRST_ACTION + i
+        actions[str(act)] = name
+        cats.setdefault(cat, []).append({'caption': cap, 'action': act, 'params': {}, 'children': []})
+    if cats:
+        tree.append({'caption': EXTRA_ROOT, 'action': 0, 'params': {}, 'extra': True, 'children': [
+            {'caption': c, 'action': 0, 'params': {}, 'children': sorted(cats[c], key=lambda n: n['caption'])}
+            for c in CATEGORY_ORDER if c in cats]})
+    menu = {'tree': tree, 'actions': actions, 'reportActions': sorted(REPORT_ACTIONS)}
     with open(OUT + 'menu.json', 'w', encoding='utf-8') as fh:
         json.dump(menu, fh, ensure_ascii=False, indent=1)
     with open(OUT + 'report.json', 'w', encoding='utf-8') as fh:

@@ -632,6 +632,25 @@
      ]
     },
     {
+     "caption": "Məlumatlar",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Balansdankənar hesablar",
+       "action": 69,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hesab növləri",
+       "action": 75,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
      "caption": "Bankın hesabatları",
      "action": 0,
      "params": {
@@ -644,6 +663,882 @@
        "params": {
         "SplashTarget": "BankReports"
        },
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "caption": "Əlavə modullar",
+   "action": 0,
+   "params": {},
+   "extra": true,
+   "children": [
+    {
+     "caption": "Kreditlər",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Bank zəmanətlərinin idarə olunması",
+       "action": 1005,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Faiz hesablanması",
+       "action": 1013,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hüquq modulu",
+       "action": 1011,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kredit menecer (SB)",
+       "action": 1002,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kreditlər (sadə menecer)",
+       "action": 1001,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kreditlərin arxivi",
+       "action": 1003,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Məhkəmə işləri",
+       "action": 1010,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Onlayn məhkəmə idarəetməsi",
+       "action": 1012,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Problemli kreditlər",
+       "action": 1006,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Problemli kreditlərin idarə olunması",
+       "action": 1007,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qəbul edilmiş portfel",
+       "action": 1009,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti kreditlərinin idarə olunması",
+       "action": 1000,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Zəmanətlər",
+       "action": 1004,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İcra işlərinin idarə olunması",
+       "action": 1008,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Depozitlər",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Depozit menecer",
+       "action": 1016,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Depozit menecer (yeni)",
+       "action": 1017,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qiymətli kağızlar",
+       "action": 1018,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Yeni depozitlərin arxivi",
+       "action": 1015,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Yeni depozitlərin idarə olunması",
+       "action": 1014,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İnvestisiyalar",
+       "action": 1019,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Ödənişlər və köçürmələr",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "ADİF",
+       "action": 1038,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "ASAN Finance",
+       "action": 1036,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Beynəlxalq SWIFT",
+       "action": 1020,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Büdcə ödənişləri",
+       "action": 1028,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Ekspres köçürmələr",
+       "action": 1034,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Emanat ödənişlərinə baxış",
+       "action": 1033,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Emanət ödənişləri",
+       "action": 1032,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Geri çağırılan əməliyyatlar",
+       "action": 1029,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Köçürmələr",
+       "action": 1025,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "PBF əməliyyatları",
+       "action": 1031,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Pul köçürmələri",
+       "action": 1024,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "SWIFT menecer (IBAN)",
+       "action": 1021,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "SİF platforması",
+       "action": 1037,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Terminal ödənişləri",
+       "action": 1027,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tranş əməliyyatları",
+       "action": 1030,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Valyuta mübadiləsi",
+       "action": 1035,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Vergi ödənişləri",
+       "action": 1040,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Western Union",
+       "action": 1023,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Western Union / kliring",
+       "action": 1022,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "XML sənədlərin əlavə edilməsi",
+       "action": 1039,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Ödənişlərə baxış",
+       "action": 1026,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Kartlar",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Plastik kartlar (AzeriCard)",
+       "action": 1041,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Müştərilər və uyğunluq",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Banka aidiyyəti olan şəxslər",
+       "action": 1044,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "GoAML xidməti",
+       "action": 1046,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştəri analizi",
+       "action": 1043,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştəri xidməti",
+       "action": 1045,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştərilərin sərəncamları",
+       "action": 1042,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Prudensial normativlər",
+       "action": 1050,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qara siyahı",
+       "action": 1047,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Thomson Reuters yoxlaması",
+       "action": 1048,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Toksik aktivlər",
+       "action": 1049,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Mühasibat və balans",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Balans analizi",
+       "action": 1052,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Baş kitab",
+       "action": 1054,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Büdcənin idarə olunması",
+       "action": 1063,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Günə düzəliş",
+       "action": 1057,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Günə düzəliş (balansdankənar)",
+       "action": 1058,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hesab qalıqlarının yoxlanması",
+       "action": 1051,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Maliyyə",
+       "action": 1064,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Məzənnələrə baxış",
+       "action": 1065,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Resurslar",
+       "action": 1061,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Saldo redaktoru",
+       "action": 1053,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sərəncam",
+       "action": 1055,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Valyutalar (balansdankənar)",
+       "action": 1056,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Ölkələr",
+       "action": 1066,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İş günləri təqvimi",
+       "action": 1067,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əmlak",
+       "action": 1062,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əsas vəsaitlər",
+       "action": 1059,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əsas vəsaitlər və resurslar",
+       "action": 1060,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Tikinti və kommunal",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Alıcılar",
+       "action": 1069,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Alıcılar (yeni)",
+       "action": 1072,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Binalar",
+       "action": 1071,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kabel TV düzəlişləri",
+       "action": 1074,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kabel TV menecer",
+       "action": 1075,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kabel TV müqavilələri",
+       "action": 1073,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kabel TV parametrləri",
+       "action": 1076,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kassa əməliyyatları",
+       "action": 1070,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti obyektləri",
+       "action": 1068,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "İdxal",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Excel-dən idxal",
+       "action": 1077,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Excel-dən idxal (balansdankənar)",
+       "action": 1078,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "QK idxalı",
+       "action": 1081,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "SimCorp",
+       "action": 1082,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tam idxal",
+       "action": 1079,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İdxal xidməti",
+       "action": 1080,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "İdarəetmə",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Biletlər",
+       "action": 1089,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Biznes proseslərin quraşdırılması",
+       "action": 1087,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Putyovkalar",
+       "action": 1090,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sistem jurnalları",
+       "action": 1084,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tərcüməçi",
+       "action": 1088,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Universal parametrlər",
+       "action": 1086,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İnzibati jurnallar",
+       "action": 1083,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İstifadəçilərin idarə olunması",
+       "action": 1085,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Sığorta",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Avto KASKO",
+       "action": 1114,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Avto KASKO sığortası",
+       "action": 1115,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Avtomobil soraqçası",
+       "action": 1096,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Avtomobil sığortası",
+       "action": 1098,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Blanklar",
+       "action": 1099,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Fərdi qəza sığortası",
+       "action": 1105,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hesab sənədləri",
+       "action": 1094,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hesabların vəziyyəti",
+       "action": 1095,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hüquqlar",
+       "action": 1101,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "KASKO — anket",
+       "action": 1118,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "KASKO — təklifnamə",
+       "action": 1121,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "KASKO — şəhadətnamə",
+       "action": 1120,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kommersiya əmlakı",
+       "action": 1125,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kommersiya əmlakı — anket",
+       "action": 1126,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kommersiya əmlakı — təklifnamə",
+       "action": 1128,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kommersiya əmlakı — şəhadətnamə",
+       "action": 1127,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Korporativ KASKO",
+       "action": 1119,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Məsuliyyət sığortası",
+       "action": 1102,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qrup fərdi qəza sığortası",
+       "action": 1107,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qəza sığortası",
+       "action": 1106,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qəza sığortası — təklifnamə",
+       "action": 1109,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qəza sığortası — şəhadətnamə",
+       "action": 1108,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Soraqçalar",
+       "action": 1097,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sığorta müştəriləri",
+       "action": 1091,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sığorta ödənişləri",
+       "action": 1093,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sığortalar",
+       "action": 1092,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Səyahət sığortası",
+       "action": 1103,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tam avto KASKO",
+       "action": 1117,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tam avto sığorta",
+       "action": 1116,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tibbi sığorta",
+       "action": 1110,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tibbi sığorta — anket",
+       "action": 1111,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tibbi sığorta — təklifnamə",
+       "action": 1113,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tibbi sığorta — şəhadətnamə",
+       "action": 1112,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti sığortası",
+       "action": 1129,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti sığortası — anket",
+       "action": 1130,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti sığortası — təklifnamə",
+       "action": 1132,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti sığortası — şəhadətnamə",
+       "action": 1131,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Təkrarsığorta qəbulu",
+       "action": 1100,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Yük sığortası",
+       "action": 1104,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əmlak sığortası — anket",
+       "action": 1122,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əmlak sığortası — təklifnamə",
+       "action": 1124,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əmlak sığortası — şəhadətnamə",
+       "action": 1123,
+       "params": {},
        "children": []
       }
      ]
@@ -694,7 +1589,140 @@
   "69": "OutBalanceRefEdit",
   "70": "OutTransactionManager",
   "75": "OutTuningAccTypes",
-  "78": "CustomerOperations"
+  "78": "CustomerOperations",
+  "1000": "XCreditsConstruction",
+  "1001": "XCreditsMgr",
+  "1002": "XCreditsMgrSB",
+  "1003": "XCreditArchive",
+  "1004": "XGuaranty",
+  "1005": "XGuarantee",
+  "1006": "XProblemCredits",
+  "1007": "XProblemCreditMgr",
+  "1008": "XEnforcement",
+  "1009": "XAcceptedPortfel",
+  "1010": "XCourtManager",
+  "1011": "XLawModule",
+  "1012": "XOnlineCourt",
+  "1013": "XCalcRateAccount",
+  "1014": "XNewDeposits",
+  "1015": "XNewDepositsArchive",
+  "1016": "XDepositsMgr",
+  "1017": "XDepositsMgrNew",
+  "1018": "XSecurities",
+  "1019": "XInvestment",
+  "1020": "XSwiftIntl",
+  "1021": "XSwiftManager",
+  "1022": "XSwiftClearing",
+  "1023": "XWesternUnion",
+  "1024": "XMoneyTransfers",
+  "1025": "XPayments",
+  "1026": "XPaymentViewer",
+  "1027": "XOnlinePayment",
+  "1028": "XBBPayings",
+  "1029": "XCallBack",
+  "1030": "XTranceTransaction",
+  "1031": "XPbfTransactions",
+  "1032": "XEmanet",
+  "1033": "XEmanatViews",
+  "1034": "XExpress",
+  "1035": "XExchange",
+  "1036": "XAsanFinance",
+  "1037": "XPlatformSif",
+  "1038": "XAdif",
+  "1039": "XAddXml",
+  "1040": "XTaxes",
+  "1041": "XCards",
+  "1042": "XCustomersOrders",
+  "1043": "XCustAnalysis",
+  "1044": "XRelatedPersons",
+  "1045": "XPCustService",
+  "1046": "XGoAml",
+  "1047": "XBlackList",
+  "1048": "XThomson",
+  "1049": "XToksik",
+  "1050": "XPrudensial",
+  "1051": "XAccBalanceCheck",
+  "1052": "XBalanceAnalys",
+  "1053": "XSaldoEditor",
+  "1054": "XMasterBook",
+  "1055": "XOrder",
+  "1056": "XOutAvalute",
+  "1057": "XRepair",
+  "1058": "XOutRepair",
+  "1059": "XFixedAssets",
+  "1060": "XMainResource",
+  "1061": "XResource",
+  "1062": "XProperties",
+  "1063": "XBudget",
+  "1064": "XFinancePro",
+  "1065": "XRatesViewer",
+  "1066": "XCountries",
+  "1067": "XCalendar",
+  "1068": "XCcBuilding",
+  "1069": "XCcBuyers",
+  "1070": "XCcCashOp",
+  "1071": "XCcBuildings2",
+  "1072": "XCcBuyers2",
+  "1073": "XCableContracts",
+  "1074": "XCableCorrection",
+  "1075": "XCableManager",
+  "1076": "XCableSettings",
+  "1077": "XExcelImport",
+  "1078": "XOutExcelImport",
+  "1079": "XFullImport",
+  "1080": "XImportService",
+  "1081": "XQkImport",
+  "1082": "XSimCorp",
+  "1083": "XAdmLogs",
+  "1084": "XSbLogs",
+  "1085": "XUserManager",
+  "1086": "XUniversalSettings",
+  "1087": "XBusinessProcesses",
+  "1088": "XTranslator",
+  "1089": "XTickets",
+  "1090": "XPutyovka",
+  "1091": "XInsCustomers",
+  "1092": "XInsurances",
+  "1093": "XInsPayments",
+  "1094": "XInsAccountDoc",
+  "1095": "XInsAccountState",
+  "1096": "XInsAutoDict",
+  "1097": "XInsDictChilde",
+  "1098": "XInsAuto",
+  "1099": "XInsBlankMain",
+  "1100": "XInsReinsReceive",
+  "1101": "XInsRights",
+  "1102": "XInsResponsibility",
+  "1103": "XInsTravel",
+  "1104": "XInsCargo",
+  "1105": "XInsMyAccident",
+  "1106": "XInsPersonalAccMain",
+  "1107": "XInsPersonalAccident",
+  "1108": "XInsPersonalAccPolicy",
+  "1109": "XInsPersonalAccSuggest",
+  "1110": "XInsMedical",
+  "1111": "XInsMedBlank",
+  "1112": "XInsMedPolicy",
+  "1113": "XInsMedSuggestion",
+  "1114": "XInsMotorKasko",
+  "1115": "XInsMotorKascoIns",
+  "1116": "XInsFullMotor",
+  "1117": "XInsFullMotorCasco",
+  "1118": "XInsMkBlank",
+  "1119": "XInsMkCorporate",
+  "1120": "XInsMkPolicy",
+  "1121": "XInsMkSuggestion",
+  "1122": "XInsMfBlank",
+  "1123": "XInsMfPolicy",
+  "1124": "XInsMfSuggestion",
+  "1125": "XInsCPropMain",
+  "1126": "XInsCPropBlank",
+  "1127": "XInsCPropPolicy",
+  "1128": "XInsCPropSuggest",
+  "1129": "XInsConstructionMain",
+  "1130": "XInsConstructionBlank",
+  "1131": "XInsConstructionPolicy",
+  "1132": "XInsConstructionSuggest"
  },
  "reportActions": [
   9,

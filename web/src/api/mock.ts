@@ -70,7 +70,7 @@ function classify(col: string): Kind {
   if (/PERCENT|FAIZ|PROC|PCT|_PRC/.test(c)) return 'percent';
   if (/NAME|ADI$|^AD$|_AD$|FIO|OWNER|CUSTOMER$|CLIENT$|MUSTERI|BENEFIC|PAYER|RECEIVER/.test(c)) return 'name';
   if (/BAL_?CN|^SACC|^BAL$|BALANS|BAL_ACC|SCHET|BALANCE_?ACC|BALACC|^BAL\d/.test(c)) return 'bal';
-  if (/OSTAT|AMOUNT|AMMOUNT|SUMM?A?($|_)|SUM_|MEBLEG|QALIQ|OBR|TURN|DEBIT|DEBET|CREDIT|KREDIT|LIMIT|PRICE|COST|REST|SALDO|ODENIS|PAY|TOTAL|COMMIS|FEE|BALANCE$/.test(c)) return 'amount';
+  if (/^N_MON$|_MON$|^MON$|MONEY|^N_?SUM|^PUL$|OSTAT|AMOUNT|AMMOUNT|SUMM?A?($|_)|SUM_|MEBLEG|QALIQ|OBR|TURN|DEBIT|DEBET|CREDIT|KREDIT|LIMIT|PRICE|COST|REST|SALDO|ODENIS|PAY|TOTAL|COMMIS|FEE|BALANCE$/.test(c)) return 'amount';
   if (/CODE|KOD|NUM|NO$|NOMER|NUMBER|SYMBOL|SIMV|SHIFR|SIM_/.test(c)) return 'code';
   if (/STATUS|STATE|FLAG|SIGN|TYPE|TIP|KIND|NOV|^IS_|ACTIVE|ARCHIV|CLOSED|PRIZ|INSIDER|MODE|LEVEL/.test(c)) return 'flag';
   if (/COUNT|CNT|QTY|SAY$|KOL/.test(c)) return 'count';
@@ -297,6 +297,17 @@ export class MockOracleApi implements OracleApi {
         }
       }
     }
+    // Self-referencing trees (`where PARENT_ID = :ParentID`, loaded recursively by tree views):
+    // roots for ParentID <= 0, three children with ids parent*1000+k for a root, none below that,
+    // so recursive loaders terminate as they do on real data.
+    let childIds: number[] | null = null;
+    const hier = single ? undefined : info.eqFilters.find((f) => /PARENT|^UP_?ID$|^OWNER_?ID$|^PID$|^HIGHER_?ID$/.test(f.column) && vars.get(f.variable) !== undefined);
+    if (hier) {
+      const pv = Number(vars.get(hier.variable) ?? -1);
+      if (!(pv > 0)) indices = indices.slice(0, 5);
+      else if (pv >= 1000) indices = [];
+      else { childIds = [1, 2, 3].map((k) => pv * 1000 + k); indices = indices.slice(0, 3); }
+    }
     const ed = editsFor(mainTable);
     const rows: unknown[][] = [];
     const primaryIdCol = cols.find((c) => classify(c.source) === 'id' && isPrimaryIdCol(c.source, mainTable))?.alias
@@ -315,6 +326,7 @@ export class MockOracleApi implements OracleApi {
         if (hint?.size && typeof v === 'string' && v.length > hint.size) v = v.slice(0, hint.size);
         row[c.alias] = v;
       }
+      if (childIds) { const k = rows.length; const idc = primaryIdCol ?? (cols.some((c) => c.alias === 'ID') ? 'ID' : null); if (idc) row[idc] = childIds[k] ?? childIds[0] + k; }
       const rowid = (row.ROWID as string) ?? `${mainTable}:${i}`;
       if (ed.deleted.has(rowid)) continue;
       Object.assign(row, ed.updates.get(rowid) ?? {});

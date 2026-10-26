@@ -6,6 +6,7 @@ export default function define($) {
   const U = $.unit("ControlManagerImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Db", "OracleData", "ExtCtrls", "Oracle", "ImgList", "Grids", "DBGrids", "sboapiDataModuleImpl", "SBTranslateProc", "sbCloseDayFormImpl"]);
   const C = [U];
   U.defClass("TControlManagerForm", "TForm", {"controldata": {"name": "ControlData", "type": "TOracleDataSet"}, "panelcheck": {"name": "PanelCheck", "type": "TPanel"}, "imagelist": {"name": "ImageList", "type": "TImageList"}, "checkbox1": {"name": "CheckBox1", "type": "TCheckBox"}, "datasource1": {"name": "DataSource1", "type": "TDataSource"}, "panelbuttons": {"name": "PanelButtons", "type": "TPanel"}, "button1": {"name": "Button1", "type": "TButton"}, "button2": {"name": "Button2", "type": "TButton"}, "queryarray": {"name": "QueryArray", "type": "TQueryArray"}, "imageleft": {"name": "ImageLeft", "type": "Integer"}, "controlbutton": {"name": "ControlButton", "type": "Boolean"}}, {});
+  U.fieldInit("TControlManagerForm", "queryarray", () => []);
   U.init(async () => {
     U.const("DefLeft", 30);
     U.const("DefTop", 35);

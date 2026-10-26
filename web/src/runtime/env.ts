@@ -381,16 +381,18 @@ export class Env {
     return this.parent ? this.parent.assign(lname, v) : false;
   }
 
+  /** Run const/var initializers and initialization sections of units not initialized yet
+   *  (units can be added later: the library env grows as modules are opened). */
   async initialize(log: (msg: string) => void) {
-    if (this.initialized) return;
     this.initialized = true;
-    if (this.parent) await this.parent.initialize(log);
-    for (const u of this.unitOrder) {
+    const fresh = this.unitOrder.filter((u) => !(u as any).__inited);
+    for (const u of fresh) (u as any).__inited = true;
+    for (const u of fresh) {
       for (const fn of u.initFns) {
         try { await fn(); } catch (e) { log(`[${u.name}] const/var init: ${(e as Error).message}`); }
       }
     }
-    for (const u of this.unitOrder) {
+    for (const u of fresh) {
       if (u.initialization) {
         try { await u.initialization(undefined); } catch (e) {
           log(`[${u.name}] initialization: ${(e as Error).message}`);

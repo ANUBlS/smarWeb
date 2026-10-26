@@ -4,19 +4,20 @@ Steps (JSON list): ["click:<text>", "dbl:grid", "tb:<toolbutton title or text>",
                     "dlg:<button text>", "fill:<css>=<value>", "closemodal"]
 """
 import json
+import os
 import sys
 from playwright.sync_api import sync_playwright
 
 path = sys.argv[1]
 steps = json.loads(sys.argv[2])
-out = sys.argv[3] if len(sys.argv) > 3 else './test-output/ia'
+out = sys.argv[3] if len(sys.argv) > 3 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'test-output', 'ia')
 import os
 os.makedirs(out, exist_ok=True)
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={'width': 1440, 'height': 900})
     errs = []
     pg.on('pageerror', lambda e: errs.append(str(e)))
-    pg.goto('http://localhost:5173/')
+    pg.goto(os.environ.get('BASE', 'http://localhost:5173/'))
     pg.fill('input[autocomplete=username]', 'sabuhi'); pg.fill('input[type=password]', 'x'); pg.click('button.primary')
     pg.wait_for_timeout(1000)
     if pg.locator('text=Şirkəti seçin').count(): pg.click('button.primary')
@@ -64,6 +65,6 @@ with sync_playwright() as p:
         print('EVAL', pg.evaluate(os.environ['EVAL']))
     for e in pg.evaluate('window.__sbLog()'):
         if e['level'] in ('warn', 'error', 'api', 'info') or os.environ.get('ALL'):
-            print('  LOG', e['level'], e['msg'][:220])
+            print('  LOG', e['level'], e['msg'][:int(os.environ.get('LOGLEN', '220'))])
     for e in errs: print('  PAGEERR', e[:300])
     b.close()

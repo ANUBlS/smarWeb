@@ -25,7 +25,7 @@ import './data/oracle';
 
 type UnitModule = { default: (dollar: ReturnType<typeof makeDollar>) => unknown };
 interface UnitInfo { unit: string; file: string; form: string | null; activeForm: string | null; classes: string[]; source: string }
-interface ModuleManifest { name: string; dir: string; mainForm: string | null; units: UnitInfo[] }
+interface ModuleManifest { name: string; dir: string; mainForm: string | null; units: UnitInfo[]; lib?: string[] }
 
 const unitLoaders = import.meta.glob<UnitModule>('../generated/**/*.js');
 const dfmLoaders = import.meta.glob<{ default: DfmNode }>('../generated/**/*.dfm.json');
@@ -79,19 +79,39 @@ async function loadUnits(env: Env, dir: string, units: UnitInfo[]) {
   }
 }
 
-export async function getLibEnv(): Promise<Env> {
-  if (libEnv) return libEnv;
+let libManifest: UnitInfo[] | null = null;
+const libLoaded = new Set<string>();
+let libQueue: Promise<unknown> = Promise.resolve();
+
+/** Shared library environment; `files` are the library units a module needs (all when omitted).
+ *  Units are loaded once, on first use, and initialized in manifest order like the Delphi RTL. */
+export async function getLibEnv(files?: string[]): Promise<Env> {
   if (!libLoading) {
     libLoading = (async () => {
-      const env = new Env('lib', null);
-      const manifest = (await import('../generated/lib/index.js')).default as UnitInfo[];
-      await loadUnits(env, 'lib', manifest);
-      await env.initialize((m) => logger.warn(m));
-      libEnv = env;
-      return env;
+      libManifest = (await import('../generated/lib/index.js')).default as UnitInfo[];
+      libEnv = new Env('lib', null);
+      return libEnv;
     })();
   }
-  return libLoading;
+  const env = await libLoading;
+  const want = new Set((files ?? libManifest!.map((u) => u.file)).map((f) => f.toLowerCase()));
+  const step = libQueue.then(async () => {
+    const todo = libManifest!.filter((u) => want.has(u.file.toLowerCase()) && !libLoaded.has(u.file.toLowerCase()));
+    if (!todo.length) return;
+    for (const u of todo) libLoaded.add(u.file.toLowerCase());
+    await loadUnits(env, 'lib', todo);
+    await env.initialize((m) => logger.warn(m));
+  });
+  libQueue = step.catch(() => undefined);
+  await step;
+  return env;
+}
+
+/** Preload the SmartBank core API units (sboapi50) right after logon. */
+export async function warmLib() {
+  await getLibEnv([]);
+  const core = libManifest!.filter((u) => /\/sboapi50\//i.test((u as any).source ?? '')).map((u) => u.file);
+  await getLibEnv(core);
 }
 
 /* ------------------------------------------------------------------ module envs */
@@ -103,10 +123,10 @@ export async function getModule(name: string) {
   let p = moduleEnvs.get(name);
   if (!p) {
     p = (async () => {
-      const lib = await getLibEnv();
       const m = moduleManifests[`../generated/modules/${name}/index.js`];
       if (!m) throw new Error(`Module ${name} is not generated`);
       const manifest = (await m()).default;
+      const lib = await getLibEnv(manifest.lib);
       const env = new Env(name, lib);
       await loadUnits(env, `modules/${name}`, manifest.units);
       await env.initialize((msg) => logger.warn(msg));

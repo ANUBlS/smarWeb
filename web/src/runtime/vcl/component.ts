@@ -1,7 +1,7 @@
 /* TComponent: ownership, names, events, DFM-linked references. */
 import { TObject, NOTFOUND, Found, routine, isRoutine, PasException, AbortSignal, Routine } from '../core';
 import { registerBuiltin } from '../env';
-import { invalidate } from '../ui';
+import { invalidate, beginHold, endHold } from '../ui';
 import { logger } from '../log';
 import { messageBox } from '../dialogs';
 import { toast } from '../toast';
@@ -84,7 +84,7 @@ export class TComponent extends TObject {
       const h = this.events.get(lname);
       return h === undefined ? null : this.handlerRoutine(h);
     }
-    if (REF_PROPS.has(lname) && this.refs.has(lname)) {
+    if (this.refs.has(lname)) {
       const r = super.pget(lname);
       if (r instanceof Promise) return r.then((x) => (x === NOTFOUND ? this.refs.get(lname) : x));
       return r === NOTFOUND ? this.refs.get(lname) : r;
@@ -97,13 +97,42 @@ export class TComponent extends TObject {
       this.events.set(lname, (v as Handler) ?? null);
       return true;
     }
+    // Assigning the value a property already has is a no-op for painting (OnUpdate handlers do it
+    // every idle cycle); only real changes re-render.
+    const prim = (x: unknown) => x === null || x === undefined || ['string', 'number', 'boolean'].includes(typeof x);
+    let before: unknown = undefined;
+    const cmp = prim(v) && this.hasOwnLike(lname);
+    if (cmp) { try { before = this.pget(lname); } catch { before = undefined; } }
     const r = super.pset(lname, v);
     const after = (ok: boolean) => {
       if (!ok && REF_PROPS.has(lname)) { this.refs.set(lname, v); ok = true; }
+      if (ok && cmp && prim(before)) {
+        let now: unknown;
+        try { now = this.pget(lname); } catch { now = Symbol('x'); }
+        if (now === before) return ok;
+      }
       if (ok) { this.propChanged(lname); invalidate(); }
       return ok;
     };
     return r instanceof Promise ? r.then(after) : after(r);
+  }
+
+  /** Plain data property or accessor (not a method) — safe to read for change detection. */
+  private hasOwnLike(lname: string) {
+    const v = (this as any).__propCache ??= new Map<string, boolean>();
+    if (v.has(lname)) return v.get(lname);
+    let ok = false;
+    for (let o: any = this; o && o !== Object.prototype; o = Object.getPrototypeOf(o)) {
+      for (const k of Object.getOwnPropertyNames(o)) {
+        if (k.toLowerCase() !== lname) continue;
+        const d = Object.getOwnPropertyDescriptor(o, k)!;
+        ok = d.get !== undefined || (d.value !== undefined && typeof d.value !== 'function') || 'value' in d && typeof d.value !== 'function';
+        break;
+      }
+      if (ok) break;
+    }
+    v.set(lname, ok);
+    return ok;
   }
 
   /** Hook for subclasses when a property is assigned from Pascal code. */
@@ -160,11 +189,18 @@ export class TComponent extends TObject {
   }
 
   /** Resolve DFM component references (DataSource = 'DM.Query' …). */
-  async resolveRefs(onPending?: (prop: string, global: string, walk: (o: unknown) => Promise<unknown>) => void) {
+  async resolveRefs(onPending?: (prop: string, global: string, walk: (o: unknown) => Promise<unknown>) => void,
+    compNames?: Set<string>) {
     for (const [k, v] of Object.entries(this.dfm)) {
       const l = k.toLowerCase();
-      const name = v && typeof v === 'object' && 'i' in (v as object) ? String((v as { i: string }).i) : v;
-      if (!REF_PROPS.has(l) || typeof name !== 'string') continue;
+      const isIdent = !!v && typeof v === 'object' && 'i' in (v as object);
+      const name = isIdent ? String((v as { i: string }).i) : v;
+      if (typeof name !== 'string') continue;
+      // Known reference properties, plus any other property whose identifier value names a component
+      // of the same form or a qualified one (third-party links such as TSearchEdit.Partnership).
+      const extra = isIdent && !REF_PROPS.has(l) && !l.includes('.') && !l.startsWith('on')
+        && (compNames?.has(name.toLowerCase()) || /^[\w]+\.[\w]+$/.test(name));
+      if (!REF_PROPS.has(l) && !extra) continue;
       const { pendingRef } = await import('./forms');
       pendingRef.current = onPending ? (g, walk) => onPending(l, g, walk) : null;
       const target = await refResolver(name, this);
@@ -188,6 +224,7 @@ registerBuiltin('TPersistent', TObject as any);
 let busyDepth = 0;
 export async function runGuarded<T>(fn: () => Promise<T> | T, where: string): Promise<T | undefined> {
   busyDepth++;
+  beginHold();
   try {
     return await fn();
   } catch (e) {
@@ -196,6 +233,7 @@ export async function runGuarded<T>(fn: () => Promise<T> | T, where: string): Pr
     return undefined;
   } finally {
     busyDepth--;
+    endHold();
   }
 }
 

@@ -100,5 +100,38 @@ export default {
    ],
    "source": "Packages/Accounts/StartEndDateInputImpl.pas"
   }
+ ],
+ "lib": [
+  "AccessSelectFormImpl",
+  "AccountDataModuleImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SecurityBrowserImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "UserSelectFormImpl",
+  "sboapiDataModuleImpl"
  ]
 };

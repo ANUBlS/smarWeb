@@ -1,5 +1,7 @@
 /* Visual controls (Controls.pas, StdCtrls.pas, ExtCtrls.pas, ComCtrls.pas, Buttons.pas …). */
-import { TObject, Ref, ValueRef, NOTFOUND } from '../core';
+import { TObject, Ref, ValueRef, NOTFOUND, GAP } from '../core';
+import { toast } from '../toast';
+import { logger } from '../log';
 import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
@@ -50,17 +52,17 @@ export class TControl extends TComponent {
   get kind() { return 'control'; }
 
   get Visible() { return this.linkedVal('visible', this._visible) as boolean; }
-  set Visible(v: boolean) { this._visible = !!v; this.linked.delete('visible'); invalidate(); }
+  set Visible(v: boolean) { const c = this._visible !== !!v; this._visible = !!v; this.linked.delete('visible'); if (c) invalidate(); }
   get Enabled() { return this.linkedVal('enabled', this._enabled) as boolean; }
-  set Enabled(v: boolean) { this._enabled = !!v; this.linked.delete('enabled'); invalidate(); }
+  set Enabled(v: boolean) { const c = this._enabled !== !!v; this._enabled = !!v; this.linked.delete('enabled'); if (c) invalidate(); }
   get Caption() { return this.linkedVal('caption', this._caption) as string; }
-  set Caption(v: string) { this._caption = str(v); this.linked.delete('caption'); invalidate(); }
+  set Caption(v: string) { const n = str(v), c = this._caption !== n; this._caption = n; this.linked.delete('caption'); if (c) invalidate(); }
   get Text() { return this.Caption; }
   set Text(v: string) { this.Caption = v; }
   get Hint() { return this.linkedVal('hint', this._hint) as string; }
   set Hint(v: string) { this._hint = str(v); this.linked.delete('hint'); }
   get Color() { return this._color; }
-  set Color(v: number) { this._color = colorValue(v); this.ParentColor = false; invalidate(); }
+  set Color(v: number) { const n = colorValue(v), c = n !== this._color; this._color = n; this.ParentColor = false; if (c) invalidate(); }
 
   get Action() { return this._action; }
   set Action(a: TBasicAction | null) {
@@ -283,7 +285,7 @@ export class TCustomEdit extends TWinControl {
   protected _text = '';
   get kind() { return 'edit'; }
   get Text() { return this._text; }
-  set Text(v: string) { this._text = this.applyCase(str(v)); invalidate(); }
+  set Text(v: string) { const n = this.applyCase(str(v)), c = n !== this._text; this._text = n; if (c) invalidate(); }
   get SelText() { return ''; }
   set SelText(v: string) { this.Text = this._text + str(v); }
   protected applyCase(s: string) {
@@ -329,11 +331,49 @@ export class TMaskEdit extends TCustomEdit {
 }
 registerBuiltin('TMaskEdit', TMaskEdit);
 
-/** SmartBank TSearchEdit: edit that searches as you type (OnChange-driven). */
+/**
+ * SmartBank TSearchEdit (SBCM_ComponentsStorage/SearchEdit.pas): incremental search in
+ * DataSource.DataSet on SearchField; the linked Partnership combo follows the found record,
+ * the edit turns red when nothing matches.
+ */
 export class TSearchEdit extends TCustomEdit {
   SearchField = '';
-  DataSource: unknown = null;
+  DataSource: any = null;
+  Partnership: any = null;
   get kind() { return 'edit'; }
+  private ds() { const d = this.DataSource?.DataSet; return d && this.SearchField ? d : null; }
+  override async userInput(v: string) {
+    this.Modified = true;
+    // KeyDown: Delete/Backspace sets Tag := 1 so Change does not re-complete the text
+    (this as any).Tag = v.length < this.Text.length ? 1 : 0;
+    let text = v;
+    const ds = this.ds();
+    if ((this as any).Tag === 0 && ds && v !== '') {
+      if (await ds.Locate(this.SearchField, v, ['locaseinsensitive', 'lopartialkey'])) {
+        if (this.Partnership && this.Partnership.ItemIndex === -1) this.Partnership.ItemIndex = 0;
+        this.Color = 0xffffff;
+        text = String((await ds.FieldByName(this.SearchField)).AsString ?? v);
+      } else {
+        if (this.Partnership) this.Partnership.ItemIndex = -1;
+        this.Color = 0x0000ff;
+        (this as any).Tag = 1;
+      }
+    }
+    await this.setTextFromCode(text);
+  }
+  override async fire(event: string, ...args: unknown[]): Promise<unknown> {
+    if (event.toLowerCase() === 'onexit') {
+      this.Color = 0xffffff;
+      const ds = this.ds();
+      if (this.Text !== '' && ds) {
+        await this.setTextFromCode(String((await ds.FieldByName(this.SearchField)).AsString ?? ''));
+        if (this.Partnership && this.Partnership.ItemIndex === -1) this.Partnership.ItemIndex = 0;
+      } else if (this.Text === '' && this.Partnership && this.Partnership.ItemIndex !== -1) {
+        this.Partnership.ItemIndex = -1;
+      }
+    }
+    return super.fire(event, ...args);
+  }
 }
 registerBuiltin('TSearchEdit', TSearchEdit);
 registerBuiltin('TCMDBSearchEdit', TSearchEdit);
@@ -881,6 +921,17 @@ export class TTreeNodes extends TObject {
   BeginUpdate() { /* */ }
   EndUpdate() { invalidate(); }
   GetFirstNode() { return this.roots[0] ?? null; }
+  /** Nodes stored in the DFM (Items.Data / Items.NodeData, decoded by the generator). */
+  loadDfm(tree: { text: string; imageIndex: number; selectedIndex: number; stateIndex: number; children: any[] }[]) {
+    const add = (parent: TTreeNode | null, list: typeof tree) => {
+      for (const t of list) {
+        const n = this.mk(parent, t.text);
+        n.ImageIndex = t.imageIndex; n.SelectedIndex = t.selectedIndex; n.StateIndex = t.stateIndex;
+        add(n, t.children ?? []);
+      }
+    };
+    add(null, tree);
+  }
 }
 
 export class TTreeView extends TWinControl {
@@ -1071,9 +1122,16 @@ for (const n of ['TNLSLocalizer', 'TEvanescence', 'THintBoxHelper', 'TApplicatio
   'TQRGroup', 'TQRChildBand', 'TQRStringsBand', 'TQRPreview', 'TOracleEvent', 'TOracleLogon', 'TOracleNavigator',
   'TOracleScript', 'TOracleDirectPathLoader', 'TOracleQueue', 'TPrintDialogEx', 'TFormInterval', 'TJvFormStorage',
   'TFormStorage', 'TPropStorageEh', 'TIniPropStorageManEh', 'TdxSkinController', 'TCMExcelExport']) {
+  const isReport = /^TQR|^TQuickRep/.test(n);
   const C = class extends TComponent {
-    Preview() { /* reports are out of scope in this phase */ }
-    Print() { /* */ }
+    // QuickReport layouts are not rendered in this phase; a report's DataSet is an inert stand-in
+    // so the code that fills and previews it runs through without errors.
+    private _ds: unknown = null;
+    get DataSet() { return this._ds ?? (isReport ? GAP : null); }
+    set DataSet(v: unknown) { this._ds = v; }
+    Preview() { if (isReport) { logger.info(`${this.Name || n}.Preview — reports are not rendered in this phase`); toast('Hesabatlar veb versiyanın bu mərhələsində göstərilmir', 'info'); } }
+    PreviewModal() { this.Preview(); }
+    Print() { this.Preview(); }
     PrinterSetup() { /* */ }
     Prepare() { /* */ }
     ExportToFilter() { /* */ }

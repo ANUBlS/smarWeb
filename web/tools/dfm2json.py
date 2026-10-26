@@ -42,7 +42,7 @@ class Tok:
 
     def word(self):
         self.ws()
-        m = re.compile(r'[A-Za-z0-9_.\-+]+').match(self.t, self.i)
+        m = re.compile(r'[\w.\-+]+').match(self.t, self.i)
         if not m:
             raise ValueError('word expected at %d: %r' % (self.i, self.t[self.i:self.i + 40]))
         self.i = m.end()
@@ -148,7 +148,7 @@ def parse_value(tk):
             props = {}
             while True:
                 tk.ws()
-                if tk.t[tk.i:tk.i + 3].lower() == 'end' and not re.match(r'[A-Za-z0-9_]', tk.t[tk.i + 3:tk.i + 4]):
+                if tk.t[tk.i:tk.i + 3].lower() == 'end' and not re.match(r'\w', tk.t[tk.i + 3:tk.i + 4]):
                     tk.i += 3
                     break
                 k = tk.word()
@@ -175,7 +175,7 @@ def parse_object(tk):
     kind = tk.word().lower()  # object / inherited / inline
     tk.ws()
     header = tk.line_rest()
-    m = re.match(r'([A-Za-z0-9_]*)\s*:\s*([A-Za-z0-9_.]+)', header)
+    m = re.match(r'(\w*)\s*:\s*([\w.]+)', header)
     if m:
         name, cls = m.group(1), m.group(2)
     else:
@@ -183,7 +183,7 @@ def parse_object(tk):
     node = {'name': name, 'class': cls, 'kind': kind, 'props': {}, 'children': []}
     while True:
         tk.ws()
-        w = re.compile(r'[A-Za-z0-9_.]+').match(tk.t, tk.i).group(0)
+        w = re.compile(r'[\w.]+').match(tk.t, tk.i).group(0)
         if w.lower() == 'end':
             tk.i += 3
             break
@@ -196,9 +196,63 @@ def parse_object(tk):
         tk.i += 1
         v = parse_value(tk)
         if isinstance(v, tuple) and v and v[0] == '<hex>':
-            v = decode_doa_variables(v[1]) if k == 'Variables.Data' else '<binary>'
+            if k == 'Variables.Data':
+                v = decode_doa_variables(v[1])
+            elif k in ('Items.NodeData', 'Items.Data') and node['class'] in TREE_CLASSES:
+                tree = decode_tree_nodes(v[1], k == 'Items.NodeData')
+                if tree is not None:
+                    node['props']['Items.Tree'] = tree
+                continue
+            else:
+                v = '<binary>'
         node['props'][k] = v
     return node
+
+
+TREE_CLASSES = {'TTreeView', 'TDBTreeView', 'TCustomTreeView'}
+
+
+def decode_tree_nodes(hexs, unicode):
+    """TTreeView Items stream (ComCtrls TTreeNodes.ReadData).
+    Items.Data (ANSI, Delphi 7):  count, then per node: size, ImageIndex, SelectedIndex, StateIndex,
+        OverlayIndex, Data, Count (int32 each), ShortString text, followed by its Count children.
+    Items.NodeData (Unicode):     version byte, count, then the same with optional ExpandedImageIndex
+        and Enabled before a length byte + UTF-16LE text; the record size tells which fields exist."""
+    import struct
+    try:
+        b = bytes.fromhex(hexs)
+    except ValueError:
+        return None
+    pos = 1 if unicode else 0
+
+    def i32(o):
+        return struct.unpack_from('<i', b, o)[0]
+
+    def node():
+        nonlocal pos
+        size = i32(pos)
+        rec = pos + 4
+        img, sel, state, _ovl, _data, cnt = (i32(rec + 4 * k) for k in range(6))
+        text = ''
+        if unicode:
+            for extra in (5, 4, 0, 1):
+                tp = rec + 24 + extra
+                if tp < len(b) and tp + 1 + 2 * b[tp] == rec + size:
+                    text = b[tp + 1:tp + 1 + 2 * b[tp]].decode('utf-16-le', 'replace')
+                    break
+        else:
+            tp = rec + 24
+            text = b[tp + 1:tp + 1 + b[tp]].decode('cp1251', 'replace')
+        pos = rec + size
+        kids = [node() for _ in range(max(0, cnt))]
+        return {'text': text, 'imageIndex': img, 'selectedIndex': sel, 'stateIndex': state, 'children': kids}
+
+    try:
+        count = i32(pos)
+        pos += 4
+        return [node() for _ in range(count)]
+    except (struct.error, IndexError):
+        return None
 
 
 def decode_doa_variables(hexs):

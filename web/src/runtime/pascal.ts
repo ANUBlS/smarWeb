@@ -6,7 +6,7 @@
  */
 import {
   NOTFOUND, Found, Routine, routine, isRoutine, isType, PType, isPObj, PasException, AbortSignal, Ref, ValueRef,
-  TObject, inheritsFrom, reflectGet,
+  TObject, inheritsFrom, reflectGet, GAP,
 } from './core';
 import { Env, UnitObj, getBuiltin, pickOverload } from './env';
 import { logger } from './log';
@@ -111,7 +111,7 @@ function unknownIdent(name: string): never {
 
 /* ------------------------------------------------------------------ operators */
 
-function isNullish(v: unknown) { return v === null || v === undefined; }
+function isNullish(v: unknown) { return v === null || v === undefined || v === GAP; }
 function num(v: unknown): number {
   if (typeof v === 'number') return v;
   if (typeof v === 'boolean') return v ? 1 : 0;
@@ -482,9 +482,14 @@ function className(o: unknown) {
   return (o as any)?.ClassName ?? (o as any)?.__className ?? typeof o;
 }
 
+const gapsLogged = new Set<string>();
 function missingMember(obj: unknown, name: string, call = false): unknown {
-  logger.debug(`Member '${name}' not implemented on ${className(obj)}${call ? ' (call ignored)' : ''}`);
-  return undefined;
+  const key = `${className(obj)}.${name}`.toLowerCase();
+  if (!gapsLogged.has(key)) {
+    gapsLogged.add(key);
+    logger.debug(`Member '${name}' not implemented on ${className(obj)}${call ? ' (call ignored)' : ''}`);
+  }
+  return GAP;
 }
 
 export function str(v: unknown): string {

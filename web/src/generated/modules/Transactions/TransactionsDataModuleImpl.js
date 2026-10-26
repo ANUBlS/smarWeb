@@ -14,7 +14,7 @@ export default function define($) {
   });
   U.method("TTransactionsDataModule", "TransactionsDataApplyRecord", async function TransactionsDataApplyRecord(Self, p0, p1, p2, p3) {
   const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "transaction": $.rec("ttransaction"), "flags": null};
+  const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "transaction": $.rec("ttransaction"), "flags": []};
   await $.fixArgs(L0, ["sender", "action"]);
   L0["buildtransaction"] = $.fn(async function BuildTransaction() {
   const L1 = {result: undefined};

@@ -46,7 +46,9 @@ BUILTIN_VAR = {
     'trydecodedate': [1, 2, 3], 'readln': [0, 1, 2, 3], 'read': [0, 1, 2], 'fillchar': [0],
     'move': [1], 'assignfile': [0], 'reset': [0], 'rewrite': [0], 'append': [0], 'closefile': [0],
     'decodedateweek': [1, 2, 3], 'divmod': [2, 3], 'extractstrings': [], 'findfirst': [2], 'findnext': [0],
-    'findclose': [0], 'swap': [0, 1], 'setstring': [0],
+    'findclose': [0], 'swap': [0, 1], 'setstring': [0], 'inputquery': [2], 'trystrtotime': [1],
+    'decodedatefully': [1, 2, 3, 4], 'trystrtofloatdef': [1], 'selectdirectory': [2], 'promptforfilename': [0],
+    'shgetspecialfolderpath': [1], 'tryencodedate': [3], 'tryencodetime': [4], 'tryencodedatetime': [7], 'trytextstrtofloat': [1], 'trystrtodateex': [1], 'decodedateday': [1, 2], 'decodedatemonthweek': [1, 2, 3, 4],
 }
 
 
@@ -691,6 +693,8 @@ class P:
             unit['enums'][nm.lower()] = tp['names']
         if tp['k'] == 'record':
             unit['records'][nm.lower()] = tp['fields']
+        if tp['k'] in ('array', 'set') or (tp['k'] == 'named' and tp['name'].lower() != nm.lower()):
+            unit.setdefault('aliases', {})[nm.lower()] = tp
         while self.at('platform', 'deprecated'):
             self.next()
         self.expect(';')
@@ -782,7 +786,8 @@ class P:
                 names.append(self.ident())
             self.expect(':')
             tp = self.parse_type()
-            self.expect(';')
+            if not self.atkw('end'):  # the last field before `end` may omit its semicolon
+                self.expect(';')
             for nm in names:
                 cls['fields'][nm.lower()] = {'name': nm, 'type': tp}
 
@@ -1066,6 +1071,9 @@ class P:
                 self.parse_expr()
             args.append(a)
             if not self.accept(','):
+                # tolerate a missing comma between two arguments (`Draw(Canvas, Rect.Left  Rect.Top, …)`)
+                if self.cur.kind in ('id', 'num', 'str') and not self.atop(')'):
+                    continue
                 break
         self.expect(')')
         return args
@@ -1261,6 +1269,12 @@ class Gen:
                 return '$.rec(%s)' % js_str(n)
             if n.startswith('tstrings') or n == 'tstringlist':
                 return 'null'
+            if n in ALIASES and n not in _alias_guard:
+                _alias_guard.add(n)
+                try:
+                    return self.default_for(ALIASES[n])
+                finally:
+                    _alias_guard.discard(n)
             return 'null'
         if tp['k'] == 'array':
             if tp['bounds'] and tp['bounds'][1] is not None:
@@ -1721,6 +1735,11 @@ class Gen:
             return '{' + ', '.join('%s: %s' % (js_str(k), self.const_expr(v)) for k, v in e[1].items()) + '}'
         sc = Scope('$none', [])
         return self.expr(e, sc)
+
+
+# Named type aliases across all parsed units (TFoo = array[...] of ...; TBar = TFoo), filled by build.py.
+ALIASES = {}
+_alias_guard = set()
 
 
 def collect_sigs(unit, sigs):

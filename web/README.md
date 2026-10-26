@@ -11,6 +11,12 @@ and PL/SQL packages.
 Reports (QuickReport layouts under *Bankın hesabatları*) are out of scope for
 this phase and show a notice in the menu.
 
+Besides the 50 items of the SmartBank.ini menu, the menu has an **Əlavə modullar**
+root with 133 more ActiveX modules found in the repository (insurance, credits,
+deposits, SWIFT/transfers, cards, compliance, import, administration …). The list,
+categories and captions live in `tools/extra_modules.py`; copies of the same
+package (same `CLASS_` GUID) were merged and report-only packages were left out.
+
 ## Run it
 
 ```bash
@@ -108,6 +114,16 @@ smarWeb (Delphi repo)
 | API | `src/api/` | Gateway contract (`types.ts`), HTTP client (`http.ts`), mock backend (`mock.ts`). |
 | UI | `src/ui/` | Shell (logon, menu tree, MDI workspace, task bar, output log) and the control renderer. |
 
+### Painting and errors
+
+- Like the single-threaded VCL, nothing is repainted while an event handler runs
+  (`src/runtime/ui.ts`, paint hold); a message box or modal form repaints normally, and a
+  handler running longer than 350 ms repaints as a long operation. Property assignments that
+  do not change a value do not re-render, so idle `OnUpdate` handlers cost nothing.
+- Members the web runtime does not implement (a VCL/Indy/OLE property nobody ported) return
+  an inert value that is logged once in the Output panel, instead of failing with an access
+  violation. Real `nil` references in application code still raise `EAccessViolation`.
+
 ### Module hosting
 
 Each menu node opens its module exactly as the old plugin host did: create the
@@ -145,12 +161,14 @@ units and any routine that could not be converted.
 With `npm run dev` running:
 
 ```bash
-python3 tools/smoke.py              # logs in, opens every module from the menu tree, screenshots + warnings
+python3 tools/smoke.py '' 'X*'      # logs in, opens every module (here: the extra ones), screenshots + warnings
+SHARD=0/3 python3 tools/crawl.py out.json   # presses every toolbar button, button, tab and grid row of every
+                                            # module; records exceptions and repaint churn (flicker)
 python3 tools/interact.py 0.0.0 '["row:0","tb:Yeni hesab","btn:İmtina","dlg:Bəli"]'   # drive a workflow
 ```
 
-Current status: all 50 non-report menu nodes open without runtime warnings; Accounts add/edit/cancel,
-Customers master–detail, Transactions refresh and the payment order form were exercised end to end.
+Current status: every menu node opens; the crawler exercises each module's buttons, tabs and grid rows
+with no access violations and no idle repaint churn.
 
 ## Regenerating after Delphi changes
 

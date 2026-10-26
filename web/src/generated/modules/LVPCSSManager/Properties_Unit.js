@@ -22,7 +22,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
-  await $.stmt((await $.call(C, "selectdirectory", ["Select Out directory", "", (await $.v(C, "dir"))])));
+  await $.stmt((await $.call(C, "selectdirectory", ["Select Out directory", "", $.ref(async () => (await $.v(C, "dir")), async ($t1) => { await $.set(C, "dir", $t1); })])));
   if ($.truthy($.ne((await $.v(C, "dir")), ""))) {
     await $.mset((await $.v(C, "Edit_out_dir")), "Text", (await $.v(C, "Dir")));
   }
@@ -32,7 +32,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
-  await $.stmt((await $.call(C, "selectdirectory", ["Select In directory", "", (await $.v(C, "dir"))])));
+  await $.stmt((await $.call(C, "selectdirectory", ["Select In directory", "", $.ref(async () => (await $.v(C, "dir")), async ($t2) => { await $.set(C, "dir", $t2); })])));
   if ($.truthy($.ne((await $.v(C, "dir")), ""))) {
     await $.mset((await $.v(C, "Edit_IN_Dir")), "Text", (await $.v(C, "dir")));
   }
@@ -148,7 +148,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
-  await $.stmt((await $.call(C, "selectdirectory", ["Select Archive directory", "", (await $.v(C, "dir"))])));
+  await $.stmt((await $.call(C, "selectdirectory", ["Select Archive directory", "", $.ref(async () => (await $.v(C, "dir")), async ($t3) => { await $.set(C, "dir", $t3); })])));
   if ($.truthy($.ne((await $.v(C, "dir")), ""))) {
     await $.mset((await $.v(C, "Edit_archiv_dir")), "Text", (await $.v(C, "Dir")));
   }
@@ -219,12 +219,12 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "DataMod")), "ODS_Ad_Sett_Fili")), "Active", true);
   await $.mset((await $.mv((await $.v(C, "DataMod")), "ODS_Admin_in")), "Active", true);
   {
-    const $t1 = (await $.mv((await $.v(C, "DataMod")), "ODS_Admin_Setting"));
-    await $.stmt($.wcall([$t1], "Open", [], C));
-    if ($.truthy($.eq((await $.wcall([$t1], "UpperCase", [(await $.mv((await $.wv([$t1], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
-      await $.mcall((await $.wv([$t1], "Form_Admin_Setting", C, false)), "ShowModal", []);
+    const $t4 = (await $.mv((await $.v(C, "DataMod")), "ODS_Admin_Setting"));
+    await $.stmt($.wcall([$t4], "Open", [], C));
+    if ($.truthy($.eq((await $.wcall([$t4], "UpperCase", [(await $.mv((await $.wv([$t4], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
+      await $.mcall((await $.wv([$t4], "Form_Admin_Setting", C, false)), "ShowModal", []);
     } else {
-      await $.stmt((await $.mcall((await $.wv([$t1], "Application", C, false)), "MessageBox", ["ACCESS DENIED!", "Admin Setting", 0])));
+      await $.stmt((await $.mcall((await $.wv([$t4], "Application", C, false)), "MessageBox", ["ACCESS DENIED!", "Admin Setting", 0])));
     }
   }
   return L0.result;

@@ -6,12 +6,12 @@ import {
 import menuData from '../generated/menu.json';
 import { api } from '../api';
 import { oraSession } from '../runtime/data/oracle';
-import { openModule, getLibEnv } from '../runtime/loader';
+import { openModule, warmLib } from '../runtime/loader';
 import { windows, Application } from '../runtime/vcl/forms';
 import { TAction, TActionList, TMenuItem } from '../runtime/vcl/actions';
 import { runGuarded } from '../runtime/vcl/component';
 import { logger, type LogEntry } from '../runtime/log';
-import { useScreenCursor, useTick } from '../runtime/ui';
+import { useScreenCursor, useTick, beginHold, endHold } from '../runtime/ui';
 import { messageDlg, showMessage, inputQuery } from '../runtime/dialogs';
 import { formatDateTime, todayDelphi } from '../runtime/datetime';
 import { MenuBar, type MenuSpec } from './MenuView';
@@ -47,7 +47,7 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
       const q = await api.query({ source: 'TsbMainForm.company_list', sql: 'select * from companies order by company_name', variables: [],
         fieldHints: [{ name: 'ID', type: 'integer' }, { name: 'COMPANY_NAME', type: 'string', size: 100 }] });
       const list = q.rows.map((row) => ({ id: Number(row[0]), name: String(row[1]) }));
-      void getLibEnv();
+      void warmLib();
       if (list.length > 1) { setCompanies(list); setCompany(list[0].id); setStep('company'); }
       else onDone(list[0]?.name ?? '');
     } catch (ex) {
@@ -236,7 +236,8 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
         const w = windows.list.find((x) => x.id === windows.activeId) ?? windows.modalTop();
         const top = windows.modalTop() ?? w;
         if (!top) continue;
-        for (const c of top.form.owned) if (c instanceof TActionList) await c.updateAll();
+        beginHold();
+        try { for (const c of top.form.owned) if (c instanceof TActionList) await c.updateAll(); } finally { endHold(); }
       }
     };
     void loop();

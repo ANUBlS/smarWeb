@@ -1,0 +1,20 @@
+// Generated from UnitVesterPrintM.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("UnitVesterPrintM", ["Windows", "Messages", "SysUtils", "Variants", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "QuickRpt", "ExtCtrls", "QRCtrls", "SBTranslateProc", "sboapiDataModuleImpl", "ExpDataModuleUnit"]);
+  const C = [U];
+  U.defClass("TFormVesterPrintM", "TForm", {"quickrepvester": {"name": "QuickRepVester", "type": "TQuickRep"}, "qrband1": {"name": "QRBand1", "type": "TQRBand"}, "qrdbimage5": {"name": "QRDBImage5", "type": "TQRDBImage"}, "qrlabel5": {"name": "QRLabel5", "type": "TQRLabel"}, "qrdbtext43": {"name": "QRDBText43", "type": "TQRDBText"}, "qrlbankname": {"name": "QRLBankName", "type": "TQRLabel"}, "qrdbtext9": {"name": "QRDBText9", "type": "TQRDBText"}, "qrshape4": {"name": "QRShape4", "type": "TQRShape"}, "qrlabel17": {"name": "QRLabel17", "type": "TQRLabel"}, "qrlabel26": {"name": "QRLabel26", "type": "TQRLabel"}, "qrdbtext21": {"name": "QRDBText21", "type": "TQRDBText"}, "qrdbtext24": {"name": "QRDBText24", "type": "TQRDBText"}, "qrshape7": {"name": "QRShape7", "type": "TQRShape"}, "qrdbtext12": {"name": "QRDBText12", "type": "TQRDBText"}, "qrlabel28": {"name": "QRLabel28", "type": "TQRLabel"}, "qrlabel19": {"name": "QRLabel19", "type": "TQRLabel"}, "qrdbtext32": {"name": "QRDBText32", "type": "TQRDBText"}, "qrdbtext35": {"name": "QRDBText35", "type": "TQRDBText"}, "qrshape11": {"name": "QRShape11", "type": "TQRShape"}, "qrlabel30": {"name": "QRLabel30", "type": "TQRLabel"}, "qrlabel31": {"name": "QRLabel31", "type": "TQRLabel"}, "qrdbtext13": {"name": "QRDBText13", "type": "TQRDBText"}, "qrlabel32": {"name": "QRLabel32", "type": "TQRLabel"}, "qrlabel33": {"name": "QRLabel33", "type": "TQRLabel"}, "qrdbtext38": {"name": "QRDBText38", "type": "TQRDBText"}, "qrinn": {"name": "QRInn", "type": "TQRLabel"}, "qrlabel36": {"name": "QRLabel36", "type": "TQRLabel"}, "qrdbtext15": {"name": "QRDBText15", "type": "TQRDBText"}, "qrlammount": {"name": "QRLAmmount", "type": "TQRLabel"}, "qrlabel34": {"name": "QRLabel34", "type": "TQRLabel"}, "qrdbtext16": {"name": "QRDBText16", "type": "TQRDBText"}, "qrshape12": {"name": "QRShape12", "type": "TQRShape"}, "qrshape16": {"name": "QRShape16", "type": "TQRShape"}, "qrlabel37": {"name": "QRLabel37", "type": "TQRLabel"}, "qrdbtext17": {"name": "QRDBText17", "type": "TQRDBText"}, "qrdbtext19": {"name": "QRDBText19", "type": "TQRDBText"}, "qrdbtext20": {"name": "QRDBText20", "type": "TQRDBText"}, "qrdbtext11": {"name": "QRDBText11", "type": "TQRDBText"}, "qrshape17": {"name": "QRShape17", "type": "TQRShape"}, "qrlabel38": {"name": "QRLabel38", "type": "TQRLabel"}, "qrshape3": {"name": "QRShape3", "type": "TQRShape"}, "qrlabel11": {"name": "QRLabel11", "type": "TQRLabel"}, "qrlabel9": {"name": "QRLabel9", "type": "TQRLabel"}, "qrlabel90": {"name": "QRLabel90", "type": "TQRLabel"}, "qrlabel4": {"name": "QRLabel4", "type": "TQRLabel"}, "qrlabel3": {"name": "QRLabel3", "type": "TQRLabel"}, "qrshape33": {"name": "QRShape33", "type": "TQRShape"}, "qrshape91": {"name": "QRShape91", "type": "TQRShape"}, "qrshape5": {"name": "QRShape5", "type": "TQRShape"}, "qrshape13": {"name": "QRShape13", "type": "TQRShape"}, "qrshape15": {"name": "QRShape15", "type": "TQRShape"}, "qrlbankinn": {"name": "QRLBankInn", "type": "TQRLabel"}}, {});
+  U.init(async () => {
+    U.var_("FormVesterPrintM", null, "TFormVesterPrintM");
+  });
+  U.method("TFormVesterPrintM", "QuickRepVesterBeforePrint", async function QuickRepVesterBeforePrint(Self, p0, p1) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), "printreport": $.asRef(p1), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompQuickRep", [(await $.v(C, "QuickRepVester")), (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
+  return L0.result;
+}, {"params": ["Sender", "PrintReport"], "kind": "procedure", "ptypes": ["TCustomQuickRep", "Boolean"]});
+  return U;
+}

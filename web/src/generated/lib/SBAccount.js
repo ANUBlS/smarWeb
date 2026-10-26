@@ -69,7 +69,7 @@ export default function define($) {
 }, {"params": ["AccID", "DoClose"], "kind": "procedure", "ptypes": ["Integer", "Boolean"]});
   U.func("Sb_BuildAccountDefaultSecurity", async function Sb_BuildAccountDefaultSecurity(Self, p0) {
   const C = $.chain(Self, U);
-  const L0 = {"id": $.copyArg(p0), result: null};
+  const L0 = {"id": $.copyArg(p0), result: 0};
   await $.fixArgs(L0, ["id"]);
   L0["result"] = (await $.call(C, "Sb_CreateSecurityDescriptor", [(await $.v(C, "Sb_GetUserID")), (await $.v(C, "Sb_GetGroupID")), (await $.call(C, "Sb_GetTypeID", ["account"]))]));
   await $.stmt((await $.call(C, "Sb_BuildDefaultSecurity", [L0["result"]])));

@@ -1,0 +1,21 @@
+// Generated from UnitDataModccBuildings.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("UnitDataModccBuildings", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Db", "OracleData", "Oracle", "sboapiDataModuleImpl"]);
+  const C = [U];
+  U.defClass("TDataModccBuildings", "TDataModule", {"cc_op": {"name": "CC_OP", "type": "TOraclePackage"}, "cc_company": {"name": "CC_Company", "type": "TOracleDataSet"}, "cc_companyid": {"name": "CC_CompanyID", "type": "TIntegerField"}, "cc_com_data": {"name": "CC_Com_Data", "type": "TDataSource"}, "cc_build_data": {"name": "CC_build_Data", "type": "TDataSource"}, "cc_flat": {"name": "CC_Flat", "type": "TOracleDataSet"}, "cc_flat_data": {"name": "CC_Flat_Data", "type": "TDataSource"}, "cc_buyer_flat": {"name": "CC_Buyer_Flat", "type": "TOracleDataSet"}, "cc_buyer_flatdata": {"name": "CC_Buyer_FlatData", "type": "TDataSource"}, "cc_building": {"name": "CC_building", "type": "TOracleDataSet"}, "cc_companycomp_name": {"name": "CC_CompanyCOMP_NAME", "type": "TWideStringField"}, "cc_flatid": {"name": "CC_FlatID", "type": "TFloatField"}, "cc_flatbld_id": {"name": "CC_FlatBLD_ID", "type": "TFloatField"}, "cc_flatflatnumber": {"name": "CC_FlatFLATNUMBER", "type": "TWideStringField"}, "cc_flatentrance": {"name": "CC_FlatENTRANCE", "type": "TWideStringField"}, "cc_flatrooms": {"name": "CC_FlatROOMS", "type": "TFloatField"}, "cc_flatarea": {"name": "CC_FlatAREA", "type": "TFloatField"}, "cc_flatprice1": {"name": "CC_FlatPRICE1", "type": "TFloatField"}, "cc_flatpricegen": {"name": "CC_FlatPRICEGEN", "type": "TFloatField"}, "cc_flatbuyer": {"name": "CC_FlatBUYER", "type": "TFloatField"}, "cc_flatuserid": {"name": "CC_FlatUSERID", "type": "TFloatField"}, "cc_flataccid": {"name": "CC_FlatACCID", "type": "TFloatField"}, "cc_flatcode": {"name": "CC_FlatCODE", "type": "TWideStringField"}, "cc_buildingid": {"name": "CC_buildingID", "type": "TFloatField"}, "cc_buildingcomp_id": {"name": "CC_buildingCOMP_ID", "type": "TFloatField"}, "cc_buildingbld_name": {"name": "CC_buildingBLD_NAME", "type": "TWideStringField"}, "cc_buildingaddress": {"name": "CC_buildingADDRESS", "type": "TWideStringField"}, "cc_buildingfloors": {"name": "CC_buildingFLOORS", "type": "TFloatField"}, "cc_buildingentrances": {"name": "CC_buildingENTRANCES", "type": "TFloatField"}, "cc_buildingflats": {"name": "CC_buildingFLATS", "type": "TFloatField"}, "cc_buyer_flatid": {"name": "CC_Buyer_FlatID", "type": "TFloatField"}, "cc_buyer_flatcode": {"name": "CC_Buyer_FlatCODE", "type": "TWideStringField"}, "cc_buyer_flatbld_id": {"name": "CC_Buyer_FlatBLD_ID", "type": "TFloatField"}, "cc_buyer_flatflatnumber": {"name": "CC_Buyer_FlatFLATNUMBER", "type": "TWideStringField"}, "cc_buyer_flatentrance": {"name": "CC_Buyer_FlatENTRANCE", "type": "TWideStringField"}, "cc_buyer_flatrooms": {"name": "CC_Buyer_FlatROOMS", "type": "TFloatField"}, "cc_buyer_flatarea": {"name": "CC_Buyer_FlatAREA", "type": "TFloatField"}, "cc_buyer_flatprice1": {"name": "CC_Buyer_FlatPRICE1", "type": "TFloatField"}, "cc_buyer_flatpricegen": {"name": "CC_Buyer_FlatPRICEGEN", "type": "TFloatField"}, "cc_buyer_flatbuyer": {"name": "CC_Buyer_FlatBUYER", "type": "TFloatField"}, "cc_buyer_flatuserid": {"name": "CC_Buyer_FlatUSERID", "type": "TFloatField"}, "cc_buyer_flatbuyer_status": {"name": "CC_Buyer_FlatBUYER_STATUS", "type": "TWideStringField"}, "cc_buyer_flatffloor": {"name": "CC_Buyer_FlatFFLOOR", "type": "TWideStringField"}, "cc_flatffloor": {"name": "CC_FlatFFLOOR", "type": "TWideStringField"}, "cc_buyer_flatrownum": {"name": "CC_Buyer_FlatROWNUM", "type": "TFloatField"}}, {});
+  U.init(async () => {
+    U.var_("DataModccBuildings", null, "TDataModccBuildings");
+  });
+  U.method("TDataModccBuildings", "DataModuleCreate", async function DataModuleCreate(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.mcall((await $.v(C, "CC_Building")), "Open", []);
+  await $.mcall((await $.v(C, "CC_Buyer_Flat")), "Open", []);
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  return U;
+}

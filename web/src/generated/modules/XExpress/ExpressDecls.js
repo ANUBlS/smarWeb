@@ -1,0 +1,13 @@
+// Generated from ExpressDecls.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("ExpressDecls", ["Controls"]);
+  const C = [U];
+  $.defRecord("texpressvariables", {"exid": () => null, "creditid": () => 0, "custid": () => null, "remit_inf": () => '', "doc_type": () => null, "passpin": () => '', "passer": () => '', "paspnum": () => '', "doc_country": () => null, "paspplace": () => null, "paspdate": () => null, "passexpire": () => null, "citizenship": () => 0, "lastname": () => '', "soname": () => '', "name": () => '', "sex": () => null, "fam_status": () => null, "bbirthplace": () => '', "birth_state": () => '', "birthday": () => null, "aadrs_state": () => '', "city": () => '', "reg_zip": () => '', "address": () => '', "phone_m": () => '', "phone_h": () => '', "e_mail": () => '', "filial": () => 0, "v_nerezident": () => 0, "v_cust_type": () => 0, "v_inn": () => '', "debetid": () => null, "work_place": () => null, "work_adrs_spec": () => null, "work_cntr": () => null, "work_city": () => null, "work_state": () => null, "work_zip": () => null, "work_adress": () => null, "work_phone_spec": () => null, "work_phconttype": () => null, "work_phoppref": () => null, "work_phone": () => null, "work_phext": () => null, "work_phcode": () => null, "custidi": () => null, "remit_infi": () => '', "doc_typei": () => null, "passpini": () => '', "passeri": () => '', "paspnumi": () => '', "doc_countryi": () => null, "paspplacei": () => null, "paspdatei": () => null, "passexpirei": () => null, "citizenshipi": () => 0, "lastnamei": () => '', "sonamei": () => '', "namei": () => '', "sexi": () => null, "fam_statusi": () => null, "bbirthplacei": () => '', "birth_statei": () => '', "birthdayi": () => null, "aadrs_statei": () => '', "cityi": () => '', "reg_zipi": () => '', "addressi": () => '', "phone_mi": () => '', "phone_hi": () => '', "e_maili": () => '', "filiali": () => 0, "v_nerezidenti": () => 0, "v_cust_typei": () => 0, "v_inni": () => '', "contractno": () => null, "work_placei": () => null, "work_adrs_speci": () => null, "work_cntri": () => null, "work_cityi": () => null, "work_statei": () => null, "work_zipi": () => null, "work_adressi": () => null, "work_phone_speci": () => null, "work_phconttypei": () => null, "work_phopprefi": () => null, "work_phonei": () => null, "work_phexti": () => null, "work_phcodei": () => null, "fc_accid": () => 0, "fc_amount": () => 0});
+  U.init(async () => {
+    U.var_("ExpressVariables", $.rec("texpressvariables"), "TExpressVariables");
+  });
+  return U;
+}

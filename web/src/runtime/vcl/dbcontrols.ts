@@ -349,8 +349,8 @@ export class TBookmarkList extends Indexed {
   get Count() { return this.set.size; }
   get Items() { return new Indexed((i) => [...this.set][num(i[0])]); }
   get CurrentRowSelected() { const r = this.grid.curRow(); return !!r && this.set.has(r); }
-  set CurrentRowSelected(v: boolean) { const r = this.grid.curRow(); if (!r) return; if (v) this.set.add(r); else this.set.delete(r); invalidate(); }
-  Clear() { this.set.clear(); invalidate(); }
+  set CurrentRowSelected(v: boolean) { const r = this.grid.curRow(); if (!r) return; if (v === this.set.has(r)) return; if (v) this.set.add(r); else this.set.delete(r); invalidate(); }
+  Clear() { if (this.set.size) { this.set.clear(); invalidate(); } }
   Delete() { this.set.clear(); invalidate(); }
   Refresh() { return false; }
   IndexOf(b: unknown) { return [...this.set].indexOf(b as Row); }

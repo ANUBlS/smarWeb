@@ -2,7 +2,7 @@
 import { TObject, PasException, ValueRef, NOTFOUND } from '../core';
 import { registerBuiltin, getBuiltin, ClassDef, Env, noAutoCreate, addFixup } from '../env';
 import { num, str } from '../pascal';
-import { invalidate } from '../ui';
+import { invalidate, suspendHold, flushNow } from '../ui';
 import { logger } from '../log';
 import type { DfmNode } from '../dfm';
 import { mergeInherited } from '../dfm';
@@ -142,7 +142,9 @@ export class TCustomForm extends TWinControl {
     await this.fire('OnShow', this);
     await this.fire('OnActivate', this);
     this.focusActiveControl();
-    const r = await done;
+    const unhold = suspendHold();
+    let r: number;
+    try { r = await done; } finally { unhold(); }
     void w;
     return r;
   }
@@ -323,12 +325,13 @@ export async function streamRoot(root: TComponent, layout: DfmNode) {
   const created: TComponent[] = [root];
   for (const child of layout.children) await streamChild(child, root, root instanceof TWinControl ? root : null, created, env);
   // resolve references once every component exists; unresolved globals become fixups
+  const names = new Set(created.map((c) => (c.Name || '').toLowerCase()).filter(Boolean));
   for (const c of created) {
     pendingRef.current = null;
     await c.resolveRefs((prop, global, walk) => addFixup(global, async (target) => {
       const t = await walk(target);
       if (t != null) await c.assignRef(prop, t);
-    }));
+    }), names);
   }
   for (const c of created) {
     if (c instanceof TOracleDataSet || c instanceof TOracleQuery) c.initFromDfm();
@@ -421,6 +424,7 @@ export function applyProps(comp: TComponent, props: Record<string, unknown>, isR
   }
   for (const [k, raw] of Object.entries(props)) {
     const l = k.toLowerCase();
+    if (l === 'items.tree') { const it = (comp as any).Items; if (it && typeof it.loadDfm === 'function') it.loadDfm(raw); continue; }
     if (IGNORE_PROPS.has(l) || l.startsWith('font.') || l.startsWith('titlefont.') || l.startsWith('constraints.')
       || l.startsWith('margins.') || l.startsWith('padding.') || l.startsWith('touch.') || l.startsWith('customhint')) continue;
     if (/^on[a-z]/.test(l)) { comp.events.set(l, str(dfmValue(raw))); continue; }
@@ -604,7 +608,7 @@ export class TApplication extends TComponent {
     const { messageBox } = await import('../dialogs');
     return messageBox(text, caption, flags);
   }
-  async ProcessMessages() { await new Promise((r) => setTimeout(r, 0)); }
+  async ProcessMessages() { flushNow(); await new Promise((r) => setTimeout(r, 0)); }
   HandleMessage() { /* */ }
   Terminate() { this.Terminated = true; }
   Minimize() { /* */ }
