@@ -36,15 +36,24 @@ function render() {
   listeners.forEach((l) => l());
 }
 
+const LONG_OP_INTERVAL = 500;
+let lastRender = 0;
+/** A handler past HOLD_MS is a long operation (batch loops …): show progress twice a second
+ *  instead of every frame, so a grid walking through records does not flicker. */
+const longOp = () => { const l = top(); return l.holds > 0 && l.expired; };
+
 export function invalidate() {
   if (held()) { pending = true; return; }
   if (scheduled) return;
   scheduled = true;
-  requestAnimationFrame(() => {
+  const wait = longOp() ? Math.max(0, lastRender + LONG_OP_INTERVAL - performance.now()) : 0;
+  const go = () => requestAnimationFrame(() => {
     scheduled = false;
     if (held()) { pending = true; return; }
+    lastRender = performance.now();
     render();
   });
+  if (wait > 0) setTimeout(go, wait); else go();
 }
 
 
