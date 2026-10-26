@@ -55,7 +55,7 @@ export default {
   {
    "unit": "AdministrationGroupReport",
    "file": "AdministrationGroupReport",
-   "form": null,
+   "form": "TrptQroup",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -145,7 +145,7 @@ export default {
   {
    "unit": "AdministrationUserAdvGranReport",
    "file": "AdministrationUserAdvGranReport",
-   "form": null,
+   "form": "TrptAdvgrant",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -157,7 +157,7 @@ export default {
   {
    "unit": "AdministrationUserGranReport",
    "file": "AdministrationUserGranReport",
-   "form": null,
+   "form": "TrptUsers",
    "ok": 2,
    "fail": 0,
    "activeForm": null,

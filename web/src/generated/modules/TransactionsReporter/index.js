@@ -19,7 +19,7 @@ export default {
   {
    "unit": "TransactionViewerRptUnit",
    "file": "TransactionViewerRptUnit",
-   "form": null,
+   "form": "TTransactionsRpt",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

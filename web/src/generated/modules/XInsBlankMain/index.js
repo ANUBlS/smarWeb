@@ -66,13 +66,8 @@ export default {
   }
  ],
  "lib": [
-  "AxLoader",
   "CommanParametrs",
   "OraVariables",
-  "PlgModalContainer",
-  "PluginDecls",
-  "PluginIni",
-  "PluginPopupMenu",
   "SBAccount",
   "SBAlert",
   "SBAppInfo",
@@ -96,9 +91,7 @@ export default {
   "SBSystem",
   "SBTransaction",
   "SBUtils",
-  "Sequence",
   "TaxsUnit",
-  "UPlgContainer",
   "Unit1",
   "Unit3",
   "UnitChangePasswordForm",

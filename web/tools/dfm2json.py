@@ -195,18 +195,152 @@ def parse_object(tk):
         assert tk.t[tk.i] == '=', (k, tk.t[tk.i:tk.i + 30])
         tk.i += 1
         v = parse_value(tk)
-        if isinstance(v, tuple) and v and v[0] == '<hex>':
-            if k == 'Variables.Data':
-                v = decode_doa_variables(v[1])
-            elif k in ('Items.NodeData', 'Items.Data') and node['class'] in TREE_CLASSES:
-                tree = decode_tree_nodes(v[1], k == 'Items.NodeData')
-                if tree is not None:
-                    node['props']['Items.Tree'] = tree
-                continue
-            else:
-                v = '<binary>'
-        node['props'][k] = v
+        set_prop(node, k, v)
     return node
+
+
+def set_prop(node, k, v):
+    """Store a parsed property; binary blobs ('<hex>', data) are decoded where the runtime needs them."""
+    if isinstance(v, tuple) and v and v[0] == '<hex>':
+        if k == 'Variables.Data':
+            v = decode_doa_variables(v[1])
+        elif k in ('Items.NodeData', 'Items.Data') and node['class'] in TREE_CLASSES:
+            tree = decode_tree_nodes(v[1], k == 'Items.NodeData')
+            if tree is not None:
+                node['props']['Items.Tree'] = tree
+            return
+        else:
+            v = '<binary>'
+    node['props'][k] = v
+
+
+def parse_binary(b):
+    """Binary DFM (TPF0 stream, Classes.TReader): the same JSON tree as the text parser."""
+    import struct
+    pos = 4  # 'TPF0'
+
+    def u8():
+        nonlocal pos
+        pos += 1
+        return b[pos - 1]
+
+    def take(n):
+        nonlocal pos
+        pos += n
+        return b[pos - n:pos]
+
+    def sstr():
+        return take(u8()).decode('cp1251', 'replace')
+
+    def ansi(raw):  # ANSI strings: cp1251 text of the Azeri UI (AzLat fonts), as in text DFMs
+        return azdec(raw.decode('cp1251', 'replace'))
+
+    def uni(text):  # Unicode strings: decide AzLat vs Russian like #nnnn runs of text DFMs
+        return join_coded([CodedChar(c) for c in text])
+
+    def ext80(raw):
+        mant = int.from_bytes(raw[:8], 'little')
+        se = int.from_bytes(raw[8:10], 'little')
+        sign, e = se >> 15, se & 0x7fff
+        if e == 0 and mant == 0:
+            return 0.0
+        v = mant / (1 << 63) * 2.0 ** (e - 16383)
+        return -v if sign else v
+
+    def value():
+        t = u8()
+        if t == 0:
+            return None
+        if t == 1:  # vaList
+            out = []
+            while b[pos] != 0:
+                out.append(value())
+            u8()
+            return out
+        if t == 2:
+            return struct.unpack('<b', take(1))[0]
+        if t == 3:
+            return struct.unpack('<h', take(2))[0]
+        if t == 4:
+            return struct.unpack('<i', take(4))[0]
+        if t == 5:
+            return ext80(take(10))
+        if t == 6:
+            return ansi(take(u8()))
+        if t == 7:
+            w = sstr()
+            return {'i': w}
+        if t == 8:
+            return False
+        if t == 9:
+            return True
+        if t == 10:
+            n = struct.unpack('<i', take(4))[0]
+            return ('<hex>', take(n).hex().upper())
+        if t == 11:  # vaSet
+            out = []
+            while True:
+                w = sstr()
+                if not w:
+                    return out
+                out.append(w)
+        if t == 12:
+            n = struct.unpack('<i', take(4))[0]
+            return ansi(take(n))
+        if t == 13:
+            return {'i': 'nil'}
+        if t == 14:  # vaCollection
+            items = []
+            while b[pos] != 0:
+                if b[pos] in (2, 3, 4):
+                    value()  # item order
+                assert u8() == 1  # vaList
+                item = {'name': '', 'class': '', 'props': {}}
+                while b[pos] != 0:
+                    k = sstr()
+                    set_prop(item, k, value())
+                u8()
+                items.append(item['props'])
+            u8()
+            return items
+        if t == 15:
+            return struct.unpack('<f', take(4))[0]
+        if t == 16:
+            return struct.unpack('<q', take(8))[0] / 10000
+        if t == 17:
+            return struct.unpack('<d', take(8))[0]
+        if t == 18:
+            n = struct.unpack('<i', take(4))[0]
+            return uni(take(2 * n).decode('utf-16-le', 'replace'))
+        if t == 19:
+            return struct.unpack('<q', take(8))[0]
+        if t == 20:
+            n = struct.unpack('<i', take(4))[0]
+            return uni(take(n).decode('utf-8', 'replace'))
+        if t == 21:
+            return struct.unpack('<d', take(8))[0]
+        raise ValueError('binary dfm: value type %d at %d' % (t, pos - 1))
+
+    def component():
+        kind = 'object'
+        if b[pos] & 0xF0 == 0xF0:
+            flags = u8() & 0x0F
+            kind = 'inherited' if flags & 1 else 'inline' if flags & 4 else 'object'
+            if flags & 2:
+                value()  # child position
+        cls = sstr()
+        name = sstr()
+        node = {'name': name, 'class': cls, 'kind': kind, 'props': {}, 'children': []}
+        while b[pos] != 0:
+            k = sstr()
+            set_prop(node, k, value())
+        u8()
+        while b[pos] != 0:
+            node['children'].append(component())
+        u8()
+        return node
+
+    return component()
 
 
 TREE_CLASSES = {'TTreeView', 'TDBTreeView', 'TCustomTreeView'}
@@ -279,8 +413,13 @@ def decode_doa_variables(hexs):
 
 def parse_file(path):
     raw = open(path, 'rb').read()
-    if raw[:3] == b'TPF' or raw[:1] == b'\xff':
-        raise ValueError('binary dfm')
+    if raw[:1] == b'\xff':  # resource header (RT_RCDATA) in front of the TPF0 stream
+        i = raw.find(b'TPF0')
+        if i < 0:
+            raise ValueError('binary dfm')
+        raw = raw[i:]
+    if raw[:4] == b'TPF0':
+        return parse_binary(raw)
     if raw.startswith(b'\xef\xbb\xbf'):
         text = raw[3:].decode('utf-8', 'replace')
     else:

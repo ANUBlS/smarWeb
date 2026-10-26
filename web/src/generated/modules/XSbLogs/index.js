@@ -7,7 +7,7 @@ export default {
   {
    "unit": "About1",
    "file": "About1",
-   "form": null,
+   "form": "TSBLogsAbout",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

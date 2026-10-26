@@ -43,7 +43,7 @@ export default {
   {
    "unit": "AccountAboutImpl",
    "file": "AccountAboutImpl",
-   "form": null,
+   "form": "TAccountMainFormAbout",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

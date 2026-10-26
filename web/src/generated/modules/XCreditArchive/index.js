@@ -46,9 +46,6 @@ export default {
   "ArLogoutputImpl",
   "ArTemporaryTransactionsViewFormImpl",
   "OraVariables",
-  "PluginDecls",
-  "PluginIni",
-  "PluginToolBar",
   "SBAccount",
   "SBAlert",
   "SBAppInfo",
@@ -72,7 +69,6 @@ export default {
   "SBSystem",
   "SBTransaction",
   "SBUtils",
-  "Sequence",
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"

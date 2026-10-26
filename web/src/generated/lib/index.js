@@ -167,18 +167,6 @@ export default [
   "source": "Packages/Cards_New/cards_azericard/atmendpos.pas"
  },
  {
-  "unit": "AxLoader",
-  "file": "AxLoader",
-  "form": null,
-  "ok": 4,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TActiveFormX"
-  ],
-  "source": "Packages/sbplg50/AxLoader.pas"
- },
- {
   "unit": "Azipsn",
   "file": "Azipsn",
   "form": "Tsettings",
@@ -253,7 +241,7 @@ export default [
  {
   "unit": "cap_UntMainReport",
   "file": "cap_UntMainReport",
-  "form": null,
+  "form": "TQRMainReport_cap",
   "ok": 1,
   "fail": 0,
   "activeForm": null,
@@ -265,7 +253,7 @@ export default [
  {
   "unit": "cap_UntSecondReport",
   "file": "cap_UntSecondReport",
-  "form": null,
+  "form": "TQRCommonReport_cap",
   "ok": 1,
   "fail": 0,
   "activeForm": null,
@@ -1112,16 +1100,6 @@ export default [
   "source": "Packages/SWIFT_MANAGER_IBAN_NEW/Editmt103Show.pas"
  },
  {
-  "unit": "EhLibConsts",
-  "file": "EhLibConsts",
-  "form": null,
-  "ok": 0,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [],
-  "source": "Packages/EhLib/EhLibConsts.pas"
- },
- {
   "unit": "excsett",
   "file": "excsett",
   "form": "TExchangesettings",
@@ -1579,7 +1557,7 @@ export default [
  {
   "unit": "OrderUnit",
   "file": "OrderUnit",
-  "form": null,
+  "form": "TPaymentOrder",
   "ok": 0,
   "fail": 0,
   "activeForm": null,
@@ -1709,40 +1687,6 @@ export default [
   "source": "Packages/SBCM_PaymentsPlane/PlaneAddEditUnit.pas"
  },
  {
-  "unit": "PlgModalContainer",
-  "file": "PlgModalContainer",
-  "form": null,
-  "ok": 4,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TPlgModalContainer"
-  ],
-  "source": "Packages/Insurance/InsVCL50/PlgModalContainer.pas"
- },
- {
-  "unit": "PluginDecls",
-  "file": "PluginDecls",
-  "form": null,
-  "ok": 0,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [],
-  "source": "Packages/VCL/PluginDecls.pas"
- },
- {
-  "unit": "PluginIni",
-  "file": "PluginIni",
-  "form": null,
-  "ok": 7,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TMenuIni"
-  ],
-  "source": "Packages/VCL/PluginIni.pas"
- },
- {
   "unit": "PluginMenu",
   "file": "PluginMenu",
   "form": null,
@@ -1754,31 +1698,6 @@ export default [
    "TPluginMainMenu"
   ],
   "source": "Packages/VCL/PluginMenu.pas"
- },
- {
-  "unit": "PluginPopupMenu",
-  "file": "PluginPopupMenu",
-  "form": null,
-  "ok": 22,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TPluginPopupMenuItem",
-   "TPluginPopupMenu"
-  ],
-  "source": "Packages/VCL/PluginPopupMenu.pas"
- },
- {
-  "unit": "PluginToolBar",
-  "file": "PluginToolBar",
-  "form": null,
-  "ok": 15,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TPluginToolBar"
-  ],
-  "source": "Packages/VCL/PluginToolBar.pas"
  },
  {
   "unit": "poscomission",
@@ -1805,28 +1724,9 @@ export default [
   "source": "Packages/Cards_New/cards_azericard/PostCommisionOnusImpl.pas"
  },
  {
-  "unit": "PropFilerEh",
-  "file": "PropFilerEh",
-  "form": null,
-  "ok": 55,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TPropWriterEh",
-   "TPropReaderEh",
-   "TStoragePropertyInterceptor",
-   "TFormStoragePropertyInterceptor",
-   "TComponentCrack",
-   "TForChildListObj",
-   "TPersistentCrack",
-   "TNastyForm"
-  ],
-  "source": "Packages/EhLib/PropFilerEh.pas"
- },
- {
   "unit": "qrp1",
   "file": "qrp1",
-  "form": null,
+  "form": "TQuickReport1",
   "ok": 0,
   "fail": 0,
   "activeForm": null,
@@ -1838,7 +1738,7 @@ export default [
  {
   "unit": "qrp5",
   "file": "qrp5",
-  "form": null,
+  "form": "TQuickReport5",
   "ok": 0,
   "fail": 0,
   "activeForm": null,
@@ -2237,18 +2137,6 @@ export default [
    "TSecurityBrowserForm"
   ],
   "source": "Packages/sbovcl50/SecurityBrowserImpl.pas"
- },
- {
-  "unit": "Sequence",
-  "file": "Sequence",
-  "form": null,
-  "ok": 10,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TSequence"
-  ],
-  "source": "Packages/VCL/Sequence.pas"
  },
  {
   "unit": "setac",
@@ -2920,7 +2808,7 @@ export default [
  {
   "unit": "UnitCalcedPercentRPT",
   "file": "UnitCalcedPercentRPT",
-  "form": null,
+  "form": "TCalcedPercentRpt",
   "ok": 0,
   "fail": 0,
   "activeForm": null,
@@ -3245,7 +3133,7 @@ export default [
  {
   "unit": "UnitRep",
   "file": "UnitRep",
-  "form": null,
+  "form": "TQRep",
   "ok": 0,
   "fail": 0,
   "activeForm": null,
@@ -3257,7 +3145,7 @@ export default [
  {
   "unit": "UnitRepGroupNB",
   "file": "UnitRepGroupNB",
-  "form": null,
+  "form": "TQRepGroupAll",
   "ok": 1,
   "fail": 0,
   "activeForm": null,
@@ -3269,7 +3157,7 @@ export default [
  {
   "unit": "UnitRepGroupNL",
   "file": "UnitRepGroupNL",
-  "form": null,
+  "form": "TQRepGroupAllNL",
   "ok": 1,
   "fail": 0,
   "activeForm": null,
@@ -3607,7 +3495,7 @@ export default [
  {
   "unit": "UntIntervalRpt",
   "file": "UntIntervalRpt",
-  "form": null,
+  "form": "TQRptInterval",
   "ok": 1,
   "fail": 0,
   "activeForm": null,
@@ -3619,7 +3507,7 @@ export default [
  {
   "unit": "UntMain_Report",
   "file": "UntMain_Report",
-  "form": null,
+  "form": "TQRMainReport",
   "ok": 1,
   "fail": 0,
   "activeForm": null,
@@ -3739,7 +3627,7 @@ export default [
  {
   "unit": "UntSecond_Report",
   "file": "UntSecond_Report",
-  "form": null,
+  "form": "TQRCommonReport",
   "ok": 1,
   "fail": 0,
   "activeForm": null,
@@ -3771,18 +3659,6 @@ export default [
    "TfmRiskTypes"
   ],
   "source": "Packages/Insurance/PersonalAccMain/UPAccidentRisks.pas"
- },
- {
-  "unit": "UPlgContainer",
-  "file": "UPlgContainer",
-  "form": "TfmContainer",
-  "ok": 10,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TfmContainer"
-  ],
-  "source": "Packages/Insurance/InsVCL50/UPlgContainer.pas"
  },
  {
   "unit": "UserSelectFormImpl",

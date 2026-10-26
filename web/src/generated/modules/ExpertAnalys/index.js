@@ -43,7 +43,7 @@ export default {
   {
    "unit": "MainReportUnit",
    "file": "MainReportUnit",
-   "form": null,
+   "form": "TMainReport",
    "ok": 2,
    "fail": 0,
    "activeForm": null,
@@ -91,7 +91,7 @@ export default {
   {
    "unit": "TurnOverReport",
    "file": "TurnOverReport",
-   "form": null,
+   "form": "TReportTurnOver",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

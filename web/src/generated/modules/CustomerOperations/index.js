@@ -113,7 +113,7 @@ export default {
   {
    "unit": "CO_MemorialRep1_unit",
    "file": "CO_MemorialRep1_unit",
-   "form": null,
+   "form": "TCO_MemorialRep1",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -233,7 +233,7 @@ export default {
   {
    "unit": "CO_reportUnit",
    "file": "CO_reportUnit",
-   "form": null,
+   "form": "TCO_Report",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -315,7 +315,7 @@ export default {
   {
    "unit": "MemorialRep",
    "file": "MemorialRep",
-   "form": null,
+   "form": "TCO_MemorialRep",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -529,7 +529,7 @@ export default {
   {
    "unit": "co_Order_Rep_unit",
    "file": "co_Order_Rep_unit",
-   "form": null,
+   "form": "TQRep_Order",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -541,7 +541,7 @@ export default {
   {
    "unit": "co_Order_unit",
    "file": "co_Order_unit",
-   "form": null,
+   "form": "TQuickReport1",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -589,7 +589,7 @@ export default {
   {
    "unit": "co_order_qrep_unit",
    "file": "co_order_qrep_unit",
-   "form": null,
+   "form": "TQuickRep_Order",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

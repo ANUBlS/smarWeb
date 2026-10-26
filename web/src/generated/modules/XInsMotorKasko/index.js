@@ -30,9 +30,7 @@ export default {
   }
  ],
  "lib": [
-  "AxLoader",
   "OraVariables",
-  "PlgModalContainer",
   "SBAccount",
   "SBAlert",
   "SBAppInfo",
@@ -56,7 +54,6 @@ export default {
   "SBSystem",
   "SBTransaction",
   "SBUtils",
-  "UPlgContainer",
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"

@@ -20,7 +20,6 @@ export default {
   }
  ],
  "lib": [
-  "AxLoader",
   "FlatSpeed",
   "MDIChildPanel",
   "OraVariables",

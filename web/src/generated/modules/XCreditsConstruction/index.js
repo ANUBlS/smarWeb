@@ -175,7 +175,7 @@ export default {
   {
    "unit": "OrderMgrUnit",
    "file": "OrderMgrUnit",
-   "form": null,
+   "form": "TOrderForm",
    "ok": 11,
    "fail": 0,
    "activeForm": null,
@@ -233,39 +233,9 @@ export default {
    "source": "Packages/CreditsManagerConstruction/PaymentPlaneMgrUnit.pas"
   },
   {
-   "unit": "PrViewEh",
-   "file": "PrViewEh",
-   "form": null,
-   "ok": 65,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [
-    "TDrawPanel",
-    "TPreviewBox",
-    "TPrinterPreview"
-   ],
-   "source": "Packages/CreditsManagerConstruction/PrViewEh.pas"
-  },
-  {
-   "unit": "PrnDbgeh",
-   "file": "PrnDbgeh",
-   "form": null,
-   "ok": 64,
-   "fail": 2,
-   "activeForm": null,
-   "classes": [
-    "TPageParams",
-    "TPageColontitle",
-    "TPrintDBGridEh",
-    "TRichEditStrings",
-    "TColCellParamsEhCracker"
-   ],
-   "source": "Packages/CreditsManagerConstruction/PrnDbgeh.pas"
-  },
-  {
    "unit": "PrnDgDlg",
    "file": "PrnDgDlg",
-   "form": null,
+   "form": "TfPrnDBGridEHSetupDialog",
    "ok": 5,
    "fail": 0,
    "activeForm": null,
@@ -273,54 +243,6 @@ export default {
     "TfPrnDBGridEhSetupDialog"
    ],
    "source": "Packages/CreditsManagerConstruction/PrnDgDlg.pas"
-  },
-  {
-   "unit": "PropStorageEditEh",
-   "file": "PropStorageEditEh",
-   "form": null,
-   "ok": 73,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [
-    "TPropStorageEditEhForm",
-    "TPredifinedPropsEh",
-    "TPredifinedActiveControlEh",
-    "TPredifinedPosPropertiesEh",
-    "TPredifinedSizePropertiesEh",
-    "TPredifinedStatePropertiesEh",
-    "TComponentCrack"
-   ],
-   "source": "Packages/CreditsManagerConstruction/PropStorageEditEh.pas"
-  },
-  {
-   "unit": "QPropStorageEh",
-   "file": "PropStorageEh",
-   "form": null,
-   "ok": 58,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [
-    "TPropStorageManagerEh",
-    "TIniPropStorageManEh",
-    "TPropStorageEh",
-    "TPropertyNamesEh",
-    "TDefinePropertyFiler",
-    "TPersistentCrack"
-   ],
-   "source": "Packages/CreditsManagerConstruction/PropStorageEh.pas"
-  },
-  {
-   "unit": "PrvFrmEh",
-   "file": "PrvFrmEh",
-   "form": null,
-   "ok": 20,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [
-    "TPreviewFormEh",
-    "TToolButtonCracker"
-   ],
-   "source": "Packages/CreditsManagerConstruction/PrvFrmEh.pas"
   },
   {
    "unit": "QuickAccRepImpl",
@@ -337,7 +259,7 @@ export default {
   {
    "unit": "RepSeduleImpl",
    "file": "RepSeduleImpl",
-   "form": null,
+   "form": "TRepSedule",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -349,7 +271,7 @@ export default {
   {
    "unit": "ReportImpl",
    "file": "ReportImpl",
-   "form": null,
+   "form": "TQuickReport1",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -357,19 +279,6 @@ export default {
     "TQuickReport1"
    ],
    "source": "Packages/CreditsManagerConstruction/ReportImpl.pas"
-  },
-  {
-   "unit": "RichEdEh",
-   "file": "RichEdEh",
-   "form": null,
-   "ok": 43,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [
-    "TRichStrEditDlgEh",
-    "TRichEditStringsEh"
-   ],
-   "source": "Packages/CreditsManagerConstruction/RichEdEh.pas"
   },
   {
    "unit": "SettingsUnit",
@@ -438,9 +347,7 @@ export default {
   "CurrencyToHRImpl",
   "CurrencyToHR_Azeri_Impl",
   "DMprop",
-  "EhLibConsts",
   "OraVariables",
-  "PropFilerEh",
   "ReportImpl",
   "SBAccount",
   "SBAlert",

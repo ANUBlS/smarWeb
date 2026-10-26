@@ -17,7 +17,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from dfm2json import parse_file as parse_dfm  # noqa: E402
 from modules import ACTIONS, REPORT_ACTIONS  # noqa: E402
-from extra_modules import EXTRA, EXTRA_ROOT, CATEGORY_ORDER, FIRST_ACTION  # noqa: E402
+from extra_modules import EXTRA, EXTRA_ROOT, CATEGORY_ORDER, FIRST_ACTION, MENU_HIDDEN  # noqa: E402
 from pas2js import parse_unit_file, collect_sigs, gen_unit, PasError  # noqa: E402
 
 REPO = os.environ.get('SMARWEB_REPO') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')) + '/'
@@ -45,6 +45,8 @@ idexception idstack idmultipartformdata idsmtp idmessage idftp idhttpheaderinfo 
 invokeregistry ioutils keyboard olectnrs platformdefaultstyleactnctrls qcontrols qforms qpropfilereh rabase
 racontrolsvcl rio shdocvw shfolder soaphttpclient stdactns teengine teeprocs tntstdctrls winprocs wintypes word97
 wordxp xsbuiltins co_statement_unit system.json json superobject generics.collections uitypes
+plgmodalcontainer uplgcontainer axloader pluginini plugindecls plugintoolbar pluginpopupmenu sequence
+calculatoreh prvieweh prndbgeh prntseh propfilereh propstorageediteh propstorageeh prvfrmeh richedeh qpropstorageeh
 syncommons syncrypto synpdf synlz syntable syngdiplus synzip synlizard mormotreport mormot'''.split())
 
 # Third-party libraries bundled in the repository that the runtime provides (or that only serve
@@ -290,7 +292,7 @@ def main():
                                    'failed': sum(m['fail'] for m in man)}
 
     # enum identifiers referenced by code (dsEdit, alClient, fsBold…) → enums.json
-    enum_re = re.compile(r'^(al|ds|fs|ta|bs|bv|po|ws|ss|dg|lo|sr|rf|ak|tb|cs|fk|ps|pm|ic|tv|sc|dm|ck|ec|lb|vs|wr|xl|gd|bk|tc|tp|ff|ft|st|ga|dt|ht|sb|ld|ob|op|pb|ra|rs|so|sm|ma|ov|lm|ca|pc|ex|ba|bt|bc|rc|hs|em|dk|fp|da|rb|uc|ms|lv|nb|ug|cm|cb|ot|di|bi|af|mt|tl|ts|gk|fv|ro|lm|ts|ug|ws|xl)[A-Z][A-Za-z0-9]*$')
+    enum_re = re.compile(r'^(bl|al|ds|fs|ta|bs|bv|po|ws|ss|dg|lo|sr|rf|ak|tb|cs|fk|ps|pm|ic|tv|sc|dm|ck|ec|lb|vs|wr|xl|gd|bk|tc|tp|ff|ft|st|ga|dt|ht|sb|ld|ob|op|pb|ra|rs|so|sm|ma|ov|lm|ca|pc|ex|ba|bt|bc|rc|hs|em|dk|fp|da|rb|uc|ms|lv|nb|ug|cm|cb|ot|di|bi|af|mt|tl|ts|gk|fv|ro|lm|ts|ug|ws|xl)[A-Z][A-Za-z0-9]*$')
     defined = set()
     enum_names = set()
     for f in glob.glob(OUT + '**/*.js', recursive=True):
@@ -314,10 +316,27 @@ def main():
                 root['children'].insert(len(root['children']) - 1, {'caption': 'Məlumatlar', 'action': 0, 'params': {}, 'children': [
                     {'caption': 'Balansdankənar hesablar', 'action': 69, 'params': {}, 'children': []},
                     {'caption': 'Hesab növləri', 'action': 75, 'params': {}, 'children': []}]})
+    # ActiveX class GUID -> module (TPlgModalContainer.ShowModal(StringToGuid('{…}'), Params) opens modules by GUID)
+    guids = {}
+    for name, d in modules.items():
+        for tl in glob.glob(REPO + d + '/*_TLB.pas'):
+            raw = open(tl, 'rb').read().decode('cp1251', 'replace')
+            for g in re.findall(r"CLASS_\w+\s*:\s*TGUID\s*=\s*'(\{[0-9A-Fa-f-]+\})'", raw):
+                guids.setdefault(g.upper(), name)
+    # modules opened by other modules through their GUID are dialogs of those modules, not menu items
+    children = set()
+    for name, paths in module_units.items():
+        for pth in paths:
+            raw = open(pth, 'rb').read().decode('cp1251', 'replace')
+            for g in re.findall(r"StringToGuid\s*\(\s*'(\{[0-9A-Fa-f-]+\})'", raw, re.I):
+                callee = guids.get(g.upper())
+                if callee and callee != name:
+                    children.add(callee)
+    report['childModules'] = sorted(children)
     # Modules present in the repository but not in the SmartBank.ini tree
     cats = {}
     for i, (name, _d, cat, cap) in enumerate(EXTRA):
-        if name not in report['modules']:
+        if name not in report['modules'] or name in children or name in MENU_HIDDEN:
             continue
         act = FIRST_ACTION + i
         actions[str(act)] = name
@@ -326,7 +345,7 @@ def main():
         tree.append({'caption': EXTRA_ROOT, 'action': 0, 'params': {}, 'extra': True, 'children': [
             {'caption': c, 'action': 0, 'params': {}, 'children': sorted(cats[c], key=lambda n: n['caption'])}
             for c in CATEGORY_ORDER if c in cats]})
-    menu = {'tree': tree, 'actions': actions, 'reportActions': sorted(REPORT_ACTIONS)}
+    menu = {'tree': tree, 'actions': actions, 'reportActions': sorted(REPORT_ACTIONS), 'guids': guids}
     with open(OUT + 'menu.json', 'w', encoding='utf-8') as fh:
         json.dump(menu, fh, ensure_ascii=False, indent=1)
     with open(OUT + 'report.json', 'w', encoding='utf-8') as fh:

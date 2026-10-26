@@ -151,7 +151,7 @@ export default {
   {
    "unit": "PropQReportImpl",
    "file": "PropQReportImpl",
-   "form": null,
+   "form": "TPropQReport",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

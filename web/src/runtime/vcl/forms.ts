@@ -301,10 +301,11 @@ const STRINGS_PROPS = new Set(['items.strings', 'lines.strings', 'sql.strings', 
 const IGNORE_PROPS = new Set(['designsize', 'explicitleft', 'explicittop', 'explicitwidth', 'explicitheight', 'textheight', 'pixelsperinch', 'oldcreateorder', 'itemheight', 'qbedefinition.qbefielddefs', 'designactivation', 'variables.data', 'picture.data', 'glyph.data', 'bitmap', 'icon.data', 'image.data', 'displaylabelfont', 'helpcontext', 'parentbidimode', 'bidimode', 'imemode', 'imename', 'ctl3d', 'parentctl3d', 'dragcursor', 'dragkind', 'dragmode', 'touch.interactivegestures', 'touch.interactivegestureoptions', 'touch.parenttabletoptions', 'touch.tabletoptions', 'defaultmonitor', 'glasframe.enabled']);
 
 /** Instantiate the builtin or user class for a DFM node. */
-async function makeComponent(node: DfmNode, env: Env | null): Promise<TComponent> {
+async function makeComponent(node: DfmNode, env: Env | null, owner: TComponent | null = null): Promise<TComponent> {
   const def = env?.findClass(node.class);
   if (def) {
-    const inst = (await Env.instanceFactory(def, [], env!)) as TComponent;
+    // DFM streaming creates every component with the form/data module as Owner (Create(AOwner))
+    const inst = (await Env.instanceFactory(def, [owner], env!)) as TComponent;
     return inst;
   }
   const ctor = getBuiltin(node.class);
@@ -351,7 +352,7 @@ async function streamChild(node: DfmNode, root: TComponent, parentCtl: TWinContr
   const existing = node.kind !== 'object' ? root.owned.find((c) => c.Name.toLowerCase() === node.name.toLowerCase()) : undefined;
   if (existing) comp = existing;
   else {
-    comp = await makeComponent(node, env);
+    comp = await makeComponent(node, env, root);
     comp.Name = node.name;
     root.insertComponent(comp);
   }
@@ -427,7 +428,7 @@ export function applyProps(comp: TComponent, props: Record<string, unknown>, isR
     if (l === 'items.tree') { const it = (comp as any).Items; if (it && typeof it.loadDfm === 'function') it.loadDfm(raw); continue; }
     if (IGNORE_PROPS.has(l) || l.startsWith('font.') || l.startsWith('titlefont.') || l.startsWith('constraints.')
       || l.startsWith('margins.') || l.startsWith('padding.') || l.startsWith('touch.') || l.startsWith('customhint')) continue;
-    if (/^on[a-z]/.test(l)) { comp.events.set(l, str(dfmValue(raw))); continue; }
+    if (/^on[a-z]/.test(l) && (isId(raw) || typeof raw === 'string')) { comp.events.set(l, str(dfmValue(raw))); continue; }
     if (REF_PROPS.has(l)) continue;
     if (STRINGS_PROPS.has(l)) { setStrings((comp as any)[k.split('.')[0]] ?? (comp as any)[capital(k.split('.')[0])], raw); continue; }
     if (Array.isArray(raw) && raw.length && typeof raw[0] === 'object' && !isId(raw[0])) { applyCollection(comp, k, raw as Record<string, unknown>[]); continue; }

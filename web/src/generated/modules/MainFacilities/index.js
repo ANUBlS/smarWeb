@@ -7,7 +7,7 @@ export default {
   {
    "unit": "InventarCard",
    "file": "InventarCard",
-   "form": null,
+   "form": "TRPTInventarCard",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -80,7 +80,7 @@ export default {
   {
    "unit": "UntDifferenceReport",
    "file": "UntDifferenceReport",
-   "form": null,
+   "form": "TRPTDifferenceReport",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -141,7 +141,7 @@ export default {
   {
    "unit": "UntRptMainF",
    "file": "UntRptMainF",
-   "form": null,
+   "form": "TRptDepartments",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -165,7 +165,7 @@ export default {
   {
    "unit": "UntTraffics",
    "file": "UntTraffics",
-   "form": null,
+   "form": "TQRTraffics",
    "ok": 0,
    "fail": 0,
    "activeForm": null,

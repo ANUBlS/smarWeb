@@ -79,7 +79,7 @@ export default {
   {
    "unit": "frmpbfReportImpl",
    "file": "frmpbfReportImpl",
-   "form": null,
+   "form": "TfrmpbfReport",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

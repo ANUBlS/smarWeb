@@ -246,7 +246,7 @@ export default {
   {
    "unit": "OrderPrintXUnit",
    "file": "OrderPrintXUnit",
-   "form": null,
+   "form": "TQuickReportXOrder",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -258,7 +258,7 @@ export default {
   {
    "unit": "UnitCreditReport",
    "file": "UnitCreditReport",
-   "form": null,
+   "form": "TCreditReport",
    "ok": 0,
    "fail": 0,
    "activeForm": null,

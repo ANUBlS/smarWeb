@@ -477,7 +477,7 @@ export default {
   {
    "unit": "UnitInvoceRep",
    "file": "UnitInvoceRep",
-   "form": null,
+   "form": "TQRptInvoceRep",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -657,7 +657,7 @@ export default {
   {
    "unit": "UntIntervalRpt",
    "file": "UntIntervalRpt",
-   "form": null,
+   "form": "TQRptInterval",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -669,7 +669,7 @@ export default {
   {
    "unit": "UntQRReceiptSefr",
    "file": "UntQRReceiptSefr",
-   "form": null,
+   "form": "TQRPTReceiptSefr",
    "ok": 3,
    "fail": 0,
    "activeForm": null,

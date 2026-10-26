@@ -199,7 +199,7 @@ export default {
   {
    "unit": "Unit_ReportinX",
    "file": "Unit_ReportinX",
-   "form": null,
+   "form": "TReportinX",
    "ok": 0,
    "fail": 0,
    "activeForm": null,

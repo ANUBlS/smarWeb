@@ -161,3 +161,9 @@ CATEGORY_ORDER = ['Kreditlər', 'Depozitlər', 'Ödənişlər və köçürmələ
 
 # synthetic menu action numbers for the extra modules (the INI uses < 100)
 FIRST_ACTION = 1000
+
+# Generated (reachable from other modules by GUID) but not listed: they only work with the menu
+# parameters of an installation-specific INI that is not in the repository.
+MENU_HIDDEN = {
+    'XInsDictChilde',  # generic dictionary editor: MainTable/MainField/MasterField come from menu params
+}

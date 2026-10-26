@@ -53,7 +53,7 @@ export default {
   {
    "unit": "UntMainReport",
    "file": "UntMainReport",
-   "form": null,
+   "form": "TQRMainReport",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -65,7 +65,7 @@ export default {
   {
    "unit": "UntSecondReport",
    "file": "UntSecondReport",
-   "form": null,
+   "form": "TQRCommonReport",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

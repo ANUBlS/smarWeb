@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("UFX71", ["InvokeRegistry", "SOAPHTTPClient", "Types", "XSBuiltIns", "Data_Unit", "SysUtils"]);
   const C = [U];
+  U.const("UFX7", "UFX7");
   U.defClass("IOException2", "TRemotable", {"fmessage_": {"name": "Fmessage_", "type": "String"}, "fmessage__specified": {"name": "Fmessage__Specified", "type": "boolean"}}, {"message_": {"name": "message_", "index": ["paren", ["bin", "or", ["id", "IS_OPTN"], ["id", "IS_UNQL"]]], "read": "Fmessage_", "write": "Setmessage_"}});
   U.defClass("MalformedURLException", "ERemotableException", {"fmessage_": {"name": "Fmessage_", "type": "String"}, "fmessage__specified": {"name": "Fmessage__Specified", "type": "boolean"}}, {"message_": {"name": "message_", "index": ["paren", ["bin", "or", ["id", "IS_OPTN"], ["id", "IS_UNQL"]]], "read": "Fmessage_", "write": "Setmessage_"}});
   U.defClass("ParserConfigurationException", "ERemotableException", {"fmessage_": {"name": "Fmessage_", "type": "String"}, "fmessage__specified": {"name": "Fmessage__Specified", "type": "boolean"}}, {"message_": {"name": "message_", "index": ["paren", ["bin", "or", ["id", "IS_OPTN"], ["id", "IS_UNQL"]]], "read": "Fmessage_", "write": "Setmessage_"}});
@@ -352,46 +353,5 @@ export default function define($) {
   L0["result"] = (await $.v(C, "Fmessage__Specified"));
   return L0.result;
 }, {"params": ["Index"], "kind": "function", "ptypes": ["Integer"]});
-  U.setInitialization(async function __initialization(Self) {
-  const C = $.chain(Self, U);
-  const L0 = {result: undefined};
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterInterface", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "http://webser/", "UTF-8"])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterDefaultSOAPAction", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), ""])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterInvokeOptions", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), (await $.v(C, "ioDocument"))])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterMethodInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "fundstransfer", "", "[ReturnName=\"return\"]", (await $.or_((await $.v(C, "IS_OPTN")), async () => (await $.v(C, "IS_UNQL"))))])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterParamInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "fundstransfer", "rbsnumber", "", "", (await $.v(C, "IS_UNQL"))])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterParamInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "fundstransfer", "MsgCode", "", "", (await $.v(C, "IS_UNQL"))])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterParamInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "fundstransfer", "LocalDt", "", "", (await $.v(C, "IS_UNQL"))])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterParamInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "fundstransfer", "Description", "", "", (await $.v(C, "IS_UNQL"))])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterParamInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "fundstransfer", "Currency", "", "", (await $.v(C, "IS_UNQL"))])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterParamInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "fundstransfer", "Amount", "", "", (await $.v(C, "IS_UNQL"))])));
-  await $.stmt((await $.mcall((await $.v(C, "InvRegistry")), "RegisterParamInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "UFX7"))])), "fundstransfer", "return", "", "", (await $.v(C, "IS_UNQL"))])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "IOException2")), "http://webser/", "IOException2", "IOException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "IOException2"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "MalformedURLException")), "http://webser/", "MalformedURLException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "MalformedURLException"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "ParserConfigurationException")), "http://webser/", "ParserConfigurationException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "ParserConfigurationException"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "SAXException")), "http://webser/", "SAXException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "SAXException"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "IOException")), "http://webser/", "IOException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "IOException"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "MalformedURLException2")), "http://webser/", "MalformedURLException2", "MalformedURLException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "MalformedURLException2"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "ParserConfigurationException2")), "http://webser/", "ParserConfigurationException2", "ParserConfigurationException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "ParserConfigurationException2"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "SAXException2")), "http://webser/", "SAXException2", "SAXException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "SAXException2"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSInfo", [(await $.call(C, "TypeInfo", [(await $.v(C, "throwable"))])), "http://webser/", "throwable"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "JAXBException2")), "http://webser/", "JAXBException2", "JAXBException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "JAXBException2"))])), "linkedException", "[ArrayItemName=\"stackTrace\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "JAXBException2"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "exception")), "http://webser/", "exception"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "JAXBException")), "http://webser/", "JAXBException"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "JAXBException"))])), "linkedException", "[ArrayItemName=\"stackTrace\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterExternalPropName", [(await $.call(C, "TypeInfo", [(await $.v(C, "JAXBException"))])), "message_", "[ExtName=\"message\"]"])));
-  await $.stmt((await $.mcall((await $.v(C, "RemClassRegistry")), "RegisterXSClass", [(await $.v(C, "stackTraceElement")), "http://webser/", "stackTraceElement"])));
-  return L0.result;
-});
   return U;
 }

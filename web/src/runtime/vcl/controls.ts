@@ -2,7 +2,7 @@
 import { TObject, Ref, ValueRef, NOTFOUND, GAP } from '../core';
 import { toast } from '../toast';
 import { logger } from '../log';
-import { registerBuiltin } from '../env';
+import { registerBuiltin, getBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
 import { TComponent } from './component';
@@ -180,9 +180,20 @@ export class TControl extends TComponent {
   }
 }
 
+/** TWinControl.Brush: its Color is the control's Color (Controls.pas). */
+class TControlBrush extends TObject {
+  Style = 'bssolid';
+  Bitmap = null;
+  constructor(private ctl: TControl) { super(); }
+  get Color() { return this.ctl.Color; }
+  set Color(v: number) { this.ctl.Color = v; }
+}
+
 export class TWinControl extends TControl {
   BorderWidth = 0;
   DoubleBuffered = false;
+  private _brush: TControlBrush | null = null;
+  get Brush() { return (this._brush ??= new TControlBrush(this)); }
   get kind() { return 'panel'; }
   ControlAtPos() { return null; }
   FindNextControl() { return null; }
@@ -1148,3 +1159,28 @@ export { TCanvas, NOTFOUND, Ref, nowDelphi };
 export interface TBasicAction extends TComponent {
   execFrom(sender: TComponent): Promise<boolean>;
 }
+
+/*
+ * SmartBank plugin menus (Packages/VCL/PluginIni.pas, PluginToolBar.pas, PluginPopupMenu.pas).
+ * Their buttons/items come from per-installation INI files next to SmartBank.exe
+ * (CMToolBarTop.ini, CMPopupMenu.ini …) that are not part of the repository, so they load empty
+ * — the state of a workstation without those files.
+ */
+export class TMenuIni extends TComponent {
+  IniLocation = '';
+  IniSection = 'Menu';
+  Active = false;
+  private _loc: unknown = null;
+  get Location() { if (!this._loc) { const f = new (getIniFile())(); f.Create(this.IniLocation); this._loc = f; } return this._loc; }
+}
+registerBuiltin('TMenuIni', TMenuIni);
+let iniCtor: any = null;
+function getIniFile() { return (iniCtor ??= getBuiltin('TIniFile')); }
+
+export class TPluginToolBar extends TToolBar {
+  MenuIni: TMenuIni | null = null;
+  Active = false;
+  LoadPlugins() { /* no plugin INI in the web version */ }
+  UnLoadPlugins() { /* */ }
+}
+registerBuiltin('TPluginToolBar', TPluginToolBar);

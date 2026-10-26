@@ -77,7 +77,7 @@ export default {
   {
    "unit": "TicketsRepImpl",
    "file": "TicketsRepImpl",
-   "form": null,
+   "form": "TqrpTicket",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -101,7 +101,7 @@ export default {
   {
    "unit": "Unit1",
    "file": "Unit1",
-   "form": null,
+   "form": "TQuickReport1",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -113,7 +113,7 @@ export default {
   {
    "unit": "UntMainReport",
    "file": "UntMainReport",
-   "form": null,
+   "form": "TQRMainReport",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -125,7 +125,7 @@ export default {
   {
    "unit": "UntSecondReport",
    "file": "UntSecondReport",
-   "form": null,
+   "form": "TQRCommonReport",
    "ok": 0,
    "fail": 0,
    "activeForm": null,

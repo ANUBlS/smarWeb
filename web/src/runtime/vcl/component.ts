@@ -139,7 +139,12 @@ export class TComponent extends TObject {
   propChanged(_lname: string) { /* */ }
 
   isEventName(lname: string) {
-    return /^on[a-z]/.test(lname) && !['onscreen'].includes(lname);
+    if (!/^on[a-z]/.test(lname) || lname === 'onscreen') return false;
+    // components and fields whose names merely start with "on" (Online_Cards, OnlinePayments …)
+    const f = (this as any).__fields;
+    if (f && lname in f) return false;
+    if (this.owned.some((c) => (c.Name || '').toLowerCase() === lname)) return false;
+    return true;
   }
 
   /** Turn a handler (method name from DFM, or routine) into a callable routine. */

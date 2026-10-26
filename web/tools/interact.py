@@ -29,7 +29,7 @@ with sync_playwright() as p:
         if el.get_attribute('aria-expanded') == 'false': el.locator('.tw').click()
     pg.locator(f'.tnode[data-path="{path}"]').click()
     pg.wait_for_timeout(3000)
-    pg.evaluate('window.__sbLogClear()')
+    if not os.environ.get('KEEPLOG'): pg.evaluate('window.__sbLogClear()')
     for n, st in enumerate(steps):
         kind, _, arg = st.partition(':')
         try:

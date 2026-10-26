@@ -115,7 +115,7 @@ export default {
   {
    "unit": "q_report",
    "file": "q_report",
-   "form": null,
+   "form": "TQRepCustOrders",
    "ok": 0,
    "fail": 0,
    "activeForm": null,

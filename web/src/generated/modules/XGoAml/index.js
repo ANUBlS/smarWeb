@@ -43,7 +43,7 @@ export default {
   {
    "unit": "UnitFiziki",
    "file": "UnitFiziki",
-   "form": null,
+   "form": "TrepF",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -55,7 +55,7 @@ export default {
   {
    "unit": "UnitHuquqi",
    "file": "UnitHuquqi",
-   "form": null,
+   "form": "TrepH",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

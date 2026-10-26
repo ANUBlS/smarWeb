@@ -63,7 +63,7 @@ export default {
   {
    "unit": "OrderReportUnit",
    "file": "OrderReportUnit",
-   "form": null,
+   "form": "TOrderRpt",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

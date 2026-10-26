@@ -19,7 +19,7 @@ export default {
   {
    "unit": "Unit1",
    "file": "Unit1",
-   "form": null,
+   "form": "Trep",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -43,9 +43,6 @@ export default {
  ],
  "lib": [
   "OraVariables",
-  "PluginDecls",
-  "PluginIni",
-  "PluginPopupMenu",
   "SBAccount",
   "SBAlert",
   "SBAppInfo",
@@ -69,7 +66,6 @@ export default {
   "SBSystem",
   "SBTransaction",
   "SBUtils",
-  "Sequence",
   "TaxsUnit",
   "Unit1",
   "Unit3",

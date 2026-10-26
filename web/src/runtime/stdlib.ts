@@ -10,6 +10,7 @@ import {
 } from './datetime';
 import { messageDlg, showMessage, messageBox, inputQuery, MR, MB } from './dialogs';
 import { logger } from './log';
+import { postMessage, sendMessage } from './messages';
 
 const G = new Map<string, unknown>();
 const def = (name: string, v: unknown) => G.set(name.toLowerCase(), v);
@@ -23,6 +24,19 @@ export function rootLookup(lname: string): Found {
   const enumName = enumConstant(lname);
   if (enumName !== undefined) return enumName;
   return NOTFOUND;
+}
+
+/* Unit-qualified RTL/VCL names (System.Delete, SysUtils.Format, Math.Max, Windows.MessageBox …)
+   resolve to the same runtime globals as the bare names. */
+class UnitQualifier extends TObject {
+  constructor(public unitName: string) { super(); }
+  pget(l: string): Found { return rootLookup(l); }
+  pset() { return false; }
+}
+for (const u of ['System', 'SysUtils', 'StrUtils', 'Math', 'DateUtils', 'Variants', 'Windows', 'Classes', 'Dialogs',
+  'Forms', 'Controls', 'Graphics', 'Messages', 'ShellAPI', 'DB', 'Types', 'WinApi.Windows', 'System.SysUtils',
+  'System.Classes', 'System.Variants', 'System.StrUtils', 'System.Math', 'System.DateUtils', 'Vcl.Forms', 'Vcl.Dialogs']) {
+  G.set(u.toLowerCase(), new UnitQualifier(u));
 }
 
 /* ------------------------------------------------------------------ types */
@@ -725,8 +739,15 @@ fn('GetFileVersion', () => 0);
 fn('LoadLibrary', () => 0);
 fn('FreeLibrary', () => true);
 fn('GetProcAddress', () => null);
-fn('PostMessage', () => true);
-fn('SendMessage', () => 0);
+fn('PostMessage', (h, m, w, l) => postMessage(h, m, w, l));
+fn('PostThreadMessage', () => true);
+fn('SendMessage', (h, m, w, l) => sendMessage(h, m, w, l));
+// GUIDs travel as their canonical upper-case string form
+const normGuid = (g: unknown) => { const s = str(g).trim().toUpperCase(); return s.startsWith('{') ? s : `{${s}}`; };
+fn('StringToGUID', (g) => normGuid(g));
+fn('GUIDToString', (g) => normGuid(g));
+fn('IsEqualGUID', (a, b) => normGuid(a) === normGuid(b));
+fn('StringToGuid', (g) => normGuid(g));
 fn('GetKeyState', () => 0);
 fn('GetAsyncKeyState', () => 0);
 fn('GetWindowDC', () => 0);

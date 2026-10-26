@@ -29,16 +29,6 @@ export default {
    "source": "Packages/SWIFT_MANAGER_IBAN_NEW/Azipsn.pas"
   },
   {
-   "unit": "QCalculatorEh",
-   "file": "CalculatorEh",
-   "form": null,
-   "ok": 0,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [],
-   "source": "Packages/SWIFT_MANAGER_IBAN_NEW/CalculatorEh.pas"
-  },
-  {
    "unit": "Checkacc",
    "file": "Checkacc",
    "form": "TCheckinacc",
@@ -328,7 +318,7 @@ export default {
   {
    "unit": "qr5",
    "file": "qr5",
-   "form": null,
+   "form": "TQRMDForm",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -340,7 +330,7 @@ export default {
   {
    "unit": "qrp1",
    "file": "qrp1",
-   "form": null,
+   "form": "TQuickReport1",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -352,7 +342,7 @@ export default {
   {
    "unit": "qrp5",
    "file": "qrp5",
-   "form": null,
+   "form": "TQuickReport5",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -404,10 +394,6 @@ export default {
   "OUT_MT",
   "OraVariables",
   "PaymentsImpl1",
-  "PluginDecls",
-  "PluginIni",
-  "PluginPopupMenu",
-  "PluginToolBar",
   "PostCommisionOnusImpl",
   "Rbsdofiles",
   "RepContImpl",
@@ -435,7 +421,6 @@ export default {
   "SBTransaction",
   "SBUtils",
   "SWIFT_MAINImpl1",
-  "Sequence",
   "StatementFrmImpl",
   "Taxfilessettings",
   "Taxrbs",

@@ -10,7 +10,10 @@ import { NOTFOUND } from './core';
 import { logger } from './log';
 import type { DfmNode } from './dfm';
 import { Application, Screen, Mouse, Clipboard, TCustomForm, windows } from './vcl/forms';
-import { runGuarded } from './vcl/component';
+import { runGuarded, TComponent } from './vcl/component';
+import { registerBuiltin } from './env';
+import { allocHandle, releaseHandle, WM_MODALRESULT } from './messages';
+import { toast } from './toast';
 import enumNames from '../generated/enums.json';
 
 // side-effect registrations of builtin classes
@@ -168,6 +171,72 @@ export async function openModule(name: string, params: Record<string, string>, c
   await f.fire('OnActivate', f);
   return f;
 }
+
+/* ------------------------------------------------------------------ plugin modules by GUID */
+
+let guidMap: Record<string, string> | null = null;
+async function moduleForGuid(guid: string) {
+  if (!guidMap) guidMap = ((await import('../generated/menu.json')).default as any).guids ?? {};
+  return guidMap![String(guid).toUpperCase()] ?? null;
+}
+
+/** Params given as a TStringList (Name=Value lines) or a plain object. */
+function paramPairs(p: unknown): [string, string][] {
+  if (!p) return [];
+  const items = (p as any).items as { s: string }[] | undefined;
+  if (Array.isArray(items)) {
+    return items.map((it) => { const i = it.s.indexOf('='); return (i < 0 ? [it.s, ''] : [it.s.slice(0, i), it.s.slice(i + 1)]) as [string, string]; });
+  }
+  if (typeof p === 'object') return Object.entries(p as Record<string, unknown>).map(([k, v]) => [k, String(v ?? '')]);
+  return [];
+}
+
+/**
+ * TfmContainer.OpenObj + ShowModal (Insurance/InsVCL50/UPlgContainer.pas): create the ActiveForm
+ * registered under the GUID, pass Params, Set_Owner(container handle), activate it and show it
+ * modally. The module ends the dialog with PostMessage(Owner, WM_USER+139, ModalResult, 0).
+ */
+export async function showModuleModal(guid: unknown, params: unknown): Promise<number> {
+  const name = await moduleForGuid(String(guid));
+  if (!name) {
+    logger.warn(`Plugin ${guid} is not part of the web version`);
+    toast('Bu modul veb versiyada hələ yoxdur', 'info');
+    return 2; // mrCancel
+  }
+  const { env, manifest } = await getModule(name);
+  if (!manifest.mainForm) return 2;
+  const def = env.findClass(manifest.mainForm) as ClassDef;
+  let form: TCustomForm | null = null;
+  await runGuarded(async () => { form = (await env.createInstance(def, [null])) as TCustomForm; }, `${name}.Create`);
+  if (!form) return 2;
+  const f = form as TCustomForm;
+  f.isModuleForm = true;
+  const handle = allocHandle((msg, w) => { if (msg === WM_MODALRESULT) f.ModalResult = w || 2; return 0; });
+  try {
+    const setParams = def.findMethod('set_params');
+    if (setParams) for (const [k, v] of paramPairs(params)) await runGuarded(() => setParams(f, k, v), `${name}.Set_Params`);
+    const setOwner = def.findMethod('set_owner');
+    if (setOwner) await runGuarded(() => setOwner(f, handle), `${name}.Set_Owner`);
+    const init = def.findMethod('instanceinitialize');
+    if (init) await runGuarded(() => init(f), `${name}.Initialize`);
+    const act = def.findMethod('uiobjectactivate') ?? def.findMethod('activate');
+    if (act) await runGuarded(() => act(f), `${name}.Activate`);
+    const cap = def.findMethod('get_caption');
+    if (cap) { const c = await runGuarded(() => cap(f), `${name}.Get_Caption`); if (c) f.Caption = String(c); }
+    const r = await f.ShowModal();
+    return r;
+  } finally {
+    releaseHandle(handle);
+    await runGuarded(() => (f as any).Free?.(), `${name}.Free`);
+  }
+}
+
+class TPlgModalContainer extends TComponent {
+  p_id = 0;
+  cid = 0;
+  async ShowModal(guid: unknown, params: unknown) { return showModuleModal(guid, params); }
+}
+registerBuiltin('TPlgModalContainer', TPlgModalContainer);
 
 export async function closeModuleWindow(form: TCustomForm) {
   await runGuarded(() => form.Close(), `${form.Name}.Close`);

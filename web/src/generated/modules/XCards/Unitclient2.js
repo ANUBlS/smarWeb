@@ -1359,7 +1359,7 @@ export default function define($) {
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("Tclients2", "DBLookupComboBox6Change", async function DBLookupComboBox6Change(Self, p0) {
   const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined, "acc": '', "st": '', "flags": []};
+  const L0 = {"sender": $.copyArg(p0), result: undefined, "acc": '', "st": '', "flags": null};
   await $.fixArgs(L0, ["sender"]);
   L0["flags"] = [(await $.v(C, "rfReplaceAll")), (await $.v(C, "rfIgnoreCase"))];
   await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));

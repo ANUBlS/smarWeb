@@ -254,9 +254,9 @@
   },
   "XCreditsConstruction": {
    "mainForm": "TCreditsManagerForConstruction",
-   "units": 34,
-   "routines": 560,
-   "failed": 2
+   "units": 28,
+   "routines": 237,
+   "failed": 0
   },
   "XCreditsMgr": {
    "mainForm": "TCMMainForm",
@@ -380,7 +380,7 @@
   },
   "XSwiftManager": {
    "mainForm": "TSWIFT_MAIN",
-   "units": 30,
+   "units": 29,
    "routines": 544,
    "failed": 0
   },
@@ -1051,318 +1051,33 @@
    "failed": 0
   }
  },
- "notPorted": [
-  [
-   "Packages/CreditsManagerConstruction/PrnDbgeh.pas",
-   "AdjustLineBreaks",
-   "asm block"
-  ]
- ],
+ "notPorted": [],
  "missingUnits": {},
  "emptySources": [
   "Packages/sboapi50/SBOConnectCached.pas",
   "Packages/sboapi50/SBAppInfo.pas"
  ],
- "dfmErrors": [
-  [
-   "Packages/SBGeneral/cap_UntMainReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SBGeneral/cap_UntSecondReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SBCM_ContractState/OrderUnit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SWIFT_MANAGER_IBAN_NEW/qrp1.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SWIFT_MANAGER_IBAN_NEW/qrp5.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SBCM_PercentConverting/UnitCalcedPercentRPT.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/StatementPr/UnitRep.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainResource/UnitRepGroupNB.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainResource/UnitRepGroupNL.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SBGeneral/UntIntervalRpt.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SBGeneral/UntMain_Report.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SBGeneral/UntSecond_Report.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Accounts/AccountAboutImpl.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/PaymentDecree/UntMainReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/PaymentDecree/UntSecondReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/AboutBanks/UntQRPBanks.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CreditManager/MuzaffarUnit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainFacilities/InventarCard.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainFacilities/UntDifferenceReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainFacilities/UntRptMainF.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainFacilities/UntTraffics.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/TransactionsReporter/TransactionViewerRptUnit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/LVPCSSManager_Azer/Unit_ReportinX.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/ExpertAnalys/MainReportUnit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/ExpertAnalys/TurnOverReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Administration/AdministrationGroupReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Administration/AdministrationUserAdvGranReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Administration/AdministrationUserGranReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Customer's_orders(new)/Ocx/q_report.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Customer_Operations/CO_MemorialRep1_unit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Customer_Operations/CO_reportUnit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Customer_Operations/MemorialRep.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Customer_Operations/co_Order_Rep_unit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Customer_Operations/co_Order_unit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Customer_Operations/co_order_qrep_unit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CreditsManagerConstruction/OrderMgrUnit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CreditsManagerConstruction/PrnDgDlg.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CreditsManagerConstruction/PropStorageEditEh.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CreditsManagerConstruction/PrvFrmEh.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CreditsManagerConstruction/RepSeduleImpl.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CreditsManagerConstruction/ReportImpl.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CreditsManagerConstruction/RichEdEh.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SWIFT_MANAGER_IBAN_NEW/CalculatorEh.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SWIFT_MANAGER_IBAN_NEW/qr5.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SWIFT_MANAGER_IBAN_NEW/qrp1.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SWIFT_MANAGER_IBAN_NEW/qrp5.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Payments/Unit1.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/PBF_Transactions_XE/frmpbfReportImpl.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/ExpressManager_nbc/OrderPrintXUnit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/ExpressManager_nbc/UnitCreditReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/ExchangeMGR-NBC/UnitDateExch.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/ExchangeMGR-NBC/UnitReestr.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/ExchangeMGR-NBC/UnitRepTurn.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/TAXSMGR/Unit1.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Cards_New/cards_azericard/Unit16.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/PCustService/UnitInvoceRep.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/PCustService/UntIntervalRpt.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/PCustService/UntQRReceiptSefr.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/PCUST_Servic/UnitFiziki.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/PCUST_Servic/UnitHuquqi.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/Order/OrderReportUnit.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainResource/UnitRepGroupNB.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainResource/UnitRepGroupNL.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/MainResource/Unit_All_Rep.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/properties/PropQReportImpl.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CableManager/CableAbout.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/CableManager/qrpCableRep.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/AdmLogs/About.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/SBLogs/About1.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/UniversalSettings/About1.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/BusinessProcesses/BusProcSet/About1.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/TicketsMan/TicketsRepImpl.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/TicketsMan/Unit1.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/TicketsMan/UntMainReport.dfm",
-   "binary dfm"
-  ],
-  [
-   "Packages/TicketsMan/UntSecondReport.dfm",
-   "binary dfm"
-  ]
+ "childModules": [
+  "XInsAccountDoc",
+  "XInsAccountState",
+  "XInsCPropBlank",
+  "XInsCPropPolicy",
+  "XInsCPropSuggest",
+  "XInsConstructionBlank",
+  "XInsConstructionPolicy",
+  "XInsConstructionSuggest",
+  "XInsMedBlank",
+  "XInsMedPolicy",
+  "XInsMedSuggestion",
+  "XInsMfBlank",
+  "XInsMfPolicy",
+  "XInsMfSuggestion",
+  "XInsMkBlank",
+  "XInsMkPolicy",
+  "XInsMkSuggestion",
+  "XInsPayments",
+  "XInsPersonalAccPolicy",
+  "XInsPersonalAccSuggest",
+  "XInsPersonalAccident"
  ]
 }

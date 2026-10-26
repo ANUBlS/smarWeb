@@ -7,7 +7,7 @@ export default {
   {
    "unit": "CableAbout",
    "file": "CableAbout",
-   "form": null,
+   "form": "TCableManAbout",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -103,7 +103,7 @@ export default {
   {
    "unit": "qrpCableRep",
    "file": "qrpCableRep",
-   "form": null,
+   "form": "TqrpMain",
    "ok": 0,
    "fail": 0,
    "activeForm": null,

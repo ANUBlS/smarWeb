@@ -42,10 +42,8 @@ export default {
   }
  ],
  "lib": [
-  "AxLoader",
   "INSWordExporter",
   "OraVariables",
-  "PlgModalContainer",
   "SBAccount",
   "SBAlert",
   "SBAppInfo",
@@ -71,7 +69,6 @@ export default {
   "SBUtils",
   "UPAccidentBlank",
   "UPAccidentRisks",
-  "UPlgContainer",
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"

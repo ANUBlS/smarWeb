@@ -43,7 +43,7 @@ export default {
   {
    "unit": "UnitDateExch",
    "file": "UnitDateExch",
-   "form": null,
+   "form": "TDataModExch",
    "ok": 7,
    "fail": 0,
    "activeForm": null,
@@ -185,7 +185,7 @@ export default {
   {
    "unit": "UnitReestr",
    "file": "UnitReestr",
-   "form": null,
+   "form": "TFormReestrReport",
    "ok": 2,
    "fail": 0,
    "activeForm": null,
@@ -245,7 +245,7 @@ export default {
   {
    "unit": "UnitRepTurn",
    "file": "UnitRepTurn",
-   "form": null,
+   "form": "TQRepTurn",
    "ok": 1,
    "fail": 0,
    "activeForm": null,

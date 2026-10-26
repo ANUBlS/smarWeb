@@ -32,7 +32,7 @@ export default {
   {
    "unit": "MuzaffarUnit",
    "file": "MuzaffarUnit",
-   "form": null,
+   "form": "TMuzaffarRpt",
    "ok": 0,
    "fail": 0,
    "activeForm": null,

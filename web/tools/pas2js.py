@@ -666,8 +666,9 @@ class P:
             self.expect(';')
             return
         if self.atkw('interface', 'dispinterface'):
-            # skip interface declaration
+            # skip interface declaration (the name stays resolvable: TypeInfo(IFoo), IFoo(x) casts)
             self.next()
+            unit.setdefault('interfaces', []).append(nm)
             if self.atop(';'):
                 self.next()
                 return
@@ -1786,6 +1787,8 @@ def gen_unit(unit, sigs, records):
     for en, names in unit['enums'].items():
         for i, nm in enumerate(names):
             lines.append('  U.const(%s, %d);' % (js_str(nm), i))
+    for nm in dict.fromkeys(unit.get('interfaces', [])):
+        lines.append('  U.const(%s, %s);' % (js_str(nm), js_str(nm)))
     # records
     for rn, fields in unit['records'].items():
         lines.append('  $.defRecord(%s, {%s});' % (js_str(rn), ', '.join(
@@ -1849,10 +1852,12 @@ def gen_unit(unit, sigs, records):
             lines.append('  U.func(%s, %s, %s);' % (js_str(sig['name']), code, json.dumps(meta, ensure_ascii=False)))
     if unit['init']:
         # COM class factory registrations (TActiveFormFactory.Create(ComServer, …)) have no web equivalent
+        # … nor SOAP interface registrations of WSDL-imported units (InvRegistry / RemClassRegistry)
         def is_factory(st):
             d = st[1] if st[0] == 'call' else None
             return bool(d and d[0] == 'callx' and d[1][0] == 'member' and d[1][1][0] == 'id'
-                        and d[1][1][1].lower().endswith('factory'))
+                        and (d[1][1][1].lower().endswith('factory')
+                             or d[1][1][1].lower() in ('invregistry', 'remclassregistry', 'remtyperegistry')))
         unit['init'] = [st for st in unit['init'] if not is_factory(st)]
     if unit['init']:
         try:
