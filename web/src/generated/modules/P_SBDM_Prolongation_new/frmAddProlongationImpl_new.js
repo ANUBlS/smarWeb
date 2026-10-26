@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("frmAddProlongationImpl_new", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "NLSDialogs", "ComCtrls", "StdCtrls", "Buttons", "frmProlongationImpl_new", "CommonDeclsImpl_new", "SBTranslateProc", "sboapiDataModuleimpl"]);
+  const U = $.unit("frmAddProlongationImpl_new", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "NLSDialogs", "ComCtrls", "StdCtrls", "Buttons", "frmProlongationImpl_new", "NewCommonDeclsImpl", "SBTranslateProc", "sboapiDataModuleimpl"]);
   const C = [U];
   U.defClass("TfrmAddProlongation_new", "TForm", {"bitbtnclose": {"name": "BitBtnClose", "type": "TBitBtn"}, "bitbtnok": {"name": "BitBtnOk", "type": "TBitBtn"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "dtplast": {"name": "DTPLast", "type": "TDateTimePicker"}, "groupbox2": {"name": "GroupBox2", "type": "TGroupBox"}, "dtpnew": {"name": "DTPNew", "type": "TDateTimePicker"}}, {});
   U.init(async () => {

@@ -720,6 +720,13 @@ fn('FindCmdLineSwitch', () => false);
 fn('GetEnvironmentVariable', () => '');
 fn('ShellExecute', () => 0);
 fn('WinExec', () => 33);
+fn('ShellExecuteA', () => 0);
+fn('ShellExecuteW', () => 0);
+// string type casts: UTF8String(s), AnsiString(s) … (strings are Unicode throughout the web runtime)
+for (const n of ['UTF8String', 'AnsiString', 'WideString', 'UnicodeString', 'RawByteString', 'ShortString', 'UTF8Encode',
+  'UTF8Decode', 'AnsiToUtf8', 'Utf8ToAnsi', 'UTF8ToString', 'UTF8ToWideString']) {
+  if (!G.has(n.toLowerCase())) fn(n, (v) => str(v));
+}
 fn('MkDir', () => undefined);
 fn('RmDir', () => undefined);
 fn('ChDir', () => undefined);

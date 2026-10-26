@@ -18,7 +18,7 @@
  */
 import { useSyncExternalStore } from 'react';
 
-const HOLD_MS = 350;
+const HOLD_MS = 1200;
 
 let tick = 0;
 let scheduled = false;

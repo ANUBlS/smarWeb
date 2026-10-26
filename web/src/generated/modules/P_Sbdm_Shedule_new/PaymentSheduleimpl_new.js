@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("PaymentSheduleimpl_new", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "CMCurrencyEdit", "ComCtrls", "ExtCtrls", "CommonDeclsImpl_new", "ScheduleDataModuleImpl_new", "SheduleImpl_new", "SBTranslateProc", "sboapiDataModuleimpl"]);
+  const U = $.unit("PaymentSheduleimpl_new", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "CMCurrencyEdit", "ComCtrls", "ExtCtrls", "NewCommonDeclsImpl", "ScheduleDataModuleImpl_new", "SheduleImpl_new", "SBTranslateProc", "sboapiDataModuleimpl"]);
   const C = [U];
   U.defClass("TPaymentShedule_new", "TForm", {"button1": {"name": "Button1", "type": "TButton"}, "button2": {"name": "Button2", "type": "TButton"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "groupbox2": {"name": "GroupBox2", "type": "TGroupBox"}, "datetimepicker1": {"name": "DateTimePicker1", "type": "TDateTimePicker"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "groupbox3": {"name": "GroupBox3", "type": "TGroupBox"}, "cmcurrencyedit1": {"name": "CMCurrencyEdit1", "type": "TCMCurrencyEdit"}, "groupbox4": {"name": "GroupBox4", "type": "TGroupBox"}, "edit1": {"name": "Edit1", "type": "TEdit"}}, {});
   U.init(async () => {

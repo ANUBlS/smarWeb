@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("SBWRSetupLoader_new", ["SysUtils", "Windows", "CommonDeclsImpl_new", "SBWRBookmarksTuning_new"]);
+  const U = $.unit("SBWRSetupLoader_new", ["SysUtils", "Windows", "NewCommonDeclsImpl", "SBWRBookmarksTuning_new"]);
   const C = [U];
   U.init(async () => {
   });

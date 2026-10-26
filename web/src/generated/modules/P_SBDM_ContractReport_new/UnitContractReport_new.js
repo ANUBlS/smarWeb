@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("UnitContractReport_new", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Buttons", "Db", "OracleData", "sboapiDataModuleImpl", "UnitDepozitMoneyReport_new", "UnitWithDrawReoprt_new", "CommonDeclsImpl_new", "SBTranslateProc"]);
+  const U = $.unit("UnitContractReport_new", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Buttons", "Db", "OracleData", "sboapiDataModuleImpl", "UnitDepozitMoneyReport_new", "UnitWithDrawReoprt_new", "NewCommonDeclsImpl", "SBTranslateProc"]);
   const C = [U];
   U.defClass("TfrmContractReport_new", "TForm", {"label1": {"name": "Label1", "type": "TLabel"}, "odsdepozitmoney": {"name": "ODSDepozitMoney", "type": "TOracleDataSet"}, "odsdepozitwithdraw": {"name": "ODSDepozitWithDraw", "type": "TOracleDataSet"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "radiobutton1": {"name": "RadioButton1", "type": "TRadioButton"}, "radiobutton2": {"name": "RadioButton2", "type": "TRadioButton"}, "bitbtn1": {"name": "BitBtn1", "type": "TBitBtn"}, "bitbtn2": {"name": "BitBtn2", "type": "TBitBtn"}, "odscontarcts": {"name": "ODSContarcts", "type": "TOracleDataSet"}, "fcontractid": {"name": "FContractID", "type": "Longint"}, "refreshafterclose": {"name": "RefreshAfterClose", "type": "Boolean"}}, {});
   U.init(async () => {

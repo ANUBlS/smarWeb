@@ -43,7 +43,8 @@ export default {
  ],
  "lib": [
   "CMCurrencyEdit",
-  "CommonDeclsImpl_new",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
   "OraVariables",
   "SBAccount",
   "SBAlert",

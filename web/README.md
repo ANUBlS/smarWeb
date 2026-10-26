@@ -12,7 +12,7 @@ Reports (QuickReport layouts under *Bankın hesabatları*) are out of scope for
 this phase and show a notice in the menu.
 
 Besides the 50 items of the SmartBank.ini menu, the menu has an **Əlavə modullar**
-root with 133 more ActiveX modules found in the repository (insurance, credits,
+root with 111 more ActiveX modules found in the repository (insurance, credits,
 deposits, SWIFT/transfers, cards, compliance, import, administration …). The list,
 categories and captions live in `tools/extra_modules.py`; copies of the same
 package (same `CLASS_` GUID) were merged and report-only packages were left out.
@@ -118,11 +118,20 @@ smarWeb (Delphi repo)
 
 - Like the single-threaded VCL, nothing is repainted while an event handler runs
   (`src/runtime/ui.ts`, paint hold); a message box or modal form repaints normally, and a
-  handler running longer than 350 ms repaints as a long operation. Property assignments that
+  handler running longer than 1.2 s repaints as a long operation. Property assignments that
   do not change a value do not re-render, so idle `OnUpdate` handlers cost nothing.
 - Members the web runtime does not implement (a VCL/Indy/OLE property nobody ported) return
   an inert value that is logged once in the Output panel, instead of failing with an access
   violation. Real `nil` references in application code still raise `EAccessViolation`.
+
+### Modules calling modules
+
+- `TPlgModalContainer.ShowModal(GUID, Params)` opens the module registered under that ActiveX
+  GUID as a modal window (`Set_Params`, `Set_Owner`, `UIObjectActivate`); the module closes it with
+  `PostMessage(Owner, WM_USER + 139, ModalResult, 0)`. Modules that are only opened this way
+  (insurance policies, blanks, suggestions …) are not listed in the menu.
+- `LoadPackage('X.bpl')` + `GetProcAddress(h, 'InitPlugin')` load the run-time package built from
+  `X.dpk` and call its exported routine — the deposit/credit/insurance managers' sub-functions.
 
 ### Module hosting
 
@@ -182,8 +191,14 @@ were skipped, missing units and routines that could not be converted
 
 ## Known gaps in this phase
 
-- Reports (QuickReport) and Excel/Word OLE automation are not rendered; calls
-  are logged to the Output panel.
+- Reports (QuickReport/FastReport) are not rendered: `Preview`/`Print` show a notice. Excel
+  automation exports are delivered as a CSV download; Word automation is inert.
+- HTTP calls made with Indy (`TIdHTTP` — CBAR bank list, online court, SİF platform …) raise a
+  connection error in the browser; they belong in the server API.
+- Plugin toolbars/menus (`TPluginToolBar`, `TPluginPopupMenu`) read per-installation INI files that
+  are not in the repository, so they start empty.
+- Run-time packages (`LoadPackage('X.bpl')`) are built from the repository's `.dpk` files; when a
+  package exists in several copies, the one next to the calling module is used.
 - Toolbar bitmaps from `TImageList` are replaced by icons chosen from the
   action name/caption.
 - Windows API calls (registry, files, printers) are browser-safe no-ops; file

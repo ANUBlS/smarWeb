@@ -180,8 +180,11 @@ export class TDBLookupComboBox extends TWinControl {
   get kind() { return 'lookup'; }
   get Field() { return TDBControlBase.field(this.DataSource, this.DataField); }
   get ListDataSet() { return linkedDataSet(this.ListSource); }
-  get KeyValue(): unknown { const f = this.Field; return f ? f.Value : this._key; }
-  set KeyValue(v: unknown) { this._key = v; invalidate(); }
+  /** VCL: assigning KeyValue in code selects the list item only; the field follows user selection. */
+  protected keyOverride = false;
+  protected writesFieldOnKeyValue = false;
+  get KeyValue(): unknown { const f = this.Field; return f && !this.keyOverride ? f.Value : this._key; }
+  set KeyValue(v: unknown) { this._key = v; this.keyOverride = !!this.Field; invalidate(); }
   listFields() { return this.ListField.split(';').map((s) => s.trim()).filter(Boolean); }
   /** [key, display columns] for the dropdown. */
   options(): { key: unknown; cols: string[]; idx: number }[] {
@@ -209,6 +212,7 @@ export class TDBLookupComboBox extends TWinControl {
   CloseUp() { /* */ }
   async userSelect(key: unknown) {
     const f = this.Field;
+    this.keyOverride = false;
     if (f && this.DataSource) await this.DataSource.editField(f, key);
     else this._key = key;
     // the list dataset follows the selection (Delphi lookup combos position the list source)
@@ -222,14 +226,16 @@ export class TDBLookupComboBox extends TWinControl {
   override pset(lname: string, v: unknown) {
     if (lname === 'keyvalue') {
       const f = this.Field;
-      if (f && this.DataSource) return this.DataSource.editField(f, v).then(() => true);
-      this._key = v; invalidate(); return true;
+      if (f && this.DataSource && this.writesFieldOnKeyValue) { this.keyOverride = false; return this.DataSource.editField(f, v).then(() => true); }
+      this.KeyValue = v; return true;
     }
     return super.pset(lname, v);
   }
 }
 registerBuiltin('TDBLookupComboBox', TDBLookupComboBox);
-registerBuiltin('TDBLookupComboboxEh', TDBLookupComboBox);
+/** EhLib: KeyValue := X also writes the data field (used to preset values after Insert). */
+export class TDBLookupComboboxEh extends TDBLookupComboBox { protected override writesFieldOnKeyValue = true; }
+registerBuiltin('TDBLookupComboboxEh', TDBLookupComboboxEh);
 registerBuiltin('TDBLookupListBox', TDBLookupComboBox);
 registerBuiltin('TCMHintDBLookupComboBox', TDBLookupComboBox);
 

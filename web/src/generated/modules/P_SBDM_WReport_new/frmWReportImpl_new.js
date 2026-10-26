@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("frmWReportImpl_new", ["Windows", "Messages", "SysUtils", "Variants", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "WordXP", "OleServer", "StdCtrls", "Mask", "DBCtrlsEh", "DBLookupEh", "Buttons", "ExtCtrls", "ImgList", "ActnList", "DMWReportImpl_new", "CommonDeclsImpl_new", "SBTranslateProc", "sboapiDataModuleimpl"]);
+  const U = $.unit("frmWReportImpl_new", ["Windows", "Messages", "SysUtils", "Variants", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "WordXP", "OleServer", "StdCtrls", "Mask", "DBCtrlsEh", "DBLookupEh", "Buttons", "ExtCtrls", "ImgList", "ActnList", "DMWReportImpl_new", "NewCommonDeclsImpl", "SBTranslateProc", "sboapiDataModuleimpl"]);
   const C = [U];
   U.defClass("TfrmWReport_new", "TForm", {"actionlist1": {"name": "ActionList1", "type": "TActionList"}, "actinprint": {"name": "ActinPrint", "type": "TAction"}, "actnclose": {"name": "ActnClose", "type": "TAction"}, "imagelist1": {"name": "ImageList1", "type": "TImageList"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "label1": {"name": "Label1", "type": "TLabel"}, "speedbutton1": {"name": "SpeedButton1", "type": "TSpeedButton"}, "speedbutton2": {"name": "SpeedButton2", "type": "TSpeedButton"}, "dblookupcomboboxeh1": {"name": "DBLookupComboboxEh1", "type": "TDBLookupComboboxEh"}, "wordapplication": {"name": "WordApplication", "type": "TWordApplication"}, "worddocument": {"name": "WordDocument", "type": "TWordDocument"}, "templid": {"name": "TemplID", "type": "Integer"}}, {});
   U.init(async () => {

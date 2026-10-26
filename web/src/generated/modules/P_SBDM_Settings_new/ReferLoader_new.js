@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("ReferLoader_new", ["Windows", "Sysutils", "CommonDeclsImpl_new", "frmReferencesImpl_new", "frmAccGroupsImpl_new", "frmCategoriesImpl_new", "frmDepositTypesImpl_new", "frmAccountTurningImpl_new"]);
+  const U = $.unit("ReferLoader_new", ["Windows", "Sysutils", "NewCommonDeclsImpl", "frmReferencesImpl_new", "frmAccGroupsImpl_new", "frmCategoriesImpl_new", "frmDepositTypesImpl_new", "frmAccountTurningImpl_new"]);
   const C = [U];
   U.init(async () => {
   });

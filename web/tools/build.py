@@ -49,6 +49,12 @@ plgmodalcontainer uplgcontainer axloader pluginini plugindecls plugintoolbar plu
 categorybuttons icecrypt calculatoreh prvieweh prndbgeh prntseh propfilereh propstorageediteh propstorageeh prvfrmeh richedeh qpropstorageeh
 syncommons syncrypto synpdf synlz syntable syngdiplus synzip synlizard mormotreport mormot'''.split())
 
+# Renamed copies of a shared unit used side by side in this repository snapshot: a module and the
+# run-time packages it loads must share one instance of the unit's globals (CommonGrid …).
+UNIT_ALIASES = {
+    'commondeclsimpl_new': 'NewCommonDeclsImpl',  # DepositsManager_New vs its SBDM_*_new plugins (same API)
+}
+
 # Third-party libraries bundled in the repository that the runtime provides (or that only serve
 # reports/PDF/compression): never transpiled even when their sources are found.
 NATIVE_DIRS = ('Quickrep505/',)
@@ -154,6 +160,8 @@ def main():
         if path not in all_units:
             try:
                 all_units[path] = parse_unit_file(path)
+                if all_units[path]:
+                    all_units[path]['uses'] = [UNIT_ALIASES.get(x.lower(), x) for x in all_units[path]['uses']]
             except Exception as e:  # noqa
                 all_units[path] = None
                 report.setdefault('unitParseErrors', []).append([path[len(REPO):], str(e)[:200]])

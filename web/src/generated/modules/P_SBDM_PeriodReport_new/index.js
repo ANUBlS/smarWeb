@@ -42,7 +42,8 @@ export default {
   }
  ],
  "lib": [
-  "CommonDeclsImpl_new",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
   "OraVariables",
   "SBAccount",
   "SBAlert",
@@ -67,7 +68,6 @@ export default {
   "SBSystem",
   "SBTransaction",
   "SBUtils",
-  "TemporaryTransactionsFormImpl_new",
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"

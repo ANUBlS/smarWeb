@@ -657,18 +657,6 @@ export default [
   "source": "Packages/SBDM_COMMON/CommonDeclsImpl.pas"
  },
  {
-  "unit": "CommonDeclsImpl_new",
-  "file": "CommonDeclsImpl_new",
-  "form": null,
-  "ok": 6,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "ENoDepositSelected"
-  ],
-  "source": "Packages/SBDM_Common_new/CommonDeclsImpl_new.pas"
- },
- {
   "unit": "comp",
   "file": "comp",
   "form": "TForm13",
