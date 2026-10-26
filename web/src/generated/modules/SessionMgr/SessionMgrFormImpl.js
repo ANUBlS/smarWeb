@@ -550,7 +550,7 @@ export default function define($) {
   L0["message"] = (await $.call(C, "Format", ["Immediate shutdown in %d seconds. Save your work and exit program", [L0["timeout"]]]));
   {
     const $t24 = (await $.v(C, "SessionsData"));
-    if ($.truthy((await $.wcall([$t24], "InputQuery", ["Confirm user killing", "Enter text message to be sent to user: ", (await $.wv([$t24], "Message", { get: async () => L0["message"], set: async (v) => { L0["message"] = v; }, local: true }, false))], C)))) {
+    if ($.truthy((await $.wcall([$t24], "InputQuery", ["Confirm user killing", "Enter text message to be sent to user: ", $.ref(async () => (await $.wv([$t24], "Message", { get: async () => L0["message"], set: async (v) => { L0["message"] = v; }, local: true }, false)), async ($t25) => { await $.wset([$t24], "Message", $t25, { get: async () => L0["message"], set: async (v) => { L0["message"] = v; }, local: true }); })], C)))) {
       await $.stmt((await $.wcall([$t24], "Sb_KillSession", [(await $.mv((await $.wcall([$t24], "FieldByName", ["SID"], C)), "AsString")), (await $.mv((await $.wcall([$t24], "FieldByName", ["Serial#"], C)), "AsString")), (await $.wcall([$t24], "Replace", [(await $.wv([$t24], "Message", { get: async () => L0["message"], set: async (v) => { L0["message"] = v; }, local: true }, false)), " ", "_"], { get: async () => L0["replace"], set: async (v) => { L0["replace"] = v; }, local: true })), (await $.wv([$t24], "Timeout", { get: async () => L0["timeout"], set: async (v) => { L0["timeout"] = v; }, local: true }, false)), $.add((await $.wv([$t24], "Timeout", { get: async () => L0["timeout"], set: async (v) => { L0["timeout"] = v; }, local: true }, false)), 5)], C)));
     }
   }
@@ -572,8 +572,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t25 = L0["sender"];
-    await $.wset([$t25], "Enabled", $.eq((await $.mv((await $.mcall((await $.wv([$t25], "SessionsData", C, false)), "FieldByName", ["IsCurrentUser"])), "AsInteger")), 0), C);
+    const $t26 = L0["sender"];
+    await $.wset([$t26], "Enabled", $.eq((await $.mv((await $.mcall((await $.wv([$t26], "SessionsData", C, false)), "FieldByName", ["IsCurrentUser"])), "AsInteger")), 0), C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -582,7 +582,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "message": ''};
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Kill all users?", (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbCancel"))], 0])), (await $.v(C, "mrYes"))))) {
-    if ($.truthy((await $.call(C, "InputQuery", ["Enter message to be sent to users", "Message:", L0["message"]])))) {
+    if ($.truthy((await $.call(C, "InputQuery", ["Enter message to be sent to users", "Message:", $.ref(async () => L0["message"], async ($t27) => { L0["message"] = $t27; })])))) {
       await $.stmt((await $.call(C, "Sb_KillAll", ["%", L0["message"], 15])));
     }
   }
@@ -594,11 +594,11 @@ export default function define($) {
   L0["skilluserhint"] = "Kill current user";
   L0["skillhimselfhint"] = "You can not kill himself";
   {
-    const $t26 = (await $.v(C, "KillUser"));
-    if ($.truthy((await $.wv([$t26], "Enabled", C, false)))) {
-      await $.wset([$t26], "HintStr", (await $.wv([$t26], "SKillUserHint", { get: async () => L0["skilluserhint"], set: async (v) => { L0["skilluserhint"] = v; }, local: true }, false)), { get: async () => await L0["hintstr"].get(), set: async (v) => { await L0["hintstr"].set(v); }, local: true });
+    const $t28 = (await $.v(C, "KillUser"));
+    if ($.truthy((await $.wv([$t28], "Enabled", C, false)))) {
+      await $.wset([$t28], "HintStr", (await $.wv([$t28], "SKillUserHint", { get: async () => L0["skilluserhint"], set: async (v) => { L0["skilluserhint"] = v; }, local: true }, false)), { get: async () => await L0["hintstr"].get(), set: async (v) => { await L0["hintstr"].set(v); }, local: true });
     } else {
-      await $.wset([$t26], "HintStr", (await $.wv([$t26], "SKillHimselfHint", { get: async () => L0["skillhimselfhint"], set: async (v) => { L0["skillhimselfhint"] = v; }, local: true }, false)), { get: async () => await L0["hintstr"].get(), set: async (v) => { await L0["hintstr"].set(v); }, local: true });
+      await $.wset([$t28], "HintStr", (await $.wv([$t28], "SKillHimselfHint", { get: async () => L0["skillhimselfhint"], set: async (v) => { L0["skillhimselfhint"] = v; }, local: true }, false)), { get: async () => await L0["hintstr"].get(), set: async (v) => { await L0["hintstr"].set(v); }, local: true });
     }
   }
   return L0.result;
@@ -607,7 +607,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "message": ''};
   await $.fixArgs(L0, ["sender"]);
-  if ($.truthy((await $.call(C, "InputQuery", ["Enter message", "Text:", L0["message"]])))) {
+  if ($.truthy((await $.call(C, "InputQuery", ["Enter message", "Text:", $.ref(async () => L0["message"], async ($t29) => { L0["message"] = $t29; })])))) {
     await $.stmt((await $.call(C, "Sb_SendMessage", [(await $.mv((await $.mcall((await $.v(C, "SessionsData")), "FieldByName", ["SID"])), "AsString")), L0["message"]])));
   }
   return L0.result;
@@ -616,7 +616,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "message": ''};
   await $.fixArgs(L0, ["sender"]);
-  if ($.truthy((await $.call(C, "InputQuery", ["Enter message", "Text:", L0["message"]])))) {
+  if ($.truthy((await $.call(C, "InputQuery", ["Enter message", "Text:", $.ref(async () => L0["message"], async ($t30) => { L0["message"] = $t30; })])))) {
     await $.stmt((await $.call(C, "Sb_SendMessage", [(await $.mv((await $.mcall((await $.v(C, "SessionsData")), "FieldByName", ["SID"])), "AsString")), L0["message"], (await $.v(C, "MsgName_MessageBroadcast"))])));
   }
   return L0.result;
@@ -629,8 +629,8 @@ export default function define($) {
     await $.set(C, "frmMsgSettings", (await $.mcall((await $.v(C, "TfrmMsgSettings")), "Create", [Self])));
   }
   {
-    const $t27 = (await $.v(C, "frmMsgSettings"));
-    await $.stmt($.wcall([$t27], "ShowModal", [], C));
+    const $t31 = (await $.v(C, "frmMsgSettings"));
+    await $.stmt($.wcall([$t31], "ShowModal", [], C));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});

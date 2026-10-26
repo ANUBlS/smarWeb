@@ -141,6 +141,24 @@ export interface PObj {
   pset(lname: string, v: unknown): boolean | Promise<boolean>;
 }
 
+/**
+ * Value of a member the web runtime does not implement (a VCL/Indy/OLE property nobody ported).
+ * It absorbs further member reads, writes, calls and indexing and behaves like nil/0/'' in
+ * expressions, so a missing runtime feature never turns into an access violation chain.
+ */
+export class RuntimeGap {
+  readonly __gap = true;
+  pget(_l: string): unknown { return GAP; }
+  pset(_l: string, _v: unknown) { return true; }
+  pindex(_i: unknown[]) { return GAP; }
+  pindexSet(_i: unknown[], _v: unknown) { /* absorbed */ }
+  toString() { return ''; }
+  valueOf() { return 0; }
+  toJSON() { return null; }
+}
+export const GAP = new RuntimeGap();
+export const isGap = (v: unknown): v is RuntimeGap => v === GAP;
+
 export function isPObj(v: unknown): v is PObj {
   return !!v && typeof v === 'object' && typeof (v as PObj).pget === 'function';
 }

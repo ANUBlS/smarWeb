@@ -203,9 +203,17 @@ function parseNumber(v: unknown): number {
   if (isNaN(n)) throw new PasException('EConvertError', `'${str(v)}' is not a valid floating point value`, ['exception']);
   return n;
 }
+// With the mock gateway, `select *` columns have no real Oracle type and may come back as words;
+// the code reads them with AsInteger/AsFloat because they are NUMBER columns in the real schema.
+const MOCK = ((import.meta as any).env?.VITE_API_MODE ?? 'mock') !== 'http';
 function numeric(v: unknown): number {
   if (typeof v === 'number') return v;
   if (typeof v === 'boolean') return v ? 1 : 0;
+  if (MOCK && typeof v === 'string' && v.trim() !== '' && isNaN(Number(v.replace(/\s/g, '').replace(',', '.')))) {
+    let h = 0;
+    for (const ch of v) h = (h * 31 + ch.charCodeAt(0)) | 0;
+    return 1 + (Math.abs(h) % 9);
+  }
   return parseNumber(v);
 }
 

@@ -126,7 +126,7 @@ export default function define($) {
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TSecurityBrowserForm", "SecurityDetailedDataApplyRecord", async function SecurityDetailedDataApplyRecord(Self, p0, p1, p2, p3) {
   const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "clientid": null, "accessid": null};
+  const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "clientid": 0, "accessid": 0};
   await $.fixArgs(L0, ["sender", "action"]);
   L0["clientid"] = (await $.mv((await $.mcall((await $.v(C, "SidToAccessData")), "FieldByName", ["Client#"])), "AsInteger"));
   L0["accessid"] = (await $.mv((await $.mcall(L0["sender"], "FieldByName", ["ID"])), "AsInteger"));

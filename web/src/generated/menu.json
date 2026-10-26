@@ -632,6 +632,25 @@
      ]
     },
     {
+     "caption": "Məlumatlar",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Balansdankənar hesablar",
+       "action": 69,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hesab növləri",
+       "action": 75,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
      "caption": "Bankın hesabatları",
      "action": 0,
      "params": {
@@ -644,6 +663,750 @@
        "params": {
         "SplashTarget": "BankReports"
        },
+       "children": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "caption": "Əlavə modullar",
+   "action": 0,
+   "params": {},
+   "extra": true,
+   "children": [
+    {
+     "caption": "Kreditlər",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Bank zəmanətlərinin idarə olunması",
+       "action": 1005,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Faiz hesablanması",
+       "action": 1013,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hüquq modulu",
+       "action": 1011,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kredit menecer (SB)",
+       "action": 1002,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kreditlər (sadə menecer)",
+       "action": 1001,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kreditlərin arxivi",
+       "action": 1003,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Məhkəmə işləri",
+       "action": 1010,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Onlayn məhkəmə idarəetməsi",
+       "action": 1012,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Problemli kreditlər",
+       "action": 1006,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Problemli kreditlərin idarə olunması",
+       "action": 1007,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qəbul edilmiş portfel",
+       "action": 1009,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti kreditlərinin idarə olunması",
+       "action": 1000,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Zəmanətlər",
+       "action": 1004,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İcra işlərinin idarə olunması",
+       "action": 1008,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Depozitlər",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Depozit menecer",
+       "action": 1016,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Depozit menecer (yeni)",
+       "action": 1017,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qiymətli kağızlar",
+       "action": 1018,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Yeni depozitlərin arxivi",
+       "action": 1015,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Yeni depozitlərin idarə olunması",
+       "action": 1014,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İnvestisiyalar",
+       "action": 1019,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Ödənişlər və köçürmələr",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "ADİF",
+       "action": 1038,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "ASAN Finance",
+       "action": 1036,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Beynəlxalq SWIFT",
+       "action": 1020,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Büdcə ödənişləri",
+       "action": 1028,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Ekspres köçürmələr",
+       "action": 1034,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Emanat ödənişlərinə baxış",
+       "action": 1033,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Emanət ödənişləri",
+       "action": 1032,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Geri çağırılan əməliyyatlar",
+       "action": 1029,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Köçürmələr",
+       "action": 1025,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "PBF əməliyyatları",
+       "action": 1031,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Pul köçürmələri",
+       "action": 1024,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "SWIFT menecer (IBAN)",
+       "action": 1021,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "SİF platforması",
+       "action": 1037,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Terminal ödənişləri",
+       "action": 1027,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tranş əməliyyatları",
+       "action": 1030,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Valyuta mübadiləsi",
+       "action": 1035,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Vergi ödənişləri",
+       "action": 1040,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Western Union",
+       "action": 1023,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Western Union / kliring",
+       "action": 1022,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "XML sənədlərin əlavə edilməsi",
+       "action": 1039,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Ödənişlərə baxış",
+       "action": 1026,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Kartlar",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Plastik kartlar (AzeriCard)",
+       "action": 1041,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Müştərilər və uyğunluq",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Banka aidiyyəti olan şəxslər",
+       "action": 1044,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "GoAML xidməti",
+       "action": 1046,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştəri analizi",
+       "action": 1043,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştəri xidməti",
+       "action": 1045,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Müştərilərin sərəncamları",
+       "action": 1042,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Prudensial normativlər",
+       "action": 1050,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qara siyahı",
+       "action": 1047,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Thomson Reuters yoxlaması",
+       "action": 1048,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Toksik aktivlər",
+       "action": 1049,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Mühasibat və balans",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Balans analizi",
+       "action": 1052,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Baş kitab",
+       "action": 1054,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Büdcənin idarə olunması",
+       "action": 1063,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Günə düzəliş",
+       "action": 1057,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Günə düzəliş (balansdankənar)",
+       "action": 1058,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hesab qalıqlarının yoxlanması",
+       "action": 1051,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Maliyyə",
+       "action": 1064,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Məzənnələrə baxış",
+       "action": 1065,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Resurslar",
+       "action": 1061,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Saldo redaktoru",
+       "action": 1053,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sərəncam",
+       "action": 1055,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Valyutalar (balansdankənar)",
+       "action": 1056,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Ölkələr",
+       "action": 1066,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İş günləri təqvimi",
+       "action": 1067,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əmlak",
+       "action": 1062,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əsas vəsaitlər",
+       "action": 1059,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Əsas vəsaitlər və resurslar",
+       "action": 1060,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Tikinti və kommunal",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Alıcılar",
+       "action": 1069,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Alıcılar (yeni)",
+       "action": 1072,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Binalar",
+       "action": 1071,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kabel TV düzəlişləri",
+       "action": 1074,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kabel TV menecer",
+       "action": 1075,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kabel TV müqavilələri",
+       "action": 1073,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kabel TV parametrləri",
+       "action": 1076,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kassa əməliyyatları",
+       "action": 1070,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti obyektləri",
+       "action": 1068,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "İdxal",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Excel-dən idxal",
+       "action": 1077,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Excel-dən idxal (balansdankənar)",
+       "action": 1078,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "QK idxalı",
+       "action": 1081,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "SimCorp",
+       "action": 1082,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tam idxal",
+       "action": 1079,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İdxal xidməti",
+       "action": 1080,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "İdarəetmə",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Biletlər",
+       "action": 1089,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Biznes proseslərin quraşdırılması",
+       "action": 1087,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Putyovkalar",
+       "action": 1090,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sistem jurnalları",
+       "action": 1084,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tərcüməçi",
+       "action": 1088,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Universal parametrlər",
+       "action": 1086,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İnzibati jurnallar",
+       "action": 1083,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "İstifadəçilərin idarə olunması",
+       "action": 1085,
+       "params": {},
+       "children": []
+      }
+     ]
+    },
+    {
+     "caption": "Sığorta",
+     "action": 0,
+     "params": {},
+     "children": [
+      {
+       "caption": "Avto KASKO",
+       "action": 1114,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Avto KASKO sığortası",
+       "action": 1115,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Avtomobil soraqçası",
+       "action": 1096,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Avtomobil sığortası",
+       "action": 1098,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Blanklar",
+       "action": 1099,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Fərdi qəza sığortası",
+       "action": 1105,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Hüquqlar",
+       "action": 1101,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Kommersiya əmlakı",
+       "action": 1125,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Korporativ KASKO",
+       "action": 1119,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Məsuliyyət sığortası",
+       "action": 1102,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Qəza sığortası",
+       "action": 1106,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sığorta müştəriləri",
+       "action": 1091,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Sığortalar",
+       "action": 1092,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Səyahət sığortası",
+       "action": 1103,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tam avto KASKO",
+       "action": 1117,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tam avto sığorta",
+       "action": 1116,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tibbi sığorta",
+       "action": 1110,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Tikinti sığortası",
+       "action": 1129,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Təkrarsığorta qəbulu",
+       "action": 1100,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Yük sığortası",
+       "action": 1104,
+       "params": {},
        "children": []
       }
      ]
@@ -694,7 +1457,118 @@
   "69": "OutBalanceRefEdit",
   "70": "OutTransactionManager",
   "75": "OutTuningAccTypes",
-  "78": "CustomerOperations"
+  "78": "CustomerOperations",
+  "1000": "XCreditsConstruction",
+  "1001": "XCreditsMgr",
+  "1002": "XCreditsMgrSB",
+  "1003": "XCreditArchive",
+  "1004": "XGuaranty",
+  "1005": "XGuarantee",
+  "1006": "XProblemCredits",
+  "1007": "XProblemCreditMgr",
+  "1008": "XEnforcement",
+  "1009": "XAcceptedPortfel",
+  "1010": "XCourtManager",
+  "1011": "XLawModule",
+  "1012": "XOnlineCourt",
+  "1013": "XCalcRateAccount",
+  "1014": "XNewDeposits",
+  "1015": "XNewDepositsArchive",
+  "1016": "XDepositsMgr",
+  "1017": "XDepositsMgrNew",
+  "1018": "XSecurities",
+  "1019": "XInvestment",
+  "1020": "XSwiftIntl",
+  "1021": "XSwiftManager",
+  "1022": "XSwiftClearing",
+  "1023": "XWesternUnion",
+  "1024": "XMoneyTransfers",
+  "1025": "XPayments",
+  "1026": "XPaymentViewer",
+  "1027": "XOnlinePayment",
+  "1028": "XBBPayings",
+  "1029": "XCallBack",
+  "1030": "XTranceTransaction",
+  "1031": "XPbfTransactions",
+  "1032": "XEmanet",
+  "1033": "XEmanatViews",
+  "1034": "XExpress",
+  "1035": "XExchange",
+  "1036": "XAsanFinance",
+  "1037": "XPlatformSif",
+  "1038": "XAdif",
+  "1039": "XAddXml",
+  "1040": "XTaxes",
+  "1041": "XCards",
+  "1042": "XCustomersOrders",
+  "1043": "XCustAnalysis",
+  "1044": "XRelatedPersons",
+  "1045": "XPCustService",
+  "1046": "XGoAml",
+  "1047": "XBlackList",
+  "1048": "XThomson",
+  "1049": "XToksik",
+  "1050": "XPrudensial",
+  "1051": "XAccBalanceCheck",
+  "1052": "XBalanceAnalys",
+  "1053": "XSaldoEditor",
+  "1054": "XMasterBook",
+  "1055": "XOrder",
+  "1056": "XOutAvalute",
+  "1057": "XRepair",
+  "1058": "XOutRepair",
+  "1059": "XFixedAssets",
+  "1060": "XMainResource",
+  "1061": "XResource",
+  "1062": "XProperties",
+  "1063": "XBudget",
+  "1064": "XFinancePro",
+  "1065": "XRatesViewer",
+  "1066": "XCountries",
+  "1067": "XCalendar",
+  "1068": "XCcBuilding",
+  "1069": "XCcBuyers",
+  "1070": "XCcCashOp",
+  "1071": "XCcBuildings2",
+  "1072": "XCcBuyers2",
+  "1073": "XCableContracts",
+  "1074": "XCableCorrection",
+  "1075": "XCableManager",
+  "1076": "XCableSettings",
+  "1077": "XExcelImport",
+  "1078": "XOutExcelImport",
+  "1079": "XFullImport",
+  "1080": "XImportService",
+  "1081": "XQkImport",
+  "1082": "XSimCorp",
+  "1083": "XAdmLogs",
+  "1084": "XSbLogs",
+  "1085": "XUserManager",
+  "1086": "XUniversalSettings",
+  "1087": "XBusinessProcesses",
+  "1088": "XTranslator",
+  "1089": "XTickets",
+  "1090": "XPutyovka",
+  "1091": "XInsCustomers",
+  "1092": "XInsurances",
+  "1096": "XInsAutoDict",
+  "1098": "XInsAuto",
+  "1099": "XInsBlankMain",
+  "1100": "XInsReinsReceive",
+  "1101": "XInsRights",
+  "1102": "XInsResponsibility",
+  "1103": "XInsTravel",
+  "1104": "XInsCargo",
+  "1105": "XInsMyAccident",
+  "1106": "XInsPersonalAccMain",
+  "1110": "XInsMedical",
+  "1114": "XInsMotorKasko",
+  "1115": "XInsMotorKascoIns",
+  "1116": "XInsFullMotor",
+  "1117": "XInsFullMotorCasco",
+  "1119": "XInsMkCorporate",
+  "1125": "XInsCPropMain",
+  "1129": "XInsConstructionMain"
  },
  "reportActions": [
   9,
@@ -717,5 +1591,297 @@
   62,
   65,
   66
- ]
+ ],
+ "guids": {
+  "{E3CA3696-40B6-11D6-B256-00C0262B568B}": "Customers",
+  "{53E4AB09-4BA7-11D6-B271-00C0262B568B}": "Accounts",
+  "{30C48E16-55CF-11D6-B285-00C0262B568B}": "Transactions",
+  "{37A35309-5CCF-11D6-AAFE-00C0262B568B}": "CloseDay",
+  "{37A35317-5CCF-11D6-AAFE-00C0262B568B}": "RateManagement",
+  "{ECFD0D66-6735-11D6-AB16-00C0262B568B}": "ProfitClosing",
+  "{FFEEEDE9-6C8F-11D6-AB28-00C0262B568B}": "RefEdit",
+  "{FFEEEDF3-6C8F-11D6-AB28-00C0262B568B}": "RefEdit",
+  "{F40885AA-4BE1-4370-B41B-C34FE40CFA62}": "BalanceRefEdit",
+  "{60F6C9F9-81BF-11D6-9469-00304F1A587D}": "BankInfo",
+  "{AFBDE645-81D1-11D6-AA1F-00C0262B568B}": "Avalute",
+  "{D600F55C-F5EC-4DD9-A34C-316D8E213285}": "PaymentDecree",
+  "{3B271F77-D985-440F-A4C5-6121B2528BDD}": "AboutBanks",
+  "{B64EFF5B-E81F-11D6-A53D-00E04C774264}": "LastRates",
+  "{8407FDE6-3D6C-4086-88CA-904D1F83DE1F}": "RepairNew",
+  "{02DF8CB6-EDE9-46A7-A6C4-7C8BDFDE2C5A}": "RepairNew",
+  "{8F34DD46-F566-4FD1-B534-F16C0ADCE284}": "CreditManager",
+  "{ED0FA56F-C433-4DDD-8E1A-4B39847A98FA}": "ContractCorrection",
+  "{21BCEF76-C559-11D6-A4DC-00E04C774264}": "MainFacilities",
+  "{E398FBBF-43BF-4D08-A1CC-A9F3B56C0E47}": "DepositManager",
+  "{7C86AB9C-980E-4EC8-AF94-728DC9657066}": "DepositCorrection",
+  "{3236F061-0CF2-4927-8DC3-1A444451F681}": "CreditsArchive",
+  "{339266A2-0A8D-4BA3-B43B-F351DA1E4BA9}": "DepositsArchive",
+  "{B387D22F-15D5-4267-82EF-6B8FECE7C106}": "SessionMgr",
+  "{6D35AAD0-FD51-4473-8793-AF543BD8DD3B}": "TransactionsReporter",
+  "{A78C814D-253E-4FBA-B0CD-4E4A38839000}": "QueryExporter",
+  "{46FBEA93-C8CB-4B3F-A24E-4BD200321FC1}": "CashSymbols",
+  "{1AD34C0A-9D7F-4FCD-AB29-9E4E93992556}": "TuningTransactions",
+  "{E0D210EC-D799-46D2-A172-789782B5F96C}": "LVPCSSManager",
+  "{27B17628-2434-445F-BEE0-040A3AE0B04C}": "BackupCreator",
+  "{42EFD414-E167-4208-8924-489D2DEE27EF}": "TuningAccZones",
+  "{F6BB2CF6-4941-4688-A744-6C2358216363}": "CustomersInformations",
+  "{DCB2710A-CF2E-4DD5-AA98-47E076B6BEC9}": "ExpertAnalys",
+  "{EEECAF6B-700A-4557-96FB-3C7D43E4AFF3}": "TuningAccTypes",
+  "{0710CCDA-C482-4E0D-8360-3C0D0D66AEDB}": "Administration",
+  "{DE0C0887-2BC0-4962-BB5B-195BA00555D5}": "RollbackDay",
+  "{FF656972-BD77-41BB-848E-D339E05CE52E}": "TransactionManager",
+  "{F60E6A12-D467-40C7-993A-3343C65AFC63}": "Account",
+  "{BEFD4228-24C3-4565-BDDD-B63798D77ABF}": "CustomerOrder",
+  "{0E7C0852-BA22-45DC-8A22-368D2FF5F4C2}": "OutAccount",
+  "{8E39E7D2-FC9F-4EB8-8645-9F04944FBD92}": "OutBalanceRefEdit",
+  "{A567249D-CC16-47FA-9A7F-AF17514FB4D0}": "OutTransactionManager",
+  "{4FD88BAF-D08A-474A-AADA-335E883BBB85}": "OutTuningAccTypes",
+  "{D773B8FF-0651-421E-8451-897F8A20F8BE}": "CustomerOperations",
+  "{02878282-54DE-44C6-9D21-30CBE95D7331}": "XCreditsConstruction",
+  "{41D53F48-4A53-4CD1-98AD-82E1BE97C033}": "XCreditsMgr",
+  "{B361BF28-9D86-4D92-A06F-3661B9B2B9CD}": "XCreditsMgrSB",
+  "{A221D611-1D65-4FC7-AF48-B31630ADFE0F}": "XCreditArchive",
+  "{E579EEF0-9587-4145-BD26-52C8BCB534A5}": "XGuaranty",
+  "{CBD3CF40-204B-47CD-A46D-FBD2AA2DD0DF}": "XGuarantee",
+  "{EE7657F4-4F3D-46AD-A74B-68EA3E28069D}": "XProblemCredits",
+  "{481D361D-E010-4625-84D3-481AD2EC7EB1}": "XProblemCreditMgr",
+  "{08B2EACC-ABD7-4721-AA38-D5F90230327F}": "XEnforcement",
+  "{65E13EFB-E101-4026-B2DC-D9BDCA364F65}": "XEnforcement",
+  "{595AB49F-7994-4200-94D8-40509E6CD5B6}": "XAcceptedPortfel",
+  "{EDFB4389-0533-4DB6-A4B0-7CCC29CEBB62}": "XCourtManager",
+  "{EB1A8586-CA10-41DA-A2C9-7F6D01AD9CDC}": "XLawModule",
+  "{75805B3B-6E96-4816-B5FF-E170E435EC93}": "XOnlineCourt",
+  "{A0B9BF0F-79C3-44C2-A8E5-064A6B91345C}": "XCalcRateAccount",
+  "{776C93C9-BB4D-404C-9EF4-A4ED72C0B721}": "XNewDeposits",
+  "{9ABE87C4-2DB3-41CE-BF01-6B6EED2677C5}": "XNewDeposits",
+  "{D24ECADF-ACF9-43D2-9C3F-6146BB3F3E00}": "XNewDepositsArchive",
+  "{82E4382E-9C51-4165-BD95-6406AF19D12F}": "XDepositsMgr",
+  "{FC4F6C2E-FDCA-40AF-AE35-8F57F648EE56}": "XDepositsMgrNew",
+  "{05354FEB-92A8-4D16-ADD8-BA08642A9FF3}": "XSecurities",
+  "{4A8FA1A4-21AE-4EA7-8ADE-33AA40871BBC}": "XInvestment",
+  "{E90EA558-994C-4D34-826B-0E8E4BBF49CF}": "XSwiftIntl",
+  "{1D16D2DC-0511-4CC1-AE9A-6C95D648C2C2}": "XSwiftManager",
+  "{5D6D20F4-81DB-4718-95E1-0EF78A234781}": "XSwiftClearing",
+  "{00163490-14FF-4F8A-99A7-3314D81C7043}": "XWesternUnion",
+  "{1DE1A59E-7127-4C19-81E1-389D049FEEAF}": "XMoneyTransfers",
+  "{49670110-C03F-4C40-AE66-3708A5C1FBE4}": "XPayments",
+  "{34C48E3C-EE36-4FFD-9967-0303809EA709}": "XPaymentViewer",
+  "{ACDF37ED-1330-472D-8682-97EADA4DB391}": "XOnlinePayment",
+  "{37150233-6F69-4049-AC4C-6381608E99F8}": "XBBPayings",
+  "{D2CEDFCE-0E1D-481E-BA0C-5AC3CA693510}": "XCallBack",
+  "{5DC2D3F7-0E5F-418E-AA2A-1604E76626FC}": "XTranceTransaction",
+  "{30F3E494-ECB8-4391-8FA5-5E2F6F6B11E6}": "XPbfTransactions",
+  "{5078C252-29CC-4B30-9501-997F2DE8BF65}": "XEmanet",
+  "{384CE631-6AE9-4707-96BB-B89B3E1D9454}": "XEmanatViews",
+  "{9170F9E4-C5B0-4EDF-A0DB-299909E7B2A2}": "XExpress",
+  "{F5E99666-E5B9-4579-B7ED-D83CC51D8FB7}": "XExchange",
+  "{DA5847F2-71D4-4757-AB06-8C280C2677A9}": "XAsanFinance",
+  "{B7907AD7-281E-4BE6-9626-706E94F47738}": "XPlatformSif",
+  "{C8386F54-24F6-4BB4-A566-D8ACD6817E40}": "XPlatformSif",
+  "{C6A7A7BC-96BB-44B8-9111-49FCECF8B6B9}": "XAdif",
+  "{BA6A116D-7495-4DCC-8F53-283EBE07A3FB}": "XAdif",
+  "{7DB194AC-0A65-4E05-8009-8DDDDB85FC96}": "XAddXml",
+  "{7129FAA3-73EF-40D5-9583-A2F46D07C14D}": "XTaxes",
+  "{D5432094-E84C-4EAE-80FC-D02224B17B93}": "XCards",
+  "{C29EB42A-A3F8-42A4-BF32-DC0E36FCD439}": "XCustomersOrders",
+  "{18447368-6F96-4C01-80A9-F23AD7A74033}": "XCustAnalysis",
+  "{96919B45-D5AD-4863-9427-081A29253957}": "XRelatedPersons",
+  "{7B18F01A-D60D-406F-9A5B-8F191106E786}": "XPCustService",
+  "{C7C3806E-88D5-4E4F-872E-F283AD0371E1}": "XGoAml",
+  "{BE26E111-019B-4CC8-9E52-4FF97E109AA3}": "XBlackList",
+  "{65621610-5C38-4A87-B362-BDF143347FB0}": "XThomson",
+  "{09D07A30-3126-46F0-8F77-69169B24A441}": "XToksik",
+  "{34C96892-73A3-4DEC-B23C-EEF8C8EF3E91}": "XPrudensial",
+  "{3877ACED-C099-400D-AFB4-58C4389DAFB8}": "XAccBalanceCheck",
+  "{3F8A831B-BCB5-4939-83CB-4DA491A12312}": "XBalanceAnalys",
+  "{E99A0094-C9D7-4FCA-A997-4C6E98257511}": "XSaldoEditor",
+  "{5E15B442-FA27-4863-A24C-3D5B279095EB}": "XMasterBook",
+  "{7D8ED4E8-ADE8-44C0-9006-428D9F798D86}": "XOrder",
+  "{83FA9280-CF34-4704-A329-5FB25414F0F5}": "XOutAvalute",
+  "{C500EC68-C1FA-4622-99CD-2FE1AA0893AE}": "XRepair",
+  "{86E3CBB4-1C62-4BD8-BC35-C5E16FACED54}": "XOutRepair",
+  "{C3BFF54E-CCB9-49A0-9039-00C7F553F98A}": "XFixedAssets",
+  "{A1A00CAA-792D-4184-9502-695112C6E9BF}": "XMainResource",
+  "{1BA7D39C-1535-4B2D-B74C-EA568EC3ED6C}": "XResource",
+  "{1EC68796-D2BD-445C-A376-20235C1CA2DC}": "XProperties",
+  "{439CD14D-BDA4-4330-90F2-14E8D83421E6}": "XBudget",
+  "{8913D0C5-471F-4D4C-A59B-E6B2251AE8AD}": "XFinancePro",
+  "{8E26DE5D-E665-4803-9C18-4658B3D59CFF}": "XRatesViewer",
+  "{FC31F3D5-EBC6-4A9D-B952-8B0228C47527}": "XCountries",
+  "{0D787904-B1AB-468E-BE5F-A2485AC1AEF7}": "XCalendar",
+  "{CAE8C7DC-A81A-4A2C-969A-8334E2EAA5B2}": "XCcBuilding",
+  "{C21E4968-DCC9-40A5-AA9D-457339546C80}": "XCcBuyers",
+  "{FD3307F3-3CF7-4DD1-8D40-681387161AF6}": "XCcCashOp",
+  "{39CCBFB2-F1FE-48E8-8B55-94F2B688EBF9}": "XCcBuildings2",
+  "{FE7EC1F6-FEDF-4EC7-9CA5-48B4F0A51430}": "XCcBuyers2",
+  "{58056BC2-7A38-4DF3-9E49-FC4546997FF4}": "XCableContracts",
+  "{1FBA5666-6D79-4499-82D2-EE4E66B1532A}": "XCableCorrection",
+  "{FFEECE05-9D66-46B5-8EA6-71A5705648A9}": "XCableManager",
+  "{6F791E95-45AE-4FF3-8EE3-EC15C6E2C9A8}": "XCableSettings",
+  "{40E00CCB-EFB6-4A3C-8492-44264FE54CD2}": "XExcelImport",
+  "{9B81586F-881D-480A-AE1B-AAC7DF45622B}": "XOutExcelImport",
+  "{5D7C6C39-34DB-4DB9-9987-1CED01E1C4F2}": "XFullImport",
+  "{E28A91C5-F20F-4ADD-93EA-C3443F537242}": "XImportService",
+  "{58C25593-46EB-42B2-9222-96209C1A8ECF}": "XQkImport",
+  "{21695271-90DC-47AF-838F-1176B6A75CE9}": "XSimCorp",
+  "{1AB04F98-2B0D-4FDA-9D10-7FDEE476D625}": "XAdmLogs",
+  "{F3FFFFA1-D9C0-4B8D-931A-6D2FD3228756}": "XSbLogs",
+  "{53747264-E02D-40AB-B969-E25FAE17A7AD}": "XUserManager",
+  "{BE431563-F6F7-4373-B416-1230BC4846A3}": "XUniversalSettings",
+  "{5C5A59BF-8727-456B-AE49-EFE239287938}": "XBusinessProcesses",
+  "{5184707F-B3A7-496B-BA1D-E3AB0942D6A3}": "XTranslator",
+  "{2063A59A-7AFB-4C93-BC54-05983CA3C713}": "XTickets",
+  "{91EC7FA8-C520-42DB-ADCC-B568BE39D4CD}": "XPutyovka",
+  "{3CC60E0C-5FC9-4955-9F88-2DCD325348C5}": "XInsCustomers",
+  "{5EDB6B9E-AE6D-46EE-A492-394A6E8BCA46}": "XInsurances",
+  "{33777E01-D797-4C04-85D0-31C85C7EDB12}": "XInsPayments",
+  "{8C35B7B8-2AF6-4BEA-BD7E-F0D01DBDC7EC}": "XInsAccountDoc",
+  "{839CCAEF-9A7F-447B-AF7E-C8DE033306CA}": "XInsAccountState",
+  "{3605F638-6AA8-49BE-BF70-93D0941B056F}": "XInsAutoDict",
+  "{EC6A8A67-987B-45C3-9147-BD9682F4FDC3}": "XInsDictChilde",
+  "{A6EBF974-7EBE-491D-AD3D-C5928E6BED46}": "XInsAuto",
+  "{75ADEE5D-F2E7-42F5-82B5-2C92755E0C9E}": "XInsBlankMain",
+  "{C16FF2DF-BC1C-4782-AAB1-479E5B9C5456}": "XInsReinsReceive",
+  "{DD1260F7-C3B4-4733-98E9-58222E007F97}": "XInsRights",
+  "{9E271E35-624F-497A-ACED-4AC604BE77DD}": "XInsResponsibility",
+  "{C2B1892A-A9B6-4CEA-AE0E-741C6A2853E4}": "XInsTravel",
+  "{5F7BF270-01ED-4A67-BA10-CE77047C11E1}": "XInsCargo",
+  "{257E7985-0813-4576-B1E5-36CDA8F05E58}": "XInsMyAccident",
+  "{88E19B24-4064-4BA9-8FD3-39CA45B0D47F}": "XInsPersonalAccMain",
+  "{4CE12A01-2B74-46A1-B926-62459B0099FF}": "XInsPersonalAccident",
+  "{DF05FA85-2A5E-472D-8506-3C31DF75BDD8}": "XInsPersonalAccPolicy",
+  "{F64B6260-CAB7-4D0A-9149-CF1A4639CD5C}": "XInsPersonalAccSuggest",
+  "{8672975E-F050-48A4-8CFA-145A1ADD3AF2}": "XInsMedical",
+  "{0B7E3E71-EE29-4EED-9D88-4BC424513DDC}": "XInsMedBlank",
+  "{6730B53F-5460-40A6-8554-F904B6690915}": "XInsMedPolicy",
+  "{8488AAD4-B4AC-42D2-B3F4-53A042977147}": "XInsMedSuggestion",
+  "{6E94A6C5-E470-41B8-99E5-6E85878ECAA1}": "XInsMotorKasko",
+  "{8106CEEA-CD59-4C56-BA25-580451F2A4BB}": "XInsMotorKascoIns",
+  "{08A8ED2B-1456-4D4A-829F-EDA7FDC4AA94}": "XInsFullMotor",
+  "{AE6A6E9D-6D9C-4B1A-89A8-D8F81AC7B87F}": "XInsFullMotorCasco",
+  "{10B7A209-A993-466D-A763-98A80A7E74C6}": "XInsMkBlank",
+  "{27085BFE-C0A2-46CB-B257-78E43EDCB08C}": "XInsMkCorporate",
+  "{3C454A4C-C304-4633-AAAD-4C46C68BB8EE}": "XInsMkPolicy",
+  "{D5269FCA-2559-4984-A565-16C0EE110CF6}": "XInsMkSuggestion",
+  "{E23FC4C0-937D-4C1A-B8A0-00F4D9130FAA}": "XInsMfBlank",
+  "{7269AF35-5AC3-406B-8330-29850E49B6A6}": "XInsMfPolicy",
+  "{9D5D6D94-4ED9-4D64-9BC1-67394E009B52}": "XInsMfSuggestion",
+  "{0F4C8CDF-6070-4231-9680-4C679DC67C9D}": "XInsCPropMain",
+  "{9174F6E6-DEF4-4861-8301-61919D456EC5}": "XInsCPropBlank",
+  "{0F2A35A4-7A65-4085-BED1-BDCBC55C5836}": "XInsCPropPolicy",
+  "{3918AA1B-6A5D-4559-8F6E-826F4E72F309}": "XInsCPropSuggest",
+  "{717ABF77-67D7-4EC8-AEEC-3B772905DB99}": "XInsConstructionMain",
+  "{5F747E30-D623-4C34-BB55-9FBC1288AA9C}": "XInsConstructionBlank",
+  "{FEE93B74-CDCF-49A1-A5D9-84162C91971C}": "XInsConstructionPolicy",
+  "{0D0BAE0E-C323-439C-AAD6-EBBB63D04E9C}": "XInsConstructionSuggest"
+ },
+ "plugins": {
+  "cargoblank.bpl": "P_CargoBlank",
+  "inscontracterminated.bpl": "P_InsContracterminated",
+  "inspayment.bpl": "P_InsPayment",
+  "inspaymentplan.bpl": "P_InsPaymentPlan",
+  "loss.bpl": "P_Loss",
+  "paymentloss.bpl": "P_Paymentloss",
+  "reinsurance.bpl": "P_Reinsurance",
+  "paymenterminateimpl.bpl": "P_PaymenTerminateimpl",
+  "travelblank.bpl": "P_TravelBlank",
+  "responsibilityblank.bpl": "P_ResponsibilityBlank",
+  "ferid.bpl": "P_Ferid",
+  "ins_reins_exelinp.bpl": "P_ins_reins_exelinp",
+  "ins_reinsr_contract.bpl": "P_Ins_ReinsR_contract",
+  "filereport.bpl": "P_FileReport",
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cm_guarantee.bpl": "P_Cm_Guarantee",
+  "cm_payment.bpl": "P_CM_Payment",
+  "cm_retil.bpl": "P_CM_RETIL",
+  "cm_schedule.bpl": "P_CM_Schedule",
+  "cm_statement.bpl": "P_CM_Statement",
+  "cm_tranche.bpl": "P_CM_Tranche",
+  "cm_wreport.bpl": "P_CM_WReport",
+  "cu_conclusion.bpl": "P_CU_Conclusion",
+  "cu_payment.bpl": "P_CU_Payment",
+  "cu_paymentcompany.bpl": "P_CU_Paymentcompany",
+  "cu_schedule.bpl": "P_CU_Schedule",
+  "cu_statement.bpl": "P_cu_Statement",
+  "cu_wreport.bpl": "P_cu_WReport",
+  "newdepositsapplymoney.bpl": "P_NewDepositsApplyMoney",
+  "newdepositscontract.bpl": "P_NewDepositsContract",
+  "newdepositsextractmoney.bpl": "P_NewDepositsExtractMoney",
+  "newdepositswreport.bpl": "P_NewDepositsWReport",
+  "nominalcustomers.bpl": "P_NominalCustomers",
+  "open_account.bpl": "P_Open_account",
+  "pcustxohks.bpl": "P_PcustXohks",
+  "sb_general.bpl": "P_Sb_General",
+  "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
+  "sbdm_contract.bpl": "P_SBDM_Contract",
+  "sbdm_extractmoney.bpl": "P_SBDM_ExtractMoney",
+  "sbdm_wreport.bpl": "P_SBDM_WReport",
+  "transinfopack.bpl": "P_TransInfoPack",
+  "sbdm_transactionviewer.bpl": "P_SBDM_TransactionViewer",
+  "cm_customer.bpl": "P_CM_Customer",
+  "investisiya_contracts.bpl": "P_Investisiya_Contracts",
+  "investisiya_settings.bpl": "P_Investisiya_settings",
+  "investment_payment.bpl": "P_Investment_payment",
+  "investment_transaction.bpl": "P_Investment_Transaction",
+  "investmentpercentconverting.bpl": "P_InvestmentPercentConverting",
+  "sbdm_applymoney_new.bpl": "P_SBDM_ApplyMoney_new",
+  "sbdm_capitalize_new.bpl": "P_SBDM_Capitalize_new",
+  "sbdm_contract_new.bpl": "P_SBDM_Contract_new",
+  "sbdm_contractreport_new.bpl": "P_SBDM_ContractReport_new",
+  "sbdm_depozitaccsettings_new.bpl": "P_SBDM_DepozitAccSettings_new",
+  "sbdm_extractmoney_new.bpl": "P_SBDM_ExtractMoney_new",
+  "sbdm_partialpayment_new.bpl": "P_SBDM_PartialPayment_new",
+  "sbdm_percentsettings_new.bpl": "P_SBDM_PercentSettings_new",
+  "sbdm_periodreport_new.bpl": "P_SBDM_PeriodReport_new",
+  "sbdm_prolongation_new.bpl": "P_SBDM_Prolongation_new",
+  "sbdm_report_new.bpl": "P_SBDM_Report_new",
+  "sbdm_reportofbalance_new.bpl": "P_SBDM_ReportofBalance_new",
+  "sbdm_settings_new.bpl": "P_SBDM_Settings_new",
+  "sbdm_shedule_new.bpl": "P_Sbdm_Shedule_new",
+  "sbdm_untimelyetmoney_new.bpl": "P_SBDM_UntimelyEtMoney_new",
+  "sbdm_wreport_new.bpl": "P_SBDM_WReport_new",
+  "sbdm_wrsetup_new.bpl": "P_SBDM_WRSetup_new",
+  "sbdm_capitalize.bpl": "P_SBDM_Capitalize",
+  "sbdm_contractreport.bpl": "P_SBDM_ContractReport",
+  "sbdm_control.bpl": "P_SBDM_Control",
+  "sbdm_filter.bpl": "P_SBDM_Filter",
+  "sbdm_percentchange.bpl": "P_SBDM_PercentChange",
+  "sbdm_percentconverting.bpl": "P_SBDM_PercentConverting",
+  "sbdm_percentsettings.bpl": "P_SBDM_PercentSettings",
+  "sbdm_periodreport.bpl": "P_SBDM_PeriodReport",
+  "sbdm_prognoz.bpl": "P_SBDM_Prognoz",
+  "sbdm_prolongation.bpl": "P_SBDM_Prolongation",
+  "sbdm_report.bpl": "P_SBDM_Report",
+  "sbdm_reportofbalance.bpl": "P_SBDM_ReportofBalance",
+  "sbdm_settings.bpl": "P_SBDM_Settings",
+  "sbdm_taxpayments.bpl": "P_SBDM_TaxPayments",
+  "sbdm_untimelyetmoney.bpl": "P_SBDM_UntimelyEtMoney",
+  "sbdm_wrsetup.bpl": "P_SBDM_WRSetup",
+  "newdepositsapplymoneyarchive.bpl": "P_NewDepositsApplyMoneyArchive",
+  "newdepositsextractmoneyarchive.bpl": "P_NewDepositsExtractMoneyArchive",
+  "newdepositsbalancesettings.bpl": "P_NewDepositsBalanceSettings",
+  "newdepositscapitalize.bpl": "P_NewDepositsCapitalize",
+  "newdepositscontrol.bpl": "P_NewDepositsControl",
+  "newdepositsfilter.bpl": "P_NewDepositsFilter",
+  "newdepositslogs.bpl": "P_NewDepositsLogs",
+  "newdepositspercentconverting.bpl": "P_NewDepositsPercentConverting",
+  "newdepositspercentsettings.bpl": "P_NewDepositsPercentSettings",
+  "newdepositsprolongation.bpl": "P_NewDepositsProlongation",
+  "newdepositsreport.bpl": "P_NewDepositsReport",
+  "newdepositssettings.bpl": "P_NewDepositsSettings",
+  "newdepositsshedule.bpl": "P_NewDepositsShedule",
+  "newdepositsuntimelyetmoney.bpl": "P_NewDepositsUntimelyEtMoney",
+  "newdepositswrgroups.bpl": "P_NewDepositsWRGroups",
+  "newdepositswrsetup.bpl": "P_NewDepositsWRSetup",
+  "cra_extractmoney.bpl": "P_CRA_ExtractMoney",
+  "cr_conclusion.bpl": "P_CR_Conclusion",
+  "cmar_conclusion.bpl": "P_CMAr_Conclusion",
+  "cmar_guarantee.bpl": "P_CMAr_Guarantee",
+  "cmar_payment.bpl": "P_CMAr_Payment",
+  "cmar_schedule.bpl": "P_CMAr_Schedule",
+  "cmar_search.bpl": "P_CMAr_Search",
+  "cmar_statement.bpl": "P_CMAr_Statement",
+  "cmarfilter.bpl": "P_CMArFilter",
+  "cmcrdfilter.bpl": "P_CMCrdFilter"
+ }
 }

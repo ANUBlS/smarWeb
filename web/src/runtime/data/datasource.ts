@@ -12,9 +12,11 @@ export class TDataSource extends TComponent {
 
   get DataSet() { return this._dataSet; }
   set DataSet(ds: TDataSet | null) {
-    this._dataSet?.dataSources.delete(this);
-    this._dataSet = ds;
-    ds?.dataSources.add(this);
+    this._dataSet?.dataSources?.delete(this);
+    // a reference to a component that is not an (emulated) dataset — e.g. an unknown third-party
+    // memory table — leaves the source unlinked, like a dataset that never opens
+    this._dataSet = ds && (ds as any).dataSources ? ds : null;
+    this._dataSet?.dataSources.add(this);
     invalidate();
   }
   get State() { return this._dataSet?.State ?? 'dsinactive'; }

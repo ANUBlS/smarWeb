@@ -2,12 +2,12 @@
 import { TObject, PasException, ValueRef, NOTFOUND } from '../core';
 import { registerBuiltin, getBuiltin, ClassDef, Env, noAutoCreate, addFixup } from '../env';
 import { num, str } from '../pascal';
-import { invalidate } from '../ui';
+import { invalidate, suspendHold, flushNow } from '../ui';
 import { logger } from '../log';
 import type { DfmNode } from '../dfm';
 import { mergeInherited } from '../dfm';
 import { TComponent, REF_PROPS, runGuarded, setRefResolver } from './component';
-import { TControl, TWinControl, TTabSheet, TPageControl, TStatusPanel, THeaderSection, TListColumn, TTimer } from './controls';
+import { TControl, TWinControl, TTabSheet, TPageControl, TStatusPanel, THeaderSection, TListColumn, TTimer, TTreeView } from './controls';
 import { TStrings, TCollection, TFont } from './classes';
 import { colorValue } from './colors';
 import { TAction, TActionList, TMenuItem, TMenu, TMainMenu } from './actions';
@@ -142,7 +142,9 @@ export class TCustomForm extends TWinControl {
     await this.fire('OnShow', this);
     await this.fire('OnActivate', this);
     this.focusActiveControl();
-    const r = await done;
+    const unhold = suspendHold();
+    let r: number;
+    try { r = await done; } finally { unhold(); }
     void w;
     return r;
   }
@@ -168,9 +170,26 @@ export class TCustomForm extends TWinControl {
     await this.fire('OnActivate', this);
     this.focusActiveControl();
   }
-  protected focusActiveControl() {
-    const ac = this.ActiveControl;
-    if (ac) setTimeout(() => ac.SetFocus(), 30);
+  focusActiveControl() {
+    const ac = this.ActiveControl ?? this.firstTabControl();
+    if (!ac) return;
+    setTimeout(() => ac.SetFocus(), 30);
+    if (ac instanceof TTreeView) void runGuarded(() => ac.focusSelectFirst(), `${ac.Name}.OnChange`);
+  }
+  /** The control TCustomForm.SetFocus would focus first: lowest TabOrder, depth-first. */
+  firstTabControl(): TControl | null {
+    const FOCUSABLE = new Set(['edit', 'memo', 'dbgrid', 'stringgrid', 'treeview', 'listview', 'listbox', 'combo', 'button',
+      'checkbox', 'radio', 'datetime', 'dbdate', 'dbedit', 'dbmemo', 'currency', 'spin', 'lookup', 'viewcombo', 'checklist']);
+    const walk = (p: TControl): TControl | null => {
+      const kids = [...p.children].filter((c) => c.Visible && c.Enabled)
+        .sort((a, b) => ((a as any).TabOrder ?? 0) - ((b as any).TabOrder ?? 0));
+      for (const c of kids) {
+        if (FOCUSABLE.has(c.kind)) return c;
+        if (c.children.length) { const r = walk(c); if (r) return r; }
+      }
+      return null;
+    };
+    return walk(this);
   }
   /** Delphi Close: OnCloseQuery → OnClose(Action) → hide/free; for modal forms sets ModalResult := mrCancel. */
   async Close() {
@@ -299,10 +318,11 @@ const STRINGS_PROPS = new Set(['items.strings', 'lines.strings', 'sql.strings', 
 const IGNORE_PROPS = new Set(['designsize', 'explicitleft', 'explicittop', 'explicitwidth', 'explicitheight', 'textheight', 'pixelsperinch', 'oldcreateorder', 'itemheight', 'qbedefinition.qbefielddefs', 'designactivation', 'variables.data', 'picture.data', 'glyph.data', 'bitmap', 'icon.data', 'image.data', 'displaylabelfont', 'helpcontext', 'parentbidimode', 'bidimode', 'imemode', 'imename', 'ctl3d', 'parentctl3d', 'dragcursor', 'dragkind', 'dragmode', 'touch.interactivegestures', 'touch.interactivegestureoptions', 'touch.parenttabletoptions', 'touch.tabletoptions', 'defaultmonitor', 'glasframe.enabled']);
 
 /** Instantiate the builtin or user class for a DFM node. */
-async function makeComponent(node: DfmNode, env: Env | null): Promise<TComponent> {
+async function makeComponent(node: DfmNode, env: Env | null, owner: TComponent | null = null): Promise<TComponent> {
   const def = env?.findClass(node.class);
   if (def) {
-    const inst = (await Env.instanceFactory(def, [], env!)) as TComponent;
+    // DFM streaming creates every component with the form/data module as Owner (Create(AOwner))
+    const inst = (await Env.instanceFactory(def, [owner], env!)) as TComponent;
     return inst;
   }
   const ctor = getBuiltin(node.class);
@@ -323,12 +343,13 @@ export async function streamRoot(root: TComponent, layout: DfmNode) {
   const created: TComponent[] = [root];
   for (const child of layout.children) await streamChild(child, root, root instanceof TWinControl ? root : null, created, env);
   // resolve references once every component exists; unresolved globals become fixups
+  const names = new Set(created.map((c) => (c.Name || '').toLowerCase()).filter(Boolean));
   for (const c of created) {
     pendingRef.current = null;
     await c.resolveRefs((prop, global, walk) => addFixup(global, async (target) => {
       const t = await walk(target);
       if (t != null) await c.assignRef(prop, t);
-    }));
+    }), names);
   }
   for (const c of created) {
     if (c instanceof TOracleDataSet || c instanceof TOracleQuery) c.initFromDfm();
@@ -348,7 +369,7 @@ async function streamChild(node: DfmNode, root: TComponent, parentCtl: TWinContr
   const existing = node.kind !== 'object' ? root.owned.find((c) => c.Name.toLowerCase() === node.name.toLowerCase()) : undefined;
   if (existing) comp = existing;
   else {
-    comp = await makeComponent(node, env);
+    comp = await makeComponent(node, env, root);
     comp.Name = node.name;
     root.insertComponent(comp);
   }
@@ -421,9 +442,10 @@ export function applyProps(comp: TComponent, props: Record<string, unknown>, isR
   }
   for (const [k, raw] of Object.entries(props)) {
     const l = k.toLowerCase();
+    if (l === 'items.tree') { const it = (comp as any).Items; if (it && typeof it.loadDfm === 'function') it.loadDfm(raw); continue; }
     if (IGNORE_PROPS.has(l) || l.startsWith('font.') || l.startsWith('titlefont.') || l.startsWith('constraints.')
       || l.startsWith('margins.') || l.startsWith('padding.') || l.startsWith('touch.') || l.startsWith('customhint')) continue;
-    if (/^on[a-z]/.test(l)) { comp.events.set(l, str(dfmValue(raw))); continue; }
+    if (/^on[a-z]/.test(l) && (isId(raw) || typeof raw === 'string')) { comp.events.set(l, str(dfmValue(raw))); continue; }
     if (REF_PROPS.has(l)) continue;
     if (STRINGS_PROPS.has(l)) { setStrings((comp as any)[k.split('.')[0]] ?? (comp as any)[capital(k.split('.')[0])], raw); continue; }
     if (Array.isArray(raw) && raw.length && typeof raw[0] === 'object' && !isId(raw[0])) { applyCollection(comp, k, raw as Record<string, unknown>[]); continue; }
@@ -604,7 +626,7 @@ export class TApplication extends TComponent {
     const { messageBox } = await import('../dialogs');
     return messageBox(text, caption, flags);
   }
-  async ProcessMessages() { await new Promise((r) => setTimeout(r, 0)); }
+  async ProcessMessages() { flushNow(); await new Promise((r) => setTimeout(r, 0)); }
   HandleMessage() { /* */ }
   Terminate() { this.Terminated = true; }
   Minimize() { /* */ }

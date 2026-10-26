@@ -31,7 +31,7 @@ export default {
   {
    "unit": "UntQRPBanks",
    "file": "UntQRPBanks",
-   "form": null,
+   "form": "TQRBanks",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -40,5 +40,35 @@ export default {
    ],
    "source": "Packages/AboutBanks/UntQRPBanks.pas"
   }
- ]
+ ],
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "plugins": {}
 };

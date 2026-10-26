@@ -669,7 +669,7 @@ export default function define($) {
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TTransactionsMainForm", "CommitTransactionExecute", async function CommitTransactionExecute(Self, p0) {
   const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined, "tempid": 0, "ids": null, "idindex": 0, "index": 0, "status": 0, "commited": false};
+  const L0 = {"sender": $.copyArg(p0), result: undefined, "tempid": 0, "ids": [], "idindex": 0, "index": 0, "status": 0, "commited": false};
   await $.fixArgs(L0, ["sender"]);
   {
     const $t22 = (await $.v(C, "BrowseGrid"));
@@ -750,35 +750,35 @@ export default function define($) {
   }
   return L1.result;
 });
-  if ($.truthy((await $.call(C, "InputQuery", ["Tayinatini daxil edin", "Tayinat: ", L0["rejectreason"]])))) {
+  if ($.truthy((await $.call(C, "InputQuery", ["Tayinatini daxil edin", "Tayinat: ", $.ref(async () => L0["rejectreason"], async ($t36) => { L0["rejectreason"] = $t36; })])))) {
     L0["updated"] = false;
     try {
       {
-        const $t37 = (await $.v(C, "BrowseGrid"));
-        const $t38 = (await $.wv([$t37], "SelectedRows", C, false));
-        const $t39 = (await $.mv((await $.wv([$t37, $t38], "DataSource", C, false)), "DataSet"));
-        if ($.truthy($.eq((await $.wv([$t37, $t38, $t39], "Count", C, false)), 0))) {
-          await $.stmt($.wcall([$t37, $t38, $t39], "ProcessRow", [], { get: async () => L0["processrow"], set: async (v) => { L0["processrow"] = v; }, local: true }));
+        const $t38 = (await $.v(C, "BrowseGrid"));
+        const $t39 = (await $.wv([$t38], "SelectedRows", C, false));
+        const $t40 = (await $.mv((await $.wv([$t38, $t39], "DataSource", C, false)), "DataSet"));
+        if ($.truthy($.eq((await $.wv([$t38, $t39, $t40], "Count", C, false)), 0))) {
+          await $.stmt($.wcall([$t38, $t39, $t40], "ProcessRow", [], { get: async () => L0["processrow"], set: async (v) => { L0["processrow"] = v; }, local: true }));
         } else {
-          { const $t40 = $.sub((await $.wv([$t37, $t38, $t39], "Count", C, false)), 1);
-            await $.wset([$t37, $t38, $t39], "Index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
-            let $t41 = true;
+          { const $t41 = $.sub((await $.wv([$t38, $t39, $t40], "Count", C, false)), 1);
+            await $.wset([$t38, $t39, $t40], "Index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
+            let $t42 = true;
             for (;;) {
-              if (!$t41) { await $.wset([$t37, $t38, $t39], "Index", $.succ((await $.wv([$t37, $t38, $t39], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false)), 1), { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }); }
-              $t41 = false;
-              if (!($.ord((await $.wv([$t37, $t38, $t39], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))) <= $.ord($t40))) break;
-              await $.stmt((await $.wcall([$t37, $t38, $t39], "GotoBookmark", [(await $.wcall([$t37, $t38, $t39], "TBookmark", [(await $.idx((await $.wv([$t37, $t38, $t39], "Items", C, false)), [(await $.wv([$t37, $t38, $t39], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))]))], C))], C)));
-              await $.stmt($.wcall([$t37, $t38, $t39], "ProcessRow", [], { get: async () => L0["processrow"], set: async (v) => { L0["processrow"] = v; }, local: true }));
+              if (!$t42) { await $.wset([$t38, $t39, $t40], "Index", $.succ((await $.wv([$t38, $t39, $t40], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false)), 1), { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }); }
+              $t42 = false;
+              if (!($.ord((await $.wv([$t38, $t39, $t40], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))) <= $.ord($t41))) break;
+              await $.stmt((await $.wcall([$t38, $t39, $t40], "GotoBookmark", [(await $.wcall([$t38, $t39, $t40], "TBookmark", [(await $.idx((await $.wv([$t38, $t39, $t40], "Items", C, false)), [(await $.wv([$t38, $t39, $t40], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))]))], C))], C)));
+              await $.stmt($.wcall([$t38, $t39, $t40], "ProcessRow", [], { get: async () => L0["processrow"], set: async (v) => { L0["processrow"] = v; }, local: true }));
               await $.tick();
             }
           }
         }
       }
-    } catch ($t36) {
-      $.rethrowControl($t36);
-      $.handled($t36);
+    } catch ($t37) {
+      $.rethrowControl($t37);
+      $.handled($t37);
       await $.stmt($.call(C, "Sb_Rollback", []));
-      throw $t36;
+      throw $t37;
     }
     if ($.truthy(L0["updated"])) {
       await $.stmt($.call(C, "Sb_Commit", []));
@@ -792,21 +792,21 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t42 = (await $.v(C, "BrowseGrid"));
-    const $t43 = (await $.wv([$t42], "SelectedRows", C, false));
-    const $t44 = (await $.mv((await $.wv([$t42, $t43], "DataSource", C, false)), "DataSet"));
-    await $.stmt($.wcall([$t42, $t43, $t44], "DisableControls", [], C));
+    const $t43 = (await $.v(C, "BrowseGrid"));
+    const $t44 = (await $.wv([$t43], "SelectedRows", C, false));
+    const $t45 = (await $.mv((await $.wv([$t43, $t44], "DataSource", C, false)), "DataSet"));
+    await $.stmt($.wcall([$t43, $t44, $t45], "DisableControls", [], C));
     try {
-      await $.stmt($.wcall([$t42, $t43, $t44], "First", [], C));
-      while ($.truthy($.not((await $.wv([$t42, $t43, $t44], "Eof", C, false))))) {
-        await $.wset([$t42, $t43, $t44], "CurrentRowSelected", (await $.wv([$t42, $t43, $t44], "True", C, false)), C);
-        await $.stmt($.wcall([$t42, $t43, $t44], "Next", [], C));
+      await $.stmt($.wcall([$t43, $t44, $t45], "First", [], C));
+      while ($.truthy($.not((await $.wv([$t43, $t44, $t45], "Eof", C, false))))) {
+        await $.wset([$t43, $t44, $t45], "CurrentRowSelected", (await $.wv([$t43, $t44, $t45], "True", C, false)), C);
+        await $.stmt($.wcall([$t43, $t44, $t45], "Next", [], C));
         await $.tick();
       }
     } finally {
-      await $.stmt($.wcall([$t42, $t43, $t44], "EnableControls", [], C));
+      await $.stmt($.wcall([$t43, $t44, $t45], "EnableControls", [], C));
     }
-    await $.stmt($.wcall([$t42, $t43, $t44], "TransactionScrolled", [], C));
+    await $.stmt($.wcall([$t43, $t44, $t45], "TransactionScrolled", [], C));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -823,10 +823,10 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "BrowseGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t45 = (await $.mv((await $.v(C, "TransactionsDataModule")), "TransactionsData"));
-    const $t46 = (await $.wv([$t45], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false));
-    if ($.truthy($.ne((await $.wv([$t45, $t46], "Text", C, false)), ""))) {
-      await $.stmt((await $.wcall([$t45, $t46], "SearchRecord", [(await $.wcall([$t45, $t46], "Copy", [(await $.wv([$t45, $t46], "Name", C, false)), 12, $.sub((await $.wcall([$t45, $t46], "Length", [(await $.wv([$t45, $t46], "Name", C, false))], C)), 21)], C)), (await $.wv([$t45, $t46], "Text", C, false)), [(await $.wv([$t45, $t46], "srForward", C, false)), (await $.wv([$t45, $t46], "srFromBeginning", C, false)), (await $.wv([$t45, $t46], "srIgnoreCase", C, false)), (await $.wv([$t45, $t46], "srPartialMatch", C, false))]], C)));
+    const $t46 = (await $.mv((await $.v(C, "TransactionsDataModule")), "TransactionsData"));
+    const $t47 = (await $.wv([$t46], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false));
+    if ($.truthy($.ne((await $.wv([$t46, $t47], "Text", C, false)), ""))) {
+      await $.stmt((await $.wcall([$t46, $t47], "SearchRecord", [(await $.wcall([$t46, $t47], "Copy", [(await $.wv([$t46, $t47], "Name", C, false)), 12, $.sub((await $.wcall([$t46, $t47], "Length", [(await $.wv([$t46, $t47], "Name", C, false))], C)), 21)], C)), (await $.wv([$t46, $t47], "Text", C, false)), [(await $.wv([$t46, $t47], "srForward", C, false)), (await $.wv([$t46, $t47], "srFromBeginning", C, false)), (await $.wv([$t46, $t47], "srIgnoreCase", C, false)), (await $.wv([$t46, $t47], "srPartialMatch", C, false))]], C)));
     }
   }
   return L0.result;
@@ -836,8 +836,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t47 = L0["sender"];
-    await $.wset([$t47], "Text", "", C);
+    const $t48 = L0["sender"];
+    await $.wset([$t48], "Text", "", C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -846,77 +846,77 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "acanvas": $.copyArg(p1), "arect": $.copyArg(p2), "selected": $.copyArg(p3), result: undefined, "linebottom": 0, "stext": '', "bar": null};
   await $.fixArgs(L0, ["sender", "acanvas", "arect", "selected"]);
   {
-    const $t48 = L0["acanvas"];
-    const $t49 = (await $.wv([$t48], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false));
+    const $t49 = L0["acanvas"];
+    const $t50 = (await $.wv([$t49], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false));
     {
-      const $t50 = (await $.wv([$t48, $t49], "Font", C, false));
-      await $.wset([$t48, $t49, $t50], "Name", "Azl Sans Serif", C);
-      await $.wset([$t48, $t49, $t50], "Charset", (await $.wv([$t48, $t49, $t50], "RUSSIAN_CHARSET", C, false)), C);
-      if ($.truthy((await $.wv([$t48, $t49, $t50], "Default", C, false)))) {
-        await $.wset([$t48, $t49, $t50], "Style", [(await $.wv([$t48, $t49, $t50], "fsBold", C, false))], C);
+      const $t51 = (await $.wv([$t49, $t50], "Font", C, false));
+      await $.wset([$t49, $t50, $t51], "Name", "Azl Sans Serif", C);
+      await $.wset([$t49, $t50, $t51], "Charset", (await $.wv([$t49, $t50, $t51], "RUSSIAN_CHARSET", C, false)), C);
+      if ($.truthy((await $.wv([$t49, $t50, $t51], "Default", C, false)))) {
+        await $.wset([$t49, $t50, $t51], "Style", [(await $.wv([$t49, $t50, $t51], "fsBold", C, false))], C);
       }
     }
-    if ($.truthy($.eq((await $.wv([$t48, $t49], "Caption", C, false)), "-"))) {
-      await $.mset((await $.wv([$t48, $t49], "Pen", C, false)), "Color", (await $.wv([$t48, $t49], "clBlack", C, false)));
-      await $.wset([$t48, $t49], "LineBottom", $.sub(($.add((await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), $.idiv(($.sub((await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Bottom")), (await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")))), 2))), 1), { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true });
-      await $.stmt((await $.wcall([$t48, $t49], "MoveTo", [(await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), (await $.wv([$t48, $t49], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false))], C)));
-      await $.stmt((await $.wcall([$t48, $t49], "LineTo", [(await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Right")), (await $.wv([$t48, $t49], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false))], C)));
-      await $.stmt((await $.wcall([$t48, $t49], "inc", [$.ref(async () => (await $.wv([$t48, $t49], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false)), async ($t51) => { await $.wset([$t48, $t49], "LineBottom", $t51, { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }); })], C)));
-      await $.mset((await $.wv([$t48, $t49], "Pen", C, false)), "Color", (await $.wv([$t48, $t49], "clWhite", C, false)));
-      await $.stmt((await $.wcall([$t48, $t49], "MoveTo", [(await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), (await $.wv([$t48, $t49], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false))], C)));
-      await $.stmt((await $.wcall([$t48, $t49], "LineTo", [(await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Right")), (await $.wv([$t48, $t49], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false))], C)));
+    if ($.truthy($.eq((await $.wv([$t49, $t50], "Caption", C, false)), "-"))) {
+      await $.mset((await $.wv([$t49, $t50], "Pen", C, false)), "Color", (await $.wv([$t49, $t50], "clBlack", C, false)));
+      await $.wset([$t49, $t50], "LineBottom", $.sub(($.add((await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), $.idiv(($.sub((await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Bottom")), (await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")))), 2))), 1), { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true });
+      await $.stmt((await $.wcall([$t49, $t50], "MoveTo", [(await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), (await $.wv([$t49, $t50], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false))], C)));
+      await $.stmt((await $.wcall([$t49, $t50], "LineTo", [(await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Right")), (await $.wv([$t49, $t50], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false))], C)));
+      await $.stmt((await $.wcall([$t49, $t50], "inc", [$.ref(async () => (await $.wv([$t49, $t50], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false)), async ($t52) => { await $.wset([$t49, $t50], "LineBottom", $t52, { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }); })], C)));
+      await $.mset((await $.wv([$t49, $t50], "Pen", C, false)), "Color", (await $.wv([$t49, $t50], "clWhite", C, false)));
+      await $.stmt((await $.wcall([$t49, $t50], "MoveTo", [(await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), (await $.wv([$t49, $t50], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false))], C)));
+      await $.stmt((await $.wcall([$t49, $t50], "LineTo", [(await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Right")), (await $.wv([$t49, $t50], "LineBottom", { get: async () => L0["linebottom"], set: async (v) => { L0["linebottom"] = v; }, local: true }, false))], C)));
     } else {
-      if ($.truthy((await $.wv([$t48, $t49], "Selected", { get: async () => L0["selected"], set: async (v) => { L0["selected"] = v; }, local: true }, false)))) {
-        await $.mset((await $.wv([$t48, $t49], "Brush", C, false)), "Color", (await $.wv([$t48, $t49], "clNavy", C, false)));
-        if ($.truthy((await $.wv([$t48, $t49], "Enabled", C, false)))) {
-          await $.mset((await $.wv([$t48, $t49], "Font", C, false)), "Color", (await $.wv([$t48, $t49], "clWhite", C, false)));
+      if ($.truthy((await $.wv([$t49, $t50], "Selected", { get: async () => L0["selected"], set: async (v) => { L0["selected"] = v; }, local: true }, false)))) {
+        await $.mset((await $.wv([$t49, $t50], "Brush", C, false)), "Color", (await $.wv([$t49, $t50], "clNavy", C, false)));
+        if ($.truthy((await $.wv([$t49, $t50], "Enabled", C, false)))) {
+          await $.mset((await $.wv([$t49, $t50], "Font", C, false)), "Color", (await $.wv([$t49, $t50], "clWhite", C, false)));
         } else {
-          await $.mset((await $.wv([$t48, $t49], "Font", C, false)), "Color", (await $.wv([$t48, $t49], "clSilver", C, false)));
+          await $.mset((await $.wv([$t49, $t50], "Font", C, false)), "Color", (await $.wv([$t49, $t50], "clSilver", C, false)));
         }
       } else {
-        await $.mset((await $.wv([$t48, $t49], "Brush", C, false)), "Color", (await $.wv([$t48, $t49], "clBtnFace", C, false)));
-        if ($.truthy((await $.wv([$t48, $t49], "Enabled", C, false)))) {
-          await $.mset((await $.wv([$t48, $t49], "Font", C, false)), "Color", (await $.wv([$t48, $t49], "clBlack", C, false)));
+        await $.mset((await $.wv([$t49, $t50], "Brush", C, false)), "Color", (await $.wv([$t49, $t50], "clBtnFace", C, false)));
+        if ($.truthy((await $.wv([$t49, $t50], "Enabled", C, false)))) {
+          await $.mset((await $.wv([$t49, $t50], "Font", C, false)), "Color", (await $.wv([$t49, $t50], "clBlack", C, false)));
         } else {
-          await $.mset((await $.wv([$t48, $t49], "Font", C, false)), "Color", (await $.wv([$t48, $t49], "clGrayText", C, false)));
+          await $.mset((await $.wv([$t49, $t50], "Font", C, false)), "Color", (await $.wv([$t49, $t50], "clGrayText", C, false)));
         }
       }
-      await $.wset([$t48, $t49], "Bar", (await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true });
-      await $.stmt((await $.wcall([$t48, $t49], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left")), async ($t52) => { await $.mset((await $.wv([$t48, $t49], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left", $t52); }), 22], C)));
-      await $.stmt((await $.wcall([$t48, $t49], "FillRect", [(await $.wv([$t48, $t49], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false))], C)));
-      await $.stmt((await $.wcall([$t48, $t49], "TextOut", [$.add((await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), 22), $.add((await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), 1), (await $.wv([$t48, $t49], "Caption", C, false))], C)));
+      await $.wset([$t49, $t50], "Bar", (await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true });
+      await $.stmt((await $.wcall([$t49, $t50], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left")), async ($t53) => { await $.mset((await $.wv([$t49, $t50], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left", $t53); }), 22], C)));
+      await $.stmt((await $.wcall([$t49, $t50], "FillRect", [(await $.wv([$t49, $t50], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false))], C)));
+      await $.stmt((await $.wcall([$t49, $t50], "TextOut", [$.add((await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), 22), $.add((await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), 1), (await $.wv([$t49, $t50], "Caption", C, false))], C)));
     }
-    await $.wset([$t48, $t49], "SText", (await $.wcall([$t48, $t49], "ShortCutToText", [(await $.wv([$t48, $t49], "ShortCut", C, false))], C)), { get: async () => L0["stext"], set: async (v) => { L0["stext"] = v; }, local: true });
-    await $.stmt((await $.wcall([$t48, $t49], "TextOut", [$.sub($.sub((await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Right")), (await $.wcall([$t48, $t49], "TextWidth", [(await $.wv([$t48, $t49], "SText", { get: async () => L0["stext"], set: async (v) => { L0["stext"] = v; }, local: true }, false))], C))), 2), $.add((await $.mv((await $.wv([$t48, $t49], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), 1), (await $.wv([$t48, $t49], "SText", { get: async () => L0["stext"], set: async (v) => { L0["stext"] = v; }, local: true }, false))], C)));
-    if ($.truthy($.ne((await $.wv([$t48, $t49], "ImageIndex", C, false)), (-(1))))) {
+    await $.wset([$t49, $t50], "SText", (await $.wcall([$t49, $t50], "ShortCutToText", [(await $.wv([$t49, $t50], "ShortCut", C, false))], C)), { get: async () => L0["stext"], set: async (v) => { L0["stext"] = v; }, local: true });
+    await $.stmt((await $.wcall([$t49, $t50], "TextOut", [$.sub($.sub((await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Right")), (await $.wcall([$t49, $t50], "TextWidth", [(await $.wv([$t49, $t50], "SText", { get: async () => L0["stext"], set: async (v) => { L0["stext"] = v; }, local: true }, false))], C))), 2), $.add((await $.mv((await $.wv([$t49, $t50], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), 1), (await $.wv([$t49, $t50], "SText", { get: async () => L0["stext"], set: async (v) => { L0["stext"] = v; }, local: true }, false))], C)));
+    if ($.truthy($.ne((await $.wv([$t49, $t50], "ImageIndex", C, false)), (-(1))))) {
       {
-        const $t53 = (await $.wv([$t48, $t49], "GetParentMenu", C, false));
-        if ($.truthy((await $.wcall([$t48, $t49, $t53], "Assigned", [(await $.wv([$t48, $t49, $t53], "Images", C, false))], C)))) {
-          if ($.truthy((await $.wv([$t48, $t49, $t53], "Checked", C, false)))) {
-            await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left", $.add((await $.mv((await $.wv([$t48, $t49, $t53], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), 1));
-            await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right", $.add((await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left")), 16));
-            await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top", $.add((await $.mv((await $.wv([$t48, $t49, $t53], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), 1));
-            await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom", $.add((await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top")), 16));
-            await $.mset((await $.mv((await $.wv([$t48, $t49, $t53], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "Brush")), "Color", (await $.wv([$t48, $t49, $t53], "clBtnShadow", C, false)));
-            await $.stmt((await $.mcall((await $.wv([$t48, $t49, $t53], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "FrameRect", [(await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false))])));
-            await $.stmt((await $.wcall([$t48, $t49, $t53], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left")), async ($t54) => { await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left", $t54); }), 2], C)));
-            await $.stmt((await $.wcall([$t48, $t49, $t53], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right")), async ($t55) => { await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right", $t55); }), 2], C)));
-            await $.stmt((await $.wcall([$t48, $t49, $t53], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top")), async ($t56) => { await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top", $t56); }), 2], C)));
-            await $.stmt((await $.wcall([$t48, $t49, $t53], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom")), async ($t57) => { await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom", $t57); }), 2], C)));
-            await $.mset((await $.mv((await $.wv([$t48, $t49, $t53], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "Brush")), "Color", (await $.wv([$t48, $t49, $t53], "clBtnHighlight", C, false)));
-            await $.stmt((await $.mcall((await $.wv([$t48, $t49, $t53], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "FrameRect", [(await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false))])));
-            await $.stmt((await $.wcall([$t48, $t49, $t53], "Dec", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left")), async ($t58) => { await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left", $t58); }), 1], C)));
-            await $.stmt((await $.wcall([$t48, $t49, $t53], "Dec", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right")), async ($t59) => { await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right", $t59); }), 1], C)));
-            await $.stmt((await $.wcall([$t48, $t49, $t53], "Dec", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top")), async ($t60) => { await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top", $t60); }), 1], C)));
-            await $.stmt((await $.wcall([$t48, $t49, $t53], "Dec", [$.ref(async () => (await $.mv((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom")), async ($t61) => { await $.mset((await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom", $t61); }), 1], C)));
-            if ($.truthy((await $.wv([$t48, $t49, $t53], "Selected", { get: async () => L0["selected"], set: async (v) => { L0["selected"] = v; }, local: true }, false)))) {
-              await $.mset((await $.mv((await $.wv([$t48, $t49, $t53], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "Brush")), "Color", (await $.wv([$t48, $t49, $t53], "clBtnFace", C, false)));
+        const $t54 = (await $.wv([$t49, $t50], "GetParentMenu", C, false));
+        if ($.truthy((await $.wcall([$t49, $t50, $t54], "Assigned", [(await $.wv([$t49, $t50, $t54], "Images", C, false))], C)))) {
+          if ($.truthy((await $.wv([$t49, $t50, $t54], "Checked", C, false)))) {
+            await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left", $.add((await $.mv((await $.wv([$t49, $t50, $t54], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), 1));
+            await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right", $.add((await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left")), 16));
+            await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top", $.add((await $.mv((await $.wv([$t49, $t50, $t54], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), 1));
+            await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom", $.add((await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top")), 16));
+            await $.mset((await $.mv((await $.wv([$t49, $t50, $t54], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "Brush")), "Color", (await $.wv([$t49, $t50, $t54], "clBtnShadow", C, false)));
+            await $.stmt((await $.mcall((await $.wv([$t49, $t50, $t54], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "FrameRect", [(await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false))])));
+            await $.stmt((await $.wcall([$t49, $t50, $t54], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left")), async ($t55) => { await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left", $t55); }), 2], C)));
+            await $.stmt((await $.wcall([$t49, $t50, $t54], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right")), async ($t56) => { await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right", $t56); }), 2], C)));
+            await $.stmt((await $.wcall([$t49, $t50, $t54], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top")), async ($t57) => { await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top", $t57); }), 2], C)));
+            await $.stmt((await $.wcall([$t49, $t50, $t54], "Inc", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom")), async ($t58) => { await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom", $t58); }), 2], C)));
+            await $.mset((await $.mv((await $.wv([$t49, $t50, $t54], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "Brush")), "Color", (await $.wv([$t49, $t50, $t54], "clBtnHighlight", C, false)));
+            await $.stmt((await $.mcall((await $.wv([$t49, $t50, $t54], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "FrameRect", [(await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false))])));
+            await $.stmt((await $.wcall([$t49, $t50, $t54], "Dec", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left")), async ($t59) => { await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Left", $t59); }), 1], C)));
+            await $.stmt((await $.wcall([$t49, $t50, $t54], "Dec", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right")), async ($t60) => { await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Right", $t60); }), 1], C)));
+            await $.stmt((await $.wcall([$t49, $t50, $t54], "Dec", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top")), async ($t61) => { await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Top", $t61); }), 1], C)));
+            await $.stmt((await $.wcall([$t49, $t50, $t54], "Dec", [$.ref(async () => (await $.mv((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom")), async ($t62) => { await $.mset((await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false)), "Bottom", $t62); }), 1], C)));
+            if ($.truthy((await $.wv([$t49, $t50, $t54], "Selected", { get: async () => L0["selected"], set: async (v) => { L0["selected"] = v; }, local: true }, false)))) {
+              await $.mset((await $.mv((await $.wv([$t49, $t50, $t54], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "Brush")), "Color", (await $.wv([$t49, $t50, $t54], "clBtnFace", C, false)));
             } else {
-              await $.mset((await $.mv((await $.wv([$t48, $t49, $t53], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "Brush")), "Color", (await $.wv([$t48, $t49, $t53], "clBtnHighlight", C, false)));
+              await $.mset((await $.mv((await $.wv([$t49, $t50, $t54], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "Brush")), "Color", (await $.wv([$t49, $t50, $t54], "clBtnHighlight", C, false)));
             }
-            await $.stmt((await $.mcall((await $.wv([$t48, $t49, $t53], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "FillRect", [(await $.wv([$t48, $t49, $t53], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false))])));
+            await $.stmt((await $.mcall((await $.wv([$t49, $t50, $t54], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), "FillRect", [(await $.wv([$t49, $t50, $t54], "Bar", { get: async () => L0["bar"], set: async (v) => { L0["bar"] = v; }, local: true }, false))])));
           }
-          await $.stmt((await $.mcall((await $.wv([$t48, $t49, $t53], "Images", C, false)), "Draw", [(await $.wv([$t48, $t49, $t53], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t48, $t49, $t53], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), (await $.mv((await $.wv([$t48, $t49, $t53], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), (await $.wv([$t48, $t49, $t53], "ImageIndex", C, false)), (await $.wv([$t48, $t49, $t53], "Enabled", C, false))])));
+          await $.stmt((await $.mcall((await $.wv([$t49, $t50, $t54], "Images", C, false)), "Draw", [(await $.wv([$t49, $t50, $t54], "ACanvas", { get: async () => L0["acanvas"], set: async (v) => { L0["acanvas"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t49, $t50, $t54], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Left")), (await $.mv((await $.wv([$t49, $t50, $t54], "ARect", { get: async () => L0["arect"], set: async (v) => { L0["arect"] = v; }, local: true }, false)), "Top")), (await $.wv([$t49, $t50, $t54], "ImageIndex", C, false)), (await $.wv([$t49, $t50, $t54], "Enabled", C, false))])));
         }
       }
     }
@@ -950,11 +950,11 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t62 = L0["sender"];
-    await $.wset([$t62], "Checked", $.not((await $.wv([$t62], "Checked", C, false))), C);
-    if ($.truthy($.not(((await $.or_((await $.or_((await $.or_((await $.or_((await $.mv((await $.wv([$t62], "FilterNationalCurrency", C, false)), "Checked")), async () => (await $.mv((await $.wv([$t62], "FilterForeignCurrency", C, false)), "Checked")))), async () => (await $.mv((await $.wv([$t62], "FilterMultyCurrency", C, false)), "Checked")))), async () => (await $.mv((await $.wv([$t62], "FilterRateDifference", C, false)), "Checked")))), async () => (await $.mv((await $.wv([$t62], "FilterProfitDebit", C, false)), "Checked")))))))) {
-      await $.wset([$t62], "Checked", (await $.wv([$t62], "True", C, false)), C);
-      await $.stmt((await $.mcall((await $.wv([$t62], "HintBox", C, false)), "ShowMessage", ["Can'not unselect all checkboxes - nothing to view"])));
+    const $t63 = L0["sender"];
+    await $.wset([$t63], "Checked", $.not((await $.wv([$t63], "Checked", C, false))), C);
+    if ($.truthy($.not(((await $.or_((await $.or_((await $.or_((await $.or_((await $.mv((await $.wv([$t63], "FilterNationalCurrency", C, false)), "Checked")), async () => (await $.mv((await $.wv([$t63], "FilterForeignCurrency", C, false)), "Checked")))), async () => (await $.mv((await $.wv([$t63], "FilterMultyCurrency", C, false)), "Checked")))), async () => (await $.mv((await $.wv([$t63], "FilterRateDifference", C, false)), "Checked")))), async () => (await $.mv((await $.wv([$t63], "FilterProfitDebit", C, false)), "Checked")))))))) {
+      await $.wset([$t63], "Checked", (await $.wv([$t63], "True", C, false)), C);
+      await $.stmt((await $.mcall((await $.wv([$t63], "HintBox", C, false)), "ShowMessage", ["Can'not unselect all checkboxes - nothing to view"])));
     }
   }
   await $.mcall((await $.v(C, "FilterTransactionsSelected")), "Execute", []);
@@ -966,34 +966,34 @@ export default function define($) {
   if ($.truthy((await $.mv((await $.v(C, "BrowseGrid")), "Focused")))) {
     await $.mcall((await $.mv((await $.v(C, "BrowseGrid")), "SelectedRows")), "Clear", []);
     {
-      const $t63 = (await $.call(C, "TCMMouseWheel", [(await L0["message"].get())]));
-      const $t64 = (await $.mv((await $.mv((await $.wv([$t63], "TransactionsDataModule", C, false)), "Transactions")), "DataSet"));
-      if ($.truthy($.in_((await $.wv([$t63, $t64], "ssCtrl", C, false)), (await $.wv([$t63, $t64], "ShiftState", C, false))))) {
-        await $.wset([$t63, $t64], "Step", 3, { get: async () => L0["step"], set: async (v) => { L0["step"] = v; }, local: true });
+      const $t64 = (await $.call(C, "TCMMouseWheel", [(await L0["message"].get())]));
+      const $t65 = (await $.mv((await $.mv((await $.wv([$t64], "TransactionsDataModule", C, false)), "Transactions")), "DataSet"));
+      if ($.truthy($.in_((await $.wv([$t64, $t65], "ssCtrl", C, false)), (await $.wv([$t64, $t65], "ShiftState", C, false))))) {
+        await $.wset([$t64, $t65], "Step", 3, { get: async () => L0["step"], set: async (v) => { L0["step"] = v; }, local: true });
       } else {
-        await $.wset([$t63, $t64], "Step", 1, { get: async () => L0["step"], set: async (v) => { L0["step"] = v; }, local: true });
+        await $.wset([$t64, $t65], "Step", 1, { get: async () => L0["step"], set: async (v) => { L0["step"] = v; }, local: true });
       }
-      if ($.truthy($.lt((await $.wv([$t63, $t64], "WheelDelta", C, false)), 0))) {
-        { const $t65 = (await $.wv([$t63, $t64], "Step", { get: async () => L0["step"], set: async (v) => { L0["step"] = v; }, local: true }, false));
-          await $.wset([$t63, $t64], "I", 1, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
-          let $t66 = true;
+      if ($.truthy($.lt((await $.wv([$t64, $t65], "WheelDelta", C, false)), 0))) {
+        { const $t66 = (await $.wv([$t64, $t65], "Step", { get: async () => L0["step"], set: async (v) => { L0["step"] = v; }, local: true }, false));
+          await $.wset([$t64, $t65], "I", 1, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
+          let $t67 = true;
           for (;;) {
-            if (!$t66) { await $.wset([$t63, $t64], "I", $.succ((await $.wv([$t63, $t64], "I", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
-            $t66 = false;
-            if (!($.ord((await $.wv([$t63, $t64], "I", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t65))) break;
-            await $.stmt($.wcall([$t63, $t64], "Next", [], C));
+            if (!$t67) { await $.wset([$t64, $t65], "I", $.succ((await $.wv([$t64, $t65], "I", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
+            $t67 = false;
+            if (!($.ord((await $.wv([$t64, $t65], "I", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t66))) break;
+            await $.stmt($.wcall([$t64, $t65], "Next", [], C));
             await $.tick();
           }
         }
       } else {
-        { const $t67 = (await $.wv([$t63, $t64], "Step", { get: async () => L0["step"], set: async (v) => { L0["step"] = v; }, local: true }, false));
-          await $.wset([$t63, $t64], "I", 1, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
-          let $t68 = true;
+        { const $t68 = (await $.wv([$t64, $t65], "Step", { get: async () => L0["step"], set: async (v) => { L0["step"] = v; }, local: true }, false));
+          await $.wset([$t64, $t65], "I", 1, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
+          let $t69 = true;
           for (;;) {
-            if (!$t68) { await $.wset([$t63, $t64], "I", $.succ((await $.wv([$t63, $t64], "I", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
-            $t68 = false;
-            if (!($.ord((await $.wv([$t63, $t64], "I", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t67))) break;
-            await $.stmt($.wcall([$t63, $t64], "Prior", [], C));
+            if (!$t69) { await $.wset([$t64, $t65], "I", $.succ((await $.wv([$t64, $t65], "I", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
+            $t69 = false;
+            if (!($.ord((await $.wv([$t64, $t65], "I", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t68))) break;
+            await $.stmt($.wcall([$t64, $t65], "Prior", [], C));
             await $.tick();
           }
         }
@@ -1015,8 +1015,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t69 = L0["sender"];
-    await $.wset([$t69], "Checked", $.not((await $.wv([$t69], "Checked", C, false))), C);
+    const $t70 = L0["sender"];
+    await $.wset([$t70], "Checked", $.not((await $.wv([$t70], "Checked", C, false))), C);
   }
   await $.stmt($.call(C, "FilterChanged", []));
   return L0.result;
@@ -1120,8 +1120,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t70 = L0["sender"];
-    await $.wset([$t70], "Checked", $.not((await $.wv([$t70], "Checked", C, false))), C);
+    const $t71 = L0["sender"];
+    await $.wset([$t71], "Checked", $.not((await $.wv([$t71], "Checked", C, false))), C);
   }
   await $.mcall((await $.v(C, "FilterAmountApply")), "Execute", []);
   return L0.result;
@@ -1191,8 +1191,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t71 = L0["sender"];
-    await $.wset([$t71], "Checked", $.not((await $.wv([$t71], "Checked", C, false))), C);
+    const $t72 = L0["sender"];
+    await $.wset([$t72], "Checked", $.not((await $.wv([$t72], "Checked", C, false))), C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -1201,30 +1201,30 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "rect": $.copyArg(p1), "datacol": $.copyArg(p2), "column": $.copyArg(p3), "state": $.copyArg(p4), result: undefined, "imageindex": 0};
   await $.fixArgs(L0, ["sender", "rect", "datacol", "column", "state"]);
   {
-    const $t72 = L0["sender"];
-    if ($.truthy($.ne((await $.mv((await $.mv((await $.wv([$t72], "DataSource", C, false)), "DataSet")), "RecordCount")), 0))) {
-      { const $t73 = (await $.mv((await $.mcall((await $.mv((await $.wv([$t72], "DataSource", C, false)), "DataSet")), "FieldByName", ["Status"])), "AsInteger"));
-        if ($.eq($t73, (await $.wv([$t72], "atsCommited", C, false)))) {
-          await $.wset([$t72], "ImageIndex", 7, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
+    const $t73 = L0["sender"];
+    if ($.truthy($.ne((await $.mv((await $.mv((await $.wv([$t73], "DataSource", C, false)), "DataSet")), "RecordCount")), 0))) {
+      { const $t74 = (await $.mv((await $.mcall((await $.mv((await $.wv([$t73], "DataSource", C, false)), "DataSet")), "FieldByName", ["Status"])), "AsInteger"));
+        if ($.eq($t74, (await $.wv([$t73], "atsCommited", C, false)))) {
+          await $.wset([$t73], "ImageIndex", 7, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
         }
-        else if ($.eq($t73, (await $.wv([$t72], "atsRejected", C, false)))) {
-          await $.wset([$t72], "ImageIndex", 8, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
+        else if ($.eq($t74, (await $.wv([$t73], "atsRejected", C, false)))) {
+          await $.wset([$t73], "ImageIndex", 8, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
         }
-        else if ($.eq($t73, (await $.wv([$t72], "atsDelayed", C, false)))) {
-          await $.wset([$t72], "ImageIndex", 9, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
+        else if ($.eq($t74, (await $.wv([$t73], "atsDelayed", C, false)))) {
+          await $.wset([$t73], "ImageIndex", 9, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
         }
         else {
-          if ($.truthy($.ne((await $.mv((await $.mv((await $.wv([$t72], "DataSource", C, false)), "DataSet")), "State")), (await $.wv([$t72], "dsInsert", C, false))))) {
-            throw $.raise((await $.mcall((await $.wv([$t72], "EDataCorrupted", C, false)), "CreateFmt", ["Unknown state in transactions dataset: %d, ID=%d", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t72], "DataSource", C, false)), "DataSet")), "FieldByName", ["Status"])), "AsInteger")), (await $.mv((await $.mcall((await $.mv((await $.wv([$t72], "DataSource", C, false)), "DataSet")), "FieldByName", ["ID"])), "AsInteger"))]])));
+          if ($.truthy($.ne((await $.mv((await $.mv((await $.wv([$t73], "DataSource", C, false)), "DataSet")), "State")), (await $.wv([$t73], "dsInsert", C, false))))) {
+            throw $.raise((await $.mcall((await $.wv([$t73], "EDataCorrupted", C, false)), "CreateFmt", ["Unknown state in transactions dataset: %d, ID=%d", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t73], "DataSource", C, false)), "DataSet")), "FieldByName", ["Status"])), "AsInteger")), (await $.mv((await $.mcall((await $.mv((await $.wv([$t73], "DataSource", C, false)), "DataSet")), "FieldByName", ["ID"])), "AsInteger"))]])));
           } else {
-            await $.wset([$t72], "ImageIndex", (-(1)), { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
+            await $.wset([$t73], "ImageIndex", (-(1)), { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
           }
         }
       }
-      if ($.truthy((await $.and_(($.eq((await $.wv([$t72], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 1)), async () => ($.ne((await $.wv([$t72], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (-(1)))))))) {
-        await $.stmt((await $.mcall((await $.wv([$t72], "ImageList", C, false)), "Draw", [(await $.wv([$t72], "Canvas", C, false)), (await $.mv((await $.wv([$t72], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Left")), (await $.mv((await $.wv([$t72], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Top")), (await $.wv([$t72], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (await $.wv([$t72], "True", C, false))])));
+      if ($.truthy((await $.and_(($.eq((await $.wv([$t73], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 1)), async () => ($.ne((await $.wv([$t73], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (-(1)))))))) {
+        await $.stmt((await $.mcall((await $.wv([$t73], "ImageList", C, false)), "Draw", [(await $.wv([$t73], "Canvas", C, false)), (await $.mv((await $.wv([$t73], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Left")), (await $.mv((await $.wv([$t73], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Top")), (await $.wv([$t73], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (await $.wv([$t73], "True", C, false))])));
       } else {
-        await $.stmt((await $.wcall([$t72], "DefaultDrawColumnCell", [(await $.wv([$t72], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t72], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t72], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t72], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
+        await $.stmt((await $.wcall([$t73], "DefaultDrawColumnCell", [(await $.wv([$t73], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t73], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t73], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t73], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
       }
     }
   }
@@ -1236,14 +1236,14 @@ export default function define($) {
   if ($.truthy($.not((await $.mv((await $.mv((await $.mv((await $.v(C, "TransactionsDataModule")), "Transactions")), "DataSet")), "ControlsDisabled"))))) {
     await $.mset((await $.v(C, "RejectReasonPanel")), "Enabled", $.eq((await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "TransactionsDataModule")), "Transactions")), "DataSet")), "FieldByName", ["status"])), "AsInteger")), (await $.v(C, "atsRejected"))));
     await $.mcall((await $.v(C, "RejectedPaintBox")), "Repaint", []);
-    { const $t74 = $.sub((await $.v(C, "MaxFlagSet")), 1);
+    { const $t75 = $.sub((await $.v(C, "MaxFlagSet")), 1);
       L0["index"] = 0;
-      let $t75 = true;
+      let $t76 = true;
       for (;;) {
-        if (!$t75) { L0["index"] = $.succ(L0["index"], 1); }
-        $t75 = false;
-        if (!($.ord(L0["index"]) <= $.ord($t74))) break;
-        { const $t76 = await $.iset((await $.v(C, "FSelectionChanged")), [L0["index"]], true); if ($t76 !== undefined) { await $.set(C, "FSelectionChanged", $t76); } }
+        if (!$t76) { L0["index"] = $.succ(L0["index"], 1); }
+        $t76 = false;
+        if (!($.ord(L0["index"]) <= $.ord($t75))) break;
+        { const $t77 = await $.iset((await $.v(C, "FSelectionChanged")), [L0["index"]], true); if ($t77 !== undefined) { await $.set(C, "FSelectionChanged", $t77); } }
         await $.tick();
       }
     }
@@ -1256,8 +1256,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t77 = L0["sender"];
-    await $.stmt((await $.mcall((await $.wv([$t77], "ImageList", C, false)), "Draw", [(await $.wv([$t77], "Canvas", C, false)), 0, 0, 8, $.eq((await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t77], "TransactionsDataModule", C, false)), "Transactions")), "DataSet")), "FieldByName", ["status"])), "AsInteger")), (await $.wv([$t77], "atsRejected", C, false)))])));
+    const $t78 = L0["sender"];
+    await $.stmt((await $.mcall((await $.wv([$t78], "ImageList", C, false)), "Draw", [(await $.wv([$t78], "Canvas", C, false)), 0, 0, 8, $.eq((await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t78], "TransactionsDataModule", C, false)), "Transactions")), "DataSet")), "FieldByName", ["status"])), "AsInteger")), (await $.wv([$t78], "atsRejected", C, false)))])));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -1273,38 +1273,38 @@ export default function define($) {
 });
   if ($.truthy((await $.idx((await $.v(C, "FSelectionChanged")), [L0["flagset"]])))) {
     {
-      const $t78 = (await $.v(C, "BrowseGrid"));
-      const $t79 = (await $.mv((await $.wv([$t78], "DataSource", C, false)), "DataSet"));
-      const $t80 = (await $.wv([$t78, $t79], "SelectedRows", C, false));
-      if ($.truthy((await $.or_(($.eq((await $.wv([$t78, $t79, $t80], "Count", C, false)), 1)), async () => ($.eq((await $.wv([$t78, $t79, $t80], "Count", C, false)), 0)))))) {
-        await $.stmt($.wcall([$t78, $t79, $t80], "CheckRow", [], { get: async () => L0["checkrow"], set: async (v) => { L0["checkrow"] = v; }, local: true }));
+      const $t79 = (await $.v(C, "BrowseGrid"));
+      const $t80 = (await $.mv((await $.wv([$t79], "DataSource", C, false)), "DataSet"));
+      const $t81 = (await $.wv([$t79, $t80], "SelectedRows", C, false));
+      if ($.truthy((await $.or_(($.eq((await $.wv([$t79, $t80, $t81], "Count", C, false)), 1)), async () => ($.eq((await $.wv([$t79, $t80, $t81], "Count", C, false)), 0)))))) {
+        await $.stmt($.wcall([$t79, $t80, $t81], "CheckRow", [], { get: async () => L0["checkrow"], set: async (v) => { L0["checkrow"] = v; }, local: true }));
       } else {
-        await $.stmt($.wcall([$t78, $t79, $t80], "DisableControls", [], C));
-        await $.wset([$t78, $t79, $t80], "SavedPos", (await $.wv([$t78, $t79, $t80], "GetBookmark", C, false)), { get: async () => L0["savedpos"], set: async (v) => { L0["savedpos"] = v; }, local: true });
+        await $.stmt($.wcall([$t79, $t80, $t81], "DisableControls", [], C));
+        await $.wset([$t79, $t80, $t81], "SavedPos", (await $.wv([$t79, $t80, $t81], "GetBookmark", C, false)), { get: async () => L0["savedpos"], set: async (v) => { L0["savedpos"] = v; }, local: true });
         try {
-          { const $t81 = $.sub((await $.wv([$t78, $t79, $t80], "Count", C, false)), 1);
-            await $.wset([$t78, $t79, $t80], "Index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
-            let $t82 = true;
+          { const $t82 = $.sub((await $.wv([$t79, $t80, $t81], "Count", C, false)), 1);
+            await $.wset([$t79, $t80, $t81], "Index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
+            let $t83 = true;
             for (;;) {
-              if (!$t82) { await $.wset([$t78, $t79, $t80], "Index", $.succ((await $.wv([$t78, $t79, $t80], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false)), 1), { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }); }
-              $t82 = false;
-              if (!($.ord((await $.wv([$t78, $t79, $t80], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))) <= $.ord($t81))) break;
-              await $.stmt((await $.wcall([$t78, $t79, $t80], "GotoBookmark", [(await $.wcall([$t78, $t79, $t80], "TBookmark", [(await $.idx((await $.wv([$t78, $t79, $t80], "Items", C, false)), [(await $.wv([$t78, $t79, $t80], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))]))], C))], C)));
-              await $.stmt($.wcall([$t78, $t79, $t80], "CheckRow", [], { get: async () => L0["checkrow"], set: async (v) => { L0["checkrow"] = v; }, local: true }));
-              if ($.truthy((await $.wv([$t78, $t79, $t80], "Result", { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true }, false)))) {
+              if (!$t83) { await $.wset([$t79, $t80, $t81], "Index", $.succ((await $.wv([$t79, $t80, $t81], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false)), 1), { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }); }
+              $t83 = false;
+              if (!($.ord((await $.wv([$t79, $t80, $t81], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))) <= $.ord($t82))) break;
+              await $.stmt((await $.wcall([$t79, $t80, $t81], "GotoBookmark", [(await $.wcall([$t79, $t80, $t81], "TBookmark", [(await $.idx((await $.wv([$t79, $t80, $t81], "Items", C, false)), [(await $.wv([$t79, $t80, $t81], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))]))], C))], C)));
+              await $.stmt($.wcall([$t79, $t80, $t81], "CheckRow", [], { get: async () => L0["checkrow"], set: async (v) => { L0["checkrow"] = v; }, local: true }));
+              if ($.truthy((await $.wv([$t79, $t80, $t81], "Result", { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true }, false)))) {
                 break;
               }
               await $.tick();
             }
           }
         } finally {
-          await $.stmt((await $.wcall([$t78, $t79, $t80], "GotoBookmark", [(await $.wv([$t78, $t79, $t80], "SavedPos", { get: async () => L0["savedpos"], set: async (v) => { L0["savedpos"] = v; }, local: true }, false))], C)));
-          await $.stmt($.wcall([$t78, $t79, $t80], "EnableControls", [], C));
+          await $.stmt((await $.wcall([$t79, $t80, $t81], "GotoBookmark", [(await $.wv([$t79, $t80, $t81], "SavedPos", { get: async () => L0["savedpos"], set: async (v) => { L0["savedpos"] = v; }, local: true }, false))], C)));
+          await $.stmt($.wcall([$t79, $t80, $t81], "EnableControls", [], C));
         }
       }
     }
-    { const $t83 = await $.iset(L0["lastselection"], [L0["flagset"]], L0["result"]); if ($t83 !== undefined) { L0["lastselection"] = $t83; } }
-    { const $t84 = await $.iset((await $.v(C, "FSelectionChanged")), [L0["flagset"]], false); if ($t84 !== undefined) { await $.set(C, "FSelectionChanged", $t84); } }
+    { const $t84 = await $.iset(L0["lastselection"], [L0["flagset"]], L0["result"]); if ($t84 !== undefined) { L0["lastselection"] = $t84; } }
+    { const $t85 = await $.iset((await $.v(C, "FSelectionChanged")), [L0["flagset"]], false); if ($t85 !== undefined) { await $.set(C, "FSelectionChanged", $t85); } }
   } else {
     L0["result"] = (await $.idx(L0["lastselection"], [L0["flagset"]]));
   }
@@ -1323,10 +1323,10 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t85 = L0["sender"];
-    if ($.truthy($.ne((await $.wv([$t85], "DateTime", C, false)), (await $.wv([$t85], "FFromDate", C, false))))) {
-      await $.wset([$t85], "FFromDate", (await $.wv([$t85], "DateTime", C, false)), C);
-      await $.mcall((await $.wv([$t85], "RefreshAction", C, false)), "Execute", []);
+    const $t86 = L0["sender"];
+    if ($.truthy($.ne((await $.wv([$t86], "DateTime", C, false)), (await $.wv([$t86], "FFromDate", C, false))))) {
+      await $.wset([$t86], "FFromDate", (await $.wv([$t86], "DateTime", C, false)), C);
+      await $.mcall((await $.wv([$t86], "RefreshAction", C, false)), "Execute", []);
     }
   }
   return L0.result;
@@ -1336,10 +1336,10 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t86 = L0["sender"];
-    if ($.truthy($.ne((await $.wv([$t86], "DateTime", C, false)), (await $.wv([$t86], "FToDate", C, false))))) {
-      await $.wset([$t86], "FToDate", (await $.wv([$t86], "DateTime", C, false)), C);
-      await $.mcall((await $.wv([$t86], "RefreshAction", C, false)), "Execute", []);
+    const $t87 = L0["sender"];
+    if ($.truthy($.ne((await $.wv([$t87], "DateTime", C, false)), (await $.wv([$t87], "FToDate", C, false))))) {
+      await $.wset([$t87], "FToDate", (await $.wv([$t87], "DateTime", C, false)), C);
+      await $.mcall((await $.wv([$t87], "RefreshAction", C, false)), "Execute", []);
     }
   }
   return L0.result;
@@ -1348,9 +1348,9 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t87 = (await $.v(C, "TransactionPropertiesForm"));
-    await $.mset((await $.wv([$t87], "ToDateEdit", C, false)), "DateTime", (await $.wv([$t87], "TransactionDate", C, false)));
-    await $.wset([$t87], "FToDate", (await $.wv([$t87], "TransactionDate", C, false)), C);
+    const $t88 = (await $.v(C, "TransactionPropertiesForm"));
+    await $.mset((await $.wv([$t88], "ToDateEdit", C, false)), "DateTime", (await $.wv([$t88], "TransactionDate", C, false)));
+    await $.wset([$t88], "FToDate", (await $.wv([$t88], "TransactionDate", C, false)), C);
   }
   return L0.result;
 }, {"params": [], "kind": "procedure", "ptypes": []});
@@ -1381,9 +1381,9 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "BrowseGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t88 = L0["sender"];
-    const $t89 = (await $.mv((await $.wv([$t88], "TransactionsDataModule", C, false)), "TransactionsData"));
-    await $.wset([$t88, $t89], "Enabled", $.ne((await $.wv([$t88, $t89], "RecNo", C, false)), 1), C);
+    const $t89 = L0["sender"];
+    const $t90 = (await $.mv((await $.wv([$t89], "TransactionsDataModule", C, false)), "TransactionsData"));
+    await $.wset([$t89, $t90], "Enabled", $.ne((await $.wv([$t89, $t90], "RecNo", C, false)), 1), C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -1393,9 +1393,9 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "BrowseGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t90 = L0["sender"];
-    const $t91 = (await $.mv((await $.wv([$t90], "TransactionsDataModule", C, false)), "TransactionsData"));
-    await $.wset([$t90, $t91], "Enabled", $.ne((await $.wv([$t90, $t91], "RecNo", C, false)), (await $.wv([$t90, $t91], "RecordCount", C, false))), C);
+    const $t91 = L0["sender"];
+    const $t92 = (await $.mv((await $.wv([$t91], "TransactionsDataModule", C, false)), "TransactionsData"));
+    await $.wset([$t91, $t92], "Enabled", $.ne((await $.wv([$t91, $t92], "RecNo", C, false)), (await $.wv([$t91, $t92], "RecordCount", C, false))), C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -1405,41 +1405,41 @@ export default function define($) {
   L0["checkrow"] = $.fn(async function CheckRow() {
   const L1 = {result: false};
   {
-    const $t92 = (await $.mv((await $.mv((await $.v(C, "BrowseGrid")), "DataSource")), "DataSet"));
-    await $.wset([$t92], "Result", $.eq((await $.mv((await $.wcall([$t92], "FieldByName", ["TransactionDate"], C)), "AsDateTime")), (await $.wv([$t92], "FCurrentDate", C, false))), { get: async () => L1["result"], set: async (v) => { L1["result"] = v; }, local: true });
+    const $t93 = (await $.mv((await $.mv((await $.v(C, "BrowseGrid")), "DataSource")), "DataSet"));
+    await $.wset([$t93], "Result", $.eq((await $.mv((await $.wcall([$t93], "FieldByName", ["TransactionDate"], C)), "AsDateTime")), (await $.wv([$t93], "FCurrentDate", C, false))), { get: async () => L1["result"], set: async (v) => { L1["result"] = v; }, local: true });
   }
   return L1.result;
 });
   if ($.truthy((await $.v(C, "FUpdateChangeMode")))) {
     L0["result"] = true;
     {
-      const $t93 = (await $.v(C, "BrowseGrid"));
-      const $t94 = (await $.mv((await $.wv([$t93], "DataSource", C, false)), "DataSet"));
-      const $t95 = (await $.wv([$t93, $t94], "SelectedRows", C, false));
-      if ($.truthy((await $.or_(($.eq((await $.wv([$t93, $t94, $t95], "Count", C, false)), 0)), async () => ($.eq((await $.wv([$t93, $t94, $t95], "Count", C, false)), 1)))))) {
-        await $.wset([$t93, $t94, $t95], "Result", (await $.wv([$t93, $t94, $t95], "CheckRow", { get: async () => L0["checkrow"], set: async (v) => { L0["checkrow"] = v; }, local: true }, false)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
+      const $t94 = (await $.v(C, "BrowseGrid"));
+      const $t95 = (await $.mv((await $.wv([$t94], "DataSource", C, false)), "DataSet"));
+      const $t96 = (await $.wv([$t94, $t95], "SelectedRows", C, false));
+      if ($.truthy((await $.or_(($.eq((await $.wv([$t94, $t95, $t96], "Count", C, false)), 0)), async () => ($.eq((await $.wv([$t94, $t95, $t96], "Count", C, false)), 1)))))) {
+        await $.wset([$t94, $t95, $t96], "Result", (await $.wv([$t94, $t95, $t96], "CheckRow", { get: async () => L0["checkrow"], set: async (v) => { L0["checkrow"] = v; }, local: true }, false)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
       } else {
-        await $.stmt($.wcall([$t93, $t94, $t95], "DisableControls", [], C));
-        await $.wset([$t93, $t94, $t95], "LastPos", (await $.wv([$t93, $t94, $t95], "GetBookmark", C, false)), { get: async () => L0["lastpos"], set: async (v) => { L0["lastpos"] = v; }, local: true });
+        await $.stmt($.wcall([$t94, $t95, $t96], "DisableControls", [], C));
+        await $.wset([$t94, $t95, $t96], "LastPos", (await $.wv([$t94, $t95, $t96], "GetBookmark", C, false)), { get: async () => L0["lastpos"], set: async (v) => { L0["lastpos"] = v; }, local: true });
         try {
-          { const $t96 = $.sub((await $.wv([$t93, $t94, $t95], "Count", C, false)), 1);
-            await $.wset([$t93, $t94, $t95], "Index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
-            let $t97 = true;
+          { const $t97 = $.sub((await $.wv([$t94, $t95, $t96], "Count", C, false)), 1);
+            await $.wset([$t94, $t95, $t96], "Index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
+            let $t98 = true;
             for (;;) {
-              if (!$t97) { await $.wset([$t93, $t94, $t95], "Index", $.succ((await $.wv([$t93, $t94, $t95], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false)), 1), { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }); }
-              $t97 = false;
-              if (!($.ord((await $.wv([$t93, $t94, $t95], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))) <= $.ord($t96))) break;
-              await $.stmt((await $.wcall([$t93, $t94, $t95], "GotoBookmark", [(await $.wcall([$t93, $t94, $t95], "TBookmark", [(await $.idx((await $.wv([$t93, $t94, $t95], "Items", C, false)), [(await $.wv([$t93, $t94, $t95], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))]))], C))], C)));
-              await $.wset([$t93, $t94, $t95], "Result", (await $.wv([$t93, $t94, $t95], "CheckRow", { get: async () => L0["checkrow"], set: async (v) => { L0["checkrow"] = v; }, local: true }, false)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
-              if ($.truthy($.not((await $.wv([$t93, $t94, $t95], "Result", { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true }, false))))) {
+              if (!$t98) { await $.wset([$t94, $t95, $t96], "Index", $.succ((await $.wv([$t94, $t95, $t96], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false)), 1), { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }); }
+              $t98 = false;
+              if (!($.ord((await $.wv([$t94, $t95, $t96], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))) <= $.ord($t97))) break;
+              await $.stmt((await $.wcall([$t94, $t95, $t96], "GotoBookmark", [(await $.wcall([$t94, $t95, $t96], "TBookmark", [(await $.idx((await $.wv([$t94, $t95, $t96], "Items", C, false)), [(await $.wv([$t94, $t95, $t96], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))]))], C))], C)));
+              await $.wset([$t94, $t95, $t96], "Result", (await $.wv([$t94, $t95, $t96], "CheckRow", { get: async () => L0["checkrow"], set: async (v) => { L0["checkrow"] = v; }, local: true }, false)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
+              if ($.truthy($.not((await $.wv([$t94, $t95, $t96], "Result", { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true }, false))))) {
                 break;
               }
               await $.tick();
             }
           }
         } finally {
-          await $.stmt((await $.wcall([$t93, $t94, $t95], "GotoBookmark", [(await $.wv([$t93, $t94, $t95], "LastPos", { get: async () => L0["lastpos"], set: async (v) => { L0["lastpos"] = v; }, local: true }, false))], C)));
-          await $.stmt($.wcall([$t93, $t94, $t95], "EnableControls", [], C));
+          await $.stmt((await $.wcall([$t94, $t95, $t96], "GotoBookmark", [(await $.wv([$t94, $t95, $t96], "LastPos", { get: async () => L0["lastpos"], set: async (v) => { L0["lastpos"] = v; }, local: true }, false))], C)));
+          await $.stmt($.wcall([$t94, $t95, $t96], "EnableControls", [], C));
         }
       }
     }
@@ -1470,25 +1470,25 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.not(((await $.mv((await $.mv((await $.mv((L0["sender"]), "DataSource")), "DataSet")), "IsEmpty")))))) {
     {
-      const $t98 = (await $.v(C, "TransactionPropertiesForm"));
-      const $t99 = (await $.wv([$t98], "TransactionsDataModule", C, false));
-      await $.wset([$t98, $t99], "TempDebit", (await $.mv((await $.mcall((await $.wv([$t98, $t99], "ODSCommisionTrans", C, false)), "FieldByName", ["Debt"])), "AsInteger")), { get: async () => L0["tempdebit"], set: async (v) => { L0["tempdebit"] = v; }, local: true });
-      await $.wset([$t98, $t99], "TempCredit", (await $.mv((await $.mcall((await $.wv([$t98, $t99], "ODSCommisionTrans", C, false)), "FieldByName", ["Credit"])), "AsInteger")), { get: async () => L0["tempcredit"], set: async (v) => { L0["tempcredit"] = v; }, local: true });
-      await $.wset([$t98, $t99], "TempDebitCurrency", (await $.wcall([$t98, $t99], "AccountCurrencyID", [(await $.mv((await $.mcall((await $.wv([$t98, $t99], "ODSCommisionTrans", C, false)), "FieldByName", ["Debt"])), "AsInteger"))], C)), { get: async () => L0["tempdebitcurrency"], set: async (v) => { L0["tempdebitcurrency"] = v; }, local: true });
-      await $.wset([$t98, $t99], "TempCreditCurrency", (await $.wcall([$t98, $t99], "AccountCurrencyID", [(await $.mv((await $.mcall((await $.wv([$t98, $t99], "ODSCommisionTrans", C, false)), "FieldByName", ["Credit"])), "AsInteger"))], C)), { get: async () => L0["tempcreditcurrency"], set: async (v) => { L0["tempcreditcurrency"] = v; }, local: true });
-      await $.wset([$t98, $t99], "TransactionDate", (await $.mv((await $.wv([$t98, $t99], "ToDateEdit", C, false)), "DateTime")), C);
-      await $.wset([$t98, $t99], "FMode", (await $.wv([$t98, $t99], "tmNew", C, false)), C);
-      await $.wset([$t98, $t99], "Caption", "Adding new transaction", C);
-      await $.stmt($.wcall([$t98, $t99], "Reset", [], C));
-      await $.wset([$t98, $t99], "FReadOnly", (await $.wv([$t98, $t99], "False", C, false)), C);
-      await $.stmt((await $.mcall((await $.mv((await $.wv([$t98, $t99], "DebitCurrency", C, false)), "DataSet")), "Locate", ["ID", (await $.wv([$t98, $t99], "TempDebitCurrency", { get: async () => L0["tempdebitcurrency"], set: async (v) => { L0["tempdebitcurrency"] = v; }, local: true }, false)), []])));
-      await $.stmt((await $.mcall((await $.mv((await $.wv([$t98, $t99], "CreditCurrency", C, false)), "DataSet")), "Locate", ["ID", (await $.wv([$t98, $t99], "TempCreditCurrency", { get: async () => L0["tempcreditcurrency"], set: async (v) => { L0["tempcreditcurrency"] = v; }, local: true }, false)), []])));
-      await $.stmt((await $.mcall((await $.mv((await $.wv([$t98, $t99], "DebitAccs", C, false)), "DataSet")), "Locate", ["ID", (await $.wv([$t98, $t99], "TempDebit", { get: async () => L0["tempdebit"], set: async (v) => { L0["tempdebit"] = v; }, local: true }, false)), []])));
-      await $.stmt((await $.mcall((await $.mv((await $.wv([$t98, $t99], "CreditAccs", C, false)), "DataSet")), "Locate", ["ID", (await $.wv([$t98, $t99], "TempCredit", { get: async () => L0["tempcredit"], set: async (v) => { L0["tempcredit"] = v; }, local: true }, false)), []])));
-      await $.mset((await $.mcall((await $.mv((await $.wv([$t98, $t99], "Transactions", C, false)), "DataSet")), "FieldByName", ["Name"])), "AsString", (await $.mv((await $.mcall((await $.wv([$t98, $t99], "ODSCommisionTrans", C, false)), "FieldByName", ["Assignment"])), "AsString")));
-      await $.stmt($.wcall([$t98, $t99], "ShowModal", [], C));
-      await $.stmt($.wcall([$t98, $t99], "UpdateToDate", [], C));
-      await $.mcall((await $.wv([$t98, $t99], "RefreshAction", C, false)), "Execute", []);
+      const $t99 = (await $.v(C, "TransactionPropertiesForm"));
+      const $t100 = (await $.wv([$t99], "TransactionsDataModule", C, false));
+      await $.wset([$t99, $t100], "TempDebit", (await $.mv((await $.mcall((await $.wv([$t99, $t100], "ODSCommisionTrans", C, false)), "FieldByName", ["Debt"])), "AsInteger")), { get: async () => L0["tempdebit"], set: async (v) => { L0["tempdebit"] = v; }, local: true });
+      await $.wset([$t99, $t100], "TempCredit", (await $.mv((await $.mcall((await $.wv([$t99, $t100], "ODSCommisionTrans", C, false)), "FieldByName", ["Credit"])), "AsInteger")), { get: async () => L0["tempcredit"], set: async (v) => { L0["tempcredit"] = v; }, local: true });
+      await $.wset([$t99, $t100], "TempDebitCurrency", (await $.wcall([$t99, $t100], "AccountCurrencyID", [(await $.mv((await $.mcall((await $.wv([$t99, $t100], "ODSCommisionTrans", C, false)), "FieldByName", ["Debt"])), "AsInteger"))], C)), { get: async () => L0["tempdebitcurrency"], set: async (v) => { L0["tempdebitcurrency"] = v; }, local: true });
+      await $.wset([$t99, $t100], "TempCreditCurrency", (await $.wcall([$t99, $t100], "AccountCurrencyID", [(await $.mv((await $.mcall((await $.wv([$t99, $t100], "ODSCommisionTrans", C, false)), "FieldByName", ["Credit"])), "AsInteger"))], C)), { get: async () => L0["tempcreditcurrency"], set: async (v) => { L0["tempcreditcurrency"] = v; }, local: true });
+      await $.wset([$t99, $t100], "TransactionDate", (await $.mv((await $.wv([$t99, $t100], "ToDateEdit", C, false)), "DateTime")), C);
+      await $.wset([$t99, $t100], "FMode", (await $.wv([$t99, $t100], "tmNew", C, false)), C);
+      await $.wset([$t99, $t100], "Caption", "Adding new transaction", C);
+      await $.stmt($.wcall([$t99, $t100], "Reset", [], C));
+      await $.wset([$t99, $t100], "FReadOnly", (await $.wv([$t99, $t100], "False", C, false)), C);
+      await $.stmt((await $.mcall((await $.mv((await $.wv([$t99, $t100], "DebitCurrency", C, false)), "DataSet")), "Locate", ["ID", (await $.wv([$t99, $t100], "TempDebitCurrency", { get: async () => L0["tempdebitcurrency"], set: async (v) => { L0["tempdebitcurrency"] = v; }, local: true }, false)), []])));
+      await $.stmt((await $.mcall((await $.mv((await $.wv([$t99, $t100], "CreditCurrency", C, false)), "DataSet")), "Locate", ["ID", (await $.wv([$t99, $t100], "TempCreditCurrency", { get: async () => L0["tempcreditcurrency"], set: async (v) => { L0["tempcreditcurrency"] = v; }, local: true }, false)), []])));
+      await $.stmt((await $.mcall((await $.mv((await $.wv([$t99, $t100], "DebitAccs", C, false)), "DataSet")), "Locate", ["ID", (await $.wv([$t99, $t100], "TempDebit", { get: async () => L0["tempdebit"], set: async (v) => { L0["tempdebit"] = v; }, local: true }, false)), []])));
+      await $.stmt((await $.mcall((await $.mv((await $.wv([$t99, $t100], "CreditAccs", C, false)), "DataSet")), "Locate", ["ID", (await $.wv([$t99, $t100], "TempCredit", { get: async () => L0["tempcredit"], set: async (v) => { L0["tempcredit"] = v; }, local: true }, false)), []])));
+      await $.mset((await $.mcall((await $.mv((await $.wv([$t99, $t100], "Transactions", C, false)), "DataSet")), "FieldByName", ["Name"])), "AsString", (await $.mv((await $.mcall((await $.wv([$t99, $t100], "ODSCommisionTrans", C, false)), "FieldByName", ["Assignment"])), "AsString")));
+      await $.stmt($.wcall([$t99, $t100], "ShowModal", [], C));
+      await $.stmt($.wcall([$t99, $t100], "UpdateToDate", [], C));
+      await $.mcall((await $.wv([$t99, $t100], "RefreshAction", C, false)), "Execute", []);
     }
   }
   return L0.result;
@@ -1499,8 +1499,8 @@ export default function define($) {
   await $.fixArgs(L0, ["accountid"]);
   L0["cname"] = "GetAccountCurrencyID";
   {
-    const $t100 = (await $.mv((await $.v(C, "TransactionsDataModule")), "OPComplexTrans"));
-    await $.wset([$t100], "Result", (await $.wcall([$t100], "CallIntegerFunction", [(await $.wv([$t100], "cName", { get: async () => L0["cname"], set: async (v) => { L0["cname"] = v; }, local: true }, false)), [(await $.wv([$t100], "accountID", { get: async () => L0["accountid"], set: async (v) => { L0["accountid"] = v; }, local: true }, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
+    const $t101 = (await $.mv((await $.v(C, "TransactionsDataModule")), "OPComplexTrans"));
+    await $.wset([$t101], "Result", (await $.wcall([$t101], "CallIntegerFunction", [(await $.wv([$t101], "cName", { get: async () => L0["cname"], set: async (v) => { L0["cname"] = v; }, local: true }, false)), [(await $.wv([$t101], "accountID", { get: async () => L0["accountid"], set: async (v) => { L0["accountid"] = v; }, local: true }, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;
 }, {"params": ["accountID"], "kind": "function", "ptypes": ["longint"]});
@@ -1531,8 +1531,8 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["cs_name"] = "EXCHANGE_CALLBACK";
   {
-    const $t101 = (await $.mv((await $.v(C, "TransactionsDataModule")), "OraclePackage"));
-    await $.stmt((await $.wcall([$t101], "CallProcedure", [(await $.wv([$t101], "cs_name", { get: async () => L0["cs_name"], set: async (v) => { L0["cs_name"] = v; }, local: true }, false)), []], C)));
+    const $t102 = (await $.mv((await $.v(C, "TransactionsDataModule")), "OraclePackage"));
+    await $.stmt((await $.wcall([$t102], "CallProcedure", [(await $.wv([$t102], "cs_name", { get: async () => L0["cs_name"], set: async (v) => { L0["cs_name"] = v; }, local: true }, false)), []], C)));
   }
   await $.stmt($.call(C, "Sb_Commit", []));
   await $.mcall((await $.v(C, "RefreshAction")), "Execute", []);

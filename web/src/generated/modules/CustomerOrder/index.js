@@ -115,7 +115,7 @@ export default {
   {
    "unit": "q_report",
    "file": "q_report",
-   "form": null,
+   "form": "TQRepCustOrders",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -148,5 +148,37 @@ export default {
    ],
    "source": "Packages/Customer's_orders(new)/Ocx/transaction.pas"
   }
- ]
+ ],
+ "lib": [
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "plugins": {}
 };

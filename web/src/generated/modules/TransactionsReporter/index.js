@@ -19,7 +19,7 @@ export default {
   {
    "unit": "TransactionViewerRptUnit",
    "file": "TransactionViewerRptUnit",
-   "form": null,
+   "form": "TTransactionsRpt",
    "ok": 1,
    "fail": 0,
    "activeForm": null,
@@ -52,5 +52,36 @@ export default {
    ],
    "source": "Packages/TransactionsReporter/TransactionsViewerImpl.pas"
   }
- ]
+ ],
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBStoredProc",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "plugins": {}
 };

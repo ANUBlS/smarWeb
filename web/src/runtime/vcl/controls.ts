@@ -1,8 +1,10 @@
 /* Visual controls (Controls.pas, StdCtrls.pas, ExtCtrls.pas, ComCtrls.pas, Buttons.pas …). */
-import { TObject, Ref, ValueRef, NOTFOUND } from '../core';
-import { registerBuiltin } from '../env';
+import { TObject, Ref, ValueRef, NOTFOUND, GAP, PasException } from '../core';
+import { toast } from '../toast';
+import { logger } from '../log';
+import { registerBuiltin, getBuiltin } from '../env';
 import { num, str } from '../pascal';
-import { invalidate } from '../ui';
+import { invalidate, beginHold, endHold } from '../ui';
 import { TComponent } from './component';
 import { TStrings, TFont, TCanvas, TPicture, Indexed, TCollection, TCollectionItem } from './classes';
 import { colorValue } from './colors';
@@ -50,17 +52,17 @@ export class TControl extends TComponent {
   get kind() { return 'control'; }
 
   get Visible() { return this.linkedVal('visible', this._visible) as boolean; }
-  set Visible(v: boolean) { this._visible = !!v; this.linked.delete('visible'); invalidate(); }
+  set Visible(v: boolean) { const c = this._visible !== !!v; this._visible = !!v; this.linked.delete('visible'); if (c) invalidate(); }
   get Enabled() { return this.linkedVal('enabled', this._enabled) as boolean; }
-  set Enabled(v: boolean) { this._enabled = !!v; this.linked.delete('enabled'); invalidate(); }
+  set Enabled(v: boolean) { const c = this._enabled !== !!v; this._enabled = !!v; this.linked.delete('enabled'); if (c) invalidate(); }
   get Caption() { return this.linkedVal('caption', this._caption) as string; }
-  set Caption(v: string) { this._caption = str(v); this.linked.delete('caption'); invalidate(); }
+  set Caption(v: string) { const n = str(v), c = this._caption !== n; this._caption = n; this.linked.delete('caption'); if (c) invalidate(); }
   get Text() { return this.Caption; }
   set Text(v: string) { this.Caption = v; }
   get Hint() { return this.linkedVal('hint', this._hint) as string; }
   set Hint(v: string) { this._hint = str(v); this.linked.delete('hint'); }
   get Color() { return this._color; }
-  set Color(v: number) { this._color = colorValue(v); this.ParentColor = false; invalidate(); }
+  set Color(v: number) { const n = colorValue(v), c = n !== this._color; this._color = n; this.ParentColor = false; if (c) invalidate(); }
 
   get Action() { return this._action; }
   set Action(a: TBasicAction | null) {
@@ -178,9 +180,25 @@ export class TControl extends TComponent {
   }
 }
 
+/** TWinControl.Brush: its Color is the control's Color (Controls.pas). */
+class TControlBrush extends TObject {
+  Style = 'bssolid';
+  Bitmap = null;
+  constructor(private ctl: TControl) { super(); }
+  get Color() { return this.ctl.Color; }
+  set Color(v: number) { this.ctl.Color = v; }
+}
+
 export class TWinControl extends TControl {
+  /** Controls.pas: the direct child control with that Name. */
+  FindChildControl(name: unknown) {
+    const n = String(name ?? '').toLowerCase();
+    return this.children.find((c) => (c.Name || '').toLowerCase() === n) ?? null;
+  }
   BorderWidth = 0;
   DoubleBuffered = false;
+  private _brush: TControlBrush | null = null;
+  get Brush() { return (this._brush ??= new TControlBrush(this)); }
   get kind() { return 'panel'; }
   ControlAtPos() { return null; }
   FindNextControl() { return null; }
@@ -283,7 +301,7 @@ export class TCustomEdit extends TWinControl {
   protected _text = '';
   get kind() { return 'edit'; }
   get Text() { return this._text; }
-  set Text(v: string) { this._text = this.applyCase(str(v)); invalidate(); }
+  set Text(v: string) { const n = this.applyCase(str(v)), c = n !== this._text; this._text = n; if (c) invalidate(); }
   get SelText() { return ''; }
   set SelText(v: string) { this.Text = this._text + str(v); }
   protected applyCase(s: string) {
@@ -329,11 +347,49 @@ export class TMaskEdit extends TCustomEdit {
 }
 registerBuiltin('TMaskEdit', TMaskEdit);
 
-/** SmartBank TSearchEdit: edit that searches as you type (OnChange-driven). */
+/**
+ * SmartBank TSearchEdit (SBCM_ComponentsStorage/SearchEdit.pas): incremental search in
+ * DataSource.DataSet on SearchField; the linked Partnership combo follows the found record,
+ * the edit turns red when nothing matches.
+ */
 export class TSearchEdit extends TCustomEdit {
   SearchField = '';
-  DataSource: unknown = null;
+  DataSource: any = null;
+  Partnership: any = null;
   get kind() { return 'edit'; }
+  private ds() { const d = this.DataSource?.DataSet; return d && this.SearchField ? d : null; }
+  override async userInput(v: string) {
+    this.Modified = true;
+    // KeyDown: Delete/Backspace sets Tag := 1 so Change does not re-complete the text
+    (this as any).Tag = v.length < this.Text.length ? 1 : 0;
+    let text = v;
+    const ds = this.ds();
+    if ((this as any).Tag === 0 && ds && v !== '') {
+      if (await ds.Locate(this.SearchField, v, ['locaseinsensitive', 'lopartialkey'])) {
+        if (this.Partnership && this.Partnership.ItemIndex === -1) this.Partnership.ItemIndex = 0;
+        this.Color = 0xffffff;
+        text = String((await ds.FieldByName(this.SearchField)).AsString ?? v);
+      } else {
+        if (this.Partnership) this.Partnership.ItemIndex = -1;
+        this.Color = 0x0000ff;
+        (this as any).Tag = 1;
+      }
+    }
+    await this.setTextFromCode(text);
+  }
+  override async fire(event: string, ...args: unknown[]): Promise<unknown> {
+    if (event.toLowerCase() === 'onexit') {
+      this.Color = 0xffffff;
+      const ds = this.ds();
+      if (this.Text !== '' && ds) {
+        await this.setTextFromCode(String((await ds.FieldByName(this.SearchField)).AsString ?? ''));
+        if (this.Partnership && this.Partnership.ItemIndex === -1) this.Partnership.ItemIndex = 0;
+      } else if (this.Text === '' && this.Partnership && this.Partnership.ItemIndex !== -1) {
+        this.Partnership.ItemIndex = -1;
+      }
+    }
+    return super.fire(event, ...args);
+  }
 }
 registerBuiltin('TSearchEdit', TSearchEdit);
 registerBuiltin('TCMDBSearchEdit', TSearchEdit);
@@ -881,6 +937,17 @@ export class TTreeNodes extends TObject {
   BeginUpdate() { /* */ }
   EndUpdate() { invalidate(); }
   GetFirstNode() { return this.roots[0] ?? null; }
+  /** Nodes stored in the DFM (Items.Data / Items.NodeData, decoded by the generator). */
+  loadDfm(tree: { text: string; imageIndex: number; selectedIndex: number; stateIndex: number; children: any[] }[]) {
+    const add = (parent: TTreeNode | null, list: typeof tree) => {
+      for (const t of list) {
+        const n = this.mk(parent, t.text);
+        n.ImageIndex = t.imageIndex; n.SelectedIndex = t.selectedIndex; n.StateIndex = t.stateIndex;
+        add(n, t.children ?? []);
+      }
+    };
+    add(null, tree);
+  }
 }
 
 export class TTreeView extends TWinControl {
@@ -902,6 +969,15 @@ export class TTreeView extends TWinControl {
   FullCollapse() { for (const n of this.Items.flat()) n.Expanded = false; invalidate(); }
   GetNodeAt() { return this._selected; }
   AlphaSort() { /* */ }
+  /** Win32 tree view behaviour: getting the focus with nothing selected selects the first node
+   *  (TVN_SELCHANGED → OnChange). */
+  async focusSelectFirst() {
+    const n = this.Items.roots[0];
+    if (this._selected || !n) return;
+    this._selected = n;
+    invalidate();
+    await this.fire('OnChange', this, n);
+  }
   async userSelect(n: TTreeNode) {
     const ref = new ValueRef(true);
     if (this.hasHandler('OnChanging')) await this.fire('OnChanging', this, n, ref);
@@ -1019,10 +1095,17 @@ export class TTimer extends TComponent {
   restart() {
     if (this.handle) { clearInterval(this.handle); this.handle = null; }
     if (this._enabled && this.Interval > 0 && this.started && this.hasHandler('OnTimer')) {
-      this.handle = window.setInterval(() => { void this.fire('OnTimer', this); }, Math.max(200, this.Interval));
+      // like any event handler, a timer tick repaints once, with the state it leaves behind
+      this.handle = window.setInterval(() => {
+        if (this.busy) return; // Delphi never re-enters OnTimer while the previous tick still runs
+        this.busy = true;
+        beginHold();
+        void this.fire('OnTimer', this).finally(() => { endHold(); this.busy = false; });
+      }, Math.max(200, this.Interval));
     }
   }
   started = false;
+  private busy = false;
   protected override destroy() { if (this.handle) clearInterval(this.handle); }
 }
 registerBuiltin('TTimer', TTimer);
@@ -1065,15 +1148,33 @@ for (const n of ['TOpenDialog', 'TSaveDialog', 'TOpenPictureDialog', 'TSavePictu
 /* Inert components: exist in forms but have no browser behaviour. */
 for (const n of ['TNLSLocalizer', 'TEvanescence', 'THintBoxHelper', 'TApplicationEvents', 'TXPManifest',
   'TOleContainer', 'TExcelApplication', 'TExcelWorkbook', 'TExcelWorksheet', 'TWordApplication', 'TWordDocument',
-  'TIdHTTP', 'TIdSSLIOHandlerSocketOpenSSL', 'THTTPRIO', 'TXMLDocument', 'TQuickRep', 'TQRBand', 'TQRDBText',
+  'TIdSSLIOHandlerSocketOpenSSL', 'THTTPRIO', 'TXMLDocument', 'TQuickRep', 'TQRBand', 'TQRDBText',
   'TQRExpr', 'TQRShape', 'TQRSubDetail', 'TQRImage', 'TQRDBImage', 'TQRSysData', 'TQRMemo', 'TQRRichText',
   'TQRPDFFilter', 'TQRExcelFilter', 'TQRTextFilter', 'TQRCSVFilter', 'TQRHTMLFilter', 'TQRCompositeReport',
   'TQRGroup', 'TQRChildBand', 'TQRStringsBand', 'TQRPreview', 'TOracleEvent', 'TOracleLogon', 'TOracleNavigator',
   'TOracleScript', 'TOracleDirectPathLoader', 'TOracleQueue', 'TPrintDialogEx', 'TFormInterval', 'TJvFormStorage',
   'TFormStorage', 'TPropStorageEh', 'TIniPropStorageManEh', 'TdxSkinController', 'TCMExcelExport']) {
+  const isReport = /^TQR|^TQuickRep/.test(n);
   const C = class extends TComponent {
-    Preview() { /* reports are out of scope in this phase */ }
-    Print() { /* */ }
+    // QuickReport layouts are not rendered in this phase; a report's DataSet is an inert stand-in
+    // so the code that fills and previews it runs through without errors.
+    private _ds: unknown = null;
+    get DataSet() { return this._ds ?? (isReport ? GAP : null); }
+    set DataSet(v: unknown) { this._ds = v; }
+    // report forms (TQuickRep descendants with a DFM) stream their bands/labels like a form does
+    async Create(owner?: unknown) {
+      if (owner instanceof TComponent) owner.insertComponent(this);
+      const cls = (this as any).__cls;
+      if (!isReport || !cls || (this as any).__streamed) return;
+      (this as any).__streamed = true;
+      const f = await import('./forms');
+      const layout = f.fullLayout(cls);
+      if (layout) await f.streamRoot(this, layout);
+      await this.fire('OnCreate', this);
+    }
+    Preview() { if (isReport) { logger.info(`${this.Name || n}.Preview — reports are not rendered in this phase`); toast('Hesabatlar veb versiyanın bu mərhələsində göstərilmir', 'info'); } }
+    PreviewModal() { this.Preview(); }
+    Print() { this.Preview(); }
     PrinterSetup() { /* */ }
     Prepare() { /* */ }
     ExportToFilter() { /* */ }
@@ -1090,3 +1191,63 @@ export { TCanvas, NOTFOUND, Ref, nowDelphi };
 export interface TBasicAction extends TComponent {
   execFrom(sender: TComponent): Promise<boolean>;
 }
+
+/*
+ * SmartBank plugin menus (Packages/VCL/PluginIni.pas, PluginToolBar.pas, PluginPopupMenu.pas).
+ * Their buttons/items come from per-installation INI files next to SmartBank.exe
+ * (CMToolBarTop.ini, CMPopupMenu.ini …) that are not part of the repository, so they load empty
+ * — the state of a workstation without those files.
+ */
+export class TMenuIni extends TComponent {
+  IniLocation = '';
+  IniSection = 'Menu';
+  Active = false;
+  private _loc: unknown = null;
+  get Location() { if (!this._loc) { const f = new (getIniFile())(); f.Create(this.IniLocation); this._loc = f; } return this._loc; }
+}
+registerBuiltin('TMenuIni', TMenuIni);
+let iniCtor: any = null;
+function getIniFile() { return (iniCtor ??= getBuiltin('TIniFile')); }
+
+export class TPluginToolBar extends TToolBar {
+  MenuIni: TMenuIni | null = null;
+  Active = false;
+  LoadPlugins() { /* no plugin INI in the web version */ }
+  UnLoadPlugins() { /* */ }
+}
+registerBuiltin('TPluginToolBar', TPluginToolBar);
+
+/*
+ * Indy TIdHTTP. Request/Response carry their usual properties; the transfer itself is not done from
+ * the browser (bank-internal and cross-origin hosts): Get/Post raise the connection error Indy
+ * raises when the host cannot be reached, which the forms already handle in try/except.
+ */
+class TIdHttpMessage extends TObject {
+  CustomHeaders = new TStrings();
+  ContentType = ''; Accept = ''; AcceptCharSet = ''; UserAgent = ''; BasicAuthentication = false;
+  Username = ''; Password = ''; ContentLength = 0; CharSet = ''; ResponseCode = 0; ResponseText = '';
+  RawHeaders = new TStrings();
+}
+export class TIdHTTP extends TComponent {
+  Request = new TIdHttpMessage();
+  Response = new TIdHttpMessage();
+  ResponseCode = 0;
+  ResponseText = '';
+  IOHandler: unknown = null;
+  HandleRedirects = false;
+  ConnectTimeout = 0;
+  ReadTimeout = 0;
+  ProxyParams = new TIdHttpMessage();
+  private fail(verb: string, url: unknown): never {
+    logger.warn(`TIdHTTP.${verb} ${String(url ?? '')} — HTTP requests are made by the server API, not from the browser`);
+    throw new PasException('EIdSocketError', `Socket Error # 10061\nConnection refused (${String(url ?? '')})`, ['exception']);
+  }
+  Get(url: unknown) { return this.fail('Get', url); }
+  Post(url: unknown) { return this.fail('Post', url); }
+  Put(url: unknown) { return this.fail('Put', url); }
+  Delete(url: unknown) { return this.fail('Delete', url); }
+  Head(url: unknown) { return this.fail('Head', url); }
+  Disconnect() { /* */ }
+  get Connected() { return false; }
+}
+registerBuiltin('TIdHTTP', TIdHTTP);

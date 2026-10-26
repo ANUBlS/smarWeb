@@ -63,7 +63,7 @@ export default function define($) {
 }, {"params": ["OValue"], "kind": "procedure", "ptypes": ["TOracleSession"]});
   U.method("TSBOracleLogOn", "TestError", async function TestError(Self, p0, p1) {
   const C = $.chain(Self, U);
-  const L0 = {"where": $.copyArg(p0), "ex": $.copyArg(p1), result: null, "errcode": null, "errbuf": $.sarr()};
+  const L0 = {"where": $.copyArg(p0), "ex": $.copyArg(p1), result: 0, "errcode": 0, "errbuf": $.sarr()};
   await $.fixArgs(L0, ["where", "ex"]);
   L0["result"] = L0["ex"];
   try {

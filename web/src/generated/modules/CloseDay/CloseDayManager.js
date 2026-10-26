@@ -6,6 +6,7 @@ export default function define($) {
   const U = $.unit("CloseDayManager", ["Windows", "Messages", "SysUtils", "Variants", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "ExtCtrls", "DB", "OracleData", "ImgList", "sboapiDataModuleImpl", "SBTranslateProc", "sbCloseDayFormImpl", "ControlManagerImpl"]);
   const C = [U];
   U.defClass("TFormCloseDay", "TForm", {"panelday": {"name": "PanelDay", "type": "TPanel"}, "checkbox1": {"name": "CheckBox1", "type": "TCheckBox"}, "panelbday": {"name": "PanelBday", "type": "TPanel"}, "button1": {"name": "Button1", "type": "TButton"}, "button2": {"name": "Button2", "type": "TButton"}, "sb_closeday": {"name": "SB_CloseDay", "type": "TOracleDataSet"}, "imagelistday": {"name": "ImageListDay", "type": "TImageList"}, "queryarray": {"name": "QueryArray", "type": "TQueryArray"}, "imageleft": {"name": "ImageLeft", "type": "Integer"}, "controlbutton": {"name": "ControlButton", "type": "Boolean"}}, {});
+  U.fieldInit("TFormCloseDay", "queryarray", () => []);
   U.init(async () => {
     U.var_("FormCloseDay", null, "TFormCloseDay");
   });

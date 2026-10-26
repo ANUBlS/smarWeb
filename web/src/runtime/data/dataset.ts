@@ -146,6 +146,7 @@ export class TDataSet extends TComponent {
     if (this._state === 'dsfilter') return;
     if (this._state !== 'dsedit' && this._state !== 'dsinsert') {
       if (this._state === 'dsbrowse' && this.autoEditFor()) await this.Edit();
+      else if (this._state === 'dsbrowse' && this.browseWrite(f, v)) { await this.notifyDataChange(f); return; }
       else throw dbError(`${this.Name}: Dataset not in edit or insert mode`);
     }
     if (f.hasHandler('OnValidate')) await f.fireRaw('OnValidate', f);
@@ -157,6 +158,8 @@ export class TDataSet extends TComponent {
   }
   /** Data-aware controls edit through the DataSource; AutoEdit puts the dataset into dsEdit. */
   protected autoEditFor() { return false; }
+  /** Field assignment in dsBrowse: TDataSet raises SNotEditing; descendants may accept it. */
+  protected browseWrite(_f: TField, _v: unknown): boolean { return false; }
 
   /* ---------------------------------------------------------------- state & navigation */
 

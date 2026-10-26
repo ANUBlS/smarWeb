@@ -46,7 +46,9 @@ BUILTIN_VAR = {
     'trydecodedate': [1, 2, 3], 'readln': [0, 1, 2, 3], 'read': [0, 1, 2], 'fillchar': [0],
     'move': [1], 'assignfile': [0], 'reset': [0], 'rewrite': [0], 'append': [0], 'closefile': [0],
     'decodedateweek': [1, 2, 3], 'divmod': [2, 3], 'extractstrings': [], 'findfirst': [2], 'findnext': [0],
-    'findclose': [0], 'swap': [0, 1], 'setstring': [0],
+    'findclose': [0], 'swap': [0, 1], 'setstring': [0], 'inputquery': [2], 'trystrtotime': [1],
+    'decodedatefully': [1, 2, 3, 4], 'trystrtofloatdef': [1], 'selectdirectory': [2], 'promptforfilename': [0],
+    'shgetspecialfolderpath': [1], 'tryencodedate': [3], 'tryencodetime': [4], 'tryencodedatetime': [7], 'trytextstrtofloat': [1], 'trystrtodateex': [1], 'decodedateday': [1, 2], 'decodedatemonthweek': [1, 2, 3, 4],
 }
 
 
@@ -664,8 +666,9 @@ class P:
             self.expect(';')
             return
         if self.atkw('interface', 'dispinterface'):
-            # skip interface declaration
+            # skip interface declaration (the name stays resolvable: TypeInfo(IFoo), IFoo(x) casts)
             self.next()
+            unit.setdefault('interfaces', []).append(nm)
             if self.atop(';'):
                 self.next()
                 return
@@ -691,6 +694,8 @@ class P:
             unit['enums'][nm.lower()] = tp['names']
         if tp['k'] == 'record':
             unit['records'][nm.lower()] = tp['fields']
+        if tp['k'] in ('array', 'set') or (tp['k'] == 'named' and tp['name'].lower() != nm.lower()):
+            unit.setdefault('aliases', {})[nm.lower()] = tp
         while self.at('platform', 'deprecated'):
             self.next()
         self.expect(';')
@@ -782,7 +787,8 @@ class P:
                 names.append(self.ident())
             self.expect(':')
             tp = self.parse_type()
-            self.expect(';')
+            if not self.atkw('end'):  # the last field before `end` may omit its semicolon
+                self.expect(';')
             for nm in names:
                 cls['fields'][nm.lower()] = {'name': nm, 'type': tp}
 
@@ -795,6 +801,8 @@ class P:
             if d in ('message', 'external', 'name', 'index', 'dispid'):
                 while not self.atop(';'):
                     self.next()
+            if self.atkw('implementation', 'begin', 'var', 'const', 'type', 'procedure', 'function'):
+                continue  # Delphi accepts a directive without its trailing semicolon here
             self.expect(';')
 
     def parse_routine(self, interface, unit):
@@ -828,6 +836,8 @@ class P:
             if d in ('message', 'external'):
                 while not self.atop(';'):
                     self.next()
+            if self.atkw('implementation', 'begin', 'var', 'const', 'type', 'procedure', 'function'):
+                continue  # Delphi accepts a directive without its trailing semicolon here
             self.expect(';')
         sig = {'name': name, 'cls': cls, 'kind': kind, 'params': params, 'rtype': rtype}
         if interface or is_forward or is_external:
@@ -1066,6 +1076,9 @@ class P:
                 self.parse_expr()
             args.append(a)
             if not self.accept(','):
+                # tolerate a missing comma between two arguments (`Draw(Canvas, Rect.Left  Rect.Top, …)`)
+                if self.cur.kind in ('id', 'num', 'str') and not self.atop(')'):
+                    continue
                 break
         self.expect(')')
         return args
@@ -1261,6 +1274,12 @@ class Gen:
                 return '$.rec(%s)' % js_str(n)
             if n.startswith('tstrings') or n == 'tstringlist':
                 return 'null'
+            if n in ALIASES and n not in _alias_guard:
+                _alias_guard.add(n)
+                try:
+                    return self.default_for(ALIASES[n])
+                finally:
+                    _alias_guard.discard(n)
             return 'null'
         if tp['k'] == 'array':
             if tp['bounds'] and tp['bounds'][1] is not None:
@@ -1723,6 +1742,11 @@ class Gen:
         return self.expr(e, sc)
 
 
+# Named type aliases across all parsed units (TFoo = array[...] of ...; TBar = TFoo), filled by build.py.
+ALIASES = {}
+_alias_guard = set()
+
+
 def collect_sigs(unit, sigs):
     def add(name, params):
         vp = [i for i, p in enumerate(params) if p['mode'] in ('var', 'out')]
@@ -1767,6 +1791,8 @@ def gen_unit(unit, sigs, records):
     for en, names in unit['enums'].items():
         for i, nm in enumerate(names):
             lines.append('  U.const(%s, %d);' % (js_str(nm), i))
+    for nm in dict.fromkeys(unit.get('interfaces', [])):
+        lines.append('  U.const(%s, %s);' % (js_str(nm), js_str(nm)))
     # records
     for rn, fields in unit['records'].items():
         lines.append('  $.defRecord(%s, {%s});' % (js_str(rn), ', '.join(
@@ -1784,6 +1810,12 @@ def gen_unit(unit, sigs, records):
                 lines.append('  U.fieldInit(%s, %s, () => %s);' % (js_str(c['name']), js_str(fk), d))
     # consts & vars (lazy init, in order)
     lines.append('  U.init(async () => {')
+    # class type aliases (TMKError = Exception; TMyForm = TForm1): the name resolves to the target type
+    for nm, tp in unit.get('aliases', {}).items():
+        if tp['k'] == 'named' and tp['name'].lower() not in TYPE_DEFAULTS and re.match(r'^[TE]', tp['name'], re.I) \
+                and tp['name'].lower() not in unit['records']:
+            lines.append('    try { U.const(%s, await $.ref_(C, %s)); } catch (e) { /* unresolved alias */ }' % (
+                js_str(next((k for k in [nm] if True), nm)), js_str(tp['name'])))
     for nm, tp, val in unit['consts']:
         try:
             lines.append('    U.const(%s, %s);' % (js_str(nm), g.const_expr(val)))
@@ -1830,10 +1862,12 @@ def gen_unit(unit, sigs, records):
             lines.append('  U.func(%s, %s, %s);' % (js_str(sig['name']), code, json.dumps(meta, ensure_ascii=False)))
     if unit['init']:
         # COM class factory registrations (TActiveFormFactory.Create(ComServer, …)) have no web equivalent
+        # … nor SOAP interface registrations of WSDL-imported units (InvRegistry / RemClassRegistry)
         def is_factory(st):
             d = st[1] if st[0] == 'call' else None
             return bool(d and d[0] == 'callx' and d[1][0] == 'member' and d[1][1][0] == 'id'
-                        and d[1][1][1].lower().endswith('factory'))
+                        and (d[1][1][1].lower().endswith('factory')
+                             or d[1][1][1].lower() in ('invregistry', 'remclassregistry', 'remtyperegistry')))
         unit['init'] = [st for st in unit['init'] if not is_factory(st)]
     if unit['init']:
         try:

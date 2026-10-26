@@ -55,7 +55,7 @@ export default {
   {
    "unit": "AdministrationGroupReport",
    "file": "AdministrationGroupReport",
-   "form": null,
+   "form": "TrptQroup",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -145,7 +145,7 @@ export default {
   {
    "unit": "AdministrationUserAdvGranReport",
    "file": "AdministrationUserAdvGranReport",
-   "form": null,
+   "form": "TrptAdvgrant",
    "ok": 0,
    "fail": 0,
    "activeForm": null,
@@ -157,7 +157,7 @@ export default {
   {
    "unit": "AdministrationUserGranReport",
    "file": "AdministrationUserGranReport",
-   "form": null,
+   "form": "TrptUsers",
    "ok": 2,
    "fail": 0,
    "activeForm": null,
@@ -263,16 +263,6 @@ export default {
    "source": "Packages/Administration/administrationUsersRefresh.pas"
   },
   {
-   "unit": "bsdkdll",
-   "file": "bsdkdll",
-   "form": null,
-   "ok": 0,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [],
-   "source": "Packages/Administration/bsdkdll.pas"
-  },
-  {
    "unit": "finger",
    "file": "finger",
    "form": "Tfingers",
@@ -296,5 +286,35 @@ export default {
    ],
    "source": "Packages/Administration/uBalAccs.pas"
   }
- ]
+ ],
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "plugins": {}
 };

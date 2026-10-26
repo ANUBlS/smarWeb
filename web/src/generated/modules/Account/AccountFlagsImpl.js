@@ -8,7 +8,7 @@ export default function define($) {
   U.defClass("TFormAccFlags", "TForm", {"clbaccflags": {"name": "CLBAccFlags", "type": "TCheckListBox"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "buttonapply": {"name": "ButtonApply", "type": "TButton"}, "flagmap": {"name": "FlagMap", "type": "String"}}, {});
   U.init(async () => {
     U.var_("FormAccFlags", null, "TFormAccFlags");
-    U.var_("a", null, "mas");
+    U.var_("a", $.sarr(), "mas");
   });
   U.method("TFormAccFlags", "FormKeyDown", async function FormKeyDown(Self, p0, p1, p2) {
   const C = $.chain(Self, U);

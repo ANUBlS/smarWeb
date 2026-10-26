@@ -10,6 +10,7 @@ import {
 } from './datetime';
 import { messageDlg, showMessage, messageBox, inputQuery, MR, MB } from './dialogs';
 import { logger } from './log';
+import { postMessage, sendMessage } from './messages';
 
 const G = new Map<string, unknown>();
 const def = (name: string, v: unknown) => G.set(name.toLowerCase(), v);
@@ -23,6 +24,19 @@ export function rootLookup(lname: string): Found {
   const enumName = enumConstant(lname);
   if (enumName !== undefined) return enumName;
   return NOTFOUND;
+}
+
+/* Unit-qualified RTL/VCL names (System.Delete, SysUtils.Format, Math.Max, Windows.MessageBox …)
+   resolve to the same runtime globals as the bare names. */
+class UnitQualifier extends TObject {
+  constructor(public unitName: string) { super(); }
+  pget(l: string): Found { return rootLookup(l); }
+  pset() { return false; }
+}
+for (const u of ['System', 'SysUtils', 'StrUtils', 'Math', 'DateUtils', 'Variants', 'Windows', 'Classes', 'Dialogs',
+  'Forms', 'Controls', 'Graphics', 'Messages', 'ShellAPI', 'DB', 'Types', 'WinApi.Windows', 'System.SysUtils',
+  'System.Classes', 'System.Variants', 'System.StrUtils', 'System.Math', 'System.DateUtils', 'Vcl.Forms', 'Vcl.Dialogs']) {
+  G.set(u.toLowerCase(), new UnitQualifier(u));
 }
 
 /* ------------------------------------------------------------------ types */
@@ -141,6 +155,17 @@ def('S_OK', 0);
 def('S_FALSE', 1);
 def('E_FAIL', -2147467259);
 def('WM_USER', 1024);
+// Indy SSL options (TIdSSLIOHandlerSocketOpenSSL) — used only to configure the handler
+['sslmUnassigned', 'sslmClient', 'sslmServer', 'sslmBoth'].forEach((n, i) => def(n, i));
+['sslvSSLv2', 'sslvSSLv23', 'sslvSSLv3', 'sslvTLSv1', 'sslvTLSv1_1', 'sslvTLSv1_2'].forEach((n, i) => def(n, i));
+['hoInProcessAuth', 'hoKeepOrigProtocol', 'hoForceEncodeParams', 'hoNoParseMetaHTTPEquiv', 'hoWaitForUnexpectedData'].forEach((n, i) => def(n, i));
+// ShlObj special folders (SHGetSpecialFolderPath / SHGetFolderPath)
+Object.entries({ CSIDL_DESKTOP: 0, CSIDL_PROGRAMS: 2, CSIDL_PERSONAL: 5, CSIDL_MYDOCUMENTS: 5, CSIDL_FAVORITES: 6,
+  CSIDL_STARTUP: 7, CSIDL_RECENT: 8, CSIDL_DESKTOPDIRECTORY: 16, CSIDL_FONTS: 20, CSIDL_APPDATA: 26,
+  CSIDL_LOCAL_APPDATA: 28, CSIDL_COMMON_APPDATA: 35, CSIDL_WINDOWS: 36, CSIDL_SYSTEM: 37, CSIDL_PROGRAM_FILES: 38,
+  CSIDL_FLAG_CREATE: 0x8000, MAX_PATH: 260 }).forEach(([k, v]) => def(k, v));
+fn('SHGetSpecialFolderPath', async (_h, r: Ref) => { if (r && typeof (r as any).set === 'function') await r.set('C:\\Users\\Public\\Desktop'); return true; });
+fn('SHGetFolderPath', () => 0);
 def('WM_CLOSE', 16);
 def('LOCALE_SYSTEM_DEFAULT', 2048);
 def('LOCALE_USER_DEFAULT', 1024);
@@ -499,7 +524,7 @@ fn('Swap', (v) => ((num(v) & 0xff) << 8) | ((num(v) >> 8) & 0xff));
 fn('FillChar', () => undefined);
 fn('Move', () => undefined);
 fn('SizeOf', () => 4);
-fn('Assigned', (v) => v !== null && v !== undefined && !(v as any)?.__freed);
+fn('Assigned', (v) => v !== null && v !== undefined && !(v as any)?.__freed && !(v as any)?.__gap);
 fn('FreeAndNil', async (r: Ref) => { const v = await r.get(); try { (v as any)?.Free?.(); } catch { /* ignore */ } await r.set(null); });
 fn('Initialize', () => undefined);
 fn('Finalize', () => undefined);
@@ -642,10 +667,32 @@ fn('MessageDlgPos', (m, t, b) => messageDlg(m, t, b));
 fn('MessageDlgPosHelp', (m, t, b) => messageDlg(m, t, b));
 fn('MessageBox', (_h, text, cap, flags) => messageBox(text, cap, flags));
 fn('InputQuery', async (cap, prompt, r: Ref) => {
-  const res = await inputQuery(cap, prompt, str(await r.get()));
-  if (res.ok) await r.set(res.value);
+  const ref = r && typeof (r as any).get === 'function' ? r : null;
+  const res = await inputQuery(cap, prompt, str(ref ? await ref.get() : r));
+  if (res.ok && ref) await ref.set(res.value);
   return res.ok;
 });
+/* SysUtils.TEncoding: TEncoding.UTF8 / ANSI / Default … (text is always Unicode in the browser) */
+class TEncodingImpl extends TObject {
+  constructor(public EncodingName: string, public CodePage: number) { super(); }
+  ToString() { return this.EncodingName; }
+  GetBytes(s: unknown) { return Array.from(new TextEncoder().encode(str(s))); }
+  GetString(b: unknown) { return Array.isArray(b) ? new TextDecoder().decode(new Uint8Array(b as number[])) : str(b); }
+  GetByteCount(s: unknown) { return new TextEncoder().encode(str(s)).length; }
+  Clone() { return this; }
+}
+class TEncodingStatics extends TObject {
+  UTF8 = new TEncodingImpl('Unicode (UTF-8)', 65001);
+  Unicode = new TEncodingImpl('Unicode', 1200);
+  BigEndianUnicode = new TEncodingImpl('Unicode (Big-Endian)', 1201);
+  ANSI = new TEncodingImpl('Cyrillic (Windows)', 1251);
+  ASCII = new TEncodingImpl('US-ASCII', 20127);
+  UTF7 = new TEncodingImpl('Unicode (UTF-7)', 65000);
+  get Default() { return this.ANSI; }
+  GetEncoding(cp: unknown) { return new TEncodingImpl(`Code page ${num(cp)}`, num(cp)); }
+  IsStandardEncoding() { return true; }
+}
+def('TEncoding', new TEncodingStatics());
 fn('InputBox', async (cap, prompt, d) => { const res = await inputQuery(cap, prompt, str(d)); return res.ok ? res.value : str(d); });
 
 /* ------------------------------------------------------------------ files / OS (browser-safe no-ops) */
@@ -672,6 +719,24 @@ fn('ParamCount', () => 0);
 fn('FindCmdLineSwitch', () => false);
 fn('GetEnvironmentVariable', () => '');
 fn('ShellExecute', () => 0);
+fn('WinExec', () => 33);
+fn('ShellExecuteA', () => 0);
+fn('ShellExecuteW', () => 0);
+// string type casts: UTF8String(s), AnsiString(s) … (strings are Unicode throughout the web runtime)
+for (const n of ['UTF8String', 'AnsiString', 'WideString', 'UnicodeString', 'RawByteString', 'ShortString', 'UTF8Encode',
+  'UTF8Decode', 'AnsiToUtf8', 'Utf8ToAnsi', 'UTF8ToString', 'UTF8ToWideString']) {
+  if (!G.has(n.toLowerCase())) fn(n, (v) => str(v));
+}
+fn('MkDir', () => undefined);
+fn('RmDir', () => undefined);
+fn('ChDir', () => undefined);
+fn('SetCurrentDir', () => true);
+fn('CreateDir', () => true);
+fn('RemoveDir', () => true);
+// ShowWindow / ShellExecute show commands, SHGetFolderPath flags
+Object.entries({ SW_HIDE: 0, SW_SHOWNORMAL: 1, SW_NORMAL: 1, SW_SHOWMINIMIZED: 2, SW_SHOWMAXIMIZED: 3, SW_MAXIMIZE: 3,
+  SW_SHOWNOACTIVATE: 4, SW_SHOW: 5, SW_MINIMIZE: 6, SW_SHOWMINNOACTIVE: 7, SW_SHOWNA: 8, SW_RESTORE: 9,
+  SW_SHOWDEFAULT: 10, SHGFP_TYPE_CURRENT: 0, SHGFP_TYPE_DEFAULT: 1 }).forEach(([k, v]) => def(k, v));
 fn('WinExec', () => 0);
 fn('GetComputerName', () => true);
 fn('AssignFile', () => undefined);
@@ -689,11 +754,21 @@ fn('FindNext', () => 1);
 fn('FindClose', () => undefined);
 fn('FileAge', () => 0);
 fn('GetFileVersion', () => 0);
+fn('PostMessage', (h, m, w, l) => postMessage(h, m, w, l));
+fn('PostThreadMessage', () => true);
+// run-time packages (BPL plugins of the deposit/credit/insurance managers)
+fn('LoadPackage', async (p) => (await import('./loader')).loadPackage(p));
+fn('GetProcAddress', async (h, n) => (await import('./loader')).getProcAddress(h, n));
+fn('UnloadPackage', () => undefined);
 fn('LoadLibrary', () => 0);
 fn('FreeLibrary', () => true);
-fn('GetProcAddress', () => null);
-fn('PostMessage', () => true);
-fn('SendMessage', () => 0);
+fn('SendMessage', (h, m, w, l) => sendMessage(h, m, w, l));
+// GUIDs travel as their canonical upper-case string form
+const normGuid = (g: unknown) => { const s = str(g).trim().toUpperCase(); return s.startsWith('{') ? s : `{${s}}`; };
+fn('StringToGUID', (g) => normGuid(g));
+fn('GUIDToString', (g) => normGuid(g));
+fn('IsEqualGUID', (a, b) => normGuid(a) === normGuid(b));
+fn('StringToGuid', (g) => normGuid(g));
 fn('GetKeyState', () => 0);
 fn('GetAsyncKeyState', () => 0);
 fn('GetWindowDC', () => 0);
@@ -710,7 +785,7 @@ fn('ColorToRGB', (c) => num(c));
 fn('ShortCut', (k) => num(k));
 fn('ShortCutToText', (k) => str(k));
 fn('TextToShortCut', (s) => s);
-fn('CreateOleObject', (name) => { logger.info(`OLE automation '${str(name)}' is not available in the browser`); return null; });
+fn('CreateOleObject', async (name) => (await import('./ole')).createOleObject(name));
 fn('GetActiveOleObject', () => null);
 fn('CoInitialize', () => 0);
 fn('CoUninitialize', () => 0);

@@ -7,6 +7,7 @@ export default function define($) {
   const C = [U];
   U.defClass("EPermissionedDenied", "Exception", {}, {});
   U.init(async () => {
+    try { U.const("tgroup", await $.ref_(C, "TUser")); } catch (e) { /* unresolved alias */ }
     U.const("sAccessName_Execute", "Execute");
     U.const("InvalidSid", (-(1)));
     U.const("SMSEC_ERROR_PERMISSION_DENIED", (-(20001)));
@@ -14,7 +15,7 @@ export default function define($) {
   });
   U.func("Sb_CreateSecurityDescriptor", async function Sb_CreateSecurityDescriptor(Self, p0, p1, p2) {
   const C = $.chain(Self, U);
-  const L0 = {"userid": $.copyArg(p0), "groupid": $.copyArg(p1), "typeid": $.copyArg(p2), result: null};
+  const L0 = {"userid": $.copyArg(p0), "groupid": $.copyArg(p1), "typeid": $.copyArg(p2), result: 0};
   await $.fixArgs(L0, ["userid", "groupid", "typeid"]);
   {
     const $t1 = (await $.mv((await $.v(C, "sboapiDataModule")), "SBSecurity"));
@@ -214,7 +215,7 @@ export default function define($) {
 }, {"params": ["Sid"], "kind": "function", "ptypes": ["TSid"]});
   U.func("Sb_GetUserID", async function Sb_GetUserID(Self) {
   const C = $.chain(Self, U);
-  const L0 = {result: null};
+  const L0 = {result: 0};
   {
     const $t21 = (await $.mv((await $.v(C, "sboapiDataModule")), "SBSecurity"));
     try {
@@ -233,7 +234,7 @@ export default function define($) {
 }, {"params": [], "kind": "function", "ptypes": []});
   U.func("Sb_GetGroupID", async function Sb_GetGroupID(Self) {
   const C = $.chain(Self, U);
-  const L0 = {result: null};
+  const L0 = {result: 0};
   {
     const $t23 = (await $.mv((await $.v(C, "sboapiDataModule")), "SBUtil"));
     try {

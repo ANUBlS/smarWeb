@@ -6,7 +6,7 @@
  */
 import {
   NOTFOUND, Found, Routine, routine, isRoutine, isType, PType, isPObj, PasException, AbortSignal, Ref, ValueRef,
-  TObject, inheritsFrom, reflectGet,
+  TObject, inheritsFrom, reflectGet, GAP,
 } from './core';
 import { Env, UnitObj, getBuiltin, pickOverload } from './env';
 import { logger } from './log';
@@ -18,8 +18,19 @@ const records = new Map<string, Record<string, () => unknown>>();
 
 /* ------------------------------------------------------------------ member protocol */
 
+// Methods the VCL implements without touching Self, so calling them on nil is legal in Delphi:
+// TObject.Free (nil-safe by design) and TTreeNode.Index (GetIndex walks siblings from Self → -1).
+const NIL_SAFE: Record<string, () => unknown> = {
+  free: () => routine(() => undefined, 'Free'),
+  index: () => -1,
+};
+
 export async function getMember(obj: unknown, lname: string): Promise<Found> {
-  if (obj == null) throw accessViolation(lname);
+  if (obj == null) {
+    const safe = NIL_SAFE[lname];
+    if (safe) return safe();
+    throw accessViolation(lname);
+  }
   if (isPObj(obj)) return await obj.pget(lname);
   if (isType(obj)) return typeMember(obj, lname);
   if (typeof obj === 'object') {
@@ -111,7 +122,7 @@ function unknownIdent(name: string): never {
 
 /* ------------------------------------------------------------------ operators */
 
-function isNullish(v: unknown) { return v === null || v === undefined; }
+function isNullish(v: unknown) { return v === null || v === undefined || v === GAP; }
 function num(v: unknown): number {
   if (typeof v === 'number') return v;
   if (typeof v === 'boolean') return v ? 1 : 0;
@@ -482,9 +493,14 @@ function className(o: unknown) {
   return (o as any)?.ClassName ?? (o as any)?.__className ?? typeof o;
 }
 
+const gapsLogged = new Set<string>();
 function missingMember(obj: unknown, name: string, call = false): unknown {
-  logger.debug(`Member '${name}' not implemented on ${className(obj)}${call ? ' (call ignored)' : ''}`);
-  return undefined;
+  const key = `${className(obj)}.${name}`.toLowerCase();
+  if (!gapsLogged.has(key)) {
+    gapsLogged.add(key);
+    logger.debug(`Member '${name}' not implemented on ${className(obj)}${call ? ' (call ignored)' : ''}`);
+  }
+  return GAP;
 }
 
 export function str(v: unknown): string {

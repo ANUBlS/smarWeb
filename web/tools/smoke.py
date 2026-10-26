@@ -9,7 +9,8 @@ from playwright.sync_api import sync_playwright
 OUT = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else './test-output/shots'
 ONLY = sys.argv[2].split(',') if len(sys.argv) > 2 and sys.argv[2] else None
 os.makedirs(OUT, exist_ok=True)
-menu = json.load(open('/home/claude/smartweb/src/generated/menu.json'))
+menu = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src', 'generated', 'menu.json'), encoding='utf-8'))
+BASE = os.environ.get('BASE', 'http://localhost:5173/')
 REPORTS = set(menu['reportActions'])
 ACTIONS = menu['actions']
 
@@ -34,7 +35,7 @@ with sync_playwright() as p:
     pg.on('console', lambda m: console.append((m.type, m.text)) if m.type in ('error', 'warning') else None)
     pg.on('pageerror', lambda e: console.append(('pageerror', str(e))))
     def login():
-        pg.goto('http://localhost:5173/')
+        pg.goto(BASE)
         pg.fill('input[autocomplete=username]', 'sabuhi')
         pg.fill('input[type=password]', 'x')
         pg.click('button.primary')
@@ -92,7 +93,7 @@ with sync_playwright() as p:
         filt.fill('')
 
     for trail, node, mod in leaves:
-        if ONLY and mod not in ONLY:
+        if ONLY and mod not in ONLY and not any(o.endswith('*') and mod.startswith(o[:-1]) for o in ONLY):
             continue
         pg.set_default_timeout(8000)
         try:

@@ -1147,36 +1147,36 @@ export default function define($) {
   L0["errorcount"] = 0;
   L0["rejectedcount"] = 0;
   L0["willrefresh"] = false;
-  if ($.truthy((await $.call(C, "InputQuery", ["Inkarolunma !!! ", "Təyinat:", L0["rejectreason"]])))) {
+  if ($.truthy((await $.call(C, "InputQuery", ["Inkarolunma !!! ", "Təyinat:", $.ref(async () => L0["rejectreason"], async ($t75) => { L0["rejectreason"] = $t75; })])))) {
     {
-      const $t75 = (await $.v(C, "TransactionDataModule"));
-      const $t76 = (await $.wv([$t75], "GridTransactions", C, false));
-      const $t77 = (await $.wv([$t75, $t76], "SelectedRows", C, false));
-      const $t78 = (await $.mv((await $.wv([$t75, $t76, $t77], "DataSource", C, false)), "DataSet"));
-      if ($.truthy($.eq((await $.wv([$t75, $t76, $t77, $t78], "Count", C, false)), 0))) {
-        await $.wset([$t75, $t76, $t77, $t78], "CurrentRowSelected", (await $.wv([$t75, $t76, $t77, $t78], "True", C, false)), C);
+      const $t76 = (await $.v(C, "TransactionDataModule"));
+      const $t77 = (await $.wv([$t76], "GridTransactions", C, false));
+      const $t78 = (await $.wv([$t76, $t77], "SelectedRows", C, false));
+      const $t79 = (await $.mv((await $.wv([$t76, $t77, $t78], "DataSource", C, false)), "DataSet"));
+      if ($.truthy($.eq((await $.wv([$t76, $t77, $t78, $t79], "Count", C, false)), 0))) {
+        await $.wset([$t76, $t77, $t78, $t79], "CurrentRowSelected", (await $.wv([$t76, $t77, $t78, $t79], "True", C, false)), C);
       }
-      { const $t79 = $.sub((await $.wv([$t75, $t76, $t77, $t78], "Count", C, false)), 1);
-        await $.wset([$t75, $t76, $t77, $t78], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
-        let $t80 = true;
+      { const $t80 = $.sub((await $.wv([$t76, $t77, $t78, $t79], "Count", C, false)), 1);
+        await $.wset([$t76, $t77, $t78, $t79], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
+        let $t81 = true;
         for (;;) {
-          if (!$t80) { await $.wset([$t75, $t76, $t77, $t78], "i", $.succ((await $.wv([$t75, $t76, $t77, $t78], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
-          $t80 = false;
-          if (!($.ord((await $.wv([$t75, $t76, $t77, $t78], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t79))) break;
+          if (!$t81) { await $.wset([$t76, $t77, $t78, $t79], "i", $.succ((await $.wv([$t76, $t77, $t78, $t79], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
+          $t81 = false;
+          if (!($.ord((await $.wv([$t76, $t77, $t78, $t79], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t80))) break;
           try {
-            await $.stmt((await $.wcall([$t75, $t76, $t77, $t78], "GotoBookmark", [(await $.wcall([$t75, $t76, $t77, $t78], "TBookmark", [(await $.idx((await $.wv([$t75, $t76, $t77, $t78], "Items", C, false)), [(await $.wv([$t75, $t76, $t77, $t78], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))]))], C))], C)));
-            await $.wset([$t75, $t76, $t77, $t78], "Status", (await $.mv((await $.wcall([$t75, $t76, $t77, $t78], "FieldByname", ["Status"], C)), "AsInteger")), { get: async () => L0["status"], set: async (v) => { L0["status"] = v; }, local: true });
-            if ($.truthy($.in_((await $.wv([$t75, $t76, $t77, $t78], "Status", { get: async () => L0["status"], set: async (v) => { L0["status"] = v; }, local: true }, false)), [(await $.wv([$t75, $t76, $t77, $t78], "tsDelayed", C, false)), (await $.wv([$t75, $t76, $t77, $t78], "tsRejected", C, false))]))) {
-              await $.wset([$t75, $t76, $t77, $t78], "ID", (await $.mv((await $.wcall([$t75, $t76, $t77, $t78], "FieldByName", ["ID"], C)), "AsInteger")), { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true });
-              await $.stmt((await $.wcall([$t75, $t76, $t77, $t78], "RejectTransaction", [(await $.wv([$t75, $t76, $t77, $t78], "ID", { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true }, false)), (await $.wv([$t75, $t76, $t77, $t78], "RejectReason", { get: async () => L0["rejectreason"], set: async (v) => { L0["rejectreason"] = v; }, local: true }, false))], C)));
-              await $.wset([$t75, $t76, $t77, $t78], "WillRefresh", (await $.wv([$t75, $t76, $t77, $t78], "True", C, false)), { get: async () => L0["willrefresh"], set: async (v) => { L0["willrefresh"] = v; }, local: true });
-              await $.stmt((await $.wcall([$t75, $t76, $t77, $t78], "Inc", [$.ref(async () => (await $.wv([$t75, $t76, $t77, $t78], "RejectedCount", { get: async () => L0["rejectedcount"], set: async (v) => { L0["rejectedcount"] = v; }, local: true }, false)), async ($t82) => { await $.wset([$t75, $t76, $t77, $t78], "RejectedCount", $t82, { get: async () => L0["rejectedcount"], set: async (v) => { L0["rejectedcount"] = v; }, local: true }); })], C)));
-              await $.stmt((await $.wcall([$t75, $t76, $t77, $t78], "SBCommit", [], C)));
+            await $.stmt((await $.wcall([$t76, $t77, $t78, $t79], "GotoBookmark", [(await $.wcall([$t76, $t77, $t78, $t79], "TBookmark", [(await $.idx((await $.wv([$t76, $t77, $t78, $t79], "Items", C, false)), [(await $.wv([$t76, $t77, $t78, $t79], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))]))], C))], C)));
+            await $.wset([$t76, $t77, $t78, $t79], "Status", (await $.mv((await $.wcall([$t76, $t77, $t78, $t79], "FieldByname", ["Status"], C)), "AsInteger")), { get: async () => L0["status"], set: async (v) => { L0["status"] = v; }, local: true });
+            if ($.truthy($.in_((await $.wv([$t76, $t77, $t78, $t79], "Status", { get: async () => L0["status"], set: async (v) => { L0["status"] = v; }, local: true }, false)), [(await $.wv([$t76, $t77, $t78, $t79], "tsDelayed", C, false)), (await $.wv([$t76, $t77, $t78, $t79], "tsRejected", C, false))]))) {
+              await $.wset([$t76, $t77, $t78, $t79], "ID", (await $.mv((await $.wcall([$t76, $t77, $t78, $t79], "FieldByName", ["ID"], C)), "AsInteger")), { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true });
+              await $.stmt((await $.wcall([$t76, $t77, $t78, $t79], "RejectTransaction", [(await $.wv([$t76, $t77, $t78, $t79], "ID", { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true }, false)), (await $.wv([$t76, $t77, $t78, $t79], "RejectReason", { get: async () => L0["rejectreason"], set: async (v) => { L0["rejectreason"] = v; }, local: true }, false))], C)));
+              await $.wset([$t76, $t77, $t78, $t79], "WillRefresh", (await $.wv([$t76, $t77, $t78, $t79], "True", C, false)), { get: async () => L0["willrefresh"], set: async (v) => { L0["willrefresh"] = v; }, local: true });
+              await $.stmt((await $.wcall([$t76, $t77, $t78, $t79], "Inc", [$.ref(async () => (await $.wv([$t76, $t77, $t78, $t79], "RejectedCount", { get: async () => L0["rejectedcount"], set: async (v) => { L0["rejectedcount"] = v; }, local: true }, false)), async ($t83) => { await $.wset([$t76, $t77, $t78, $t79], "RejectedCount", $t83, { get: async () => L0["rejectedcount"], set: async (v) => { L0["rejectedcount"] = v; }, local: true }); })], C)));
+              await $.stmt((await $.wcall([$t76, $t77, $t78, $t79], "SBCommit", [], C)));
             }
-          } catch ($t81) {
-            $.rethrowControl($t81);
-            $.handled($t81);
-            await $.stmt((await $.wcall([$t75, $t76, $t77, $t78], "Inc", [$.ref(async () => (await $.wv([$t75, $t76, $t77, $t78], "ErrorCount", { get: async () => L0["errorcount"], set: async (v) => { L0["errorcount"] = v; }, local: true }, false)), async ($t83) => { await $.wset([$t75, $t76, $t77, $t78], "ErrorCount", $t83, { get: async () => L0["errorcount"], set: async (v) => { L0["errorcount"] = v; }, local: true }); })], C)));
+          } catch ($t82) {
+            $.rethrowControl($t82);
+            $.handled($t82);
+            await $.stmt((await $.wcall([$t76, $t77, $t78, $t79], "Inc", [$.ref(async () => (await $.wv([$t76, $t77, $t78, $t79], "ErrorCount", { get: async () => L0["errorcount"], set: async (v) => { L0["errorcount"] = v; }, local: true }, false)), async ($t84) => { await $.wset([$t76, $t77, $t78, $t79], "ErrorCount", $t84, { get: async () => L0["errorcount"], set: async (v) => { L0["errorcount"] = v; }, local: true }); })], C)));
             continue;
           }
           await $.tick();

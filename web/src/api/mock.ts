@@ -13,6 +13,15 @@ import {
   hash, pick, rnd, CURRENCIES, FILIALS, CUSTOMERS, BAL_ACCOUNTS, BANKS, USERS, PURPOSES, COMPANIES, ACCOUNTS, iban,
 } from './mockdata';
 import { logger } from '../runtime/log';
+import menuJson from '../generated/menu.json';
+
+// GUID columns (CHANGEGUID …) name the ActiveX module that handles a record: use real module GUIDs,
+// preferring insurance ones (the tables that store them belong to the insurance manager)
+const MODULE_GUIDS = (() => {
+  const g = Object.entries(((menuJson as any).guids ?? {}) as Record<string, string>);
+  const ins = g.filter(([, m]) => m.startsWith('XIns')).map(([k]) => k);
+  return ins.length ? ins : g.map(([k]) => k);
+})();
 
 type Entity = 'account' | 'customer' | 'currency' | 'filial' | 'bank' | 'user' | 'balance' | 'company' | 'generic';
 
@@ -44,13 +53,14 @@ function isoDate(daysAgo: number, withTime = false) {
 
 /* ------------------------------------------------------------------ column classification */
 
-type Kind = 'rowid' | 'date' | 'id' | 'accno' | 'swift' | 'inn' | 'phone' | 'address' | 'bankname' | 'filialname'
+type Kind = 'guid' | 'rowid' | 'date' | 'id' | 'accno' | 'swift' | 'inn' | 'phone' | 'address' | 'bankname' | 'filialname'
   | 'curname' | 'curcode' | 'user' | 'name' | 'purpose' | 'rate' | 'percent' | 'bal' | 'amount' | 'lamount' | 'code'
   | 'flag' | 'count' | 'generic';
 
 function classify(col: string): Kind {
   const c = col.toUpperCase();
   if (c === 'ROWID' || c === 'ROW_ID') return 'rowid';
+  if (/GUID|CLSID/.test(c)) return 'guid';
   if (/^(VALUE|VAL_VALUE|PARAM_?VALUE|SETTING_?VALUE|OPT_?VALUE|PVALUE|DEF_?VALUE)$/.test(c)) return 'count';
   if (/(^|_)(DAT|DATE|DT|TARIX|TIME)(_|$)|DATE$|DAT$|^DAT|DATE_|BEGIN_?D|END_?D|START_?D/.test(c)) return 'date';
   if (/^POK_|LAMOUNT|EKV|EQUIV|^L_?SUM|LSUMMA|_LOC$|NATIONAL/.test(c)) return 'lamount';
@@ -70,7 +80,7 @@ function classify(col: string): Kind {
   if (/PERCENT|FAIZ|PROC|PCT|_PRC/.test(c)) return 'percent';
   if (/NAME|ADI$|^AD$|_AD$|FIO|OWNER|CUSTOMER$|CLIENT$|MUSTERI|BENEFIC|PAYER|RECEIVER/.test(c)) return 'name';
   if (/BAL_?CN|^SACC|^BAL$|BALANS|BAL_ACC|SCHET|BALANCE_?ACC|BALACC|^BAL\d/.test(c)) return 'bal';
-  if (/OSTAT|AMOUNT|AMMOUNT|SUMM?A?($|_)|SUM_|MEBLEG|QALIQ|OBR|TURN|DEBIT|DEBET|CREDIT|KREDIT|LIMIT|PRICE|COST|REST|SALDO|ODENIS|PAY|TOTAL|COMMIS|FEE|BALANCE$/.test(c)) return 'amount';
+  if (/^N_MON$|_MON$|^MON$|MONEY|^N_?SUM|^PUL$|OSTAT|AMOUNT|AMMOUNT|SUMM?A?($|_)|SUM_|MEBLEG|QALIQ|OBR|TURN|DEBIT|DEBET|CREDIT|KREDIT|LIMIT|PRICE|COST|REST|SALDO|ODENIS|PAY|TOTAL|COMMIS|FEE|BALANCE$/.test(c)) return 'amount';
   if (/CODE|KOD|NUM|NO$|NOMER|NUMBER|SYMBOL|SIMV|SHIFR|SIM_/.test(c)) return 'code';
   if (/STATUS|STATE|FLAG|SIGN|TYPE|TIP|KIND|NOV|^IS_|ACTIVE|ARCHIV|CLOSED|PRIZ|INSIDER|MODE|LEVEL/.test(c)) return 'flag';
   if (/COUNT|CNT|QTY|SAY$|KOL/.test(c)) return 'count';
@@ -185,6 +195,7 @@ function valueFor(col: string, expr: string, type: OraType, r: RowCtx, isPrimary
         default: return /BENEF|RECEIV/.test(c) ? pick(CUSTOMERS, s).name : custOf(r).name;
       }
     case 'purpose': return pick(PURPOSES, s);
+    case 'guid': return pick(MODULE_GUIDS.length ? MODULE_GUIDS : ['{00000000-0000-0000-0000-000000000000}'], s);
     case 'rate': return /KURS|COURSE/.test(c) || r.entity === 'currency' ? curOf(r).rate : Math.round(rnd(s) * 2000) / 100;
     case 'percent': return Math.round((2 + rnd(s) * 22) * 100) / 100;
     case 'bal':
@@ -216,7 +227,11 @@ function valueFor(col: string, expr: string, type: OraType, r: RowCtx, isPrimary
       if (type === 'integer') return hash(s) % 100;
       if (type === 'float') return Math.round(rnd(s) * 1000 * 100) / 100;
       if (type === 'boolean') return hash(s) % 2 === 0;
-      return pick(['Əsas', 'Aktiv', 'Cari', 'Standart', 'Xüsusi', 'Əlavə', 'Daxili', 'Xarici'], s);
+      // unclassified columns are mostly NUMBER in this schema (and code reads them with StrToFloat);
+      // only names that look textual get words
+      if (/NAME|DESC|TEXT|NOTE|TITLE|COMMENT|LABEL|CAPTION|MSG|MESSAGE|REMARK|REASON|STR|ADI|SEBEB|QEYD|IZAH/.test(c))
+        return pick(['Əsas', 'Aktiv', 'Cari', 'Standart', 'Xüsusi', 'Əlavə', 'Daxili', 'Xarici'], s);
+      return String(1 + (hash(s) % 9));
   }
 }
 
@@ -278,6 +293,8 @@ export class MockOracleApi implements OracleApi {
 
     // row index set, honouring `ID = :x` style filters
     let indices: number[];
+    // per-user grid layout tables (cm_fields_list …): nothing saved → the grid keeps its design columns
+    if (/FIELDS?_LIST$|COLUMNS?_LIST$|GRID_?(SETTINGS|LAYOUT|COLUMNS)$|_FIELD_?SETTINGS$/.test(mainTable)) return { columns, rows: [] };
     let fixed: Record<string, unknown> = {};
     if (single) indices = [0];
     else {
@@ -297,6 +314,17 @@ export class MockOracleApi implements OracleApi {
         }
       }
     }
+    // Self-referencing trees (`where PARENT_ID = :ParentID`, loaded recursively by tree views):
+    // roots for ParentID <= 0, three children with ids parent*1000+k for a root, none below that,
+    // so recursive loaders terminate as they do on real data.
+    let childIds: number[] | null = null;
+    const hier = single ? undefined : info.eqFilters.find((f) => /PARENT|^UP_?ID$|^OWNER_?ID$|^PID$|^HIGHER_?ID$/.test(f.column) && vars.get(f.variable) !== undefined);
+    if (hier) {
+      const pv = Number(vars.get(hier.variable) ?? -1);
+      if (!(pv > 0)) indices = indices.slice(0, 5);
+      else if (pv >= 1000) indices = [];
+      else { childIds = [1, 2, 3].map((k) => pv * 1000 + k); indices = indices.slice(0, 3); }
+    }
     const ed = editsFor(mainTable);
     const rows: unknown[][] = [];
     const primaryIdCol = cols.find((c) => classify(c.source) === 'id' && isPrimaryIdCol(c.source, mainTable))?.alias
@@ -315,6 +343,7 @@ export class MockOracleApi implements OracleApi {
         if (hint?.size && typeof v === 'string' && v.length > hint.size) v = v.slice(0, hint.size);
         row[c.alias] = v;
       }
+      if (childIds) { const k = rows.length; const idc = primaryIdCol ?? (cols.some((c) => c.alias === 'ID') ? 'ID' : null); if (idc) row[idc] = childIds[k] ?? childIds[0] + k; }
       const rowid = (row.ROWID as string) ?? `${mainTable}:${i}`;
       if (ed.deleted.has(rowid)) continue;
       Object.assign(row, ed.updates.get(rowid) ?? {});

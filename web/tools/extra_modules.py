@@ -1,0 +1,169 @@
+"""SmartBank ActiveX modules that exist in the repository but are not in the SmartBank.ini
+menu tree used for the main menu. They are shown under the extra root "Əlavə modullar".
+
+Chosen from all 483 TActiveFormFactory packages: copies sharing a CLASS_ GUID were merged (the
+canonical, non-dated folder is used), packages already in the menu were dropped, and so were
+report packages (statements, balances, turnover, control tape … — reports are out of scope),
+the host program, plugin plumbing and abandoned "---" folders.
+
+(module name, package dir, category, caption)
+"""
+EXTRA_ROOT = 'Əlavə modullar'
+
+EXTRA = [
+    # --- Kreditlər
+    ('XCreditsConstruction', 'Packages/CreditsManagerConstruction', 'Kreditlər', 'Tikinti kreditlərinin idarə olunması'),
+    ('XCreditsMgr', 'Packages/CreditsManger', 'Kreditlər', 'Kreditlər (sadə menecer)'),
+    ('XCreditsMgrSB', 'Packages/SB_Credit/Sm_creditsmgr', 'Kreditlər', 'Kredit menecer (SB)'),
+    ('XCreditArchive', 'Packages/ArCive_Credit/Archve_Credit', 'Kreditlər', 'Kreditlərin arxivi'),
+    ('XGuaranty', 'Packages/Cr_Credit/Guaranty', 'Kreditlər', 'Zəmanətlər'),
+    ('XGuarantee', 'Packages/Guarantee', 'Kreditlər', 'Bank zəmanətlərinin idarə olunması'),
+    ('XProblemCredits', 'Packages/ProblemCreditMgrs', 'Kreditlər', 'Problemli kreditlər'),
+    ('XProblemCreditMgr', 'Packages/ProblemCreditsManager', 'Kreditlər', 'Problemli kreditlərin idarə olunması'),
+    ('XEnforcement', 'Packages/SB_Credit/EnforcementManager', 'Kreditlər', 'İcra işlərinin idarə olunması'),
+    ('XAcceptedPortfel', 'Packages/AcceptedPortfell', 'Kreditlər', 'Qəbul edilmiş portfel'),
+    ('XCourtManager', 'Packages/CourtManager', 'Kreditlər', 'Məhkəmə işləri'),
+    ('XLawModule', 'Packages/LawModule', 'Kreditlər', 'Hüquq modulu'),
+    ('XOnlineCourt', 'Packages/Online_mehkeme_idareolunmasi', 'Kreditlər', 'Onlayn məhkəmə idarəetməsi'),
+    ('XCalcRateAccount', 'Packages/CalcRateAccount', 'Kreditlər', 'Faiz hesablanması'),
+    # --- Depozitlər və investisiyalar
+    ('XNewDeposits', 'NewDepositsManager/NewDepositsManager', 'Depozitlər', 'Yeni depozitlərin idarə olunması'),
+    ('XNewDepositsArchive', 'NewDepositsManager/NewDepositsArchive', 'Depozitlər', 'Yeni depozitlərin arxivi'),
+    ('XDepositsMgr', 'Packages/DepositsManager', 'Depozitlər', 'Depozit menecer'),
+    ('XDepositsMgrNew', 'Packages/DepositsManager_New', 'Depozitlər', 'Depozit menecer (yeni)'),
+    ('XSecurities', 'Packages/Expired_Securities', 'Depozitlər', 'Qiymətli kağızlar'),
+    ('XInvestment', 'Packages/PK_Investisiya', 'Depozitlər', 'İnvestisiyalar'),
+    # --- Ödənişlər və köçürmələr
+    ('XSwiftIntl', 'Packages/SWIFT_INTERNATIONAL', 'Ödənişlər və köçürmələr', 'Beynəlxalq SWIFT'),
+    ('XSwiftManager', 'Packages/SWIFT_MANAGER_IBAN_NEW', 'Ödənişlər və köçürmələr', 'SWIFT menecer (IBAN)'),
+    ('XSwiftClearing', 'Packages/Swift_Clearing', 'Ödənişlər və köçürmələr', 'Western Union / kliring'),
+    ('XWesternUnion', 'Packages/WesterUnion', 'Ödənişlər və köçürmələr', 'Western Union'),
+    ('XMoneyTransfers', 'Packages/MoneyTransfers', 'Ödənişlər və köçürmələr', 'Pul köçürmələri'),
+    ('XPayments', 'Packages/Payments', 'Ödənişlər və köçürmələr', 'Köçürmələr'),
+    ('XPaymentViewer', 'Packages/paymentviewer', 'Ödənişlər və köçürmələr', 'Ödənişlərə baxış'),
+    ('XOnlinePayment', 'Packages/online_payment', 'Ödənişlər və köçürmələr', 'Terminal ödənişləri'),
+    ('XBBPayings', 'Packages/BBPayings', 'Ödənişlər və köçürmələr', 'Büdcə ödənişləri'),
+    ('XCallBack', 'Packages/CallBackTransactions', 'Ödənişlər və köçürmələr', 'Geri çağırılan əməliyyatlar'),
+    ('XTranceTransaction', 'Packages/Trance_transacation', 'Ödənişlər və köçürmələr', 'Tranş əməliyyatları'),
+    ('XPbfTransactions', 'Packages/PBF_Transactions_XE', 'Ödənişlər və köçürmələr', 'PBF əməliyyatları'),
+    ('XEmanet', 'Packages/Emanet', 'Ödənişlər və köçürmələr', 'Emanət ödənişləri'),
+    ('XEmanatViews', 'Packages/EmanatViews', 'Ödənişlər və köçürmələr', 'Emanat ödənişlərinə baxış'),
+    ('XExpress', 'Packages/ExpressManager_nbc', 'Ödənişlər və köçürmələr', 'Ekspres köçürmələr'),
+    ('XExchange', 'Packages/ExchangeMGR-NBC', 'Ödənişlər və köçürmələr', 'Valyuta mübadiləsi'),
+    ('XAsanFinance', 'Packages/ASANFinance', 'Ödənişlər və köçürmələr', 'ASAN Finance'),
+    ('XPlatformSif', 'Packages/PlatformSIF', 'Ödənişlər və köçürmələr', 'SİF platforması'),
+    ('XAdif', 'Packages/ADIF', 'Ödənişlər və köçürmələr', 'ADİF'),
+    ('XAddXml', 'Packages/ADDXMLosx', 'Ödənişlər və köçürmələr', 'XML sənədlərin əlavə edilməsi'),
+    ('XTaxes', 'Packages/TAXSMGR', 'Ödənişlər və köçürmələr', 'Vergi ödənişləri'),
+    # --- Kartlar
+    ('XCards', 'Packages/Cards_New/cards_azericard', 'Kartlar', 'Plastik kartlar (AzeriCard)'),
+    # --- Müştərilər və uyğunluq
+    ('XCustomersOrders', 'Packages/CustomersOrders', 'Müştərilər və uyğunluq', 'Müştərilərin sərəncamları'),
+    ('XCustAnalysis', 'Packages/Cust_Analiz', 'Müştərilər və uyğunluq', 'Müştəri analizi'),
+    ('XRelatedPersons', 'Packages/RelatedPersons', 'Müştərilər və uyğunluq', 'Banka aidiyyəti olan şəxslər'),
+    ('XPCustService', 'Packages/PCustService', 'Müştərilər və uyğunluq', 'Müştəri xidməti'),
+    ('XGoAml', 'Packages/PCUST_Servic', 'Müştərilər və uyğunluq', 'GoAML xidməti'),
+    ('XBlackList', 'Packages/Black_Inst', 'Müştərilər və uyğunluq', 'Qara siyahı'),
+    ('XThomson', 'Packages/Thomson', 'Müştərilər və uyğunluq', 'Thomson Reuters yoxlaması'),
+    ('XToksik', 'Packages/Toksik', 'Müştərilər və uyğunluq', 'Toksik aktivlər'),
+    ('XPrudensial', 'Packages/Prudensial', 'Müştərilər və uyğunluq', 'Prudensial normativlər'),
+    # --- Mühasibat və balans
+    ('XAccBalanceCheck', 'Packages/AccBalanceCheck', 'Mühasibat və balans', 'Hesab qalıqlarının yoxlanması'),
+    ('XBalanceAnalys', 'Packages/BalanceAnalys', 'Mühasibat və balans', 'Balans analizi'),
+    ('XSaldoEditor', 'Packages/SaldoEditor', 'Mühasibat və balans', 'Saldo redaktoru'),
+    ('XMasterBook', 'Packages/MasterBook', 'Mühasibat və balans', 'Baş kitab'),
+    ('XOrder', 'Packages/Order', 'Mühasibat və balans', 'Sərəncam'),
+    ('XOutAvalute', 'Packages/out_Avalute', 'Mühasibat və balans', 'Valyutalar (balansdankənar)'),
+    ('XRepair', 'Packages/Repair', 'Mühasibat və balans', 'Günə düzəliş'),
+    ('XOutRepair', 'Packages/out_repair', 'Mühasibat və balans', 'Günə düzəliş (balansdankənar)'),
+    ('XFixedAssets', 'Packages/FixedAssetsManager', 'Mühasibat və balans', 'Əsas vəsaitlər'),
+    ('XMainResource', 'Packages/MainResource', 'Mühasibat və balans', 'Əsas vəsaitlər və resurslar'),
+    ('XResource', 'Packages/new resorurce', 'Mühasibat və balans', 'Resurslar'),
+    ('XProperties', 'Packages/properties', 'Mühasibat və balans', 'Əmlak'),
+    ('XBudget', 'Packages/BudgetMgr', 'Mühasibat və balans', 'Büdcənin idarə olunması'),
+    ('XFinancePro', 'Packages/Finance_pro', 'Mühasibat və balans', 'Maliyyə'),
+    ('XRatesViewer', 'Packages/RatesViewer', 'Mühasibat və balans', 'Məzənnələrə baxış'),
+    ('XCountries', 'Packages/CountriesP', 'Mühasibat və balans', 'Ölkələr'),
+    ('XCalendar', 'Packages/calendar', 'Mühasibat və balans', 'İş günləri təqvimi'),
+    # --- Kommunal, tikinti, kabel
+    ('XCcBuilding', 'Packages/CC_Building', 'Tikinti və kommunal', 'Tikinti obyektləri'),
+    ('XCcBuyers', 'Packages/CC_Buyers', 'Tikinti və kommunal', 'Alıcılar'),
+    ('XCcCashOp', 'Packages/CC_CashOp', 'Tikinti və kommunal', 'Kassa əməliyyatları'),
+    ('XCcBuildings2', 'Packages/ccBuildings', 'Tikinti və kommunal', 'Binalar'),
+    ('XCcBuyers2', 'Packages/ccBuyers', 'Tikinti və kommunal', 'Alıcılar (yeni)'),
+    ('XCableContracts', 'Packages/CableContracts', 'Tikinti və kommunal', 'Kabel TV müqavilələri'),
+    ('XCableCorrection', 'Packages/CableCorrection', 'Tikinti və kommunal', 'Kabel TV düzəlişləri'),
+    ('XCableManager', 'Packages/CableManager', 'Tikinti və kommunal', 'Kabel TV menecer'),
+    ('XCableSettings', 'Packages/CableSettings', 'Tikinti və kommunal', 'Kabel TV parametrləri'),
+    # --- İdxal
+    ('XExcelImport', 'Packages/Excel_import', 'İdxal', 'Excel-dən idxal'),
+    ('XOutExcelImport', 'Packages/OutExcelImport', 'İdxal', 'Excel-dən idxal (balansdankənar)'),
+    ('XFullImport', 'Packages/Full_Import', 'İdxal', 'Tam idxal'),
+    ('XImportService', 'Packages/ImportService', 'İdxal', 'İdxal xidməti'),
+    ('XQkImport', 'Packages/QK_inport', 'İdxal', 'QK idxalı'),
+    ('XSimCorp', 'Packages/SimCorp', 'İdxal', 'SimCorp'),
+    # --- İdarəetmə
+    ('XAdmLogs', 'Packages/AdmLogs', 'İdarəetmə', 'İnzibati jurnallar'),
+    ('XSbLogs', 'Packages/SBLogs', 'İdarəetmə', 'Sistem jurnalları'),
+    ('XUserManager', 'Packages/UserManager', 'İdarəetmə', 'İstifadəçilərin idarə olunması'),
+    ('XUniversalSettings', 'Packages/UniversalSettings', 'İdarəetmə', 'Universal parametrlər'),
+    ('XBusinessProcesses', 'Packages/BusinessProcesses/BusProcSet', 'İdarəetmə', 'Biznes proseslərin quraşdırılması'),
+    ('XTranslator', 'Packages/Translator', 'İdarəetmə', 'Tərcüməçi'),
+    ('XTickets', 'Packages/TicketsMan', 'İdarəetmə', 'Biletlər'),
+    ('XPutyovka', 'Packages/Putyovka', 'İdarəetmə', 'Putyovkalar'),
+    # --- Sığorta
+    ('XInsCustomers', 'Packages/Insurance/InsCustomers', 'Sığorta', 'Sığorta müştəriləri'),
+    ('XInsurances', 'Packages/Insurance/Insurances', 'Sığorta', 'Sığortalar'),
+    ('XInsPayments', 'Packages/Insurance/InsPayments', 'Sığorta', 'Sığorta ödənişləri'),
+    ('XInsAccountDoc', 'Packages/Insurance/AccountDoc', 'Sığorta', 'Hesab sənədləri'),
+    ('XInsAccountState', 'Packages/Insurance/AccountState', 'Sığorta', 'Hesabların vəziyyəti'),
+    ('XInsAutoDict', 'Packages/Insurance/AutoDict', 'Sığorta', 'Avtomobil soraqçası'),
+    ('XInsDictChilde', 'Packages/Insurance/DictChilde', 'Sığorta', 'Soraqçalar'),
+    ('XInsAuto', 'Insurance/Auto', 'Sığorta', 'Avtomobil sığortası'),
+    ('XInsBlankMain', 'Insurance/BlankMain', 'Sığorta', 'Blanklar'),
+    ('XInsReinsReceive', 'Insurance/Ins_ReinsReceive', 'Sığorta', 'Təkrarsığorta qəbulu'),
+    ('XInsRights', 'Insurance/Ins_Rights', 'Sığorta', 'Hüquqlar'),
+    ('XInsResponsibility', 'Insurance/MainResponsibility', 'Sığorta', 'Məsuliyyət sığortası'),
+    ('XInsTravel', 'Insurance/MainTravel', 'Sığorta', 'Səyahət sığortası'),
+    ('XInsCargo', 'Insurance/Maincargo', 'Sığorta', 'Yük sığortası'),
+    ('XInsMyAccident', 'Insurance/My_Personal_Accident', 'Sığorta', 'Fərdi qəza sığortası'),
+    ('XInsPersonalAccMain', 'Packages/Insurance/PersonalAccMain', 'Sığorta', 'Qəza sığortası'),
+    ('XInsPersonalAccident', 'Packages/Insurance/PersonalAccident', 'Sığorta', 'Qrup fərdi qəza sığortası'),
+    ('XInsPersonalAccPolicy', 'Packages/Insurance/PersonalAccPolicy', 'Sığorta', 'Qəza sığortası — şəhadətnamə'),
+    ('XInsPersonalAccSuggest', 'Packages/Insurance/PersonalAccSuggestion', 'Sığorta', 'Qəza sığortası — təklifnamə'),
+    ('XInsMedical', 'Packages/Insurance/InsMedical', 'Sığorta', 'Tibbi sığorta'),
+    ('XInsMedBlank', 'Packages/Insurance/MEDBlank', 'Sığorta', 'Tibbi sığorta — anket'),
+    ('XInsMedPolicy', 'Packages/Insurance/MEDPolicy', 'Sığorta', 'Tibbi sığorta — şəhadətnamə'),
+    ('XInsMedSuggestion', 'Packages/Insurance/MEDSuggestion', 'Sığorta', 'Tibbi sığorta — təklifnamə'),
+    ('XInsMotorKasko', 'Packages/Insurance/MotorKasko', 'Sığorta', 'Avto KASKO'),
+    ('XInsMotorKascoIns', 'Packages/Insurance/InsMotorKasco', 'Sığorta', 'Avto KASKO sığortası'),
+    ('XInsFullMotor', 'Packages/Insurance/FullMotor', 'Sığorta', 'Tam avto sığorta'),
+    ('XInsFullMotorCasco', 'Packages/Insurance/InsFullMotorCasco', 'Sığorta', 'Tam avto KASKO'),
+    ('XInsMkBlank', 'Packages/Insurance/MKBlank', 'Sığorta', 'KASKO — anket'),
+    ('XInsMkCorporate', 'Packages/Insurance/MKKorporativBlank', 'Sığorta', 'Korporativ KASKO'),
+    ('XInsMkPolicy', 'Packages/Insurance/MKPolicy', 'Sığorta', 'KASKO — şəhadətnamə'),
+    ('XInsMkSuggestion', 'Packages/Insurance/MKSuggestion', 'Sığorta', 'KASKO — təklifnamə'),
+    ('XInsMfBlank', 'Packages/Insurance/MFBlank', 'Sığorta', 'Əmlak sığortası — anket'),
+    ('XInsMfPolicy', 'Packages/Insurance/MFPolicy', 'Sığorta', 'Əmlak sığortası — şəhadətnamə'),
+    ('XInsMfSuggestion', 'Packages/Insurance/MFSuggestion', 'Sığorta', 'Əmlak sığortası — təklifnamə'),
+    ('XInsCPropMain', 'Packages/Insurance/CommercialPropertyMain', 'Sığorta', 'Kommersiya əmlakı'),
+    ('XInsCPropBlank', 'Packages/Insurance/CommercialPropertyBlank', 'Sığorta', 'Kommersiya əmlakı — anket'),
+    ('XInsCPropPolicy', 'Packages/Insurance/CommercialPropertyPolicy', 'Sığorta', 'Kommersiya əmlakı — şəhadətnamə'),
+    ('XInsCPropSuggest', 'Packages/Insurance/CommercialPropertySuggest', 'Sığorta', 'Kommersiya əmlakı — təklifnamə'),
+    ('XInsConstructionMain', 'Packages/Insurance/ConstructionMain', 'Sığorta', 'Tikinti sığortası'),
+    ('XInsConstructionBlank', 'Packages/Insurance/ConstractionBlank', 'Sığorta', 'Tikinti sığortası — anket'),
+    ('XInsConstructionPolicy', 'Packages/Insurance/ConstructionPolicy', 'Sığorta', 'Tikinti sığortası — şəhadətnamə'),
+    ('XInsConstructionSuggest', 'Packages/Insurance/ConstructionSuggest', 'Sığorta', 'Tikinti sığortası — təklifnamə'),
+]
+
+CATEGORY_ORDER = ['Kreditlər', 'Depozitlər', 'Ödənişlər və köçürmələr', 'Kartlar', 'Müştərilər və uyğunluq',
+                  'Mühasibat və balans', 'Tikinti və kommunal', 'İdxal', 'İdarəetmə', 'Sığorta']
+
+# synthetic menu action numbers for the extra modules (the INI uses < 100)
+FIRST_ACTION = 1000
+
+# Generated (reachable from other modules by GUID) but not listed: they only work with the menu
+# parameters of an installation-specific INI that is not in the repository.
+MENU_HIDDEN = {
+    'XInsDictChilde',  # generic dictionary editor: MainTable/MainField/MasterField come from menu params
+}

@@ -158,6 +158,13 @@ registerBuiltin('TOracleSession', TOracleSession);
 /* ------------------------------------------------------------------ TOracleDataSet */
 
 export class TOracleDataSet extends TDataSet {
+  /** DOA writes a field assigned in dsBrowse into the current record buffer (nothing is posted);
+   *  SmartBank code relies on it (e.g. setting defaults right after Open, before Insert). */
+  protected override browseWrite(f: import('./fields').TField, v: unknown) {
+    const row = this.curRow();
+    if (row) row.v[f.key] = v;
+    return true;
+  }
   SQL: TStrings;
   Session: TOracleSession | null = null;
   vars = new Variables();
@@ -262,7 +269,9 @@ export class TOracleDataSet extends TDataSet {
     if (!this._master) return;
     if (!this._master.Active) { await this.Close(); return; }
     this.copyMasterValues();
-    if (this.Active) await this.Refresh(); else await this.Open();
+    if (this.Active) await this.Refresh();
+    // a closed detail whose SQL is only assigned by code later (SQL.Text := … ; Open) waits for that Open
+    else if (this.SQL.Text.trim() !== '') await this.Open();
   }
 
   protected override async applyRecord(action: 'insert' | 'update' | 'delete', row: Row, values: Record<string, unknown>, old: Record<string, unknown>) {

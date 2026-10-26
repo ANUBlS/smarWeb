@@ -3,6 +3,7 @@
  * InputQuery.  The React shell renders the queue; each call resolves when the
  * user answers, exactly like the blocking VCL calls it replaces.
  */
+import { suspendHold } from './ui';
 
 export type DlgKind = 'warning' | 'error' | 'information' | 'confirmation' | 'custom';
 export interface DlgButton { id: string; label: string; result: number }
@@ -27,10 +28,11 @@ export const dialogs = {
   current: () => queue[0] as DialogRequest | undefined,
   subscribe(l: Listener) { listeners.add(l); return () => { listeners.delete(l); }; },
   open(req: Omit<DialogRequest, 'id' | 'resolve'>): Promise<{ result: number; value?: string }> {
+    const unhold = suspendHold(); // the form behind repaints while the box waits (Delphi modal loop)
     return new Promise((resolve) => {
       const r: DialogRequest = {
         ...req, id: ++seq,
-        resolve: (x) => { queue.splice(queue.indexOf(r), 1); emit(); resolve(x); },
+        resolve: (x) => { queue.splice(queue.indexOf(r), 1); unhold(); emit(); resolve(x); },
       };
       queue.push(r);
       emit();

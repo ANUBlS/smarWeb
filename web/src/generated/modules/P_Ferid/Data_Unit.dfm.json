@@ -1,0 +1,1 @@
+{"name":"DataModule1","class":"TDataModule1","kind":"object","props":{"OldCreateOrder":false,"Height":337,"Width":641},"children":[{"name":"OracleDataSet1","class":"TOracleDataSet","kind":"object","props":{"Optimize":false,"Session":{"i":"sboapiDataModule.SBSession"},"Left":56,"Top":48},"children":[]}]}
