@@ -200,6 +200,7 @@ export class TPopupMenu extends TMenu {
   }
 }
 registerBuiltin('TPopupMenu', TPopupMenu);
+registerBuiltin('TPopupActionBar', TPopupMenu);
 /** PluginPopupMenu.pas: items come from an INI file that is not in the repository (see TMenuIni). */
 export class TPluginPopupMenu extends TPopupMenu {
   MenuIni: unknown = null;

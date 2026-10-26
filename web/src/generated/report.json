@@ -1049,10 +1049,775 @@
    "units": 1,
    "routines": 73,
    "failed": 0
+  },
+  "P_CargoBlank": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 18,
+   "failed": 0
+  },
+  "P_InsContracterminated": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 13,
+   "failed": 0
+  },
+  "P_InsPayment": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 29,
+   "failed": 0
+  },
+  "P_InsPaymentPlan": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 27,
+   "failed": 0
+  },
+  "P_Loss": {
+   "mainForm": null,
+   "units": 10,
+   "routines": 106,
+   "failed": 0
+  },
+  "P_Paymentloss": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 15,
+   "failed": 0
+  },
+  "P_Reinsurance": {
+   "mainForm": null,
+   "units": 11,
+   "routines": 120,
+   "failed": 0
+  },
+  "P_PaymenTerminateimpl": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 14,
+   "failed": 0
+  },
+  "P_TravelBlank": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 18,
+   "failed": 0
+  },
+  "P_ResponsibilityBlank": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_Ferid": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 4,
+   "failed": 0
+  },
+  "P_ins_reins_exelinp": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 6,
+   "failed": 0
+  },
+  "P_Ins_ReinsR_contract": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 9,
+   "failed": 0
+  },
+  "P_FileReport": {
+   "mainForm": null,
+   "units": 18,
+   "routines": 176,
+   "failed": 0
+  },
+  "P_CM_Conclusion": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 77,
+   "failed": 0
+  },
+  "P_Cm_Guarantee": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 27,
+   "failed": 0
+  },
+  "P_CM_Payment": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 43,
+   "failed": 0
+  },
+  "P_CM_RETIL": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 28,
+   "failed": 0
+  },
+  "P_CM_Schedule": {
+   "mainForm": null,
+   "units": 12,
+   "routines": 72,
+   "failed": 0
+  },
+  "P_CM_Statement": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 30,
+   "failed": 0
+  },
+  "P_CM_Tranche": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 22,
+   "failed": 0
+  },
+  "P_CM_WReport": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 16,
+   "failed": 0
+  },
+  "P_CU_Conclusion": {
+   "mainForm": null,
+   "units": 7,
+   "routines": 86,
+   "failed": 0
+  },
+  "P_CU_Payment": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 39,
+   "failed": 0
+  },
+  "P_CU_Paymentcompany": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 39,
+   "failed": 0
+  },
+  "P_CU_Schedule": {
+   "mainForm": null,
+   "units": 11,
+   "routines": 70,
+   "failed": 0
+  },
+  "P_cu_Statement": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 30,
+   "failed": 0
+  },
+  "P_cu_WReport": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 11,
+   "failed": 0
+  },
+  "P_NewDepositsApplyMoney": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 23,
+   "failed": 0
+  },
+  "P_NewDepositsContract": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 42,
+   "failed": 0
+  },
+  "P_NewDepositsExtractMoney": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 23,
+   "failed": 0
+  },
+  "P_NewDepositsWReport": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_NominalCustomers": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 65,
+   "failed": 0
+  },
+  "P_Open_account": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_PcustXohks": {
+   "mainForm": null,
+   "units": 13,
+   "routines": 152,
+   "failed": 0
+  },
+  "P_Sb_General": {
+   "mainForm": null,
+   "units": 46,
+   "routines": 546,
+   "failed": 0
+  },
+  "P_SBDM_ApplyMoney": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 21,
+   "failed": 0
+  },
+  "P_SBDM_Contract": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 38,
+   "failed": 0
+  },
+  "P_SBDM_ExtractMoney": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 22,
+   "failed": 0
+  },
+  "P_SBDM_WReport": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_TransInfoPack": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_SBDM_TransactionViewer": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_CM_Customer": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 13,
+   "failed": 0
+  },
+  "P_Investisiya_Contracts": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 20,
+   "failed": 0
+  },
+  "P_Investisiya_settings": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 5,
+   "failed": 0
+  },
+  "P_Investment_payment": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 14,
+   "failed": 0
+  },
+  "P_Investment_Transaction": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 13,
+   "failed": 0
+  },
+  "P_InvestmentPercentConverting": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 31,
+   "failed": 0
+  },
+  "P_SBDM_ApplyMoney_new": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 22,
+   "failed": 0
+  },
+  "P_SBDM_Capitalize_new": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_SBDM_Contract_new": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 42,
+   "failed": 0
+  },
+  "P_SBDM_ContractReport_new": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 9,
+   "failed": 0
+  },
+  "P_SBDM_DepozitAccSettings_new": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 1,
+   "failed": 0
+  },
+  "P_SBDM_ExtractMoney_new": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 22,
+   "failed": 0
+  },
+  "P_SBDM_PartialPayment_new": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_SBDM_PercentSettings_new": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 23,
+   "failed": 0
+  },
+  "P_SBDM_PeriodReport_new": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 16,
+   "failed": 0
+  },
+  "P_SBDM_Prolongation_new": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_SBDM_Report_new": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_SBDM_ReportofBalance_new": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_SBDM_Settings_new": {
+   "mainForm": null,
+   "units": 9,
+   "routines": 60,
+   "failed": 0
+  },
+  "P_Sbdm_Shedule_new": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_SBDM_UntimelyEtMoney_new": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_SBDM_WReport_new": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_SBDM_WRSetup_new": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 31,
+   "failed": 0
+  },
+  "P_SBDM_Capitalize": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_SBDM_ContractReport": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 9,
+   "failed": 0
+  },
+  "P_SBDM_Control": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 6,
+   "failed": 0
+  },
+  "P_SBDM_Filter": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 13,
+   "failed": 0
+  },
+  "P_SBDM_PercentChange": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 4,
+   "failed": 0
+  },
+  "P_SBDM_PercentConverting": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 33,
+   "failed": 0
+  },
+  "P_SBDM_PercentSettings": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 14,
+   "failed": 0
+  },
+  "P_SBDM_PeriodReport": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 16,
+   "failed": 0
+  },
+  "P_SBDM_Prognoz": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_SBDM_Prolongation": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 16,
+   "failed": 0
+  },
+  "P_SBDM_Report": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_SBDM_ReportofBalance": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_SBDM_Settings": {
+   "mainForm": null,
+   "units": 9,
+   "routines": 59,
+   "failed": 0
+  },
+  "P_SBDM_TaxPayments": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 14,
+   "failed": 0
+  },
+  "P_SBDM_UntimelyEtMoney": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_SBDM_WRSetup": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 32,
+   "failed": 0
+  },
+  "P_NewDepositsApplyMoneyArchive": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 21,
+   "failed": 0
+  },
+  "P_NewDepositsExtractMoneyArchive": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 22,
+   "failed": 0
+  },
+  "P_NewDepositsBalanceSettings": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 4,
+   "failed": 0
+  },
+  "P_NewDepositsCapitalize": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_NewDepositsContract_2": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 56,
+   "failed": 0
+  },
+  "P_NewDepositsControl": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 6,
+   "failed": 0
+  },
+  "P_NewDepositsFilter": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 13,
+   "failed": 0
+  },
+  "P_NewDepositsLogs": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_NewDepositsPercentConverting": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 31,
+   "failed": 0
+  },
+  "P_NewDepositsPercentSettings": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 25,
+   "failed": 0
+  },
+  "P_NewDepositsProlongation": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_NewDepositsReport": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_NewDepositsSettings": {
+   "mainForm": null,
+   "units": 10,
+   "routines": 73,
+   "failed": 0
+  },
+  "P_NewDepositsShedule": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_NewDepositsUntimelyEtMoney": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_NewDepositsWRGroups": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_NewDepositsWRSetup": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 32,
+   "failed": 0
+  },
+  "P_CRA_ExtractMoney": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 20,
+   "failed": 0
+  },
+  "P_SBDM_TransactionViewer_2": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_CR_Conclusion": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 71,
+   "failed": 0
+  },
+  "P_CMAr_Conclusion": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 76,
+   "failed": 0
+  },
+  "P_CMAr_Guarantee": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 43,
+   "failed": 0
+  },
+  "P_CMAr_Payment": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 39,
+   "failed": 0
+  },
+  "P_CMAr_Schedule": {
+   "mainForm": null,
+   "units": 12,
+   "routines": 72,
+   "failed": 0
+  },
+  "P_CMAr_Search": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_CMAr_Statement": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 30,
+   "failed": 0
+  },
+  "P_CMArFilter": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 11,
+   "failed": 0
+  },
+  "P_CMCrdFilter": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 9,
+   "failed": 0
   }
  },
  "notPorted": [],
  "missingUnits": {},
+ "plugins": {
+  "P_CargoBlank": "Insurance/CargoBlank",
+  "P_InsContracterminated": "Insurance/Contracterminated",
+  "P_InsPayment": "Insurance/InsPayment",
+  "P_InsPaymentPlan": "Insurance/InsPaymentPlan",
+  "P_Loss": "Insurance/Loss",
+  "P_Paymentloss": "Insurance/LossPayment",
+  "P_Reinsurance": "Insurance/Reinsurance",
+  "P_PaymenTerminateimpl": "Insurance/PaymenTerminate",
+  "P_TravelBlank": "Insurance/TravelBlank",
+  "P_ResponsibilityBlank": "Insurance/ResponsibilityBlank",
+  "P_Ferid": "Packages/Ferid_proje",
+  "P_ins_reins_exelinp": "Insurance/ins_reins_exelinp",
+  "P_Ins_ReinsR_contract": "Insurance/Ins_ReinsR_contract",
+  "P_FileReport": "Packages/Cards_New/FileReprt",
+  "P_CM_Conclusion": "Packages/SB_Credit/CM_Conclusion",
+  "P_Cm_Guarantee": "Packages/Cm_NewGuarantee",
+  "P_CM_Payment": "Packages/SB_Credit/CM_Payment",
+  "P_CM_RETIL": "Packages/SB_Credit/CM_CREDRETEIL",
+  "P_CM_Schedule": "Packages/SB_Credit/CM_Schedule",
+  "P_CM_Statement": "Packages/SB_Credit/CM_Statement",
+  "P_CM_Tranche": "Packages/SB_Credit/CM_Tranche",
+  "P_CM_WReport": "Packages/SB_Credit/CM_WReport",
+  "P_CU_Conclusion": "Packages/SB_Credit/CU_Conclusion",
+  "P_CU_Payment": "Packages/SB_Credit/CU_Payment",
+  "P_CU_Paymentcompany": "Packages/SB_Credit/CU_Paymentcompany",
+  "P_CU_Schedule": "Packages/SB_Credit/CU_Schedule",
+  "P_cu_Statement": "Packages/SB_Credit/CU_Statement",
+  "P_cu_WReport": "Packages/SB_Credit/CU_WReport",
+  "P_NewDepositsApplyMoney": "NewDepositsManager/NewDepositsApplyMoney",
+  "P_NewDepositsContract": "Packages/SBDM_Contract_new",
+  "P_NewDepositsExtractMoney": "NewDepositsManager/NewDepositsExtractMoney",
+  "P_NewDepositsWReport": "NewDepositsManager/NewDepositsWReport",
+  "P_NominalCustomers": "Packages/Nominal_Customer",
+  "P_Open_account": "Packages/Open_account",
+  "P_PcustXohks": "Packages/PCustService/PCUST_Xohks",
+  "P_Sb_General": "Packages/SBGeneral",
+  "P_SBDM_ApplyMoney": "DepositTeze/SBDM_ApplyMoney",
+  "P_SBDM_Contract": "DepositTeze/SBDM_Contract",
+  "P_SBDM_ExtractMoney": "DepositTeze/SBDM_ExtractMoney",
+  "P_SBDM_WReport": "DepositTeze/SBDM_WReport",
+  "P_TransInfoPack": "Packages/TransInfo",
+  "P_SBDM_TransactionViewer": "DepositTeze/SBDM_TransactionViewer",
+  "P_CM_Customer": "Packages/SB_Credit/CM_Customer",
+  "P_Investisiya_Contracts": "Packages/Investisiya_Contracts",
+  "P_Investisiya_settings": "Packages/Investisiya_settings",
+  "P_Investment_payment": "Packages/Investment_payment",
+  "P_Investment_Transaction": "Packages/İnvestmentTransaction",
+  "P_InvestmentPercentConverting": "Packages/InvestmentPercentConverting",
+  "P_SBDM_ApplyMoney_new": "Packages/SBDM_ApplyMoney_new",
+  "P_SBDM_Capitalize_new": "Packages/SBDM_Capitalize_new",
+  "P_SBDM_Contract_new": "Packages/SBDM_Contract_new",
+  "P_SBDM_ContractReport_new": "Packages/SBDM_ContractReport_new",
+  "P_SBDM_DepozitAccSettings_new": "Packages/SBDM_DepozitAccSettings_new",
+  "P_SBDM_ExtractMoney_new": "Packages/SBDM_ExtractMoney_new",
+  "P_SBDM_PartialPayment_new": "Packages/SBDM_PartialPayment_new",
+  "P_SBDM_PercentSettings_new": "Packages/SBDM_PercentSettings_new",
+  "P_SBDM_PeriodReport_new": "Packages/SBDM_PeriodReport_new",
+  "P_SBDM_Prolongation_new": "Packages/SBDM_Prolongation_new",
+  "P_SBDM_Report_new": "Packages/SBDM_Report_new",
+  "P_SBDM_ReportofBalance_new": "Packages/SBDM_ReportofBalance_new",
+  "P_SBDM_Settings_new": "Packages/SBDM_Settings_new",
+  "P_Sbdm_Shedule_new": "Packages/Sbdm_Shedule_new",
+  "P_SBDM_UntimelyEtMoney_new": "Packages/SBDM_UntimelyEtMoney_new",
+  "P_SBDM_WReport_new": "Packages/SBDM_WReport_new",
+  "P_SBDM_WRSetup_new": "Packages/SBDM_WRSetup_new",
+  "P_SBDM_Capitalize": "DepositTeze/SBDM_Capitalize",
+  "P_SBDM_ContractReport": "DepositTeze/SBDM_ContractReport",
+  "P_SBDM_Control": "Packages/SBDM_Control",
+  "P_SBDM_Filter": "DepositsManager/SBDM_Filter",
+  "P_SBDM_PercentChange": "DepozitAqroinvest_neftfondu/SBDM_PercentChange",
+  "P_SBDM_PercentConverting": "DepositTeze/SBDM_PercentConverting",
+  "P_SBDM_PercentSettings": "DepositTeze/SBDM_PercentSettings",
+  "P_SBDM_PeriodReport": "DepositTeze/SBDM_PeriodReport",
+  "P_SBDM_Prognoz": "Packages/SBDM_Prognoz",
+  "P_SBDM_Prolongation": "DepositTeze/SBDM_Prolongation",
+  "P_SBDM_Report": "DepositTeze/SBDM_Report",
+  "P_SBDM_ReportofBalance": "DepositTeze/SBDM_ReportofBalance",
+  "P_SBDM_Settings": "DepositTeze/SBDM_Settings",
+  "P_SBDM_TaxPayments": "DepozitAqroinvest_neftfondu/SBDM_TaxPayments",
+  "P_SBDM_UntimelyEtMoney": "DepositTeze/SBDM_UntimelyEaxtractMoney",
+  "P_SBDM_WRSetup": "DepositTeze/SBDM_WRSetup",
+  "P_NewDepositsApplyMoneyArchive": "NewDepositsManager/NewDepositsApplyMoneyArchive",
+  "P_NewDepositsExtractMoneyArchive": "NewDepositsManager/NewDepositsExtractMoneyArchive",
+  "P_NewDepositsBalanceSettings": "NewDepositsManager/NewDepositsBalanceSettings",
+  "P_NewDepositsCapitalize": "NewDepositsManager/NewDepositsCapitalize",
+  "P_NewDepositsContract_2": "NewDepositsManager/NewDepositsContract",
+  "P_NewDepositsControl": "NewDepositsManager/NewDepositsControl",
+  "P_NewDepositsFilter": "NewDepositsManager/NewDepositsFilter",
+  "P_NewDepositsLogs": "NewDepositsManager/NewDepositsLogs",
+  "P_NewDepositsPercentConverting": "NewDepositsManager/NewDepositsPercentConverting",
+  "P_NewDepositsPercentSettings": "NewDepositsManager/NewDepositsPercentSettings",
+  "P_NewDepositsProlongation": "NewDepositsManager/NewDepositsProlongation",
+  "P_NewDepositsReport": "NewDepositsManager/NewDepositsReport",
+  "P_NewDepositsSettings": "NewDepositsManager/NewDepositsSettings",
+  "P_NewDepositsShedule": "NewDepositsManager/NewDepositsShedule",
+  "P_NewDepositsUntimelyEtMoney": "NewDepositsManager/SBDM_UntimelyEtMoney_new",
+  "P_NewDepositsWRGroups": "NewDepositsManager/NewDepositsWRGroups",
+  "P_NewDepositsWRSetup": "NewDepositsManager/NewDepositsWRSetup",
+  "P_CRA_ExtractMoney": "DepozitAqroinvest_neftfondu/CRA_ExtractMoney",
+  "P_SBDM_TransactionViewer_2": "DepozitAqroinvest_neftfondu/SBDM_TransactionViewer",
+  "P_CR_Conclusion": "Packages/Cr_Credit/CR_Conclusion",
+  "P_CMAr_Conclusion": "Packages/ArCive_Credit/CMAr_Conclusion",
+  "P_CMAr_Guarantee": "Packages/ArCive_Credit/CMAr_Guarantee",
+  "P_CMAr_Payment": "Packages/ArCive_Credit/CMAr_Payment",
+  "P_CMAr_Schedule": "Packages/ArCive_Credit/CMAr_Schedule",
+  "P_CMAr_Search": "Packages/ArCive_Credit/CMAr_Search",
+  "P_CMAr_Statement": "Packages/ArCive_Credit/CMAr_Statement",
+  "P_CMArFilter": "Packages/ArCive_Credit/CMAr_Filter",
+  "P_CMCrdFilter": "Packages/CM_Credit_filter"
+ },
  "emptySources": [
   "Packages/sboapi50/SBOConnectCached.pas",
   "Packages/sboapi50/SBAppInfo.pas"

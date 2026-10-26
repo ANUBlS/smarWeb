@@ -191,6 +191,18 @@ export default [
   "source": "Packages/SWIFT_MANAGER_IBAN_NEW/AzipsSett.pas"
  },
  {
+  "unit": "Azipstemp",
+  "file": "Azipstemp",
+  "form": "Ttemplates",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "Ttemplates"
+  ],
+  "source": "Packages/Cards_New/FileReprt/Azipstemp.pas"
+ },
+ {
   "unit": "balans",
   "file": "balans",
   "form": "TBalance",
@@ -563,6 +575,18 @@ export default [
   "source": "Packages/VCL/CMHintBox.pas"
  },
  {
+  "unit": "CMOracleAPIDataModuleImpl",
+  "file": "CMOracleAPIDataModuleImpl",
+  "form": "TCMDataModule",
+  "ok": 5,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCMDataModule"
+  ],
+  "source": "Packages/SB_Credit/CMOracleAPI/CMOracleAPIDataModuleImpl.pas"
+ },
+ {
   "unit": "CollectionDataModUnit",
   "file": "CollectionDataModUnit",
   "form": "TCollectionDataMod",
@@ -595,6 +619,18 @@ export default [
   "activeForm": null,
   "classes": [],
   "source": "Insurance/InsVCL50/CommanParametrs.pas"
+ },
+ {
+  "unit": "CommonDataModuleImpl",
+  "file": "CommonDataModuleImpl",
+  "form": "TCommonDataModule",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCommonDataModule"
+  ],
+  "source": "Packages/SB_Credit/CM_COMMON/CommonDataModuleImpl.pas"
  },
  {
   "unit": "CommonDecls",
@@ -765,6 +801,18 @@ export default [
   "source": "Packages/Cr_Credit/CR_COMMON/crTemporaryTransactionsViewFormImpl.pas"
  },
  {
+  "unit": "cuCommonDataModuleImpl",
+  "file": "CUCommonDataModuleImpl",
+  "form": "TCUCommonDataModule",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCUCommonDataModule"
+  ],
+  "source": "Packages/SB_Credit/CU_COMMON/CUCommonDataModuleImpl.pas"
+ },
+ {
   "unit": "cuCommonDecls",
   "file": "cuCommonDecls",
   "form": null,
@@ -869,6 +917,18 @@ export default [
   "source": "Packages/SB_Credit/CU_COMMON/cuTemporaryTransactionsViewFormImpl.pas"
  },
  {
+  "unit": "cuTrancheScheduleDataModuleImpl",
+  "file": "CUTrancheScheduleDataModuleImpl",
+  "form": "TTrancheSheduleDataMod",
+  "ok": 1,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TTrancheSheduleDataMod"
+  ],
+  "source": "Packages/SB_Credit/CU_Schedule/CUTrancheScheduleDataModuleImpl.pas"
+ },
+ {
   "unit": "Data_Unit",
   "file": "Data_Unit",
   "form": "TDataModule1",
@@ -929,6 +989,18 @@ export default [
   "source": "DepozitAqroinvest_neftfondu/SBDM_Conclusion/DataModNewDepositUnit.pas"
  },
  {
+  "unit": "datamodsUnit",
+  "file": "datamodsUnit",
+  "form": "Tfreportdatamod",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "Tfreportdatamod"
+  ],
+  "source": "Packages/Cards_New/FileReprt/datamodsUnit.pas"
+ },
+ {
   "unit": "DataModuleStoredPrograms",
   "file": "DataModuleStoredPrograms",
   "form": "TDataModuleRefer",
@@ -987,6 +1059,18 @@ export default [
    "TDatModConstr"
   ],
   "source": "Packages/CC_Buyers/DatModConstimpl.pas"
+ },
+ {
+  "unit": "datnamount",
+  "file": "datnamount",
+  "form": "Tmnt",
+  "ok": 1,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "Tmnt"
+  ],
+  "source": "Packages/LVPCSSManager_Nbc_new/datnamount.pas"
  },
  {
   "unit": "QDBSumLst",
@@ -1316,6 +1400,42 @@ export default [
   "source": "Packages/SBGeneral/FormTransaction3Lmpl.pas"
  },
  {
+  "unit": "frmAddPaymentTerminateimpl",
+  "file": "frmAddPaymentTerminateimpl",
+  "form": "TForm2",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TForm2"
+  ],
+  "source": "Insurance/PaymenTerminate/frmAddPaymentTerminateimpl.pas"
+ },
+ {
+  "unit": "FrmChangePasswordImpl",
+  "file": "FrmChangePasswordImpl",
+  "form": "TFrmChangePassword",
+  "ok": 4,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TFrmChangePassword"
+  ],
+  "source": "Packages/CM_OraLogon/FrmChangePasswordImpl.pas"
+ },
+ {
+  "unit": "FrmConnectionImpl",
+  "file": "FrmConnectionImpl",
+  "form": "TFrmConnection",
+  "ok": 5,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TFrmConnection"
+  ],
+  "source": "Packages/CM_OraLogon/FrmConnectionImpl.pas"
+ },
+ {
   "unit": "insett",
   "file": "insett",
   "form": "TIn_sett",
@@ -1472,6 +1592,18 @@ export default [
   "source": "Packages/NewDepositsCommon/NewCommonDeclsImpl.pas"
  },
  {
+  "unit": "NewDepositsDMApplyMoneyImpl",
+  "file": "NewDepositsDMApplyMoneyImpl",
+  "form": "TNewDepositsDMApplyMoney",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TNewDepositsDMApplyMoney"
+  ],
+  "source": "NewDepositsManager/NewDepositsApplyMoneyArchive/NewDepositsDMApplyMoneyImpl.pas"
+ },
+ {
   "unit": "NewDepositUnit",
   "file": "NewDepositUnit",
   "form": "TFrmNewDeposit",
@@ -1543,6 +1675,18 @@ export default [
    "Topencards"
   ],
   "source": "Packages/Cards_New/cards_azericard/opencardunit.pas"
+ },
+ {
+  "unit": "OraLogon",
+  "file": "OraLogon",
+  "form": null,
+  "ok": 12,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TOraLogon"
+  ],
+  "source": "Packages/CM_OraLogon/OraLogon.pas"
  },
  {
   "unit": "OraVariables",
@@ -2241,6 +2385,16 @@ export default [
    "TSWIFT_MAIN"
   ],
   "source": "Packages/SWIFT_MANAGER_IBAN_NEW/SWIFT_MAINImpl1.pas"
+ },
+ {
+  "unit": "SystemState",
+  "file": "SystemState",
+  "form": null,
+  "ok": 3,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [],
+  "source": "Packages/SB_Credit/CMOracleAPI/SystemState.pas"
  },
  {
   "unit": "Taxfilessettings",
@@ -3238,6 +3392,18 @@ export default [
    "TTrafficDataModule"
   ],
   "source": "Packages/SBCM_ContractState/UnitStateDataModule.pas"
+ },
+ {
+  "unit": "Unittemplate",
+  "file": "Unittemplate",
+  "form": "Ttemplate",
+  "ok": 8,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "Ttemplate"
+  ],
+  "source": "Packages/Cards_New/FileReprt/Unittemplate.pas"
  },
  {
   "unit": "UnitTraffics",

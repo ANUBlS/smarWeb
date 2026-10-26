@@ -155,5 +155,6 @@ export default {
   "UnitSBOraLogOn",
   "datamod1",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

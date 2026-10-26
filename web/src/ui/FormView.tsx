@@ -44,7 +44,9 @@ function bgStyle(c: TControl): CSSProperties {
   return bg ? { background: bg } : {};
 }
 function popupOf(c: TControl): TPopupMenu | null {
-  return ((c as any).PopupMenu ?? c.refs.get('popupmenu') ?? null) as TPopupMenu | null;
+  const pm = ((c as any).PopupMenu ?? c.refs.get('popupmenu') ?? null) as TPopupMenu | null;
+  // an unresolved/unknown third-party menu component has no Popup: no context menu then
+  return pm && typeof (pm as any).Popup === 'function' ? pm : null;
 }
 function onContext(c: TControl) {
   const pm = popupOf(c);
@@ -556,7 +558,7 @@ function ToolButtonView({ b, bar, style }: { b: TToolButton; bar?: TToolBar; sty
     if (st === 'tbsdropdown' && (b.DropdownMenu || b.refs.get('dropdownmenu')) && !b.hasHandler('OnClick') && !a) {
       const pm: TPopupMenu = (b.DropdownMenu ?? b.refs.get('dropdownmenu')) as TPopupMenu;
       const rr = ref.current!.getBoundingClientRect();
-      run(pm.Popup(rr.left, rr.bottom), pm.Name);
+      if (typeof (pm as any).Popup === 'function') run(pm.Popup(rr.left, rr.bottom), pm.Name);
       return;
     }
     run(b.Click(), b.Name);

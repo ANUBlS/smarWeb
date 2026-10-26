@@ -9,6 +9,7 @@ export default function define($) {
   U.const("ctEdit", 1);
   U.defClass("TfmNewPayments", "TForm", {"groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "eddate": {"name": "edDate", "type": "TEdit"}, "label1": {"name": "Label1", "type": "TLabel"}, "label2": {"name": "Label2", "type": "TLabel"}, "edammount": {"name": "edAmmount", "type": "TEdit"}, "gkfy": {"name": "Gkfy", "type": "TLabel"}, "dblookupcombobox1": {"name": "DBLookupComboBox1", "type": "TDBLookupComboBox"}, "btok": {"name": "btOk", "type": "TBitBtn"}, "bitbtn2": {"name": "BitBtn2", "type": "TBitBtn"}, "createdtype": {"name": "CreatedType", "type": "TCreateType"}, "paymentid": {"name": "PaymentID", "type": "Integer"}}, {});
   U.init(async () => {
+    try { U.const("tdifferentsexception", await $.ref_(C, "Exception")); } catch (e) { /* unresolved alias */ }
     U.var_("fmNewPayments", null, "TfmNewPayments");
   });
   U.method("TfmNewPayments", "CreateIt", async function CreateIt(Self, p0, p1) {

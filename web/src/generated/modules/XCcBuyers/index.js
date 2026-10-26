@@ -306,5 +306,6 @@ export default {
   "UnitUpdBuyers",
   "cc_BuyersImpl",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

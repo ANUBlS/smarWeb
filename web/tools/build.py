@@ -46,7 +46,7 @@ invokeregistry ioutils keyboard olectnrs platformdefaultstyleactnctrls qcontrols
 racontrolsvcl rio shdocvw shfolder soaphttpclient stdactns teengine teeprocs tntstdctrls winprocs wintypes word97
 wordxp xsbuiltins co_statement_unit system.json json superobject generics.collections uitypes
 plgmodalcontainer uplgcontainer axloader pluginini plugindecls plugintoolbar pluginpopupmenu sequence
-calculatoreh prvieweh prndbgeh prntseh propfilereh propstorageediteh propstorageeh prvfrmeh richedeh qpropstorageeh
+categorybuttons icecrypt calculatoreh prvieweh prndbgeh prntseh propfilereh propstorageediteh propstorageeh prvfrmeh richedeh qpropstorageeh
 syncommons syncrypto synpdf synlz syntable syngdiplus synzip synlizard mormotreport mormot'''.split())
 
 # Third-party libraries bundled in the repository that the runtime provides (or that only serve
@@ -168,10 +168,7 @@ def main():
     if only:
         modules = {k: v for k, v in modules.items() if k in only}
 
-    for name, d in modules.items():
-        paths = [f for f in glob.glob(REPO + d + '/*.pas') if not f.endswith('_TLB.pas')
-                 and os.path.basename(f).lower() not in ('forms.pas',)
-                 and os.path.basename(f)[:-4].lower() not in NATIVE]
+    def add_module(name, d, paths):
         module_units[name] = paths
         own = {os.path.basename(p)[:-4].lower() for p in paths}
         queue = list(paths)
@@ -198,6 +195,100 @@ def main():
                 if lp not in seen:
                     seen.add(lp)
                     queue.append(lp)
+
+    for name, d in list(modules.items()):
+        add_module(name, d, [f for f in glob.glob(REPO + d + '/*.pas') if not f.endswith('_TLB.pas')
+                             and os.path.basename(f).lower() not in ('forms.pas',)
+                             and os.path.basename(f)[:-4].lower() not in NATIVE])
+
+    # ---- BPL plugins: LoadPackage('X.bpl') + GetProcAddress(h, 'InitPlugin') -------------------
+    # Each referenced package is built from its .dpk `contains` list; among copies of a package the
+    # one closest to the calling module's folder is used (bank-specific variants sit next to it).
+    dpk_index = {}
+    for f in glob.glob(REPO + '**/*.dpk', recursive=True):
+        rel = f[len(REPO):]
+        if rel.startswith('web/') or re.search(r'__history|copy of', rel, re.I):
+            continue
+        dpk_index.setdefault(os.path.basename(f)[:-4].lower(), []).append(f)
+
+    def read_text(f):
+        b = open(f, 'rb').read()
+        try:
+            return b.decode('utf-8-sig')
+        except UnicodeDecodeError:
+            return b.decode('cp1251', 'replace')
+
+    def dpk_units(f):
+        raw = read_text(f)
+        m = re.search(r'\bcontains\b(.*?);', raw, re.S | re.I)
+        out = []
+        for _u, rp in re.findall(r"(\w+)\s+in\s+'([^']+)'", m.group(1) if m else ''):
+            pth = os.path.normpath(os.path.join(os.path.dirname(f), rp.replace('\\', '/')))
+            if os.path.exists(pth) and os.path.basename(pth)[:-4].lower() not in NATIVE:
+                out.append(pth)
+        return out
+
+    def src_of(pth):
+        try:
+            return open(pth, 'rb').read().decode('cp1251', 'replace')
+        except OSError:
+            return ''
+
+    def closure_paths(paths):
+        seen, queue = set(paths), list(paths)
+        while queue:
+            u = all_units.get(queue.pop())
+            for ul in (x.lower() for x in (u['uses'] if u else [])):
+                lp = lib_units.get(ul)
+                if lp and lp not in seen:
+                    seen.add(lp)
+                    queue.append(lp)
+        return seen
+
+    def common(a, b):
+        n = 0
+        for x, y in zip(a.split('/'), b.split('/')):
+            if x != y:
+                break
+            n += 1
+        return n
+
+    plugin_name_of = {}
+    module_plugins = {}
+    plugin_exports = {}
+    pending = list(module_units.keys())
+    while pending:
+        name = pending.pop()
+        near = modules[name]
+        refs = set()
+        for pth in closure_paths(module_units[name]):
+            refs.update(x.lower() for x in re.findall(r"'([\w\-. ]+)\.bpl'", src_of(pth), re.I))
+        for ref in sorted(refs):
+            cands = dpk_index.get(ref)
+            if not cands:
+                continue
+            usable = [f for f in cands if dpk_units(f)] or cands
+            best = sorted(usable, key=lambda f: (-common(os.path.dirname(f[len(REPO):]), near),
+                                                 bool(SKIP_DIR_RE.search('/' + f.lower())), len(f)))[0]
+            if best not in plugin_name_of:
+                base = 'P_' + re.sub(r'\W', '_', os.path.basename(best)[:-4])
+                pname, k = base, 2
+                while pname in modules:
+                    pname, k = '%s_%d' % (base, k), k + 1
+                plugin_name_of[best] = pname
+                modules[pname] = os.path.dirname(best[len(REPO):])
+                units = dpk_units(best)
+                for pth in units:
+                    load(pth)
+                add_module(pname, modules[pname], units)
+                ex = []
+                for pth in units:
+                    for grp in re.findall(r'^\s*exports\b(.*?);', src_of(pth), re.S | re.I | re.M):
+                        ex += [re.split(r'\s+', x.strip())[0] for x in grp.split(',') if x.strip()]
+                plugin_exports[pname] = ex
+                pending.append(pname)
+            module_plugins.setdefault(name, {})[ref + '.bpl'] = plugin_name_of[best]
+    report['plugins'] = {n: modules[n] for n in plugin_exports}
     # always include the core API
     for p in glob.glob(REPO + 'Packages/sboapi50/*.pas'):
         n = os.path.basename(p)[:-4].lower()
@@ -278,6 +369,7 @@ def main():
 
     for name, paths in module_units.items():
         outdir = OUT + 'modules/' + name
+        os.makedirs(outdir, exist_ok=True)
         man = []
         for p in sorted(paths):
             r = emit(p, outdir)
@@ -285,7 +377,10 @@ def main():
                 r['source'] = p[len(REPO):]
                 man.append(r)
         main = next((m['activeForm'] for m in man if m['activeForm']), None)
-        manifest = {'name': name, 'dir': modules[name], 'mainForm': main, 'units': man, 'lib': lib_closure(paths)}
+        manifest = {'name': name, 'dir': modules[name], 'mainForm': main, 'units': man, 'lib': lib_closure(paths),
+                    'plugins': module_plugins.get(name, {})}
+        if name in plugin_exports:
+            manifest['exports'] = plugin_exports[name]
         with open(outdir + '/index.js', 'w', encoding='utf-8') as fh:
             fh.write('// Generated module manifest\nexport default %s;\n' % json.dumps(manifest, ensure_ascii=False, indent=1))
         report['modules'][name] = {'mainForm': main, 'units': len(man), 'routines': sum(m['ok'] for m in man),
@@ -345,7 +440,12 @@ def main():
         tree.append({'caption': EXTRA_ROOT, 'action': 0, 'params': {}, 'extra': True, 'children': [
             {'caption': c, 'action': 0, 'params': {}, 'children': sorted(cats[c], key=lambda n: n['caption'])}
             for c in CATEGORY_ORDER if c in cats]})
-    menu = {'tree': tree, 'actions': actions, 'reportActions': sorted(REPORT_ACTIONS), 'guids': guids}
+    global_plugins = {}
+    for mp in module_plugins.values():
+        for k, v in mp.items():
+            global_plugins.setdefault(k, v)
+    menu = {'tree': tree, 'actions': actions, 'reportActions': sorted(REPORT_ACTIONS), 'guids': guids,
+            'plugins': global_plugins}
     with open(OUT + 'menu.json', 'w', encoding='utf-8') as fh:
         json.dump(menu, fh, ensure_ascii=False, indent=1)
     with open(OUT + 'report.json', 'w', encoding='utf-8') as fh:

@@ -801,6 +801,8 @@ class P:
             if d in ('message', 'external', 'name', 'index', 'dispid'):
                 while not self.atop(';'):
                     self.next()
+            if self.atkw('implementation', 'begin', 'var', 'const', 'type', 'procedure', 'function'):
+                continue  # Delphi accepts a directive without its trailing semicolon here
             self.expect(';')
 
     def parse_routine(self, interface, unit):
@@ -834,6 +836,8 @@ class P:
             if d in ('message', 'external'):
                 while not self.atop(';'):
                     self.next()
+            if self.atkw('implementation', 'begin', 'var', 'const', 'type', 'procedure', 'function'):
+                continue  # Delphi accepts a directive without its trailing semicolon here
             self.expect(';')
         sig = {'name': name, 'cls': cls, 'kind': kind, 'params': params, 'rtype': rtype}
         if interface or is_forward or is_external:
@@ -1806,6 +1810,12 @@ def gen_unit(unit, sigs, records):
                 lines.append('  U.fieldInit(%s, %s, () => %s);' % (js_str(c['name']), js_str(fk), d))
     # consts & vars (lazy init, in order)
     lines.append('  U.init(async () => {')
+    # class type aliases (TMKError = Exception; TMyForm = TForm1): the name resolves to the target type
+    for nm, tp in unit.get('aliases', {}).items():
+        if tp['k'] == 'named' and tp['name'].lower() not in TYPE_DEFAULTS and re.match(r'^[TE]', tp['name'], re.I) \
+                and tp['name'].lower() not in unit['records']:
+            lines.append('    try { U.const(%s, await $.ref_(C, %s)); } catch (e) { /* unresolved alias */ }' % (
+                js_str(next((k for k in [nm] if True), nm)), js_str(tp['name'])))
     for nm, tp, val in unit['consts']:
         try:
             lines.append('    U.const(%s, %s);' % (js_str(nm), g.const_expr(val)))

@@ -63,5 +63,8 @@ export default {
   "crLogoutputImpl",
   "crTemporaryTransactionsViewFormImpl",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "cr_conclusion.bpl": "P_CR_Conclusion"
+ }
 };

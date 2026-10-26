@@ -72,5 +72,14 @@ export default {
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "cmar_conclusion.bpl": "P_CMAr_Conclusion",
+  "cmar_guarantee.bpl": "P_CMAr_Guarantee",
+  "cmar_payment.bpl": "P_CMAr_Payment",
+  "cmar_schedule.bpl": "P_CMAr_Schedule",
+  "cmar_search.bpl": "P_CMAr_Search",
+  "cmar_statement.bpl": "P_CMAr_Statement",
+  "cmarfilter.bpl": "P_CMArFilter"
+ }
 };

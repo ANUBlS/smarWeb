@@ -1,0 +1,1 @@
+{"name":"CommonDataModule","class":"TCommonDataModule","kind":"object","props":{"OldCreateOrder":false,"Height":480,"Width":696},"children":[{"name":"ReferencesData","class":"TOracleDataSet","kind":"object","props":{"Optimize":false,"Session":{"i":"sboapiDataModule.SBSession"},"Left":72,"Top":40},"children":[]}]}

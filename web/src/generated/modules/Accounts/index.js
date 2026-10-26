@@ -133,5 +133,6 @@ export default {
   "UnitSBOraLogOn",
   "UserSelectFormImpl",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

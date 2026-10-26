@@ -835,5 +835,35 @@ export default {
   "cuTemporaryTransactionsViewFormImpl",
   "retelcommon",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cm_guarantee.bpl": "P_Cm_Guarantee",
+  "cm_payment.bpl": "P_CM_Payment",
+  "cm_retil.bpl": "P_CM_RETIL",
+  "cm_schedule.bpl": "P_CM_Schedule",
+  "cm_statement.bpl": "P_CM_Statement",
+  "cm_tranche.bpl": "P_CM_Tranche",
+  "cm_wreport.bpl": "P_CM_WReport",
+  "cu_conclusion.bpl": "P_CU_Conclusion",
+  "cu_payment.bpl": "P_CU_Payment",
+  "cu_paymentcompany.bpl": "P_CU_Paymentcompany",
+  "cu_schedule.bpl": "P_CU_Schedule",
+  "cu_statement.bpl": "P_cu_Statement",
+  "cu_wreport.bpl": "P_cu_WReport",
+  "filereport.bpl": "P_FileReport",
+  "newdepositsapplymoney.bpl": "P_NewDepositsApplyMoney",
+  "newdepositscontract.bpl": "P_NewDepositsContract",
+  "newdepositsextractmoney.bpl": "P_NewDepositsExtractMoney",
+  "newdepositswreport.bpl": "P_NewDepositsWReport",
+  "nominalcustomers.bpl": "P_NominalCustomers",
+  "open_account.bpl": "P_Open_account",
+  "pcustxohks.bpl": "P_PcustXohks",
+  "sb_general.bpl": "P_Sb_General",
+  "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
+  "sbdm_contract.bpl": "P_SBDM_Contract",
+  "sbdm_extractmoney.bpl": "P_SBDM_ExtractMoney",
+  "sbdm_wreport.bpl": "P_SBDM_WReport",
+  "transinfopack.bpl": "P_TransInfoPack"
+ }
 };

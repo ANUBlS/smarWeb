@@ -1112,5 +1112,8 @@ export default {
   "sms",
   "unitfilter",
   "unitverification"
- ]
+ ],
+ "plugins": {
+  "filereport.bpl": "P_FileReport"
+ }
 };

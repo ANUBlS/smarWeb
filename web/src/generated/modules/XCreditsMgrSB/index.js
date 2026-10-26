@@ -63,5 +63,9 @@ export default {
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cmcrdfilter.bpl": "P_CMCrdFilter"
+ }
 };

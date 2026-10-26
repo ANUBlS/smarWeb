@@ -85,5 +85,6 @@ export default {
   "UnitPaymentsProperties",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

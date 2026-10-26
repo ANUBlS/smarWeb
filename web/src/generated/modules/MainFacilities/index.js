@@ -204,5 +204,6 @@ export default {
   "UnitSBOraLogOn",
   "UntMainTransactions",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

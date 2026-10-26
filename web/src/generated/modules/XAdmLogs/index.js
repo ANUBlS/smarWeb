@@ -142,5 +142,8 @@ export default {
   "qrp5",
   "sboapiDataModuleImpl",
   "yoxp"
- ]
+ ],
+ "plugins": {
+  "filereport.bpl": "P_FileReport"
+ }
 };

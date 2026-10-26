@@ -59,5 +59,26 @@ export default {
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "newdepositsapplymoney.bpl": "P_NewDepositsApplyMoney",
+  "newdepositsbalancesettings.bpl": "P_NewDepositsBalanceSettings",
+  "newdepositscapitalize.bpl": "P_NewDepositsCapitalize",
+  "newdepositscontract.bpl": "P_NewDepositsContract_2",
+  "newdepositscontrol.bpl": "P_NewDepositsControl",
+  "newdepositsextractmoney.bpl": "P_NewDepositsExtractMoney",
+  "newdepositsfilter.bpl": "P_NewDepositsFilter",
+  "newdepositslogs.bpl": "P_NewDepositsLogs",
+  "newdepositspercentconverting.bpl": "P_NewDepositsPercentConverting",
+  "newdepositspercentsettings.bpl": "P_NewDepositsPercentSettings",
+  "newdepositsprolongation.bpl": "P_NewDepositsProlongation",
+  "newdepositsreport.bpl": "P_NewDepositsReport",
+  "newdepositssettings.bpl": "P_NewDepositsSettings",
+  "newdepositsshedule.bpl": "P_NewDepositsShedule",
+  "newdepositsuntimelyetmoney.bpl": "P_NewDepositsUntimelyEtMoney",
+  "newdepositswreport.bpl": "P_NewDepositsWReport",
+  "newdepositswrgroups.bpl": "P_NewDepositsWRGroups",
+  "newdepositswrsetup.bpl": "P_NewDepositsWRSetup",
+  "sb_general.bpl": "P_Sb_General"
+ }
 };

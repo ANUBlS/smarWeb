@@ -177,5 +177,6 @@ export default {
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

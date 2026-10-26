@@ -7,7 +7,7 @@ import { logger } from '../log';
 import type { DfmNode } from '../dfm';
 import { mergeInherited } from '../dfm';
 import { TComponent, REF_PROPS, runGuarded, setRefResolver } from './component';
-import { TControl, TWinControl, TTabSheet, TPageControl, TStatusPanel, THeaderSection, TListColumn, TTimer } from './controls';
+import { TControl, TWinControl, TTabSheet, TPageControl, TStatusPanel, THeaderSection, TListColumn, TTimer, TTreeView } from './controls';
 import { TStrings, TCollection, TFont } from './classes';
 import { colorValue } from './colors';
 import { TAction, TActionList, TMenuItem, TMenu, TMainMenu } from './actions';
@@ -170,9 +170,26 @@ export class TCustomForm extends TWinControl {
     await this.fire('OnActivate', this);
     this.focusActiveControl();
   }
-  protected focusActiveControl() {
-    const ac = this.ActiveControl;
-    if (ac) setTimeout(() => ac.SetFocus(), 30);
+  focusActiveControl() {
+    const ac = this.ActiveControl ?? this.firstTabControl();
+    if (!ac) return;
+    setTimeout(() => ac.SetFocus(), 30);
+    if (ac instanceof TTreeView) void runGuarded(() => ac.focusSelectFirst(), `${ac.Name}.OnChange`);
+  }
+  /** The control TCustomForm.SetFocus would focus first: lowest TabOrder, depth-first. */
+  firstTabControl(): TControl | null {
+    const FOCUSABLE = new Set(['edit', 'memo', 'dbgrid', 'stringgrid', 'treeview', 'listview', 'listbox', 'combo', 'button',
+      'checkbox', 'radio', 'datetime', 'dbdate', 'dbedit', 'dbmemo', 'currency', 'spin', 'lookup', 'viewcombo', 'checklist']);
+    const walk = (p: TControl): TControl | null => {
+      const kids = [...p.children].filter((c) => c.Visible && c.Enabled)
+        .sort((a, b) => ((a as any).TabOrder ?? 0) - ((b as any).TabOrder ?? 0));
+      for (const c of kids) {
+        if (FOCUSABLE.has(c.kind)) return c;
+        if (c.children.length) { const r = walk(c); if (r) return r; }
+      }
+      return null;
+    };
+    return walk(this);
   }
   /** Delphi Close: OnCloseQuery → OnClose(Action) → hide/free; for modal forms sets ModalResult := mrCancel. */
   async Close() {

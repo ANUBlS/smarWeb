@@ -97,5 +97,12 @@ export default {
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "inscontracterminated.bpl": "P_InsContracterminated",
+  "inspayment.bpl": "P_InsPayment",
+  "inspaymentplan.bpl": "P_InsPaymentPlan",
+  "loss.bpl": "P_Loss",
+  "reinsurance.bpl": "P_Reinsurance"
+ }
 };

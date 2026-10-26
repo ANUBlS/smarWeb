@@ -564,5 +564,6 @@ export default {
   "quickrep",
   "sboapiDataModuleImpl",
   "unitfilter"
- ]
+ ],
+ "plugins": {}
 };

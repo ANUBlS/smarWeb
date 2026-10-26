@@ -98,5 +98,6 @@ export default {
   "UntimelyWithdrawUnit",
   "WithDrawUnit",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

@@ -108,5 +108,8 @@ export default {
   "UntReferences",
   "UntReferencesDataMod",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "cra_extractmoney.bpl": "P_CRA_ExtractMoney"
+ }
 };

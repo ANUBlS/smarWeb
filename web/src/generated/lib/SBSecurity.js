@@ -7,6 +7,7 @@ export default function define($) {
   const C = [U];
   U.defClass("EPermissionedDenied", "Exception", {}, {});
   U.init(async () => {
+    try { U.const("tgroup", await $.ref_(C, "TUser")); } catch (e) { /* unresolved alias */ }
     U.const("sAccessName_Execute", "Execute");
     U.const("InvalidSid", (-(1)));
     U.const("SMSEC_ERROR_PERMISSION_DENIED", (-(20001)));

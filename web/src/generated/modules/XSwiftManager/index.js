@@ -545,5 +545,8 @@ export default {
   "unitfilter",
   "unitverification",
   "yoxp"
- ]
+ ],
+ "plugins": {
+  "filereport.bpl": "P_FileReport"
+ }
 };

@@ -25,13 +25,31 @@ import './data/fields';
 import './data/dataset';
 import './data/datasource';
 import './data/oracle';
+import { registerAliases } from './vcl/aliases';
 
 type UnitModule = { default: (dollar: ReturnType<typeof makeDollar>) => unknown };
 interface UnitInfo { unit: string; file: string; form: string | null; activeForm: string | null; classes: string[]; source: string }
-interface ModuleManifest { name: string; dir: string; mainForm: string | null; units: UnitInfo[]; lib?: string[] }
+interface ModuleManifest { name: string; dir: string; mainForm: string | null; units: UnitInfo[]; lib?: string[]; plugins?: Record<string, string>; exports?: string[] }
 
-const unitLoaders = import.meta.glob<UnitModule>('../generated/**/*.js');
-const dfmLoaders = import.meta.glob<{ default: DfmNode }>('../generated/**/*.dfm.json');
+/*
+ * Generated units are plain ES modules without imports (export default function define($)) and the
+ * layouts are JSON, so they are not bundled: Vite serves them from src/generated in development and
+ * the build copies them to dist/generated (vite.config.ts). Each file loads on first use.
+ */
+const GEN = (import.meta as any).env?.DEV ? '/src/generated/' : `${(import.meta as any).env?.BASE_URL ?? '/'}generated/`;
+const genUrl = (key: string) => GEN + key.replace(/^\.\.\/generated\//, '');
+const missing = new Set<string>();
+const proxyLoaders = <T>(load: (url: string) => Promise<T>) => new Proxy({} as Record<string, () => Promise<T>>, {
+  get: (_t, key: string) => (missing.has(key) ? undefined : () => load(genUrl(key)).catch((e) => { missing.add(key); throw e; })),
+});
+const importUrl = (url: string) => import(/* @vite-ignore */ url);
+const fetchJson = async (url: string) => {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+  return { default: await r.json() };
+};
+const unitLoaders = proxyLoaders<UnitModule>(importUrl);
+const dfmLoaders = proxyLoaders<{ default: DfmNode }>(fetchJson);
 
 defineGlobal('Application', Application);
 defineGlobal('Screen', Screen);
@@ -41,6 +59,7 @@ defineGlobal('Clipboard', Clipboard);
 defineGlobal('ComServer', { pget: () => null, pset: () => true });
 defineGlobal('Printer', { Printers: [], PrinterIndex: 0, BeginDoc() { /* */ }, EndDoc() { /* */ }, Canvas: {} });
 registerEnumNames(enumNames as string[]);
+registerAliases();
 
 Env.rootGlobals = (l: string) => {
   const s = getSettingGlobal(l);
@@ -91,7 +110,7 @@ let libQueue: Promise<unknown> = Promise.resolve();
 export async function getLibEnv(files?: string[]): Promise<Env> {
   if (!libLoading) {
     libLoading = (async () => {
-      libManifest = (await import('../generated/lib/index.js')).default as UnitInfo[];
+      libManifest = (await importUrl(genUrl('../generated/lib/index.js'))).default as UnitInfo[];
       libEnv = new Env('lib', null);
       return libEnv;
     })();
@@ -119,7 +138,7 @@ export async function warmLib() {
 
 /* ------------------------------------------------------------------ module envs */
 
-const moduleManifests = import.meta.glob<{ default: ModuleManifest }>('../generated/modules/*/index.js');
+const moduleManifests = proxyLoaders<{ default: ModuleManifest }>(importUrl);
 const moduleEnvs = new Map<string, Promise<{ env: Env; manifest: ModuleManifest }>>();
 
 export async function getModule(name: string) {
@@ -169,6 +188,7 @@ export async function openModule(name: string, params: Record<string, string>, c
   if (act) await runGuarded(() => act(f), `${name}.Activate`);
   await f.fire('OnShow', f);
   await f.fire('OnActivate', f);
+  f.focusActiveControl();
   return f;
 }
 
@@ -229,6 +249,56 @@ export async function showModuleModal(guid: unknown, params: unknown): Promise<n
     releaseHandle(handle);
     await runGuarded(() => (f as any).Free?.(), `${name}.Free`);
   }
+}
+
+/* ------------------------------------------------------------------ BPL plugins */
+
+const pkgHandles = new Map<number, string>();
+let globalPlugins: Record<string, string> | null = null;
+
+function callerModule(): string | null {
+  const top = windows.modalTop() ?? windows.list.find((x) => x.id === windows.activeId);
+  const env = (top?.form as any)?.__cls?.env as Env | undefined;
+  return env && env.name !== 'lib' ? env.name : null;
+}
+
+/** LoadPackage(ExtractFilePath(Application.ExeName) + 'X.bpl'): the package of that name built for
+ *  the calling module (see tools/build.py), loaded on first use; returns a module handle or 0. */
+export async function loadPackage(path: unknown): Promise<number> {
+  const bpl = String(path ?? '').replace(/\\/g, '/').split('/').pop()!.trim().toLowerCase();
+  let pname: string | null = null;
+  const caller = callerModule();
+  if (caller) { try { pname = (await getModule(caller)).manifest.plugins?.[bpl] ?? null; } catch { pname = null; } }
+  if (!pname) {
+    globalPlugins ??= ((await import('../generated/menu.json')).default as any).plugins ?? {};
+    pname = globalPlugins![bpl] ?? null;
+  }
+  if (!pname) {
+    logger.warn(`Package ${bpl} is not part of the web version`);
+    toast('Bu modul veb versiyada hələ yoxdur', 'info');
+    return 0;
+  }
+  await getModule(pname);
+  const h = allocHandle(() => 0);
+  pkgHandles.set(h, pname);
+  logger.info(`LoadPackage ${bpl} → ${pname}`);
+  return h;
+}
+
+/** GetProcAddress(Handle, 'InitPlugin'): an exported routine of the package (a package exporting a
+ *  single routine under another name answers for it, as the deployed builds did). */
+export async function getProcAddress(h: unknown, proc: unknown): Promise<unknown> {
+  const pname = pkgHandles.get(Number(h));
+  if (!pname) return null;
+  const { env, manifest } = await getModule(pname);
+  const find = async (n: string) => {
+    for (const u of env.unitOrder) {
+      const r = await u.pget(n.toLowerCase());
+      if (r !== NOTFOUND && r != null && (typeof r === 'function' || (r as any).__name !== undefined)) return r;
+    }
+    return null;
+  };
+  return (await find(String(proc))) ?? (manifest.exports?.length === 1 ? await find(manifest.exports[0]) : null);
 }
 
 class TPlgModalContainer extends TComponent {

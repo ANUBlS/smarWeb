@@ -59,5 +59,9 @@ export default {
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "newdepositsapplymoneyarchive.bpl": "P_NewDepositsApplyMoneyArchive",
+  "newdepositsextractmoneyarchive.bpl": "P_NewDepositsExtractMoneyArchive"
+ }
 };

@@ -1,10 +1,10 @@
 /* Visual controls (Controls.pas, StdCtrls.pas, ExtCtrls.pas, ComCtrls.pas, Buttons.pas …). */
-import { TObject, Ref, ValueRef, NOTFOUND, GAP } from '../core';
+import { TObject, Ref, ValueRef, NOTFOUND, GAP, PasException } from '../core';
 import { toast } from '../toast';
 import { logger } from '../log';
 import { registerBuiltin, getBuiltin } from '../env';
 import { num, str } from '../pascal';
-import { invalidate } from '../ui';
+import { invalidate, beginHold, endHold } from '../ui';
 import { TComponent } from './component';
 import { TStrings, TFont, TCanvas, TPicture, Indexed, TCollection, TCollectionItem } from './classes';
 import { colorValue } from './colors';
@@ -190,6 +190,11 @@ class TControlBrush extends TObject {
 }
 
 export class TWinControl extends TControl {
+  /** Controls.pas: the direct child control with that Name. */
+  FindChildControl(name: unknown) {
+    const n = String(name ?? '').toLowerCase();
+    return this.children.find((c) => (c.Name || '').toLowerCase() === n) ?? null;
+  }
   BorderWidth = 0;
   DoubleBuffered = false;
   private _brush: TControlBrush | null = null;
@@ -964,6 +969,15 @@ export class TTreeView extends TWinControl {
   FullCollapse() { for (const n of this.Items.flat()) n.Expanded = false; invalidate(); }
   GetNodeAt() { return this._selected; }
   AlphaSort() { /* */ }
+  /** Win32 tree view behaviour: getting the focus with nothing selected selects the first node
+   *  (TVN_SELCHANGED → OnChange). */
+  async focusSelectFirst() {
+    const n = this.Items.roots[0];
+    if (this._selected || !n) return;
+    this._selected = n;
+    invalidate();
+    await this.fire('OnChange', this, n);
+  }
   async userSelect(n: TTreeNode) {
     const ref = new ValueRef(true);
     if (this.hasHandler('OnChanging')) await this.fire('OnChanging', this, n, ref);
@@ -1081,10 +1095,17 @@ export class TTimer extends TComponent {
   restart() {
     if (this.handle) { clearInterval(this.handle); this.handle = null; }
     if (this._enabled && this.Interval > 0 && this.started && this.hasHandler('OnTimer')) {
-      this.handle = window.setInterval(() => { void this.fire('OnTimer', this); }, Math.max(200, this.Interval));
+      // like any event handler, a timer tick repaints once, with the state it leaves behind
+      this.handle = window.setInterval(() => {
+        if (this.busy) return; // Delphi never re-enters OnTimer while the previous tick still runs
+        this.busy = true;
+        beginHold();
+        void this.fire('OnTimer', this).finally(() => { endHold(); this.busy = false; });
+      }, Math.max(200, this.Interval));
     }
   }
   started = false;
+  private busy = false;
   protected override destroy() { if (this.handle) clearInterval(this.handle); }
 }
 registerBuiltin('TTimer', TTimer);
@@ -1127,7 +1148,7 @@ for (const n of ['TOpenDialog', 'TSaveDialog', 'TOpenPictureDialog', 'TSavePictu
 /* Inert components: exist in forms but have no browser behaviour. */
 for (const n of ['TNLSLocalizer', 'TEvanescence', 'THintBoxHelper', 'TApplicationEvents', 'TXPManifest',
   'TOleContainer', 'TExcelApplication', 'TExcelWorkbook', 'TExcelWorksheet', 'TWordApplication', 'TWordDocument',
-  'TIdHTTP', 'TIdSSLIOHandlerSocketOpenSSL', 'THTTPRIO', 'TXMLDocument', 'TQuickRep', 'TQRBand', 'TQRDBText',
+  'TIdSSLIOHandlerSocketOpenSSL', 'THTTPRIO', 'TXMLDocument', 'TQuickRep', 'TQRBand', 'TQRDBText',
   'TQRExpr', 'TQRShape', 'TQRSubDetail', 'TQRImage', 'TQRDBImage', 'TQRSysData', 'TQRMemo', 'TQRRichText',
   'TQRPDFFilter', 'TQRExcelFilter', 'TQRTextFilter', 'TQRCSVFilter', 'TQRHTMLFilter', 'TQRCompositeReport',
   'TQRGroup', 'TQRChildBand', 'TQRStringsBand', 'TQRPreview', 'TOracleEvent', 'TOracleLogon', 'TOracleNavigator',
@@ -1140,6 +1161,17 @@ for (const n of ['TNLSLocalizer', 'TEvanescence', 'THintBoxHelper', 'TApplicatio
     private _ds: unknown = null;
     get DataSet() { return this._ds ?? (isReport ? GAP : null); }
     set DataSet(v: unknown) { this._ds = v; }
+    // report forms (TQuickRep descendants with a DFM) stream their bands/labels like a form does
+    async Create(owner?: unknown) {
+      if (owner instanceof TComponent) owner.insertComponent(this);
+      const cls = (this as any).__cls;
+      if (!isReport || !cls || (this as any).__streamed) return;
+      (this as any).__streamed = true;
+      const f = await import('./forms');
+      const layout = f.fullLayout(cls);
+      if (layout) await f.streamRoot(this, layout);
+      await this.fire('OnCreate', this);
+    }
     Preview() { if (isReport) { logger.info(`${this.Name || n}.Preview — reports are not rendered in this phase`); toast('Hesabatlar veb versiyanın bu mərhələsində göstərilmir', 'info'); } }
     PreviewModal() { this.Preview(); }
     Print() { this.Preview(); }
@@ -1184,3 +1216,38 @@ export class TPluginToolBar extends TToolBar {
   UnLoadPlugins() { /* */ }
 }
 registerBuiltin('TPluginToolBar', TPluginToolBar);
+
+/*
+ * Indy TIdHTTP. Request/Response carry their usual properties; the transfer itself is not done from
+ * the browser (bank-internal and cross-origin hosts): Get/Post raise the connection error Indy
+ * raises when the host cannot be reached, which the forms already handle in try/except.
+ */
+class TIdHttpMessage extends TObject {
+  CustomHeaders = new TStrings();
+  ContentType = ''; Accept = ''; AcceptCharSet = ''; UserAgent = ''; BasicAuthentication = false;
+  Username = ''; Password = ''; ContentLength = 0; CharSet = ''; ResponseCode = 0; ResponseText = '';
+  RawHeaders = new TStrings();
+}
+export class TIdHTTP extends TComponent {
+  Request = new TIdHttpMessage();
+  Response = new TIdHttpMessage();
+  ResponseCode = 0;
+  ResponseText = '';
+  IOHandler: unknown = null;
+  HandleRedirects = false;
+  ConnectTimeout = 0;
+  ReadTimeout = 0;
+  ProxyParams = new TIdHttpMessage();
+  private fail(verb: string, url: unknown): never {
+    logger.warn(`TIdHTTP.${verb} ${String(url ?? '')} — HTTP requests are made by the server API, not from the browser`);
+    throw new PasException('EIdSocketError', `Socket Error # 10061\nConnection refused (${String(url ?? '')})`, ['exception']);
+  }
+  Get(url: unknown) { return this.fail('Get', url); }
+  Post(url: unknown) { return this.fail('Post', url); }
+  Put(url: unknown) { return this.fail('Put', url); }
+  Delete(url: unknown) { return this.fail('Delete', url); }
+  Head(url: unknown) { return this.fail('Head', url); }
+  Disconnect() { /* */ }
+  get Connected() { return false; }
+}
+registerBuiltin('TIdHTTP', TIdHTTP);

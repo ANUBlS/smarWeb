@@ -1,0 +1,27 @@
+// Generated from DmPayment1impl.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("DmPayment1impl", ["SysUtils", "Classes", "DB", "OracleData", "Oracle", "CommanParametrs", "sboapiDataModuleImpl"]);
+  const C = [U];
+  U.defClass("TDmPayment1", "TDataModule", {"dssysdat": {"name": "DsSysdat", "type": "TOracleDataSet"}, "dssysdattek_dat": {"name": "DsSysdatTEK_DAT", "type": "TDateTimeField"}, "dsrcontracts": {"name": "DsRcontracts", "type": "TDataSource"}, "dscontracts": {"name": "Dscontracts", "type": "TOracleDataSet"}, "dscontractsid": {"name": "DscontractsID", "type": "TFloatField"}, "dscontractsammount": {"name": "DscontractsAMMOUNT", "type": "TFloatField"}, "dscontractsmusteri": {"name": "DscontractsMUSTERI", "type": "TWideStringField"}, "dscontractscontract_name": {"name": "DscontractsCONTRACT_NAME", "type": "TWideStringField"}, "dscontractsstatus": {"name": "DscontractsSTATUS", "type": "TIntegerField"}, "dscontractsmain_acc_id": {"name": "DscontractsMAIN_ACC_ID", "type": "TWideStringField"}, "dscontractsper_acc_id": {"name": "DscontractsPER_ACC_ID", "type": "TWideStringField"}, "dscontractsesas_qaliq": {"name": "DscontractsESAS_QALIQ", "type": "TFloatField"}, "dscontractsfaiz_qaliq": {"name": "DscontractsFAIZ_QALIQ", "type": "TFloatField"}, "dsrmain": {"name": "DsRMain", "type": "TDataSource"}, "dsmain": {"name": "DsMain", "type": "TOracleDataSet"}, "dsmainid": {"name": "DsMainID", "type": "TFloatField"}, "dsmaincid": {"name": "DsMainCID", "type": "TFloatField"}, "dsmainammount": {"name": "DsMainAMMOUNT", "type": "TFloatField"}, "dsmaindat": {"name": "DsMainDAT", "type": "TDateTimeField"}, "dsmaincontract_name": {"name": "DsMainCONTRACT_NAME", "type": "TWideStringField"}, "ds_kassa": {"name": "ds_kassa", "type": "TOracleDataSet"}, "ds_kassaacc_no": {"name": "ds_kassaACC_NO", "type": "TWideStringField"}, "ds_kassaid": {"name": "ds_kassaID", "type": "TFloatField"}, "dsr_kassa": {"name": "dsr_kassa", "type": "TDataSource"}, "dsr_gelir_acc": {"name": "dsr_gelir_acc", "type": "TDataSource"}, "ds_gelir_acc": {"name": "ds_gelir_acc", "type": "TOracleDataSet"}, "widestringfield1": {"name": "WideStringField1", "type": "TWideStringField"}, "floatfield1": {"name": "FloatField1", "type": "TFloatField"}, "ds_xerc_acc": {"name": "ds_xerc_acc", "type": "TOracleDataSet"}, "widestringfield2": {"name": "WideStringField2", "type": "TWideStringField"}, "floatfield2": {"name": "FloatField2", "type": "TFloatField"}, "dsr_xerc_acc": {"name": "dsr_xerc_acc", "type": "TDataSource"}, "dscontractscontr_type": {"name": "DscontractsCONTR_TYPE", "type": "TWideStringField"}, "dscontractsbegin_date": {"name": "DscontractsBEGIN_DATE", "type": "TDateTimeField"}, "dscontractsend_date": {"name": "DscontractsEND_DATE", "type": "TDateTimeField"}, "dscontractspercent": {"name": "DscontractsPERCENT", "type": "TIntegerField"}, "dscontractsfilial": {"name": "DscontractsFILIAL", "type": "TWideStringField"}, "dscontractsper_ammount": {"name": "DscontractsPER_AMMOUNT", "type": "TFloatField"}, "dscontractscalc_day_per": {"name": "DscontractsCALC_DAY_PER", "type": "TFloatField"}, "dscontractsomv": {"name": "DscontractsOMV", "type": "TFloatField"}, "dscontractsremainder_per_ammount": {"name": "DscontractsREMAINDER_PER_AMMOUNT", "type": "TFloatField"}, "dscontractsmuddetli": {"name": "DscontractsMUDDETLI", "type": "TWideStringField"}, "dscontractsval_name": {"name": "DscontractsVAL_NAME", "type": "TWideStringField"}, "pk_ins_investment": {"name": "pk_ins_investment", "type": "TOraclePackage"}, "dsinvest": {"name": "DsInvest", "type": "TOracleDataSet"}, "dsinvestid": {"name": "DsInvestID", "type": "TFloatField"}, "dsinvestcid": {"name": "DsInvestCID", "type": "TFloatField"}, "dsinvestammount": {"name": "DsInvestAMMOUNT", "type": "TFloatField"}, "dsinvestdat": {"name": "DsInvestDAT", "type": "TDateTimeField"}, "dsinvesttrid": {"name": "DsInvestTRID", "type": "TFloatField"}, "dsrinvest": {"name": "DsRInvest", "type": "TDataSource"}, "ds_kassa1": {"name": "ds_kassa1", "type": "TOracleDataSet"}, "widestringfield3": {"name": "WideStringField3", "type": "TWideStringField"}, "floatfield3": {"name": "FloatField3", "type": "TFloatField"}, "dsr_kassa1": {"name": "dsr_kassa1", "type": "TDataSource"}, "dscontractsincome_acc_id": {"name": "DscontractsINCOME_ACC_ID", "type": "TFloatField"}, "dscontractsexp_acc_id": {"name": "DscontractsEXP_ACC_ID", "type": "TFloatField"}, "dscontractsincome_acc_no": {"name": "DscontractsINCOME_ACC_NO", "type": "TWideStringField"}, "dscontractsexp_acc_no": {"name": "DscontractsEXP_ACC_NO", "type": "TWideStringField"}}, {});
+  U.init(async () => {
+    U.var_("DmPayment1", null, "TDmPayment1");
+  });
+  U.method("TDmPayment1", "DataModuleCreate", async function DataModuleCreate(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.mcall((await $.v(C, "DsMain")), "Open", []);
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  U.method("TDmPayment1", "DataModuleDestroy", async function DataModuleDestroy(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.mcall((await $.v(C, "DsMain")), "Close", []);
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  return U;
+}

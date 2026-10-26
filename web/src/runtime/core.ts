@@ -151,6 +151,7 @@ export class RuntimeGap {
   pget(_l: string): unknown { return GAP; }
   pset(_l: string, _v: unknown) { return true; }
   pindex(_i: unknown[]) { return GAP; }
+  pindexSet(_i: unknown[], _v: unknown) { /* absorbed */ }
   toString() { return ''; }
   valueOf() { return 0; }
   toJSON() { return null; }

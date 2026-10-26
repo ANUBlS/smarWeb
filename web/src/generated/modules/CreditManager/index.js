@@ -133,5 +133,6 @@ export default {
   "UntReferencesDataMod",
   "sbcmMainDataModule",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

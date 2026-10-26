@@ -719,6 +719,17 @@ fn('ParamCount', () => 0);
 fn('FindCmdLineSwitch', () => false);
 fn('GetEnvironmentVariable', () => '');
 fn('ShellExecute', () => 0);
+fn('WinExec', () => 33);
+fn('MkDir', () => undefined);
+fn('RmDir', () => undefined);
+fn('ChDir', () => undefined);
+fn('SetCurrentDir', () => true);
+fn('CreateDir', () => true);
+fn('RemoveDir', () => true);
+// ShowWindow / ShellExecute show commands, SHGetFolderPath flags
+Object.entries({ SW_HIDE: 0, SW_SHOWNORMAL: 1, SW_NORMAL: 1, SW_SHOWMINIMIZED: 2, SW_SHOWMAXIMIZED: 3, SW_MAXIMIZE: 3,
+  SW_SHOWNOACTIVATE: 4, SW_SHOW: 5, SW_MINIMIZE: 6, SW_SHOWMINNOACTIVE: 7, SW_SHOWNA: 8, SW_RESTORE: 9,
+  SW_SHOWDEFAULT: 10, SHGFP_TYPE_CURRENT: 0, SHGFP_TYPE_DEFAULT: 1 }).forEach(([k, v]) => def(k, v));
 fn('WinExec', () => 0);
 fn('GetComputerName', () => true);
 fn('AssignFile', () => undefined);
@@ -736,11 +747,14 @@ fn('FindNext', () => 1);
 fn('FindClose', () => undefined);
 fn('FileAge', () => 0);
 fn('GetFileVersion', () => 0);
-fn('LoadLibrary', () => 0);
-fn('FreeLibrary', () => true);
-fn('GetProcAddress', () => null);
 fn('PostMessage', (h, m, w, l) => postMessage(h, m, w, l));
 fn('PostThreadMessage', () => true);
+// run-time packages (BPL plugins of the deposit/credit/insurance managers)
+fn('LoadPackage', async (p) => (await import('./loader')).loadPackage(p));
+fn('GetProcAddress', async (h, n) => (await import('./loader')).getProcAddress(h, n));
+fn('UnloadPackage', () => undefined);
+fn('LoadLibrary', () => 0);
+fn('FreeLibrary', () => true);
 fn('SendMessage', (h, m, w, l) => sendMessage(h, m, w, l));
 // GUIDs travel as their canonical upper-case string form
 const normGuid = (g: unknown) => { const s = str(g).trim().toUpperCase(); return s.startsWith('{') ? s : `{${s}}`; };
@@ -764,7 +778,7 @@ fn('ColorToRGB', (c) => num(c));
 fn('ShortCut', (k) => num(k));
 fn('ShortCutToText', (k) => str(k));
 fn('TextToShortCut', (s) => s);
-fn('CreateOleObject', (name) => { logger.info(`OLE automation '${str(name)}' is not available in the browser`); return null; });
+fn('CreateOleObject', async (name) => (await import('./ole')).createOleObject(name));
 fn('GetActiveOleObject', () => null);
 fn('CoInitialize', () => 0);
 fn('CoUninitialize', () => 0);

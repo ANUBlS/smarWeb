@@ -58,5 +58,12 @@ export default {
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {
+  "investisiya_contracts.bpl": "P_Investisiya_Contracts",
+  "investisiya_settings.bpl": "P_Investisiya_settings",
+  "investment_payment.bpl": "P_Investment_payment",
+  "investment_transaction.bpl": "P_Investment_Transaction",
+  "investmentpercentconverting.bpl": "P_InvestmentPercentConverting"
+ }
 };

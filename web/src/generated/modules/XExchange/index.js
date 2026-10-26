@@ -369,5 +369,6 @@ export default {
   "UnitRep",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
- ]
+ ],
+ "plugins": {}
 };

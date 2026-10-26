@@ -7,6 +7,7 @@ export default function define($) {
   const C = [U];
   U.defClass("TfmNewInsurance", "TForm", {"groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "btok": {"name": "btOk", "type": "TBitBtn"}, "btcancel": {"name": "btCancel", "type": "TBitBtn"}, "dbgrid1": {"name": "DBGrid1", "type": "TDBGrid"}, "pmccallnewblank": {"name": "pmcCallNewBlank", "type": "TPlgModalContainer"}, "checkbox1": {"name": "CheckBox1", "type": "TCheckBox"}}, {});
   U.init(async () => {
+    try { U.const("tguiderror", await $.ref_(C, "Exception")); } catch (e) { /* unresolved alias */ }
     U.var_("fmNewInsurance", null, "TfmNewInsurance");
   });
   U.method("TfmNewInsurance", "CallChangeForm", async function CallChangeForm(Self, p0) {

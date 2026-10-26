@@ -18,8 +18,19 @@ const records = new Map<string, Record<string, () => unknown>>();
 
 /* ------------------------------------------------------------------ member protocol */
 
+// Methods the VCL implements without touching Self, so calling them on nil is legal in Delphi:
+// TObject.Free (nil-safe by design) and TTreeNode.Index (GetIndex walks siblings from Self → -1).
+const NIL_SAFE: Record<string, () => unknown> = {
+  free: () => routine(() => undefined, 'Free'),
+  index: () => -1,
+};
+
 export async function getMember(obj: unknown, lname: string): Promise<Found> {
-  if (obj == null) throw accessViolation(lname);
+  if (obj == null) {
+    const safe = NIL_SAFE[lname];
+    if (safe) return safe();
+    throw accessViolation(lname);
+  }
   if (isPObj(obj)) return await obj.pget(lname);
   if (isType(obj)) return typeMember(obj, lname);
   if (typeof obj === 'object') {
