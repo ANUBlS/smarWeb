@@ -6,7 +6,7 @@ import { invalidate, suspendHold, flushNow } from '../ui';
 import { logger } from '../log';
 import type { DfmNode } from '../dfm';
 import { mergeInherited } from '../dfm';
-import { TComponent, REF_PROPS, runGuarded, setRefResolver } from './component';
+import { TComponent, REF_PROPS, runGuarded, setRefResolver, whileLoading } from './component';
 import { TControl, TWinControl, TTabSheet, TPageControl, TStatusPanel, THeaderSection, TListColumn, TTimer, TTreeView } from './controls';
 import { TStrings, TCollection, TFont } from './classes';
 import { colorValue } from './colors';
@@ -336,7 +336,8 @@ void ENUMISH;
 
 const COLOR_PROPS = new Set(['color', 'fixedcolor', 'titlecolor', 'brush.color', 'pen.color', 'transparentcolor', 'bkcolor', 'hottrackcolor', 'selectedcolor']);
 const STRINGS_PROPS = new Set(['items.strings', 'lines.strings', 'sql.strings', 'tabs.strings', 'picklist.strings', 'values.strings', 'hints.strings', 'strings.strings', 'deletesql.strings', 'insertsql.strings', 'modifysql.strings', 'refreshsql.strings', 'lockSQL.strings']);
-const IGNORE_PROPS = new Set(['designsize', 'explicitleft', 'explicittop', 'explicitwidth', 'explicitheight', 'textheight', 'pixelsperinch', 'oldcreateorder', 'itemheight', 'qbedefinition.qbefielddefs', 'designactivation', 'variables.data', 'picture.data', 'glyph.data', 'bitmap', 'icon.data', 'image.data', 'displaylabelfont', 'helpcontext', 'parentbidimode', 'bidimode', 'imemode', 'imename', 'ctl3d', 'parentctl3d', 'dragcursor', 'dragkind', 'dragmode', 'touch.interactivegestures', 'touch.interactivegestureoptions', 'touch.parenttabletoptions', 'touch.tabletoptions', 'defaultmonitor', 'glasframe.enabled']);
+// 'active': datasets open after loading (Delphi Loaded), not while their variables/refs are still streaming
+const IGNORE_PROPS = new Set(['active', 'designsize', 'explicitleft', 'explicittop', 'explicitwidth', 'explicitheight', 'textheight', 'pixelsperinch', 'oldcreateorder', 'itemheight', 'qbedefinition.qbefielddefs', 'designactivation', 'variables.data', 'picture.data', 'glyph.data', 'bitmap', 'icon.data', 'image.data', 'displaylabelfont', 'helpcontext', 'parentbidimode', 'bidimode', 'imemode', 'imename', 'ctl3d', 'parentctl3d', 'dragcursor', 'dragkind', 'dragmode', 'touch.interactivegestures', 'touch.interactivegestureoptions', 'touch.parenttabletoptions', 'touch.tabletoptions', 'defaultmonitor', 'glasframe.enabled']);
 
 /** Instantiate the builtin or user class for a DFM node. */
 async function makeComponent(node: DfmNode, env: Env | null, owner: TComponent | null = null): Promise<TComponent> {
@@ -377,9 +378,11 @@ export async function streamRoot(root: TComponent, layout: DfmNode) {
     if (c instanceof TDBGrid) for (const col of c.Columns.all() as TColumn[]) col.grid = c;
   }
   // datasets saved with Active = True open after loading (Delphi Loaded)
-  for (const c of created) {
-    if (c instanceof TDataSet && c.dfm.Active === true) await runGuarded(() => c.Open(), `${c.Name}.Open`);
-  }
+  await whileLoading(async () => {
+    for (const c of created) {
+      if (c instanceof TDataSet && c.dfm.Active === true) await runGuarded(() => c.Open(), `${c.Name}.Open`);
+    }
+  });
   for (const c of created) if (c instanceof TTimer) { c.started = true; c.restart(); }
 }
 
@@ -467,6 +470,8 @@ export function applyProps(comp: TComponent, props: Record<string, unknown>, isR
     if (IGNORE_PROPS.has(l) || l.startsWith('font.') || l.startsWith('titlefont.') || l.startsWith('constraints.')
       || l.startsWith('margins.') || l.startsWith('padding.') || l.startsWith('touch.') || l.startsWith('customhint')) continue;
     if (/^on[a-z]/.test(l) && (isId(raw) || typeof raw === 'string')) { comp.events.set(l, str(dfmValue(raw))); continue; }
+    // dataset / report events without the On prefix (AfterScroll, BeforePost, AfterPost, BeforePrint …)
+    if (/^(after|before)[a-z]/.test(l) && isId(raw)) { comp.events.set(l, str(dfmValue(raw))); continue; }
     if (REF_PROPS.has(l)) continue;
     if (STRINGS_PROPS.has(l)) { setStrings((comp as any)[k.split('.')[0]] ?? (comp as any)[capital(k.split('.')[0])], raw); continue; }
     if (Array.isArray(raw) && raw.length && typeof raw[0] === 'object' && !isId(raw[0])) { applyCollection(comp, k, raw as Record<string, unknown>[]); continue; }

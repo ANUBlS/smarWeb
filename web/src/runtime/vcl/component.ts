@@ -242,9 +242,21 @@ export async function runGuarded<T>(fn: () => Promise<T> | T, where: string): Pr
   }
 }
 
+/** While datasets saved with Active = True open after loading, handler errors (AfterScroll writing to a
+ *  dataset that is not open yet …) are logged, not shown: the form is still being created. */
+let loadingDepth = 0;
+export async function whileLoading<T>(fn: () => Promise<T>): Promise<T> {
+  loadingDepth++;
+  try { return await fn(); } finally { loadingDepth--; }
+}
+
 export function reportException(e: unknown, where: string) {
   const msg = e instanceof PasException ? e.message : (e as Error)?.message ?? String(e);
   const cls = e instanceof PasException ? e.className : 'Exception';
+  if (loadingDepth > 0 && e instanceof PasException && cls !== 'EOracleError') {
+    logger.warn(`${where} (while loading): ${cls}: ${msg}`);
+    return;
+  }
   // Gaps of the web runtime (undeclared VCL/WinAPI members, JS errors) go to the Output log + toast,
   // genuine application exceptions (raise …, Oracle errors, conversions) get the classic error box.
   if (!(e instanceof PasException) || cls === 'EUndeclared') {

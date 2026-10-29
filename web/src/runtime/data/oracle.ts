@@ -294,7 +294,11 @@ export class TOracleDataSet extends TDataSet {
       const applied = new ValueRef(false);
       const newRowId = new ValueRef('');
       await this.fireRaw('OnApplyRecord', this, action === 'insert' ? 'I' : action === 'update' ? 'U' : 'D', applied, newRowId);
-      if (applied.value) return { rowid: newRowId.value || row.rowid };
+      if (applied.value) {
+        // DOA commits after the post however the record was applied (here: by a package call)
+        if (this.CommitOnPost) { try { await api.commit(); } catch (e) { toOracleError(e); } }
+        return { rowid: newRowId.value || row.rowid };
+      }
     }
     if (this.ReadOnly) throw new PasException('EDatabaseError', `${this.Name}: Cannot modify a read-only dataset`, ['exception']);
     const fieldNames = this.fields.filter((f) => f.FieldKind === 'fkdata').map((f) => f.key);

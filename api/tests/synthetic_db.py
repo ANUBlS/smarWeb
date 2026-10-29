@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import datetime as dt
 import re
+from pathlib import Path
 import sys
 
 from tests.fake_oracle import FakeConnection, FakeCursor
@@ -53,6 +54,30 @@ def learn_tables():
                 cols = [c for c in select_list(d['sql']) if c not in ('*',)]
                 if cols and not any(c.endswith('*') for c in cols):
                     TABLE_COLS.setdefault(t, set()).update(c for c in cols if re.fullmatch(r'[A-Z_][\w$#]*', c))
+
+
+def learn_dfm_fields():
+    """Persistent fields of single-table datasets in the forms (`select a.* from out_avalute a` with
+    fields VALUTE, VAL_NAME …): the columns the code reads exist in the real tables."""
+    import glob
+    import json
+    root = Path(__file__).resolve().parents[2] / 'web' / 'src' / 'generated'
+    for f in glob.glob(str(root / '**' / '*.dfm.json'), recursive=True):
+        try:
+            tree = json.load(open(f, encoding='utf-8'))
+        except (OSError, ValueError):
+            continue
+        stack = [tree]
+        while stack:
+            o = stack.pop()
+            stack.extend(o.get('children', []))
+            sql = '\n'.join(o.get('props', {}).get('SQL.Strings') or [])
+            if not sql or re.search(r'\bjoin\b', sql, re.I):
+                continue
+            t = from_table(sql)
+            names = [c.get('props', {}).get('FieldName') for c in o.get('children', []) if c.get('class', '').endswith('Field')]
+            if t and names and not re.search(r'\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I):
+                TABLE_COLS.setdefault(t, set()).update(n.upper() for n in names if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
 
 
 def select_list(sql: str) -> list[str]:
@@ -131,7 +156,8 @@ class SyntheticCursor(FakeCursor):
             self._set(cols, [tuple(value(n, t, i) for n, t in zip(names, types)) for i in range(1 if one else 3)])
             self.rowcount = len(self._rows)
             return
-        print('SQL', ' '.join((sql or '').split())[:160], file=sys.stderr)
+        shown = {k: (v.getvalue() if hasattr(v, 'getvalue') else getattr(v, 'value', v)) for k, v in dict(binds or {}, **kw).items()}
+        print('SQL', ' '.join((sql or '').split())[:160], shown or '', file=sys.stderr)
         super().execute(sql, binds, **kw)
         if re.match(r'\s*(insert|update|delete)\b', sql or '', re.I):
             self.rowcount = 1
@@ -148,6 +174,7 @@ if __name__ == '__main__':
     from smartweb_api import sessions
     sessions.connector = lambda u, p, d: SyntheticConnection()
     learn_tables()
+    learn_dfm_fields()
     print('tables learned:', len(TABLE_COLS), file=sys.stderr)
     from smartweb_api.main import create_app
     uvicorn.run(create_app(), host='127.0.0.1', port=int(sys.argv[1]) if len(sys.argv) > 1 else 8000, log_level='warning')

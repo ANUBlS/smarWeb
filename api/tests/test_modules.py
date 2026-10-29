@@ -131,3 +131,12 @@ def test_empty_sort_variable_drops_order_by(client, conn, session):
     r = client.post('/api/modules/Customers/datasets/ActiveCustomerList', headers=session, json={'variables': {'TITLE': ''}})
     assert r.status_code == 200, r.text
     assert conn.log[-1][0].rstrip().endswith('where CLOSE_DAT IS NULL')
+
+
+def test_out_avalute_named_package_call(client, conn, session):
+    conn.arguments['P_AVALUTE.ADD_AVALUTE'] = [(1, 'V_VALUTE', 'VARCHAR2', 'IN'), (2, 'V_VAL_NAME', 'VARCHAR2', 'IN')]
+    r = client.post('/api/modules/XOutAvalute/packages/P_AVALUTE/add_avalute', headers=session,
+                    json={'params': {'v_VALUTE': '840', 'v_VAL_NAME': 'USD'}})
+    assert r.status_code == 200, r.text
+    sql, binds = conn.log[-1]
+    assert 'p_avalute.add_avalute' in sql.lower() and 'v_valute =>' in sql.lower() and '840' in binds.values()
