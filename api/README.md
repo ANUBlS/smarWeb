@@ -44,6 +44,7 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | Customers — Balans / Müştərilər / Bankın müştəriləri (23 datasets; OPCust → SBREF, sb_custInfo named) | ✅ ready |
 | XTaxes — Əlavə modullar / Ödənişlər və köçürmələr / Vergi ödənişləri (5 datasets; pg_pcustservice.get_vergul_tax, sb_taxs.report_tax) | ✅ ready |
 | XOutAvalute — Əlavə modullar / Mühasibat və balans / Valyutalar (balansdankənar) (4 datasets; P_AVALUTE.add_avalute / upd_avalute, named, from OnApplyRecord) | ✅ ready |
+| XProblemCreditMgr — Əlavə modullar / Kreditlər / Problemli kreditlərin idarə olunması (3 datasets, read-only; PrViewDSet reads dba_col_comments) | ✅ ready |
 | all others | gateway works; own Swagger section pending |
 
 The web client uses the gateway for **every** module already; the per-module sections document and
