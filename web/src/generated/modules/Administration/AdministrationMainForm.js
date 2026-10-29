@@ -5,11 +5,14 @@
 export default function define($) {
   const U = $.unit("AdministrationMainForm", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Forms", "Dialogs", "ActiveX", "AxCtrls", "Administration_TLB", "StdVcl", "ExtCtrls", "StdCtrls", "ComCtrls", "ToolWin", "Grids", "DBGrids", "ImgList", "DB", "DBCtrls", "DBCGrids", "ActnList", "AdmBarForm", "OracleData", "HintBox", "Buttons", "Controls", "Mask", "SearchCombo", "Tabs", "Menus", "AdministrationModEdit", "SBPlgAx50_TLB", "CheckLst", "CMExcelExport", "ComObj", "ComServ", "AdministrationDataModule", "AdministrationUserAddForm", "AdministrationClassEdit", "AdministrationUserPassw", "AdministrationOwnerSheep", "administrationUsersRefresh", "AdministrationAdvancedGrants", "AdministrationGroupReport", "AdministrationUserGranReport", "AdministrationUtils", "AdministrationProfOptions", "AdministrationUserAdvGranReport", "COPYCLASS", "sboapiDataModuleImpl", "SBTranslateProc", "finger"]);
   const C = [U];
+  U.enumType("tactive", 2);
   U.const("acModule", 0);
   U.const("acTable", 1);
+  U.enumType("tactivetab", 3);
   U.const("atUsers", 0);
   U.const("atGroups", 1);
   U.const("atOrders", 2);
+  U.enumType("theadstate", 5);
   U.const("hsLeft", 0);
   U.const("hsDel", 1);
   U.const("hsRight", 2);
@@ -1166,8 +1169,8 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"headercontrol": $.copyArg(p0), "section": $.copyArg(p1), result: undefined};
   await $.fixArgs(L0, ["headercontrol", "section"]);
-  L0["ordimage"] = 1;
-  L0["deordimage"] = 2;
+  await $.staticConst(L0, "ordimage", "administrationmainform.tadministrationform.hcmodulessectionclick.ordimage", async () => 1);
+  await $.staticConst(L0, "deordimage", "administrationmainform.tadministrationform.hcmodulessectionclick.deordimage", async () => 2);
   L0["resetactsection"] = $.fn(async function ResetActSection() {
   const L1 = {result: false, "i": 0};
   {

@@ -1,5 +1,5 @@
 /* Direct Oracle Access (DOA) components, routed to the Oracle gateway API. */
-import { PasException, routine, ValueRef } from '../core';
+import { PasException, routine, ValueRef, TObject } from '../core';
 import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
@@ -107,6 +107,26 @@ class Variables {
     }
     return s;
   }
+}
+
+/** TVariables view of a DOA dataset / query: forwards to the owner's variable methods. */
+class TVariablesView extends TObject {
+  constructor(private owner: any) { super(); }
+  SetVariable(n: unknown, v: unknown) { return this.owner.SetVariable(n, v); }
+  GetVariable(n: unknown) { return this.owner.GetVariable(n); }
+  DeclareVariable(n: unknown, t: unknown) { return this.owner.DeclareVariable(n, t); }
+  DeleteVariable(n: unknown) { return this.owner.DeleteVariable(n); }
+  DeleteVariables() { return this.owner.DeleteVariables(); }
+  ClearVariables() { return this.owner.ClearVariables?.(); }
+  get Count() { return this.owner.vars.map.size; }
+  Name(i: unknown) { return [...this.owner.vars.map.keys()][num(i)] ?? ''; }
+  Exists(n: unknown) { return this.owner.vars.map.has(Variables.key(n)); }
+}
+const variableViews = new WeakMap<object, TVariablesView>();
+function variablesOf(owner: object) {
+  let v = variableViews.get(owner);
+  if (!v) { v = new TVariablesView(owner); variableViews.set(owner, v); }
+  return v;
 }
 
 function initVarsFromDfm(vars: Variables, dfm: Record<string, any>) {
@@ -217,6 +237,8 @@ export class TOracleDataSet extends TDataSet {
   }
 
   /* variables */
+  /** DOA `Variables` (TVariables): `with Variables do SetVariable(…)`, Variables.Count … */
+  get Variables() { return variablesOf(this as any); }
   DeclareVariable(n: unknown, t: unknown) { this.vars.declare(n, t); }
   DeleteVariable(n: unknown) { this.vars.map.delete(Variables.key(n)); }
   DeleteVariables() { this.vars.map.clear(); }
@@ -362,6 +384,8 @@ export class TOracleQuery extends TComponent {
   Create(owner?: unknown) { super.Create(owner); }
   initFromDfm() { initVarsFromDfm(this.vars, this.dfm); }
 
+  /** DOA `Variables` (TVariables): `with Variables do SetVariable(…)`, Variables.Count … */
+  get Variables() { return variablesOf(this as any); }
   DeclareVariable(n: unknown, t: unknown) { this.vars.declare(n, t); }
   DeleteVariable(n: unknown) { this.vars.map.delete(Variables.key(n)); }
   DeleteVariables() { this.vars.map.clear(); }

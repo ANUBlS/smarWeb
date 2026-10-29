@@ -606,7 +606,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "day": 0, "month": 0, "year": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["months"] = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+  await $.staticConst(L0, "months", "umfsuggestion.tmfsuggestion.btprintclick.months", async () => ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"]);
   {
     const $t14 = (await $.v(C, "DModule1"));
     await $.stmt((await $.mcall((await $.wv([$t14], "Customers", C, false)), "Locate", ["id", (await $.mv((await $.wv([$t14], "Ins_MotorFullKli_id", C, false)), "Value")), []])));

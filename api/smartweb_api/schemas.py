@@ -69,7 +69,7 @@ class ExecuteResult(BaseModel):
 
 class PackageCallRequest(BaseModel):
     source: str = ''
-    package: str = Field(examples=['SBOP'])
+    package: str = Field(examples=['SBOP'], description="Package name; '' calls a schema-level procedure/function (DOA TOraclePackage without PackageName)")
     name: str = Field(examples=['GetCurrentDate'])
     kind: Literal['procedure', 'integer', 'float', 'string', 'date', 'boolean', 'variant'] = 'procedure'
     mode: Literal['named', 'positional'] = Field('positional', description="DOA ParameterMode; named: [name, value, name, value …]")

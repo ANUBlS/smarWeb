@@ -132,12 +132,26 @@ function focusHandlers(c: TControl) {
 
 /* ------------------------------------------------------------------ containers */
 
+const ORIGIN_AT_CORNER = new Set(['groupbox', 'radiogroup', 'panel']);
+/** TToolButton / TSpeedButton are graphic controls in VCL: clicking them never moves the focus
+ *  (actions checking Grid.Focused keep working). */
+const noFocus = (e: React.MouseEvent) => e.preventDefault();
+
 export function Children({ parent, width, height }: { parent: TControl; width: number; height: number }) {
   const ins = insets(parent);
   const w = Math.max(0, width - ins.l - ins.r);
   const h = Math.max(0, height - ins.t - ins.b);
   const kids = parent.children;
   const rects = layoutChildren(kids, w, h);
+  // VCL: aligned children fill the adjusted client rect (below a group box caption, inside bevels), but
+  // free children of panels / group boxes keep Left/Top relative to the control's own corner
+  if (ORIGIN_AT_CORNER.has(parent.kind) && (ins.l || ins.t)) {
+    for (const k of kids) {
+      const a = k.Align || 'alnone';
+      const r = rects.get(k);
+      if (r && (a === 'alnone' || a === 'alcustom')) rects.set(k, { ...r, left: r.left - ins.l, top: r.top - ins.t });
+    }
+  }
   return (
     <div style={{ position: 'absolute', left: ins.l, top: ins.t, width: w, height: h }}>
       {kids.map((k) => {
@@ -214,7 +228,7 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
       return (
         <div {...p}>
           <button className={`v-btn${b.Flat ? ' flat' : ''}${b.Down ? ' down' : ''}`} style={{ width: '100%', height: '100%', padding: 0, ...fontStyle(c) }} disabled={dis}
-            onClick={() => run(b.Click(), b.Name)} aria-pressed={b.GroupIndex ? b.Down : undefined}>
+            onClick={() => run(b.Click(), b.Name)} aria-pressed={b.GroupIndex ? b.Down : undefined} onMouseDown={noFocus} tabIndex={-1}>
             {b.Caption ? b.Caption.replace(/&(?!&)/g, '') : Ic ? <Ic size={14} /> : null}
           </button>
         </div>
@@ -567,7 +581,8 @@ function ToolButtonView({ b, bar, style }: { b: TToolButton; bar?: TToolBar; sty
   return (
     <span style={{ display: 'inline-flex', ...style }}>
       <button ref={ref} className={`tb-btn${capBelow ? ' cap-below' : ''}${b.Down ? ' down' : ''}`} disabled={!b.Enabled} title={b.Hint || b.Caption}
-        aria-pressed={st === 'tbscheck' ? b.Down : undefined} onClick={click} style={{ minWidth: bar && !showCap ? bar.ButtonWidth : undefined, ...fontStyle(b) }}>
+        aria-pressed={st === 'tbscheck' ? b.Down : undefined} onClick={click} style={{ minWidth: bar && !showCap ? bar.ButtonWidth : undefined, ...fontStyle(b) }}
+        onMouseDown={noFocus} tabIndex={-1}>
         {Ic ? <span className="ic"><Ic size={capBelow ? 16 : 14} /></span> : null}
         {showCap && b.Caption ? <span>{b.Caption.replace(/&(?!&)/g, '')}</span> : null}
       </button>

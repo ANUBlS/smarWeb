@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("ApllPackUnit", ["SysUtils", "MasterBookImpl", "ComObj", "dialogs", "Db", "OracleData", "Oracle", "Controls"]);
   const C = [U];
+  U.enumType("treptype", 2);
   U.const("rtAll", 0);
   U.const("rtOne", 1);
   U.init(async () => {
@@ -27,8 +28,8 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"arr": $.copyArg(p0), "value": $.copyArg(p1), result: 0, "i": 0};
   await $.fixArgs(L0, ["arr", "value"]);
-  { const $t1 = (await $.call(C, "High", [L0["arr"]]));
-    L0["i"] = (await $.call(C, "Low", [L0["arr"]]));
+  { const $t1 = (await $.lowHigh("high", "arr", async () => L0["arr"]));
+    L0["i"] = (await $.lowHigh("low", "arr", async () => L0["arr"]));
     let $t2 = true;
     for (;;) {
       if (!$t2) { L0["i"] = $.succ(L0["i"], 1); }
@@ -244,8 +245,8 @@ export default function define($) {
       await $.tick();
     }
   }
-  { const $t46 = (await $.call(C, "High", [(await $.v(C, "kredit_num_column"))]));
-    L0["i"] = (await $.call(C, "Low", [(await $.v(C, "kredit_num_column"))]));
+  { const $t46 = (await $.lowHigh("high", "kredit_num_column", async () => (await $.v(C, "kredit_num_column"))));
+    L0["i"] = (await $.lowHigh("low", "kredit_num_column", async () => (await $.v(C, "kredit_num_column"))));
     let $t47 = true;
     for (;;) {
       if (!$t47) { L0["i"] = $.succ(L0["i"], 1); }
@@ -255,7 +256,7 @@ export default function define($) {
       await $.tick();
     }
   }
-  L0["col"] = $.add((await $.call(C, "High", [(await $.v(C, "kredit_num_column"))])), 1);
+  L0["col"] = $.add((await $.lowHigh("high", "kredit_num_column", async () => (await $.v(C, "kredit_num_column")))), 1);
   { const $t49 = 2;
     L0["i"] = 1;
     let $t50 = true;

@@ -12,7 +12,7 @@ packages — the API contains no banking logic.
 | `POST /api/logon` | `TOracleLogon` / `Session.LogOn` | Oracle connection with the user's own credentials → `sessionId` |
 | `POST /api/query` | `TOracleDataSet.Open` | SELECT with bind variables |
 | `POST /api/execute` | `TOracleQuery.Execute`, PL/SQL blocks | DML / blocks; variables are IN OUT |
-| `POST /api/package` | `TOraclePackage.CallProcedure / Call…Function` | positional or named parameters; argument types read from `ALL_ARGUMENTS` (Delphi `TDateTime` → `DATE`, PL/SQL `BOOLEAN`) |
+| `POST /api/package` | `TOraclePackage.CallProcedure / Call…Function` | positional or named parameters; argument types read from `ALL_ARGUMENTS` (Delphi `TDateTime` → `DATE`, PL/SQL `BOOLEAN`); an empty `package` calls a schema-level procedure/function (TOraclePackage without PackageName) |
 | `POST /api/apply-record` | dataset `Post` / `Delete` | insert/update/delete/lock on the updating table by `ROWID`, only changed columns |
 | `POST /api/commit`, `/rollback`, `/savepoint` | `Session.Commit / Rollback / Savepoint` | transaction control (AutoCommit off, as before) |
 | `GET /api/databases` | logon dialog | database aliases from `SB_DATABASES` |
@@ -45,6 +45,7 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | XTaxes — Əlavə modullar / Ödənişlər və köçürmələr / Vergi ödənişləri (5 datasets; pg_pcustservice.get_vergul_tax, sb_taxs.report_tax) | ✅ ready |
 | XOutAvalute — Əlavə modullar / Mühasibat və balans / Valyutalar (balansdankənar) (4 datasets; P_AVALUTE.add_avalute / upd_avalute, named, from OnApplyRecord) | ✅ ready |
 | XProblemCreditMgr — Əlavə modullar / Kreditlər / Problemli kreditlərin idarə olunması (3 datasets, read-only; PrViewDSet reads dba_col_comments) | ✅ ready |
+| Transactions — Balans / Əməliyyat günü / Əməliyyatlar ("Transaction manager"; 22 datasets; SBREP.TrBuildQuery builds the grid SQL on the server; SB_COMPLEX_TRANSACTIONS; EXCHANGE_CALLBACK schema-level; saving through SB_TRANSACTION in Common) | ✅ ready |
 | all others | gateway works; own Swagger section pending |
 
 The web client uses the gateway for **every** module already; the per-module sections document and

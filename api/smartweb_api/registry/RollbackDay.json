@@ -50,7 +50,12 @@
    "package": "SBSYS",
    "mode": "positional",
    "source": "TFormRollbackDay.SBSystem",
-   "routines": []
+   "routines": [
+    {
+     "name": "rollback_day",
+     "call": "CallProcedure"
+    }
+   ]
   }
  ],
  "sql": []

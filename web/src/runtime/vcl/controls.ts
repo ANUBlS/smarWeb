@@ -865,6 +865,7 @@ registerBuiltin('TTrackBar', class TTrackBar extends TUpDown {});
 
 export class THeaderSection extends TCollectionItem { Text = ''; Width = 50; Alignment = 'taleftjustify'; MinWidth = 0; MaxWidth = 10000; }
 export class THeaderControl extends TWinControl {
+  override Align = 'altop'; // VCL default (not stored in the DFM)
   Sections = new TCollection(() => new THeaderSection());
   get kind() { return 'header'; }
 }

@@ -128,7 +128,8 @@ def value(name: str, t: str, i: int):
     if t == 'ROWID':
         return f'AAAR{i:04d}'
     if t == 'DATE':
-        return dt.datetime(2026, 10, 1 + i * 7)
+        # first row dated today (operational-day checks: only today's documents may be changed), then older
+        return dt.datetime.combine(dt.date.today(), dt.time()) - dt.timedelta(days=7 * i)
     if t == 'INT':
         return i + 1
     if t == 'NUMBER':
@@ -153,12 +154,27 @@ class SyntheticCursor(FakeCursor):
             types = [guess(n) for n in names]
             cols = [(n, {'INT': 'NUMBER', 'ROWID': 'ROWID'}.get(t, t)) + ((10, 0) if t == 'INT' else ()) for n, t in zip(names, types)]
             one = bool(re.search(r'\bfrom\s+dual\b', sql, re.I)) or re.search(r'\b(count|sum|max|min)\s*\(', sql, re.I)
-            self._set(cols, [tuple(value(n, t, i) for n, t in zip(names, types)) for i in range(1 if one else 3)])
+            # -1 is the code's "nothing" key (MedioCrity = :AccountSide with -1 …): real tables have no such rows
+            vals = [getattr(v, 'value', v) for v in dict(binds or {}, **kw).values()]
+            n = 0 if any(v == -1 for v in vals) else 1 if one else 3
+            self._set(cols, [tuple(value(n_, t, i) for n_, t in zip(names, types)) for i in range(n)])
             self.rowcount = len(self._rows)
             return
         shown = {k: (v.getvalue() if hasattr(v, 'getvalue') else getattr(v, 'value', v)) for k, v in dict(binds or {}, **kw).items()}
         print('SQL', ' '.join((sql or '').split())[:160], shown or '', file=sys.stderr)
         super().execute(sql, binds, **kw)
+        # date functions (SBOP.get_date = operational day …) answer today
+        m = re.search(r':(\w+)\s*:=\s*\w+\.(get_?date|\w*_date)\b', sql or '', re.I)
+        if m:
+            b = dict(binds or {}, **kw).get(m.group(1))
+            if b is not None and hasattr(b, 'setvalue'):
+                b.setvalue(0, dt.datetime.combine(dt.date.today(), dt.time()))
+        # server-side query builders (SBREP.TrBuildQuery …) return SQL text: answer with the base table
+        m = re.search(r':(\w+)\s*:=\s*\w+\.(\w*BuildQuery)\b', sql or '', re.I)
+        if m:
+            b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
+            if b is not None and hasattr(b, 'setvalue'):
+                b.setvalue(0, 'SELECT p.rowid, p.* FROM TRANSACTIONS p ORDER BY p.ID')
         if re.match(r'\s*(insert|update|delete)\b', sql or '', re.I):
             self.rowcount = 1
 

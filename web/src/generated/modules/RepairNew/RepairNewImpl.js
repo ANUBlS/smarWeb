@@ -5,13 +5,16 @@
 export default function define($) {
   const U = $.unit("RepairNewImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "LDialogs", "ActiveX", "AxCtrls", "RepairNew_TLB", "StdVcl", "ExtCtrls", "ToolWin", "ComCtrls", "Grids", "DBGrids", "Buttons", "ActnList", "ImgList", "StdCtrls", "DB", "OracleData", "Mask", "DBCtrls", "RepairNewEdit", "Menus", "CheckLst", "SearchCombo", "SBPlgAx50_TLB", "ComObj", "ComServ", "RepairNewDataModule", "sbcore", "RepairDelete", "sboapiDataModuleImpl", "SBTranslateProc"]);
   const C = [U];
+  U.enumType("tsearchorder", 3);
   U.const("soForward", 0);
   U.const("soBackward", 1);
   U.const("soNone", 2);
+  U.enumType("tfiltertype", 4);
   U.const("ftMain", 0);
   U.const("ftOrder", 1);
   U.const("ftFilial", 2);
   U.const("ftAll", 3);
+  U.enumType("tbracket", 3);
   U.const("brBegin", 0);
   U.const("brEnd", 1);
   U.const("brNone", 2);

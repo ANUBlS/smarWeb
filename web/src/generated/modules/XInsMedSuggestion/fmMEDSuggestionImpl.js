@@ -500,7 +500,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "docfile": null, "str": '', "str2": '', "day": 0, "month": 0, "year": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["months"] = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+  await $.staticConst(L0, "months", "fmmedsuggestionimpl.tfmmedsuggestion.btprintclick.months", async () => ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"]);
   try {
     L0["docfile"] = $.add((await $.call(C, "ExtractFilePath", [(await $.mv((await $.v(C, "Application")), "ExeName"))])), "\\MedicalSuggestion.doc");
     {

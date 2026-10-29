@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("TuningTransactionImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ActiveX", "AxCtrls", "TuningTransactions_TLB", "StdVcl", "ExtCtrls", "StdCtrls", "Grids", "DBGrids", "Menus", "ActnList", "ImgList", "ComCtrls", "ToolWin", "db", "Mask", "DBCtrls", "ComObj", "ComServ", "DataModuleImpl", "UnitFormOperations", "UntTariffScale", "sboapiDataModuleImpl", "SBTranslateProc"]);
   const C = [U];
+  U.enumType("toperationmode", 2);
   U.const("omInsert", 0);
   U.const("omUpdate", 1);
   $.defRecord("tsettings", {"id": () => 0, "name": () => '', "debt": () => 0, "credit": () => 0, "additionaldebt": () => 0, "additionalcredit": () => 0, "assignment": () => '', "commisionassignment": () => '', "maxvalue": () => 0, "iscommonsetting": () => false});

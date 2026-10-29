@@ -111,6 +111,12 @@ def unit_items(folder: str, info: dict, comp_pkg: dict) -> tuple[list, dict, lis
                 entry = packages.setdefault(key, {'package': pkg or '', 'mode': 'positional', 'routines': set(),
                                                   'source': f'*.{key}'})
             rname = m.group(2) or CONSTS.get((m.group(3) or '').lower())
+            if not rname and m.group(3):
+                # routine name held in a local variable of the same method: c_name := 'SetTransactions'
+                start = code.rfind('U.method(', 0, m.start())
+                body = code[max(0, start):m.start()]
+                lits = re.findall(r'L0\["' + re.escape(m.group(3).lower()) + r'"\] = "([A-Za-z][\w$#]*)";', body)
+                rname = lits[-1] if lits else None
             if not rname or not re.match(r'^[A-Za-z][\w$#]*$', rname):
                 continue
             entry['routines'].add((rname, m.group(1)))
@@ -165,9 +171,11 @@ def main():
                 if key in pk:
                     cur = pk[key]
                     cur['routines'] |= v['routines']
+                    # the DFM component is authoritative (an empty PackageName = schema-level routines);
+                    # a code-only reference just guesses from same-named components elsewhere
                     if cur['source'].startswith('*.') and not v['source'].startswith('*.'):
-                        cur.update(package=v['package'] or cur['package'], mode=v['mode'], source=v['source'], name=v['name'])
-                    elif not cur['package'] and v['package']:
+                        cur.update(package=v['package'], mode=v['mode'], source=v['source'], name=v['name'])
+                    elif cur['source'].startswith('*.') and v['source'].startswith('*.') and not cur['package'] and v['package']:
                         cur['package'] = v['package']
                 else:
                     pk[key] = v

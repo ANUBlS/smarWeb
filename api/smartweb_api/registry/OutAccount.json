@@ -398,6 +398,10 @@
    "source": "Tout_accdatamodule.OUT_SBOP",
    "routines": [
     {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
      "name": "GenerateID",
      "call": "CallIntegerFunction"
     },

@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("FrmAddBugcetimpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Grids", "DBGridEh", "StdCtrls", "ExtCtrls", "Mask", "DBCtrlsEh", "Db", "OracleData", "Buttons", "DBCtrls", "DBGridEhGrouping", "GridsEh", "Dmbudgetimpl", "sboapiDataModuleImpl", "SBTranslateProc"]);
   const C = [U];
+  U.enumType("toperationmode", 4);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.const("omCommit", 2);

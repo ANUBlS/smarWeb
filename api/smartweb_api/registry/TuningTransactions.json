@@ -104,7 +104,20 @@
    "package": "sb_complex_transactions",
    "mode": "positional",
    "source": "TTuningDataModule.OPMainSettings",
-   "routines": []
+   "routines": [
+    {
+     "name": "Delete_Commision_Trans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Insert_Commision_Trans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_commision_trans",
+     "call": "CallProcedure"
+    }
+   ]
   }
  ],
  "sql": []

@@ -25,7 +25,7 @@ def _binds_in(sql):
 def _routines():
     for name in ready_modules():
         for p in registry.module(name)['packages']:
-            if p['package']:
+            if p['package'] or not p['source'].startswith('*.'):  # '' = schema-level routines (DOA)
                 for rt in p['routines']:
                     yield pytest.param(name, p, rt, id=f"{name}:{p['component']}.{rt['name']}")
 
@@ -59,7 +59,8 @@ def test_package_endpoint_builds_call(client, conn, session, module, pkg, routin
                     json={'params': []})
     assert r.status_code == 200, r.text
     sql, _ = conn.log[-1]
-    assert f"{pkg['package']}.{routine['name']}".lower() in sql.lower()
+    target = f"{pkg['package']}.{routine['name']}" if pkg['package'] else routine['name']
+    assert target.lower() in sql.lower()
     assert sql.startswith('begin ') and sql.endswith(' end;')
 
 
@@ -140,3 +141,11 @@ def test_out_avalute_named_package_call(client, conn, session):
     assert r.status_code == 200, r.text
     sql, binds = conn.log[-1]
     assert 'p_avalute.add_avalute' in sql.lower() and 'v_valute =>' in sql.lower() and '840' in binds.values()
+
+
+def test_schema_level_routine_without_package(client, conn, session):
+    r = client.post('/api/package', headers=session, json={'source': 'TTransactionsDataModule.OraclePackage', 'package': '',
+                    'name': 'EXCHANGE_CALLBACK', 'kind': 'procedure', 'mode': 'positional', 'params': []})
+    assert r.status_code == 200, r.text
+    assert conn.log[-1][0] == 'begin EXCHANGE_CALLBACK; end;'
+    assert any('package_name is null' in sql for sql, _ in conn.log)

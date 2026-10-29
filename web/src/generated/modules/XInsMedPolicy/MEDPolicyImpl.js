@@ -469,7 +469,7 @@ export default function define($) {
   U.method("TfmMEDPolicy", "ExportToWord", async function ExportToWord(Self) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "docfile": null, "day": 0, "month": 0, "year": 0, "i": 0};
-  L0["months"] = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+  await $.staticConst(L0, "months", "medpolicyimpl.tfmmedpolicy.exporttoword.months", async () => ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"]);
   L0["docfile"] = $.add((await $.call(C, "ExtractFilePath", [(await $.mv((await $.v(C, "Application")), "ExeName"))])), "\\MedicalPolicy.doc");
   {
     const $t5 = (await $.v(C, "INSWordExporter"));

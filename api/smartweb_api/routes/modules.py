@@ -121,15 +121,16 @@ def build_router(name: str) -> APIRouter:
                     variables.append({'name': k.upper(), 'type': types.get(k.upper()), 'value': v})
             return gateway.query(s, sql, variables, body.maxRows)
 
-    routines = [(p, rt) for p in m['packages'] if p['package'] for rt in p['routines']]
+    callable_ = lambda p: bool(p['package']) or not p['source'].startswith('*.')  # noqa: E731  '' = schema-level routines
+    routines = [(p, rt) for p in m['packages'] if callable_(p) for rt in p['routines']]
     if routines:
         comps = sorted({p['component'] for p, _ in routines})
         names = sorted({rt['name'] for _, rt in routines})
         PC = Enum(f'{name}Package', {c: c for c in comps}, type=str)
         RT = Enum(f'{name}Routine', {n: n for n in names}, type=str)
         table = {(p['component'], rt['name']): (p, rt) for p, rt in routines}
-        doc = '\n'.join(f"- **{p['component']}** (`{p['package']}`): " + ', '.join(f"`{rt['name']}`" for rt in p['routines'])
-                        for p in m['packages'] if p['package'] and p['routines'])
+        doc = '\n'.join(f"- **{p['component']}** (`{p['package'] or 'schema-level'}`): " + ', '.join(f"`{rt['name']}`" for rt in p['routines'])
+                        for p in m['packages'] if callable_(p) and p['routines'])
 
         @r.post('/packages/{component}/{routine}', response_model=PackageCallResult, operation_id=f'{name}_call',
                 summary=f'{name}: call a package routine', description=f'Package routines the module calls.\n\n{doc}')

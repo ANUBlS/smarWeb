@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("ExportUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "ExtCtrls", "CheckLst", "ExcelExporter", "DepositDataModuleUnit"]);
   const C = [U];
+  U.enumType("texportedfieldsinfo", 2);
   U.const("efiName", 0);
   U.const("efiDescription", 1);
   U.defClass("TFrmExport", "TForm", {"btnexport": {"name": "BtnExport", "type": "TButton"}, "btncancel": {"name": "BtnCancel", "type": "TButton"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "clbexportlist": {"name": "CLBExportList", "type": "TCheckListBox"}, "creditsexporter": {"name": "CreditsExporter", "type": "TExcelExporter"}}, {});

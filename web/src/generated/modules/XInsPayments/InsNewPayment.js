@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("InsNewPayment", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "ExtCtrls", "Buttons", "DBCtrls", "InsDataMod", "PaymentsMainImpl"]);
   const C = [U];
+  U.enumType("tcreatetype", 2);
   U.const("ctNew", 0);
   U.const("ctEdit", 1);
   U.defClass("TfmNewPayments", "TForm", {"groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "eddate": {"name": "edDate", "type": "TEdit"}, "label1": {"name": "Label1", "type": "TLabel"}, "label2": {"name": "Label2", "type": "TLabel"}, "edammount": {"name": "edAmmount", "type": "TEdit"}, "gkfy": {"name": "Gkfy", "type": "TLabel"}, "dblookupcombobox1": {"name": "DBLookupComboBox1", "type": "TDBLookupComboBox"}, "btok": {"name": "btOk", "type": "TBitBtn"}, "bitbtn2": {"name": "BitBtn2", "type": "TBitBtn"}, "createdtype": {"name": "CreatedType", "type": "TCreateType"}, "paymentid": {"name": "PaymentID", "type": "Integer"}}, {});

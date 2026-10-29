@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("Unit_ExchangeMGR", ["Windows", "Messages", "SysUtils", "Db", "DBTables", "ExtCtrls", "Dialogs", "ImgList", "Variants", "Controls", "Menus", "DBCtrls", "StdCtrls", "ComCtrls", "Buttons", "DBGrids", "Mask", "Grids", "DBGridEh", "ToolWin", "Classes", "Graphics", "Forms", "ActiveX", "AxCtrls", "ExchangeMGR_TLB", "StdVcl", "ShellApi", "CMExcelExport", "DBGridEhGrouping", "GridsEh", "ComObj", "ComServ", "UnitDateExch", "UnitRate", "UnitExchange", "UnitPurchase", "UnitProcAndFunc", "UnitSelling", "UnitRemainder", "UnitExAccModify", "UnitAddExch", "UnitEditExch", "IniFiles", "UnitRep", "UnitAdmin", "UnitRepTurn", "UNITRATEOPEN", "sboapiDataModuleImpl", "SBTranslateProc", "UnitParametr", "UnitExchRep", "UnitRepX", "UnitReestr", "UnitFormReester", "UnitReestrEnd", "UnitFastReport", "UnitToplam", "UnitRemandirReport", "UnitExchAccount", "UnitResursGive", "UnitResursReturn"]);
   const C = [U];
+  U.enumType("tstatusexchange", 6);
   U.const("sePurchaseInsert", 0);
   U.const("sePurchaseEdit", 1);
   U.const("seSellingInsert", 2);

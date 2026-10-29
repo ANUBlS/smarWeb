@@ -1099,10 +1099,10 @@ export default function define($) {
   U.method("tsdhesabat", "unique", async function unique(Self) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "book_cap": '', "sheet_i": '', "param": '', "i": 0};
-  L0["fields1"] = ["sell", "debet", "kredit", "lcell"];
-  L0["fields2"] = ["deb_val", "kre_val", "ekv"];
-  L0["fields3"] = ["brest", "brest_ekv", "brestin", "brestin_ekv", "tramt", "tramt_ekv", "payamt", "payamt_ekv", "payintamt", "payintamt_ekv", "erest", "erest_ekv", "eintrest", "eintrest_ekv"];
-  L0["fields4"] = ["deq", "deq_ekv", "deqin", "deqin_ekv", "deok", "deok_ekv", "deokin", "deokin_ekv", "devk", "devk_ekv", "dsk", "dsk_ekv", "dskin", "dskin_ekv", "vkk", "vkk_ekv"];
+  await $.staticConst(L0, "fields1", "zamirimpl1.tsdhesabat.unique.fields1", async () => ["sell", "debet", "kredit", "lcell"]);
+  await $.staticConst(L0, "fields2", "zamirimpl1.tsdhesabat.unique.fields2", async () => ["deb_val", "kre_val", "ekv"]);
+  await $.staticConst(L0, "fields3", "zamirimpl1.tsdhesabat.unique.fields3", async () => ["brest", "brest_ekv", "brestin", "brestin_ekv", "tramt", "tramt_ekv", "payamt", "payamt_ekv", "payintamt", "payintamt_ekv", "erest", "erest_ekv", "eintrest", "eintrest_ekv"]);
+  await $.staticConst(L0, "fields4", "zamirimpl1.tsdhesabat.unique.fields4", async () => ["deq", "deq_ekv", "deqin", "deqin_ekv", "deok", "deok_ekv", "deokin", "deokin_ekv", "devk", "devk_ekv", "dsk", "dsk_ekv", "dskin", "dskin_ekv", "vkk", "vkk_ekv"]);
   L0["cell_format"] = $.fn(async function cell_format(p0) {
   const L1 = {"s": $.asRef(p0), result: false, "i": 0};
   L1["result"] = false;
@@ -1435,7 +1435,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "oradat": null, "mypotok": null};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["cell", "provcell"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btncellcalcclick.a", async () => ["cell", "provcell"]);
   try {
     await $.mset((await $.v(C, "btnbookcalc")), "Enabled", false);
     await $.set(C, "DoubleBuffered", true);
@@ -1590,7 +1590,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "oradat": null, "mypotok": null};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["cell", "provcell"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btnbookcalcclick.a", async () => ["cell", "provcell"]);
   await $.set(C, "StartDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP")), "DateTime"))]))])));
   await $.set(C, "FinDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP1")), "DateTime"))]))])));
   try {
@@ -1966,7 +1966,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "oradat": null, "mypotok": null};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["cell", "provcell"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btnprovcellcalcclick.a", async () => ["cell", "provcell"]);
   try {
     await $.mset((await $.v(C, "btnbookcalc")), "Enabled", false);
     await $.set(C, "DoubleBuffered", true);
@@ -2096,14 +2096,14 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["brest", "brest_ekv", "brestin", "brestin_ekv", "tramt", "tramt_ekv", "payamt", "payamt_ekv", "payintamt", "payintamt_ekv", "erest", "erest_ekv", "eintrest", "eintrest_ekv"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btndepaddclick.a", async () => ["brest", "brest_ekv", "brestin", "brestin_ekv", "tramt", "tramt_ekv", "payamt", "payamt_ekv", "payintamt", "payintamt_ekv", "erest", "erest_ekv", "eintrest", "eintrest_ekv"]);
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TSDHesabat", "btndepcalcClick", async function btndepcalcClick(Self, p0) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "oradat": null, "mypotok": null};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["cell", "provcell", "depcell", "krecell"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btndepcalcclick.a", async () => ["cell", "provcell", "depcell", "krecell"]);
   await $.set(C, "StartDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP")), "DateTime"))]))])));
   await $.set(C, "FinDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP1")), "DateTime"))]))])));
   {
@@ -2203,7 +2203,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["brest", "brest_ekv", "brestin", "brestin_ekv", "tramt", "tramt_ekv", "payamt", "payamt_ekv", "payintamt", "payintamt_ekv", "erest", "erest_ekv", "eintrest", "eintrest_ekv"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btndepeditclick.a", async () => ["brest", "brest_ekv", "brestin", "brestin_ekv", "tramt", "tramt_ekv", "payamt", "payamt_ekv", "payintamt", "payintamt_ekv", "erest", "erest_ekv", "eintrest", "eintrest_ekv"]);
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TSDHesabat", "DBGrid8CellClick", async function DBGrid8CellClick(Self, p0) {
@@ -2242,7 +2242,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "oradat": null, "mypotok": null};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["cell", "provcell", "depcell", "krecell"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btnkrecalcclick.a", async () => ["cell", "provcell", "depcell", "krecell"]);
   await $.set(C, "StartDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP")), "DateTime"))]))])));
   await $.set(C, "FinDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP1")), "DateTime"))]))])));
   {
@@ -2335,7 +2335,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["DEQ", "DEQ_EKV", "DEQIN", "DEQIN_EKV", "DEOK", "DEOK_EKV", "DEOKIN", "DEOKIN_EKV", "DEVK", "DEVK_EKV", "DSK", "DSK_EKV", "DSKIN", "DSKIN_EKV", "VKK", "VKK_EKV"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btnkreaddclick.a", async () => ["DEQ", "DEQ_EKV", "DEQIN", "DEQIN_EKV", "DEOK", "DEOK_EKV", "DEOKIN", "DEOKIN_EKV", "DEVK", "DEVK_EKV", "DSK", "DSK_EKV", "DSKIN", "DSKIN_EKV", "VKK", "VKK_EKV"]);
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TSDHesabat", "DBGrid9CellClick", async function DBGrid9CellClick(Self, p0) {
@@ -2359,7 +2359,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["a"] = ["DEQ", "DEQ_EKV", "DEQIN", "DEQIN_EKV", "DEOK", "DEOK_EKV", "DEOKIN", "DEOKIN_EKV", "DEVK", "DEVK_EKV", "DSK", "DSK_EKV", "DSKIN", "DSKIN_EKV", "VKK", "VKK_EKV"];
+  await $.staticConst(L0, "a", "zamirimpl1.tsdhesabat.btnkreeditclick.a", async () => ["DEQ", "DEQ_EKV", "DEQIN", "DEQIN_EKV", "DEOK", "DEOK_EKV", "DEOKIN", "DEOKIN_EKV", "DEVK", "DEVK_EKV", "DSK", "DSK_EKV", "DSKIN", "DSKIN_EKV", "VKK", "VKK_EKV"]);
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TSDHesabat", "btnkredelClick", async function btnkredelClick(Self, p0) {

@@ -1265,10 +1265,10 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"flagset": $.copyArg(p0), result: false, "savedpos": null, "index": 0};
   await $.fixArgs(L0, ["flagset"]);
-  L0["lastselection"] = [false, false];
+  await $.staticConst(L0, "lastselection", "transactionsmainformimpl.ttransactionsmainform.therearestatus.lastselection", async () => [false, false]);
   L0["checkrow"] = $.fn(async function CheckRow() {
   const L1 = {result: undefined};
-  L1["result"] = $.in_((await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "BrowseGrid")), "DataSource")), "DataSet")), "FieldByName", ["Status"])), "AsInteger")), (await $.idx((await $.v(C, "FlagSets")), [L0["flagset"]])));
+  L0["result"] = $.in_((await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "BrowseGrid")), "DataSource")), "DataSet")), "FieldByName", ["Status"])), "AsInteger")), (await $.idx((await $.v(C, "FlagSets")), [L0["flagset"]])));
   return L1.result;
 });
   if ($.truthy((await $.idx((await $.v(C, "FSelectionChanged")), [L0["flagset"]])))) {

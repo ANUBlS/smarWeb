@@ -576,7 +576,7 @@ export default function define($) {
   U.method("TfmMKPolicy", "ExportToWord", async function ExportToWord(Self) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "docfile": null, "i": 0, "n": 0, "j": 0, "wordapp": null, "wrddatadoc": null, "wrdapp": null, "wrdselection": null, "filename": '', "outputyear": '', "errorstr": ''};
-  L0["months"] = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+  await $.staticConst(L0, "months", "umkpolicyimpl.tfmmkpolicy.exporttoword.months", async () => ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"]);
   await $.set(C, "ThousandSeparator", " ");
   await $.stmt((await $.mcall((await $.v(C, "ODSAValute")), "Locate", ["valute", (await $.mv((await $.v(C, "ODSContractsValute_ID")), "Value")), []])));
   await $.mcall((await $.v(C, "ODSContracts")), "Close", []);

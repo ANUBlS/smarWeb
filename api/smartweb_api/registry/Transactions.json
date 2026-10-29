@@ -234,14 +234,28 @@
    "package": "SB_COMPLEX_TRANSACTIONS",
    "mode": "positional",
    "source": "TTransactionsDataModule.OPComplexTrans",
-   "routines": []
+   "routines": [
+    {
+     "name": "GetAccountCurrencyID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "SetTransactions",
+     "call": "CallProcedure"
+    }
+   ]
   },
   {
    "component": "OraclePackage",
-   "package": "SBOP",
+   "package": "",
    "mode": "positional",
    "source": "TTransactionsDataModule.OraclePackage",
-   "routines": []
+   "routines": [
+    {
+     "name": "EXCHANGE_CALLBACK",
+     "call": "CallProcedure"
+    }
+   ]
   },
   {
    "component": "SBReport",

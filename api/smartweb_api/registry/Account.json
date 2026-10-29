@@ -335,6 +335,10 @@
    "source": "TAccDataModule.SBOP",
    "routines": [
     {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
      "name": "GenerateID",
      "call": "CallIntegerFunction"
     },

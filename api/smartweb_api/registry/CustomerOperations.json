@@ -1954,6 +1954,10 @@
    "source": "TCO_DataMod.SBOP",
    "routines": [
     {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
      "name": "upd_custid_quality",
      "call": "CallProcedure"
     },

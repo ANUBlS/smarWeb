@@ -548,7 +548,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "docfile": null, "str": '', "str1": '', "strdate": '', "errorstr": '', "filename": '', "day": 0, "month": 0, "year": 0, "wordapp": null, "wrddatadoc": null, "wrdapp": null, "wrdselection": null, "n": 0, "i": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["months"] = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];
+  await $.staticConst(L0, "months", "mksuggestionimpl.tfmmksuggestion.btprintclick.months", async () => ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"]);
   await $.stmt((await $.mcall((await $.v(C, "ODSAValute")), "Locate", ["valute", (await $.mv((await $.v(C, "ODSContractsValute_ID")), "Value")), []])));
   await $.stmt((await $.mcall((await $.v(C, "ODSActivity")), "SetVariable", ["id", (await $.mv((await $.v(C, "ODSCustsAct_Id")), "Value"))])));
   await $.mcall((await $.v(C, "ODSActivity")), "Open", []);

@@ -144,6 +144,8 @@ def _arguments(s: Session, package: str, name: str) -> list[list[dict]]:
     key = f'{package}.{name}'.upper()
     if key in s.arguments:
         return s.arguments[key]
+    if not package:
+        return _standalone_arguments(s, name, key)
     parts = package.upper().split('.')
     owner, pkg = (parts[0], parts[1]) if len(parts) == 2 else (None, parts[0])
     cur = s.conn.cursor()
@@ -172,8 +174,33 @@ def _arguments(s: Session, package: str, name: str) -> list[list[dict]]:
     return s.arguments[key]
 
 
+def _standalone_arguments(s: Session, name: str, key: str) -> list[list[dict]]:
+    """Arguments of a schema-level procedure/function (TOraclePackage without PackageName)."""
+    parts = name.upper().split('.')
+    owner, obj = (parts[0], parts[1]) if len(parts) == 2 else (None, parts[0])
+    cur = s.conn.cursor()
+    try:
+        cur.execute(
+            """select nvl(overload, '0'), position, argument_name, data_type, in_out
+                 from all_arguments
+                where package_name is null and object_name = :obj and data_level = 0
+                  and owner = nvl(:own, nvl((select table_owner from all_synonyms
+                                              where synonym_name = :obj and owner in (user, 'PUBLIC') and rownum = 1), user))
+                order by 1, 2""", obj=obj, own=owner)
+        rows = cur.fetchall()
+    except oracledb.DatabaseError:
+        rows = []
+    groups: dict[str, list[dict]] = {}
+    for ov, pos, arg, dtype, io in rows:
+        groups.setdefault(ov, []).append({'position': pos, 'name': (arg or '').upper(), 'type': dtype, 'inout': io})
+    s.arguments[key] = list(groups.values())
+    return s.arguments[key]
+
+
 def call_package(s: Session, package: str, name: str, kind: str, mode: str, params: list) -> dict:
-    _check_ident(package, 'package')
+    # DOA: an empty PackageName calls a schema-level procedure / function
+    if package:
+        _check_ident(package, 'package')
     _check_ident(name, 'procedure')
     with s.lock:
         try:
@@ -206,7 +233,7 @@ def call_package(s: Session, package: str, name: str, kind: str, mode: str, para
                 if t == 'boolean':
                     ref = f'sys.diutil.int_to_bool(:{b})'
                 exprs.append(f'{pname} => {ref}' if pname else ref)
-            call = f'{package}.{name}' + (f'({", ".join(exprs)})' if exprs else '')
+            call = (f'{package}.{name}' if package else name) + (f'({", ".join(exprs)})' if exprs else '')
             if kind == 'procedure':
                 block = f'begin {call}; end;'
             else:

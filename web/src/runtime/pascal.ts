@@ -8,7 +8,7 @@ import {
   NOTFOUND, Found, Routine, routine, isRoutine, isType, PType, isPObj, PasException, AbortSignal, Ref, ValueRef,
   TObject, inheritsFrom, reflectGet, GAP,
 } from './core';
-import { Env, UnitObj, getBuiltin, pickOverload } from './env';
+import { Env, UnitObj, getBuiltin, pickOverload, ENUM_TYPES } from './env';
 import { logger } from './log';
 
 type Chain = unknown[];
@@ -91,6 +91,8 @@ export async function callValue(f: unknown, args: unknown[]): Promise<unknown> {
   if (isPObj(f) && typeof (f as any).pindex === 'function') return (f as any).pindex(args);
   throw new PasException('EInvalidOp', `Value is not callable`, ['exception']);
 }
+
+const STATICS = new Map<string, unknown>();
 
 async function autoCall(v: unknown): Promise<unknown> {
   // A routine that needs parameters cannot be called without arguments in Pascal:
@@ -278,7 +280,8 @@ export function makeDollar(env: Env) {
         if (r !== NOTFOUND) return nocall ? r : autoCall(r);
       }
       if (Array.isArray(fb)) return nocall ? $.ref_(fb, name) : $.v(fb, name);
-      return fb.get();
+      // a parameterless nested function used as a value inside `with` is called (Text := BuildQuery)
+      return nocall ? fb.get() : autoCall(await fb.get());
     },
 
     async wset(W: unknown[], name: string, v: unknown, fb: Accessor | Chain) {
@@ -454,6 +457,25 @@ export function makeDollar(env: Env) {
     sarr() { return {} as Record<string, unknown>; },
 
     fn(f: (...a: any[]) => Promise<unknown>) { return routine(f); },
+    /** Low/High: from the declared enum/ordinal type when known, otherwise from the value. */
+    async lowHigh(which: 'low' | 'high', typeName: string, value: () => Promise<unknown>) {
+      const t = typeName.toLowerCase();
+      const n = ENUM_TYPES.get(t);
+      if (n !== undefined) return which === 'low' ? 0 : n - 1;
+      const ORD: Record<string, [number, number]> = { boolean: [0, 1], byte: [0, 255], char: [0, 255], ansichar: [0, 255],
+        shortint: [-128, 127], smallint: [-32768, 32767], word: [0, 65535], integer: [-2147483648, 2147483647],
+        longint: [-2147483648, 2147483647], cardinal: [0, 4294967295], longword: [0, 4294967295] };
+      if (ORD[t]) return which === 'low' ? ORD[t][0] : ORD[t][1];
+      let v: unknown;
+      try { v = await value(); } catch { v = null; }
+      if (which === 'low') return Array.isArray(v) ? 0 : typeof v === 'string' ? 1 : 0;
+      return Array.isArray(v) ? v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647;
+    },
+    /** Typed constant of a routine: one value shared by all calls (Delphi writable typed const). */
+    async staticConst(L: Record<string, unknown>, name: string, key: string, init: () => Promise<unknown>) {
+      if (!STATICS.has(key)) STATICS.set(key, await init());
+      Object.defineProperty(L, name, { get: () => STATICS.get(key), set: (v) => { STATICS.set(key, v); }, enumerable: true, configurable: true });
+    },
 
     async inherited(Self: any, clsName: string, method: string, args: unknown[] | null, argsObj: IArguments) {
       const callArgs = args ?? Array.prototype.slice.call(argsObj, 1);

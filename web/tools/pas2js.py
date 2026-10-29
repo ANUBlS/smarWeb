@@ -1253,6 +1253,8 @@ class Gen:
         self.sigs = all_sigs  # lname -> list of var positions
         self.records = record_types  # lname -> fields
         self.tmp = 0
+        self.routine_path: list[str] = []  # enclosing routines of a nested one (static const keys)
+        self.type_frames: list[dict] = []  # declared types of params/locals (Low/High of enum variables)
         self.class_name = None
         self.ok = 0
         self.fail = 0
@@ -1387,6 +1389,10 @@ class Gen:
         if callee[0] == 'id':
             name = callee[1]
             low = name.lower()
+            if low in ('low', 'high') and len(args) == 1 and args[0][0] == 'id':
+                # Low/High of an enum variable or enum type: the range comes from the type, not the value
+                tname = self.decl_type_name(args[0][1]) or args[0][1]
+                return '(await $.lowHigh(%s, %s, async () => %s))' % (js_str(low), js_str(tname), self.expr(args[0], sc))
             a = self.args_code(name, args, sc)
             s = sc.lookup(low)
             if s is not None and not self.with_stack:
@@ -1687,10 +1693,29 @@ class Gen:
         varp = [x['name'].lower() for x in params if x['mode'] in ('var', 'out')]
         local_names = [v[0].lower() for v in r['local']['vars']] + [c[0].lower() for c in r['local']['consts']]
         nested_names = [n['sig']['name'].lower() for n in r['local']['nested']]
-        all_names = names + local_names + nested_names + ['result']
+        # a nested *procedure* has no Result: `Result := …` there assigns the enclosing function's Result
+        all_names = names + local_names + nested_names + (['result'] if is_func or depth == 0 else [])
         sc = Scope(lvar, all_names, parent_scope, varp, routine_name=name.lower(), is_func=is_func)
         sc.names.add(name.lower()) if is_func else None
         pnames = ['p%d' % i for i in range(len(params))]
+        frame = {x['name'].lower(): x.get('type') for x in params}
+        frame.update({v[0].lower(): v[1] for v in r['local']['vars']})
+        self.type_frames.append(frame)
+        try:
+            return self._routine_body(r, sc, depth, name, is_func, params, lvar, pnames)
+        finally:
+            self.type_frames.pop()
+
+    def decl_type_name(self, ident):
+        """Declared (named) type of a parameter / local variable visible here, else None."""
+        for fr in reversed(self.type_frames):
+            if ident.lower() in fr:
+                t = fr[ident.lower()]
+                return t['name'] if t and t.get('k') == 'named' else None
+        return None
+
+    def _routine_body(self, r, sc, depth, name, is_func, params, lvar, pnames):
+        sig = r['sig']
         out = []
         head = 'async function %s(%s)' % (re.sub(r'\W', '_', name), ', '.join((['Self'] if depth == 0 else []) + pnames))
         out.append(head + ' {\n')
@@ -1716,14 +1741,24 @@ class Gen:
         plain = [x['name'].lower() for x in params if x['mode'] not in ('var', 'out')]
         if plain:
             out.append('  await $.fixArgs(%s, %s);\n' % (lvar, json.dumps(plain, ensure_ascii=False)))
-        # nested consts (evaluated at entry)
+        # nested consts (evaluated at entry); typed constants are static (Delphi {$J+}: they keep
+        # their value between calls, e.g. `const InProgress: Boolean = False` re-entrancy guards)
         for c in r['local']['consts']:
-            out.append('  %s[%s] = %s;\n' % (lvar, js_str(c[0].lower()), self.const_expr(c[2]) if isinstance(c[2], tuple) and c[2] and c[2][0] in ('arraylit', 'recordlit') else self.expr(c[2], sc)))
+            val = self.const_expr(c[2]) if isinstance(c[2], tuple) and c[2] and c[2][0] in ('arraylit', 'recordlit') else self.expr(c[2], sc)
+            if c[1] is not None:
+                key = '%s.%s.%s.%s' % (self.unit.get('name') or '', self.class_name or '', '.'.join(self.routine_path + [name]), c[0])
+                out.append('  await $.staticConst(%s, %s, %s, async () => %s);\n' % (lvar, js_str(c[0].lower()), js_str(key.lower()), val))
+            else:
+                out.append('  %s[%s] = %s;\n' % (lvar, js_str(c[0].lower()), val))
         # nested routines
         saved_with = self.with_stack
         for n in r['local']['nested']:
             self.with_stack = []
-            code = self.routine(n, sc, depth + 1)
+            self.routine_path.append(name)
+            try:
+                code = self.routine(n, sc, depth + 1)
+            finally:
+                self.routine_path.pop()
             self.cur_routine = name
             out.append('  %s[%s] = $.fn(%s);\n' % (lvar, js_str(n['sig']['name'].lower()), code.strip()))
         self.with_stack = saved_with
@@ -1789,6 +1824,7 @@ def gen_unit(unit, sigs, records):
     lines.append('  const C = [U];')
     # enums
     for en, names in unit['enums'].items():
+        lines.append('  U.enumType(%s, %d);' % (js_str(en), len(names)))
         for i, nm in enumerate(names):
             lines.append('  U.const(%s, %d);' % (js_str(nm), i))
     for nm in dict.fromkeys(unit.get('interfaces', [])):
