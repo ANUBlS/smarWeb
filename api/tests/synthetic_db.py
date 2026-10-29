@@ -122,7 +122,8 @@ class SyntheticCursor(FakeCursor):
             self._sql = sql
             self.conn.log.append((' '.join(sql.split()), dict(binds or {}, **kw)))
             flat = ' '.join(sql.split())
-            print('SQL', flat if len(flat) < 220 else flat[:150] + ' … ' + flat[-60:], file=sys.stderr)
+            shown = {k: (v.value if hasattr(v, 'value') else v) for k, v in dict(binds or {}, **kw).items()}
+            print('SQL', flat if len(flat) < 220 else flat[:150] + ' … ' + flat[-60:], shown or '', file=sys.stderr)
             names = select_list(sql) or ['VALUE']
             types = [guess(n) for n in names]
             cols = [(n, {'INT': 'NUMBER', 'ROWID': 'ROWID'}.get(t, t)) + ((10, 0) if t == 'INT' else ()) for n, t in zip(names, types)]

@@ -6,6 +6,7 @@ sessions are closed after SB_SESSION_TIMEOUT minutes.
 """
 from __future__ import annotations
 
+import re
 import secrets
 import threading
 import time
@@ -39,6 +40,25 @@ def _connect(user: str, password: str, dsn: str):
 
 connector: Connector = _connect
 
+NLS_SAFE = re.compile(r"^[\w .,/:\-]*$")
+
+
+def _apply_nls(conn) -> None:
+    """Session date format etc. as on the desktop clients: SQL that compares a DATE with a string
+    (`sys_date between :begin_dat` with an otString variable) depends on it."""
+    parts = []
+    for key, value in (('NLS_DATE_FORMAT', settings.nls_date_format), ('NLS_NUMERIC_CHARACTERS', settings.nls_numeric_characters)):
+        if value:
+            if not NLS_SAFE.match(value):
+                raise ValueError(f'SB_{key}: invalid value {value!r}')
+            parts.append(f"{key} = '{value}'")
+    if parts:
+        cur = conn.cursor()
+        try:
+            cur.execute('alter session set ' + ' '.join(parts))
+        finally:
+            cur.close()
+
 
 @dataclass
 class Session:
@@ -65,6 +85,7 @@ class SessionStore:
     def open(self, username: str, password: str, database: str) -> Session:
         dsn = settings.dsn_for(database)
         conn = connector(username, password, dsn)
+        _apply_nls(conn)
         s = Session(id=secrets.token_urlsafe(24), username=username.upper(),
                     database=(database or settings.default_database).upper(), conn=conn)
         with self._lock:

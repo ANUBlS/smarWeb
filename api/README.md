@@ -42,10 +42,19 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | Common — shared SmartBank API units (sboapi50, 592 datasets, 75 packages) | ✅ ready |
 | Accounts — Balans / Əməliyyat günü / Hesablar | ✅ ready |
 | Customers — Balans / Müştərilər / Bankın müştəriləri (23 datasets; OPCust → SBREF, sb_custInfo named) | ✅ ready |
+| XTaxes — Əlavə modullar / Ödənişlər və köçürmələr / Vergi ödənişləri (5 datasets; pg_pcustservice.get_vergul_tax, sb_taxs.report_tax) | ✅ ready |
 | all others | gateway works; own Swagger section pending |
 
 The web client uses the gateway for **every** module already; the per-module sections document and
 check each module one by one.
+
+### Session date format
+
+At logon the API runs `alter session set NLS_DATE_FORMAT = 'DD.MM.YYYY'` (`SB_NLS_DATE_FORMAT`, empty =
+Oracle default), as the desktop clients had it from their NLS settings. Delphi code that passes dates as
+text depends on it, e.g. Vergi ödənişləri: `sys_date between :begin_dat` with `BEGIN_DAT` declared as a
+string and filled with `FormatDateTime('DD/MM/YYYY', …)`. Date variables given as text are read day-first
+(`29.10.2026`, `29/10/2026`). `SB_NLS_NUMERIC_CHARACTERS` is available too.
 
 ### Substitution variables
 

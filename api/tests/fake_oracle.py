@@ -67,6 +67,9 @@ class FakeCursor:
     def var(self, dbtype, size=0, **_kw):
         return FakeVar(dbtype, size)
 
+    def close(self):
+        pass
+
     def execute(self, sql, binds=None, **kw):
         if sql is None:
             sql = self._sql

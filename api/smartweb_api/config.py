@@ -46,6 +46,9 @@ class Settings:
     allowlist: str = 'audit'
     audit_file: Path = API_DIR / 'logs' / 'unknown-sql.log'
     cors_origins: list[str] = field(default_factory=list)
+    # ALTER SESSION at logon (the desktop clients got these from NLS_* in the Windows registry)
+    nls_date_format: str = 'DD.MM.YYYY'
+    nls_numeric_characters: str = ''
 
     @classmethod
     def from_env(cls) -> 'Settings':
@@ -61,6 +64,8 @@ class Settings:
             allowlist=os.environ.get('SB_ALLOWLIST', 'audit').lower(),
             audit_file=Path(os.environ.get('SB_AUDIT_FILE', str(API_DIR / 'logs' / 'unknown-sql.log'))),
             cors_origins=[o.strip() for o in os.environ.get('SB_CORS_ORIGINS', '').split(',') if o.strip()],
+            nls_date_format=os.environ.get('SB_NLS_DATE_FORMAT', 'DD.MM.YYYY'),
+            nls_numeric_characters=os.environ.get('SB_NLS_NUMERIC_CHARACTERS', ''),
         )
         if s.allowlist not in ('off', 'audit', 'enforce'):
             raise ValueError('SB_ALLOWLIST must be off, audit or enforce')

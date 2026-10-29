@@ -1,4 +1,5 @@
 """Gateway behaviour (DOA semantics) against the fake driver."""
+import pytest
 import datetime as dt
 
 
@@ -148,3 +149,16 @@ def test_swagger_is_served(client):
     assert client.get('/api/docs').status_code == 200
     spec = client.get('/api/openapi.json').json()
     assert '/api/query' in spec['paths'] and spec['info']['title'] == 'SmartWeb API'
+
+
+def test_logon_sets_session_nls(client, conn):
+    r = client.post('/api/logon', json={'username': 'u', 'password': 'p', 'database': 'PDBNBC'})
+    assert r.status_code == 200, r.text
+    assert any("alter session set NLS_DATE_FORMAT = 'DD.MM.YYYY'" in sql for sql, _ in conn.log)
+
+
+@pytest.mark.parametrize('text', ['29/10/2026', '29.10.2026', '29-10-2026', '2026-10-29', '29.10.2026 00:00:00'])
+def test_day_first_date_text(text):
+    import datetime as dt
+    from smartweb_api.convert import parse_date
+    assert parse_date(text) == dt.datetime(2026, 10, 29)

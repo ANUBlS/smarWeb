@@ -120,7 +120,8 @@ export class TControl extends TComponent {
   focusDom() {
     const el = this.dom?.matches('input,textarea,select,button,[tabindex]') ? this.dom
       : this.dom?.querySelector<HTMLElement>('input,textarea,select,button,[tabindex]');
-    el?.focus();
+    // VCL never scrolls a parent on focus; a browser would scroll clipped panels to the control
+    el?.focus({ preventScroll: true });
   }
   CanFocus() { return this.Visible && this.Enabled; }
   BringToFront() { if (this.Parent) { this.Parent.children = [...this.Parent.children.filter((c) => c !== this), this]; invalidate(); } }

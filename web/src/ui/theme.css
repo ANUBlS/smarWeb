@@ -138,7 +138,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .vc { position: absolute; }
 .v-label { white-space: pre; overflow: visible; line-height: 13px; padding-top: 1px; }
 .v-label.wrap { white-space: pre-wrap; overflow: hidden; }
-.v-panel { overflow: hidden; }
+.v-panel { overflow: hidden; overflow: clip; }
 .v-panel.raised { background: var(--surface); }
 .v-panel.bordered { border: 1px solid var(--rule); }
 .v-panel .pcap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--ink-2); pointer-events: none; padding: 0 6px; }
@@ -262,3 +262,7 @@ body.busy, body.busy * { cursor: progress !important; }
 /* VCL panels, group boxes and tab sheets paint their background (stacked alClient panels hide each other) */
 .v-panel, .v-pagecontrol, .v-controlbar { background: var(--surface); }
 .v-group { background: var(--surface); }
+
+/* VCL containers clip their children and never scroll (a focused control outside a panel must not shift
+   the panel's content): overflow: clip cannot be scrolled, not even by focus() or Tab. */
+.workspace, .win, .v-toolbar, .v-controlbar, .vc.v-panel { overflow: clip; }

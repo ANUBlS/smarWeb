@@ -88,7 +88,9 @@ def parse_date(v: Any) -> dt.datetime | None:
     try:
         return dt.datetime.fromisoformat(s)
     except ValueError:
-        for fmt in ('%d.%m.%Y %H:%M:%S', '%d.%m.%Y', '%d-%b-%Y', '%Y%m%d'):
+        # Delphi code passes dates to otDate variables as text in the local (day-first) format
+        for fmt in ('%d.%m.%Y %H:%M:%S', '%d.%m.%Y %H:%M', '%d.%m.%Y', '%d/%m/%Y %H:%M:%S', '%d/%m/%Y', '%d-%m-%Y',
+                    '%d.%m.%y', '%d/%m/%y', '%d-%b-%Y', '%d-%b-%y', '%Y%m%d'):
             try:
                 return dt.datetime.strptime(s, fmt)
             except ValueError:
