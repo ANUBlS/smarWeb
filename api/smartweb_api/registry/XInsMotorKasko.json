@@ -1,0 +1,104 @@
+{
+ "name": "XInsMotorKasko",
+ "caption": "Əlavə modullar / Sığorta / Avto KASKO",
+ "dir": "Packages/Insurance/MotorKasko",
+ "mainForm": "TfmMotorKasco",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSINSMotorKasco",
+   "source": "TDataModkasco.ODSINSMotorKasco",
+   "kind": "TOracleDataSet",
+   "sql": "select im.rowid, im.* from INS_MOTORKASCO im",
+   "variables": [],
+   "unit": "UMotorKascoDataMod"
+  },
+  {
+   "name": "ODSCusts",
+   "source": "TDataModkasco.ODSCusts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from (\nSELECT a.id, a.surname || '  ' ||a.name name, a.ADDRESS\n  FROM ins_customers a\nwhere id =:kli_id\n  order by a.surname\n\n)",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMotorKascoDataMod"
+  },
+  {
+   "name": "ODSMKSuggestion",
+   "source": "TDataModkasco.ODSMKSuggestion",
+   "kind": "TOracleDataSet",
+   "sql": "select imk.id from ins_mk_suggestion imk\n\nwhere \n  mk_id = :mk_id",
+   "variables": [
+    {
+     "name": "MK_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMotorKascoDataMod"
+  },
+  {
+   "name": "ODSBankinfo",
+   "source": "TDataModkasco.ODSBankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select BANK, AZ_NAME, SEHER, ADRESS, TEL, FAX, EMAIL  from bankinfo",
+   "variables": [],
+   "unit": "UMotorKascoDataMod"
+  },
+  {
+   "name": "ODSPolicy",
+   "source": "TDataModkasco.ODSPolicy",
+   "kind": "TOracleDataSet",
+   "sql": "select imp.rowid, imp.* from ins_mk_policy imp\nwhere \nimp.mks_id = :mks_id",
+   "variables": [
+    {
+     "name": "MKS_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMotorKascoDataMod"
+  },
+  {
+   "name": "ODSAvalute",
+   "source": "TDataModkasco.ODSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute",
+   "variables": [],
+   "unit": "UMotorKascoDataMod"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

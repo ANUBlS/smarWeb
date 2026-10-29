@@ -1,0 +1,267 @@
+{
+ "name": "CustomerOrder",
+ "caption": "Balansdan kənar / Müştərilər / Müştərinin sərəncamları",
+ "dir": "Packages/Customer's_orders(new)/Ocx",
+ "mainForm": "Tcustomers_orders",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "arest_acc",
+   "source": "TDataModCustOrders.arest_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select c.*,c.rowid from account c",
+   "variables": [],
+   "unit": "datamodule"
+  },
+  {
+   "name": "Bankm",
+   "source": "TDataModCustOrders.Bankm",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n    *\nFrom\n  BankM\nOrder by ID",
+   "variables": [],
+   "unit": "datamodule"
+  },
+  {
+   "name": "bank_info",
+   "source": "TDataModCustOrders.bank_info",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   *\nFrom\n    BankInfo",
+   "variables": [],
+   "unit": "datamodule"
+  },
+  {
+   "name": "customers",
+   "source": "TDataModCustOrders.customers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers where inn=:ac ",
+   "variables": [
+    {
+     "name": "AC",
+     "type": "string"
+    }
+   ],
+   "unit": "datamodule"
+  },
+  {
+   "name": "serach_cust",
+   "source": "TDataModCustOrders.serach_cust",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers where id=:title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "integer"
+    }
+   ],
+   "unit": "datamodule"
+  },
+  {
+   "name": "cust",
+   "source": "TDataModCustOrders.cust",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers where id is not null order by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "datamodule"
+  },
+  {
+   "name": "arxiv_order",
+   "source": "TDataModCustOrders.arxiv_order",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM cust_order_arxiv order by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "datamodule"
+  },
+  {
+   "name": "cust_orders",
+   "source": "TDataModCustOrders.cust_orders",
+   "kind": "TOracleDataSet",
+   "sql": "Select  * from cust_order order by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "datamodule"
+  },
+  {
+   "name": "cust_id",
+   "source": "TDataModCustOrders.cust_id",
+   "kind": "TOracleDataSet",
+   "sql": " select * from cust_order where cust_id=:id order by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    },
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "datamodule"
+  },
+  {
+   "name": "search_acc",
+   "source": "TDataModCustOrders.search_acc",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *  from account where kli_id=:acc order by :title\n",
+   "variables": [
+    {
+     "name": "ACC",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "datamodule"
+  },
+  {
+   "name": "valute",
+   "source": "TDataModCustOrders.valute",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "datamodule"
+  },
+  {
+   "name": "account",
+   "source": "TDataModCustOrders.account",
+   "kind": "TOracleDataSet",
+   "sql": "select * from out_account order by acc_no",
+   "variables": [],
+   "unit": "datamodule"
+  },
+  {
+   "name": "search_order",
+   "source": "TDataModCustOrders.search_order",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cust_order",
+   "variables": [],
+   "unit": "datamodule"
+  },
+  {
+   "name": "Acc",
+   "source": "TDataModCustOrders.Acc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from out_account order by acc_no\n",
+   "variables": [],
+   "unit": "datamodule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "customer_orders",
+   "package": "customer_orders",
+   "mode": "positional",
+   "source": "*.customer_orders",
+   "routines": [
+    {
+     "name": "CurrentDate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "Currentdate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "DELETE_CUST_ORDER_ARXIV",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "accept_order",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "arest_c",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "arest_clear",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "arest_d",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_c",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_d",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_order",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_s",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_s1",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "trans_arxiv",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_cust_order",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "Select * From BankM",
+  "Select * From BankM Where ID=",
+  "select * from avalute"
+ ]
+}

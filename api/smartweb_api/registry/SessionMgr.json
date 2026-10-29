@@ -1,0 +1,126 @@
+{
+ "name": "SessionMgr",
+ "caption": "Balans / İdarəetmə / Sesiyaların idarə olunması",
+ "dir": "Packages/SessionMgr",
+ "mainForm": "TSessionMgrForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "SessionsData",
+   "source": "TSessionMgrForm.SessionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  SID,\n  Serial#,\n  AudSID,\n  user#,\n  UserName,\n  Status,\n  OSUser,\n  Process,\n  Machine,\n  Terminal,\n  Program,\n  Logon_Time,\n  decode(UserEnv('SESSIONID'), AudSID, 1, 0) as IsCurrentUser\nfrom sys.v_$session\nwhere\n  (Type = 'USER')\n  and (UserName is not null)\n  and (Program = (\n    select program \n      from sys.v_$session \n    where AudSID = UserEnv('SESSIONID')\n    )\n  )\n  and (Status <> 'KILLED')\n\n ",
+   "variables": [],
+   "unit": "SessionMgrFormImpl"
+  },
+  {
+   "name": "EnterRestrictedModeQuery",
+   "source": "TSessionMgrForm.EnterRestrictedModeQuery",
+   "kind": "TOracleQuery",
+   "sql": "alter system enable restricted session",
+   "variables": [],
+   "unit": "SessionMgrFormImpl"
+  },
+  {
+   "name": "LeaveRestrictedModeQuery",
+   "source": "TSessionMgrForm.LeaveRestrictedModeQuery",
+   "kind": "TOracleQuery",
+   "sql": "--alter system enable restricted session\nalter system disable restricted session",
+   "variables": [],
+   "unit": "SessionMgrFormImpl"
+  },
+  {
+   "name": "Restrictions",
+   "source": "TSessionMgrForm.Restrictions",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "SessionMgrFormImpl"
+  },
+  {
+   "name": "restrict",
+   "source": "TSessionMgrForm.restrict",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   sus.NAME\n   FROM sys.user$ sus, sba_objinf sba\n  WHERE sus.NAME = sba.obj\n\nand sb_aca.isadm_num (sus.NAME) <> 1\n\norder by name \n \n/*\nSELECT distinct  b.grantee\n   FROM  sba_objinf a,dba_sys_privs b\n  WHERE  b.grantee=a.obj\nand sb_aca.isadm_num (a.obj) <> 1\n\nORDER BY grantee*/\n ",
+   "variables": [],
+   "unit": "SessionMgrFormImpl"
+  },
+  {
+   "name": "odsrestrict",
+   "source": "TSessionMgrForm.odsrestrict",
+   "kind": "TOracleDataSet",
+   "sql": "/*select grantee\nfrom dba_sys_privs where privilege like 'RESTRICTED SESSION' \n*/\n\n \n\nSELECT distinct  b.grantee\n   FROM  sba_objinf a,dba_sys_privs b\n  WHERE /*s.NAME = a.obj and*/ b.grantee=a.obj\nand sb_aca.isadm_num (a.obj) <> 1 and  privilege like 'RESTRICTED SESSION' \nORDER BY grantee",
+   "variables": [],
+   "unit": "SessionMgrFormImpl"
+  },
+  {
+   "name": "restrictquery",
+   "source": "TSessionMgrForm.restrictquery",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "SessionMgrFormImpl"
+  },
+  {
+   "name": "ODSMessages",
+   "source": "TfrmMsgSettings.ODSMessages",
+   "kind": "TOracleDataSet",
+   "sql": "select o.rowid, o.* from sbmsg_operations o",
+   "variables": [],
+   "unit": "uMsgSettings"
+  },
+  {
+   "name": "ODSUsers",
+   "source": "TfrmMsgSettings.ODSUsers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from user$",
+   "variables": [],
+   "unit": "uMsgSettings"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SB_MSG",
+   "package": "SB_MSG",
+   "mode": "positional",
+   "source": "TfrmMsgSettings.SB_MSG",
+   "routines": [
+    {
+     "name": "deletemsgtype",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

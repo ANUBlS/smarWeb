@@ -1,0 +1,83 @@
+{
+ "name": "ProfitClosing",
+ "caption": "Balans / Sistem servisi / Gəlir-zərərlərin bağlanması",
+ "dir": "Packages/ProfitClosing",
+ "mainForm": "TSBProfiClosingMainFormImpl",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionCommitFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DayProfitsData",
+   "source": "TSBProfitClosingMainForm.DayProfitsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  ID,\n  ACC_NO,\n  VAL_ACC,\n  VAL_NAME,\n  BAL_CN1,\n  OSTAT,\n  POK_OSTAT,\n  Abs(Ostat) as Amount,\n  Abs(Pok_Ostat) as LAmount\nfrom\n  Close_Profits_Accs",
+   "variables": [],
+   "unit": "SBProfitClosingMainFormImplImpl"
+  },
+  {
+   "name": "OrDS_Coins",
+   "source": "TSBProfitClosingMainForm.OrDS_Coins",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, acc_no, val_acc, val_name, debet, kredit,\n       ostat, pok_ostat, filial\n  FROM close_coins ",
+   "variables": [],
+   "unit": "SBProfitClosingMainFormImplImpl"
+  },
+  {
+   "name": "ords_asan",
+   "source": "TSBProfitClosingMainForm.ords_asan",
+   "kind": "TOracleDataSet",
+   "sql": "select * from AsanPay_transacs",
+   "variables": [],
+   "unit": "SBProfitClosingMainFormImplImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OrPackCloseCoin",
+   "package": "SBSYS",
+   "mode": "positional",
+   "source": "TSBProfitClosingMainForm.OrPackCloseCoin",
+   "routines": [
+    {
+     "name": "AsanPay_sendtransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CloseCoins",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

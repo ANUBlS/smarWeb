@@ -1,0 +1,2282 @@
+[
+ {
+  "name": "Common",
+  "caption": "Ümumi (sboapi və paylaşılan modullar)",
+  "plugin": false,
+  "datasets": 592,
+  "packages": 84,
+  "sql": 21
+ },
+ {
+  "name": "AboutBanks",
+  "caption": "Balans / Məlumatlar / Banklar Haqqında Məlumat",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "Account",
+  "caption": "Balans / Əməliyyat günü / Yeni hesablar",
+  "plugin": false,
+  "datasets": 23,
+  "packages": 6,
+  "sql": 0
+ },
+ {
+  "name": "Accounts",
+  "caption": "Balans / Əməliyyat günü / Hesablar",
+  "plugin": false,
+  "datasets": 15,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "Administration",
+  "caption": "Balans / İdarəetmə / İdarəetmə",
+  "plugin": false,
+  "datasets": 44,
+  "packages": 4,
+  "sql": 2
+ },
+ {
+  "name": "Avalute",
+  "caption": "Balans / Məlumatlar / Valyutalar",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "BackupCreator",
+  "caption": "Balans / Sistem servisi / Məlumatın arxivləşdirilməsi",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "BalanceRefEdit",
+  "caption": "Balans / Məlumatlar / Balans hesabları",
+  "plugin": false,
+  "datasets": 7,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "BankInfo",
+  "caption": "Balans / Sistem servisi / Bank haqqında məlumat",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 2
+ },
+ {
+  "name": "CashSymbols",
+  "caption": "Balans / Məlumatlar / Kassa simvolu",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "CloseDay",
+  "caption": "Balans / Sistem servisi / Əməliyyat gününün bağlanması",
+  "plugin": false,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "ContractCorrection",
+  "caption": "Balans / Kreditlər / Kreditlərdə düzəlişlər",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "CreditManager",
+  "caption": "Balans / Kreditlər / Kreditlərin idarə olunması",
+  "plugin": false,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "CreditsArchive",
+  "caption": "Balans / Kreditlər / Arxiv Kreditlər",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "CustomerOperations",
+  "caption": "Balans / Müştərilər / Müştəri üzrə əməliyyatlar",
+  "plugin": false,
+  "datasets": 160,
+  "packages": 14,
+  "sql": 2
+ },
+ {
+  "name": "CustomerOrder",
+  "caption": "Balansdan kənar / Müştərilər / Müştərinin sərəncamları",
+  "plugin": false,
+  "datasets": 14,
+  "packages": 1,
+  "sql": 3
+ },
+ {
+  "name": "Customers",
+  "caption": "Balans / Müştərilər / Bankın müştəriləri",
+  "plugin": false,
+  "datasets": 23,
+  "packages": 3,
+  "sql": 2
+ },
+ {
+  "name": "CustomersInformations",
+  "caption": "Balans / Analiz / Müştəri hesablarının Analizi",
+  "plugin": false,
+  "datasets": 8,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "DepositCorrection",
+  "caption": "Balans / Depozitlər / Depozitlərdə düzəlişlər",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "DepositManager",
+  "caption": "Balans / Depozitlər / Depozitlərin idarə olunması",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "DepositsArchive",
+  "caption": "Balans / Depozitlər / Arxiv Depozitlər",
+  "plugin": false,
+  "datasets": 10,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "ExpertAnalys",
+  "caption": "Balans / Analiz / Ekspres Analiz",
+  "plugin": false,
+  "datasets": 14,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "LVPCSSManager",
+  "caption": "Balans / Beynalxalq köçürmələr / X.Ö.H.K.S",
+  "plugin": false,
+  "datasets": 54,
+  "packages": 10,
+  "sql": 22
+ },
+ {
+  "name": "LastRates",
+  "caption": "Balans / Məlumatlar / Valyuta Məzənnələri",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "MainFacilities",
+  "caption": "Balans / Əsas vəsaitlər / Əsas vəsaitlərin idarə olunması",
+  "plugin": false,
+  "datasets": 26,
+  "packages": 2,
+  "sql": 2
+ },
+ {
+  "name": "OutAccount",
+  "caption": "Balansdan kənar / Əməliyyat günü / Hesablar",
+  "plugin": false,
+  "datasets": 32,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "OutBalanceRefEdit",
+  "caption": "Balansdan kənar / Məlumatlar / Balansdankənar hesablar",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "OutTransactionManager",
+  "caption": "Balansdan kənar / Əməliyyat günü / Balansdankənar sənədlər",
+  "plugin": false,
+  "datasets": 21,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "OutTuningAccTypes",
+  "caption": "Balansdan kənar / Məlumatlar / Hesab növləri",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CMArFilter",
+  "caption": "",
+  "plugin": true,
+  "datasets": 12,
+  "packages": 0,
+  "sql": 1
+ },
+ {
+  "name": "P_CMAr_Conclusion",
+  "caption": "",
+  "plugin": true,
+  "datasets": 47,
+  "packages": 6,
+  "sql": 0
+ },
+ {
+  "name": "P_CMAr_Guarantee",
+  "caption": "",
+  "plugin": true,
+  "datasets": 17,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CMAr_Payment",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "P_CMAr_Schedule",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CMAr_Search",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CMAr_Statement",
+  "caption": "",
+  "plugin": true,
+  "datasets": 17,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CMCrdFilter",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Conclusion",
+  "caption": "",
+  "plugin": true,
+  "datasets": 49,
+  "packages": 6,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Customer",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Payment",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_RETIL",
+  "caption": "",
+  "plugin": true,
+  "datasets": 22,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Schedule",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Statement",
+  "caption": "",
+  "plugin": true,
+  "datasets": 19,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Tranche",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_WReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CRA_ExtractMoney",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CR_Conclusion",
+  "caption": "",
+  "plugin": true,
+  "datasets": 48,
+  "packages": 5,
+  "sql": 0
+ },
+ {
+  "name": "P_CU_Conclusion",
+  "caption": "",
+  "plugin": true,
+  "datasets": 61,
+  "packages": 6,
+  "sql": 0
+ },
+ {
+  "name": "P_CU_Payment",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "P_CU_Paymentcompany",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "P_CU_Schedule",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CargoBlank",
+  "caption": "",
+  "plugin": true,
+  "datasets": 12,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_Cm_Guarantee",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_Ferid",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_FileReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 52,
+  "packages": 8,
+  "sql": 0
+ },
+ {
+  "name": "P_InsContracterminated",
+  "caption": "",
+  "plugin": true,
+  "datasets": 12,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_InsPayment",
+  "caption": "",
+  "plugin": true,
+  "datasets": 17,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_InsPaymentPlan",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_Ins_ReinsR_contract",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_Investisiya_Contracts",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_Investisiya_settings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_InvestmentPercentConverting",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_Investment_Transaction",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_Investment_payment",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_Loss",
+  "caption": "",
+  "plugin": true,
+  "datasets": 47,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsApplyMoney",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsApplyMoneyArchive",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsBalanceSettings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsCapitalize",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsContract",
+  "caption": "",
+  "plugin": true,
+  "datasets": 17,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsContract_2",
+  "caption": "",
+  "plugin": true,
+  "datasets": 15,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsControl",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsExtractMoney",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsExtractMoneyArchive",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsFilter",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsLogs",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsPercentConverting",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsPercentSettings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 10,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsProlongation",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsSettings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 12,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsShedule",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsUntimelyEtMoney",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsWRGroups",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsWRSetup",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_NewDepositsWReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_NominalCustomers",
+  "caption": "",
+  "plugin": true,
+  "datasets": 35,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_Open_account",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_PaymenTerminateimpl",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_Paymentloss",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_PcustXohks",
+  "caption": "",
+  "plugin": true,
+  "datasets": 28,
+  "packages": 8,
+  "sql": 15
+ },
+ {
+  "name": "P_Reinsurance",
+  "caption": "",
+  "plugin": true,
+  "datasets": 51,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_ResponsibilityBlank",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_ApplyMoney",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_ApplyMoney_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Capitalize",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Capitalize_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Contract",
+  "caption": "",
+  "plugin": true,
+  "datasets": 15,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_ContractReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_ContractReport_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Contract_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 17,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Control",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_DepozitAccSettings_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_ExtractMoney",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_ExtractMoney_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Filter",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_PartialPayment_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_PercentChange",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_PercentConverting",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_PercentSettings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_PercentSettings_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_PeriodReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_PeriodReport_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Prognoz",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Prolongation",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Prolongation_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Report",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Report_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_ReportofBalance",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_ReportofBalance_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Settings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 14,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_Settings_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 14,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_TaxPayments",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_TransactionViewer",
+  "caption": "",
+  "plugin": true,
+  "datasets": 10,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_TransactionViewer_2",
+  "caption": "",
+  "plugin": true,
+  "datasets": 10,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_UntimelyEtMoney",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_UntimelyEtMoney_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_WRSetup",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_WRSetup_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_WReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_SBDM_WReport_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_Sb_General",
+  "caption": "",
+  "plugin": true,
+  "datasets": 151,
+  "packages": 16,
+  "sql": 3
+ },
+ {
+  "name": "P_Sbdm_Shedule_new",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "P_TransInfoPack",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_TravelBlank",
+  "caption": "",
+  "plugin": true,
+  "datasets": 12,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_cu_Statement",
+  "caption": "",
+  "plugin": true,
+  "datasets": 16,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_cu_WReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_ins_reins_exelinp",
+  "caption": "",
+  "plugin": true,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "PaymentDecree",
+  "caption": "Balans / Əməliyyat günü / Ödəmə tapşırığı",
+  "plugin": false,
+  "datasets": 16,
+  "packages": 1,
+  "sql": 3
+ },
+ {
+  "name": "ProfitClosing",
+  "caption": "Balans / Sistem servisi / Gəlir-zərərlərin bağlanması",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "QueryExporter",
+  "caption": "Balans / Sistem servisi / Sorğular",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "RateManagement",
+  "caption": "Balans / Sistem servisi / Yeni Valyuta məzənnələri",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "RefEdit",
+  "caption": "Balans / Məlumatlar / Müştərilərin mənsübiyyəti",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 1
+ },
+ {
+  "name": "RepairNew",
+  "caption": "Balans / Sistem servisi / Arxiv Günə duzəliş",
+  "plugin": false,
+  "datasets": 16,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "RollbackDay",
+  "caption": "Balans / Sistem servisi / Günün qaytarılması",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "SessionMgr",
+  "caption": "Balans / İdarəetmə / Sesiyaların idarə olunması",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "TransactionManager",
+  "caption": "Balans / Əməliyyat günü / Günün sənədləri",
+  "plugin": false,
+  "datasets": 20,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "Transactions",
+  "caption": "Balans / Əməliyyat günü / Əməliyyatlar",
+  "plugin": false,
+  "datasets": 22,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "TransactionsReporter",
+  "caption": "Balans / Analiz / Günün sənədlərinin analizi",
+  "plugin": false,
+  "datasets": 17,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "TuningAccTypes",
+  "caption": "Balans / Məlumatlar / Hesab növləri",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "TuningAccZones",
+  "caption": "Balans / Məlumatlar / Balans bolgüləri",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "TuningTransactions",
+  "caption": "Balans / Məlumatlar / Komissiya əməliyyatları",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XAccBalanceCheck",
+  "caption": "Əlavə modullar / Mühasibat və balans / Hesab qalıqlarının yoxlanması",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XAcceptedPortfel",
+  "caption": "Əlavə modullar / Kreditlər / Qəbul edilmiş portfel",
+  "plugin": false,
+  "datasets": 31,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XAddXml",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / XML sənədlərin əlavə edilməsi",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XAdif",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / ADİF",
+  "plugin": false,
+  "datasets": 13,
+  "packages": 0,
+  "sql": 6
+ },
+ {
+  "name": "XAdmLogs",
+  "caption": "Əlavə modullar / İdarəetmə / İnzibati jurnallar",
+  "plugin": false,
+  "datasets": 10,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XAsanFinance",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / ASAN Finance",
+  "plugin": false,
+  "datasets": 14,
+  "packages": 1,
+  "sql": 1
+ },
+ {
+  "name": "XBBPayings",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Büdcə ödənişləri",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XBalanceAnalys",
+  "caption": "Əlavə modullar / Mühasibat və balans / Balans analizi",
+  "plugin": false,
+  "datasets": 12,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XBlackList",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Qara siyahı",
+  "plugin": false,
+  "datasets": 23,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XBudget",
+  "caption": "Əlavə modullar / Mühasibat və balans / Büdcənin idarə olunması",
+  "plugin": false,
+  "datasets": 22,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XBusinessProcesses",
+  "caption": "Əlavə modullar / İdarəetmə / Biznes proseslərin quraşdırılması",
+  "plugin": false,
+  "datasets": 17,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XCableContracts",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Kabel TV müqavilələri",
+  "plugin": false,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XCableCorrection",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Kabel TV düzəlişləri",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XCableManager",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Kabel TV menecer",
+  "plugin": false,
+  "datasets": 11,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XCableSettings",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Kabel TV parametrləri",
+  "plugin": false,
+  "datasets": 11,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XCalcRateAccount",
+  "caption": "Əlavə modullar / Kreditlər / Faiz hesablanması",
+  "plugin": false,
+  "datasets": 11,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XCalendar",
+  "caption": "Əlavə modullar / Mühasibat və balans / İş günləri təqvimi",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XCallBack",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Geri çağırılan əməliyyatlar",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XCards",
+  "caption": "Əlavə modullar / Kartlar / Plastik kartlar (AzeriCard)",
+  "plugin": false,
+  "datasets": 129,
+  "packages": 5,
+  "sql": 6
+ },
+ {
+  "name": "XCcBuilding",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Tikinti obyektləri",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 1,
+  "sql": 1
+ },
+ {
+  "name": "XCcBuildings2",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Binalar",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XCcBuyers",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Alıcılar",
+  "plugin": false,
+  "datasets": 65,
+  "packages": 5,
+  "sql": 2
+ },
+ {
+  "name": "XCcBuyers2",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Alıcılar (yeni)",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XCcCashOp",
+  "caption": "Əlavə modullar / Tikinti və kommunal / Kassa əməliyyatları",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XCountries",
+  "caption": "Əlavə modullar / Mühasibat və balans / Ölkələr",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XCourtManager",
+  "caption": "Əlavə modullar / Kreditlər / Məhkəmə işləri",
+  "plugin": false,
+  "datasets": 19,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XCreditArchive",
+  "caption": "Əlavə modullar / Kreditlər / Kreditlərin arxivi",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XCreditsConstruction",
+  "caption": "Əlavə modullar / Kreditlər / Tikinti kreditlərinin idarə olunması",
+  "plugin": false,
+  "datasets": 64,
+  "packages": 20,
+  "sql": 0
+ },
+ {
+  "name": "XCreditsMgr",
+  "caption": "Əlavə modullar / Kreditlər / Kreditlər (sadə menecer)",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XCreditsMgrSB",
+  "caption": "Əlavə modullar / Kreditlər / Kredit menecer (SB)",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XCustAnalysis",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Müştəri analizi",
+  "plugin": false,
+  "datasets": 7,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XCustomersOrders",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Müştərilərin sərəncamları",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 0,
+  "sql": 3
+ },
+ {
+  "name": "XDepositsMgr",
+  "caption": "Əlavə modullar / Depozitlər / Depozit menecer",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XDepositsMgrNew",
+  "caption": "Əlavə modullar / Depozitlər / Depozit menecer (yeni)",
+  "plugin": false,
+  "datasets": 10,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XEmanatViews",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Emanat ödənişlərinə baxış",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XEmanet",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Emanət ödənişləri",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XEnforcement",
+  "caption": "Əlavə modullar / Kreditlər / İcra işlərinin idarə olunması",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XExcelImport",
+  "caption": "Əlavə modullar / İdxal / Excel-dən idxal",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 2,
+  "sql": 1
+ },
+ {
+  "name": "XExchange",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Valyuta mübadiləsi",
+  "plugin": false,
+  "datasets": 70,
+  "packages": 6,
+  "sql": 2
+ },
+ {
+  "name": "XExpress",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Ekspres köçürmələr",
+  "plugin": false,
+  "datasets": 122,
+  "packages": 5,
+  "sql": 1
+ },
+ {
+  "name": "XFinancePro",
+  "caption": "Əlavə modullar / Mühasibat və balans / Maliyyə",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XFixedAssets",
+  "caption": "Əlavə modullar / Mühasibat və balans / Əsas vəsaitlər",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XFullImport",
+  "caption": "Əlavə modullar / İdxal / Tam idxal",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XGoAml",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / GoAML xidməti",
+  "plugin": false,
+  "datasets": 51,
+  "packages": 4,
+  "sql": 6
+ },
+ {
+  "name": "XGuarantee",
+  "caption": "Əlavə modullar / Kreditlər / Bank zəmanətlərinin idarə olunması",
+  "plugin": false,
+  "datasets": 34,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XGuaranty",
+  "caption": "Əlavə modullar / Kreditlər / Zəmanətlər",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XImportService",
+  "caption": "Əlavə modullar / İdxal / İdxal xidməti",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XInsAccountDoc",
+  "caption": "",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsAccountState",
+  "caption": "",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsAuto",
+  "caption": "Əlavə modullar / Sığorta / Avtomobil sığortası",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsAutoDict",
+  "caption": "Əlavə modullar / Sığorta / Avtomobil soraqçası",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsBlankMain",
+  "caption": "Əlavə modullar / Sığorta / Blanklar",
+  "plugin": false,
+  "datasets": 24,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XInsCPropBlank",
+  "caption": "",
+  "plugin": false,
+  "datasets": 12,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XInsCPropMain",
+  "caption": "Əlavə modullar / Sığorta / Kommersiya əmlakı",
+  "plugin": false,
+  "datasets": 10,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XInsCPropPolicy",
+  "caption": "",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsCPropSuggest",
+  "caption": "",
+  "plugin": false,
+  "datasets": 8,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsCargo",
+  "caption": "Əlavə modullar / Sığorta / Yük sığortası",
+  "plugin": false,
+  "datasets": 12,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsConstructionBlank",
+  "caption": "",
+  "plugin": false,
+  "datasets": 7,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "XInsConstructionMain",
+  "caption": "Əlavə modullar / Sığorta / Tikinti sığortası",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "XInsConstructionPolicy",
+  "caption": "",
+  "plugin": false,
+  "datasets": 12,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsConstructionSuggest",
+  "caption": "",
+  "plugin": false,
+  "datasets": 10,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsCustomers",
+  "caption": "Əlavə modullar / Sığorta / Sığorta müştəriləri",
+  "plugin": false,
+  "datasets": 32,
+  "packages": 3,
+  "sql": 1
+ },
+ {
+  "name": "XInsDictChilde",
+  "caption": "",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 0,
+  "sql": 1
+ },
+ {
+  "name": "XInsFullMotor",
+  "caption": "Əlavə modullar / Sığorta / Tam avto sığorta",
+  "plugin": false,
+  "datasets": 14,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XInsFullMotorCasco",
+  "caption": "Əlavə modullar / Sığorta / Tam avto KASKO",
+  "plugin": false,
+  "datasets": 23,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XInsMedBlank",
+  "caption": "",
+  "plugin": false,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XInsMedPolicy",
+  "caption": "",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XInsMedSuggestion",
+  "caption": "",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsMedical",
+  "caption": "Əlavə modullar / Sığorta / Tibbi sığorta",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsMfBlank",
+  "caption": "",
+  "plugin": false,
+  "datasets": 16,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsMfPolicy",
+  "caption": "",
+  "plugin": false,
+  "datasets": 12,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XInsMfSuggestion",
+  "caption": "",
+  "plugin": false,
+  "datasets": 14,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XInsMkBlank",
+  "caption": "",
+  "plugin": false,
+  "datasets": 26,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XInsMkCorporate",
+  "caption": "Əlavə modullar / Sığorta / Korporativ KASKO",
+  "plugin": false,
+  "datasets": 19,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsMkPolicy",
+  "caption": "",
+  "plugin": false,
+  "datasets": 11,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsMkSuggestion",
+  "caption": "",
+  "plugin": false,
+  "datasets": 11,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XInsMotorKascoIns",
+  "caption": "Əlavə modullar / Sığorta / Avto KASKO sığortası",
+  "plugin": false,
+  "datasets": 18,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "XInsMotorKasko",
+  "caption": "Əlavə modullar / Sığorta / Avto KASKO",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsMyAccident",
+  "caption": "Əlavə modullar / Sığorta / Fərdi qəza sığortası",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsPayments",
+  "caption": "",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsPersonalAccMain",
+  "caption": "Əlavə modullar / Sığorta / Qəza sığortası",
+  "plugin": false,
+  "datasets": 11,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XInsPersonalAccPolicy",
+  "caption": "",
+  "plugin": false,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XInsPersonalAccSuggest",
+  "caption": "",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsPersonalAccident",
+  "caption": "",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "XInsReinsReceive",
+  "caption": "Əlavə modullar / Sığorta / Təkrarsığorta qəbulu",
+  "plugin": false,
+  "datasets": 11,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsResponsibility",
+  "caption": "Əlavə modullar / Sığorta / Məsuliyyət sığortası",
+  "plugin": false,
+  "datasets": 14,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsRights",
+  "caption": "Əlavə modullar / Sığorta / Hüquqlar",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInsTravel",
+  "caption": "Əlavə modullar / Sığorta / Səyahət sığortası",
+  "plugin": false,
+  "datasets": 12,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XInsurances",
+  "caption": "Əlavə modullar / Sığorta / Sığortalar",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XInvestment",
+  "caption": "Əlavə modullar / Depozitlər / İnvestisiyalar",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XLawModule",
+  "caption": "Əlavə modullar / Kreditlər / Hüquq modulu",
+  "plugin": false,
+  "datasets": 16,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XMainResource",
+  "caption": "Əlavə modullar / Mühasibat və balans / Əsas vəsaitlər və resurslar",
+  "plugin": false,
+  "datasets": 42,
+  "packages": 4,
+  "sql": 3
+ },
+ {
+  "name": "XMasterBook",
+  "caption": "Əlavə modullar / Mühasibat və balans / Baş kitab",
+  "plugin": false,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XMoneyTransfers",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Pul köçürmələri",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XNewDeposits",
+  "caption": "Əlavə modullar / Depozitlər / Yeni depozitlərin idarə olunması",
+  "plugin": false,
+  "datasets": 10,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XNewDepositsArchive",
+  "caption": "Əlavə modullar / Depozitlər / Yeni depozitlərin arxivi",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XOnlineCourt",
+  "caption": "Əlavə modullar / Kreditlər / Onlayn məhkəmə idarəetməsi",
+  "plugin": false,
+  "datasets": 14,
+  "packages": 1,
+  "sql": 2
+ },
+ {
+  "name": "XOnlinePayment",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Terminal ödənişləri",
+  "plugin": false,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XOrder",
+  "caption": "Əlavə modullar / Mühasibat və balans / Sərəncam",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XOutAvalute",
+  "caption": "Əlavə modullar / Mühasibat və balans / Valyutalar (balansdankənar)",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XOutExcelImport",
+  "caption": "Əlavə modullar / İdxal / Excel-dən idxal (balansdankənar)",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XOutRepair",
+  "caption": "Əlavə modullar / Mühasibat və balans / Günə düzəliş (balansdankənar)",
+  "plugin": false,
+  "datasets": 15,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XPCustService",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Müştəri xidməti",
+  "plugin": false,
+  "datasets": 175,
+  "packages": 13,
+  "sql": 0
+ },
+ {
+  "name": "XPaymentViewer",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Ödənişlərə baxış",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XPayments",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Köçürmələr",
+  "plugin": false,
+  "datasets": 4,
+  "packages": 4,
+  "sql": 0
+ },
+ {
+  "name": "XPbfTransactions",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / PBF əməliyyatları",
+  "plugin": false,
+  "datasets": 27,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XPlatformSif",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / SİF platforması",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XProblemCreditMgr",
+  "caption": "Əlavə modullar / Kreditlər / Problemli kreditlərin idarə olunması",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XProblemCredits",
+  "caption": "Əlavə modullar / Kreditlər / Problemli kreditlər",
+  "plugin": false,
+  "datasets": 23,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XProperties",
+  "caption": "Əlavə modullar / Mühasibat və balans / Əmlak",
+  "plugin": false,
+  "datasets": 26,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XPrudensial",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Prudensial normativlər",
+  "plugin": false,
+  "datasets": 28,
+  "packages": 6,
+  "sql": 21
+ },
+ {
+  "name": "XPutyovka",
+  "caption": "Əlavə modullar / İdarəetmə / Putyovkalar",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 0,
+  "sql": 2
+ },
+ {
+  "name": "XQkImport",
+  "caption": "Əlavə modullar / İdxal / QK idxalı",
+  "plugin": false,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XRatesViewer",
+  "caption": "Əlavə modullar / Mühasibat və balans / Məzənnələrə baxış",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XRelatedPersons",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Banka aidiyyəti olan şəxslər",
+  "plugin": false,
+  "datasets": 8,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XRepair",
+  "caption": "Əlavə modullar / Mühasibat və balans / Günə düzəliş",
+  "plugin": false,
+  "datasets": 13,
+  "packages": 2,
+  "sql": 1
+ },
+ {
+  "name": "XResource",
+  "caption": "Əlavə modullar / Mühasibat və balans / Resurslar",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XSaldoEditor",
+  "caption": "Əlavə modullar / Mühasibat və balans / Saldo redaktoru",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XSbLogs",
+  "caption": "Əlavə modullar / İdarəetmə / Sistem jurnalları",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 1
+ },
+ {
+  "name": "XSecurities",
+  "caption": "Əlavə modullar / Depozitlər / Qiymətli kağızlar",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XSimCorp",
+  "caption": "Əlavə modullar / İdxal / SimCorp",
+  "plugin": false,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XSwiftClearing",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Western Union / kliring",
+  "plugin": false,
+  "datasets": 24,
+  "packages": 8,
+  "sql": 10
+ },
+ {
+  "name": "XSwiftIntl",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Beynəlxalq SWIFT",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XSwiftManager",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / SWIFT menecer (IBAN)",
+  "plugin": false,
+  "datasets": 111,
+  "packages": 7,
+  "sql": 0
+ },
+ {
+  "name": "XTaxes",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Vergi ödənişləri",
+  "plugin": false,
+  "datasets": 5,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XThomson",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Thomson Reuters yoxlaması",
+  "plugin": false,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XTickets",
+  "caption": "Əlavə modullar / İdarəetmə / Biletlər",
+  "plugin": false,
+  "datasets": 9,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "XToksik",
+  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Toksik aktivlər",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XTranceTransaction",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Tranş əməliyyatları",
+  "plugin": false,
+  "datasets": 5,
+  "packages": 3,
+  "sql": 0
+ },
+ {
+  "name": "XTranslator",
+  "caption": "Əlavə modullar / İdarəetmə / Tərcüməçi",
+  "plugin": false,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "XUniversalSettings",
+  "caption": "Əlavə modullar / İdarəetmə / Universal parametrlər",
+  "plugin": false,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 1
+ },
+ {
+  "name": "XUserManager",
+  "caption": "Əlavə modullar / İdarəetmə / İstifadəçilərin idarə olunması",
+  "plugin": false,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "XWesternUnion",
+  "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Western Union",
+  "plugin": false,
+  "datasets": 10,
+  "packages": 1,
+  "sql": 0
+ }
+]

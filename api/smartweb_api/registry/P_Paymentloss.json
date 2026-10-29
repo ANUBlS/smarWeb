@@ -1,0 +1,166 @@
+{
+ "name": "P_Paymentloss",
+ "caption": "",
+ "dir": "Insurance/LossPayment",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DSPaymentLoss",
+   "source": "TDMPaymentLoss.DSPaymentLoss",
+   "kind": "TOracleDataSet",
+   "sql": "select  \nins_d.id,\nins_d.cid,\nins_s.trid,\nins_s.stage_tesdiq_dat,\nnvl(pr.lammount,0) as mebleg,\nsb_p.name\nfrom\nins_claim_description ins_d,\nins_claim_status ins_s,\nsb_business_opers sb_o,\nsb_business_processes sb_p,\nprovarch pr\nwhere ins_d.id=:dpid\nand  ins_s.dep_id=ins_d.id\nand  ins_s.trid=sb_o.parentid\nand  pr.id=sb_o.parentid\nand  sb_o.busproc in(28,29,30,31,32,33,34)\nand  sb_p.id=sb_o.busproc",
+   "variables": [
+    {
+     "name": "DPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentLossImpl"
+  },
+  {
+   "name": "DSPaymentLossReal",
+   "source": "TDMPaymentLoss.DSPaymentLossReal",
+   "kind": "TOracleDataSet",
+   "sql": "select \nins_cp.id as pid, \nins_d.id,\nins_d.cid,\nins_cp.traid,\nins_cp.paydate,\nnvl(ins_cp.ammount,0) as mebleg,\nsb_p.name\nfrom\nins_claim_description ins_d,\nins_claim_payment ins_cp,\nsb_business_opers sb_o,\nsb_business_processes sb_p\nwhere ins_d.id=:dpid\nand  ins_cp.dep_id=ins_d.id\nand  ins_cp.traid=sb_o.parentid\nand  sb_o.busproc in(42,43,44,45,46,47,48)\nand  sb_p.id=sb_o.busproc",
+   "variables": [
+    {
+     "name": "DPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentLossImpl"
+  },
+  {
+   "name": "DSSysdat",
+   "source": "TDMPaymentLoss.DSSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DMPaymentLossImpl"
+  },
+  {
+   "name": "DSpaymentAcc",
+   "source": "TDMPaymentLoss.DSpaymentAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account where id in(select acc_id from ins_dict_acc_payment_loss)\nunion \nselect id,acc_no from account where bal_cn1=211",
+   "variables": [],
+   "unit": "DMPaymentLossImpl"
+  },
+  {
+   "name": "DSLossBarderoSay",
+   "source": "TDMPaymentLoss.DSLossBarderoSay",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_loss_bardero\nwhere dep_id=:pdep_id",
+   "variables": [
+    {
+     "name": "PDEP_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentLossImpl"
+  },
+  {
+   "name": "ODSClaimDescription",
+   "source": "TDMPaymentLoss.ODSClaimDescription",
+   "kind": "TOracleDataSet",
+   "sql": "select icd.rowid, icd.* \nfrom ins_claim_description icd\nwhere icd.id=:id\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentLossImpl"
+  },
+  {
+   "name": "dsqaliq",
+   "source": "TDMPaymentLoss.dsqaliq",
+   "kind": "TOracleDataSet",
+   "sql": "select (select  \nsum(nvl(pr.lammount,0)) as mebleg\nfrom\nins_claim_description ins_d,\nins_claim_status ins_s,\nsb_business_opers sb_o,\nsb_business_processes sb_p,\nprovarch pr\nwhere ins_d.id=:dpid  \nand  ins_s.dep_id=ins_d.id\nand  ins_s.trid=sb_o.parentid\nand  pr.id=sb_o.parentid\nand  sb_o.busproc in(28,29,30,31,32,33,34)\nand  sb_p.id=sb_o.busproc)-((select nvl((select \nsum(ins_cp.ammount)\nfrom\nins_claim_description ins_d,\nins_claim_payment ins_cp,\nsb_business_opers sb_o,\nsb_business_processes sb_p\nwhere ins_d.id=:dpid  \nand  ins_cp.dep_id=ins_d.id\nand  ins_cp.traid=sb_o.parentid\nand  sb_o.busproc in(42,43,44,45,46,47,48)\nand  sb_p.id=sb_o.busproc),0) from dual)\n) as qaliq from dual",
+   "variables": [
+    {
+     "name": "DPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentLossImpl"
+  },
+  {
+   "name": "Ds_contracts",
+   "source": "TDMPaymentLoss.Ds_contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from ins_contracts a\nwhere a.id=:cid",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentLossImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "Pins_common",
+   "package": "ins_common",
+   "mode": "positional",
+   "source": "TDMPaymentLoss.Pins_common",
+   "routines": [
+    {
+     "name": "addclaimpaymentReal",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "cancelclaimreal",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMPaymentLoss.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

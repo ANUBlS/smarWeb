@@ -1,0 +1,152 @@
+{
+ "name": "XInsConstructionSuggest",
+ "caption": "",
+ "dir": "Packages/Insurance/ConstructionSuggest",
+ "mainForm": "TConstructionSuggest",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "INSWordExporter",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSCONSTRUCTION",
+   "source": "TConstructionSuggest.ODSCONSTRUCTION",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  C.ROWID,C.* FROM INS_CONSTRUCTION C",
+   "variables": [],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "ODSCONSTSUGGEST",
+   "source": "TConstructionSuggest.ODSCONSTSUGGEST",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT S.ROWID,S.* FROM INS_CONSTRUCTIONSUGGEST S \nWHERE CID=:CID",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "Customers",
+   "source": "TConstructionSuggest.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,c.name||' '||c.surname||' '||c.fathername as name,c.address,c.mobilephone,c.fax from ins_customers c",
+   "variables": [],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "BankInfo",
+   "source": "TConstructionSuggest.BankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select *from BankInfo",
+   "variables": [],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "Conditions",
+   "source": "TConstructionSuggest.Conditions",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_conditions idr",
+   "variables": [],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "Franshiz",
+   "source": "TConstructionSuggest.Franshiz",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_franshiz idr",
+   "variables": [],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "Risks",
+   "source": "TConstructionSuggest.Risks",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_risks idr",
+   "variables": [],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TConstructionSuggest.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere blank_id = :blankid\nand type_id = 10",
+   "variables": [
+    {
+     "name": "BLANKID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "AValute",
+   "source": "TConstructionSuggest.AValute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute",
+   "variables": [],
+   "unit": "UConstructionSuggest"
+  },
+  {
+   "name": "ODSInterest",
+   "source": "TConstructionSuggest.ODSInterest",
+   "kind": "TOracleDataSet",
+   "sql": "select its.rowid,its.* from ins_dict_interest its",
+   "variables": [],
+   "unit": "UConstructionSuggest"
+  }
+ ],
+ "packages": [
+  {
+   "component": "PINS_CONSTRUCTION",
+   "package": "PINS_CONSTRUCTION",
+   "mode": "named",
+   "source": "TConstructionSuggest.PINS_CONSTRUCTION",
+   "routines": []
+  },
+  {
+   "component": "PINS_construction",
+   "package": "PINS_CONSTRUCTION",
+   "mode": "positional",
+   "source": "*.PINS_construction",
+   "routines": [
+    {
+     "name": "generateSugID",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

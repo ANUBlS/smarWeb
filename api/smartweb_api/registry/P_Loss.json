@@ -1,0 +1,633 @@
+{
+ "name": "P_Loss",
+ "caption": "",
+ "dir": "Insurance/Loss",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "paymentloss.bpl": "P_Paymentloss",
+  "reinsurance.bpl": "P_Reinsurance"
+ },
+ "lib": [
+  "CMCurrencyEdit",
+  "CommanParametrs",
+  "INSWordExporter",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSClaims",
+   "source": "TDmLoss.ODSClaims",
+   "kind": "TOracleDataSet",
+   "sql": "select icl.rowid,icl.*from ins_claims icl where icl.mk_id=:id and desc_id=:p_desc_id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "float"
+    },
+    {
+     "name": "P_DESC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSClaimSal",
+   "source": "TDmLoss.ODSClaimSal",
+   "kind": "TOracleDataSet",
+   "sql": "select ics.rowid,ics.* from ins_claim_salary ics\n\nwhere ics.eid = :eid\n\n  and desc_id=:p_desc_id",
+   "variables": [
+    {
+     "name": "EID",
+     "type": "float"
+    },
+    {
+     "name": "P_DESC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSClaimDescription",
+   "source": "TDmLoss.ODSClaimDescription",
+   "kind": "TOracleDataSet",
+   "sql": "select icd.rowid, icd.* \nfrom ins_claim_description icd\nwhere icd.id=:id\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSClaimReport",
+   "source": "TDmLoss.ODSClaimReport",
+   "kind": "TOracleDataSet",
+   "sql": "select icl.rowid, icl.* from ins_claims icl where icl.state='Dəyişdirilir' and icl.mk_id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "float"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSAvalute",
+   "source": "TDmLoss.ODSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute\norder by valute",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSSysdat",
+   "source": "TDmLoss.DSSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TDmLoss.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid,ic.* from ins_contracts ic\nwhere ic.id = :cid",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSMotorkasko",
+   "source": "TDmLoss.ODSMotorkasko",
+   "kind": "TOracleDataSet",
+   "sql": "select mk.rowid, nvl(mk.EXTRAFRANSHIZ,0), mk.* from ins_motorkasco mk \nwhere mk.cid = :cid",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSCusts",
+   "source": "TDmLoss.ODSCusts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from (\nSELECT a.id,a.insured_typeid,a.surname || ' ' ||a.name || ' ' ||a.fathername name, a.ADDRESS\n  FROM ins_customers a where a.close_prefix=0\n  order by a.surname\n\n)",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSAutoTypes",
+   "source": "TDmLoss.ODSAutoTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from INS_DICT_AUTO_TYPES \norder by name",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSAutoColors",
+   "source": "TDmLoss.ODSAutoColors",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_dict_auto_colors order by name",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DScities",
+   "source": "TDmLoss.DScities",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, country_id, city_name, phone_code\n  FROM cities \n  where  country_id=1\norder by city_name",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "Dsmain",
+   "source": "TDmLoss.Dsmain",
+   "kind": "TOracleDataSet",
+   "sql": "select icd.rowid,icd.id,icd.cid,icd.refusal_date,icd.PERSON,icd.STATENUM,icd.MARK,icd.Model,icd.DETAIL ,icd.claim_num,icd.claim_date,c.policy_num,icd.final_amount_loss,ics.stage_tesdiq_dat,case nvl(status,0)when 0 then 'Arasdirilir'when 1 then 'imtina'else   'Odenis'end as statusu,stage_tesdiq,status\nfrom ins_claim_description icd,ins_contracts c,ins_claim_status ics\nwhere  icd.cid=:p_cid\nand c.id=icd.cid and ics.dep_id=icd.id",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSMaincount",
+   "source": "TDmLoss.DSMaincount",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_claim_description\nwhere cid=:p_cid",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDmLoss.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select ics.rowid,ics.* from ins_claim_salary ics\n\nwhere ics.eid = :eid",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSMarks",
+   "source": "TDmLoss.ODSMarks",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.name, a.state_id, a.calcoptions\n  FROM ins_dict_marks a\norder by a.name\n",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ODSModels",
+   "source": "TDmLoss.ODSModels",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_dict_models\nwhere mark_id =:pmark_id\norder by name",
+   "variables": [
+    {
+     "name": "PMARK_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "dsmodel",
+   "source": "TDmLoss.dsmodel",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_dict_models\nwhere mark_id =:pmark_id\nand id=:pid\norder by name",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    },
+    {
+     "name": "PMARK_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "dsmarka",
+   "source": "TDmLoss.dsmarka",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.name, a.state_id, a.calcoptions\n  FROM ins_dict_marks a\nwhere id=:pid\norder by a.name",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DScontr_type",
+   "source": "TDmLoss.DScontr_type",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type_id from ins_contracts\nwhere id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSclaim_status",
+   "source": "TDmLoss.DSclaim_status",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.dep_id, a.status, a.stage_forma4, a.stage_bankin_cavabi,\n       a.stage_qarsi_teref_qiymcavab, a.stage_qusur_akti,\n       a.stage_yoxlama, a.stage_muraciet, a.stage_ok_verilib,\n       a.stage_tesdiq, a.stage_forma4_dat, a.stage_bankin_cavabi_dat,\n       a.stage_qarsi_teref_qcavab_dat, a.stage_qusur_akti_dat,\n       a.stage_yoxlama_dat, a.stage_muraciet_dat,\n       a.stage_ok_verilib_dat, a.stage_tesdiq_dat,trid,user\n  FROM ins_claim_status a\nwhere a.dep_id=:pdep_id",
+   "variables": [
+    {
+     "name": "PDEP_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSins_dict_employee_acc",
+   "source": "TDmLoss.DSins_dict_employee_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_dict_employee_accident",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSService",
+   "source": "TDmLoss.DSService",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM ins_dict_autoservice a",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DScompanes",
+   "source": "TDmLoss.DScompanes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM ins_dict_companie a",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSmesuli",
+   "source": "TDmLoss.DSmesuli",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_contract_responsibility\nwhere typeid=4\nand cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSFqeza",
+   "source": "TDmLoss.DSFqeza",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.typeid, a.cid, a.personal_count, a.one_accident_amount,\n       a.one_accident_event_amount, a.one_max_med_expenses,\n       a.oneinsevent_max_med_expenses, a.ins_premium,\n       a.accident_polisnum, a.accident_cid\n  FROM ins_contr_per_acc_motor a\n  where typeid=4\n  and cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSother_Claim",
+   "source": "TDmLoss.DSother_Claim",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.dep_id, a.description\n  FROM ins_claim_other a\nwhere a.dep_id=:pdep_id",
+   "variables": [
+    {
+     "name": "PDEP_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSdriver",
+   "source": "TDmLoss.DSdriver",
+   "kind": "TOracleDataSet",
+   "sql": "/*select surname||' '||name||' '||fathername as name1 from ins_draccesspeople \nwhere cid =:pcid\nunion\nselect surname||' '||name||' '||fathername as name1 from ins_customers\nwhere close_prefix=0\nand id=:p_kli_id */\n\nselect surname||' '||name||' '||fathername ||' '|| case id.sex when 'Q' then 'qızı' when 'K' then 'oğlu' end     \nas name1 from ins_draccesspeople id\nwhere cid =:pcid\nunion\nselect surname||' '||name||' '||fathername ||' '|| CASE i_c.sex  WHEN 1 THEN 'oğlu' WHEN 2 THEN 'qızı' when 0 Then '' END as name1 from ins_customers i_c\nwhere close_prefix=0\nand id=:p_kli_id",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    },
+    {
+     "name": "P_KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSALLMain",
+   "source": "TDmLoss.DSALLMain",
+   "kind": "TOracleDataSet",
+   "sql": "select c_d.rowid,c_s.rowid,\nins_ins.name as insname,\ncust.name as  custname ,\nc.policy_num ,\nc_d.claim_num,c_d.EMPL_ACC,\nc_d.claim_date,\nc_d.final_amount_loss,nvl(final_payment_amount_loss,0) asfinal_payment_amount_loss,\nc.kli_id,\nc_d.type,\nc_d.id,\nc_d.cid,c.state,c_d.subraqasiya,im.insuredstatenum,\nnvl(c_s.status,0) as status,case nvl(c_s.status,0)when 0 then 'Arasdirilir'when 1 then 'imtina'else   'Odenis'end as statusu\nfrom ins_claim_description c_d,\n     ins_contracts c,\n     customers cust,\n     ins_customers ins_cust,\n     ins_insurances ins_ins,ins_claim_status c_s,ins_motorkasco im\nwhere c_d.cid=c.id\nand  c.kli_id=ins_cust.id\nand  ins_cust.cust_id=cust.id\nand ins_ins.id=c_d.type\nand c_s.dep_id(+)=c_d.id\nand im.cid(+)=c.id",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSALLins_type",
+   "source": "TDmLoss.DSALLins_type",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_insurances\nwhere obeykt_type is not null",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSALLCust",
+   "source": "TDmLoss.DSALLCust",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT c.* from customers c,ins_customers ins_cust\nwhere c.id=ins_cust.cust_id",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSALLMainCount",
+   "source": "TDmLoss.DSALLMainCount",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_claim_description",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSclaimmed",
+   "source": "TDmLoss.DSclaimmed",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.cid, a.dep_id, a.amount_medical_services,\n       a.amount_medicine_used, a.amount_service_stomotaloji, a.a_s_a,\n       a.a_s_a_id, a.medical_establishments,PROVISION\n  FROM ins_claim_med a\nwhere a.dep_id=:pdepid",
+   "variables": [
+    {
+     "name": "PDEPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSmedinstitution",
+   "source": "TDmLoss.DSmedinstitution",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.name\n  FROM ins_dict_med_institution a",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSEmploes",
+   "source": "TDmLoss.DSEmploes",
+   "kind": "TOracleDataSet",
+   "sql": "select ie.rowid,ie.id,ie.med_id,ie.name||' '||ie.surname||' '||ie.fathername as name1 from ins_employees ie\nwhere med_id =(select id from ins_medical where cid=:pcid)",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSPrintBank",
+   "source": "TDmLoss.DSPrintBank",
+   "kind": "TOracleDataSet",
+   "sql": "select c_d.claim_date ,c_s.stage_bankin_cavabi_dat,c.beneficiary,im.insuredstatenum,im.insuredmark,\n      i_c.surname||' '||i_c.name||' '||i_c.fathername||' '||  CASE i_c.sex  WHEN 1 THEN 'oğlu' WHEN 2 THEN 'qızı' when 0 Then '' END as name1\nfrom ins_claim_description c_d,\n     ins_claim_status c_s,\n     ins_contracts c,\n     ins_customers i_c,\n     ins_motorkasco im\nwhere c_d.id=:pid\nand   c_s.dep_id=c_d.id\nand   c.id=c_d.cid\nand   c.kli_id=i_c.id\nand  im.cid=c.id",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSSorgu",
+   "source": "TDmLoss.DSSorgu",
+   "kind": "TOracleDataSet",
+   "sql": "select c_d.claim_date ,c_s.stage_forma4_dat,c.beneficiary,im.insuredstatenum,im.insuredmark||' '||insuredmodel as marka,c_d.region||' '||'r-nu' as region,\n      i_c.surname||' '||i_c.name||' '||i_c.fathername||' '||  CASE i_c.sex WHEN 0 THEN 'oğluna' WHEN 1 THEN 'qızına' END as name1\nfrom ins_claim_description c_d,\n     ins_claim_status c_s,\n     ins_contracts c,\n     ins_customers i_c,\n     ins_motorkasco im\nwhere c_d.id=:pid\nand   c_s.dep_id=c_d.id\nand   c.id=c_d.cid\nand   c.kli_id=i_c.id\nand  im.cid=c.id",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSSigortaAkt",
+   "source": "TDmLoss.DSSigortaAkt",
+   "kind": "TOracleDataSet",
+   "sql": "select policy_num,i_c.surname||' '||i_c.name||' '||i_c.fathername||' '||  CASE i_c.sex\n WHEN 1 THEN 'oğlu' WHEN 2 THEN 'qızı' when 0 Then '' END as name1,\n \nc_d.driver /* ||' '||  CASE i_c.sex  WHEN 1 THEN 'oğlu' WHEN 2 THEN 'qızı' when 0 Then '' END*/ as driver,\nim.insuredmark||' '||insuredmodel as marka,im.insuredstatenum,im.INSUREDBANNUM||' '||im.UNDERFRAMENUM as sassi,im.INSUREDENGINENUM,\nie_ac.name as qezaemektasi,c.begin_date||'-'||c.end_date as tarix,c.inssumm,c_d.amortizasiya_ammount,\n\n(select count(*) from ins_claim_description where cid=c.id) as say,\nCASE (select count(*) from ins_claim_description where cid=c.id) \nWHEN 0 THEN '' \nWHEN 1 THEN '(Bir) ' \nWHEN 2 THEN '(İki) ' \nWHEN 3 THEN '(Üç) ' \nWHEN 4 THEN '(Dörd) ' \nWHEN 5 THEN '(Beş) '\nWHEN 6 THEN '(Alti) ' \nWHEN 7 THEN '(Yeddi) ' \nWHEN 8 THEN '(Sekkiz) ' \nWHEN 9 THEN '(Doqquz) '  \nWHEN 10 THEN '(On) ' \nEND as sayyazi,\nim.DRIVECOST as avtodeyer,c_d.VALUE_NEW_SPARE_PARTS as yeni_e_deyeri,c.franshiz,c_d.claim_date,c_d.region||', '||c_d.STREET as unvan,\nc_d.detail,c_d.DRIVER  as texsirlisexs,c_d.MANAGEMENT_RIGHTS as idareetmehuququ,c_d.AVTOSERVIS as servis,c_d.AUTO_ASSESS_COSTS,c_d.UTO_TRANSPORTATION_COSTS,\nc_d.OTHER_COSTS,c_d.FINAL_AMOUNT_LOSS,cust.name as custname,i_d_c.name as Qarsi_teref_s_teskilat,c_d.INS_AGAINST_POLISN_DAT,\nim.EXTRAFRANSHIZ as zerer,c_d.AUTO_REAL_MARKET_VALUE as realbazardeyeri,c_d.REMAINS_VALUE as qaliq ,c_d.BANK_ACCNO as hesb,\n(nvl(c_d.AUTO_REAL_MARKET_VALUE,0)-((nvl(c_d.AUTO_REAL_MARKET_VALUE,0)*nvl(im.EXTRAFRANSHIZ,0))/100)-nvl(c_d.REMAINS_VALUE,0)) as odenismeblegi ,c_d.FINAL_PAYMENT_AMOUNT_LOSS,\nc_d.person||'(sürücü) - '||c_d.ins_against_owner||'(mülkiyyətçi) - '  as baredinde_req_tele_suru_wexs,(round((c.inssumm/im.drivecost),3)*100) as avt_r_deyer_s_mebleqe_nisbeti,\n(c_d.auto_real_market_value*im.extrafranshiz)/100 as Tam_mehv_frans_mebleqi,im.extrafranshiz\n\n\nfrom ins_claim_description c_d,\nins_contracts c,\nins_customers i_c,\n\n\nins_motorkasco im,ins_dict_employee_accident ie_ac,customers cust,ins_dict_companie i_d_c\nwhere c_d.cid=c.id\nand im.cid=c.id\nand i_c.id=c.kli_id\nand c_d.EMPL_ACC=ie_ac.id\nand cust.id=i_c.cust_id\nand c_d.INS_AGAINST_ORGANIZATION=i_d_c.id(+)\nand c_d.id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSClaimCargo",
+   "source": "TDmLoss.DSClaimCargo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.cargo_name_sort, a.cargo_info, a.cid, a.dep_id\n  FROM ins_claim_cargo a\nwhere dep_id=:pdepid",
+   "variables": [
+    {
+     "name": "PDEPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSPaymentLossReal",
+   "source": "TDmLoss.DSPaymentLossReal",
+   "kind": "TOracleDataSet",
+   "sql": "select  \nins_d.id,\nins_d.cid,\nins_cp.traid,\nins_cp.paydate,\nnvl(ins_cp.ammount,0) as mebleg,\nsb_p.name\nfrom\nins_claim_description ins_d,\nins_claim_payment ins_cp,\nsb_business_opers sb_o,\nsb_business_processes sb_p\nwhere ins_d.id=:dpid\nand  ins_cp.dep_id=ins_d.id\nand  ins_cp.traid=sb_o.parentid\nand  sb_o.busproc in(42,43,44,45,46,47,48)\nand  sb_p.id=sb_o.busproc",
+   "variables": [
+    {
+     "name": "DPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSAlldict_emp_acc",
+   "source": "TDmLoss.DSAlldict_emp_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_dict_employee_accident",
+   "variables": [],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSReins",
+   "source": "TDmLoss.DSReins",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_reinsurance where cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSlosspayment",
+   "source": "TDmLoss.DSlosspayment",
+   "kind": "TOracleDataSet",
+   "sql": " select count(*) say from ins_claim_payment where dep_id=:pdep_id",
+   "variables": [
+    {
+     "name": "PDEP_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSLossBarderoSay",
+   "source": "TDmLoss.DSLossBarderoSay",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_loss_bardero\nwhere dep_id=:pdep_id",
+   "variables": [
+    {
+     "name": "PDEP_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "DSFarnsiza",
+   "source": "TDmLoss.DSFarnsiza",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(franshiz,0) as fransiza from ins_contracts\nwhere id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "float"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "ins_claim_desc",
+   "source": "TDmLoss.ins_claim_desc",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid, a.* from ins_claim_description a\nwhere a.id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmLossImpl"
+  },
+  {
+   "name": "subroqas",
+   "source": "TDmLoss.subroqas",
+   "kind": "TOracleDataSet",
+   "sql": "select * from subraqation\norder by id",
+   "variables": [],
+   "unit": "DmLossImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TDmLoss.OPCOMMON",
+   "routines": [
+    {
+     "name": "GenerateLossNumber",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "cancelloss",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "commitloss",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "del_loss",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "amartizator",
+   "package": "ins_report",
+   "mode": "positional",
+   "source": "TDmLoss.amartizator",
+   "routines": [
+    {
+     "name": "get_Ammount_amartizator",
+     "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDmLoss.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

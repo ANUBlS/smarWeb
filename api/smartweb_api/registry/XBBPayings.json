@@ -1,0 +1,111 @@
+{
+ "name": "XBBPayings",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Büdcə ödənişləri",
+ "dir": "Packages/BBPayings",
+ "mainForm": "TBBPayingsForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODS_ABNServices",
+   "source": "TDataModBBPayings.ODS_ABNServices",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, b.name abn_name, a.contract_id, c.contract_num, a.reg_time, \n  a.srv_id, s.name service, a.amount, a.amount_eqv, a.curr_code, \n  a.status, a.done_time, a.sys_date, \n  paymethod\n  FROM bb_abn_services a, bb_contracts c, bb_services s, bb_abonents b\n  where a.contract_id =c.id and a.srv_id =s.id and c.abn_id=b.id\n   and (sys_date>=(:StDate-1) and sys_date<=(:EndDate))",
+   "variables": [
+    {
+     "name": "STDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDataModBBPayings"
+  },
+  {
+   "name": "ODS_Contracts",
+   "source": "TDataModBBPayings.ODS_Contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select c.*, a.name \nfrom BB_Contracts c, BB_Abonents a\nwhere c.ABN_ID=a.ID",
+   "variables": [],
+   "unit": "UnitDataModBBPayings"
+  },
+  {
+   "name": "ODS_Services",
+   "source": "TDataModBBPayings.ODS_Services",
+   "kind": "TOracleDataSet",
+   "sql": "select * from BB_Services",
+   "variables": [],
+   "unit": "UnitDataModBBPayings"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OrPack_CableManager",
+   "package": "Cable_Manager",
+   "mode": "positional",
+   "source": "*.OrPack_CableManager",
+   "routines": [
+    {
+     "name": "AbnServAdd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "AbnServCommit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "AbnServDel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "AbnServUpd",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OrPack_SBOP",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "*.OrPack_SBOP",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

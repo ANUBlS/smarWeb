@@ -1,0 +1,83 @@
+{
+ "name": "XCountries",
+ "caption": "Əlavə modullar / Mühasibat və balans / Ölkələr",
+ "dir": "Packages/CountriesP",
+ "mainForm": "TCountries",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Contries",
+   "source": "TCountries.Contries",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid,t.*  from countries t\norder by ID",
+   "variables": [],
+   "unit": "CountriesImpl1"
+  },
+  {
+   "name": "cities",
+   "source": "TCountries.cities",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from cities c\n\nwhere country_id = :country_id\norder by ID",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "CountriesImpl1"
+  },
+  {
+   "name": "Ods_region",
+   "source": "TCountries.Ods_region",
+   "kind": "TOracleDataSet",
+   "sql": "select t. rowid,t.* from region t\norder by id ",
+   "variables": [],
+   "unit": "CountriesImpl1"
+  },
+  {
+   "name": "Ods_region_district",
+   "source": "TCountries.Ods_region_district",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid,t.* from region_district t\nwhere reg_id=:reg_id\norder by id",
+   "variables": [
+    {
+     "name": "REG_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CountriesImpl1"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

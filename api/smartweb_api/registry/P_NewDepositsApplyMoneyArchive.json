@@ -1,0 +1,132 @@
+{
+ "name": "P_NewDepositsApplyMoneyArchive",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsApplyMoneyArchive",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "sbdm_transactionviewer.bpl": "P_SBDM_TransactionViewer"
+ },
+ "lib": [
+  "CMCurrencyEdit",
+  "NewCommonDeclsImpl",
+  "NewDepositsDMApplyMoneyImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Tranches",
+   "source": "TDMArchiveApplyMoney.Tranches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, hdate, total, trid,description\n  FROM dm_tranches\n  where id# = :ContractID\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMArchiveApplyMoneyImpl"
+  },
+  {
+   "name": "DebitAccs",
+   "source": "TDMArchiveApplyMoney.DebitAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no,\n       name\nfrom \n  account \nwhere \n   close_dat is null\n   and  id=:custid\n\n\n\n",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "string"
+    }
+   ],
+   "unit": "DMArchiveApplyMoneyImpl"
+  },
+  {
+   "name": "DepositInfo",
+   "source": "TDMArchiveApplyMoney.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\n     cust.name,\n     cont.contractno,\n     cont.interest,\n     cont.amount,\n     cont.currency,\n     cont.customerid,\n     trunc(sysdate) as opdate \nfrom customers cust,\n     dm_contracts cont\nwhere\n   cont.id = :ContractID and \n   cust.id = cont.customerid\n  ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMArchiveApplyMoneyImpl"
+  },
+  {
+   "name": "CustAcc",
+   "source": "TDMArchiveApplyMoney.CustAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select clientaccid from dm_contract_accounts\nwhere id# = :Contractid",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMArchiveApplyMoneyImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_tranches",
+   "package": "dm_credit_tranches",
+   "mode": "named",
+   "source": "TDMArchiveApplyMoney.dm_tranches",
+   "routines": [
+    {
+     "name": "CommitDepositMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteDepositMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "depositmoney",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMArchiveApplyMoney.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

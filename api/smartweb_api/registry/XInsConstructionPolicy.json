@@ -1,0 +1,188 @@
+{
+ "name": "XInsConstructionPolicy",
+ "caption": "",
+ "dir": "Packages/Insurance/ConstructionPolicy",
+ "mainForm": "TConstructionPolicy",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "INSWordExporter",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSConstPolicy",
+   "source": "TConstructionPolicy.ODSConstPolicy",
+   "kind": "TOracleDataSet",
+   "sql": "select icp.rowid, icp.* from ins_constructionpolicy icp\nwhere icp.cs_id= :cs_id",
+   "variables": [
+    {
+     "name": "CS_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "ODSCONSTSUGGEST",
+   "source": "TConstructionPolicy.ODSCONSTSUGGEST",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  S.ROWID,S.* FROM INS_CONSTRUCTIONSUGGEST S \nWHERE CID=:CID",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "ODSConstruction",
+   "source": "TConstructionPolicy.ODSConstruction",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.*from ins_construction c where c.id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "Customers",
+   "source": "TConstructionPolicy.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,c.name||' '||c.surname||' '||c.fathername as name,c.address,c.mobilephone,c.fax,c.contactperson,c.contactpersonphone from ins_customers c",
+   "variables": [],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "ODSRisks",
+   "source": "TConstructionPolicy.ODSRisks",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_risks idr",
+   "variables": [],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "Franshiz",
+   "source": "TConstructionPolicy.Franshiz",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_franshiz idr",
+   "variables": [],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "Conditions",
+   "source": "TConstructionPolicy.Conditions",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_conditions idr",
+   "variables": [],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "ODSConstructionR",
+   "source": "TConstructionPolicy.ODSConstructionR",
+   "kind": "TOracleDataSet",
+   "sql": "select PINS_FullMotor.returnName(kli_id) as name,Pins_FullMotor.returnAddress(kli_id) as Address,Pins_FullMotor.returnPhone(kli_id) as phone,pins_fullmotor.returnFax(kli_id) as fax,c.*from ins_construction c where c.id=:id\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TConstructionPolicy.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.rowid,ib.* from ins_beneficiary ib",
+   "variables": [],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "ODSAgent",
+   "source": "TConstructionPolicy.ODSAgent",
+   "kind": "TOracleDataSet",
+   "sql": "select ia.rowid,ia.id,ia.name||' '||ia.surname||' '||ia.fathername as name from ins_agents ia",
+   "variables": [],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TConstructionPolicy.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere blank_id = :blankid\nand type_id = 10",
+   "variables": [
+    {
+     "name": "BLANKID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionPolicy"
+  },
+  {
+   "name": "AValute",
+   "source": "TConstructionPolicy.AValute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute",
+   "variables": [],
+   "unit": "UConstructionPolicy"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TConstructionPolicy.OPCOMMON",
+   "routines": [
+    {
+     "name": "addtransaction",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "PINS_CONSTRUCTION",
+   "package": "PINS_CONSTRUCTION",
+   "mode": "named",
+   "source": "TConstructionPolicy.PINS_CONSTRUCTION",
+   "routines": [
+    {
+     "name": "generatePolicyID",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -76,6 +76,7 @@ class Variables {
     if (!this.map.has(k)) this.map.set(k, { name: k, type: otType(type), value: null });
     else this.map.get(k)!.type = otType(type);
   }
+  declareIfMissing(name: unknown, type: unknown) { if (!this.map.has(Variables.key(name))) this.declare(name, type); }
   set(name: unknown, v: unknown) {
     const k = Variables.key(name);
     const e = this.map.get(k);
@@ -262,7 +263,11 @@ export class TOracleDataSet extends TDataSet {
     const df = this.DetailFields.split(';').map((s) => s.trim()).filter(Boolean);
     mf.forEach((m, i) => {
       const f = this._master!.FindField(m);
-      this.vars.set(df[i] ?? m, f ? f.Value : null);
+      const name = df[i] ?? m;
+      // DOA binds master values with the master field's type (a date stays a DATE)
+      if (f) this.vars.declareIfMissing(name, f.fieldType.startsWith('date') || f.fieldType === 'time' ? 'otdate'
+        : f.fieldType === 'integer' ? 'otinteger' : f.fieldType === 'float' ? 'otfloat' : 'otstring');
+      this.vars.set(name, f ? f.Value : null);
     });
   }
   override async masterChanged() {

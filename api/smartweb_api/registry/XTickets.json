@@ -1,0 +1,150 @@
+{
+ "name": "XTickets",
+ "caption": "Əlavə modullar / İdarəetmə / Biletlər",
+ "dir": "Packages/TicketsMan",
+ "mainForm": "TTicketsManager",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSTickets",
+   "source": "TDataModuleTicketMan.ODSTickets",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,u.name tuser from sba_tm_archive a, user$ u\nwhere \n(u.id=a.userid)\nand (status in (select nvl(max (s.id),1) statusid from smart.tm_status s, sba_advanced_grants g, sba_usergrants_advanced a\n                    where s.privname = g.grantname and g.id = a.advancedgrantid and username = user))\n\norder by 1",
+   "variables": [],
+   "unit": "DataModTM"
+  },
+  {
+   "name": "ODSArchive",
+   "source": "TDataModuleTicketMan.ODSArchive",
+   "kind": "TOracleDataSet",
+   "sql": "select a.status, a.id, a.pdate, a.pnum, a.dbankfilial, a.dbankcode, a.dbankname,\n       a.dbankinn, a.dbankswift, a.dbankkacc, a.dacc_no, a.daccname,\n       a.daccinn, a.kbankfilial, a.kbankcode, a.kbankname, a.kbankinn,\n       a.kbankswift, a.kbankkacc, a.kbanksubkacc, a.kacc_no, a.kaccname,\n       a.kaccinn, a.ammount, a.description, a.information, a.userid, u.name tuser\n  from sba_tm_archive a, user$ u\n where (u.id=a.userid) order by a.id",
+   "variables": [],
+   "unit": "DataModTM"
+  },
+  {
+   "name": "ODSAccount",
+   "source": "TDataModuleTicketMan.ODSAccount",
+   "kind": "TOracleDataSet",
+   "sql": " /* select a.id, a.name, a.acc_no, c.inn\n    from account a, customers c\n   where a.kli_id = c.id*/\n  select a.id, a.name, a.acc_no, c.inn\n    from account a, customers c\n   where a.kli_id = c.id and a.kli_id=23745\n     and a.close_dat is null\n     and c.close_dat is null\norder by acc_no",
+   "variables": [],
+   "unit": "DataModTM"
+  },
+  {
+   "name": "ODSBankM",
+   "source": "TDataModuleTicketMan.ODSBankM",
+   "kind": "TOracleDataSet",
+   "sql": "select id, bankcode||'-'||NVL (name, id || ' №-li Bank') bname,inn, swift, bankcode, krno, subkrno from bankm order by name",
+   "variables": [],
+   "unit": "DataModTM"
+  },
+  {
+   "name": "ODSAllTickets",
+   "source": "TDataModuleTicketMan.ODSAllTickets",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid, a.* from tm_archive a\n",
+   "variables": [],
+   "unit": "DataModTM"
+  },
+  {
+   "name": "ODSforPrint",
+   "source": "TDataModuleTicketMan.ODSforPrint",
+   "kind": "TOracleDataSet",
+   "sql": "select a.status, a.id, a.pdate, a.pnum, a.dbankfilial, a.dbankcode, a.dbankname,\n       a.dbankinn, a.dbankswift, a.dbankkacc, a.dacc_no, a.daccname,\n       a.daccinn, a.kbankfilial, a.kbankcode, a.kbankname, a.kbankinn,\n       a.kbankswift, a.kbankkacc, a.kbanksubkacc, a.kacc_no, a.kaccname,\n       a.kaccinn, a.ammount, a.description, a.information, a.userid, u.name tuser\n  from sba_tm_archive a, user$ u\n where (u.id=a.userid)\n   and a.id = :id \n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModTM"
+  },
+  {
+   "name": "ODSSettings",
+   "source": "TDataModuleTicketMan.ODSSettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid, id, reportname, lblabel, lbtitle, lbdescr, lbbnumb,formatdat\n  FROM tm_report_settings",
+   "variables": [],
+   "unit": "DataModTM"
+  },
+  {
+   "name": "ODSStatuses",
+   "source": "TDataModuleTicketMan.ODSStatuses",
+   "kind": "TOracleDataSet",
+   "sql": "select * from (select * from tm_status\nwhere (id  <= (select nvl(max (s.id),6) statusid from smart.tm_status s, sba_advanced_grants g, sba_usergrants_advanced a\n                    where s.privname = g.grantname and g.id = a.advancedgrantid and username = user))\nunion all \nselect -1,'-','Hamısı' from dual)\norder by id",
+   "variables": [],
+   "unit": "DataModTM"
+  },
+  {
+   "name": "ODSPaymentDecree",
+   "source": "TDataModuleTicketMan.ODSPaymentDecree",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id, a.pdate, a.pnum, a.dbankfilial, a.dbankcode, a.dbankname,\n       a.dbankinn, a.dbankswift, a.dbankkacc, a.dacc_no, a.daccname,\n       a.daccinn, a.kbankfilial, a.kbankcode, a.kbankname, a.kbankinn,\n       a.kbankswift, a.kbankkacc, a.kbanksubkacc, a.kacc_no, a.kaccname,\n       a.kaccinn, a.ammount, a.description, a.information, a.userid, a.status\n  from sba_tm_archive a\n where a.id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModTM"
+  }
+ ],
+ "packages": [
+  {
+   "component": "TM_MANAGE",
+   "package": "TM_MANAGE",
+   "mode": "positional",
+   "source": "TDataModuleTicketMan.TM_MANAGE",
+   "routines": [
+    {
+     "name": "changestatus",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "tm_manage",
+   "package": "TM_MANAGE",
+   "mode": "positional",
+   "source": "*.tm_manage",
+   "routines": [
+    {
+     "name": "committicket",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

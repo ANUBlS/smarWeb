@@ -1,0 +1,64 @@
+{
+ "name": "XInsDictChilde",
+ "caption": "",
+ "dir": "Packages/Insurance/DictChilde",
+ "mainForm": "TfmDictChilde",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSMain",
+   "source": "TfmDictChilde.ODSMain",
+   "kind": "TOracleDataSet",
+   "sql": "select m.rowid, m.* from :maintable m",
+   "variables": [
+    {
+     "name": "MAINTABLE",
+     "type": "string"
+    }
+   ],
+   "unit": "DictChildeImpl"
+  },
+  {
+   "name": "ODSChilde",
+   "source": "TfmDictChilde.ODSChilde",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "DictChildeImpl"
+  }
+ ],
+ "packages": [],
+ "sql": [
+  "select c.rowid, c.* from %s c where c.%s=%s"
+ ]
+}

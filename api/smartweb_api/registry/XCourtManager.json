@@ -1,0 +1,279 @@
+{
+ "name": "XCourtManager",
+ "caption": "Əlavə modullar / Kreditlər / Məhkəmə işləri",
+ "dir": "Packages/CourtManager",
+ "mainForm": "TCourtmgr",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSCourt",
+   "source": "TDataModuleCourt.ODSCourt",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id,p.courtid,p.boorowerid,p.numberofcredit,val_name,b.name,\n       rest,duerest,interestrest,p.creditlineamount,h.penaltyrest, \n       p.dateofconclusion,p.duedatefirstcontract,p.qovid,(select name from ct_qrup where id=p.courtid) CORT_STATUS,\n       case when p.placestatus=0 then (select name from ct_executive_body where id=p.placeid) else (select name from ct_judicial_body where id=p.placeid) end as placename,\n       cr.description crtype,b.phonenumber,p.annualyinterestrate,p.annualyoverduerate,p.annualypenaltyrate,\n       dueinterestrest,p.purposeofcredit,cm_utils.Get_MainPlanPayment(p.id) odenilmeli,\n       cm_utils.Get_MainPlanPayment(p.id)+ duerest + interestrest + dueinterestrest+h.penaltyrest fullrest,\n       dueday,q.name qovluq,f.name filial,m.name mehsul,a.name meqed,e.name expert,r.description ehtiyyat,py.maxpaydate,\n       case when dueday =1 then 0\n        when py.maxpaydate=sbop.GET_DATE then 1  end as status,        \n  b.pincode,b.boorowerid pasnum,b.address,i.birthday dogum_tarixi,i.birthplace dogum_yeri,i.work_place,i.work_post\nFROM cm_active_credits p,\n     cm_credittypes cr,\n     cm_curr_state h,\n     cm_boorowerinfo b,\n     cm_qovluq q,\n     filial_t f,\n     avalute_t v,\n     cm_mehsul m ,\n     cm_aim_cred a,\n     cm_expert e,\n     cm_reserve_types r,custinfo i,\n     (select creditid ,max(paydate) maxpaydate from cm_payments group by creditid) py\n     \nWHERE     p.id = h.creditid\n      AND p.id = b.creditid\n      AND p.id = py.creditid(+)\n      AND p.qovid = q.id\n      AND p.mehsulid=m.id\n      AND h.reserveid=r.id\n      AND p.aim_id=a.id\n      AND p.expertid=e.id\n      AND h.rest + h.duerest + h.interestrest + h.interestrest > 0\n      AND h.dueday>0\n      AND p.branchid = f.id\n      AND p.currency = v.valute\n      AND p.credittype = cr.id\n      AND uid in( select userid from ct_admin_in  where qrupid=p.courtid ) and p.boorowerid=i.idcust\n  \n\n\n\n\n\n\n\n\n\n\n  order by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSCourtAdmin",
+   "source": "TDataModuleCourt.ODSCourtAdmin",
+   "kind": "TOracleDataSet",
+   "sql": "select id,NAME from user$\nwhere SB_ACA.checkmodaccess_int('CourtManager',name)=1\norder by name",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSAdminGroups",
+   "source": "TDataModuleCourt.ODSAdminGroups",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ct_qrup\n\n",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSAdminIn",
+   "source": "TDataModuleCourt.ODSAdminIn",
+   "kind": "TOracleDataSet",
+   "sql": "select cta.* from ct_admin_in cta\nwhere cta.userid=:userid\n\n\n\n",
+   "variables": [
+    {
+     "name": "USERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSGroups",
+   "source": "TDataModuleCourt.ODSGroups",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ct_qrup where id in(select qrupid from ct_admin_in where userid=uid)\norder by id",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSFilial",
+   "source": "TDataModuleCourt.ODSFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_filial",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSInfo",
+   "source": "TDataModuleCourt.ODSInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum,a.rowid, a.* FROM ct_folderplace_info a where creditid=:creditid\norder by a.dat desc",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSGroupsSend",
+   "source": "TDataModuleCourt.ODSGroupsSend",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ct_qrup where id in(select qrupid from ct_admin_in where userid=uid)",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSPdf",
+   "source": "TDataModuleCourt.ODSPdf",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from ct_court_doc a where a.creditid=:creditid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ZaminDSetCourt",
+   "source": "TDataModuleCourt.ZaminDSetCourt",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_guarantor where creditid=:CrdID\n\norder by cardid",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "GirovDSetCourt",
+   "source": "TDataModuleCourt.GirovDSetCourt",
+   "kind": "TOracleDataSet",
+   "sql": "select g.creditid,g.pledgename,g.anyinfotodisting,g.registryno,g.registryagency,REYSTER,\ng.gqname,g.gqpaspnum,g.gqpaspyer,g.gqpaspdate,g.gqadress,g.pledgeprice,g.gqtelhome,g.gqtelmob from cm_guarantee g\nWHERE (CreditID=:CrdID)\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ScheduleCourt",
+   "source": "TDataModuleCourt.ScheduleCourt",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum sira, id, creditid, paymentdate, rest,\n    principal, \n    interest,\n    principal+interest as sm\n  FROM cm_payment_schedule\n WHERE CreditID=:CrdID\norder  by paymentdate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "PaymentsCourt",
+   "source": "TDataModuleCourt.PaymentsCourt",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum sira,  id ,\n        creditid ,\n        paydate , \n        payedamt , \n        payedintamt,\n        payeddueamt,\n       payeddueintamt, \n       payedpenaltyamt,\n    payedamt + \n        payedintamt+\n        payeddueamt+\n       payeddueintamt+ \n       payedpenaltyamt as sm\n\n  FROM cm_payments \nWHERE (CreditID=:CrdID)\norder by paydate desc",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "PaymentReport",
+   "source": "TDataModuleCourt.PaymentReport",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum sıra, p.id, p.numberofcredit,b.name custname, s.paydate,s.payedamt,s.payedintamt,s.payeddueamt,s.payeddueintamt,\ns.payedpenaltyamt,s.dueday ,q.name,(select name from ct_qrup where id=p.courtid) CORT_STATUS  from\ncm_active_credits p,\ncm_payments s,\ncm_qovluq q,\ncm_boorowerinfo b,\nct_qrup cq\nwhere \np.id=s.creditid \nAnd p.id=b.creditid\nAnd s.qovid=q.id \nAnd cq.id=p.courtid\nAnd  uid in( select userid from ct_admin_in  where qrupid=p.courtid )\nAnd s.paydate between :bdat and :edat\n\norder by p.id",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSExecutive",
+   "source": "TDataModuleCourt.ODSExecutive",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, description \n  FROM ct_executive_body ",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSCourtBody",
+   "source": "TDataModuleCourt.ODSCourtBody",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, description \n  FROM ct_judicial_body ",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSExecutiveFilter",
+   "source": "TDataModuleCourt.ODSExecutiveFilter",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 id, 'Bütün şöbələr' as name from ct_executive_body \nunion\nSELECT id, name\n  FROM ct_executive_body ",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSCourtBodyFilter",
+   "source": "TDataModuleCourt.ODSCourtBodyFilter",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 id, 'Bütün məkəmələr' as name from ct_executive_body \nunion\nSELECT id, name\n  FROM ct_judicial_body ",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  },
+  {
+   "name": "ODSSbaObjinf",
+   "source": "TDataModuleCourt.ODSSbaObjinf",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sba_objinf ",
+   "variables": [],
+   "unit": "UnitDataModuleCourt"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CT_CONTROL",
+   "package": "ct_control",
+   "mode": "positional",
+   "source": "*.CT_CONTROL",
+   "routines": [
+    {
+     "name": "admin_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "admin_del",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "ct_control",
+   "package": "ct_control",
+   "mode": "positional",
+   "source": "*.ct_control",
+   "routines": [
+    {
+     "name": "CourtBodyUpdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ExecutiveBodyUpdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_folder",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

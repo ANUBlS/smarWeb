@@ -1,0 +1,234 @@
+{
+ "name": "XBalanceAnalys",
+ "caption": "Əlavə modullar / Mühasibat və balans / Balans analizi",
+ "dir": "Packages/BalanceAnalys",
+ "mainForm": "TFormBalanceAnalys",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBStoredProc",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Balance",
+   "source": "TDataModulBalance.Balance",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT   lastremainder.balancebill AS balanceaccount,\n         firstremainder.active AS firstactive,\n         firstremainder.passive AS firstpassive,\n         turnovers.dturnover,\n         turnovers.cturnover,\n         lastremainder.active AS lastactive,\n         lastremainder.passive AS lastpassive\n    FROM (SELECT   b.bal_cn balancebill,\n                   SUM (\n                      sb_mtoutview.active (\n                         ar.%sostat, /*10*/\n                         b.typeid,\n                         b.additionaltypeid\n                      )\n                   ) active,\n                   SUM (\n                      sb_mtoutview.passiv (\n                         ar.%sostat,     /*17*/\n                         b.typeid,\n                         b.additionaltypeid\n                      )\n                   ) passive\n              FROM archost ar, ACCOUNT ac, bal_spr%d b /*22*/\n             WHERE (ar.acc_id = ac.id)\n               AND (ac.bal_cn%d = b.bal_cn)    /*24*/\n               /*25 BRANCH and CURRENCY*/\n               AND (ar.datdate = :BeginPeriod)\n          GROUP BY\n           b.bal_cn) firstremainder,\n         (SELECT   b.bal_cn balancebill,\n                   SUM (ar.%sobr_d) dturnover,/*30*/\n                   SUM (ar.%sobr_k) cturnover /*31*/\n              FROM archost ar, ACCOUNT ac, bal_spr%d b /*32*/\n             WHERE (ar.acc_id = ac.id)\n               AND (ac.bal_cn%d = b.bal_cn)                 /*34*/\n               /*35 BRANCH and CURRENCY*/\n               AND (ar.datdate BETWEEN :BeginDate AND :EndDate)\n          GROUP BY b.bal_cn) turnovers,\n         (SELECT  b.bal_cn balancebill,\n                   SUM (\n                      sb_mtoutview.active (\n                         ar.%sostat,/*41*/\n                         b.typeid,\n                         b.additionaltypeid\n                      )\n                   ) active,\n                   SUM (\n                      sb_mtoutview.passiv (\n                         ar.%sostat,/*48*/\n                         b.typeid,\n                         b.additionaltypeid\n                      )\n                   ) passive\n              FROM archost ar, ACCOUNT ac, bal_spr%d b  /*53*/\n             WHERE (ar.acc_id = ac.id)\n               AND (ac.bal_cn%d = b.bal_cn)  /*55*/\n               /*56 BRANCH and CURRENCY*/\n               AND (ar.datdate = :EndDate)\n          GROUP BY\n           b.bal_cn) lastremainder\n   WHERE\n    lastremainder.balancebill = firstremainder.balancebill(+)\n     AND lastremainder.balancebill = turnovers.balancebill\nORDER BY lastremainder.balancebill \n\n\n\n\n\n\n\n\n\n \n \n \n ",
+   "variables": [
+    {
+     "name": "BEGINPERIOD",
+     "type": "date"
+    },
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "Account",
+   "source": "TDataModulBalance.Account",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  RestForLastPeriod.AccountID , RestForLastPeriod.Name ,\n  RestForLastPeriod.AccNo ,\n  RestForLastPeriod.CurrencyID ,\n  RestForLastPeriod.BranchID ,\n  RestForLastPeriod.BalanceNo ,\n  RestForFirstPeriod.Active as BeginActive ,\n  RestForFirstPeriod.Passive as BeginPassive ,\n  TurnOvers.DTurnOver ,\n  TurnOvers.CTurnOver ,\n  RestForLastPeriod.Active as EndActive ,\n  RestForLastPeriod.Passive as EndPassive\nfrom\n\n(select\n  ac.ID as AccountID ,\n  ac.acc_no as AccNo ,\n  b.bal_cn  as BalanceNo ,\n\n  sb_mtoutview.active (\n    ar.%sostat,  /*20*/\n    b.typeid,\n    b.additionaltypeid\n  ) as Active ,\n\n  sb_mtoutview.passiv (\n     ar.%sostat,   /*26*/\n     b.typeid,\n     b.additionaltypeid\n  ) as Passive\n\nfrom\n  account ac ,\n  archost ar ,\n  bal_spr%d b  /*34*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn%d = b.bal_cn and     /*37*/\n  ar.DatDate = :BeginPeriod and\n  ((ac.Close_Dat is null)or(ac.Close_Dat > :BeginPeriod))\n) RestForFirstPeriod ,\n\n(select\n  ac.ID as AccountID , ac.name ,\n  ac.acc_no as AccNo ,\n  ac.val_acc as CurrencyID ,\n  ac.filial as BranchID ,\n  b.bal_cn  as BalanceNo ,\n\n  sb_mtoutview.active (\n    ar.%sostat,  /*50*/\n    b.typeid,\n    b.additionaltypeid\n  ) as Active ,\n\n  sb_mtoutview.passiv (\n     ar.%sostat,  /*56*/\n     b.typeid,\n     b.additionaltypeid\n  ) as Passive\n\nfrom\n  account ac ,\n  archost ar ,\n  bal_spr%d b  /*64*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn%d = b.bal_cn and  /*67*/\n  ar.DatDate = :EndDate and\n  ((ac.Close_Dat is null)or(ac.Close_Dat > :EndDate))\n) RestForLastPeriod ,\n\n(select\n  ac.ID as AccountID ,\n  min(ac.acc_no) as AccNo,\n  min(b.bal_cn)  as BalanceNo ,\n  sum(ar.%sObr_D) as DTurnOver , /*76*/\n  sum(ar.%sObr_K) as CTurnOver   /*77*/\nfrom\n  account ac ,\n  archost ar ,\n  bal_spr%d b  /*81*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn%d = b.bal_cn and /*84*/\n  ar.DatDate between :BeginDate and :EndDate\ngroup by\n  ac.ID\n) TurnOvers\n\nwhere\n  /* Branch & Currency*/\n  RestForLastPeriod.AccountID = RestForFirstPeriod.AccountID  (+) and\n  RestForLastPeriod.AccountID = TurnOvers.AccountID\n  --and\n  --RestForLastPeriod.BalanceNo =:BalanceNo\n\norder by\n  RestForLastPeriod.AccNo\n \n \n\n \n \n \n",
+   "variables": [
+    {
+     "name": "BEGINPERIOD",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "Transaction",
+   "source": "TDataModulBalance.Transaction",
+   "kind": "TOracleDataSet",
+   "sql": "select\n      t.ID,t.op_id as OperatorID, t.vid_op as OperationType,c.bal_cn1 kreditbalans,d.bal_cn1 debetbalans,\n      t.dat, t.DEBT, d.acc_no as DebtAcc, dv.val_name as DValName,\n      t.KREDIT, c.acc_no as CreditAcc, cv.val_name as CValName,\n      t.ammount, t.ammount_c, t.lammount, t.name, SB_EXPERTANALYSE.GetUserName(t.op_id) as UserName\nfrom\n      provarch t,\n      account d,\n      account c,\n      avalute dv,\n      avalute cv\nwhere\n     t.DEBT = d.ID and\n     t.KREDIT = c.ID and\n     t.val_acc = dv.valute and\n     t.currencyID_c = cv.valute and\n     /* 16 Operator & Operation Type*/\n     t.dat between :BeginDate and :EndDate\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by\n     :Title\n\n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "Operators",
+   "source": "TDataModulBalance.Operators",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from user$ order by ID",
+   "variables": [],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "OperationType",
+   "source": "TDataModulBalance.OperationType",
+   "kind": "TOracleQuery",
+   "sql": "select  \n   ID, Name \nfrom \n   filial \norder by ID",
+   "variables": [],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "PeriodData",
+   "source": "TDataModulBalance.PeriodData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  Max(dat) as BeginPeriod\nfrom \n  Operkurs\nwhere \n  dat<:BeginDate",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "SysDat",
+   "source": "TDataModulBalance.SysDat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "Currency",
+   "source": "TDataModulBalance.Currency",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, valu_name from avalute order by valute\n",
+   "variables": [],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "debtTransaction",
+   "source": "TDataModulBalance.debtTransaction",
+   "kind": "TOracleDataSet",
+   "sql": "select\n      t.ID,t.op_id as OperatorID, t.vid_op as OperationType,c.bal_cn1 kreditbalans,d.bal_cn1 debetbalans,\n      t.dat, t.DEBT, d.acc_no as DebtAcc, dv.val_name as DValName,\n      t.KREDIT, c.acc_no as CreditAcc, cv.val_name as CValName,\n      t.ammount, t.ammount_c, t.lammount, t.name, SB_EXPERTANALYSE.GetUserName(t.op_id) as UserName\nfrom\n      provarch t,\n      account d,\n      account c,\n      avalute dv,\n      avalute cv\nwhere\n     t.DEBT = d.ID and\n     t.KREDIT = c.ID and\n     t.val_acc = dv.valute and\n     t.currencyID_c = cv.valute and\n     /* 16 Operator & Operation Typ------------e*/\n     t.dat between :BeginDate and :EndDate\n\n\n\n\n\n\n\n\n\norder by\n     :Title\n\n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "credTransaction",
+   "source": "TDataModulBalance.credTransaction",
+   "kind": "TOracleDataSet",
+   "sql": "select\n      t.ID,t.op_id as OperatorID, t.vid_op as OperationType,c.bal_cn1 kreditbalans,d.bal_cn1 debetbalans,\n      t.dat, t.DEBT, d.acc_no as DebtAcc, dv.val_name as DValName,\n      t.KREDIT, c.acc_no as CreditAcc, cv.val_name as CValName,\n      t.ammount, t.ammount_c, t.lammount, t.name, SB_EXPERTANALYSE.GetUserName(t.op_id) as UserName\nfrom\n      provarch t,\n      account d,\n      account c,\n      avalute dv,\n      avalute cv\nwhere\n     t.DEBT = d.ID and\n     t.KREDIT = c.ID and\n     t.val_acc = dv.valute and\n     t.currencyID_c = cv.valute and\n     /* 16 Operator & Operation Typ------------e*/\n     t.dat between :BeginDate and :EndDate\n\n\n\norder by\n     :Title\n\n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "credbal_acc",
+   "source": "TDataModulBalance.credbal_acc",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect sum(t.ammount) cem,d.bal_cn1 debetbalans ,c.bal_cn1 kreditbalans\nfrom\n      provarch t,\n      account d,\n      account c\n   \nwhere\n     t.DEBT = d.ID and\n     t.KREDIT = c.ID and     \n t.dat between  :BeginDate and :EndDate and\nt.kredit= :Kredits\n\n\n\n\n\n\n    group by d.bal_cn1  ,c.bal_cn1 \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "KREDITS",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModuleBalance"
+  },
+  {
+   "name": "debtbal_acc",
+   "source": "TDataModulBalance.debtbal_acc",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect sum(t.ammount) cem,d.bal_cn1 debetbalans ,c.bal_cn1 kreditbalans\nfrom\n      provarch t,\n      account d,\n      account c\n   \nwhere\n     t.DEBT = d.ID and\n     t.KREDIT = c.ID and     \n t.dat between  :BeginDate and :EndDate and\nt.debt= :debts\n\n\n\n\n\n\n    group by d.bal_cn1  ,c.bal_cn1 \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "DEBTS",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModuleBalance"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

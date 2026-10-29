@@ -1,0 +1,143 @@
+{
+ "name": "P_CMArFilter",
+ "caption": "",
+ "dir": "Packages/ArCive_Credit/CMAr_Filter",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "ArCommonDecls",
+  "ArLogoutputImpl",
+  "ArTemporaryTransactionsViewFormImpl",
+  "CMCurrencyEdit",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Currencys",
+   "source": "TArFilterDataModule.Currencys",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT valute,  valu_name\n  FROM AVALUTE\nORDER BY VALUTE",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "Branches",
+   "source": "TArFilterDataModule.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "Pledges",
+   "source": "TArFilterDataModule.Pledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_pledges",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "UserGroups",
+   "source": "TArFilterDataModule.UserGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "PReserves",
+   "source": "TArFilterDataModule.PReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent\n",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "SReserves",
+   "source": "TArFilterDataModule.SReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM cm_aim_cred\nORDER BY name",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "Users",
+   "source": "TArFilterDataModule.Users",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM SB_user$\nORDER BY NAME",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TArFilterDataModule.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TArFilterDataModule.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TArFilterDataModule.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TArFilterDataModule.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  name\n  FROM CM_SB_CUSTOMERS\nORDER BY NAME",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  },
+  {
+   "name": "ExpertDaet",
+   "source": "TArFilterDataModule.ExpertDaet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_expert",
+   "variables": [],
+   "unit": "ArDataModuleImpl"
+  }
+ ],
+ "packages": [],
+ "sql": [
+  "select creditid from cm_payments where paydate=sbop.get_date"
+ ]
+}

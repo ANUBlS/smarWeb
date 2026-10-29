@@ -1,0 +1,190 @@
+{
+ "name": "XRepair",
+ "caption": "Əlavə modullar / Mühasibat və balans / Günə düzəliş",
+ "dir": "Packages/Repair",
+ "mainForm": "TRepairMainForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Transactions",
+   "source": "TDataMod.Transactions",
+   "kind": "TOracleDataSet",
+   "sql": "Select \np.d$ D, p.c$ C, p.*  \nfrom \nv_provarch1 p where dat=(select tek_dat from sysdat)",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "BankDay",
+   "source": "TDataMod.BankDay",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat ",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "DebitRate",
+   "source": "TDataMod.DebitRate",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  currency.valute as ID,\n  currency.val_name as Name,\n  rates.OSTAT as Rate\nfrom\n  avalute currency,\n  OperKurs rates\nwhere\n  rates.VAL_KOD = currency.VALUTE\n and dat=:DAT\n and  VAL_KOD=:CurId\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "CURID",
+     "type": "integer"
+    }
+   ],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "CreditRate",
+   "source": "TDataMod.CreditRate",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  currency.valute as ID,\n  currency.val_name as Name,\n  rates.OSTAT as Rate\nfrom\n  avalute currency,\n  OperKurs rates\nwhere\n  rates.VAL_KOD = currency.VALUTE\n and dat=:DAT\n and  VAL_KOD=:CurId\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "CURID",
+     "type": "integer"
+    }
+   ],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "tFilial_D",
+   "source": "TDataMod.tFilial_D",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "Users",
+   "source": "TDataMod.Users",
+   "kind": "TOracleDataSet",
+   "sql": "select * from user$",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "DCurrency",
+   "source": "TDataMod.DCurrency",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from avalute ",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "CCurrency",
+   "source": "TDataMod.CCurrency",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from avalute ",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "DebitAccount",
+   "source": "TDataMod.DebitAccount",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from v_account1 order by AccountNumber",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "CreditAccount",
+   "source": "TDataMod.CreditAccount",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from v_account1 order by AccountNumber",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "DescriptionDATA",
+   "source": "TDataMod.DescriptionDATA",
+   "kind": "TOracleDataSet",
+   "sql": "select * from trdestination",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "InBalanceSymbolsData",
+   "source": "TDataMod.InBalanceSymbolsData",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "repairdatamodule"
+  },
+  {
+   "name": "OutBalanceCharData",
+   "source": "TDataMod.OutBalanceCharData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CONVERT_ASSIGNMENTS\norder by ID\n\n",
+   "variables": [],
+   "unit": "repairdatamodule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "P_Correct",
+   "package": "p_correct",
+   "mode": "positional",
+   "source": "*.P_Correct",
+   "routines": [
+    {
+     "name": "GetRate",
+     "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "p_correct",
+   "package": "p_correct",
+   "mode": "positional",
+   "source": "*.p_correct",
+   "routines": [
+    {
+     "name": "Main",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "select p.d$ D, p.c$ C, p.* from v_provarch1 p where"
+ ]
+}

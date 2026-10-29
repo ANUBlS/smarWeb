@@ -1,0 +1,49 @@
+{
+ "name": "CreditsArchive",
+ "caption": "Balans / Kreditlər / Arxiv Kreditlər",
+ "dir": "Packages/SBCM_CreditsArchive",
+ "mainForm": "TFrmCreditsArcive",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ArchiveCredits",
+   "source": "TFrmCreditsArcive.ArchiveCredits",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  ArchCredits.RowID\n , ArchCredits.* \n  From\n   SBCM_Contract_Correction ArchCredits\nwhere \n  Type# =\n   (Select ID from sbcm_contract_types\n     where upper(name) = 'CLOSEDCREDIT') ",
+   "variables": [],
+   "unit": "CreditsArciveImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

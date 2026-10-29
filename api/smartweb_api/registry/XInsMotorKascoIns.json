@@ -1,0 +1,263 @@
+{
+ "name": "XInsMotorKascoIns",
+ "caption": "Əlavə modullar / Sığorta / Avto KASKO sığortası",
+ "dir": "Packages/Insurance/InsMotorKasco",
+ "mainForm": "TfmInsMotorKasco",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSCusts",
+   "source": "TfmFind.ODSCusts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from (\nSELECT a.id, a.name||' '||a.surname||' '||a.fathername as name, a.ADDRESS\n  FROM ins_customers a where a.close_prefix=0\n  order by a.surname\n\n) ",
+   "variables": [],
+   "unit": "InsFindFilter"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TfmFind.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.* from INS_BENEFICIARY ib",
+   "variables": [],
+   "unit": "InsFindFilter"
+  },
+  {
+   "name": "ODSModels",
+   "source": "TfmFind.ODSModels",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_dict_models\n\nwhere mark_id = :mark_id",
+   "variables": [
+    {
+     "name": "MARK_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsFindFilter"
+  },
+  {
+   "name": "ODSMarks",
+   "source": "TfmFind.ODSMarks",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from ins_dict_marks",
+   "variables": [],
+   "unit": "InsFindFilter"
+  },
+  {
+   "name": "ODSBanks",
+   "source": "TfmFind.ODSBanks",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankm\norder by name",
+   "variables": [],
+   "unit": "InsFindFilter"
+  },
+  {
+   "name": "ODSFranshiz",
+   "source": "TfmFind.ODSFranshiz",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_tarif_franshiz\n\nwhere month_id = :month_id",
+   "variables": [
+    {
+     "name": "MONTH_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsFindFilter"
+  },
+  {
+   "name": "ODSMonths",
+   "source": "TfmFind.ODSMonths",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_tarif_months\n\nwhere release_id = :release_id",
+   "variables": [
+    {
+     "name": "RELEASE_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsFindFilter"
+  },
+  {
+   "name": "ODSReliaseDates",
+   "source": "TfmFind.ODSReliaseDates",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_release_date\nwhere to_number(to_char(begindate, 'YYYY')) <= :releaseyear\nand to_number(to_char(enddate, 'YYYY')) >= :releaseyear\nand state_id in (select its.id from ins_tarif_states its\n                  where its.state_id = :state )",
+   "variables": [
+    {
+     "name": "RELEASEYEAR",
+     "type": "integer"
+    },
+    {
+     "name": "STATE",
+     "type": "integer"
+    }
+   ],
+   "unit": "InsFindFilter"
+  },
+  {
+   "name": "ODSMotorKasco",
+   "source": "TfmInsMotorKasco.ODSMotorKasco",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  im.rowid, im.id, im.insuredtype, im.insuredcolor,\n       im.insuredoutputyear, im.insuredstatenum, im.underframenum,im.insuredmark||' '||im.insuredmodel as mark,\n       im.insuredbannum, im.insuredenginenum, im.driveintended,im.franshiz,val.valute,VAL.VAL_NAME as valyuta,im.close_prefix,\n       im.drivecost,im.inssumm,im.ammount, im.typeid, ic.ben_id, im.insuredmark,\n       im.insuredmodel, im.bank_id, im.month_id,im.cid,ic.policy_num,ic.beneficiary,ic.ins_date,ic.begin_date, ic.end_date,ic.kli_id,icu.surname||' '||icu.name||' '||icu.fathername as name,iag.name||' '||iag.surname||' '||iag.fathername as agent \n  FROM ins_motorkasco im,  ins_contracts ic,ins_customers icu,ins_agents iag,avalute val\n WHERE  \n       ic.id = im.CID\n  and  ic.type_id = 1  \n  and  ic.close_prefix=0\n  and  icu.id=ic.kli_id\n  and  iag.id=ic.agent_id\n  and val.valute=ic.valute_id order by policy_num desc \n",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "InsMotorKascoImpl"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TfmInsMotorKasco.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere id = :cid\nand type_id = 1",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsMotorKascoImpl"
+  },
+  {
+   "name": "ODSOperkurs",
+   "source": "TfmInsMotorKasco.ODSOperkurs",
+   "kind": "TOracleDataSet",
+   "sql": "select ok.val_kod,ok.ostat,ok.dat from operkurs ok,ins_contracts ic\nwhere ok.dat=ic.ins_date \n\n ",
+   "variables": [],
+   "unit": "InsMotorKascoImpl"
+  },
+  {
+   "name": "ODSAutoTypes",
+   "source": "TfmInsMotorKasco.ODSAutoTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select *from ins_dict_auto_types",
+   "variables": [],
+   "unit": "InsMotorKascoImpl"
+  },
+  {
+   "name": "ODSExcelReport",
+   "source": "TfmInsMotorKasco.ODSExcelReport",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  im.rowid, im.id, im.insuredtype, im.insuredcolor,\n       im.insuredoutputyear, im.insuredstatenum, im.underframenum,im.insuredmark||' '||im.insuredmodel as mark,\n       im.insuredbannum, im.insuredenginenum, im.driveintended,im.franshiz,val.valute,VAL.VAL_NAME as valyuta,im.close_prefix,\n       im.drivecost, im.inssumm,im.ammount, im.typeid, ic.ben_id, im.insuredmark,\n       im.insuredmodel, im.bank_id, im.month_id,im.cid,ic.policy_num,ic.beneficiary,ic.ins_date,ic.begin_date, ic.end_date,ic.kli_id,icu.surname||' '||icu.name||' '||icu.fathername as name,iag.name||' '||iag.surname||' '||iag.fathername as agent \n  FROM ins_motorkasco im,  ins_contracts ic,ins_customers icu,ins_agents iag,avalute val\n WHERE  \n       ic.id = im.CID\n  and  ic.type_id = 1  \n  and  ic.close_prefix=0\n  and  icu.id=ic.kli_id\n  and  iag.id=ic.agent_id\n  and val.valute=ic.valute_id order by ic.policy_num desc \n",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "InsMotorKascoImpl"
+  },
+  {
+   "name": "ODSVal",
+   "source": "TfmInsMotorKasco.ODSVal",
+   "kind": "TOracleDataSet",
+   "sql": "select ok.val_kod,ok.ostat,ok.dat from operkurs partition(today) ok,ins_contracts ic",
+   "variables": [],
+   "unit": "InsMotorKascoImpl"
+  },
+  {
+   "name": "ODSBankm",
+   "source": "TfmSettings.ODSBankm",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankm\norder by name",
+   "variables": [],
+   "unit": "InsSettings"
+  },
+  {
+   "name": "ODSPerRates",
+   "source": "TfmSettings.ODSPerRates",
+   "kind": "TOracleDataSet",
+   "sql": "select pr.rowid, pr.* from INS_PERCENT_RATES  pr\n\nwhere tarif_id = :tarif_id",
+   "variables": [
+    {
+     "name": "TARIF_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsSettings"
+  },
+  {
+   "name": "ODSTariffs",
+   "source": "TfmSettings.ODSTariffs",
+   "kind": "TOracleDataSet",
+   "sql": "select it.rowid, it.* from INS_TARIFFS it\norder by bank_id",
+   "variables": [],
+   "unit": "InsSettings"
+  },
+  {
+   "name": "ODSStates",
+   "source": "TfmSettings.ODSStates",
+   "kind": "TOracleDataSet",
+   "sql": "select ids.* from ins_dict_states ids\norder by name",
+   "variables": [],
+   "unit": "InsSettings"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TfmFind.OPCOMMON",
+   "routines": []
+  },
+  {
+   "component": "OPCommon",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "*.OPCommon",
+   "routines": [
+    {
+     "name": "del_ins",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "PINS_MCasco",
+   "package": "INS_PKG_MOTORKASCO",
+   "mode": "named",
+   "source": "TfmInsMotorKasco.PINS_MCasco",
+   "routines": []
+  },
+  {
+   "component": "pkgMotorKasco",
+   "package": "INS_PKG_MOTORKASCO",
+   "mode": "positional",
+   "source": "TfmFind.pkgMotorKasco",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

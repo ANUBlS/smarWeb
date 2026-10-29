@@ -1,0 +1,387 @@
+{
+ "name": "XInsBlankMain",
+ "caption": "Əlavə modullar / Sığorta / Blanklar",
+ "dir": "Insurance/BlankMain",
+ "mainForm": "TBlankMain",
+ "plugin": false,
+ "plugins": {
+  "inscontracterminated.bpl": "P_InsContracterminated",
+  "inspayment.bpl": "P_InsPayment",
+  "inspaymentplan.bpl": "P_InsPaymentPlan",
+  "loss.bpl": "P_Loss",
+  "reinsurance.bpl": "P_Reinsurance"
+ },
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TaxsUnit",
+  "Unit1",
+  "Unit3",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DSFullContarct",
+   "source": "TBlankDM.DSFullContarct",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct ic.id as idc,user,ic.rowid,ic.commit_date,ii.name as s_novu,(select name from ins_bnf_type where id=ic.bnf_type) as fayda_goturen,ics.dateofbirth as dogumgunu,trim(ics.surname||' '||ics.name||' '||ics.fathername) as custname2,\nav.val_name as valyuta,ic.policy_num as polis,ic.close_prefix as close_prefix,trim(ics.surname||' '||ics.name||' '||ics.fathername) as custname,cust.name as custgroup,(select INSURED_OBJ from ins_commercialproperty  where cid=ic.id) sigorta_obyekti\n,cust.id as custgroup_id,ia.surname||' '||ia.name||' '||ia.fathername as agent,ins_report.get_S_haqq(ic.id) as ammount,ins_report.get_s_mebleg(ic.id) as inssumm,(select CASE WHEN ic.type_id = 3 THEN em.cost WHEN ic.type_id = 44 THEN em.cost WHEN ic.type_id = 4 THEN mk.drivecost WHEN ic.type_id = 41 THEN mk.drivecost WHEN ic.type_id = 1 THEN mk.drivecost WHEN ic.type_id = 13 THEN mk.drivecost WHEN ic.type_id = 43 THEN mk.drivecost WHEN ic.type_id = 42 THEN mk.drivecost eND AS aaa from ins_contracts where id=ic.id) as Sig_Oby_deyeri,ic.tariff as tariff,\nic.filial, ic.franshiz as franshiz,trunc(ic.ins_date) as ins_date, ic.begin_date as begin_date,ic.end_date as end_date,ic.state as state,ic.insured as insured\n,ic.type_id as type_id,ii.mainformguid as mainformguid, ii.changeguid as changeguid,ic.loanacc_id as loanacc_id, ic.curracc_id as curracc_id,ic.agent_id as agent_id,ic.kli_id as kli_id,\nii.suggestionguid as suggestionguid, ii.policyguid as policyguid, ii.mainformname AS tablename,im.id,im.INSUREDMARK as marka,im.INSUREDMODEL as model,(select case when payment_type=1 then 'Tam odenis' else 'Hisselerle odenis' end from ins_payment_plan_setting where cid=ic.id) as odenis_novu,em.locationobj as obyekt_adrees\n,nvl((select abs(ostat) from tenostat where acc_id= ic.loanacc_id AND OSTAT<0),0) debitor,im.INSUREDSTATENUM as dovlet_n,ins_common.count_full_claim(ic.id) as c_full_claim,im.INSUREDCOLOR as rengi,im.INSUREDOUTPUTYEAR as buraxlis_ili,im.INSUREDENGINENUM as muherrik_n,im.UNDERFRAMENUM as sassi_n,\ncase when ics.mobilephone is not null then ics.mobilephone     when ics.mobilephone is null then (select phone from ins_draccesspeople where  cid in (ic.id)and phone is not null and name is not null and ins_date= (select min(ins_date) from ins_draccesspeople where cid in(ic.id)and phone is not null and name is not null))  end as mobilephone,ics.address as adress,im.INSUREDBANNUM as ban_n,im.color_id as reng,im.model_id as model_id,im.marka_id as marka_id\n,ins_common.get_tekrarsigorta(ic.id) as tekrarsigortaci,sum(ins_reins.get_reins_haqq_one(ir.bardero_no,ir.type_id,ir.id)) as Tekrarsigorta_haqqi,nvl(ins_common.get_due_day(ic.id),0) as gecikme_gunleri,\n(nvl(((ic.inssumm)*(select sum(reins_part)from ins_reinsurance  where cid=ic.id group by ic.id))/100,0)) as Tekrarsigorta_mebleq,ict.stage_tesdiq_dat as xitam_tarixi\n,nvl((ictd.terminted_amount),0) as qaytarilmis_mebleq,decode (cust.cust_type,0,'Huquqi',1,'Fiziki') as Musteri_novu,(nvl(ictd.terminted_amount,0)*(nvl(sum(ir.reins_part),0)))/100 as qayta_meb_tek_siq_pay,ic.userinsert as user_adi,trim(translate(ics.surname||' '||ics.name||' '||ics.fathername, 'IiIiI?', '``````')) as name1,(select case when payment_type=1 then 'Tam odenis' else 'Hisselerle odenis' end from ins_payment_plan_setting where cid=ic.id) as odenis_novu  ,decode (cust.cust_type,0,(select inn from customers where id=cust.id),1,(select passpin from custinfo where idcust=cust.id)) as Voen_Pin\nfrom ins_contracts ic,ins_insurances ii,avalute av,ins_customers ics,customers cust,ins_agents ia,ins_motorkasco im,\nins_contract_terminated ict,ins_contract_terminated_detal ictd,ins_reinsurance ir,ins_commercialproperty em,ins_motorkasco mk\nwhere ic.type_id=ii.id and em.cid(+)=ic.id and mk.cid (+)= ic.id\nand ic.valute_id=av.valute and  ic.kli_id=ics.id and  cust.id=ics.cust_id\nand  ia.id(+)=ic.agent_id \nand  im.cid(+)=ic.id and ic.reins=0\nand ict.cid(+)=ic.id  \nand ictd.ter_id(+)=ict.id and ir.cid(+)=ic.id\nand ic.ins_date=sbop.get_date\n\n\n--bir muqavilede 2 tekrarsiqorta olduqu ucun gruplawdirmiwam (nvl(((ic.ammount)*(select sum(reins_part)from ins_reinsurance  where cid=ic.id group by ic.id))/100,0)) as Tekrarsigorta_haqqi kohne versiyasi Mail deyiwdirib\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSins_agents",
+   "source": "TBlankDM.DSins_agents",
+   "kind": "TOracleDataSet",
+   "sql": "select id,surname||' '||name||' '||fathername as name from ins_agents ",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DScutomers",
+   "source": "TBlankDM.DScutomers",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,name from customers\nwhere close_dat is  null\nand id in (SELECT cust_id  FROM ins_customers where close_prefix=0)",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSIns_cust",
+   "source": "TBlankDM.DSIns_cust",
+   "kind": "TOracleDataSet",
+   "sql": "select surname||' '||name||' '||fathername as name1,id from ins_customers where close_prefix=0 order by name1",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSSex_type",
+   "source": "TBlankDM.DSSex_type",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 as id ,'Kisi' as name from dual\nunion \nselect 1 as id ,'Qadin' as name from dual",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSins_insurances",
+   "source": "TBlankDM.DSins_insurances",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_insurances\nwhere obeykt_type is not NULL",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSSysdat",
+   "source": "TBlankDM.DSSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSins_search_setting",
+   "source": "TBlankDM.DSins_search_setting",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_search_setting",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSContract",
+   "source": "TBlankDM.DSContract",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid,ic.* from ins_contracts ic\nwhere ic.id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSins_insur",
+   "source": "TBlankDM.DSins_insur",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_insurances\nwhere id=:p_id \nand changeguid is not NULL\nand obeykt_type is not null\norder by id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSReins",
+   "source": "TBlankDM.DSReins",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_reinsurance where cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSPaymentSettingInfo",
+   "source": "TBlankDM.DSPaymentSettingInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_payment_plan_setting \nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSPaymentsetting",
+   "source": "TBlankDM.DSPaymentsetting",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from ins_payment_plan_setting a\nwhere a.cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSPaymentInfo",
+   "source": "TBlankDM.DSPaymentInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_payment_plan\nwhere ins_id=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSMedEmploes",
+   "source": "TBlankDM.DSMedEmploes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_employees ie\nwhere med_id in (select id from ins_medical\nwhere cid=:pcid\n)",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DScontractcommit",
+   "source": "TBlankDM.DScontractcommit",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_contracts\nwhere id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSOperkurs",
+   "source": "TBlankDM.DSOperkurs",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from operkurs\nwhere val_kod=:pval_kod\nand dat=:pdat",
+   "variables": [
+    {
+     "name": "PVAL_KOD",
+     "type": "integer"
+    },
+    {
+     "name": "PDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TBlankDM.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ic.rowid, ic.ID , ic.kli_id, ic.loanacc_id, ic.curracc_id, \n                 ii.NAME, ii.mainformguid, ii.changeguid,ic.commitop_id,ic.commit_date,ic.cancelopid,ic.canceldate,\n                 ii.suggestionguid, ii.policyguid, ii.mainformname AS tablename, ic.policy_num,\n                 trunc(ic.ins_date) as ins_date, ins_report.get_S_haqq(ic.id) as ammount, ic.begin_date, ic.end_date, av.val_name,\n                  ins_report.get_s_mebleg(ic.id) as inssumm, ic.tariff, ic.franshiz, ic.state, ic.type_id ,ic.close_prefix \n                 FROM ins_contracts ic, ins_insurances ii, avalute av,ins_contract_responsibility r,ins_contr_per_acc_motor p\n                 WHERE ii.ID = ic.type_id and r.cid(+)=ic.id and p.cid(+)=ic.id\n               \n                 and ic.close_prefix=0\n                 and ic.valute_id = av.valute(+)",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "ODSAccount",
+   "source": "TBlankDM.ODSAccount",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   \n   acc.RowID, ID, kli_id, op_id, acc_no, val_acc, NAME, open_dat, close_dat,\n   DECODE (close_dat, NULL, 1, 2) AS status, bal_cn1, bal_cn2, bal_cn3,\n   bal_cn4, filial, sim_otcet, tipacc, LIMIT, old_acc_no, pair_acc,\n   insider, ownid, t.ostat, t.pok_ostat\nFROM ACCOUNT  acc, tenostat t\nwhere  t.acc_id = acc.id\nand\n ownid = :ownid\nand acc.close_dat is null\nORDER BY \n   id",
+   "variables": [
+    {
+     "name": "OWNID",
+     "type": "float"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSpaymentcommit",
+   "source": "TBlankDM.DSpaymentcommit",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) say\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o,provarch pr\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(14,15,16,17,18,19,20)\nand pr.id=sb_o.parentid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "DSFullContarct_old",
+   "source": "TBlankDM.DSFullContarct_old",
+   "kind": "TOracleDataSet",
+   "sql": "select user,ic.rowid,ic.id as idc,ic.commit_date,ii.name as s_novu ,case when ic.bnf_type=0 then 'Bank' else  'Kenar' end fayda_goturen,av.val_name as valyuta,ic.policy_num as polis,ic.close_prefix as close_prefix,\ntrim(ics.surname||' '||ics.name||' '||ics.fathername) as custname,cust.name as custgroup,cust.id as custgroup_id,ia.surname||' '||ia.name||' '||ia.fathername as agent\n,ins_report.get_S_haqq(ic.id) as ammount,ins_report.get_s_mebleg(ic.id) as inssumm, ic.tariff as tariff, ic.franshiz as franshiz,\n       trunc(ic.ins_date) as ins_date, ic.begin_date as begin_date, ic.end_date as end_date,\n       ic.state as state, ic.type_id as type_id,ii.mainformguid as mainformguid, ii.changeguid as changeguid,\n       ic.loanacc_id as loanacc_id, ic.curracc_id as curracc_id,ic.agent_id as agent_id,ic.kli_id as kli_id,\n       ii.suggestionguid as suggestionguid, ii.policyguid as policyguid, ii.mainformname AS tablename,\n       im.id,im.INSUREDMARK as marka,im.INSUREDMODEL as model,im.INSUREDSTATENUM as dovlet_n,ins_common.count_full_claim(ic.id) as c_full_claim,\n       im.INSUREDCOLOR as rengi,im.INSUREDOUTPUTYEAR as buraxlis_ili,im.INSUREDENGINENUM as muherrik_n,im.UNDERFRAMENUM as sassi_n,ics.mobilephone,\n       im.INSUREDBANNUM as ban_n,im.color_id as reng,im.model_id as model_id,im.marka_id as marka_id,trim(translate(ics.surname||' '||ics.name||' '||ics.fathername, 'IiIiI?', '``````')) as name1\nfrom ins_contracts ic,ins_insurances ii,avalute av,ins_customers ics,customers cust,ins_agents ia,ins_motorkasco im\n\nwhere ic.type_id=ii.id\nand ic.valute_id=av.valute\nand  ic.kli_id=ics.id\nand  cust.id=ics.cust_id\nand  ia.id(+)=ic.agent_id\nand  im.cid(+)=ic.id\nand ic.reins=0\nand ic.ins_date between (select tek_dat from sysdat) and (select tek_dat from sysdat)\n",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "Ds_user",
+   "source": "TBlankDM.Ds_user",
+   "kind": "TOracleDataSet",
+   "sql": "select user from dual",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "ins_bonushesabat",
+   "source": "TBlankDM.ins_bonushesabat",
+   "kind": "TOracleDataSet",
+   "sql": "select smart.ins_common.insbenef(a2.ownid) as sigortali ,\n--cus.name||' '||cus.surname ||' '||cus.fathername as sigorta_olunan ,\n(select name from ins_insurances where id=(select type_id from ins_contracts where id=a2.ownid) and branch=(select filialid from sba_objinf where obj=(select user from dual)) ) as sigortaNovu,\na1.name  as debtname,\na1.acc_no as debthesab,\na2.name  as kreditname,\na2.acc_no  as kredithesab,\n(select name||' '||surname  from ins_agents where id=(select agent_id from ins_contracts where id=a2.ownid)) as agent_Adi,\n(select inssumm from ins_contracts where id=a2.ownid) as sigortam?bl?ği,\nsmart.ins_report.get_S_haqq(a2.ownid) as sigorta_haqq,\npr.ammount as öd?nilmis,\n(select ins_date from ins_contracts where id=a2.ownid)  as daxiletme,\n(select begin_date from ins_contracts where id=a2.ownid) as baslama ,\n(select end_date from ins_contracts where id=a2.ownid) as bitme,\nsmart.ins_common.inspolis(a2.ownid) as polis,\n(select name from ins_bnf_type where id=(select bnf_type from ins_contracts where id=a2.ownid)) as FaydaGoturen,\n(select name from filial where id=a2.filial)\n as filial\nfrom provarch pr,account a1,account a2\nwhere  pr.dat between :dat1 and :dat2\nand a1.id=pr.debt and a2.id=pr.kredit \nand a2.bal_cn1 in (:balcnkr)\n and a1.bal_cn1 in (:balcndb)",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    },
+    {
+     "name": "BALCNKR",
+     "type": "string"
+    },
+    {
+     "name": "BALCNDB",
+     "type": "string"
+    }
+   ],
+   "unit": "BlankDMImpl"
+  },
+  {
+   "name": "dsbirth",
+   "source": "TBlankDM.dsbirth",
+   "kind": "TOracleDataSet",
+   "sql": "\n\n",
+   "variables": [],
+   "unit": "BlankDMImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TBlankDM.OPCOMMON",
+   "routines": [
+    {
+     "name": "account_open",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addpaymentReal",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "cancelcontract",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "close_acc",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "commitcontract",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "editcontract",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_acc_balanc_hesab",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_acc_id",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_blank_id",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "p_ins_cid",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPINS",
+   "package": "INS_PKG_MOTORKASCO",
+   "mode": "positional",
+   "source": "TBlankDM.OPINS",
+   "routines": []
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TBlankDM.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

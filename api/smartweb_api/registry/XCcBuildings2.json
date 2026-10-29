@@ -1,0 +1,133 @@
+{
+ "name": "XCcBuildings2",
+ "caption": "Əlavə modullar / Tikinti və kommunal / Binalar",
+ "dir": "Packages/ccBuildings",
+ "mainForm": "TccBuildingsForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CC_Company",
+   "source": "TDataModccBuildings.CC_Company",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cc_companies order by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModccBuildings"
+  },
+  {
+   "name": "CC_Flat",
+   "source": "TDataModccBuildings.CC_Flat",
+   "kind": "TOracleDataSet",
+   "sql": "select  *  from cc_flats order by id",
+   "variables": [],
+   "unit": "UnitDataModccBuildings"
+  },
+  {
+   "name": "CC_Buyer_Flat",
+   "source": "TDataModccBuildings.CC_Buyer_Flat",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum, id, code, bld_id, flatnumber, entrance, ffloor, rooms, area, price1,\n       pricegen, buyer, userid,CC_general.get_buyername(buyer) as Buyer_status from cc_flats\nwhere Bld_ID = :Bld_ID\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    },
+    {
+     "name": "BLD_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModccBuildings"
+  },
+  {
+   "name": "CC_building",
+   "source": "TDataModccBuildings.CC_building",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cc_buildings\nwhere\ncomp_id=:comp_id\norder by  :title",
+   "variables": [
+    {
+     "name": "COMP_ID",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModccBuildings"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CC_OP",
+   "package": "cc_general",
+   "mode": "positional",
+   "source": "*.CC_OP",
+   "routines": [
+    {
+     "name": "add_Buildings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_Companies",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_Flats",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_fromTable",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_Buildings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_Companies",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_Flats",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

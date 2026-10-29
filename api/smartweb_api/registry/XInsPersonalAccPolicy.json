@@ -1,0 +1,149 @@
+{
+ "name": "XInsPersonalAccPolicy",
+ "caption": "",
+ "dir": "Packages/Insurance/PersonalAccPolicy",
+ "mainForm": "TPAccPolicy",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "INSWordExporter",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSPAccident",
+   "source": "TPolicyDModule.ODSPAccident",
+   "kind": "TOracleDataSet",
+   "sql": "select pacc.rowid,pacc.* from ins_grouppersonalaccident pacc where id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "string"
+    }
+   ],
+   "unit": "UDataMod"
+  },
+  {
+   "name": "ODSCustomers",
+   "source": "TPolicyDModule.ODSCustomers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,c.name||' '||c.surname||' '||c.fathername as name,c.address,c.mobilephone,c.fax from ins_customers c where id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDataMod"
+  },
+  {
+   "name": "ODSPAccSuggest",
+   "source": "TPolicyDModule.ODSPAccSuggest",
+   "kind": "TOracleDataSet",
+   "sql": "select  s.rowid,s.* from ins_pacc_suggestion s\nwhere paid = :paid",
+   "variables": [
+    {
+     "name": "PAID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDataMod"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TPolicyDModule.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere blank_id = :blankid\nand type_id = 3",
+   "variables": [
+    {
+     "name": "BLANKID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDataMod"
+  },
+  {
+   "name": "ODSAgent",
+   "source": "TPolicyDModule.ODSAgent",
+   "kind": "TOracleDataSet",
+   "sql": "select id,(name||' '||surname||' '||fathername) as name from ins_agents",
+   "variables": [],
+   "unit": "UDataMod"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TPolicyDModule.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.rowid,ib.* from ins_beneficiary ib",
+   "variables": [],
+   "unit": "UDataMod"
+  },
+  {
+   "name": "ODSCondition",
+   "source": "TPolicyDModule.ODSCondition",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_conditions idr where id=:vid",
+   "variables": [
+    {
+     "name": "VID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDataMod"
+  },
+  {
+   "name": "Franshiz",
+   "source": "TPolicyDModule.Franshiz",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_franshiz idr where id=:fid",
+   "variables": [
+    {
+     "name": "FID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDataMod"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TPolicyDModule.OPCOMMON",
+   "routines": [
+    {
+     "name": "addtransaction",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

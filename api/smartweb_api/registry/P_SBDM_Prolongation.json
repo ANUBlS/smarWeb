@@ -1,0 +1,86 @@
+{
+ "name": "P_SBDM_Prolongation",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_Prolongation",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "prolongations",
+   "source": "TfrmProlongation.prolongations",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, id#, hdate, olddate, newdate\n  FROM sbcm_prolongations\nwhere id# = :Contractid\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmProlongationImpl"
+  },
+  {
+   "name": "DepositInf",
+   "source": "TfrmProlongation.DepositInf",
+   "kind": "TOracleDataSet",
+   "sql": "select closedate from sbcm_contracts\nwhere id = :ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmProlongationImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sbcm_prolongation",
+   "package": "dm_prolongation",
+   "mode": "positional",
+   "source": "*.sbcm_prolongation",
+   "routines": [
+    {
+     "name": "AddProlongation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DelLastProlongation",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,181 @@
+{
+ "name": "XAdif",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / ADİF",
+ "dir": "Packages/ADIF",
+ "mainForm": "TFormADIF",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ods_cust",
+   "source": "TAdif_Data.ods_cust",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT (select kod_filial from filial_t where id=o.filialid)as BANK_BRANCH_CODE,p.id as CLIENT_NO,p.cust_type as CLIENT_TYPE,\ndecode(p.nerezident,0,'RES',1,'GRES')as CLIENT_NATIONALTY,'' CLIENT_SYMBOL_NO, p.firstname as CLIENT_NAME,p.lastname as CLIENT_SURNAME,  p.patronymic as CLIENT_FATHERS_NAME,\nto_char(p.birthdate,'YYYY-MM-DD') as CLIENT_DATE_BIRTH,p.birthplace||'/'||p.BIRTH_STATE as CLIENT_PLACE_OF_BIRTH,p.DOC_TYPE as CLIENT_ID_TYPE,'' CLIENT_ID_COMMENT,\np.passport as CLIENT_ID_SERIAL,p.passp_number as CLIENT_ID_NUMBER,\np.passpin as  CLIENT_ID_PIN,to_char(p.paspdate,'YYYY-MM-DD') as CLIENT_ID_ISSUE_DATE,\n(select cntr_name ||'/'||p.paspplace from countries where id= p.doc_country)as CLIENT_ID_ISSUE_PLACE,p.adress as CLIENT_ID_ADDRESS,p.fakt_adress as CLIENT_ID_ADDRESS_REAL,\np.email as CLIENT_ID_EMAIL,p.phone_mob as CLIENT_ID_PHONE_MOBILE ,p.phone as CLIENT_ID_PHONE_HOME,p.work_phone as CLIENT_ID_PHONE\n\nfrom PCust_view p ,sba_objinf o where   p.cust_type<>0 and p.close_dat is  null and p.op_id=o.sysuserid(+)\n\n--and p.id in(1,169,205)\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "Ods_cust_person_work",
+   "source": "TAdif_Data.Ods_cust_person_work",
+   "kind": "TOracleDataSet",
+   "sql": "select r.*,w.*,p.name as prinad_name  from customers_relations r,work_posts w ,prinad p where r.work_post=w.id and w.type=1 and r.prinad=p.id(+)\n and custid=:V_CUSTID",
+   "variables": [
+    {
+     "name": "V_CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TAdif_Data.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "KreditDSet",
+   "source": "TAdif_Data.KreditDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select \np.boorowerid CLIENT_NO,\nf.kod_filial KRD_BRANCH_CODE,\np.numberofcredit KREDIT_ID_NUMBER,\ncm_common.AccountNumber_Get(a.loanaccid) KREDIT_ACCOUNT_IBAN_NUMBER,\nv.val_name KREDIT_CURRENCY_CODE,\np.creditlineamount KREDIT_CURRENCY_AMOUNT,\np.creditlineamount*k.ostat KREDIT_AZN_AMOUNT,\nh.interestrest KREDIT_INTEREST_AMOUNT,\nto_char(p.dateofconclusion,'yyyy-mm-dd') KREDIT_VALUE_DATE,\nto_char(p.duedatefirstcontract,'yyyy-mm-dd') KREDIT_MATURITY_DATE ,\np.annualyinterestrate KREDIT_PERCENT,\ncm_common.get_AccountBalance(a.loanaccid) KREDIT_BALANCE_ACCOUNT,\n'NONE' KREDIT_SOURCE,'' COLLETRAL_INFO,'' COLLETRAL_BRANCH_CODE,'' COLLETRAL_CLIENT_NO,'' COLLETRAL_ACCOUNT_IBAN_NUMBER\n from cm_active_credits p,filial_t f,cm_accounts a,avalute_t v,temprate k,cm_curr_state h\n where\n p.id=a.creditid and \n p.id=h.creditid and \n p.branchid=f.id and --p.boorowerid =203 and\n p.currency=v.valute and \n v.valute=k.val_kod",
+   "variables": [],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "KreditXmlstruct",
+   "source": "TAdif_Data.KreditXmlstruct",
+   "kind": "TOracleDataSet",
+   "sql": "select * from adf_xml_settings",
+   "variables": [],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "ODSDeposit",
+   "source": "TAdif_Data.ODSDeposit",
+   "kind": "TOracleDataSet",
+   "sql": "select * from adif_depositcontracts",
+   "variables": [],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "Ods_cust_person_joint",
+   "source": "TAdif_Data.Ods_cust_person_joint",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \np.id, p.firstname ,p.lastname ,  p.patronymic,to_char(p.birthdate,'YYYY-MM-DD') as CLIENT_DATE_BIRTH,p.birthplace||'/'||p.BIRTH_STATE as PLACE_OF_BIRTH,p.DOC_TYPE ,\np.passport ,p.passp_number,p.passpin ,to_char(p.paspdate ,'YYYY-MM-DD')as paspdate,(select cntr_name ||'/'||p.paspplace from countries where id= p.doc_country)as ISSUE_PLACE,p.adress\n ,p.fakt_adress ,p.email ,p.phone_mob  ,p.phone ,p.inn,p.info_tph_adress ,p.cust_type,'' CLIENT_SYMBOL_NO ,'' CLIENT_ID_COMMENT,p.work_phone\nfrom PCust_view p where   p.cust_type<>0 and p.close_dat is  null \n and p.id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "Ods_cust_joint_work",
+   "source": "TAdif_Data.Ods_cust_joint_work",
+   "kind": "TOracleDataSet",
+   "sql": "select*from customers_relations r,work_posts w where r.work_post=w.id and w.type=2 and custid=:V_CUSTID\n\norder by custid2\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "V_CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "bnkdata",
+   "source": "TAdif_Data.bnkdata",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankinfo_t \n\nwhere kod_fil<>0",
+   "variables": [],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "bankdata",
+   "source": "TAdif_Data.bankdata",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "ods_account",
+   "source": "TAdif_Data.ods_account",
+   "kind": "TOracleDataSet",
+   "sql": "select\n a.id,\n (select balname from bal_spr1 where bal_cn=a.bal_cn1)as name,\n  a.bal_cn1,\n (select kod_filial from filial_t where id=a.filial)as fil_kod,\n (select name from filial_t where id=a.filial)as fil_name,\n(select val_name from avalute_t where valute=a.val_acc)as val_kod,\n abs(cm_common.accountrest_get(a.id))as ostat,\n(select round(ostat*abs(cm_common.accountrest_get(a.id)),2) from operkurs where dat=sbop.get_date and val_kod=a.val_acc)as pok_ostat,\n(select abs(sum(obr_d))from archost where acc_id=a.id and datdate between :d1 and :d2)as debt_dov,\n(select abs(sum(obr_k))from archost where acc_id=a.id and datdate between :d1 and :d2)as kredit_dov\n\nfrom account a where close_dat is null and a.id in(435318,413287,25270,25271,25280,25281)\norder by a.id ",
+   "variables": [
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "Sysdat",
+   "source": "TAdif_Data.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "--Select tek_dat from sysdat\nselect sbop.get_date as tek_dat from dual",
+   "variables": [],
+   "unit": "UnitAdifData"
+  },
+  {
+   "name": "bankmain",
+   "source": "TAdif_Data.bankmain",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankinfo",
+   "variables": [],
+   "unit": "UnitAdifData"
+  }
+ ],
+ "packages": [],
+ "sql": [
+  "select * from bankinfo_adif where kod_b=1",
+  "select * from bankinfo_adif where kod_b=2",
+  "select * from bankinfo_adif where kod_b=3",
+  "select * from bankinfo_adif where kod_b=4",
+  "select * from bankinfo_adif where kod_b=5",
+  "select * from bankinfo_adif where kod_b=6"
+ ]
+}

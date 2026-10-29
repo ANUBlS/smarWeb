@@ -1,0 +1,54 @@
+{
+ "name": "DepositCorrection",
+ "caption": "Balans / Depozitlər / Depozitlərdə düzəlişlər",
+ "dir": "DepositsManager/SBDM_DepositCorrection",
+ "mainForm": "TFrmDepositCorrection",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Deposits",
+   "source": "TFrmDepositCorrection.Deposits",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  ContrCorrect.RowID\n ,ContrCorrect.*\n  From \n   SBCM_Contract_Correction ContrCorrect\n Where \n    (\n      ContrCorrect.Type#=(\n      Select  ID\n        From  SBCM_Contract_Types\n         Where upper(Name)= 'DEPOSIT')\n     )\norder by :OrderKind\n ",
+   "variables": [
+    {
+     "name": "ORDERKIND",
+     "type": "string"
+    }
+   ],
+   "unit": "DepositCorrectionImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

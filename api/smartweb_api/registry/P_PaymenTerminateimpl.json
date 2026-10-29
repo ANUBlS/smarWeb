@@ -1,0 +1,135 @@
+{
+ "name": "P_PaymenTerminateimpl",
+ "caption": "",
+ "dir": "Insurance/PaymenTerminate",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "frmAddPaymentTerminateimpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DSSysdat",
+   "source": "TdmPaymentTer.DSSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "dmPaymenTerminateimpl"
+  },
+  {
+   "name": "DSPaymentTer",
+   "source": "TdmPaymentTer.DSPaymentTer",
+   "kind": "TOracleDataSet",
+   "sql": "select  \nict.id,\nict.cid, \n/*ictd.trid,\nictd.trid1,\nictd.trid2,*/\nict.stage_tesdiq_dat,\nnvl(pr.lammount,0) as mebleg,\nsb_p.name\nfrom\nins_contract_terminated ict,\nins_contract_terminated_detal ictd, \nsb_business_opers sb_o,\nsb_business_processes sb_p,\nprovarch pr\nwhere ict.cid=:Pcid\nand ictd.ter_id=ict.id\nand (ictd.trid=sb_o.parentid or ictd.trid1=sb_o.parentid or ictd.trid2=sb_o.parentid)\nand  pr.id=sb_o.parentid\nand  sb_o.busproc in(21,22,23,24,25,26,27)\nand  sb_p.id=sb_o.busproc",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmPaymenTerminateimpl"
+  },
+  {
+   "name": "DSTerBarderoSay",
+   "source": "TdmPaymentTer.DSTerBarderoSay",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_terminated_bardero\nwhere cid=:p_cid",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmPaymenTerminateimpl"
+  },
+  {
+   "name": "DSPaymentTerReal",
+   "source": "TdmPaymentTer.DSPaymentTerReal",
+   "kind": "TOracleDataSet",
+   "sql": "select\nitp.cid,\nitp.id,\nitp.traid,\nitp.paydate,\nnvl(itp.ammount,0) as mebleg,\nsb_p.name\nfrom\nins_terminate_payment itp,\nsb_business_opers sb_o,\nsb_business_processes sb_p,\nprovarch pr\nwhere itp.cid=:PCID\nand   pr.id=itp.traid\nand   itp.traid=sb_o.parentid\nand   sb_o.busproc in(56)\nand   sb_p.id=sb_o.busproc",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmPaymenTerminateimpl"
+  },
+  {
+   "name": "DSpaymentAcc",
+   "source": "TdmPaymentTer.DSpaymentAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account where id in(select acc_id from ins_dict_acc_payment_loss)",
+   "variables": [],
+   "unit": "dmPaymenTerminateimpl"
+  },
+  {
+   "name": "DSqaliq",
+   "source": "TdmPaymentTer.DSqaliq",
+   "kind": "TOracleDataSet",
+   "sql": "select (select  \nsum (nvl(pr.lammount,0))\nfrom\nins_contract_terminated ict,\nins_contract_terminated_detal ictd, \nsb_business_opers sb_o,\nsb_business_processes sb_p,\nprovarch pr\nwhere ict.cid=:pcid\nand ictd.ter_id=ict.id\nand (ictd.trid=sb_o.parentid or ictd.trid1=sb_o.parentid or ictd.trid2=sb_o.parentid)\nand  pr.id=sb_o.parentid\nand  sb_o.busproc in(21,22,23,24,25,26,27)\nand  sb_p.id=sb_o.busproc)-\n(select\n\nnvl(sum((itp.ammount)),0)\n\nfrom\nins_terminate_payment itp,\nsb_business_opers sb_o,\nsb_business_processes sb_p\nwhere itp.cid=:pcid\nand   itp.traid=sb_o.parentid\nand   sb_o.busproc in(56)\nand   sb_p.id=sb_o.busproc) as qaliq\nfrom dual",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmPaymenTerminateimpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "Pins_common",
+   "package": "ins_common",
+   "mode": "positional",
+   "source": "*.Pins_common",
+   "routines": [
+    {
+     "name": "cancelTerreal",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ins_pay_Ter_contaract",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TdmPaymentTer.sb_aca",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

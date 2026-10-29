@@ -4,9 +4,9 @@ A modern web client for the SmartBank Delphi/Oracle core banking system. The
 original Delphi logic is **transpiled**, not rewritten: every module form keeps
 its layout (button and field positions come straight from the `.dfm` files) and
 every event handler runs the same Pascal statements, translated to JavaScript.
-Oracle stays the system of record; all database access goes through four API
-calls that a Node/Express service will implement against the existing schema
-and PL/SQL packages.
+Oracle stays the system of record; all database access goes through a few
+gateway calls that the SmartWeb API (`../api`, FastAPI + python-oracledb)
+implements against the existing schema and PL/SQL packages.
 
 Reports (QuickReport layouts under *Bankın hesabatları*) are out of scope for
 this phase and show a notice in the menu.
@@ -26,11 +26,14 @@ npm start            # production server for the built app on port 8086
 npm run build        # production bundle in dist/
 ```
 
-Switch to the real backend once it exists:
+Use the real Oracle database through the SmartWeb API (`../api`, FastAPI):
 
 ```bash
-VITE_API_MODE=http VITE_API_URL=https://smartweb.example.az/api npm run build
+VITE_API_MODE=http VITE_API_URL=/api npm run build
+API_TARGET=http://127.0.0.1:8000 PORT=8086 npm start    # server.mjs forwards /api to the API
 ```
+
+See `api/README.md` (Swagger at `/api/docs`).
 
 ## Deploy on 192.168.2.93:8086
 
@@ -85,13 +88,13 @@ cd web && npm ci && npm run build && PORT=8086 npm start      # Windows: set POR
 cd /opt/smartweb && git pull && cd web && npm ci && npm run build && sudo systemctl restart smartweb
 ```
 
-### Connecting the real Oracle API later
+### Connecting the Oracle database (SmartWeb API)
 
-Build the client for HTTP mode and let `server.mjs` forward `/api` to the gateway:
+Install the API (`api/README.md`), build the client for HTTP mode and let `server.mjs` forward `/api`:
 
 ```bash
 VITE_API_MODE=http VITE_API_URL=/api npm run build
-API_TARGET=http://127.0.0.1:3000 PORT=8086 npm start          # systemd: uncomment API_TARGET in the unit
+API_TARGET=http://127.0.0.1:8000 PORT=8086 npm start          # systemd: set API_TARGET in the unit
 ```
 
 ## How it is built
@@ -140,7 +143,7 @@ ActiveForm (fires `OnCreate`), pass node parameters through `Set_Params`
 (e.g. `RefName=customer_relation`), call `InstanceInitialize`, then
 `UIObjectActivate`.
 
-## Oracle gateway API (to implement in Node/Express)
+## Oracle gateway API (implemented in `api/`, FastAPI)
 
 All requests are `POST` with JSON and carry `X-SB-Session` after logon. Errors
 must be returned as `{ "errorCode": 20001, "message": "ORA-20001: …" }` with a

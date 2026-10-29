@@ -1,0 +1,132 @@
+{
+ "name": "XOnlinePayment",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Terminal ödənişləri",
+ "dir": "Packages/online_payment",
+ "mainForm": "TOnlineView",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Ods_wspayment",
+   "source": "TWS_PAYDataModule.Ods_wspayment",
+   "kind": "TOracleDataSet",
+   "sql": "select  terminal_type,id ,account,creditid,Amount,rrn,currency,customer,respdatetime,sys_date,payment_id,status, paymethod, filial from(\nselect terminal_type,id ,account,creditid,Amount,rrn,currency,customer,respdatetime,sys_date,payment_id,1 as status, paymethod, filial from terminal_payments\nunion\nselect terminal_type,id ,account,creditid,Amount,rrn,currency,customer,respdatetime,sys_date,'0' as payment_id,0 as status, paymethod,filial from terminal_temppayments)\n\n\n\n\n\n\n\n\n\n\norder by respdatetime",
+   "variables": [],
+   "unit": "WspayDataUnit"
+  },
+  {
+   "name": "ods_arxipayment",
+   "source": "TWS_PAYDataModule.ods_arxipayment",
+   "kind": "TOracleDataSet",
+   "sql": "select p.* from ws_payment p where trunc(sys_date)=:v_dat\n\norder by sys_date desc",
+   "variables": [
+    {
+     "name": "V_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "WspayDataUnit"
+  },
+  {
+   "name": "Ods_wssysdate",
+   "source": "TWS_PAYDataModule.Ods_wssysdate",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT TO_CHAR(sysdate, 'HH24:MI') AS saat, sysdate\nFROM dual",
+   "variables": [],
+   "unit": "WspayDataUnit"
+  },
+  {
+   "name": "Ods_sum",
+   "source": "TWS_PAYDataModule.Ods_sum",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(amount)as amount from terminal_payments\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "WspayDataUnit"
+  },
+  {
+   "name": "ods_combolist",
+   "source": "TWS_PAYDataModule.ods_combolist",
+   "kind": "TOracleDataSet",
+   "sql": "select  'Bütün Hamısı' terminal_type from  terminal_arctemppayments\nUnion \nselect  distinct terminal_type  from  terminal_arcpayments",
+   "variables": [],
+   "unit": "WspayDataUnit"
+  },
+  {
+   "name": "Ods_wspaymentarch",
+   "source": "TWS_PAYDataModule.Ods_wspaymentarch",
+   "kind": "TOracleDataSet",
+   "sql": "select  terminal_type,id ,account,creditid,Amount,rrn,currency,customer,respdatetime,sys_date,payment_id,status,  paymethod, filial from(\nselect terminal_type,id ,account,creditid,Amount,rrn,currency,customer,respdatetime,sys_date,payment_id,1 as status, paymethod,filial from terminal_arcpayments\nunion\nselect terminal_type,id ,account,creditid,Amount,rrn,currency,customer,respdatetime,sys_date,'0' as payment_id,0 as status, paymethod, filial from terminal_arctemppayments)\nwhere trunc(sys_date) between :v_dat and :v_dat2\n\n\n\n\n\n\n\n\n\norder by respdatetime",
+   "variables": [
+    {
+     "name": "V_DAT",
+     "type": "date"
+    },
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "WspayDataUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TWS_PAYDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select  'Bütün Hamısı' terminal_type from terminal_temppayments\nUnion \nselect  distinct terminal_type  from \nterminal_payments\nUnion\nselect  distinct terminal_type  from\nterminal_temppayments",
+   "variables": [],
+   "unit": "WspayDataUnit"
+  },
+  {
+   "name": "Payment",
+   "source": "TWS_PAYDataModule.Payment",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       customer,\n       cr.creditid,\n       cr.rest,\n       cr.duerest,\n       cr.interestrest,\n       cr.dueinterestrest,\n      (select ostat from tenostat where acc_id=a.booroweraccid)ostat\n\nfrom terminal_arcpayments ta,cm_curr_state cr,cm_accounts a where sys_date>=sbop.PRED_DATE and sys_date<=sbop.get_date and ta.creditid=cr.creditid and ta.creditid=a.creditid",
+   "variables": [],
+   "unit": "WspayDataUnit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "mainpacket",
+   "package": "terminalpayments",
+   "mode": "positional",
+   "source": "*.mainpacket",
+   "routines": [
+    {
+     "name": "Payments",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

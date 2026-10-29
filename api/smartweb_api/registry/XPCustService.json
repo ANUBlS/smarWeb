@@ -1,0 +1,2466 @@
+{
+ "name": "XPCustService",
+ "caption": "Əlavə modullar / Müştərilər və uyğunluq / Müştəri xidməti",
+ "dir": "Packages/PCustService",
+ "mainForm": "TPCustServiceForm",
+ "plugin": false,
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cm_guarantee.bpl": "P_Cm_Guarantee",
+  "cm_payment.bpl": "P_CM_Payment",
+  "cm_retil.bpl": "P_CM_RETIL",
+  "cm_schedule.bpl": "P_CM_Schedule",
+  "cm_statement.bpl": "P_CM_Statement",
+  "cm_tranche.bpl": "P_CM_Tranche",
+  "cm_wreport.bpl": "P_CM_WReport",
+  "cu_conclusion.bpl": "P_CU_Conclusion",
+  "cu_payment.bpl": "P_CU_Payment",
+  "cu_paymentcompany.bpl": "P_CU_Paymentcompany",
+  "cu_schedule.bpl": "P_CU_Schedule",
+  "cu_statement.bpl": "P_cu_Statement",
+  "cu_wreport.bpl": "P_cu_WReport",
+  "filereport.bpl": "P_FileReport",
+  "newdepositsapplymoney.bpl": "P_NewDepositsApplyMoney",
+  "newdepositscontract.bpl": "P_NewDepositsContract",
+  "newdepositsextractmoney.bpl": "P_NewDepositsExtractMoney",
+  "newdepositswreport.bpl": "P_NewDepositsWReport",
+  "nominalcustomers.bpl": "P_NominalCustomers",
+  "open_account.bpl": "P_Open_account",
+  "pcustxohks.bpl": "P_PcustXohks",
+  "sb_general.bpl": "P_Sb_General",
+  "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
+  "sbdm_contract.bpl": "P_SBDM_Contract",
+  "sbdm_extractmoney.bpl": "P_SBDM_ExtractMoney",
+  "sbdm_wreport.bpl": "P_SBDM_WReport",
+  "transinfopack.bpl": "P_TransInfoPack"
+ },
+ "lib": [
+  "AccounFlagsLmpl",
+  "Account_edit_Unit",
+  "BProc_Trans",
+  "CC_ACCInUnit",
+  "CC_AccInForm_Unit",
+  "CC_AccOutForm_Unit",
+  "CC_AccState_Unit",
+  "CC_AccTransact_Unit",
+  "CC_AccTransaction_Unit",
+  "CC_Commision_Trans_Unit",
+  "CC_Country_Unit",
+  "CC_FormInterval_Unit",
+  "CC_Repairing_Unit",
+  "CC_Settings_Unit",
+  "CMCurrencyEdit",
+  "CMHintBox",
+  "CULogoutputImpl",
+  "CommonDecls",
+  "CommonDeclsImpl",
+  "Contractimpl",
+  "Creditİmpl",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "Cust_contactUnit",
+  "CustomersImpl",
+  "DMprop",
+  "DatModConstimpl",
+  "DataCustNomImpl",
+  "DepozLmpl",
+  "FlatsMgrIMPL",
+  "Form1_BalCnImpl",
+  "FormBalCnImpl",
+  "FormCustNomImpl",
+  "FormCustNom_GridImpl",
+  "FormOperationShow1Lmpl",
+  "FormOperationShowLmpl",
+  "FormOperationbplLmpl",
+  "FormTransaction1Lmpl",
+  "FormTransaction2Lmpl",
+  "FormTransaction3Lmpl",
+  "Form_AccountsImpl",
+  "Form_BalCnImpl",
+  "Form_Statmentlmpl",
+  "LogoutputImpl",
+  "MainFormIMPL",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OpenAccdataImpl",
+  "OpenAccountImpl",
+  "OraVariables",
+  "Payment_DataModul",
+  "RepContImpl",
+  "ReportImpl",
+  "RtDmImpl",
+  "Rtl_AzeriAbo_Impl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SMSUnit",
+  "StatementFrmImpl",
+  "TemporaryTransactionsFormImpl",
+  "TemporaryTransactionsViewFormImpl",
+  "Transaction_DataModuleUnit",
+  "Transaction_DestinationImpl",
+  "Transaction_PropertiesImpl",
+  "Unit7",
+  "Unit8",
+  "UnitAccBuyers",
+  "UnitAddBuyers",
+  "UnitChangePasswordForm",
+  "UnitData",
+  "UnitDataBussProc",
+  "UnitHesab",
+  "UnitNote",
+  "UnitPayment_order",
+  "UnitProc_type",
+  "UnitRep",
+  "UnitReport",
+  "UnitReportR",
+  "UnitSBOraLogOn",
+  "UnitTransView",
+  "UnitTransaction",
+  "UnitUpdBuyers",
+  "Unit_Archive",
+  "Unit_Rekvezit",
+  "Unit_Report",
+  "Unit_ReportR",
+  "Unit_TransView",
+  "UnitbussProc",
+  "UntIntervalRpt",
+  "UntMain_Report",
+  "UntSecond_Report",
+  "accserch",
+  "addcombobox1",
+  "cap_UntMainReport",
+  "cap_UntSecondReport",
+  "cc_BuyersImpl",
+  "cuCommonDecls",
+  "cuTemporaryTransactionsViewFormImpl",
+  "retelcommon",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Ods_shedule",
+   "source": "TCreditFrm.Ods_shedule",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cm_payment_schedule where creditid=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Creditİmpl"
+  },
+  {
+   "name": "ODS_CUSTOMERS",
+   "source": "TFormCustomers.ODS_CUSTOMERS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id ,cust_name,lastname,firstname,patronymic  from pcust_view  where  close_dat is  null and cust_type in(0,1,2,3,4)\n\n\n\n\n\norder by id\n\n\n\n\n",
+   "variables": [],
+   "unit": "CustomersImpl"
+  },
+  {
+   "name": "ODS_CUSTOMERS_tr",
+   "source": "TFormCustomers.ODS_CUSTOMERS_tr",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id ,p.cust_name,p.lastname,p.firstname,p.patronymic,p.cust_type,p.inn ,p.passport,p.passp_number from pcust_view p \nwhere close_dat is null \n:p_valu\n\n\n\n\n\norder by id\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "P_VALU",
+     "type": "string"
+    }
+   ],
+   "unit": "CustomersImpl"
+  },
+  {
+   "name": "Ods_type",
+   "source": "TFormepxtrans.Ods_type",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id ,'Konvertasiya' as name from dual\nunion \nselect 2 as id , 'Valyuta' as name from dual\n",
+   "variables": [],
+   "unit": "ExpUnittrans"
+  },
+  {
+   "name": "Ods_Valute",
+   "source": "TFormepxtrans.Ods_Valute",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  currency.valute as valute,\n  currency.val_name as val_name,\n  currency.valu_name as valu_name,\n  rates.OSTAT as Rate\nfrom\n  avalute currency,\n  TEMPRATE rates\nwhere\n  rates.VAL_KOD = currency.VALUTE\norder by currency.valute",
+   "variables": [],
+   "unit": "ExpUnittrans"
+  },
+  {
+   "name": "Ods_Valute1",
+   "source": "TFormepxtrans.Ods_Valute1",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  currency.valute as valute,\n  currency.val_name as val_name,\n  currency.valu_name as valu_name,\n  rates.OSTAT as Rate\nfrom\n  avalute currency,\n  TEMPRATE rates\nwhere\n  rates.VAL_KOD = currency.VALUTE\norder by currency.valute",
+   "variables": [],
+   "unit": "ExpUnittrans"
+  },
+  {
+   "name": "odscustexpMu",
+   "source": "TFormepxtrans.odscustexpMu",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id,p.cust_name  from PCust_view p,cust_exp_settings c where  p.close_dat is  null  and p.id=c.custid\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "ExpUnittrans"
+  },
+  {
+   "name": "odscustexpQa",
+   "source": "TFormepxtrans.odscustexpQa",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id,p.cust_name  from PCust_view p,cust_exp_settings c where  p.close_dat is  null  and p.id=c.custid\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "ExpUnittrans"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TPCustServiceForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select max(line) as line  from user_source where name = upper('pg_pcustservice')",
+   "variables": [],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TPCustServiceForm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select '1' as id ,'1 ilə qədər' as name  from dual \nunion\nselect '2' as id, '1-3 il' as name from dual \nunion\nselect '3' as id ,'3-4 il' as name from dual \nunion\nselect '4' as id ,'5 ildən çox' as name from dual ",
+   "variables": [],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TPCustServiceForm.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM categories\n/*select '1' as id ,'1 ilə qədər' as name  from dual \nunion\nselect '2' as id, '1-3 il' as name from dual \nunion\nselect '3' as id ,'3-5 il' as name from dual \nunion\nselect '4' as id ,'5 ildən çox' as name from dual \n*/",
+   "variables": [],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TPCustServiceForm.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select '1' as id ,'Mikro' as name  from dual \nunion\nselect '2' as id, 'Kiçik' as name from dual \nunion\nselect '3' as id ,'Orta' as name from dual \nunion\nselect '4' as id ,'İri' as name from dual \n\n\n\n/*select '1' as id ,'NBCBankda müsbət kredit tarixçəsi' as name  from dual \nunion\nselect '2' as id, 'MKR-də müsbət kredit tarixçəsi' as name from dual \nunion\nselect '3' as id ,'MKR-də 30 gündən çox gecikmə' as name from dual \nunion\nselect '4' as id ,'Ümumiyyətlə kredit tarixçəsi yoxdur' as name from dual \n*/",
+   "variables": [],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "odsxx1",
+   "source": "TPCustServiceForm.odsxx1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from lazytransaction",
+   "variables": [],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "ods_masinAxtaris",
+   "source": "TPCustServiceForm.ods_masinAxtaris",
+   "kind": "TOracleDataSet",
+   "sql": "select kli_id from account where substr(acc_no,10,7) in (:v_accno)\ngroup by kli_id",
+   "variables": [
+    {
+     "name": "V_ACCNO",
+     "type": "string"
+    }
+   ],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "ods_custnote",
+   "source": "TPCustServiceForm.ods_custnote",
+   "kind": "TOracleDataSet",
+   "sql": "select*from  cust_notes  where /*status=0 and*/ custid=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "ods_user",
+   "source": "TPCustServiceForm.ods_user",
+   "kind": "TOracleDataSet",
+   "sql": "select fullname from sba_objinf where sysuserid in(select uid from dual)",
+   "variables": [],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "ods_tim",
+   "source": "TPCustServiceForm.ods_tim",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n    TRUNC(sysdate) AS tarix,\n    TO_CHAR(sysdate, 'HH24:MI:SS') AS saat\nFROM dual",
+   "variables": [],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "odsbankinfo",
+   "source": "TPCustServiceForm.odsbankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\naz_name\nfrom bankinfo",
+   "variables": [],
+   "unit": "PCustServiceFormImpl1"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TPep_change.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select tax_regcode from bankinfo",
+   "variables": [],
+   "unit": "PEPUnit"
+  },
+  {
+   "name": "sms",
+   "source": "TSMSForm.sms",
+   "kind": "TOracleDataSet",
+   "sql": "select '0' as id from dual\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "SMSFormİmpl"
+  },
+  {
+   "name": "ODS_FilesPath",
+   "source": "TSMSForm.ODS_FilesPath",
+   "kind": "TOracleDataSet",
+   "sql": "select description from settings where name='GoAmlFilesPath'",
+   "variables": [],
+   "unit": "SMSFormİmpl"
+  },
+  {
+   "name": "sys",
+   "source": "TSMSForm.sys",
+   "kind": "TOracleDataSet",
+   "sql": "select sysdate from dual",
+   "variables": [],
+   "unit": "SMSFormİmpl"
+  },
+  {
+   "name": "Ods_sms",
+   "source": "TSMSForm.Ods_sms",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT* FROM sms_templates where tip=2",
+   "variables": [],
+   "unit": "SMSFormİmpl"
+  },
+  {
+   "name": "odsxx",
+   "source": "TForm7.odsxx",
+   "kind": "TOracleDataSet",
+   "sql": "/*select count(*) say,dat,inv_num, inv_date,debit,credit,\n       trans_date, par1,par3, par4, par5,\n       par6, par7, par8, par9, mebleg ,\n       par13, par14, par15,debt,sum(aMMOUNT) ammount, odenis, RN from  (*/\nselect par11, p.dat,inv_num, inv_date,debit,credit,\n       trans_date, par1,par3, par4, par5,\n       par6, par7, par8, par9,  ROUND(par12,2)mebleg ,\n       par13, par14, par15,P.debt,P.aMMOUNT,null odenis,null as yanacaq,1 as RN from provarch p,invoices i where (p.parentid=i.trans_id or  p.id=i.trans_id) and  vid_op=92\n       and       p.dat between :begindat and :enddat\n                 and kredit=:v_accid\n      /* )a \n       group by dat,inv_num, inv_date,debit,credit,\n       trans_date, par1,par3, par4, par5,\n       par6, par7, par8, par9, mebleg ,\n       par13, par14, par15,debt, odenis, RN*/\n    \nunion all\n\nselect null as par11,p.dat,null as inv_num,null as inv_date,null as debit,null as credit,\n      null as trans_date,null as par1,null as par3,null as par4,null as par5,\n       null as par6,null as par7,null as par8,null as par9,0 as mebleg ,\n      null as par13,null as par14,null as par15,P.debt,null aMMOUNT,p.ammount odenis,null as yanacaq ,2 as RN from provarch p, account a where p.debt=a.id\n      \n  and (debt  in (select id from account where bal_cn1 like '531') or debt  in (select id from account where bal_cn1 like '535'))\n  and (kredit in (select id from account where bal_cn1 like '22%')\n      or kredit in (select id from account where bal_cn1 like '192%'))\n  and p.dat between :begindat and :enddat\n  and p.debt=:v_accid\n\n\nunion all\n\nselect null as par11,p.dat,'Qeza' as inv_num,null as inv_date,null as debit,null as credit,\n       null as trans_date,null as par1,null as par3,null as par4,null as par5,\n       null as par6,null as par7,null as par8,null as par9,0 as mebleg ,\n      null as par13,null as par14,null as par15,P.debt,null aMMOUNT,p.ammount odenis ,null as yanacaq,2 as RN from provarch p, account a where p.debt=a.id\n      \n  and (debt  in (select id from account where bal_cn1 like '531') or debt  in (select id from account where bal_cn1 like '535'))\n  and kredit in (select id from account where bal_cn1 like '721%')\n    and p.vid_op<>93\n  and p.dat between :begindat and :enddat\n  and p.debt=:v_accid\n  \n  \n\n  union all\n\nselect null as par11,p.dat,' ' as inv_num,null as inv_date,null as debit,null as credit,\n       null as trans_date,null as par1,null as par3,null as par4,null as par5,\n       null as par6,null as par7,null as par8,null as par9,0 as mebleg ,\n      null as par13,null as par14,null as par15,P.debt,null aMMOUNT,null as odenis,p.ammount yanacaq,4 as RN from provarch p, account a where p.debt=a.id\n   and p.vid_op=93\n     and p.dat between :begindat and :enddat\n  and p.KREDIT=:v_accid\n\n  order by  RN, dat\n /* and debt   in (select id from account where bal_cn1 like '531')\n  and kredit in (select id from account where bal_cn1 not like '22%')*/",
+   "variables": [
+    {
+     "name": "BEGINDAT",
+     "type": "date"
+    },
+    {
+     "name": "ENDDAT",
+     "type": "date"
+    },
+    {
+     "name": "V_ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit7"
+  },
+  {
+   "name": "sb_sysdate",
+   "source": "TForm7.sb_sysdate",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "Unit7"
+  },
+  {
+   "name": "ods_arch",
+   "source": "TForm7.ods_arch",
+   "kind": "TOracleDataSet",
+   "sql": "select ostat from archost where acc_id=:v_accid and datdate=(select min(datdate) from archost where acc_id=:v_accid and datdate>=TO_DATE(:v_begindat)-1)\n",
+   "variables": [
+    {
+     "name": "V_ACCID",
+     "type": "integer"
+    },
+    {
+     "name": "V_BEGINDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "Unit7"
+  },
+  {
+   "name": "ods_text",
+   "source": "TForm7.ods_text",
+   "kind": "TOracleDataSet",
+   "sql": "select\n decode (cust_type,0, 'Huquqi şəxs' ,1, 'fiziki şəxs',2, 'fiziki sahibkar' ,3, 'fiziki şəxs və sahibkar') custtype,\n'Biz aşağıda imza edənlər \"Sifarişçi\" Papa Lojistika MMC-nin direktoru Ismayılov.O \"İcraçı\"'||\ndecode (cust_type,0, 'Huquqi şəxs' ,1, 'fiziki şəxs',2, 'fiziki sahibkar' ,3, 'fiziki şəxs və sahibkar')||'  '||c.name||' '|| a.acc_no ||''||' bu aktı tərtib edir ondan ötrü'||\n' ki,'||' '||c.faktor_opendat||' -ci il tarixli'||' '||c.faktor_muq||' saylı Daşıma müqaviləsinə əsasən'||\n' yükdaşıma xidmətini yerinə yetirmiş və göstərilən dəyərdə yanacaq istifadə etmişdir.' text\nfrom customers c ,custinfo i ,account a where c.id=i.idcust and c.id=a.kli_id and a.id=:v_accid\n\n\n/*Sahil select\n'Biz aşağıda imza edənlər \"Sifarişçi\" Papa Lojistika MMC-nin direktoru Ismayılov.O \"İcraçı\"'||\n'fiziki şəxs'||'  '||c.name||' '|| a.acc_no ||''||' bu aktı tərtib edir ondan ötrü'||\n' ki,'||' '||i.work_place||' -ci il tarixli'||' '||i.work_post||' saylı Daşıma müqaviləsinə əsasən'||\n' yükdaşıma xidmətini yerinə yetirmiş və göstərilən dəyərdə yanacaq istifadə etmişdir.' text\nfrom customers c ,custinfo i ,account a where c.id=i.idcust and c.id=a.kli_id and a.id=:v_accid*/",
+   "variables": [
+    {
+     "name": "V_ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit7"
+  },
+  {
+   "name": "odsxx1",
+   "source": "TForm7.odsxx1",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect 'AKT No: CP'||' '||p.id id, par11, p.dat,inv_num, inv_date,debit,credit,\n       trans_date, par1,case when par4 is not null then par3||'/ '||par4 else par3 end par3, par4, par5,\n       par6, par7, par8, par9,  ROUND(par12,2)mebleg ,\n       par13, par14, par15,P.debt,P.aMMOUNT,null odenis,null as yanacaq,null as bonus,1 as RN,'' litr from provarch p,invoices i where (p.parentid=i.trans_id or  p.id=i.trans_id) and  vid_op=92\n       and       p.dat between :begindat and :enddat\n                 and kredit=:v_accid\n      \n    \nunion all\n\nselect 'AKT No: CP'||' '||p.id id, null as par11,p.dat,null as inv_num,null as inv_date,null as debit,null as credit,\n      null as trans_date,null as par1,null as par3,null as par4,null as par5,\n       null as par6,null as par7,null as par8,null as par9,0 as mebleg ,\n      null as par13,null as par14,null as par15,P.debt,null aMMOUNT,p.ammount odenis,null as yanacaq,null as bonus ,2 as RN,'' litr from provarch p, account a where p.debt=a.id\n      \n  and (debt  in (select id from account where bal_cn1 like '531') or debt  in (select id from account where bal_cn1 like '535'))\n  and (kredit in (select id from account where bal_cn1 like '22%')\n      or kredit in (select id from account where bal_cn1 like '192%'))\n  and p.dat between :begindat and :enddat\n  and p.debt=:v_accid\n\n\nunion all\n\nselect 'AKT No: CP'||' '||p.id id, null as par11,p.dat,'Qeza' as inv_num,null as inv_date,null as debit,null as credit,\n       null as trans_date,null as par1,null as par3,null as par4,null as par5,\n       null as par6,null as par7,null as par8,null as par9,0 as mebleg ,\n      null as par13,null as par14,null as par15,P.debt,null aMMOUNT,p.ammount odenis ,null as yanacaq,null as bonus,2 as RN ,'' litr from provarch p, account a where p.debt=a.id\n      \n  and (debt  in (select id from account where bal_cn1 like '531') or debt  in (select id from account where bal_cn1 like '535'))\n  and kredit in (select id from account where bal_cn1 like '721%')\n    and p.vid_op<>93\n  and p.dat between :begindat and :enddat\n  and p.debt=:v_accid\n  \n  \n\n  union all\n\nselect 'AKT No: CP'||' '||p.id id,null as par11,p.dat,' ' as inv_num,null as inv_date,null as debit,null as credit,\n       null as trans_date,null as par1,null as par3,null as par4,null as par5,\n       null as par6,null as par7,null as par8,null as par9,0 as mebleg ,\n      null as par13,null as par14,null as par15,P.debt,null aMMOUNT,null as odenis,p.ammount yanacaq,null as bonus,4 as RN ,\n       (select substr(name ,instr(name , 'litr=')+LENGTH( 'litr='),5) from provarch where id=p.id and name like '%litr=%')litr  from provarch p, account a where p.debt=a.id\n   and p.vid_op=93\n     and p.dat between :begindat and :enddat\n  and p.KREDIT=:v_accid  \n  \n union all \n  select 'AKT No: CP'||' '||p.id id, null as par11,p.dat,' ' as inv_num,null as inv_date,null as debit,null as credit,\n       null as trans_date,null as par1,null as par3,null as par4,null as par5,\n       null as par6,null as par7,null as par8,null as par9,0 as mebleg ,\n      null as par13,null as par14,null as par15,P.debt,null aMMOUNT,null as odenis,null as yanacaq,p.ammount bonus ,4 as RN,'' litr from provarch p, account a where p.debt=a.id\n   \n   and (kredit  in (select id from account where bal_cn1 like '531'))\n  and debt in (select id from account where id=141)\n     and p.dat between :begindat and :enddat\n  and p.KREDIT=:v_accid\n\n  order by  RN, dat\n ",
+   "variables": [
+    {
+     "name": "BEGINDAT",
+     "type": "date"
+    },
+    {
+     "name": "ENDDAT",
+     "type": "date"
+    },
+    {
+     "name": "V_ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit7"
+  },
+  {
+   "name": "ods_dat",
+   "source": "TForm7.ods_dat",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char( sysdate) dat from dual",
+   "variables": [],
+   "unit": "Unit7"
+  },
+  {
+   "name": "sb_sysdate",
+   "source": "TForm8.sb_sysdate",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "Unit8"
+  },
+  {
+   "name": "ods_tonaj",
+   "source": "TForm8.ods_tonaj",
+   "kind": "TOracleDataSet",
+   "sql": "select i.par6,i.trans_date,i.par11 from sb_business_processes b,invoices i where LOWER(i.par6) =LOWER(b.name) \nand i.trans_date  between :begindat and :enddat\nand i.par6=:v_name",
+   "variables": [
+    {
+     "name": "V_NAME",
+     "type": "string"
+    },
+    {
+     "name": "BEGINDAT",
+     "type": "date"
+    },
+    {
+     "name": "ENDDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "Unit8"
+  },
+  {
+   "name": "ods_buspros",
+   "source": "TForm8.ods_buspros",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name from sb_business_processes\norder by id",
+   "variables": [],
+   "unit": "Unit8"
+  },
+  {
+   "name": "ODS_BusProc",
+   "source": "TDataModPCustService.ODS_BusProc",
+   "kind": "TOracleDataSet",
+   "sql": "select *from sb_business_processes where  formnum is not null\n--and( cust_type :custtype  or  cust_type is null )\nand (pg_pcustservice.find_vergul_ids(cust_type,:custtype)=1 /*or(cust_type is not null )*/)     \nand \n    (pg_pcustservice.find_vergul_ids(cust_ids,:ids)=1 or (cust_ids is null ))\n\norder by :sira",
+   "variables": [
+    {
+     "name": "SIRA",
+     "type": "string"
+    },
+    {
+     "name": "IDS",
+     "type": "integer"
+    },
+    {
+     "name": "CUSTTYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_AccNO_A",
+   "source": "TDataModPCustService.ODS_AccNO_A",
+   "kind": "TOracleDataSet",
+   "sql": "/*select null id, '' acc_no,''acc_no1 ,''name,'' tipacc,''symb,null ostat,-1 filial,'' filial_name,null val_acc,'' val_name,null bal_cn1  from dual\nunion all*/\nselect a.ID, a.acc_no,B.CASHINCOMING AS ISCACHEACCOUNT,CASE WHEN :AccSrchPos =0 THEN substr(acc_no,1,:AccSrchPos)||''||substr(acc_no,:AccSrchPos+1,30) WHEN :AccSrchPos <> 0 THEN substr(acc_no,1,:AccSrchPos)||'   '||substr(acc_no,:AccSrchPos+1,30)END acc_no1,a.name, a.tipacc,a.symb, (select ostat  from temprate   where val_kod=a.val_acc) ostat,a.filial, f.name filial_name,\n a.val_acc, v.val_name,a.bal_cn1  \nfrom account a, avalute v, filial_t f,bal_spr1 b\n where a.close_dat is  null and kli_ID = :CustID\n and bal_cn1 :BalCn\n and nvl(tipacc,'WWWWWWW') like (:vTipAcc)\n and a.val_acc :Currency\n and a.val_acc = v.valute\nand a.filial = f.id\nand a.bal_cn1=b.bal_cn\nand b.cust_type :custtype\n\norder by id, acc_no\n--a.filial,(select  name from filial where id=a.filial) filname",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "BALCN",
+     "type": "string"
+    },
+    {
+     "name": "VTIPACC",
+     "type": "string"
+    },
+    {
+     "name": "CURRENCY",
+     "type": "string"
+    },
+    {
+     "name": "CUSTTYPE",
+     "type": "string"
+    },
+    {
+     "name": "ACCSRCHPOS",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_AccNO_B",
+   "source": "TDataModPCustService.ODS_AccNO_B",
+   "kind": "TOracleDataSet",
+   "sql": "select a.ID,a.kli_id, a.acc_no,B.CASHINCOMING AS ISCACHEACCOUNT,CASE WHEN :AccSrchPos =0 THEN substr(acc_no,1,:AccSrchPos)||''||substr(acc_no,:AccSrchPos+1,30) WHEN :AccSrchPos <> 0 THEN substr(acc_no,1,:AccSrchPos)||'   '||substr(acc_no,:AccSrchPos+1,30)END acc_no1, a.name, a.tipacc,a.symb, (select ostat  from temprate   where val_kod=a.val_acc) ostat,a.filial, f.name filial_name,\n a.val_acc, v.val_name,a.bal_cn1,b.cust_type  \nfrom account a, avalute v, filial_t f,bal_spr1 b\n where  a.close_dat is  null \n and bal_cn1 :BalCn\n and nvl(tipacc,'WWWWWWW') like (:vTipAcc)\n and a.val_acc  :Currency\n and a.val_acc = v.valute\nand a.filial = f.id\nand a.bal_cn1=b.bal_cn\nand b.cust_type :custtype\n\n\n\n\n\n\norder by id, acc_no\n",
+   "variables": [
+    {
+     "name": "BALCN",
+     "type": "string"
+    },
+    {
+     "name": "VTIPACC",
+     "type": "string"
+    },
+    {
+     "name": "CURRENCY",
+     "type": "string"
+    },
+    {
+     "name": "CUSTTYPE",
+     "type": "string"
+    },
+    {
+     "name": "ACCSRCHPOS",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_AccNO_C",
+   "source": "TDataModPCustService.ODS_AccNO_C",
+   "kind": "TOracleDataSet",
+   "sql": "select a.ID,a.kli_id, a.acc_no,B.CASHINCOMING AS ISCACHEACCOUNT,CASE WHEN :AccSrchPos =0 THEN substr(acc_no,1,:AccSrchPos)||''||substr(acc_no,:AccSrchPos+1,30) WHEN :AccSrchPos <> 0 THEN substr(acc_no,1,:AccSrchPos)||'   '||substr(acc_no,:AccSrchPos+1,30)END acc_no1, a.name, a.tipacc,a.symb, (select ostat  from temprate   where val_kod=a.val_acc) ostat,a.filial, f.name filial_name,\n a.val_acc, v.val_name,a.bal_cn1,b.cust_type  \nfrom account a, avalute v, filial_t f,bal_spr1 b\n where  a.close_dat is  null \n and bal_cn1 :BalCn\n and nvl(tipacc,'WWWWWWW') like (:vTipAcc)\n and a.val_acc  :Currency\n and a.val_acc = v.valute\nand a.filial = f.id\nand a.bal_cn1=b.bal_cn\nand b.cust_type :custtype\n\n\n\n\n\norder by id, acc_no",
+   "variables": [
+    {
+     "name": "ACCSRCHPOS",
+     "type": "string"
+    },
+    {
+     "name": "BALCN",
+     "type": "string"
+    },
+    {
+     "name": "VTIPACC",
+     "type": "string"
+    },
+    {
+     "name": "CURRENCY",
+     "type": "string"
+    },
+    {
+     "name": "CUSTTYPE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "odsPassDeps",
+   "source": "TDataModPCustService.odsPassDeps",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from doc_deps where doc_type=:v_doctype\norder by ID",
+   "variables": [
+    {
+     "name": "V_DOCTYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ClientGroupData",
+   "source": "TDataModPCustService.ClientGroupData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from QRP_KLIE\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Odscountries",
+   "source": "TDataModPCustService.Odscountries",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries order by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "EstateTypeData",
+   "source": "TDataModPCustService.EstateTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM VID_SOB  where cust_type is not null and name is not null\n\n\n\n\n\n\n\n\n\n\n\norder by id\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "RelationData",
+   "source": "TDataModPCustService.RelationData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from PRINAD",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "OdsDoctaypes",
+   "source": "TDataModPCustService.OdsDoctaypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name, a.symbol, a.series, a.pincodforced, a.fordoctypes\n  FROM doc_types a\n order by a.symbol\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Odscountries1",
+   "source": "TDataModPCustService.Odscountries1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Odscities",
+   "source": "TDataModPCustService.Odscities",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cities\nwhere country_id =:v_id\norder by id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Odscountries2",
+   "source": "TDataModPCustService.Odscountries2",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Odscities1",
+   "source": "TDataModPCustService.Odscities1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cities\nwhere country_id=:v_id\n\norder by id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "OdsGender",
+   "source": "TDataModPCustService.OdsGender",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id ,'Kişi' as name from dual\nunion\nselect 2 as id ,'Qadın' as name from dual",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "OdsFamstatus",
+   "source": "TDataModPCustService.OdsFamstatus",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id,'Evli' as name from dual\nunion\nselect 2 as id,'Subay' as name from dual",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "DScustimage",
+   "source": "TDataModPCustService.DScustimage",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid, a.id, a.photo, a.custsign, a.stamp, a.doc_type_image\n  FROM custimage a  where a.id=:cust_id",
+   "variables": [
+    {
+     "name": "CUST_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "CreditDSet",
+   "source": "TDataModPCustService.CreditDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,cm_utils.Get_Gecgun(a.id,trunc(sysdate)) gecgun,cm_utils.Get_PlanPrincipal(a.id,trunc(sysdate)) as prin\n  from\n    cm_active a\nwhere a.boorowerid=:custid\norder by id desc",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "DepozDset",
+   "source": "TDataModPCustService.DepozDset",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       cont.id,\n       cont.contractno,\n       av.val_name,\n       dm_stored_programs.getcustomername(cont.customerid) as CustomerName,\n       cont.opendate,\n       cont.closedate,\n       cont.amount,\n       interest,      \n       (select sum(facticaldebt) from dm_history_currstate where id#=cont.id) as facticaldebt ,\n       (select sum(facticalinterestdebt) from dm_history_currstate where id#=cont.id) as facticalinterestdebt,\n       (select ostat from tenostat where acc_id=acc.clientaccid) as ostat,\n       (select type from dm_types where id=cont.contracttype)as contracttypename,\n       cont.currency,\n       cont.personaltype,\n       cont.clienttype,\n       cont.branchid,\n       cont.contracttype,\n       cont.customerid,\n       cont.prolongationdate,\n       cont.stopcalcdate,\n       cont.sid# as usid,\n       (select name from user$ where id=cont.sid#) username\nfrom dm_active_contracts cont,\n     dm_contract_accounts acc,\n     avalute av\nwhere acc.id# = cont.id and\n      cont.currency = av.valute and\n      cont.type# = 3 \n    \n     and cont.customerid=:CUSTID\n\n\norder by :OrderField     ",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "string"
+    },
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "OdsKurs",
+   "source": "TDataModPCustService.OdsKurs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ostat\n  FROM   temprate\n WHERE   val_kod =\n             (SELECT   val_acc\n                FROM   account\n               WHERE   id = (SELECT   debt\n                               FROM   (SELECT   ROWNUM r, debt\n                                         FROM   sb_business_proc_childs r\n                                        WHERE   parentid = :v_parentID)\n                              WHERE   r = 1)\n                       OR id = :d_accid)         \n ",
+   "variables": [
+    {
+     "name": "V_PARENTID",
+     "type": "integer"
+    },
+    {
+     "name": "D_ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_SYSDATE",
+   "source": "TDataModPCustService.ODS_SYSDATE",
+   "kind": "TOracleDataSet",
+   "sql": "select*from sysdat",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSFilial_A",
+   "source": "TDataModPCustService.ODSFilial_A",
+   "kind": "TOracleDataSet",
+   "sql": "select -1  id, 'Bütün filiallar' NAME, '00' KOD_FILIAL from dual\nunion\nselect id, NAME, KOD_FILIAL from filial_t ",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSFilial1",
+   "source": "TDataModPCustService.ODSFilial1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from filial_t",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSValute_acc",
+   "source": "TDataModPCustService.ODSValute_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select*from avalute\norder by valute",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_account_symbols_A",
+   "source": "TDataModPCustService.ODS_account_symbols_A",
+   "kind": "TOracleDataSet",
+   "sql": "\n\n\nselect 'hhh'symbol , 'Bütün hesablar' name from dual\nunion all\nselect symbol,name  from  account_symbols\n\n\n\n\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_Bal_spr_parts",
+   "source": "TDataModPCustService.ODS_Bal_spr_parts",
+   "kind": "TOracleDataSet",
+   "sql": "--select part,par_tname from  bal_spr1 group by part,part_name\nselect*from bal_spr_parts order by part",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_Bal_spr",
+   "source": "TDataModPCustService.ODS_Bal_spr",
+   "kind": "TOracleDataSet",
+   "sql": "select *from bal_spr1\nwhere-- part=:part1 and \n length (bal_cn)>3 \nand nvl(inter_valute,0)=:int_val\nand nvl(cust_type,0)=:cus_tip \nand nvl(resident,0)=:resd\nand nvl(sferadey,0) like :sferad_ey\nand nvl(acc_type,0)=:acctype\nand nvl(government,0) like :govern_ment\n\n/*and SYMB=:SYM*/\n\n/*union \nselect *from bal_spr1\nwhere   length (bal_cn)>3 \nand   part=:part1 \nand inter_valute is null \n--and cust_type is null \nand  resident is null*/\n\n",
+   "variables": [
+    {
+     "name": "ACCTYPE",
+     "type": "integer"
+    },
+    {
+     "name": "CUS_TIP",
+     "type": "integer"
+    },
+    {
+     "name": "RESD",
+     "type": "integer"
+    },
+    {
+     "name": "SFERAD_EY",
+     "type": "string"
+    },
+    {
+     "name": "INT_VAL",
+     "type": "integer"
+    },
+    {
+     "name": "GOVERN_MENT",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "AccFlags",
+   "source": "TDataModPCustService.AccFlags",
+   "kind": "TOracleDataSet",
+   "sql": "select ' ' as symbol, 'Butun simvollar' as Name from Dual\nUnion All\nSELECT symbol, symbol||'     '||description as name\n  FROM account_flags",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "CurrentUserFilial",
+   "source": "TDataModPCustService.CurrentUserFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select o.filialid as id,f.name,f.kod_filial from sba_objinf o, filial f where \no.sysuserid=uid and o.type = 'U' and f.id=o.filialid",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ConvertationSymbols",
+   "source": "TDataModPCustService.ConvertationSymbols",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CONVERT_ASSIGNMENTS\norder by ID\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_contrs3",
+   "source": "TDataModPCustService.Ods_contrs3",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_account_symbols1",
+   "source": "TDataModPCustService.ODS_account_symbols1",
+   "kind": "TOracleDataSet",
+   "sql": "select*  from  account_symbols",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_CUSTOMERS_PHYS_FS1",
+   "source": "TDataModPCustService.ODS_CUSTOMERS_PHYS_FS1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT c.id, c.name cust_name, d.name FIRSTNAME, d.soname PATRONYMIC, d.lastname,\n       d.passer passport, d.birthday birthdate, d.birthplace,\n       d.fam_status, d.address adress,d.fakt_adress, d.phone_h phone, d.e_mail email, c.open_dat opendate, d.sex,\n       c.op_id userid, d.paspnum passp_number, d.adrs_state, d.city adrs_city, d.doc_type ,c.sfera_dey ,c.otrasl, c.nalog_kod,c.org_sob,\n       d.birth_state, d.phone_m phone_mob, c.inn, c.group_klie, d.paspdate, c.close_dat, c.nerezident,    c.vid_sob, c.prinad_kod, d.paspplace, d.passPIN, c.cust_type,c.category,d.citizenship,d.passexpire, d.id as idcustinfo\n  FROM customers c, custinfo d      where  --and d.paspplace like ('%Bakı, Nizami RPİ%')  \n  d.idcust = c.id and c.close_dat is  null\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_sb_business_opers",
+   "source": "TDataModPCustService.ODS_sb_business_opers",
+   "kind": "TOracleDataSet",
+   "sql": "select  b.reference,b.dat,b.parentid,tim,p.name from sb_business_opers b,sb_business_processes  p \nwhere b.busproc=p.id  and  dat BETWEEN  :bdat and :edat \n\n\norder by tim\n\n",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_trancation",
+   "source": "TDataModPCustService.ODS_trancation",
+   "kind": "TOracleDataSet",
+   "sql": "select \nt.id,\nt.name,\nCASE WHEN :AccSrchPos =0 THEN substr(t.debitaccno,1,:AccSrchPos)||''||substr(t.debitaccno,:AccSrchPos+1,30) WHEN :AccSrchPos <> 0 THEN substr(t.debitaccno,1,:AccSrchPos)||'   '||substr(t.debitaccno,:AccSrchPos+1,30)END debitaccno,\nt.debitcurrencysname,\nCASE WHEN :AccSrchPos =0 THEN substr(t.creditaccno,1,:AccSrchPos)||''||substr(t.creditaccno,:AccSrchPos+1,30) WHEN :AccSrchPos <> 0 THEN substr(t.creditaccno,1,:AccSrchPos)||'   '||substr(t.creditaccno,:AccSrchPos+1,30)END creditaccno,\nt.creditcurrencysname,\nt.debitamount,\nt.creditamount,\nt.lamount,\nt.status,\nt.parentid,\nt.creditid,\nt.debitcurrencyid,\nt.DEBITBALANCE,\nt. NO_PROV,\nt. DAT,\nt. KNAME\nfrom transactions t where t.parentid=:ID and t. DAT=:dat\nunion\nselect \nt.id,\nt.name,\nCASE WHEN :AccSrchPos =0 THEN substr(t.debitaccno,1,:AccSrchPos)||''||substr(t.debitaccno,:AccSrchPos+1,30) WHEN :AccSrchPos <> 0 THEN substr(t.debitaccno,1,:AccSrchPos)||'   '||substr(t.debitaccno,:AccSrchPos+1,30)END debitaccno,\nt.debitcurrencysname,\nCASE WHEN :AccSrchPos =0 THEN substr(t.creditaccno,1,:AccSrchPos)||''||substr(t.creditaccno,:AccSrchPos+1,30) WHEN :AccSrchPos <> 0 THEN substr(t.creditaccno,1,:AccSrchPos)||'   '||substr(t.creditaccno,:AccSrchPos+1,30)END creditaccno,\nt.creditcurrencysname,\nt.debitamount,\nt.creditamount,\nt.lamount,\nt.status,\nt.parentid,\nt.creditid,\nt.debitcurrencyid,\nt.DEBITBALANCE,\nt. NO_PROV,\nt. DAT,\nt. KNAME\nfrom transactions t where t.id=:ID and t. DAT=:dat",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    },
+    {
+     "name": "ACCSRCHPOS",
+     "type": "integer"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "OrganizationTypeData",
+   "source": "TDataModPCustService.OrganizationTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM ORG_PRAV\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ActionAreaData",
+   "source": "TDataModPCustService.ActionAreaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM SFERADEY\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "TaxAreaData",
+   "source": "TDataModPCustService.TaxAreaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM NALOG",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "BranchData",
+   "source": "TDataModPCustService.BranchData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM OTRASLI",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSUsers",
+   "source": "TDataModPCustService.ODSUsers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from user$",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSNotAccId",
+   "source": "TDataModPCustService.ODSNotAccId",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_GetExtraction",
+   "source": "TDataModPCustService.ODS_GetExtraction",
+   "kind": "TOracleDataSet",
+   "sql": "select SB_Statement.GetExtraction2(\n    :bDate,\n    :eDate,\n    :ClientID,\n    :AccountNo,\n    :BalanceNo,\n    :BranchID,\n    :CurrencyID,\n    :UserID,\n    :Vidop) str from dual\n",
+   "variables": [
+    {
+     "name": "BDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "CLIENTID",
+     "type": "string"
+    },
+    {
+     "name": "ACCOUNTNO",
+     "type": "string"
+    },
+    {
+     "name": "BALANCENO",
+     "type": "string"
+    },
+    {
+     "name": "BRANCHID",
+     "type": "integer"
+    },
+    {
+     "name": "CURRENCYID",
+     "type": "integer"
+    },
+    {
+     "name": "USERID",
+     "type": "integer"
+    },
+    {
+     "name": "VIDOP",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_ExtractionTrans",
+   "source": "TDataModPCustService.ODS_ExtractionTrans",
+   "kind": "TOracleDataSet",
+   "sql": "select SB_Statement.Extraction_Trans(\n    :bDate,\n    :eDate,\n    :ClientID,\n    :AccountNo,\n    :BalanceNo,\n    :BranchID,\n    :CurrencyID,\n    :UserID,\n    :vidop) str from dual\n",
+   "variables": [
+    {
+     "name": "BDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "CLIENTID",
+     "type": "string"
+    },
+    {
+     "name": "ACCOUNTNO",
+     "type": "string"
+    },
+    {
+     "name": "BALANCENO",
+     "type": "string"
+    },
+    {
+     "name": "BRANCHID",
+     "type": "integer"
+    },
+    {
+     "name": "CURRENCYID",
+     "type": "integer"
+    },
+    {
+     "name": "USERID",
+     "type": "integer"
+    },
+    {
+     "name": "VIDOP",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSMainState",
+   "source": "TDataModPCustService.ODSMainState",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  ac.id         AccountId,\n  ac.kli_id     CustomerId,\n  ac.acc_no     AccountNumber,\n  ac.op_id      OperatorId,\n  ac.val_acc    CurrencyId,\n  av.val_name   CurrencyName,\n  ac.name       AccountName,\n  c.inn         CustomerVoin,\n  ac.bal_cn1    BalanceCode,\n  ac.open_dat   OpenDate,\n  ac.filial     Filial,\n  sb_statement.flastopdate(ac.id,'11-SEP-10')    LastOpdate,\n  sb_statement.fOstat(ac.id,'11-SEP-10')         Ostat,\n  sb_statement.fPok_Ostat(ac.id,'11-SEP-10')     PokOstat,\n  sb_statement.fEndOstat(ac.id,'11-SEP-10')      EndOstat,\n  sb_statement.fEndPok_Ostat(ac.id,'11-SEP-10')  EndPokOstat,\n  sb_statement.fDatDate(ac.id,'11-SEP-10')       DatDate,\n  to_date('11-SEP-10')                                         EndDate,\n  sb_statement.fAp_Beg(ac.id,'11-SEP-10')        AP_Beg,\n  sb_statement.fAp_End(ac.id,'11-SEP-10')        AP_End  from account ac,customers c,avalute av  where\n  ac.kli_id=c.id\n  and  ac.val_acc = av.valute\n  and ac.open_dat<='11-SEP-10'   --order by a\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSExtractTrans",
+   "source": "TDataModPCustService.ODSExtractTrans",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [
+    {
+     "name": "OWNACCOUNTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "RatesDataSetBegin",
+   "source": "TDataModPCustService.RatesDataSetBegin",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   Val_Kod\n  ,Dat\n ,Ostat\n  From Operkurs\nWhere   Val_Kod = :Val_Kod and Dat =:Dat",
+   "variables": [
+    {
+     "name": "VAL_KOD",
+     "type": "integer"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "RatesDataSet",
+   "source": "TDataModPCustService.RatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   Val_Kod\n  ,Dat\n ,Ostat\n  From Operkurs\nWhere   Val_Kod = :Val_Kod and Dat =:Dat",
+   "variables": [
+    {
+     "name": "VAL_KOD",
+     "type": "integer"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_State",
+   "source": "TDataModPCustService.ODS_State",
+   "kind": "TOracleDataSet",
+   "sql": "select ac. rowid,ac. kli_id, CASE WHEN :AccSrchPos =0 THEN substr(ac.acc_no,1,:AccSrchPos)||''||substr(ac.acc_no,:AccSrchPos+1,30) WHEN :AccSrchPos <> 0 THEN substr(ac.acc_no,1,:AccSrchPos)||'   '||substr(ac.acc_no,:AccSrchPos+1,30)END acc_no1,ac.acc_no ,ac.bal_cn1 ,ac.name, 0 dd,(select name from filial_t where id=filial) as filial, (select val_name from avalute  where valute=val_acc) as Valuta,\nt.pok_ostat,ac.filial as fil,ac.val_acc as val,t.ostat,b.cust_type from\n account ac,tenostat t,bal_spr1 b\nwhere ac. kli_id=:custid\n and  ac.id=t.acc_id \n and ac.bal_cn1=b.bal_cn\n and ac.close_dat is  null\n\n\n\n\n\n\n\n-- and b.cust_type:custtype\n\n\n\n",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "CUSTTYPE",
+     "type": "string"
+    },
+    {
+     "name": "ACCSRCHPOS",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "memorial_date",
+   "source": "TDataModPCustService.memorial_date",
+   "kind": "TOracleDataSet",
+   "sql": "select m.rowid,m.* from memorial_date m",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSValuteName",
+   "source": "TDataModPCustService.ODSValuteName",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  valute\n  ,valu_name\n  ,valu_bala \nFrom\n   Avalute \n\nwhere valute =:Valute ",
+   "variables": [
+    {
+     "name": "VALUTE",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Account",
+   "source": "TDataModPCustService.Account",
+   "kind": "TOracleDataSet",
+   "sql": "select *\n from Fiz_FS_Accs  \nwhere custID =:CID\nor AccNO like (:p_AccNO)",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    },
+    {
+     "name": "P_ACCNO",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ForFizFsVoen",
+   "source": "TDataModPCustService.ForFizFsVoen",
+   "kind": "TOracleDataSet",
+   "sql": "select decode(bl.cust_type,null,0,bl.cust_type) as cust_type\n from  bal_spr1 bl, account a\nwhere \n\ta.bal_cn1=bl.bal_cn \nand \ta.acc_no=:v_acc_no",
+   "variables": [
+    {
+     "name": "V_ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSBank",
+   "source": "TDataModPCustService.ODSBank",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  Bank,Inn,KOD_B From BankInfo",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSCashInfo",
+   "source": "TDataModPCustService.ODSCashInfo",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  C.RowID,\n  C.*\nFrom\n  CashInfo C\nWhere  ID=:ID",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Settings",
+   "source": "TDataModPCustService.Settings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  *\nFROM\n    cash_settings",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDataModPCustService.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,name from customers",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_Work_Post",
+   "source": "TDataModPCustService.ODS_Work_Post",
+   "kind": "TOracleDataSet",
+   "sql": "select*from work_posts",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_Prinad",
+   "source": "TDataModPCustService.ODS_Prinad",
+   "kind": "TOracleDataSet",
+   "sql": "select*from prinad",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDataModPCustService.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT c.id, c.name cust_name, d.name FIRSTNAME, d.soname PATRONYMIC, d.lastname,\n       d.passer passport, d.birthday birthdate, d.birthplace,\n       d.fam_status, d.address adress,d.fakt_adress, d.phone_h phone, d.e_mail email, c.open_dat opendate, d.sex,\n       c.op_id userid, d.paspnum passp_number, d.adrs_state, d.city adrs_city, d.doc_type ,\n       d.birth_state, d.phone_m phone_mob, c.inn, c.group_klie, d.paspdate, c.close_dat, c.nerezident,    c.vid_sob, c.prinad_kod, d.paspplace, d.passPIN, c.cust_type,c.category,d.citizenship,d.passexpire, d.id as idcustinfo\n  FROM customers c, custinfo d      where  --and d.paspplace like ('%Bakı, Nizami RPİ%')  \n  d.idcust = c.id and c.close_dat is  null\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_closAccount",
+   "source": "TDataModPCustService.Ods_closAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,c.*,t.*, decode(b.typeid,1,'A',2,'P',3,'A-P') typesymb,v.val_name, T.OSTAT*decode(typeid,1,-1,1) as Balance,substr(acc_no,10,7) accno,\n  T.POK_OSTAT*decode(typeid,1,-1,1) as LBalance from account a, customers c, Tenostat t , bal_spr1 b,avalute_t v\nwhere a.kli_id=c.id and a.close_dat is null and a.id=t.acc_id and a.bal_cn1=b.bal_cn and a.val_acc=v.valute and\n kli_id=:id  Order by :Title\n\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ReportSymbol",
+   "source": "TDataModPCustService.ReportSymbol",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_acc_types",
+   "source": "TDataModPCustService.Ods_acc_types",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM acc_types\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_custinfo",
+   "source": "TDataModPCustService.ODS_custinfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.*, w.name AS tname\nFROM PCust_view p\nLEFT JOIN customers_relations r ON r.custid2 = p.id\nLEFT JOIN work_posts w ON w.id = r.work_post\nWHERE p.close_dat IS NULL\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_Pozition",
+   "source": "TDataModPCustService.ODS_Pozition",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from View_customers_relations a\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_CUSTOMERS_PHYS_FS2",
+   "source": "TDataModPCustService.ODS_CUSTOMERS_PHYS_FS2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT*from pcust_view  where  close_dat is  null-- and cust_type in(0,1,2,3)\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_Customers_Phys_FS",
+   "source": "TDataModPCustService.ODS_Customers_Phys_FS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.*, case when cust_type=0 then cust_name else p.lastname ||' '||substr(p.firstname,0,1)end papa_n,p.inn  voen  from PCust_view p where  p.close_dat is  null  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "CountryByConctType",
+   "source": "TDataModPCustService.CountryByConctType",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from  countries c where lower(c.cntr_name) <> lower('yox')\norder by c.cntr_name",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "CityByConctType",
+   "source": "TDataModPCustService.CityByConctType",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities\nwhere COUNTRY_ID = nvl(:CID,0)\norder by ID",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ds_mmx_communication_type",
+   "source": "TDataModPCustService.ds_mmx_communication_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_communication_type a\norder by a.id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ds_tph_country_prefix",
+   "source": "TDataModPCustService.ds_tph_country_prefix",
+   "kind": "TOracleDataSet",
+   "sql": "select c.phone_code from  countries c where c.phone_code is not null\norder by ID ",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "DS_INCORP_CNTR",
+   "source": "TDataModPCustService.DS_INCORP_CNTR",
+   "kind": "TOracleDataSet",
+   "sql": "select c.* from  countries c where lower(c.cntr_name) <> lower('yox')\norder by ID \n \n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSFakt_Adrs_Country",
+   "source": "TDataModPCustService.ODSFakt_Adrs_Country",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from  countries c where lower(c.cntr_name)<>lower('yox')\norder by c.cntr_name",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODSFakt_Adrs_City",
+   "source": "TDataModPCustService.ODSFakt_Adrs_City",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities\nwhere COUNTRY_ID = nvl(:CID,0)\norder by ID",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Citizenship2",
+   "source": "TDataModPCustService.Citizenship2",
+   "kind": "TOracleDataSet",
+   "sql": "select ID,CNTR_NAME from countries order by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Citizenship3",
+   "source": "TDataModPCustService.Citizenship3",
+   "kind": "TOracleDataSet",
+   "sql": "select ID,CNTR_NAME from countries order by id-- cntr_name",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "DS_issue_country",
+   "source": "TDataModPCustService.DS_issue_country",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from  countries c where lower(c.cntr_name)<>lower('yox')\norder by c.cntr_name",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_Customers_PhysFS_yoxlama",
+   "source": "TDataModPCustService.Ods_Customers_PhysFS_yoxlama",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT*from PCust_view where  close_dat is  null \nand id=:id_yoxlama",
+   "variables": [
+    {
+     "name": "ID_YOXLAMA",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_imzahuququ",
+   "source": "TDataModPCustService.Ods_imzahuququ",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 as id ,'yox' as name from dual\nunion\nselect 1 as id ,'Hə' as name from dual",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_risk",
+   "source": "TDataModPCustService.ODS_risk",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cust_risk_categ",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_CUST_RISK_DESC",
+   "source": "TDataModPCustService.ODS_CUST_RISK_DESC",
+   "kind": "TOracleDataSet",
+   "sql": "select*from CUST_RISK_DESC\nwhere risk_id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_Hesabinsahibi",
+   "source": "TDataModPCustService.ODS_Hesabinsahibi",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 as id ,'yox' as name from dual\nunion\nselect 1 as id ,'Hə' as name from dual",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_account_symbols_B",
+   "source": "TDataModPCustService.ODS_account_symbols_B",
+   "kind": "TOracleDataSet",
+   "sql": "\n\n\nselect 'hhh'symbol , 'Bütün hesablar' name from dual\nunion all\nselect symbol,name  from  account_symbols\n\n\n\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ds_tph_contact_type",
+   "source": "TDataModPCustService.ds_tph_contact_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_contact_type a\norder by a.id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Templates",
+   "source": "TDataModPCustService.Templates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.RowID , T.*\n  FROM CUSTOMERS_WR_TEMPLATES T where CUSTTYPE in(0,1,2,3)",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Bookmarks",
+   "source": "TDataModPCustService.Bookmarks",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,ID, TEMPLATEID, FIELDID, BOOKMARKNAME\n  FROM CUSTOMERS_WR_BOOKMARKS\nwhere templateid = :templateid",
+   "variables": [
+    {
+     "name": "TEMPLATEID",
+     "type": "float"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Fields",
+   "source": "TDataModPCustService.Fields",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, FIELDNAME, DESCRIPTION\n  FROM CUSTOMERS_WR_FIELDS\norder by id\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "CustomerInfoDataSet",
+   "source": "TDataModPCustService.CustomerInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM PCUST_WR_INFO\nwhere accID=:Acc_ID",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ReplaceCustDataSet",
+   "source": "TDataModPCustService.ReplaceCustDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   CUSTOMERS_WR_BOOKMARKS B\n , CUSTOMERS_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_WORK_OTRASLI",
+   "source": "TDataModPCustService.Ods_WORK_OTRASLI",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM OTRASLI\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_WORK_VID_SOB",
+   "source": "TDataModPCustService.Ods_WORK_VID_SOB",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM VID_SOB where cust_type is not null and name is not null\n\n\n\n\n\n\n\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_HesabCap",
+   "source": "TDataModPCustService.Ods_HesabCap",
+   "kind": "TOracleDataSet",
+   "sql": "select*from account a, customers c,bal_spr1 b\nwhere a.kli_id=c.id and a.bal_cn1=b.bal_cn and a.close_dat is null and\n kli_id=:id ",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_filial",
+   "source": "TDataModPCustService.Ods_filial",
+   "kind": "TOracleDataSet",
+   "sql": "select*from filial",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_account_tipacc",
+   "source": "TDataModPCustService.ODS_account_tipacc",
+   "kind": "TOracleDataSet",
+   "sql": "select*from account where kli_id=:id and( tipacc like upper('%D%') or tipacc like upper('%C%'))",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_account_symbols_C",
+   "source": "TDataModPCustService.ODS_account_symbols_C",
+   "kind": "TOracleDataSet",
+   "sql": "\n\n\nselect 'hhh'symbol , 'Bütün hesablar' name from dual\nunion all\nselect symbol,name  from  account_symbols\n\n\n\n",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Destinations",
+   "source": "TDataModPCustService.Destinations",
+   "kind": "TOracleDataSet",
+   "sql": "select d.*, d.rowid from TRDESTINATION d\norder by name",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_cust_quality",
+   "source": "TDataModPCustService.Ods_cust_quality",
+   "kind": "TOracleDataSet",
+   "sql": "select A.rowid,A.* from cust_quality A  order by A.id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_cust_id_quality",
+   "source": "TDataModPCustService.Ods_cust_id_quality",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from cust_id_quality a where a.id_quality=:id_quality",
+   "variables": [
+    {
+     "name": "ID_QUALITY",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ods_custID_quality",
+   "source": "TDataModPCustService.ods_custID_quality",
+   "kind": "TOracleDataSet",
+   "sql": "--select c.*,c.name_quality from custID_quality c  where c.custid=:custid  group by name_quality-- and id_quality=:id_quality\nselect*from cust_quality where id in(select id_quality from custID_quality where  custid=:custid  GROUP by id_quality) order by id",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_cust_id_quality1",
+   "source": "TDataModPCustService.Ods_cust_id_quality1",
+   "kind": "TOracleDataSet",
+   "sql": "select A.rowid,A.* from custid_quality A where  A.custid=:custid and id_quality=:id_quality",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "ID_QUALITY",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_cust_id_qualityCount",
+   "source": "TDataModPCustService.Ods_cust_id_qualityCount",
+   "kind": "TOracleDataSet",
+   "sql": "select count(checked) as checked from custid_quality A where  A.custid=:custid and id_quality=:id_quality\n",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "ID_QUALITY",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_val",
+   "source": "TDataModPCustService.ODS_val",
+   "kind": "TOracleDataSet",
+   "sql": "select valute ,valu_name from avalute\norder by valute",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_Tenostat_A",
+   "source": "TDataModPCustService.Ods_Tenostat_A",
+   "kind": "TOracleDataSet",
+   "sql": "select*from Tenostat where acc_id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_Tenostat_B",
+   "source": "TDataModPCustService.Ods_Tenostat_B",
+   "kind": "TOracleDataSet",
+   "sql": "select*from Tenostat where acc_id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_Tenostat_C",
+   "source": "TDataModPCustService.Ods_Tenostat_C",
+   "kind": "TOracleDataSet",
+   "sql": "select*from Tenostat where acc_id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_fakt_adress_owner",
+   "source": "TDataModPCustService.Ods_fakt_adress_owner",
+   "kind": "TOracleDataSet",
+   "sql": "select*from fakt_adress_owner",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Transaction",
+   "source": "TDataModPCustService.Transaction",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from transactionsp \nwhere debitID = :p_AccID or creditID = :p_AccID\norder by :title",
+   "variables": [
+    {
+     "name": "P_ACCID",
+     "type": "string"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "Ods_cust_compani",
+   "source": "TDataModPCustService.Ods_cust_compani",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name,name||'  \\  '||description as name_des from cust_compani order by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ODS_sferadey_cod",
+   "source": "TDataModPCustService.ODS_sferadey_cod",
+   "kind": "TOracleDataSet",
+   "sql": "select *from sferadey_cod",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ods_tarifs",
+   "source": "TDataModPCustService.ods_tarifs",
+   "kind": "TOracleDataSet",
+   "sql": "select name ,qrup,(minamt||'-'||maxamt) as amt,rtrim(to_char(amtpercent,'FM90.99'),'.')||'%' as amtpercent ,amtvalue,\nreplace(to_char(mintime/100,'00.99'),'.',':') ||' - ' || replace(to_char(maxtime/100,'00.99'),'.',':') as tim\nfrom tarifs \n\n\n\n\norder by qrup",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ods_months_sysdat",
+   "source": "TDataModPCustService.ods_months_sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select ADD_MONTHS(tek_dat,:v_months) as dat from sysdat",
+   "variables": [
+    {
+     "name": "V_MONTHS",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TDataModPCustService.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "CustomerInfoDataSet_nom",
+   "source": "TDataModPCustService.CustomerInfoDataSet_nom",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM PCUST_WR_INFO_nom\nwhere ID=:v_ID",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ods_rescount",
+   "source": "TDataModPCustService.ods_rescount",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ods_rescount2",
+   "source": "TDataModPCustService.ods_rescount2",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ods_rescount1",
+   "source": "TDataModPCustService.ods_rescount1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries\norder by id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "CashSymbols",
+   "source": "TDataModPCustService.CashSymbols",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  symbol,\n  name,\n  mediocrity\nFROM\n  kassa_b\norder by symbol ",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ds_mmx_contact_type",
+   "source": "TDataModPCustService.ds_mmx_contact_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_contact_type a\norder by a.id",
+   "variables": [],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ods_cust_notes",
+   "source": "TDataModPCustService.ods_cust_notes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cust_notes where status=1 and custid=:v_custid",
+   "variables": [
+    {
+     "name": "V_CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDataModPCustService"
+  },
+  {
+   "name": "ods_embstrans",
+   "source": "TForm_embasTrans.ods_embstrans",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id as custid,a.id as acc_id, p.firstname||'  ' ||p.patronymic||'  '||p.lastname as cust_name,a.name,\n(select abs(pok_ostat) from tenostat where acc_id=a.id)  as  pok_ostat\n ,a.bal_cn1,a.acc_no\n,decode( sex,1,'Mr',2,'Ms')||'.' as sex,\n  p.firstname||'  ' ||p.patronymic||'  '||p.lastname as custname\nfrom pcust_view p,account a where p.id=a.kli_id and substr(a.acc_no,19,1) in('1')\nand a.bal_cn1 like '3%' and a.close_dat is null  and p.id=:custid\n\nunion \n\nselect  p.id as custid,a.id as acc_id, p.cust_name as cust_name,a.name,\n(select abs(pok_ostat) from tenostat where acc_id=a.id) as  pok_ostat,\na.bal_cn1,a.acc_no,''sex,\n(select  firstname||'  ' ||patronymic||'  '||lastname from pcust_view where id=:custid)as  custname\nfrom pcust_view p,account a where p.id=a.kli_id and a.bal_cn1 in(1001) and a.close_dat is null  \n\norder by bal_cn1 desc",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitEmbasyTrans"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TForm_other_change.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cust_other_info_list where inf_id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitForm_other_change"
+  },
+  {
+   "name": "ods_cap",
+   "source": "TQRptInvoceRep.ods_cap",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  bp_id, inv_num,trunc(inv_date) inv_date,  \n       trans_id, trunc(trans_date) trans_date, par1, par2, par3, par4, par5,\n       par6, par7, par8, par13||'***'|| par9 as tarif,par11, par12,par13\n     \n  FROM invoices i where i.trans_id=:v_trid\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "V_TRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitInvoceRep"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFormLikol.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id,kli_id,acc_no ,substr(acc_no,10,7) accno from account where close_dat is null and bal_cn1 in('531','535') and kli_id=:v_kliid\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "V_KLIID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitLikol"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFormLikol.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select id,kli_id,acc_no  from account where close_dat is null and bal_cn1='721' \n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "UnitLikol"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFormTransaction11.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from sb_business_processes",
+   "variables": [],
+   "unit": "UnitTransaction11"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFormTransaction11.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id,p.cust_name  from PCust_view p where  p.close_dat is  null   \n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitTransaction11"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TFormTransaction11.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select id,kli_id,acc_no ,substr(acc_no,10,7) accno from account where close_dat is null and bal_cn1='531' \n\n\n\n\n",
+   "variables": [],
+   "unit": "UnitTransaction11"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TFormTransaction11.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select*from gen_tariffs  where bp_id=:v_bp_id\nand (carnumber=:v_carn or carnumber is null) \n order by carnumber",
+   "variables": [
+    {
+     "name": "V_BP_ID",
+     "type": "integer"
+    },
+    {
+     "name": "V_CARN",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitTransaction11"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TForm_other.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cust_other_information",
+   "variables": [],
+   "unit": "Unit_Other"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TForm_other.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid ,a.* from  cust_other_info_add a where custid=:v_id\norder by id asc",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit_Other"
+  },
+  {
+   "name": "ODs_main",
+   "source": "TForm_custPotencial.ODs_main",
+   "kind": "TOracleDataSet",
+   "sql": "select * from(SELECT id,name, address,phone_m,phone_h,  (select name from user$ where id=calle_user)as calle_user,calle_user as calleuser,call_result,\n\ncase when call_status= 1 then'Asagi' \n         when call_status= 2 then'Orta'\n         when call_status= 3 then'Yuksek' end call_status,call_status as callstatus,\n     case when department= 1 then'AIS' \n         when department= 2 then'Emeliyyatci'\n         when department= 3 then'Musteri xidmetleri' end department,department as department_, call_date,type\n  FROM cust_potencial ) p_cust   where type=1\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitcust_potencial"
+  },
+  {
+   "name": "Ods_departament",
+   "source": "TForm_custPotencial.Ods_departament",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id ,'AIS' name  from dual\nunion\nselect 2 id ,'Emeliyyatci' name from dual\nunion\nselect 3 id ,'Musteri xidmetleri' name from dual\n\n",
+   "variables": [],
+   "unit": "Unitcust_potencial"
+  },
+  {
+   "name": "Ods_call",
+   "source": "TForm_custPotencial.Ods_call",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id ,'Asagi' name  from dual\nunion\nselect 2 id ,'Orta' name from dual\nunion\nselect 3 id ,'Yuksek' name from dual\n\n",
+   "variables": [],
+   "unit": "Unitcust_potencial"
+  },
+  {
+   "name": "Ods_user",
+   "source": "TForm_custPotencial.Ods_user",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,name from user$",
+   "variables": [],
+   "unit": "Unitcust_potencial"
+  },
+  {
+   "name": "Ods_meeting",
+   "source": "TForm_custPotencial.Ods_meeting",
+   "kind": "TOracleDataSet",
+   "sql": "select * from(SELECT id,name, address,phone_m,phone_h,  (select name from user$ where id=meeting_user)as meeting_user,meeting_user as meetinguser,\nmeeting_result,agreement_case,\ncase when meeting_ststus= 1 then'Asagi' \n         when call_status= 2 then'Orta'\n         when call_status= 3 then'Yuksek' end meeting_ststus,call_status as meetingststus,\n     case when department= 1 then'AIS' \n         when department= 2 then'Emeliyyatci'\n         when department= 3 then'Musteri xidmetleri' end department,department as department_, meeting_date,type\n  FROM cust_potencial ) p_cust   where type=2\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitcust_potencial"
+  },
+  {
+   "name": "ods_embassy",
+   "source": "TForm_embassy.ods_embassy",
+   "kind": "TOracleDataSet",
+   "sql": "select*from embassy",
+   "variables": [],
+   "unit": "Unitembassy"
+  },
+  {
+   "name": "ods_embassytrans_info",
+   "source": "TForm_embassy.ods_embassytrans_info",
+   "kind": "TOracleDataSet",
+   "sql": "select p.ammount,a.acc_no, p.name teyinat,kassa_b as  kass,abs(ar.ostat) ostat,\n       piecesofwriting.CurrencyToHR(ostat)||' '||(select valu_name from avalute where valute=p.val_acc)ostat_yaz,\n       piecesofwriting.CurrencyToHR(p.ammount)||' '||(select valu_name from avalute where valute=p.val_acc)ammount_yaz,\n       (select val_name from avalute where valute=p.val_acc)as val_name\n  from \nlazytransaction p, account a,archost ar \n  where p.id=:trid and p.debt=a.id and p.debt=ar.acc_id and p.dat=:dat and ar.datdate=:dat",
+   "variables": [
+    {
+     "name": "TRID",
+     "type": "string"
+    },
+    {
+     "name": "DAT",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitembassy"
+  },
+  {
+   "name": "ods_bankinf",
+   "source": "TForm_embassy.ods_bankinf",
+   "kind": "TOracleDataSet",
+   "sql": "select*from bankinfo",
+   "variables": [],
+   "unit": "Unitembassy"
+  },
+  {
+   "name": "sysdat",
+   "source": "TForm_embassy.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select  TO_CHAR(tek_dat,'dd-Month-yyyy') as dat, tek_dat from sysdat",
+   "variables": [],
+   "unit": "Unitembassy"
+  },
+  {
+   "name": "ods_cust_acc",
+   "source": "TForm_embassy.ods_cust_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id, \n   c.firstname||'   ' ||c.patronymic||'   '||c.lastname as custname,a.val_acc,abs(ar.pok_ostat)pok_ostat,\n   abs(ar.ostat) ostat, a.acc_no,(select val_name from avalute where valute=a.val_acc)as val_name,\n  decode( sex,1,'Mr',2,'Ms')||'.' as sex\n  from\n  pcust_view c,\n  account a,\n  archost ar \n  where substr(a.acc_no,19,1) in('1','3','4')and  a.bal_cn1 like '3%'and\n c.id=a.kli_id and a.id=ar.acc_id   and ar.ostat<>0 and ar.datdate=:dat and a.kli_id=:custid",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "string"
+    },
+    {
+     "name": "CUSTID",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitembassy"
+  },
+  {
+   "name": "ods_kurstudey",
+   "source": "TForm_embassy.ods_kurstudey",
+   "kind": "TOracleDataSet",
+   "sql": "select*from operkurstoday where val_kod=:v_val_kod",
+   "variables": [
+    {
+     "name": "V_VAL_KOD",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitembassy"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFormQaime.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  bp_id, inv_num,trunc(inv_date) inv_date,  \n       trans_id, trunc(trans_date) trans_date, par1, par2, par3, par4, par5,\n       par6, par7, par8, par13||'***'|| par9 as tarif,par11, par12,par13\n     \n  FROM invoices i, account a where i.Credit=a.id and a.kli_id=:kliid\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "KLIID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitqaime"
+  },
+  {
+   "name": "ODSBank",
+   "source": "TQRptInterval.ODSBank",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  Bank,Inn,KOD_B From BankInfo",
+   "variables": [],
+   "unit": "UntIntervalRpt"
+  },
+  {
+   "name": "ods_masin",
+   "source": "TFormMasin.ods_masin",
+   "kind": "TOracleDataSet",
+   "sql": "select kli_id,name  from account where substr(acc_no,10,7) in (:v_accno)\ngroup by kli_id, name",
+   "variables": [
+    {
+     "name": "V_ACCNO",
+     "type": "string"
+    }
+   ],
+   "unit": "frommasinUni"
+  }
+ ],
+ "packages": [
+  {
+   "component": "?",
+   "package": "",
+   "mode": "positional",
+   "source": "*.?",
+   "routines": [
+    {
+     "name": "sendcomapnypayment",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "IUPackage",
+   "package": "CM_CREDIT",
+   "mode": "named",
+   "source": "TDataModPCustService.IUPackage",
+   "routines": []
+  },
+  {
+   "component": "OPCash",
+   "package": "SB_CASHREPORT",
+   "mode": "positional",
+   "source": "*.OPCash",
+   "routines": [
+    {
+     "name": "GetCustomerInfo",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPG_BusProc",
+   "package": "P_Business_Proc",
+   "mode": "positional",
+   "source": "*.OPG_BusProc",
+   "routines": [
+    {
+     "name": "ExecBProcess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_invoices",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_invoices_fuel",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPackage",
+   "package": "customer_operations",
+   "mode": "positional",
+   "source": "*.OPackage",
+   "routines": [
+    {
+     "name": "ins_date",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "PG_PCustService",
+   "package": "PG_PCustService",
+   "mode": "positional",
+   "source": "*.PG_PCustService",
+   "routines": [
+    {
+     "name": "GET_WORLD_YOXLAMA",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "add_cust_potencial_calle",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_cust_potencial_meeting",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_cust_relations",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_customers_prosess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_customers_prosess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "cust_other_info_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_customers_prosess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_customers_relations",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_cust_potencial_calle",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_cust_potencial_meeting",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_cust_potencial_calle",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_customers_prosess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_Add_cust_yoxlama",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_Messaj",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_Modle_comp",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_operation_tesdiq",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_rate",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "get_world_yoxlama",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "p_bus_tr",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "sefr_trans",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "upd_custid_quality",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_custid_quality_descriptin",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_transactions_descrption",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_customers",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBOP",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "*.SBOP",
+   "routines": [
+    {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GenerateAccountNumber1",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "add_account",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "close_account",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_acc_no_sub",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "upd_accountPcustService",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBUTIL",
+   "package": "SBUTIL",
+   "mode": "positional",
+   "source": "*.SBUTIL",
+   "routines": [
+    {
+     "name": "FlagExsist",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "*.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckObjectAccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SB_STATEMENT",
+   "package": "SB_STATEMENT",
+   "mode": "positional",
+   "source": "*.SB_STATEMENT",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "notAccId",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
+   "component": "convertpack",
+   "package": "convertpack",
+   "mode": "positional",
+   "source": "TDataModPCustService.convertpack",
+   "routines": []
+  },
+  {
+   "component": "cust_exch",
+   "package": "cust_exch",
+   "mode": "positional",
+   "source": "TFormepxtrans.cust_exch",
+   "routines": [
+    {
+     "name": "cust_exchtrans",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "msg_control",
+   "package": "msg_control",
+   "mode": "positional",
+   "source": "*.msg_control",
+   "routines": [
+    {
+     "name": "GetMessage",
+     "call": "CallStringFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

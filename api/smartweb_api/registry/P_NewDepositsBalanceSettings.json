@@ -1,0 +1,90 @@
+{
+ "name": "P_NewDepositsBalanceSettings",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsBalanceSettings",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Ods_person",
+   "source": "TForm_balace_settings.Ods_person",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_persons where REZ_QREZ_ID=:REZ_QREZ_ID",
+   "variables": [
+    {
+     "name": "REZ_QREZ_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FormUnit"
+  },
+  {
+   "name": "ods_valyuta",
+   "source": "TForm_balace_settings.ods_valyuta",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_valyuta where cust_typeid=:cust_typeid",
+   "variables": [
+    {
+     "name": "CUST_TYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FormUnit"
+  },
+  {
+   "name": "Ods_balance_settings",
+   "source": "TForm_balace_settings.Ods_balance_settings",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_account_balance_settings  where val_id=:val_id \norder by id",
+   "variables": [
+    {
+     "name": "VAL_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FormUnit"
+  },
+  {
+   "name": "Ods_rezidents",
+   "source": "TForm_balace_settings.Ods_rezidents",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_rezidents",
+   "variables": [],
+   "unit": "FormUnit"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

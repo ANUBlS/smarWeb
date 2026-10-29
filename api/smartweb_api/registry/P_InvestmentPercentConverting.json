@@ -1,0 +1,117 @@
+{
+ "name": "P_InvestmentPercentConverting",
+ "caption": "",
+ "dir": "Packages/InvestmentPercentConverting",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CalcedDeposits",
+   "source": "TDMPercentConverting.CalcedDeposits",
+   "kind": "TOracleDataSet",
+   "sql": "select \n cont.id,\n cont.contractno,\n dm_stored_programs.GetContractAccountName(acc.contractaccid) as custname,\n cstate.facticaldebt,\n dm_stored_programs.GetClientFacticalDebt(acc.clientaccid) as facticalinterestdebt,\n cint.interest,\n cont.interest as percent,\n dm_stored_programs.CheckContractState(cont.ID) as  Status,\n av.val_name,\n cont.currency,\n cont.personaltype,\n cont.clienttype,\n cont.customerid,\n cont.branchid\nfrom dm_contracts cont,\n     dm_contract_accounts acc,\n     dm_history_currstate cstate,\n     dm_interest_currstate cint,\n     avalute av\nwhere cont.type# = 3\nand acc.id# = cont.id\nand cstate.id# = cont.id\nand cint.id# = cont.id \nand cont.currency=av.valute\n\norder by :OrderField",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "string"
+    }
+   ],
+   "unit": "PercentConvertingImpl"
+  },
+  {
+   "name": "Valutes",
+   "source": "TDMPercentConverting.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "PercentConvertingImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TDMPercentConverting.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "PercentConvertingImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TDMPercentConverting.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from dm_categories",
+   "variables": [],
+   "unit": "PercentConvertingImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TDMPercentConverting.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type from dm_types",
+   "variables": [],
+   "unit": "PercentConvertingImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TDMPercentConverting.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers\nwhere id in (select customerid from sbcm_contracts\nwhere type# = 3) ",
+   "variables": [],
+   "unit": "PercentConvertingImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TDMPercentConverting.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from dm_persons",
+   "variables": [],
+   "unit": "PercentConvertingImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_calculator",
+   "package": "dm_calculator",
+   "mode": "positional",
+   "source": "*.dm_calculator",
+   "routines": [
+    {
+     "name": "CancelDepositIntCalc",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

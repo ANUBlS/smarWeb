@@ -1,0 +1,132 @@
+{
+ "name": "P_Sbdm_Shedule_new",
+ "caption": "",
+ "dir": "Packages/Sbdm_Shedule_new",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "sbdm_customers",
+   "source": "TScheduleDataModule_new.sbdm_customers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers c ,sbcm_contracts_new s\nwhere c.id=s.CUSTOMERID and\n           s.id=:id\n\n     \n\n ",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ScheduleDataModuleImpl_new"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TScheduleDataModule_new.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sbcm_interests_new\nwhere id#=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ScheduleDataModuleImpl_new"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TScheduleDataModule_new.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT Z.RowID,Z.*\n  FROM SBCM_PAYMENT_SCHEDULE_new Z\nWHERE Z.id#=:Id\nORDER BY HDATE",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ScheduleDataModuleImpl_new"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TScheduleDataModule_new.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sbcm_contracts_new s,sbcm_deposit_types_new d\nwhere s.CONTRACTTYPE=d.id and\n      d.DATEINTERVAL>0 and\n      s.id=:v_id\n",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ScheduleDataModuleImpl_new"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SBCM_PAYMENT_SCHEDULE1",
+   "package": "SBCM_PAYMENT_SCHEDULE1_new",
+   "mode": "positional",
+   "source": "*.SBCM_PAYMENT_SCHEDULE1",
+   "routines": [
+    {
+     "name": "sbcmperiod",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "Sbcm_date",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TScheduleDataModule_new.Sbcm_date",
+   "routines": []
+  },
+  {
+   "component": "sbcm_percent_converting",
+   "package": "sbcm_percent_converting_new",
+   "mode": "positional",
+   "source": "TScheduleDataModule_new.sbcm_percent_converting",
+   "routines": [
+    {
+     "name": "getconverteddebt",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "getdateinterval",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

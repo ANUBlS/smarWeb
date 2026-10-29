@@ -1,0 +1,102 @@
+{
+ "name": "P_NewDepositsProlongation",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsProlongation",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DepositInf",
+   "source": "TNewDepositsFrmProlongation.DepositInf",
+   "kind": "TOracleDataSet",
+   "sql": "select closedate from dm_contracts\nwhere id = :ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsFrmProlongationImpl"
+  },
+  {
+   "name": "prolongations",
+   "source": "TNewDepositsFrmProlongation.prolongations",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, id#, hdate, olddate, newdate\n  FROM dm_prolongations\nwhere id# = :Contractid\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsFrmProlongationImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TNewDepositsFrmProlongation.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sbcm_prolongation",
+   "package": "dm_prolongation",
+   "mode": "positional",
+   "source": "*.sbcm_prolongation",
+   "routines": [
+    {
+     "name": "AddProlongation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DelProlongation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ProlongationCheck",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

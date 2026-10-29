@@ -1,0 +1,235 @@
+{
+ "name": "XCableSettings",
+ "caption": "Əlavə modullar / Tikinti və kommunal / Kabel TV parametrləri",
+ "dir": "Packages/CableSettings",
+ "mainForm": "TCableSettings",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "odsDocTypes",
+   "source": "TCableSettings.odsDocTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_types",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TCableSettings.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsStatuses",
+   "source": "TCableSettings.odsStatuses",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bb_statuses",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsServices",
+   "source": "TCableSettings.odsServices",
+   "kind": "TOracleDataSet",
+   "sql": "select s.id, s.name, s.acc_id, a.acc_no, s.price from bb_services s, account a where a.id(+)=s.acc_id",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsCountries",
+   "source": "TCableSettings.odsCountries",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsChannels",
+   "source": "TCableSettings.odsChannels",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id, name, o.cntr_name country, description, o.id countrid\n  from bb_channels c, countries o\n where country = o.id\n",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsPackages",
+   "source": "TCableSettings.odsPackages",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id, p.name, p.inst_price, p.price, p.deposit, p.acid, a.acc_no, p.symb from bb_packages p, account a\nwhere a.id(+)=p.acid",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsPackChan",
+   "source": "TCableSettings.odsPackChan",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id, name, o.cntr_name country, description, pack_id\n  from bb_channels c, countries o, bb_pack_chn b\n where country = o.id and b.chn_id=c.id and pack_id=:pack_id",
+   "variables": [
+    {
+     "name": "PACK_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsEngineers",
+   "source": "TCableSettings.odsEngineers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bb_engineers",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsAccs",
+   "source": "TCableSettings.odsAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account where close_dat is null order by 2",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  },
+  {
+   "name": "odsSett",
+   "source": "TCableSettings.odsSett",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, s.* from bb_settings s",
+   "variables": [],
+   "unit": "CableSettingsImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CABLE_SETTINGS",
+   "package": "CABLE_SETTINGS",
+   "mode": "positional",
+   "source": "TCableSettings.CABLE_SETTINGS",
+   "routines": [
+    {
+     "name": "channeladd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "channeldel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "channelupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "countryadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "countrydel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "countryupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "doctypeadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "doctypedel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "doctypeupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "engineeradd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "engineerdel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "engineerupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "packageadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "packagedel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "packageupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "packchnadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "packchndel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "serviceadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "servicedel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "serviceupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "statusadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "statusdel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "statusupd",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

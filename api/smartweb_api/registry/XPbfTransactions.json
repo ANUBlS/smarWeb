@@ -1,0 +1,344 @@
+{
+ "name": "XPbfTransactions",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / PBF əməliyyatları",
+ "dir": "Packages/PBF_Transactions_XE",
+ "mainForm": "Tfrmpbf_transaction",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "pbfusers",
+   "source": "TFrmpbfFilialsUsers.pbfusers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid, id,filial, userid\n  FROM pbf_operationsusers a\norder by filial",
+   "variables": [],
+   "unit": "FrmpbfFilialsUsersImpl"
+  },
+  {
+   "name": "allF",
+   "source": "TFrmpbfFilialsUsers.allF",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial_t",
+   "variables": [],
+   "unit": "FrmpbfFilialsUsersImpl"
+  },
+  {
+   "name": "allu",
+   "source": "TFrmpbfFilialsUsers.allu",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from user$",
+   "variables": [],
+   "unit": "FrmpbfFilialsUsersImpl"
+  },
+  {
+   "name": "PBFTransactions",
+   "source": "Tdmpbf_transaction.PBFTransactions",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  po.id as num,po.name as opname,po.fromfilialtofilial as fromfiltofil,po.paymentno,\n  p.ID,po.username,po.clientaccid,PO.operationtype AS optype,\n  p.dat as TransactionDate,\n  ad.ACC_NO as DebitAccNo,ad.filial as debitfilial,\n  dc.val_name as DebitCurrencySName,\n  ac.ACC_NO as CreditAccNo,ac.filial as creditfilial,\n  cc.val_name as CreditCurrencySName,\n  p.ammount as DebitAmount,\n  p.Ammount_C as CreditAmount,\n  p.LAmmount as LAmount,\n  p.Name,p.VAL_ACC,\n  0 as status\nFROM\n    account ad,\n    account ac,\n    avalute dc,\n    avalute cc,\n    LAZYTRANSACTION p,\n    pbf_operations po,\n    pbf_transactions pt\nwhere\n    p.dat =:TransactionDate  and\n    (ad.ID = p.DEBT)\n    and (ac.ID = p.KREDIT)\n    and (ad.val_acc = p.val_acc)\n    and (ac.val_acc = p.CurrencyID_C)\n    and (dc.VALUTE = p.val_acc)\n    and (cc.VALUTE = p.CurrencyID_C)\n    and ((P.OP_ID<>-1 and\n          not EXISTS(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0)))\n          or\n          (P.OP_ID in(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0))))\n    and po.id = pt.operid \n    and p.id = pt.TRANSACTIONID \n    and pt.hdate = :TransactionDate\n\nunion\n\n\nSELECT\n  po.id as num,po.name as opname,po.fromfilialtofilial as fromfiltofil,po.paymentno,\n  p.ID,po.username,po.clientaccid,PO.operationtype AS optype,\n  p.dat as TransactionDate,\n  ad.ACC_NO as DebitAccNo,ad.filial as debitfilial,\n  dc.val_name as DebitCurrencySName,\n  ac.ACC_NO as CreditAccNo,ac.filial as creditfilial,\n  cc.val_name as CreditCurrencySName,\n  p.ammount as DebitAmount,\n  p.Ammount_C as CreditAmount,\n  p.LAmmount as LAmount,\n  p.Name,p.VAL_ACC,\n  1 as status\nFROM\n    account ad,\n    account ac,\n    avalute dc,\n    avalute cc,\n    provarch p,\n    pbf_operations po,\n    pbf_transactions pt\nwhere\n    p.dat =:TransactionDate\n    and (ad.ID = p.DEBT)\n    and (ac.ID = p.KREDIT)\n    and (ad.val_acc = p.val_acc)\n    and (ac.val_acc = p.CurrencyID_C)\n    and (dc.VALUTE = p.val_acc)\n    and (cc.VALUTE = p.CurrencyID_C)\n    and ((P.OP_ID<>-1 and\n          not EXISTS(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0)))\n          or\n          (P.OP_ID in(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0))))\n    and po.id = pt.operid \n    and p.id = pt.TRANSACTIONID \n    and pt.hdate = :TransactionDate\n\n--order by :orderfield\n",
+   "variables": [
+    {
+     "name": "TRANSACTIONDATE",
+     "type": "date"
+    },
+    {
+     "name": "ORDERFIELD",
+     "type": "string"
+    }
+   ],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "PBFOperations",
+   "source": "Tdmpbf_transaction.PBFOperations",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.name, a.hdate, a.clientaccid, a.amount\n  FROM pbf_operations a\n  where ID = :OID",
+   "variables": [
+    {
+     "name": "OID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "CurrDat",
+   "source": "Tdmpbf_transaction.CurrDat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "PBFAccs",
+   "source": "Tdmpbf_transaction.PBFAccs",
+   "kind": "TOracleDataSet",
+   "sql": "  select id,acc_no,name from smart.account\n  where close_dat is null \n  and bal_cn1 in (select ACCGROUP from sbcm_acc_zone_info\n  where ZONEID in (select zoneid from sbcm_acc_zones where name = 'Account'))",
+   "variables": [],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "PBFValutes",
+   "source": "Tdmpbf_transaction.PBFValutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "PBFFilials",
+   "source": "Tdmpbf_transaction.PBFFilials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "PBFOptypes",
+   "source": "Tdmpbf_transaction.PBFOptypes",
+   "kind": "TOracleDataSet",
+   "sql": "select OPERATIONTYPE from pbf_operations\ngroup by OPERATIONTYPE",
+   "variables": [],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "pbfusers",
+   "source": "Tdmpbf_transaction.pbfusers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from user$\norder by name",
+   "variables": [],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "PBFReportDs",
+   "source": "Tdmpbf_transaction.PBFReportDs",
+   "kind": "TOracleDataSet",
+   "sql": "select * from \n(select BANK as pe_BANK,\n        KOD_B as pe_KOD_B,\n        INN as pe_inn,\n        KRNO as pe_KRNO,\n        SWIFT as pe_SWIFT,sedr,BUHALTR,\n        PBF_TRANSACTION.get_accnoByType(:acctype1, a.kod_fil, :clientaccid, 'SELF',:opid) as pc_accno,\n        PBF_TRANSACTION.get_valByAccID(:clientaccid) as valute\n        from filialinfo a\nwhere kod_fil = PBF_TRANSACTION.get_filialCode(null,:usr) )a,\n\n(SELECT  a.re_bank, a.re_kod_b, a.re_inn, a.re_krno,a.re_swift, a.rc_name, a.rc_account, a.rc_inn  FROM  pbf_beneficiars a where OPERTYPE = 'AZERCELL'),\n\n\n(SELECT   a.stamp, a.chiefsign, a.accoutantsign\n  FROM pbf_othersettings a where filialid=PBF_TRANSACTION.get_filialCode(null,:usr)) c,\n\n(select paymentno from pbf_operations where id = :opid) d\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "CLIENTACCID",
+     "type": "integer"
+    },
+    {
+     "name": "USR",
+     "type": "string"
+    },
+    {
+     "name": "ACCTYPE1",
+     "type": "string"
+    },
+    {
+     "name": "OPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "kindofaccs",
+   "source": "Tdmpbf_transaction.kindofaccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.acc_no\n  FROM pbf_kindofaccs a",
+   "variables": [],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "PBFOpertionTypes",
+   "source": "Tdmpbf_transaction.PBFOpertionTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM pbf_otheroptypes a",
+   "variables": [],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "PBFDesc",
+   "source": "Tdmpbf_transaction.PBFDesc",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   description\n  FROM pbf_otheroptypes \n  where name=:n",
+   "variables": [
+    {
+     "name": "N",
+     "type": "string"
+    }
+   ],
+   "unit": "dmpbf_transactionimpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "Tfrmkindaccs.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.acc_no\n  FROM pbf_kindofaccs a\n",
+   "variables": [],
+   "unit": "frmkindaccsimpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "Tfrmkindaccs.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid ,a.id, a.name,a.description\n  FROM pbf_otheroptypes a",
+   "variables": [],
+   "unit": "frmkindaccsimpl"
+  },
+  {
+   "name": "pbfsetting",
+   "source": "TfrmpbfTransactionSett.pbfsetting",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, fromfilial, tofilial\n  FROM pbf_settings \n  order by id",
+   "variables": [],
+   "unit": "frmpbfTransactionSettImpl"
+  },
+  {
+   "name": "pbfsettingchilds",
+   "source": "TfrmpbfTransactionSett.pbfsettingchilds",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid, id,mainid, debit, credit, description,debitfilial,kreditfilial\n  FROM pbf_settingchilds \n\nwhere mainid = :mainid\nand nvl(type,0)=0",
+   "variables": [
+    {
+     "name": "MAINID",
+     "type": "float"
+    }
+   ],
+   "unit": "frmpbfTransactionSettImpl"
+  },
+  {
+   "name": "pbfotypes",
+   "source": "TfrmpbfTransactionSett.pbfotypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM pbf_otheroptypes a\norder by id",
+   "variables": [],
+   "unit": "frmpbfTransactionSettImpl"
+  },
+  {
+   "name": "pbfotypeoperations",
+   "source": "TfrmpbfTransactionSett.pbfotypeoperations",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid, id,mainid, debit, credit, description,debitfilial,kreditfilial,type\n  FROM pbf_settingchilds \n\nwhere mainid = :mainid\nand nvl(type,0)=1",
+   "variables": [
+    {
+     "name": "MAINID",
+     "type": "float"
+    }
+   ],
+   "unit": "frmpbfTransactionSettImpl"
+  },
+  {
+   "name": "pbfothersettings",
+   "source": "TfrmpbfTransactionSett.pbfothersettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.rowid, a.filialid,  a.stamp, a.chiefsign, a.accoutantsign\n  FROM pbf_othersettings a\n\nwhere filialid = :filialid",
+   "variables": [
+    {
+     "name": "FILIALID",
+     "type": "float"
+    }
+   ],
+   "unit": "frmpbfTransactionSettImpl"
+  },
+  {
+   "name": "PbfOSFilials",
+   "source": "TfrmpbfTransactionSett.PbfOSFilials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from smart.filial_t\norder by id",
+   "variables": [],
+   "unit": "frmpbfTransactionSettImpl"
+  },
+  {
+   "name": "PBFFilials",
+   "source": "TFrmpbfFilialsaccs.PBFFilials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from smart.filial_t\norder by id",
+   "variables": [],
+   "unit": "frmpbffilialsaccsImpl"
+  },
+  {
+   "name": "pbf_filialsaccount",
+   "source": "TFrmpbfFilialsaccs.pbf_filialsaccount",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid, filialid, currency, accid, acctype\n  FROM pbf_filialsaccount \n\nwhere filialid = :filialid",
+   "variables": [
+    {
+     "name": "FILIALID",
+     "type": "float"
+    }
+   ],
+   "unit": "frmpbffilialsaccsImpl"
+  },
+  {
+   "name": "PBFAccs",
+   "source": "TFrmpbfFilialsaccs.PBFAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from smart.account\n\nwhere /*filial = :filial\n and*/ close_dat is null and\nbal_cn1 in (SELECT  balance\n  FROM pbf_interbankaccs \n)\n\norder by acc_no\n",
+   "variables": [],
+   "unit": "frmpbffilialsaccsImpl"
+  },
+  {
+   "name": "PBFValutes",
+   "source": "TFrmpbfFilialsaccs.PBFValutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name from avalute_t",
+   "variables": [],
+   "unit": "frmpbffilialsaccsImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "PBFTransaction",
+   "package": "PBF_TRANSACTION",
+   "mode": "named",
+   "source": "Tdmpbf_transaction.PBFTransaction",
+   "routines": [
+    {
+     "name": "add_FullOperation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_OtherTypeOp",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_Operation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_FullOperation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_OtherTypeOp",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

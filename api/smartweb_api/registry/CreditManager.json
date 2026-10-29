@@ -1,0 +1,130 @@
+{
+ "name": "CreditManager",
+ "caption": "Balans / Kreditlər / Kreditlərin idarə olunması",
+ "dir": "Packages/CreditManager",
+ "mainForm": "TFrmCreditManager",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "DataModuleStoredPrograms",
+  "DateIntervalUnit",
+  "OraVariables",
+  "OrderUnit",
+  "PaymentsPlaneDataModuleUnit",
+  "PaymentsPlaneUnit",
+  "PercentConvertingDataModule",
+  "PlaneAddEditUnit",
+  "ReserveContUnit",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "StoredProgramsUnit",
+  "TranchesDataModuleImpl",
+  "UnitCalcedPercentRPT",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "UnitStateDataModule",
+  "UntConclusionDataModule",
+  "UntContractConclusion",
+  "UntContractState",
+  "UntCreditTranches",
+  "UntExpireDataModule",
+  "UntExpite",
+  "UntPayments",
+  "UntPaymentsDataModule",
+  "UntPercentConverting",
+  "UntPercents",
+  "UntProlongationDataModule",
+  "UntProlongations",
+  "UntReferences",
+  "UntReferencesDataMod",
+  "sbcmMainDataModule",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Currencys",
+   "source": "TContDataModule.Currencys",
+   "kind": "TOracleDataSet",
+   "sql": "Select  Valute,Valu_Name \n From\n   AValute",
+   "variables": [],
+   "unit": "UntDataModule"
+  },
+  {
+   "name": "Categories",
+   "source": "TContDataModule.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   ID\n  ,Category\n From SBCM_Categories",
+   "variables": [],
+   "unit": "UntDataModule"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TContDataModule.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   ID,Type From\n              SBCM_Credit_Types",
+   "variables": [],
+   "unit": "UntDataModule"
+  },
+  {
+   "name": "ReliabilityData",
+   "source": "TContDataModule.ReliabilityData",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "UntDataModule"
+  },
+  {
+   "name": "ReserveData",
+   "source": "TContDataModule.ReserveData",
+   "kind": "TOracleDataSet",
+   "sql": "select\nh.id ,\nLoanAcc.Acc_No ,\nLoanAcc.Bal_Cn1 ,\nLoanAcc.Val_Acc ,\nRound(h.PRIMARYDEBTREST  * op.Ostat , 2) as Rest,\nsbcm_stored_programs.GetReservePercentByID(h.PRIMARYRESERVEPERCENT) as ReservePercent ,\nc.OpenDate ,\nc.CloseDate ,\ncat.truecategory\nfrom\nsbcm_state_history h ,\nsbcm_contracts c,\nsbcm_contract_accounts a,\noperkurs op ,\nAccount LoanAcc ,\nsbcm_categories cat \n\nwhere\n  h.PRIMARYDEBTREST > 0 and\n  h.HDate = :HDate and\n  h.id# = c.id and\n  c.id = a.id# and\n  op.dat = :HDate and\n  op.val_kod = LoanAcc.val_acc and\n  c.ClientType = cat.id and  \n  LoanAcc.ID = a.ContractAccID\n\nunion\n\nselect\nh.id ,\nLoanAcc.Acc_No ,\nLoanAcc.Bal_Cn1 ,\nLoanAcc.Val_Acc ,\nRound(h.OVERDUEDEBTREST * op.Ostat , 2) as Rest ,\nsbcm_stored_programs.GetReservePercentByID(h.OVERDUERESERVEPERCENT) as ReservePercent ,\nc.OpenDate ,\nc.CloseDate ,\ncat.truecategory\nfrom\nsbcm_state_history h ,\nsbcm_contracts c,\nsbcm_contract_accounts a,\noperkurs op ,\nsbcm_categories cat ,\nAccount LoanAcc\n\nwhere\n  h.OverdueDebtRest > 0 and\n  h.HDate = :HDate and\n  h.id# = c.id and\n  c.id = a.id# and\n  op.dat = :HDate and \n  op.val_kod = LoanAcc.val_acc and\n  c.ClientType = cat.id and\n  LoanAcc.ID = a.OverdueAccID\n",
+   "variables": [
+    {
+     "name": "HDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UntDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "ConvertingPackage",
+   "package": "SBCM_PERCENT_CONVERTING",
+   "mode": "positional",
+   "source": "*.ConvertingPackage",
+   "routines": [
+    {
+     "name": "ConvertingLazyPercents",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DelDefferedTransactions",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

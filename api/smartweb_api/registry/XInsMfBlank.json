@@ -1,0 +1,239 @@
+{
+ "name": "XInsMfBlank",
+ "caption": "",
+ "dir": "Packages/Insurance/MFBlank",
+ "mainForm": "TMFBlank",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "INSWordExporter",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Ins_MotorFull",
+   "source": "TDModule.Ins_MotorFull",
+   "kind": "TOracleDataSet",
+   "sql": "select im.rowid,im.* from ins_motorfull im where im.cid=:cid",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "More_Report",
+   "source": "TDModule.More_Report",
+   "kind": "TOracleDataSet",
+   "sql": "select id,full_id,name||'  '||surname||'  '||fathername as name,age,experience,history from INS_MOTORMORETHANONEDRIVER where full_id = :full_id\n",
+   "variables": [
+    {
+     "name": "FULL_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "Accesories",
+   "source": "TDModule.Accesories",
+   "kind": "TOracleDataSet",
+   "sql": "select im.rowid,im.* from ins_motor_accesories im\n\nwhere full_id = :full_id",
+   "variables": [
+    {
+     "name": "FULL_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "Customers",
+   "source": "TDModule.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,c.name||' '||c.surname||' '||c.fathername as name,c.address,c.mobilephone,c.fax,c.contactperson from ins_customers c",
+   "variables": [],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "Suggestion",
+   "source": "TDModule.Suggestion",
+   "kind": "TOracleDataSet",
+   "sql": "select  s.rowid,s.* from ins_mf_suggestion s\nwhere mk_id = :mk_id",
+   "variables": [
+    {
+     "name": "MK_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TDModule.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.rowid,ib.* from ins_beneficiary ib",
+   "variables": [],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TDModule.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere ic.id = :cid\nand type_id = 4",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSAgents",
+   "source": "TDModule.ODSAgents",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.name||' '||a.surname||' '||a.fathername as name from ins_agents a",
+   "variables": [],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "MoreThanOne",
+   "source": "TDModule.MoreThanOne",
+   "kind": "TOracleDataSet",
+   "sql": "select im.rowid,im.* from INS_MOTORMORETHANONEDRIVER im\n\nwhere full_id = :full_id",
+   "variables": [
+    {
+     "name": "FULL_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSAutoTypes",
+   "source": "TDModule.ODSAutoTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select at.rowid,at.* from ins_dict_auto_types at",
+   "variables": [],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSMarks",
+   "source": "TDModule.ODSMarks",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from ins_dict_marks\norder by name",
+   "variables": [],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSModels",
+   "source": "TDModule.ODSModels",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_dict_models\n\nwhere mark_id = :mark_id\norder by name",
+   "variables": [
+    {
+     "name": "MARK_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSFranshiz",
+   "source": "TDModule.ODSFranshiz",
+   "kind": "TOracleDataSet",
+   "sql": "select itf.ammount as franshiz, it.ammount as tariff\n  from ins_tarif_franshiz itf, ins_tariffs it\nwhere itf.month_id = :month_id\nand \n  it.franshiz_id = itf.id\norder by itf.ammount",
+   "variables": [
+    {
+     "name": "MONTH_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSMonths",
+   "source": "TDModule.ODSMonths",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_tarif_months\n\nwhere release_id = :release_id",
+   "variables": [
+    {
+     "name": "RELEASE_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSReliaseDates",
+   "source": "TDModule.ODSReliaseDates",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_release_date\nwhere to_number(to_char(begindate, 'YYYY')) <= :releaseyear\nand to_number(to_char(enddate, 'YYYY')) >= :releaseyear\nand state_id in (select its.id from ins_tarif_states its\n                  where its.state_id = :state )",
+   "variables": [
+    {
+     "name": "RELEASEYEAR",
+     "type": "integer"
+    },
+    {
+     "name": "STATE",
+     "type": "integer"
+    }
+   ],
+   "unit": "UMFDataMod"
+  },
+  {
+   "name": "ODSAvalute",
+   "source": "TDModule.ODSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute\norder by valute",
+   "variables": [],
+   "unit": "UMFDataMod"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TDModule.OPCOMMON",
+   "routines": []
+  },
+  {
+   "component": "PINS_FULLMOTOR",
+   "package": "PINS_FULLMOTOR",
+   "mode": "named",
+   "source": "TDModule.PINS_FULLMOTOR",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

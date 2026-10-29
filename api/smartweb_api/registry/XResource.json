@@ -1,0 +1,86 @@
+{
+ "name": "XResource",
+ "caption": "Əlavə modullar / Mühasibat və balans / Resurslar",
+ "dir": "Packages/new resorurce",
+ "mainForm": "Tresource",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "Unit5",
+  "Unit6",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "datamod1",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "addgroup",
+   "source": "TDataMod.addgroup",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account where bal_cn1=:a",
+   "variables": [
+    {
+     "name": "A",
+     "type": "string"
+    }
+   ],
+   "unit": "datamod1"
+  },
+  {
+   "name": "AddName",
+   "source": "TDataMod.AddName",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid ,a.* from groupvesait a ",
+   "variables": [],
+   "unit": "datamod1"
+  },
+  {
+   "name": "groupv",
+   "source": "TDataMod.groupv",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,code_id, accno\n  FROM groupv\n\nwhere code_id = :code",
+   "variables": [],
+   "unit": "datamod1"
+  }
+ ],
+ "packages": [
+  {
+   "component": "mainresoursce",
+   "package": "mainresoursce",
+   "mode": "positional",
+   "source": "*.mainresoursce",
+   "routines": [
+    {
+     "name": "add_group",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

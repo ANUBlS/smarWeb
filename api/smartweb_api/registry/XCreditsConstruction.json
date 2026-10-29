@@ -1,0 +1,909 @@
+{
+ "name": "XCreditsConstruction",
+ "caption": "Əlavə modullar / Kreditlər / Tikinti kreditlərinin idarə olunması",
+ "dir": "Packages/CreditsManagerConstruction",
+ "mainForm": "TCreditsManagerForConstruction",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CMHintBox",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "DMprop",
+  "OraVariables",
+  "ReportImpl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Customers",
+   "source": "TAccMgrForm.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers",
+   "variables": [],
+   "unit": "AccMgrUnit"
+  },
+  {
+   "name": "BalAcc",
+   "source": "TAccMgrForm.BalAcc",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT bal_cn,\n        balname\n  FROM bal_spr1",
+   "variables": [],
+   "unit": "AccMgrUnit"
+  },
+  {
+   "name": "Avalute",
+   "source": "TAccMgrForm.Avalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "AccMgrUnit"
+  },
+  {
+   "name": "Filials",
+   "source": "TAccMgrForm.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,name\n  FROM filial",
+   "variables": [],
+   "unit": "AccMgrUnit"
+  },
+  {
+   "name": "ReportSymbol",
+   "source": "TAccMgrForm.ReportSymbol",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL",
+   "variables": [],
+   "unit": "AccMgrUnit"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TAccMgrForm.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL",
+   "variables": [],
+   "unit": "AccMgrUnit"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TAccMgrForm.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL",
+   "variables": [],
+   "unit": "AccMgrUnit"
+  },
+  {
+   "name": "RepSymbols",
+   "source": "TAccMgrForm.RepSymbols",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL\n",
+   "variables": [],
+   "unit": "AccMgrUnit"
+  },
+  {
+   "name": "Countries",
+   "source": "TCustMgrForm.Countries",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, cntr_name\n  FROM countries",
+   "variables": [],
+   "unit": "CustMgrUnit"
+  },
+  {
+   "name": "pledgetypes",
+   "source": "TDatModConstruction.pledgetypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, type\n  FROM sbcm_pledgetypes",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Accounts_",
+   "source": "TDatModConstruction.Accounts_",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name,acc_no from account\nwhere/* bal_cn1 in (SELECT  balcn\n  FROM sbcm_construction_links where parentid =(\nselect id from sbcm_construction_link where prname = 'CreditBal') )\nand */\nownid = :BID and\n close_dat is null\n",
+   "variables": [
+    {
+     "name": "BID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TDatModConstruction.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,FIRSTNAME||'  '||LASTNAME||'  '||MIDDLENAME as byr_name  from cc_buyers",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Valutes",
+   "source": "TDatModConstruction.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select *from avalute",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TDatModConstruction.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select *from filial",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Credits",
+   "source": "TDatModConstruction.Credits",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum,c.ID, c.ContNum,b.FIRSTNAME||' '||b.lastname||' '||b.MIDDLENAME as   CustName,c.accid,\n       a.acc_no as accno,c.opendate,c.expdate  as closedate,av.val_name,c.contamount as creditamount,\n       cm.ID companyid,bl.bld_name, c.flatid, bl.id as  BUILDINGID, f.flatnumber, c.branchid,f.code,\n       c.userid, c.rest, cm.comp_name, f.entrance, f.ffloor, f.area,bl.address,c.monthpay,c.initialamount\nfrom cc_contracts c, account a, cc_buyers b,  cc_companies cm, cc_buildings bl, cc_flats f, avalute av\nwhere  c.accid = a.id and c.buyer = b.id and c.flatid = f.id and f.bld_id = bl.id and bl.comp_id = cm.id and av.valute = c.contcur \n\n\n\n\n\n\norder by :title  ",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "CreditPurpose",
+   "source": "TDatModConstruction.CreditPurpose",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT c.rowid,c.contnum, c.buyer, c.accid, c.branchid, c.flatid, c.rest,\n      c.contcur, c.contamount, c.opendate, c.expdate, c.closedate,f.area,f.price1,\n       c.interestrate, c.initialamount, c.userid, c.dueinterestrate, c.SQUAREMETRAMOUNT, c.note, c.pricecred\n  FROM cc_contracts c ,cc_flats f\n  where c.flatid=f.id\n  \nand c.id = :CrdID      \n     ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Componies",
+   "source": "TDatModConstruction.Componies",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  id,comp_name\n  FROM cc_companies\norder by comp_name\n",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Buildings",
+   "source": "TDatModConstruction.Buildings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT bld_name\n  FROM cc_buildings\ngroup by bld_name\norder by bld_name\n",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Flats",
+   "source": "TDatModConstruction.Flats",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT flatnumber\n  FROM cc_flats  --where bld_id = :bld_id\n  group by flatnumber\norder by flatnumber",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Users",
+   "source": "TDatModConstruction.Users",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from user$\norder by name ",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Accounts",
+   "source": "TDatModConstruction.Accounts",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name,acc_no from account\nwhere/* bal_cn1 in (SELECT  balcn\n  FROM sbcm_construction_links where parentid =(\nselect id from sbcm_construction_link where prname = 'CreditBal') )\nand */\nownid = :BID and\n close_dat is null\n",
+   "variables": [
+    {
+     "name": "BID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "BldeditDataSet",
+   "source": "TDatModConstruction.BldeditDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select f.id, f.bld_id, f.flatnumber, f.entrance, f.ffloor, f.rooms, f.area, f.price1,\n       f.pricegen, f.buyer,b.bld_name, f.code from cc_flats f,CC_BUILDINGS b\nwhere \nb.id=f.bld_id and\nf.id=:id ",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "SysDat",
+   "source": "TDatModConstruction.SysDat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Templates",
+   "source": "TDatModConstruction.Templates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.RowID , T.*\n  FROM CC_WR_TEMPLATES T where CUSTTYPE=0",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Bookmarks",
+   "source": "TDatModConstruction.Bookmarks",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,ID, TEMPLATEID, FIELDID, BOOKMARKNAME\n  FROM CC_WR_BOOKMARKS\nwhere templateid = :templateid",
+   "variables": [
+    {
+     "name": "TEMPLATEID",
+     "type": "float"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Fields",
+   "source": "TDatModConstruction.Fields",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, FIELDNAME, DESCRIPTION\n  FROM CC_WR_FIELDS\norder by id\n",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "cc_bookmarkDataSet",
+   "source": "TDatModConstruction.cc_bookmarkDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM CC_BOOKMARK\nwhere contnum=:ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "string"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "ReplaceCustDataSet",
+   "source": "TDatModConstruction.ReplaceCustDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   CC_WR_BOOKMARKS B\n , CC_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Hesabat",
+   "source": "TDatModConstruction.Hesabat",
+   "kind": "TOracleDataSet",
+   "sql": "select  f.code Menzil_kod,  c.ContNum as Muqavile_nom  ,  cm.comp_name as Layihe, bl.bld_name as Bina,\nf.entrance as Giris, f.ffloor as Mertebe, f.flatnumber as Menzil,   f.area as Sahe, f.price1 as kv_qiy, f.pricegen as Umumi_qiy,\n c.contamount as Muqvile_deyeri, c.opendate as Achilma_tar, c.expdate as Bitme_tar, c.closedate as Baglanma_tar,\n  b.firstname as Soyadi, b.lastname as Adi, b.middlename as Ataadi , cc_general.cemiodenish(c.id,99)+ cc_general.cemiodenish(c.id,100) as tekrar_ve_ilk_odeme,\n  cc_general.cemiodenish(c.id,92) as Sahe_odenis, cc_general.cemiodenish(c.id,93) as Tertibat, cc_general.cemiodenish(c.id,96) as Cerime\nfrom cc_contracts c,  cc_buyers b,  cc_companies cm, cc_buildings bl, cc_flats f\nwhere c.closedate is null and  c.buyer = b.id\n and c.flatid = f.id and f.bld_id = bl.id and bl.comp_id = cm.id",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Description",
+   "source": "TDatModConstruction.Description",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowID,a.code,a.name from cc_description a",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "PaySumDataSet",
+   "source": "TDatModConstruction.PaySumDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select p.descode,d.name,sum(p.payamt) as cemi from cc_payments p, cc_description d where p.descode=d.code and id#= :TID\n\ngroup by DESCode,d.name order by DESCode",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDatModConstruction.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cc_note",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "cc_sum_cols_payments",
+   "source": "TDatModConstruction.cc_sum_cols_payments",
+   "kind": "TOracleDataSet",
+   "sql": "select sum (payamt) from cc_payments\nwhere id#=:SID\n and descode in (select sum_cols from cc_sum_cols_payments)",
+   "variables": [
+    {
+     "name": "SID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "cc_settings",
+   "source": "TDatModConstruction.cc_settings",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cc_settings",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "ContRefusal",
+   "source": "TDatModConstruction.ContRefusal",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cc_flats",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "entranceDataSet",
+   "source": "TDatModConstruction.entranceDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT entrance\n  FROM cc_flats  --where bld_id = :bld_id\n  group by entrance\norder by entrance",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "reppay",
+   "source": "TDatModConstruction.reppay",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CC_CUSTPAY\norder by dat",
+   "variables": [],
+   "unit": "DatModConstructionImpl"
+  },
+  {
+   "name": "Credits",
+   "source": "TExpiresPaymentsForm.Credits",
+   "kind": "TOracleDataSet",
+   "sql": "select cont.id, cont.contnum as contractno,contamount,CC_GENERAL.get_BuyerName(cont.buyer) as CustName, cont.acc_no as accno,\ncont.opendate,cont.expdate as closedate,CC_GENERAL.gecikme(cont.id) as gecmeb, CC_GENERAL.gecgun(cont.id) as gecgun,cont.bld_name\nfrom  CC_ACTIVECONTRACTS cont \nWHERE  CC_GENERAL.gecgun(cont.id)>0  \n\n\n\n\n\n",
+   "variables": [],
+   "unit": "ExpiresPaymentsReportUnit"
+  },
+  {
+   "name": "companie",
+   "source": "TFlatsMgrForm.companie",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, comp_name\n  FROM cc_companies order by id",
+   "variables": [],
+   "unit": "FlatMgrUnit"
+  },
+  {
+   "name": "building",
+   "source": "TFlatsMgrForm.building",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, comp_id, bld_name,entrances, ADDRESS,flats\n  FROM cc_buildings order by id\n--where comp_id = :comp_id",
+   "variables": [],
+   "unit": "FlatMgrUnit"
+  },
+  {
+   "name": "flat",
+   "source": "TFlatsMgrForm.flat",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,code,id, bld_id, flatnumber, entrance, ffloor, rooms, area, price1,\n       pricegen, buyer,userid, CC_general.get_buyername(buyer) as Buyer_status from cc_flats\nwhere \n--bld_id=:bld_id  and\n(buyer is null) or( buyer=0) \norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "FlatMgrUnit"
+  },
+  {
+   "name": "Credits",
+   "source": "TFrmInterest.Credits",
+   "kind": "TOracleDataSet",
+   "sql": "select cont.id,\n       cont.contnum as contractno,\n       CC_GENERAL.get_BuyerName(cont.buyer) as CustName,\n       cont.acc_no as accno,\n       cont.opendate,\n       cont.expdate as closedate,\n       CC_GENERAL.gecikme(cont.id) as gecmeb,\n      cont.dueinterestrate\n      \nfrom  CC_ACTIVECONTRACTS cont \nWHERE  CC_GENERAL.gecgun(cont.id)>0  \n\n\n--order by :title    ",
+   "variables": [],
+   "unit": "Interestimpl"
+  },
+  {
+   "name": "Cash",
+   "source": "TOrderForm.Cash",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no,name from\naccount where (bal_cn1 in (SELECT cashbalancenational\n  FROM cash_settings))\nor( bal_cn1 in (SELECT cashbalanceenglish\n  FROM cash_settings)\n)\n\nand close_dat is null",
+   "variables": [],
+   "unit": "OrderMgrUnit"
+  },
+  {
+   "name": "PayData",
+   "source": "TOrderForm.PayData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  id#,  mainamt\n  FROM cc_paymet_shedule\n  where id#=:CrdID\n  order by paymentdate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderMgrUnit"
+  },
+  {
+   "name": "SysDat",
+   "source": "TOrderForm.SysDat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "OrderMgrUnit"
+  },
+  {
+   "name": "Payments",
+   "source": "TOrderForm.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id, 'ozzun' ddd, p.paydate, p.id#, p.payamt,d.name\n  FROM cc_payments  p, CC_DESCRIPTION d\n\nwhere id#=:CrdID and p.descode=d.code\norder by :Title",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "OrderMgrUnit"
+  },
+  {
+   "name": "ExportPayments",
+   "source": "TOrderForm.ExportPayments",
+   "kind": "TOracleDataSet",
+   "sql": "select TARIX, MEBLEG, TEYINAT from exc\n where id#=:CrdID ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderMgrUnit"
+  },
+  {
+   "name": "ReportPayOrderData",
+   "source": "TOrderForm.ReportPayOrderData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id, p.paydate, \n       p.payamt,a.CONTAMOUNT,\n       CC_GENERAL.get_contractaccount(a.accid) as LoanAccno,  \n       CC_GENERAL.get_contractaccount(a.buyer) as ClientAccno,\n       b.firstname||' '||b.lastname||' '||middlename as name,\n       a.opendate,\n       a.contnum as ccontractno,\n       av.val_name,a.DUEINTERESTRATE,\n TRUNC (MONTHS_BETWEEN (A.OPENDATE,A.EXPDATE)) as period\n  FROM cc_payments p,\n       cc_contracts a,\n       cc_buyers b,\n       avalute av\nwhere a.id =p.id#\nand   a.buyer = b.id\nand   av.valute = a.contcur\nand   p.id = :PayID         \n",
+   "variables": [
+    {
+     "name": "PAYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderMgrUnit"
+  },
+  {
+   "name": "AboutBank",
+   "source": "TOrderForm.AboutBank",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  bank as FullBankName,\n  Logo ,\n  INN,\n  MANAGERTITLE\nfrom BANKINFO\n",
+   "variables": [],
+   "unit": "OrderMgrUnit"
+  },
+  {
+   "name": "cc_buyer_flats",
+   "source": "TOrderForm.cc_buyer_flats",
+   "kind": "TOracleDataSet",
+   "sql": "select a.comp_name ||' '|| a.bld_name ||' mənzil '||a.flatnumber as address,a.bld_name,p.id,a.flatcode\nfrom cc_buyer_flats a , cc_contracts c, cc_payments p\nwhere a.buyer=c.buyer and c.id=p.\"ID#\" and p.id=:PayID",
+   "variables": [
+    {
+     "name": "PAYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderMgrUnit"
+  },
+  {
+   "name": "BayerInfo",
+   "source": "TPaymentPlaneForm.BayerInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select  FirstName||' '||LastName||' '||MiddleName  byr_name from cc_buyers\n\nwhere id = :bid",
+   "variables": [
+    {
+     "name": "BID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PaymentPlaneMgrUnit"
+  },
+  {
+   "name": "Creditsinfo",
+   "source": "TPaymentPlaneForm.Creditsinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select \n     cont.contamount as creditamount,\n     cont.initialamount,\n     cont.opendate,\n     cont.expdate as closedate,\n      cont.interestrate,\n     cont.dueinterestrate as penalityinterestrate,\n     cont.buyer  clientid\nfrom cc_Contracts  cont\n       \nWHERE cont.id =  :CrdID      \n     \n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PaymentPlaneMgrUnit"
+  },
+  {
+   "name": "PlanInfo",
+   "source": "TPaymentPlaneForm.PlanInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, id#, paymentdate, mainamt, intamt\n  FROM cc_paymet_shedule\nwhere id#=:CrdID\norder by paymentdate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PaymentPlaneMgrUnit"
+  },
+  {
+   "name": "ExpPayPlaneData",
+   "source": "TPaymentPlaneForm.ExpPayPlaneData",
+   "kind": "TOracleDataSet",
+   "sql": "select paymentdate, mainamt\n  FROM cc_paymet_shedule\nwhere id#=:CrdID\norder by paymentdate\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PaymentPlaneMgrUnit"
+  },
+  {
+   "name": "ReportPayShedData",
+   "source": "TRepSedule.ReportPayShedData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  \n       a.CONTAMOUNT, CC_general.get_buyername(buyer) as name,\n       CC_GENERAL.get_contractaccount(a.accid) as LoanAccno,  \n       CC_GENERAL.get_contractaccount(a.buyer) as ClientAccno,\n        a.opendate,\n       a.contnum as ccontractno,\n       av.val_name,a.DUEINTERESTRATE,\n TRUNC (MONTHS_BETWEEN (A.EXPDATE,A.OPENDATE)) as period\n  FROM \n       cc_contracts a,\n       avalute av\nwhere    av.valute = a.contcur\nand  a.id = :ID         \n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RepSeduleImpl"
+  },
+  {
+   "name": "PlanInfo",
+   "source": "TRepSedule.PlanInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, id#, paymentdate, mainamt, intamt\n  FROM cc_paymet_shedule\nwhere id#=:CrdID\norder by paymentdate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RepSeduleImpl"
+  },
+  {
+   "name": "Link",
+   "source": "TSettingsForm.Link",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM sbcm_construction_link",
+   "variables": [],
+   "unit": "SettingsUnit"
+  },
+  {
+   "name": "Links",
+   "source": "TSettingsForm.Links",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, parentid, balcn\n  FROM sbcm_construction_links\nwhere parentid = :parentid",
+   "variables": [
+    {
+     "name": "PARENTID",
+     "type": "float"
+    }
+   ],
+   "unit": "SettingsUnit"
+  },
+  {
+   "name": "Settings",
+   "source": "TSettingsForm.Settings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name,compid\n  FROM sbcm_construction_settings\n\n\nwhere compid = :compid",
+   "variables": [
+    {
+     "name": "COMPID",
+     "type": "float"
+    }
+   ],
+   "unit": "SettingsUnit"
+  },
+  {
+   "name": "SettAccs",
+   "source": "TSettingsForm.SettAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, parentid, accid\n  FROM sbcm_construction_accs\n\nwhere parentid = :parentid",
+   "variables": [
+    {
+     "name": "PARENTID",
+     "type": "float"
+    }
+   ],
+   "unit": "SettingsUnit"
+  },
+  {
+   "name": "AccLookup",
+   "source": "TSettingsForm.AccLookup",
+   "kind": "TOracleDataSet",
+   "sql": "Select id,\n       acc_no,\n       name \nfrom account\nwhere bal_cn1 in (SELECT  balcn\n  FROM sbcm_construction_links where parentid =(\nselect id from sbcm_construction_link where prname = 'ConsBal') )",
+   "variables": [],
+   "unit": "SettingsUnit"
+  },
+  {
+   "name": "Companiy",
+   "source": "TSettingsForm.Companiy",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, comp_name\n  FROM cc_companies",
+   "variables": [],
+   "unit": "SettingsUnit"
+  },
+  {
+   "name": "Transactions",
+   "source": "TTransactionviewForm.Transactions",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    DEBITACCNO,\n    DEBITCURRENCY,\n    CREDITACCNO,\n    CREDITCURRENCY,\n    TRDATE,\n   INBALANCECHAR,\n    FLAGS,\n    DEBITAMOUNT,\n    CREDITAMOUNT,\n    NATAMOUNT,\n    TRDESCRIPTION,\n    CANPROCESS\n  from SBCM_DELAYED_TRANSACTIONS\n \n ",
+   "variables": [],
+   "unit": "TransactionViewerUnit"
+  },
+  {
+   "name": "GetCustomer",
+   "source": "TsboapiDataModule.GetCustomer",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CUSTOMERS\nwhere ID = :CustomerID",
+   "variables": [
+    {
+     "name": "CUSTOMERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "sboapiDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CC_GENERAL",
+   "package": "CC_GENERAL",
+   "mode": "named",
+   "source": "TAccMgrForm.CC_GENERAL",
+   "routines": [
+    {
+     "name": "Add_Buyers",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBAca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBAca",
+   "routines": []
+  },
+  {
+   "component": "SBCorrection",
+   "package": "SBCORRECTION",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBCorrection",
+   "routines": []
+  },
+  {
+   "component": "SBInstallation",
+   "package": "SBInstall",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBInstallation",
+   "routines": []
+  },
+  {
+   "component": "SBLogin",
+   "package": "SBLOGIN",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBLogin",
+   "routines": []
+  },
+  {
+   "component": "SBMessage",
+   "package": "SBMSG",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBMessage",
+   "routines": []
+  },
+  {
+   "component": "SBModules",
+   "package": "SBMODULES",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBModules",
+   "routines": []
+  },
+  {
+   "component": "SBOP",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "*.SBOP",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBOperationDay",
+   "package": "SBOP",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBOperationDay",
+   "routines": []
+  },
+  {
+   "component": "SBRateManagement",
+   "package": "SBRM",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBRateManagement",
+   "routines": []
+  },
+  {
+   "component": "SBReferences",
+   "package": "SBREF",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBReferences",
+   "routines": []
+  },
+  {
+   "component": "SBReport",
+   "package": "SBREP",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBReport",
+   "routines": []
+  },
+  {
+   "component": "SBSecurity",
+   "package": "SBSEC",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBSecurity",
+   "routines": []
+  },
+  {
+   "component": "SBSessionMgr",
+   "package": "SB_SESSION_MGR",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBSessionMgr",
+   "routines": []
+  },
+  {
+   "component": "SBSettings",
+   "package": "SBSETTINGS",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBSettings",
+   "routines": []
+  },
+  {
+   "component": "SBSystem",
+   "package": "SBSYS",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBSystem",
+   "routines": []
+  },
+  {
+   "component": "SBTransaction",
+   "package": "SB_TRANSACTION",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBTransaction",
+   "routines": []
+  },
+  {
+   "component": "SBUtil",
+   "package": "SBUTIL",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBUtil",
+   "routines": []
+  },
+  {
+   "component": "cc_general",
+   "package": "cc_general",
+   "mode": "positional",
+   "source": "TCustMgrForm.cc_general",
+   "routines": []
+  },
+  {
+   "component": "sbcm_construction",
+   "package": "CC_GENERAL",
+   "mode": "positional",
+   "source": "*.sbcm_construction",
+   "routines": [
+    {
+     "name": "Close_Contract",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ContRefusal",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeletePaymentPlane",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GetFindExpdate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "PaymentPlane_AddEdit",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "PaymentTracttransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_Contract",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_account",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_payment_plane",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "commitdelayedtransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deletePayment",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "report",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_Contracts",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

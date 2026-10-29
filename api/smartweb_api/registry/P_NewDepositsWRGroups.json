@@ -1,0 +1,89 @@
+{
+ "name": "P_NewDepositsWRGroups",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsWRGroups",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DMtypes",
+   "source": "TNewDepositsDMWRGroups.DMtypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_types\norder by id",
+   "variables": [],
+   "unit": "NewDepositsDMWRGroupsImpl"
+  },
+  {
+   "name": "DmWrTemplates",
+   "source": "TNewDepositsDMWRGroups.DmWrTemplates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM dm_wr_templates\n",
+   "variables": [],
+   "unit": "NewDepositsDMWRGroupsImpl"
+  },
+  {
+   "name": "DmWrGroups",
+   "source": "TNewDepositsDMWRGroups.DmWrGroups",
+   "kind": "TOracleDataSet",
+   "sql": "select  *\nfrom \n   dm_wr_groups\nwhere \n  dtypeid=:dtypeid\n",
+   "variables": [
+    {
+     "name": "DTYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMWRGroupsImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_rpdepository",
+   "package": "dm_rpdepository",
+   "mode": "positional",
+   "source": "TNewDepositsDMWRGroups.dm_rpdepository",
+   "routines": [
+    {
+     "name": "DmWrGroupAdd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DmWrGroupDel",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

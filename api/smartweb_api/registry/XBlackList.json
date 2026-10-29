@@ -1,0 +1,327 @@
+{
+ "name": "XBlackList",
+ "caption": "Əlavə modullar / Müştərilər və uyğunluq / Qara siyahı",
+ "dir": "Packages/Black_Inst",
+ "mainForm": "TBlackInst",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TBlackInst.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from bleck_fild\norder by id",
+   "variables": [],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TBlackInst.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select idcust, name ,lastname,convertpack.CONVERT_INT( name )e_name,convertpack.CONVERT_INT( lastname )e_lastname from custinfo   where  idcust in (select boorowerid from cm_active_credits)\nand idcust in(select id from customers where cust_type not in(0))\n--and idcust=319\n/*select*from (\n\nselect idcust, name ,lastname,convertpack.CONVERT_INT( name )e_name,convertpack.CONVERT_INT( lastname )e_lastname,\nconvertpack.CONVERT_INT( name )||convertpack.CONVERT_INT( lastname ) ch from custinfo   where  idcust in (select boorowerid from cm_active_credits)\n)\nwhere ch not in(select name||surname from sanctions_data_copy where trunc(created_at)='28-nov-2025')\n*/",
+   "variables": [],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TBlackInst.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select*from sanctions_data_copy where trunc(created_at) between :dat1 and :dat2",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "ods_sysdat",
+   "source": "TBlackInst.ods_sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "ods_hms",
+   "source": "TBlackInst.ods_hms",
+   "kind": "TOracleDataSet",
+   "sql": "select b.*,\n  case\n      WHEN main_status LIKE 'Match%' THEN 'Match 80-100%'\n    WHEN main_status LIKE 'Close%' THEN 'Close 50-79%'\n    WHEN main_status LIKE 'No Match%' THEN 'No Match 0-49%'  \n  END AS end_status \n from (\nselect a.*,  CASE\n   \n    WHEN status LIKE 'Match%' THEN 'Match'\n    WHEN status LIKE 'No Match%' THEN 'No Match'\n    WHEN status LIKE 'Close%' THEN 'Close'  \n  END AS main_status \nfrom black_inspection a where chekdate between :dat1 and :dat2        \norder by chekdate, custid)b\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "ods_bankinfo",
+   "source": "TBlackInst.ods_bankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select az_name,tax_regcode from bankinfo",
+   "variables": [],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "ods_user",
+   "source": "TBlackInst.ods_user",
+   "kind": "TOracleDataSet",
+   "sql": "select fullname from sba_objinf where sysuserid in(select uid from dual)",
+   "variables": [],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "ods_tim",
+   "source": "TBlackInst.ods_tim",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n    TRUNC(sysdate) AS tarix,\n    TO_CHAR(sysdate, 'HH24:MI:SS') AS saat\nFROM dual",
+   "variables": [],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "ods_fltr",
+   "source": "TBlackInst.ods_fltr",
+   "kind": "TOracleDataSet",
+   "sql": "select '1' as id ,'Hamsı' as name from dual\nunion\nselect '2' as id ,'Match' as name from dual\nunion\nselect '3' as id ,'Close' as name from dual\nunion\nselect '4' as id ,'No Match' as name from dual",
+   "variables": [],
+   "unit": "BlackListImpl"
+  },
+  {
+   "name": "MainDSet",
+   "source": "TDmBlack.MainDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,lower(name) as v_name ,lower(lastname) as v_lastname,lower(middlename) as v_middlename,\n(select name from DOC_TYPES where id=a.doc_type) doctip\n\nfrom CUSTOMERS_BLACK a\nwhere 1=1\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "Contry",
+   "source": "TDmBlack.Contry",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from COUNTRIES a\norder by ID\n\n",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "CITIES",
+   "source": "TDmBlack.CITIES",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CITIES\n\nwhere country_id = :country_id",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "Doctype",
+   "source": "TDmBlack.Doctype",
+   "kind": "TOracleDataSet",
+   "sql": "select * from DOC_TYPES",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "Sex",
+   "source": "TDmBlack.Sex",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id ,'Kişi' name from dual\nunion\nselect 2 id ,'Qadın' name from dual",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "Sysdat",
+   "source": "TDmBlack.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select*from sysdat",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDmBlack.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.*from black_countries a",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDmBlack.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from customers_black a\n\n",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TDmBlack.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "delete from customers_black where black_type=1",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "ods_blecxml",
+   "source": "TDmBlack.ods_blecxml",
+   "kind": "TOracleDataSet",
+   "sql": "select* from cust_black_persons where dataid is not null\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "ods_blecnamexml",
+   "source": "TDmBlack.ods_blecnamexml",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cust_black_Aliasname  where dataid=:v_dataid\n\n",
+   "variables": [
+    {
+     "name": "V_DATAID",
+     "type": "string"
+    }
+   ],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "ods_blecpaspxml",
+   "source": "TDmBlack.ods_blecpaspxml",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cust_black_contry where dataid=:v_dataid\n\n",
+   "variables": [
+    {
+     "name": "V_DATAID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "ods_search",
+   "source": "TDmBlack.ods_search",
+   "kind": "TOracleDataSet",
+   "sql": "select \n*from cust_black_search where dataid is not null\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "DmBlackImpl"
+  },
+  {
+   "name": "ods_truncate",
+   "source": "TDmBlack.ods_truncate",
+   "kind": "TOracleDataSet",
+   "sql": "truncate table cust_black_search",
+   "variables": [],
+   "unit": "DmBlackImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "full_import",
+   "mode": "positional",
+   "source": "*.OraclePackage1",
+   "routines": [
+    {
+     "name": "aa",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_cust_black",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_cust_blackXML",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_customers_black_namexml",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "bleck_search",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_cust_black",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_xml",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "report_tax",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_cust_black",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage2",
+   "package": "excelpkg",
+   "mode": "positional",
+   "source": "TDmBlack.OraclePackage2",
+   "routines": []
+  },
+  {
+   "component": "SB_ACA",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "*.SB_ACA",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

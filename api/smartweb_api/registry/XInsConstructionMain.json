@@ -1,0 +1,168 @@
+{
+ "name": "XInsConstructionMain",
+ "caption": "Əlavə modullar / Sığorta / Tikinti sığortası",
+ "dir": "Packages/Insurance/ConstructionMain",
+ "mainForm": "TConstructionMain",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "INSWordExporter",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "INS_CONSTRUCTION",
+   "source": "TConstructionMain.INS_CONSTRUCTION",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT PINS_FullMotor.returnName(c.kli_id) as name,C.ROWID,C.*,ic.begin_date,ic.end_date FROM INS_CONSTRUCTION C,ins_contracts ic WHERE ic.blank_id=c.id and c.CLOSE_PREFIX=0 order by c.:id\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "string"
+    }
+   ],
+   "unit": "UConstructionMain"
+  },
+  {
+   "name": "ODSCONSTSUGGEST",
+   "source": "TConstructionMain.ODSCONSTSUGGEST",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT S.ROWID,S.* FROM INS_CONSTRUCTIONSUGGEST S \nwhere cid = :cid",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionMain"
+  },
+  {
+   "name": "Customers",
+   "source": "TConstructionMain.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,c.name||' '||c.surname||' '||c.fathername as name,c.address,c.mobilephone,c.fax,c.contactperson,c.contactpersonphone from ins_customers c",
+   "variables": [],
+   "unit": "UConstructionMain"
+  },
+  {
+   "name": "ODSConstructionR",
+   "source": "TConstructionMain.ODSConstructionR",
+   "kind": "TOracleDataSet",
+   "sql": "select PINS_FullMotor.returnName(kli_id) as name,Pins_FullMotor.returnAddress(kli_id) as Address,Pins_FullMotor.returnPhone(kli_id) as phone,pins_fullmotor.returnFax(kli_id) as fax,c.*from ins_construction c  where c.id=:id\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionMain"
+  },
+  {
+   "name": "Risks",
+   "source": "TConstructionMain.Risks",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_risks idr",
+   "variables": [],
+   "unit": "UConstructionMain"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TConstructionMain.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.rowid,ib.* from ins_beneficiary ib",
+   "variables": [],
+   "unit": "UConstructionMain"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TConstructionMain.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere blank_id = :blankid\nand type_id = 10",
+   "variables": [
+    {
+     "name": "BLANKID",
+     "type": "float"
+    }
+   ],
+   "unit": "UConstructionMain"
+  },
+  {
+   "name": "Customers",
+   "source": "TfrmSearch.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,c.name||' '||c.surname||' '||c.fathername as name,c.address,c.mobilephone,c.fax,c.contactperson,c.contactpersonphone from ins_customers c",
+   "variables": [],
+   "unit": "USearch"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TfrmSearch.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.rowid,ib.* from ins_beneficiary ib",
+   "variables": [],
+   "unit": "USearch"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "named",
+   "source": "TConstructionMain.OPCOMMON",
+   "routines": []
+  },
+  {
+   "component": "OPCommon",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "*.OPCommon",
+   "routines": [
+    {
+     "name": "del_ins",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "PINS_CONSTRUCTION",
+   "package": "PINS_CONSTRUCTION",
+   "mode": "named",
+   "source": "TConstructionMain.PINS_CONSTRUCTION",
+   "routines": []
+  },
+  {
+   "component": "PINS_FULLMOTOR",
+   "package": "PINS_FULLMOTOR",
+   "mode": "named",
+   "source": "TConstructionMain.PINS_FULLMOTOR",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

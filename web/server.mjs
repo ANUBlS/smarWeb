@@ -4,7 +4,8 @@
  *
  *   node server.mjs                       # http://0.0.0.0:8086
  *   HOST=192.168.2.93 PORT=8086 node server.mjs
- *   API_TARGET=http://127.0.0.1:3000 node server.mjs   # forward /api/* to the Oracle gateway (later)
+ *   API_TARGET=http://127.0.0.1:8000 node server.mjs   # forward /api/* to the SmartWeb API (api/)
+ *   DIST_DIR=dist-http node server.mjs                 # serve another build folder
  *
  * Serves the built app from ./dist with long-term caching for hashed assets,
  * falls back to index.html for client routes, and proxies /api when API_TARGET is set.
@@ -15,7 +16,7 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), process.env.DIST_DIR || 'dist');
 const HOST = process.env.HOST || '0.0.0.0';
 const PORT = Number(process.env.PORT || 8086);
 const API_TARGET = process.env.API_TARGET ? new URL(process.env.API_TARGET) : null;

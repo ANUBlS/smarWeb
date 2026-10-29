@@ -1,0 +1,100 @@
+{
+ "name": "XMoneyTransfers",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Pul köçürmələri",
+ "dir": "Packages/MoneyTransfers",
+ "mainForm": "TMoneyTransfers",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSMoneyTransfer",
+   "source": "TMoneyTransfers.ODSMoneyTransfer",
+   "kind": "TOracleDataSet",
+   "sql": "select * from (\nSELECT \n  'MƏDAXİL' operationtype,\n  'Xarici Ölkədən Mədaxil' name,   \n   C.NEREZIDENT,      \n   133 id,\n  (CASE WHEN C.CUST_TYPE in(1,2,3,4)      THEN 'FİZİKİ' ELSE 'HÜQUQİ' END) AS custtype,\n  (CASE WHEN C.CUST_TYPE in(1,2,3,4)      THEN 1 ELSE 0 END) AS custtypeid,\n  (CASE WHEN C.NEREZIDENT=1               THEN 'REZIDENT' ELSE 'QEYRİREZIDENT' END) AS rezident,\n  (CASE WHEN E.id in(1,2)                 THEN 'Malların ixracı üzrə' ELSE E.NAME END) AS Transfertype,\n  (CASE WHEN E.id in(1,2)                 THEN -1  ELSE E.id END) AS Transfertypeid,\n  sum (CASE WHEN T.VAL_COD=0              THEN T.AMOUNT  ELSE 0 END) AS AZN,\n  sum (CASE WHEN T.VAL_COD=1              THEN T.AMOUNT  ELSE 0 END) AS USD,\n  sum (CASE WHEN T.VAL_COD=1              THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS USDEKV,\n  sum (CASE WHEN T.VAL_COD=45             THEN T.AMOUNT  ELSE 0 END) AS EUR,\n  sum (CASE WHEN T.VAL_COD=45             THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS EUREKV,\n  sum (CASE WHEN T.VAL_COD=50             THEN T.AMOUNT  ELSE 0 END) AS GBP,\n  sum (CASE WHEN T.VAL_COD=50             THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS GBPEKV,\n  sum (CASE WHEN T.VAL_COD=792            THEN T.AMOUNT  ELSE 0 END) AS TRY,\n  sum (CASE WHEN T.VAL_COD=792            THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS TRYEKV, \n  sum (CASE WHEN T.VAL_COD=48             THEN T.AMOUNT  ELSE 0 END) AS RUR,\n  sum (CASE WHEN T.VAL_COD=48             THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS RUREKV,\n  sum (CASE WHEN T.VAL_COD=981            THEN T.AMOUNT  ELSE 0 END) AS GEL,\n  sum (CASE WHEN T.VAL_COD=981            THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS GELEKV,\n  sum (CASE WHEN T.VAL_COD=784            THEN T.AMOUNT  ELSE 0 END) AS AED,\n  sum (CASE WHEN T.VAL_COD=784            THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS AEDEKV,\n  sum (CASE WHEN T.VAL_COD= 16            THEN T.AMOUNT  ELSE 0 END) AS YEN,\n  sum (CASE WHEN T.VAL_COD= 16            THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS YENEKV\n  FROM exp_incomingreport T,customers C,exp_report E,operkurs O\n Where     \n        T.optype IN (4,8)\n       AND \n       T.setid IN (70,71,72,73,74,133)\n       AND T.reportid IN (SELECT id FROM exp_report WHERE settypeid =133)\n       AND T.senddate >=:bdat\n       AND T.senddate <=:edat       \n       AND T.kliid=C.id\n       AND C.cust_type in(0,1,2,3,4)\n       AND T.status = 1\n       AND T.reportid=E.id\n       AND E.type=0\n       AND T.val_cod=O.val_kod\n       AND O.dat=:edat\n       AND T.sendtransid in(select id from provarch where dat>=:bdat and dat<=:edat)\n       group by \n       (CASE WHEN C.CUST_TYPE in(1,2,3,4)  THEN 'FİZİKİ' ELSE 'HÜQUQİ' END) ,\n       (CASE WHEN C.CUST_TYPE in(1,2,3,4)  THEN 1 ELSE 0 END) , \n       (CASE WHEN C.NEREZIDENT=1           THEN 'REZIDENT' ELSE 'QEYRİREZIDENT' END),\n       (CASE WHEN E.id in(1,2)             THEN 'Malların ixracı üzrə' ELSE E.NAME END),\n       (CASE WHEN E.id in(1,2)             THEN -1  ELSE E.id END),\n        C.NEREZIDENT\n            \n    union        \n            \nSELECT \n  'MƏXARİC' operationtype,\n  'Xarici Valyuta(Köçürmə)' name,   \n   C.NEREZIDENT,      \n   78 id,\n  (CASE WHEN C.CUST_TYPE in(1,2,3,4)      THEN 'FİZİKİ' ELSE 'HÜQUQİ' END) AS custtype,\n  (CASE WHEN C.CUST_TYPE in(1,2,3,4)      THEN 1 ELSE 0 END) AS custtypeid,\n  (CASE WHEN C.NEREZIDENT=1               THEN 'REZIDENT' ELSE 'QEYRİREZIDENT' END) AS rezident,\n  (CASE WHEN E.id in(14,26)               THEN 'Malların idxalı üzrə' ELSE E.NAME END) AS Transfertype,\n  (CASE WHEN E.id in(14,26)               THEN 0  ELSE E.id END) AS Transfertypeid,\n  sum (CASE WHEN T.VAL_COD=0              THEN T.AMOUNT  ELSE 0 END) AS AZN,\n  sum (CASE WHEN T.VAL_COD=1              THEN T.AMOUNT  ELSE 0 END) AS USD,\n  sum (CASE WHEN T.VAL_COD=1              THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS USDEKV,\n  sum (CASE WHEN T.VAL_COD=45             THEN T.AMOUNT  ELSE 0 END) AS EUR,\n  sum (CASE WHEN T.VAL_COD=45             THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS EUREKV,\n  sum (CASE WHEN T.VAL_COD=50             THEN T.AMOUNT  ELSE 0 END) AS GBP,\n  sum (CASE WHEN T.VAL_COD=50             THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS GBPEKV,\n  sum (CASE WHEN T.VAL_COD=792            THEN T.AMOUNT  ELSE 0 END) AS TRY,\n  sum (CASE WHEN T.VAL_COD=792            THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS TRYEKV, \n  sum (CASE WHEN T.VAL_COD=48             THEN T.AMOUNT  ELSE 0 END) AS RUR,\n  sum (CASE WHEN T.VAL_COD=48             THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS RUREKV,\n  sum (CASE WHEN T.VAL_COD=981            THEN T.AMOUNT  ELSE 0 END) AS GEL,\n  sum (CASE WHEN T.VAL_COD=981            THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS GELEKV,\n  sum (CASE WHEN T.VAL_COD=784            THEN T.AMOUNT  ELSE 0 END) AS AED,\n  sum (CASE WHEN T.VAL_COD=784            THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS AEDEKV,\n  sum (CASE WHEN T.VAL_COD= 16            THEN T.AMOUNT  ELSE 0 END) AS YEN,\n  sum (CASE WHEN T.VAL_COD= 16            THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS YENEKV\n  FROM exp_batchs T,customers C,exp_report E,operkurs O\n Where     \n        T.optype IN (4,8)\n       AND \n       T.setid IN (70,71,72,73,74,78)\n       AND T.reportid IN (SELECT id\n                          FROM exp_report\n                         WHERE settypeid = 78)\n       AND T.senddate >=:bdat\n       AND T.senddate <=:edat         \n       AND T.kliid=C.id\n       AND C.cust_type in(0,1,2,3,4)\n       AND T.status = 1\n       AND T.reportid=E.id\n       AND E.type=0\n       AND T.val_cod=O.val_kod\n       AND O.dat=:edat\n       AND T.sendtransid in(select id from provarch where dat>=:bdat and dat<=:edat) \n       group by \n       (CASE WHEN C.CUST_TYPE in(1,2,3,4)  THEN 'FİZİKİ' ELSE 'HÜQUQİ' END) ,\n       (CASE WHEN C.CUST_TYPE in(1,2,3,4)  THEN 1 ELSE 0 END) , \n       (CASE WHEN C.NEREZIDENT=1           THEN 'REZIDENT' ELSE 'QEYRİREZIDENT' END),\n       (CASE WHEN E.id in(14,26)           THEN 'Malların idxalı üzrə' ELSE E.NAME END),\n       (CASE WHEN E.id in(14,26)           THEN 0  ELSE E.id END),\n        C.NEREZIDENT            \n        order by operationtype,Transfertypeid )\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "MoneyTtransfers"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TMoneyTransfers.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT CASE WHEN T4.ID=78 THEN 'MEXARIC'\n            WHEN T4.ID=133 THEN 'MEDAXIL' END AS operationtype,\n    T4.NAME ,\n    T4.ID,\n    T2.nerezident,\n    (CASE WHEN T2.CUST_TYPE=1  THEN 'FİZİKİ' ELSE 'HÜQUQİ' END) AS custtype,\n    (CASE WHEN T2.CUST_TYPE=1  THEN 1 ELSE 0 END) AS custtypeid, \n    (CASE WHEN T2.NEREZIDENT=1 THEN 'REZIDENT' ELSE 'QEYRİREZIDENT' END) AS rezident,\n    (CASE WHEN T3.id in(14,26)  THEN 'Malların idxalı üzrə' ELSE T3.NAME END) AS Transfertype,\n    (CASE WHEN T3.id in(14,26)  THEN 0  ELSE T3.id END) AS Transfertypeid,                               \n      \n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT  ELSE 0 END) AS AZN,\n    SUM(CASE WHEN T1.VAL_COD=1    THEN T1.AMOUNT  ELSE 0 END) AS USD,\n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT* T5.OSTAT  ELSE 0 END) AS USDEKV,\n    SUM(CASE WHEN T1.VAL_COD=45   THEN T1.AMOUNT  ELSE 0 END) AS EUR,\n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT* T5.OSTAT  ELSE 0 END) AS EUREKV,\n    SUM(CASE WHEN T1.VAL_COD=50   THEN T1.AMOUNT  ELSE 0 END) AS GBP,\n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT* T5.OSTAT  ELSE 0 END) AS GBPEKV,\n    SUM(CASE WHEN T1.VAL_COD=792  THEN T1.AMOUNT  ELSE 0 END) AS TRY,\n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT* T5.OSTAT  ELSE 0 END) AS TRYEKV,\n    SUM(CASE WHEN T1.VAL_COD=48   THEN T1.AMOUNT  ELSE 0 END) AS RUR,\n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT* T5.OSTAT  ELSE 0 END) AS RUREKV,\n    SUM(CASE WHEN T1.VAL_COD=981  THEN T1.AMOUNT  ELSE 0 END) AS GEL,\n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT* T5.OSTAT  ELSE 0 END) AS GELEKV,\n    SUM(CASE WHEN T1.VAL_COD=784  THEN T1.AMOUNT  ELSE 0 END) AS AED,\n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT* T5.OSTAT  ELSE 0 END) AS AEDEKV,\n    SUM(CASE WHEN T1.VAL_COD= 16  THEN T1.AMOUNT  ELSE 0 END) AS YEN,\n    SUM(CASE WHEN T1.VAL_COD=0    THEN T1.AMOUNT* T5.OSTAT  ELSE 0 END) AS YENEKV\n FROM  EXP_BATCHS T1 INNER JOIN CUSTOMERS T2 ON  T1.KLIID=T2.ID \n                     INNER JOIN EXP_REPORT T3 ON T3.ID=T1.REPORTID\n                     INNER JOIN exp_settingstype T4 ON T1.SETID=T4.ID\n                     INNER JOIN OPERKURS T5 ON  T1.VAL_COD=T5.VAL_KOD AND T5.DAT=:edat  \n                    \n    WHERE  T1.SENDDATE BETWEEN :bdat AND :edat AND T2.CUST_TYPE IN (0,1,2,3) AND T1.STATUS=1\n    AND T4.ID IN (70,71,72,73,74,78,133) \n    AND T3.TYPE=0 \n GROUP BY T4.NAME,\n     CASE WHEN T2.CUST_TYPE=1  THEN 'FİZİKİ' ELSE 'HÜQUQİ' END,\n     CASE WHEN T2.CUST_TYPE=1  THEN 1 ELSE 0 END,\n     CASE WHEN T3.id in(14,26)  THEN 'Malların idxalı üzrə' ELSE T3.NAME END,\n     CASE WHEN T3.id in(14,26)  THEN 0  ELSE T3.id END,\n     T2.NEREZIDENT,\n     T4.ID\n    ORDER BY T4.NAME \n  ",
+   "variables": [],
+   "unit": "MoneyTtransfers"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TMoneyTransfers.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n  'MƏXARİC' operationtype,\n  'Xarici Valyuta(Köçürmə)' name,   \n   C.NEREZIDENT,      \n   78 id,\n  (CASE WHEN C.CUST_TYPE=1  THEN 'FİZİKİ' ELSE 'HÜQUQİ' END) AS custtype,\n  (CASE WHEN C.CUST_TYPE=1  THEN 1 ELSE 0 END) AS custtypeid,\n  (CASE WHEN C.NEREZIDENT=1 THEN 'REZIDENT' ELSE 'QEYRİREZIDENT' END) AS rezident,\n  (CASE WHEN E.id in(14,26)  THEN 'Malların idxalı üzrə' ELSE E.NAME END) AS Transfertype,\n  (CASE WHEN E.id in(14,26)  THEN 0  ELSE E.id END) AS Transfertypeid,\n  sum (CASE WHEN T.VAL_COD=0    THEN T.AMOUNT  ELSE 0 END) AS AZN,\n  sum (CASE WHEN T.VAL_COD=1    THEN T.AMOUNT  ELSE 0 END) AS USD,\n  sum (CASE WHEN T.VAL_COD=1    THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS USDEKV,\n  sum (CASE WHEN T.VAL_COD=45   THEN T.AMOUNT  ELSE 0 END) AS EUR,\n  sum (CASE WHEN T.VAL_COD=45   THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS EUREKV,\n  sum (CASE WHEN T.VAL_COD=50   THEN T.AMOUNT  ELSE 0 END) AS GBP,\n  sum (CASE WHEN T.VAL_COD=50   THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS GBPEKV,\n  sum (CASE WHEN T.VAL_COD=792  THEN T.AMOUNT  ELSE 0 END) AS TRY,\n  sum (CASE WHEN T.VAL_COD=792  THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS TRYEKV, \n  sum (CASE WHEN T.VAL_COD=48   THEN T.AMOUNT  ELSE 0 END) AS RUR,\n  sum (CASE WHEN T.VAL_COD=48   THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS RUREKV,\n  sum (CASE WHEN T.VAL_COD=981  THEN T.AMOUNT  ELSE 0 END) AS GEL,\n  sum (CASE WHEN T.VAL_COD=981  THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS GELEKV,\n  sum (CASE WHEN T.VAL_COD=784  THEN T.AMOUNT  ELSE 0 END) AS AED,\n  sum (CASE WHEN T.VAL_COD=784  THEN round(T.AMOUNT*O.ostat,2)  ELSE 0 END) AS AEDEKV,\n  sum (CASE WHEN T.VAL_COD= 16  THEN T.AMOUNT  ELSE 0 END) AS YEN,\n  sum (CASE WHEN T.VAL_COD= 16  THEN round(T.AMOUNT*O.ostat,2) ELSE 0 END) AS YENEKV\n  FROM exp_batchs T,customers C,exp_report E,operkurs O\n Where     \n        T.optype IN (4,8)\n       AND \n       T.setid IN (70,71,72,73,74,78)\n       AND T.reportid IN (SELECT id\n                          FROM exp_report\n                         WHERE settypeid = 78)\n       AND T.senddate >=:bdat\n       AND T.senddate <=:edat         \n       AND T.kliid=C.id\n       AND C.cust_type in(0,1,2,3)\n       AND T.status = 1\n       AND T.reportid=E.id\n       AND E.type=0\n       AND T.val_cod=O.val_kod\n       AND O.dat=:edat\n       group by \n       (CASE WHEN C.CUST_TYPE=1  THEN 'FİZİKİ' ELSE 'HÜQUQİ' END) ,\n       (CASE WHEN C.CUST_TYPE=1  THEN 1 ELSE 0 END) , \n       (CASE WHEN C.NEREZIDENT=1 THEN 'REZIDENT' ELSE 'QEYRİREZIDENT' END),\n       (CASE WHEN E.id in(14,26)  THEN 'Malların idxalı üzrə' ELSE E.NAME END),\n       (CASE WHEN E.id in(14,26)  THEN 0  ELSE E.id END),\n        C.NEREZIDENT\n      order by (CASE WHEN E.id in(14,26)  THEN 0  ELSE E.id END)\n      ",
+   "variables": [],
+   "unit": "MoneyTtransfers"
+  },
+  {
+   "name": "ODSKurs",
+   "source": "TMoneyTransfers.ODSKurs",
+   "kind": "TOracleDataSet",
+   "sql": "select val_kod,ostat from operkurs where dat=:dat\norder by val_kod",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "MoneyTtransfers"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SBOP",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TMoneyTransfers.SBOP",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

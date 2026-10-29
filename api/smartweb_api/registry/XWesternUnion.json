@@ -1,0 +1,180 @@
+{
+ "name": "XWesternUnion",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Western Union",
+ "dir": "Packages/WesterUnion",
+ "mainForm": "TWesternUnionForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "AccountPrincipial",
+   "source": "TFormConfig.AccountPrincipial",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   wu.RowID,\n   wu.*,\n   v.val_name,\n   a.acc_no,\n   wb.branchname\nfrom\n  wu_accounts wu,\n  avalute v,\n  account a,\n  wu_branch wb\nwhere\n  wu.currency = v.valute and\n  wu.accid=a.id and\n  accounttype = 0 and\n  wu.branchid = wb.branchid\norder by currency",
+   "variables": [],
+   "unit": "ConfigUnit"
+  },
+  {
+   "name": "AccountRevenue",
+   "source": "TFormConfig.AccountRevenue",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   wu.RowID,\n   wu.*,\n   v.val_name,\n   a.acc_no,\n   wb.branchname\nfrom\n  wu_accounts wu,\n  avalute v,\n  account a,\n  wu_branch wb\nwhere\n  wu.currency = v.valute and\n  wu.accid=a.id and\n  accounttype = 1 and\n  wu.branchid = wb.branchid\norder by currency",
+   "variables": [],
+   "unit": "ConfigUnit"
+  },
+  {
+   "name": "DataWUIncoming",
+   "source": "TDataModWU.DataWUIncoming",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  w.RowID,\n  w.*,\n  v.val_name as valute,\n  wb.BranchName,\n  wb.BranchID\nFrom\n  WU_Incoming w,\n  avalute v,\n  wu_branch wb\nwhere\n  w.currency = v.valute(+) and\n  w.branch = wb.symbol(+) and\n  incomdate\n  between :stDate and :EnDate\n  order by :Title\n \n ",
+   "variables": [
+    {
+     "name": "STDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDATE",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "DataModuleUnit"
+  },
+  {
+   "name": "DataTempFile",
+   "source": "TDataModWU.DataTempFile",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n    wt.RowID,wt.*\nFrom\n WU_TEMPFILE wt",
+   "variables": [],
+   "unit": "DataModuleUnit"
+  },
+  {
+   "name": "DataAccount",
+   "source": "TDataModWU.DataAccount",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   *\nfrom \n  Account \nwhere \n  close_dat is null ",
+   "variables": [],
+   "unit": "DataModuleUnit"
+  },
+  {
+   "name": "DataValute",
+   "source": "TDataModWU.DataValute",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   *\nfrom \n  AVALUTE",
+   "variables": [],
+   "unit": "DataModuleUnit"
+  },
+  {
+   "name": "DataConfig",
+   "source": "TDataModWU.DataConfig",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   *\nfrom \n  wu_config",
+   "variables": [],
+   "unit": "DataModuleUnit"
+  },
+  {
+   "name": "DataBranch",
+   "source": "TDataModWU.DataBranch",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   *\nfrom \n  wu_branch",
+   "variables": [],
+   "unit": "DataModuleUnit"
+  },
+  {
+   "name": "DataReport",
+   "source": "TDataModWU.DataReport",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  w.Kind \"Gəl-Ged\",\n  incomdate \"Tarix\",\n  reference \"Qeydiyyat №\",\n  principial \"Məbləğ\",\n  revenue \"Gəlir\",\n  v.val_name  \"Valuta\",\n  wb.BranchName \"Filial\",\n  wb.BranchId  BranchId\nFrom\n  WU_Incoming w,\n  avalute v,\n  wu_branch wb\nwhere\n  w.currency = v.valute(+) and\n  w.branch = wb.symbol(+)and\n  incomdate\n  between :stDate and :EnDate\n\norder by wb.BranchName, w.Kind",
+   "variables": [
+    {
+     "name": "STDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DataModuleUnit"
+  },
+  {
+   "name": "DataReportComplex",
+   "source": "TDataModWU.DataReportComplex",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   nom \"№\",\n   branch \"Bölmənin adı\",\n   transcount \"Əməliyyatların sayı\",\n   amount_i \"Ödənilmiş məbləğ\",\n   amount_o \"Qəbul olunmuş məbləğ\",\n   revenue \"Qəlir\"\nFrom\n  WU_REPORT\norder by \n  nom\n",
+   "variables": [],
+   "unit": "DataModuleUnit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "TempPack",
+   "package": "WU_CONTROL",
+   "mode": "positional",
+   "source": "*.TempPack",
+   "routines": [
+    {
+     "name": "ConvertFileToTable",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ConvertFileToTable",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "ImportReportTable",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "PrincipialTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SetTransaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "wu_accounts_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "wu_incoming_delete",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

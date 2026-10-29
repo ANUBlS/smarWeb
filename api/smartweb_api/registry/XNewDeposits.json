@@ -1,0 +1,190 @@
+{
+ "name": "XNewDeposits",
+ "caption": "Əlavə modullar / Depozitlər / Yeni depozitlərin idarə olunması",
+ "dir": "NewDepositsManager/NewDepositsManager",
+ "mainForm": "TNewDepositsManagerImpl",
+ "plugin": false,
+ "plugins": {
+  "newdepositsapplymoney.bpl": "P_NewDepositsApplyMoney",
+  "newdepositsbalancesettings.bpl": "P_NewDepositsBalanceSettings",
+  "newdepositscapitalize.bpl": "P_NewDepositsCapitalize",
+  "newdepositscontract.bpl": "P_NewDepositsContract_2",
+  "newdepositscontrol.bpl": "P_NewDepositsControl",
+  "newdepositsextractmoney.bpl": "P_NewDepositsExtractMoney",
+  "newdepositsfilter.bpl": "P_NewDepositsFilter",
+  "newdepositslogs.bpl": "P_NewDepositsLogs",
+  "newdepositspercentconverting.bpl": "P_NewDepositsPercentConverting",
+  "newdepositspercentsettings.bpl": "P_NewDepositsPercentSettings",
+  "newdepositsprolongation.bpl": "P_NewDepositsProlongation",
+  "newdepositsreport.bpl": "P_NewDepositsReport",
+  "newdepositssettings.bpl": "P_NewDepositsSettings",
+  "newdepositsshedule.bpl": "P_NewDepositsShedule",
+  "newdepositsuntimelyetmoney.bpl": "P_NewDepositsUntimelyEtMoney",
+  "newdepositswreport.bpl": "P_NewDepositsWReport",
+  "newdepositswrgroups.bpl": "P_NewDepositsWRGroups",
+  "newdepositswrsetup.bpl": "P_NewDepositsWRSetup",
+  "sb_general.bpl": "P_Sb_General"
+ },
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Valutes",
+   "source": "TNewDepsitDataModule.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name \nfrom avalute",
+   "variables": [],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "Filials",
+   "source": "TNewDepsitDataModule.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from \nfilial\norder by id ",
+   "variables": [],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "dm_types",
+   "source": "TNewDepsitDataModule.dm_types",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type\nfrom dm_types",
+   "variables": [],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "dm_categories",
+   "source": "TNewDepsitDataModule.dm_categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from dm_categories",
+   "variables": [],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "dm_persons",
+   "source": "TNewDepsitDataModule.dm_persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from dm_persons",
+   "variables": [],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "BankDate",
+   "source": "TNewDepsitDataModule.BankDate",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "FilialID",
+   "source": "TNewDepsitDataModule.FilialID",
+   "kind": "TOracleDataSet",
+   "sql": "select kod_fil from bankinfo",
+   "variables": [],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "users",
+   "source": "TNewDepsitDataModule.users",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from user$\nwhere id in (select sid# from dm_contracts group by sid#)",
+   "variables": [],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "DmDataSet",
+   "source": "TNewDepsitDataModule.DmDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select cont.rowid,\n       cont.id,\n       cont.contractno,\n       av.val_name,\n       dm_stored_programs.getcustomername(cont.customerid) as CustomerName,\n       cont.opendate,\n       cont.closedate,\n       cont.amount,\n       interest,      \n       (select sum(facticaldebt) from dm_history_currstate where id#=cont.id) as facticaldebt ,\n       (select sum(facticalinterestdebt) from dm_history_currstate where id#=cont.id) as facticalinterestdebt,\n       (select ostat from tenostat where acc_id=acc.clientaccid) as ostat,\n      (select type from dm_types where id=cont.contracttype)as contracttypename,\n       cont.currency,\n       cont.personaltype,\n       cont.clienttype,\n       cont.branchid,\n       cont.contracttype,\n       cont.customerid,\n       cont.prolongationdate,\n       cont.stopcalcdate,\n       cont.sid# as usid,\n       cont.agentid,\n       (select name from user$ where id=cont.sid#) username,\n       (select name from filial where id=cont.branchid) as filial\nfrom dm_active_contracts cont,\n     dm_contract_accounts acc,\n     avalute av\nwhere acc.id# = cont.id and\n      cont.currency = av.valute \norder by :OrderField     ",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "string"
+    }
+   ],
+   "unit": "NewDepositDataModule"
+  },
+  {
+   "name": "dm_tranches",
+   "source": "TNewDepsitDataModule.dm_tranches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT total,hdate\n  FROM dm_tranches\n  where id# = :ContractID\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_stored_programs",
+   "package": "dm_stored_programs",
+   "mode": "named",
+   "source": "TNewDepsitDataModule.dm_stored_programs",
+   "routines": [
+    {
+     "name": "CloseDeposit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DisableCalculation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "EnableCalculation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "IsCalculationEnabled",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TNewDepsitDataModule.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

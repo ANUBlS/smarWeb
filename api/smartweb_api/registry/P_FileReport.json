@@ -1,0 +1,817 @@
+{
+ "name": "P_FileReport",
+ "caption": "",
+ "dir": "Packages/Cards_New/FileReprt",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "Azipstemp",
+  "Data_Unit",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "Unittemplate",
+  "datamodsUnit",
+  "datnamount",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TFileReports.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CARD_MESSAGES_C_ARCHIVE  where \n/*to_number(substr(FILE_NAME,length(FILE_NAME)-2,3))>=:bash and to_number(substr(FILE_NAME,length(FILE_NAME)-2,3))<=:son\n\nand */( TRANDATE between :begindat and :enddat)",
+   "variables": [
+    {
+     "name": "BEGINDAT",
+     "type": "date"
+    },
+    {
+     "name": "ENDDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "Filereportform"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TFileReports.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select *\nfrom CARD_DXXXFILES_ARCHIVE where   /*\nTO_DATE( SUBSTR (trandate, 0, 3)||to_char(to_date((SUBSTR (trandate, 4, 2)),'MM'), 'MON')|| '-20'||SUBSTR (trandate, 7, 2))\nBETWEEN :begindat and :enddat and */ SUBSTR(filename,10,6)=:flname and SUBSTR(filename,10,6)=:fl2name\n\nAND TO_DATE( SUBSTR (trandate, 0, 3)||to_char(to_date((SUBSTR (trandate, 4, 2)),'MM'), 'MON')|| '-20'||SUBSTR (trandate, 7, 2))>=trunc(to_date(:begindat,'dd-mm-yyyy'),'year')\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "FLNAME",
+     "type": "string"
+    },
+    {
+     "name": "FL2NAME",
+     "type": "string"
+    },
+    {
+     "name": "BEGINDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "Filereportform"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFileReports.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select *\nfrom CARD_INTRETALIFILES_ARCHIVE where   \nTO_DATE( SUBSTR (tr_date, 0, 3)||to_char(to_date((SUBSTR (tr_date, 4, 2)),'MM'), 'MON')|| '-20'||SUBSTR (tr_date, 7, 2))\nBETWEEN :begindat and :enddat",
+   "variables": [
+    {
+     "name": "BEGINDAT",
+     "type": "date"
+    },
+    {
+     "name": "ENDDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "Filereportform"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TFileReports.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Filereportform"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFinger.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers",
+   "variables": [],
+   "unit": "Fingerprint"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFinger.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dual--finger",
+   "variables": [],
+   "unit": "Fingerprint"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "Toperationtype.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from card_applicationtype\n",
+   "variables": [],
+   "unit": "Operationtypeunit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "Toperationtype.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select DECODE (a.messtype,\n               1, 'NEW',\n               2, 'SUB CARD',\n               3, 'PROLONGATION',\n               4, 'REPLACE',\n               12, 'PIN ATTEMPTS CLEAR',\n               6, 'STATUS CHANGE',\n               11, 'RBSNUMBER CHANGE',\n               7, 'CONTRACT CLOSE',\n               35, 'CARDNAME CHANGE',\n               5, 'CREDIT LIMIT',\n               13,'SEC WORD CHANGE'\n              ) AS emeliyyat,\n             card_main.findfilial(a.filial) as fil,\n             smart.sb_aca.getuserbyid(a.NMOD_OPID) as modifier,\n             smart.sb_aca.getuserbyid(a.op_id) as creater,\n       a.*\n from card_client_app a\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Operationtypeunit"
+  },
+  {
+   "name": "acount",
+   "source": "TDataModbpl.acount",
+   "kind": "TOracleDataSet",
+   "sql": "select *from sw_accounts where close_dat is null  /*and bal_cn1 like '38%' */\n\nand\nkli_id=:ids  and currencyname=:curr\n\n\n\n\n order by acc_no",
+   "variables": [
+    {
+     "name": "IDS",
+     "type": "integer"
+    },
+    {
+     "name": "CURR",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "banks",
+   "source": "TDataModbpl.banks",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid, id,convertpack.CONVERT_xohks(replace(a.name,'\"','''')) as name,krno,inn,subkrno,swift,bankcode,ours from bankm_t a \nwhere val_code=:val order by a.name\n\n\n",
+   "variables": [
+    {
+     "name": "VAL",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "referans",
+   "source": "TDataModbpl.referans",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_main.Set_Referense(:FORMATS,:currensy) as refe from dual ",
+   "variables": [
+    {
+     "name": "FORMATS",
+     "type": "string"
+    },
+    {
+     "name": "CURRENSY",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "templates",
+   "source": "TDataModbpl.templates",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_templates\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "azips",
+   "source": "TDataModbpl.azips",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,to_char(a.cdat,'hh:mi:ss') as saat,to_char(a.tdat,'hh:mi:ss') as ysaat,to_char(a.fdat,'hh:mi:ss') as gsaat from sw_out_new a\nwhere \na.status in (55,44,1,20) and \n\na.messagetype='MT103' \nand  a.mf50_account in (select acc_no from account where kli_id=:v) \nand a.mf32a_date=to_date(to_char(sysdate))",
+   "variables": [
+    {
+     "name": "V",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "alanm",
+   "source": "TDataModbpl.alanm",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,convertpack.CONVERT_xohks(replace(a.short_name,'\"','''')) as d  from customers a where a.id=:kid",
+   "variables": [
+    {
+     "name": "KID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "gonderen",
+   "source": "TDataModbpl.gonderen",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filialinfo_t where kod_fil=:fid and svm_currencyid=:curr",
+   "variables": [
+    {
+     "name": "FID",
+     "type": "integer"
+    },
+    {
+     "name": "CURR",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "account",
+   "source": "TDataModbpl.account",
+   "kind": "TOracleDataSet",
+   "sql": "select *from sw_accounts where close_dat is null\nand acc_no=:accno\n\n\n\n\n\n order by acc_no",
+   "variables": [
+    {
+     "name": "ACCNO",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "sw_out",
+   "source": "TDataModbpl.sw_out",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_out_new where id =:ids",
+   "variables": [
+    {
+     "name": "IDS",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDataModbpl.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "update sw_out_new set status=44 where id =:ids",
+   "variables": [
+    {
+     "name": "IDS",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDataModbpl.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char(sysdate,'hh24:mi:ss') as time from dual",
+   "variables": [],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "sw_settings",
+   "source": "TDataModbpl.sw_settings",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_settings",
+   "variables": [],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "relatedrf",
+   "source": "TDataModbpl.relatedrf",
+   "kind": "TOracleDataSet",
+   "sql": "select max(id)+1  from sw_out_new",
+   "variables": [],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "Bank",
+   "source": "TDataModbpl.Bank",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect substr(convertpack.CONVERT_INT(replace(a.bank,'\"','''')),0,35)  as name,accountanttitle,\nkrno,inn,swift,kod_b as bankcode,krno_fil as subkrno from filialinfo_t a where nb=1 and svm_currencyid=:val",
+   "variables": [
+    {
+     "name": "VAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "names205",
+   "source": "TDataModbpl.names205",
+   "kind": "TOracleDataSet",
+   "sql": "//select * from sw_names205",
+   "variables": [],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "templ",
+   "source": "TDataModbpl.templ",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from sw_templates a\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "updtemp",
+   "source": "TDataModbpl.updtemp",
+   "kind": "TOracleDataSet",
+   "sql": "update sw_templates set tempname=:tname where id =:vid",
+   "variables": [
+    {
+     "name": "TNAME",
+     "type": "string"
+    },
+    {
+     "name": "VID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "out",
+   "source": "TDataModbpl.out",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_out_new where status=20\nand mf32a_date<=sbop.get_date and mf32a_date>= sbop.get_date-30",
+   "variables": [],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "bankm",
+   "source": "TDataModbpl.bankm",
+   "kind": "TOracleDataSet",
+   "sql": "select * from xs_config",
+   "variables": [],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "krno",
+   "source": "TDataModbpl.krno",
+   "kind": "TOracleDataSet",
+   "sql": "select krno from filialinfo_t where nb=7 and svm_currencyid=:valu",
+   "variables": [
+    {
+     "name": "VALU",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "rbnames",
+   "source": "TDataModbpl.rbnames",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_rbnames where code=:vid and valute=:valu\n order by id",
+   "variables": [
+    {
+     "name": "VID",
+     "type": "integer"
+    },
+    {
+     "name": "VALU",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "radiocode",
+   "source": "TDataModbpl.radiocode",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_rbnames where rbname=:rbname",
+   "variables": [
+    {
+     "name": "RBNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "Unitdatamod"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TActivecard.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select 'ACTIVE' as stat,a.* from card_clients a\nwhere expiry>=:dat   and  a.cardnumber not in (select cardnumber from card_client_app \nwhere (messtype=3) and (to_char(trandate,'dd-mon-yyyy')> :dat) )\nunion\nselect 'CLOSED' as stat,a.* from card_client_close a\nwhere expiry>= :dat   and  a.cardnumber not in (select cardnumber from card_client_app \nwhere (messtype=3) and (to_char(trandate,'dd-mon-yyyy')> :dat) )",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "activecardsunit"
+  },
+  {
+   "name": "aplication",
+   "source": "Tcards.aplication",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   DECODE (a.messtype,\n                 1,\n                 'NEW',\n                 2,\n                 'SUB CARD',\n                 3,\n                 'PROLONGATION',\n                 4,\n                 'REPLACE',\n                 12,\n                 'PIN ATTEMPTS CLEAR',\n                 6,\n                 'STATUS CHANGE',\n                 11,\n                 'RBSNUMBER CHANGE',\n                 7,\n                 'CONTRACT CLOSE',\n                 35,\n                 'CARDNAME CHANGE',\n                 5,\n                 'CREDIT LIMIT',\n                 13,\n                 'SEC WORD CHANGE')\n             AS emeliyyat,\n         a.*,\n         card_main.findfilial (a.filial) AS fil,\n         sb_aca.getuserbyid (a.op_id) AS creat,\n         sb_aca.getuserbyid (a.nmod_opid) AS modi\n  FROM   card_client_app a\n WHERE   a.messtype <> 1 AND a.ACCID = :CID AND a.status IN (1, 4)",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "apptype",
+   "source": "Tcards.apptype",
+   "kind": "TOracleDataSet",
+   "sql": "select * from card_applicationtype",
+   "variables": [],
+   "unit": "card"
+  },
+  {
+   "name": "cliencards",
+   "source": "Tcards.cliencards",
+   "kind": "TOracleDataSet",
+   "sql": "select CARD_CLIENTS.rowid, CARD_CLIENTS.*,\nsb_aca.getuserbyid(CARD_CLIENTS.OP_ID) as creat,sb_aca.getuserbyid(CARD_CLIENTS.NMOD_OPID) as modi,card_main.findfilial(CARD_CLIENTS.filial) as fil ,card_main.mainfind(CARD_CLIENTS.id) as TIP\n from CARD_CLIENTS where replace(CARD_CLIENTS.RBSNUMBER,' ','')=REPLACE(:numb,' ','')\n \n ",
+   "variables": [
+    {
+     "name": "NUMB",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "CARDOPERATION",
+   "source": "Tcards.CARDOPERATION",
+   "kind": "TOracleDataSet",
+   "sql": "select DECODE(A.MESSTYPE,1,'NEW',2,'SUB CARD',3,'PROLONGATION',4,'REPLACE',12,'PIN ATTEMPTS CLEAR',6,'STATUS CHANGE',11,'RBSNUMBER CHANGE',7,'CONTRACT CLOSE',35,'CARDNAME CHANGE',5,'CREDIT LIMIT',13,'SEC WORD CHANGE') AS EMELIYYAT,\nA.*,card_main.findfilial(a.filial) as fil,sb_aca.getuserbyid(a.OP_ID) as creat,sb_aca.getuserbyid(a.NMOD_OPID) as modi\nfrom card_client_app A WHERE A.MESSTYPE<>1 AND A.RBSNUMBER=:RBS and a.status in (1,4)\n \n \n \n ",
+   "variables": [
+    {
+     "name": "RBS",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "editval",
+   "source": "Tcards.editval",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.avalute_t where VALUTE=(select val_acc from account where acc_no=:rbsnumber)",
+   "variables": [
+    {
+     "name": "RBSNUMBER",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "cariqaliq2",
+   "source": "Tcards.cariqaliq2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM smart.tenostat a where acc_id = :acc_id",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "allclientcredits",
+   "source": "Tcards.allclientcredits",
+   "kind": "TOracleDataSet",
+   "sql": "select NUMBEROFCREDIT,PURPOSEOFCREDIT,id from cm_active_credits where id in (SELECT a.creditid  FROM   cm_accounts a where a.booroweraccid = (SELECT ID\n                            FROM ACCOUNT\n                           WHERE acc_no = :rbsnumber))",
+   "variables": [
+    {
+     "name": "RBSNUMBER",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "hesab",
+   "source": "Tcards.hesab",
+   "kind": "TOracleDataSet",
+   "sql": "select *\n from account  \nwhere \n ((kli_id =:CID) or (Acc_NO like (:p_AccNO))) and (bal_cn1 in (select balans from card_balcn)) order by acc_no \n",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    },
+    {
+     "name": "P_ACCNO",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "hesabtap",
+   "source": "Tcards.hesabtap",
+   "kind": "TOracleDataSet",
+   "sql": "select id from account where acc_no=:rbs",
+   "variables": [
+    {
+     "name": "RBS",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "findcredit",
+   "source": "Tcards.findcredit",
+   "kind": "TOracleDataSet",
+   "sql": "select abs(card_main.findcredit2 (:acc)) as kredit from dual",
+   "variables": [
+    {
+     "name": "ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "CARDTYPES",
+   "source": "Tcards.CARDTYPES",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT c.rowid, c.* FROM CARD_CARDTYPE c",
+   "variables": [],
+   "unit": "card"
+  },
+  {
+   "name": "fcardtype",
+   "source": "Tcards.fcardtype",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT c.rowid, c.* FROM CARD_CARDTYPE c where name=:cnam",
+   "variables": [
+    {
+     "name": "CNAM",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "referens",
+   "source": "Tcards.referens",
+   "kind": "TOracleDataSet",
+   "sql": "select card_main.setreference(1)  as refe from dual",
+   "variables": [],
+   "unit": "card"
+  },
+  {
+   "name": "fmaincard",
+   "source": "Tcards.fmaincard",
+   "kind": "TOracleDataSet",
+   "sql": "select * from card_clients where cardnumber=:crd",
+   "variables": [
+    {
+     "name": "CRD",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "closefind",
+   "source": "Tcards.closefind",
+   "kind": "TOracleDataSet",
+   "sql": "select * from card_clients where MAINCARD=:crdnum",
+   "variables": [
+    {
+     "name": "CRDNUM",
+     "type": "string"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "mushteri",
+   "source": "Tcards.mushteri",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers where id=:ix",
+   "variables": [
+    {
+     "name": "IX",
+     "type": "integer"
+    }
+   ],
+   "unit": "card"
+  },
+  {
+   "name": "Clients",
+   "source": "TAllcards.Clients",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   s.ROWID,\n\n         s.id, s.accid, s.cardholder, s.fname, s.lname, s.passport,\n       s.birthday, s.homephone, s.workphone, s.country, s.city,\n       s.address, s.resident, to_char(s.cardnumber) as cardnumber, s.rbsnumber, s.maincard,\n       s.currency, s.cardtype, s.cardstatus, s.credit_lim, s.dateopen,\n       s.expiry, s.reference, s.embossname, s.company, s.dateclose,\n       s.security, s.send, s.creatdate, s.file_num, s.messtype, s.withp,\n       s.urg, s.othtype, s.othmember, s.othasscod, s.othiden,\n       s.othexpry, s.filename, s.con_balan, s.balan_sign, s.cardrest,\n       s.rbsnumber2, s.accid2, s.refinteger, s.lang_code, s.filial,\n       s.issued_by, s.doc_since, s.contract_num, s.kredit, s.kli_id,\n       s.op_id, s.types, s.titul, s.status, s.dat, s.nmod_opid, s.crdat,\n       s.rbsclose, s.rbscloseid, s.trandate,\n         card_main.findfilial (s.filial) AS fil,\n         sb_aca.getuserbyid (s.op_id) AS creat,\n         sb_aca.getuserbyid (s.nmod_opid) AS modi\n  FROM   card_clients s where s.kli_id=:ids",
+   "variables": [
+    {
+     "name": "IDS",
+     "type": "integer"
+    }
+   ],
+   "unit": "cardall"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "Tcardexpire.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT s.ROWID, s.*, card_main.findfilial (s.filial) AS fil,\n       sb_aca.getuserbyid (s.op_id) AS CREAT,\n       sb_aca.getuserbyid (s.nmod_opid) AS modi\n  FROM card_clients s\n\n",
+   "variables": [],
+   "unit": "cardexpireUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "Thesab.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.atmname,b.acc_no ,c.OSTAT\n  FROM card_bankomats a ,account b, smart.tenostat c where a.MAINACOUNT=b.id and c.ACC_ID=a.mainacount\n   \n  union\n\n SELECT a.atmname,b.acc_no ,c.OSTAT\n  FROM card_bankomats a ,account b, smart.tenostat  c where a.interaccount=b.id and c.ACC_ID=a.interaccount\n   \n  union \n  \n  SELECT a.bankname,b.acc_no ,c.OSTAT\n  FROM card_domestic a ,account b, smart.tenostat  c where a.h25id=b.id and c.ACC_ID=a.h25id\n  \n  union\n  \n    SELECT a.bankname,b.acc_no ,c.OSTAT\n  FROM card_domestic a ,account b, tenostat c where a.h45id=b.id and c.ACC_ID=a.h45id \n  \n  union\n  \n    SELECT 'Kliring45',b.acc_no ,c.OSTAT\n  FROM card_domestic a ,account b, tenostat  c\n  where (b.id= (select id from account where acc_no=(select KLIRING_45 from card_settings))) and\n    (c.ACC_ID=(select id from account where acc_no=(select KLIRING_45 from card_settings)))\n\n    union\n  \n       SELECT 'Kliring25',b.acc_no ,c.OSTAT\n  FROM card_domestic a ,account b, tenostat  c\n  where (b.id= (select id from account where acc_no=(select KLIRING_25 from card_settings))) and\n    (c.ACC_ID=(select id from account where acc_no=(select KLIRING_25 from card_settings)))\n    \n    \n  ",
+   "variables": [],
+   "unit": "hesabqaliq"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TKorrReport.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT card_main.findfilial (f.filialid) AS filial, t.val_name AS valyuta,\n       a.acc_no AS hesab_28, z.ostat AS hesab_28_qaliq, t.ostat AS plan28,\n       b.acc_no AS hesab_48, s.ostat AS hesab_48_qaliq, k.ostat AS plan48\n  FROM filialaccounts f,\n       ACCOUNT a,\n       ACCOUNT b,\n       smart.avalute_t t,\n       smart.tenostat  z,\n       smart.tenostat  s,\n       smart.lazyrest t,\n       smart.lazyrest k\n WHERE f.valid = t.valute\n   AND f.accid28 = a.ID\n   AND f.accid48 = b.ID\n   AND f.accid28 = z.acc_id\n   AND f.accid48 = s.acc_id\n   AND f.accid28 = t.acc_id\n   AND f.accid48 = k.acc_id\n   AND f.filialid <> 0",
+   "variables": [],
+   "unit": "korreportUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TKorrMoh.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT card_main.findfilial (f.filialid) AS filial, t.val_name AS valyuta,\n       a.acc_no AS hesab, z.ostat AS hesab_qaliq,\n       NVL (card_main.commitrestdebt (f.accid28), 0) AS dtesdiq,\n       NVL (card_main.lazyrestdebt (f.accid28), 0) AS dplan,\n       NVL (card_main.commitrestkredit (f.accid28), 0) AS ktesdiq,\n       NVL (card_main.lazyrestkredit (f.accid28), 0) AS kplan,\n\n      card_main.findmoh28(z.ostat,\n      NVL (card_main.commitrestdebt (f.accid28), 0),\n      NVL (card_main.lazyrestdebt (f.accid28), 0),\n      NVL (card_main.commitrestkredit (f.accid28), 0),\n      NVL (card_main.lazyrestkredit (f.accid28), 0)) as Verilecek_mebleq\n\n\n  FROM filialaccounts f,\n       ACCOUNT a,\n      \n       smart.avalute_t t,\n       smart.tenostat  z\n      \n WHERE f.valid = t.valute\n   AND f.accid28 = a.ID\n  \n   AND f.accid28 = z.acc_id\n   \n   AND f.filialid <> 0\n\nUNION\n\n\nSELECT card_main.findfilial (f.filialid) AS filial, t.val_name AS valyuta,\n\n       b.acc_no AS hesab, s.ostat AS hesab_qaliq,\n       NVL (card_main.commitrestdebt (f.accid48), 0) AS dtesdiq,\n       NVL (card_main.lazyrestdebt (f.accid48), 0) AS dplan,\n       NVL (card_main.commitrestkredit (f.accid48), 0) AS ktesdiq,\n       NVL (card_main.lazyrestkredit (f.accid48), 0) AS kplan,\n    \n    card_main.findmoh48(s.ostat,\n      NVL (card_main.commitrestdebt (f.accid48), 0),\n      NVL (card_main.lazyrestdebt (f.accid48), 0),\n      NVL (card_main.commitrestkredit (f.accid48), 0),\n      NVL (card_main.lazyrestkredit (f.accid48), 0)) as Verilecek_mebleq\n\n\n  FROM filialaccounts f,\n       \n       ACCOUNT b,\n       smart.avalute_t t,\n     \n       smart.tenostat  s\n WHERE f.valid = t.valute\n  \n   AND f.accid48 = b.ID\n  \n   AND f.accid48 = s.acc_id\n   AND f.filialid <> 0\nORDER BY HESAB\n\n",
+   "variables": [],
+   "unit": "MohUnit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "Ins",
+   "package": "HOXPACK",
+   "mode": "positional",
+   "source": "*.Ins",
+   "routines": [
+    {
+     "name": "xs_Batchs_VerifStatus2",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "xs_beneficiary_VerifStatus2",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "card_main",
+   "mode": "positional",
+   "source": "TKorrMoh.OraclePackage1",
+   "routines": [
+    {
+     "name": "mohset",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBOP",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "*.SBOP",
+   "routines": [
+    {
+     "name": "check_IBAN_acc_num",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "",
+   "mode": "positional",
+   "source": "Tcards.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "mainpacket",
+   "package": "card_main",
+   "mode": "positional",
+   "source": "Tcards.mainpacket",
+   "routines": [
+    {
+     "name": "edit_card",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "new_card",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "pack",
+   "package": "accepted_portfel",
+   "mode": "positional",
+   "source": "*.pack",
+   "routines": [
+    {
+     "name": "insert_298",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_298202",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_298800",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_298801",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_298804",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_920",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_920_2",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_999",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_999bizday",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_999pass",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "save103UPD",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "save205UPD",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "savetemplate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "savetransaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "saving102",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "saving205",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TAllcards.sb_aca",
+   "routines": []
+  },
+  {
+   "component": "sbop",
+   "package": "sbop",
+   "mode": "positional",
+   "source": "TDataModbpl.sbop",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

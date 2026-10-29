@@ -1,0 +1,292 @@
+{
+ "name": "Customers",
+ "caption": "Balans / Müştərilər / Bankın müştəriləri",
+ "dir": "Packages/Customers",
+ "mainForm": "TCustomerMainForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "RelationData",
+   "source": "TCustomerDataModule.RelationData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from PRINAD",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "ClientGroupData",
+   "source": "TCustomerDataModule.ClientGroupData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from QRP_KLIE",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "EstateTypeData",
+   "source": "TCustomerDataModule.EstateTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM VID_SOB",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "OrganizationTypeData",
+   "source": "TCustomerDataModule.OrganizationTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM ORG_PRAV",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "ActionAreaData",
+   "source": "TCustomerDataModule.ActionAreaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM SFERADEY",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "BranchData",
+   "source": "TCustomerDataModule.BranchData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM OTRASLI",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "CurrencyData",
+   "source": "TCustomerDataModule.CurrencyData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from AVALUTE",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "TaxAreaData",
+   "source": "TCustomerDataModule.TaxAreaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM NALOG",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "ActiveCustomerList",
+   "source": "TCustomerDataModule.ActiveCustomerList",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT customers.rowID, \n       id, op_id, open_dat, close_dat, nerezident,\n       prinad_kod, name, short_name, group_klie, vid_sob,\n       org_sob, sfera_dey, otrasl, nalog_kod, kod_okpro,\n       inn, dat_nal, dat_ustav, bik , translate(name, 'IiİiIı', '``````') as name1,\n      decode(nvl(customers.cust_type,0), 0, 'huquqi', 1, 'fiziki', 2, 'f.s.') tip\nFROM customers\nwhere CLOSE_DAT IS NULL\norder by :Title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "FilialsData",
+   "source": "TCustomerDataModule.FilialsData",
+   "kind": "TOracleDataSet",
+   "sql": "select *\nfrom FILIAL",
+   "variables": [],
+   "unit": "CustomerDataModuleImpl"
+  },
+  {
+   "name": "CustInfoData",
+   "source": "TCustomerInfoForm.CustInfoData",
+   "kind": "TOracleDataSet",
+   "sql": "select i.rowid,I.*\n  from CUSTINFO i\nwhere IDCust = :CustomerID\norder by id ",
+   "variables": [
+    {
+     "name": "CUSTOMERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustomerInfoFormImpl"
+  },
+  {
+   "name": "ODSCustImages",
+   "source": "TCustomerInfoForm.ODSCustImages",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   C.RowID,\n   C.* \nFrom\n   CustImage C\n\nWhere ID =:ID\n ",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustomerInfoFormImpl"
+  },
+  {
+   "name": "odsPassDeps",
+   "source": "TCustomerInfoForm.odsPassDeps",
+   "kind": "TOracleDataSet",
+   "sql": "select * from passdeps\norder by 2",
+   "variables": [],
+   "unit": "CustomerInfoFormImpl"
+  },
+  {
+   "name": "ActiveAccountList",
+   "source": "TCustomerMainForm.ActiveAccountList",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  acc.ID,\n  acc.ACC_NO as AccNo,\n  acc.NAME as AccName,\n  acc.OPEN_DAT as OpenDate,\n  'AHA' as CurrencySName,\n  T.OSTAT as Balance,\n  T.POK_OSTAT as LBalance\nfrom\n  Account acc,\n  tenostat t\nwhere\n  (CLOSE_DAT IS NULL)\n  and (acc.KLI_ID = :ID)\n  and (T.ACC_ID = acc.ID)\nunion all\nselect\n  acc.ID,\n  acc.ACC_NO as AccNo,\n  acc.NAME as AccName,\n  acc.OPEN_DAT as OpenDate,\n  'AHA' as CurrencySName,\n  T.OSTAT as Balance,\n  T.POK_OSTAT as LBalance\nfrom\n  out_Account acc,\n  out_tenostat t\nwhere\n  (CLOSE_DAT IS NULL)\n  and (acc.KLI_ID = :ID)\n  and (T.ACC_ID = acc.ID)\n\n \n \n \n ",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustomerMainFormImpl"
+  },
+  {
+   "name": "ODSIpInfo",
+   "source": "TfrmIPINFO.ODSIpInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select i.rowid,i.* from custipinfo i\nwhere custid=:custid\nand cardid=:cardid",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "CARDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "uCustomersIPInfo"
+  },
+  {
+   "name": "ODSMarriage",
+   "source": "TfrmIPINFO.ODSMarriage",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 id, 'Evli' name from dual\nunion select 1 id, 'Subay' name from dual",
+   "variables": [],
+   "unit": "uCustomersIPInfo"
+  },
+  {
+   "name": "ODSInsurance",
+   "source": "TfrmIPINFO.ODSInsurance",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ip_insurances\norder by id",
+   "variables": [],
+   "unit": "uCustomersIPInfo"
+  },
+  {
+   "name": "ODSPassTypes",
+   "source": "TfrmIPINFO.ODSPassTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_types order by id",
+   "variables": [],
+   "unit": "uCustomersIPInfo"
+  },
+  {
+   "name": "ODSSocCategories",
+   "source": "TfrmIPINFO.ODSSocCategories",
+   "kind": "TOracleDataSet",
+   "sql": "select * from custsoccategories\norder by id",
+   "variables": [],
+   "unit": "uCustomersIPInfo"
+  },
+  {
+   "name": "ODSFamily",
+   "source": "TfrmIPINFO.ODSFamily",
+   "kind": "TOracleDataSet",
+   "sql": "select * from custfamily\norder by id",
+   "variables": [],
+   "unit": "uCustomersIPInfo"
+  },
+  {
+   "name": "ODSPeriods",
+   "source": "TfrmIPINFO.ODSPeriods",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ip_insperiods\norder by name",
+   "variables": [],
+   "unit": "uCustomersIPInfo"
+  },
+  {
+   "name": "ODSSettings",
+   "source": "TfrmSettings.ODSSettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM ip_settings",
+   "variables": [],
+   "unit": "uSettingsImpl"
+  },
+  {
+   "name": "ODSSets",
+   "source": "TfrmSettings.ODSSets",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "uSettingsImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCust",
+   "package": "SBREF",
+   "mode": "positional",
+   "source": "TCustomerDataModule.OPCust",
+   "routines": []
+  },
+  {
+   "component": "sb_CustInfo",
+   "package": "sb_custInfo",
+   "mode": "positional",
+   "source": "*.sb_CustInfo",
+   "routines": [
+    {
+     "name": "add_custinfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_custinfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_custinfo",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_custInfo",
+   "package": "sb_custInfo",
+   "mode": "named",
+   "source": "TCustomerInfoForm.sb_custInfo",
+   "routines": []
+  }
+ ],
+ "sql": [
+  "SELECT acc.ID, acc.ACC_NO as AccNo, acc.NAME as AccName, acc.OPEN_DAT as OpenDate,",
+  "select c.rowID,id, op_id, open_dat, close_dat, nerezident,prinad_kod, name, short_name, group_klie, vid_sob, org_sob, sfera_dey, otrasl, nalog_kod, kod_okpro,inn, dat_nal, dat_ustav, bik ,"
+ ]
+}

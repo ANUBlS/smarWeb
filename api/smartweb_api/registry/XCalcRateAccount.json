@@ -1,0 +1,187 @@
+{
+ "name": "XCalcRateAccount",
+ "caption": "Əlavə modullar / Kreditlər / Faiz hesablanması",
+ "dir": "Packages/CalcRateAccount",
+ "mainForm": "TCRAMainForm",
+ "plugin": false,
+ "plugins": {
+  "cra_extractmoney.bpl": "P_CRA_ExtractMoney"
+ },
+ "lib": [
+  "CRACommonDeclsImpl",
+  "CRATemporaryTransactionsFormImpl",
+  "DateIntervalUnit",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "UntReferences",
+  "UntReferencesDataMod",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Purpose",
+   "source": "TCRADatMod.Purpose",
+   "kind": "TOracleDataSet",
+   "sql": "select p.rowid, \n       p.currency, \n       p.annualinterest,\n       p.opendate, \n       p.closedate, \n       p.contractno, \n       p.personaltype,\n       p.clienttype, \n       p.branchid,\n       a.contractaccid,\n       a.interestaccid\nfrom CRA_CONTRACTS P,\n     CRA_ACCOUNTS a\nwhere p.id = a.id#\nand p.id=:ContID",
+   "variables": [
+    {
+     "name": "CONTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "Currency",
+   "source": "TCRADatMod.Currency",
+   "kind": "TOracleDataSet",
+   "sql": "select  valute,val_name,valu_name from avalute",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "Branches",
+   "source": "TCRADatMod.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select  *from filial ",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "ContAccs",
+   "source": "TCRADatMod.ContAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no,name from account \nwhere Bal_Cn1\n       In (\n           Select\n             AccGroup\n            From  SBCM_Acc_Zone_Info\n                  Where\n                   ZoneID = (\n                     Select ZoneID\n                       From  SBCM_Acc_Zones\n                             Where\n                               Upper(Name) = 'DEPOSIT'\n                             )\n           )\n\n        AND (Close_Dat is null) \n     order by  acc_no\n",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "IntAccs",
+   "source": "TCRADatMod.IntAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no,name from account\nwhere Bal_Cn1\n       In (\n           Select\n             AccGroup\n            From  SBCM_Acc_Zone_Info\n                  Where\n                   ZoneID = (\n                     Select ZoneID\n                       From  SBCM_Acc_Zones\n                             Where\n                               Upper(Name) = 'PERCENT'\n                             )\n           )\n\n        AND (Close_Dat is null) \n     order by  acc_no",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TCRADatMod.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "Select *from sbcm_categories",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TCRADatMod.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select *from sbcm_persons",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "Contracts",
+   "source": "TCRADatMod.Contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       p.id,\n       av.val_name , \n       p.annualinterest,\n       p.opendate, \n       p.closedate, \n       p.contractno, \n       cra_contract.CheckContractState(p.id) as status,\n       cra_contract.Get_AccountName(a.contractaccid) as accname,\n       cra_contract.get_accountnumber(a.contractaccid) as contractaccno,\n       cra_contract.get_accountnumber(a.interestaccid) as interestaccno,\n       cra_contract.get_accountbalance(a.contractaccid) as ContRest,\n       cra_contract.get_accountbalance(a.interestaccid) as IntRest\nfrom CRA_CONTRACTS P,\n     CRA_ACCOUNTS a,\n     avalute av\nwhere p.id = a.id#\nand  p.currency=av.valute\nand  p.type#=0\n  Order By  Status,:OrderClause",
+   "variables": [
+    {
+     "name": "ORDERCLAUSE",
+     "type": "string"
+    }
+   ],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "BranchKod",
+   "source": "TCRADatMod.BranchKod",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   KOD_FIL\nfrom BANKINFO",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "BankDate",
+   "source": "TCRADatMod.BankDate",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat \nfrom sysdat",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  },
+  {
+   "name": "Corrector",
+   "source": "TCRADatMod.Corrector",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid, \n      contractno,\n      lastprocessdate    \n  FROM cra_contracts",
+   "variables": [],
+   "unit": "CRADatModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CRA_CONTRACT",
+   "package": "CRA_CONTRACT",
+   "mode": "named",
+   "source": "TCRADatMod.CRA_CONTRACT",
+   "routines": [
+    {
+     "name": "CalcEnabledDisabled",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Edit_cra_contracts",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_cra_contracts",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "calcrapercent",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_cont",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TCRADatMod.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

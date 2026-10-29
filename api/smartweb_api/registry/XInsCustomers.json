@@ -1,0 +1,420 @@
+{
+ "name": "XInsCustomers",
+ "caption": "Əlavə modullar / Sığorta / Sığorta müştəriləri",
+ "dir": "Packages/Insurance/InsCustomers",
+ "mainForm": "TInsCustomersForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSInsCustomers",
+   "source": "TInsDataMod.ODSInsCustomers",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_Customers ic WHERE CLOSE_PREFIX=0 order by id desc",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSCustomers",
+   "source": "TInsDataMod.ODSCustomers",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name from customers",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSAccount",
+   "source": "TInsDataMod.ODSAccount",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   \n   acc.RowID, ID, kli_id, op_id, acc_no, val_acc, NAME, open_dat, close_dat,\n   DECODE (close_dat, NULL, 1, 2) AS status, bal_cn1, bal_cn2, bal_cn3,\n   bal_cn4, filial, sim_otcet, tipacc, LIMIT, old_acc_no, pair_acc,\n   insider, ownid, t.ostat, t.pok_ostat\nFROM ACCOUNT /*partition (activacc)*/ acc, tenostat t\nwhere  t.acc_id = acc.id\nand\n ownid = :ownid\nand acc.close_dat is null\nORDER BY \n   acc_no",
+   "variables": [
+    {
+     "name": "OWNID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "BalAcc",
+   "source": "TInsDataMod.BalAcc",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect to_char(bal_cn) bal_cn, BalName from bal_spr1\norder by bal_cn\n",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "Currency",
+   "source": "TInsDataMod.Currency",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Avalute\nOrder by valute",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "Tenostat",
+   "source": "TInsDataMod.Tenostat",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  acc_id, ostat, pok_ostat \nfrom \n  tenostat \nwhere acc_id=:acc_id",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "PairAccount",
+   "source": "TInsDataMod.PairAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  ID,\n  acc_no,\n  DECODE (close_dat, NULL, 1, 2) AS status\nfrom\n  Account\norder by acc_no\n ",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TInsDataMod.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ic.rowid, ic.ID , ic.kli_id, ic.loanacc_id, ic.curracc_id,\n                 ii.NAME, ii.mainformguid, ii.changeguid,\n                 ii.suggestionguid, ii.policyguid, ii.mainformname AS tablename, ic.policy_num,\n                 trunc(ic.ins_date) as ins_date, ic.ammount, ic.begin_date, ic.end_date, av.val_name,\n                  ic.inssumm, ic.tariff, ic.franshiz, ic.state, ic.type_id  \n                 FROM ins_contracts ic, ins_insurances ii, avalute av\n                 WHERE ii.ID = ic.type_id\n               \n                 and close_prefix=0\n                 and ic.valute_id = av.valute(+)",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSInsurances",
+   "source": "TInsDataMod.ODSInsurances",
+   "kind": "TOracleDataSet",
+   "sql": "select ii.rowid, ii.* from ins_insurances ii",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSOccupations",
+   "source": "TInsDataMod.ODSOccupations",
+   "kind": "TOracleDataSet",
+   "sql": "select ido.rowid, ido.* from ins_dict_occupations ido",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSEducations",
+   "source": "TInsDataMod.ODSEducations",
+   "kind": "TOracleDataSet",
+   "sql": "select ido.rowid, ido.* from ins_dict_educations ido",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSActivity",
+   "source": "TInsDataMod.ODSActivity",
+   "kind": "TOracleDataSet",
+   "sql": "select ido.rowid, ido.* from ins_dict_activity ido",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSAcc_types",
+   "source": "TInsDataMod.ODSAcc_types",
+   "kind": "TOracleDataSet",
+   "sql": "Select iat.rowid, iat.* from ins_acc_types iat",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSBal_cn",
+   "source": "TInsDataMod.ODSBal_cn",
+   "kind": "TOracleDataSet",
+   "sql": "Select a.rowid, a.* from ins_acc_bal_cn a\n\nwhere dict_id = :dict_id",
+   "variables": [
+    {
+     "name": "DICT_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSLoanAccLists",
+   "source": "TInsDataMod.ODSLoanAccLists",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, acc_no, bal_cn1, name\n  FROM ACCOUNT partition (activacc)\n WHERE bal_cn1 IN (SELECT bal_cn\n                    FROM ins_acc_bal_cn\n                   WHERE dict_id = (SELECT MAX (value)\n                                      FROM ins_settings\n                                     WHERE NAME = 'LOANID'))",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSCurrAccList",
+   "source": "TInsDataMod.ODSCurrAccList",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, acc_no, bal_cn1,name\n  FROM ACCOUNT partition (activacc)\n WHERE bal_cn1 IN (SELECT bal_cn\n                    FROM ins_acc_bal_cn\n                   WHERE dict_id = (SELECT MAX (value)\n                                      FROM ins_settings\n                                     WHERE NAME = 'CURRID'))",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSPayPlan",
+   "source": "TInsDataMod.ODSPayPlan",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid, a.*\n  FROM ins_payment_plan a\nwhere a.ins_id = :insid",
+   "variables": [
+    {
+     "name": "INSID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSAgents",
+   "source": "TInsDataMod.ODSAgents",
+   "kind": "TOracleDataSet",
+   "sql": "select ia.rowid, ia.* from ins_agents ia",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TInsDataMod.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.rowid, ib.* from INS_BENEFICIARY ib",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSStates",
+   "source": "TInsDataMod.ODSStates",
+   "kind": "TOracleDataSet",
+   "sql": "select ids.* from ins_dict_states ids\norder by name",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSTariffs",
+   "source": "TInsDataMod.ODSTariffs",
+   "kind": "TOracleDataSet",
+   "sql": "select it.rowid, it.* from INS_TARIFFS it\n\nwhere franshiz_id = :franshiz_id",
+   "variables": [
+    {
+     "name": "FRANSHIZ_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSBankm",
+   "source": "TInsDataMod.ODSBankm",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankm\norder by name",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "Sysdat",
+   "source": "TInsDataMod.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "Select tek_dat from sysdat",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSTarifStates",
+   "source": "TInsDataMod.ODSTarifStates",
+   "kind": "TOracleDataSet",
+   "sql": "select its.rowid, its.* from ins_tarif_states its\n\nwhere bank_id = :bank_id",
+   "variables": [
+    {
+     "name": "BANK_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSReportSymbols",
+   "source": "TInsDataMod.ODSReportSymbols",
+   "kind": "TOracleDataSet",
+   "sql": "select * from report_symbol",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSMonths",
+   "source": "TInsDataMod.ODSMonths",
+   "kind": "TOracleDataSet",
+   "sql": "select itm.rowid, itm.* from ins_tarif_months itm\n\nwhere release_id = :release_id",
+   "variables": [
+    {
+     "name": "RELEASE_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSFranshiza",
+   "source": "TInsDataMod.ODSFranshiza",
+   "kind": "TOracleDataSet",
+   "sql": "select itf.rowid, itf.* from ins_tarif_franshiz itf\n\nwhere month_id = :month_id",
+   "variables": [
+    {
+     "name": "MONTH_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSBranches",
+   "source": "TInsDataMod.ODSBranches",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as ID, 'Bütün filiallar' as name from Dual\nUnion All\nselect ID, name from filial \norder by ID",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSReleaseDate",
+   "source": "TInsDataMod.ODSReleaseDate",
+   "kind": "TOracleDataSet",
+   "sql": "select ird.rowid, ird.* from ins_release_date ird\n\nwhere state_id = :state_id",
+   "variables": [
+    {
+     "name": "STATE_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSCustTypes",
+   "source": "TInsDataMod.ODSCustTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select ict.rowid, ict.* from ins_dict_custtypes ict order by id",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSPolicyNums",
+   "source": "TInsDataMod.ODSPolicyNums",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.*,ii.id, ii.name\n  FROM ins_policynums a,ins_insurances ii \nwhere \n  a.typeid=ii.id ",
+   "variables": [],
+   "unit": "InsDataModule"
+  },
+  {
+   "name": "ODSAccList",
+   "source": "TInsDataMod.ODSAccList",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account\nwhere open_dat is not null\norder by acc_no",
+   "variables": [],
+   "unit": "InsDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "*.OPCOMMON",
+   "routines": [
+    {
+     "name": "DeleteOperations",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "add_lazyrest",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addcontractacc",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addpayment",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "clearplan",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_acc",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deleteplan",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delpaybyplan",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "disablepolicies",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "free_acc",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "makeplan",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "setpayment",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "OPINS",
+   "package": "INS_PKG_MOTORKASCO",
+   "mode": "positional",
+   "source": "TInsDataMod.OPINS",
+   "routines": []
+  },
+  {
+   "component": "SBOperationDay",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "*.SBOperationDay",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "SELECT ic.rowid, ic.ID , ic.kli_id, ic.loanacc_id, ic.curracc_id,"
+ ]
+}

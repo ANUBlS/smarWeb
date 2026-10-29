@@ -407,6 +407,15 @@ def decode_doa_variables(hexs):
             out.append({'name': name.lstrip(':'), 'type': typ})
             i += 8 + n
             continue
+        # older (ANSI) streams: length-prefixed ':NAME' in single-byte characters
+        if 2 <= n <= 64 and i + 4 + n + 4 <= len(b) and b[i + 4] == 0x3A \
+                and all(0x21 <= c < 0x7F or c >= 0xC0 for c in b[i + 5:i + 4 + n]):
+            name = b[i + 4:i + 4 + n].decode('cp1251', 'replace')
+            typ = int.from_bytes(b[i + 4 + n:i + 8 + n], 'little')
+            if 0 < typ < 256:
+                out.append({'name': name.lstrip(':'), 'type': typ})
+                i += 8 + n
+                continue
         i += 1
     return out
 

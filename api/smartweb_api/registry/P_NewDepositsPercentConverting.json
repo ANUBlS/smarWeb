@@ -1,0 +1,117 @@
+{
+ "name": "P_NewDepositsPercentConverting",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsPercentConverting",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CalcedDeposits",
+   "source": "TNewDepositsDMPercentConverting.CalcedDeposits",
+   "kind": "TOracleDataSet",
+   "sql": "select \n cont.id,\n cont.contractno,\n cont.opendate,\n cont.closedate, \n dm_stored_programs.GetContractAccountName(acc.contractaccid) as custname,\n cstate.facticaldebt,\n dm_stored_programs.GetClientFacticalDebt(acc.clientaccid) as facticalinterestdebt,\n cint.interest,\n cont.interest contper,\n (case when  (cont.closedate>=sbop.get_date) or (cont.closedate=cont.opendate) or (cont.prolongationdate>=sbop.get_date) then cont.interest\n       when  cont.closedate<sbop.get_date then cont.dueinterest end)precent,\n dm_stored_programs.CheckContractState(cont.ID) as  Status,\n av.val_name,\n cont.currency,\n cont.personaltype,\n cont.clienttype,\n cont.customerid,\n cont.branchid,\n(select type from dm_types where id=cont.contracttype) as contype,\n(case \n when dm_stored_programs.GetDepType(capitalperid)='WITHDRAW' \n then\n  (select  description||'(Hesaba Köçür)' from dm_depcapitalperiods where id=capitalperid)\n when dm_stored_programs.GetDepType(capitalperid)='CAPITALIZATION'  \n then\n  (select  description||'(Kapitallaşdırma)' from dm_depcapitalperiods where id=capitalperid) \n \n when dm_stored_programs.GetDepType(capitalperid)='BEFOPERCENT' \n then \n  (select  description||'(Müddətin əvvəli)' from dm_depcapitalperiods where id=capitalperid) \nend) \nas capitalname\nfrom dm_contracts cont,\n     dm_contract_accounts acc,\n     dm_history_currstate cstate,\n     dm_interest_currstate cint,\n     avalute av\nwhere cont.type# = 3\nand acc.id# = cont.id\nand cstate.id# = cont.id\nand cint.id# = cont.id \nand cont.currency=av.valute\nand cstate.facticaldebt>0\norder by :OrderField",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "string"
+    }
+   ],
+   "unit": "NewDepositsPercentConvertingImpl"
+  },
+  {
+   "name": "Valutes",
+   "source": "TNewDepositsDMPercentConverting.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "NewDepositsPercentConvertingImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TNewDepositsDMPercentConverting.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "NewDepositsPercentConvertingImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TNewDepositsDMPercentConverting.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from dm_categories",
+   "variables": [],
+   "unit": "NewDepositsPercentConvertingImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TNewDepositsDMPercentConverting.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type from dm_types",
+   "variables": [],
+   "unit": "NewDepositsPercentConvertingImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TNewDepositsDMPercentConverting.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers\nwhere id in (select customerid from sbcm_contracts\nwhere type# = 3) ",
+   "variables": [],
+   "unit": "NewDepositsPercentConvertingImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TNewDepositsDMPercentConverting.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from dm_persons",
+   "variables": [],
+   "unit": "NewDepositsPercentConvertingImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_calculator",
+   "package": "dm_calculator",
+   "mode": "positional",
+   "source": "*.dm_calculator",
+   "routines": [
+    {
+     "name": "CancelDepositIntCalc",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,827 @@
+{
+ "name": "Administration",
+ "caption": "Balans / İdarəetmə / İdarəetmə",
+ "dir": "Packages/Administration",
+ "mainForm": "TAdministrationForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ModulesData",
+   "source": "TAdministrationData.ModulesData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,trvdesc, REPLACE(description,' ')description ,name,\ncan_insert,\ncan_delete ,\ncan_update\nFROM modules\norder by description \n",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "UsersData",
+   "source": "TAdministrationData.UsersData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   sus.user#, sus.NAME,\n sus.ctime,\n sba.description,\n sba.fullname,\n sba.phone, sba.classid, \n sba.filialid,sba.lang,sb_aca.isadm_num (sus.NAME) AS is_adm\n,sb_aca.checkLockUser_num(sus.NAME) as is_locked\n,sus.datats#\n  FROM sys.user$ sus, sba_objinf sba\n  WHERE sus.NAME = sba.obj\n\n\nand datats#>=5\nand sb_aca.isadm_num (sus.NAME) <> 1\n\nORDER BY NAME\n ",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "UsModulesData",
+   "source": "TAdministrationData.UsModulesData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,trvdesc, description,\nSB_ACA.checkmodaccess_int(description,:USERNAME) as ModAcc,\nrowid\nFROM modules\norder by description",
+   "variables": [
+    {
+     "name": "USERNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "UsTablesData",
+   "source": "TAdministrationData.UsTablesData",
+   "kind": "TOracleDataSet",
+   "sql": "  select\n  md.id\n  ,md.trvdesc\n  ,Replace(md.Description,' ') Description\n  ,md.can_insert mod_insert\n  ,md.can_delete mod_delete\n  ,md.can_update mod_update \n  ,md.advanced_grants\n ,sba.cur_user \n ,Decode(sba.can_insert,null,0,sba.can_insert) as can_insert\n ,Decode(sba.can_update,null,0,sba.can_delete) as can_delete\n ,Decode(sba.can_delete,null,0,sba.can_update) as can_update\n ,SB_ACA.checkmodaccess_int(description,:USERNAME) as \"Select\"\n ,md.rowid\n from modules md ,\n  (select *\n   from sba_usergrants sba\n   where cur_user=UPPER(:USERNAME)) sba \n  where\n  UPPER(Replace(md.Description,' ')) =sba.cur_module(+)\n   order by Description",
+   "variables": [
+    {
+     "name": "USERNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "Classesdata",
+   "source": "TAdministrationData.Classesdata",
+   "kind": "TOracleDataSet",
+   "sql": "select id,obj,description,createdate from\nsba_OBJINF\nwhere UPPER(type)='C'\norder by id",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "Modeditdata",
+   "source": "TAdministrationData.Modeditdata",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT REPLACE (md.ROLE, 'SBR_') CLASS, DECODE (sba.OBJECT, NULL, 0, 1) acc,\n       md.ROWID, m.trvdesc, m.id modid, m.can_insert cni, m.can_update cnu, m.can_delete cnd, ins, upd, del\n  FROM dba_roles md, modules m,\n       (SELECT *\n          FROM sba_objmanager\n         WHERE id = (SELECT id\n                       FROM sba_objinf\n                      WHERE UPPER (TYPE) = 'C' AND obj = :CLASSNAME) )sba\n WHERE (m.description=REPLACE (md.ROLE, 'SBR_'))AND(REPLACE (md.ROLE, 'SBR_') = sba.OBJECT(+) AND ROLE LIKE ('SBR_%'))\norder by trvdesc\n",
+   "variables": [
+    {
+     "name": "CLASSNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "GroupsData",
+   "source": "TAdministrationData.GroupsData",
+   "kind": "TOracleDataSet",
+   "sql": "select objinf.id,objinf.obj,objinf.description,objinf.createdate,objinf.advtype,grtype.type$,grtype.descr\nfrom sba_objinf objinf,SBA_GROUPTYPES grtype\nwhere type='G' \nand objinf.advtype=grtype.id(+)\norder by id",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "GroupUsersData",
+   "source": "TAdministrationData.GroupUsersData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   gmn.userid,sus.name, gmn.groupid, gmn.type\n  FROM sba_groupmanager gmn,sys.user$ sus\nwhere gmn.userid=sus.user#\nand gmn.groupid=:GROUPID",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "DependencesData",
+   "source": "TAdministrationData.DependencesData",
+   "kind": "TOracleDataSet",
+   "sql": "select\nusman.SUSER,usdat.NAME,usdat.ctime,objinf.*\nfrom \nsba_userman usman,sys.user$ usdat,\n(select obj.id,obj.obj,grouptypes.descr as type$ from sba_objinf obj,sba_grouptypes grouptypes\nwhere obj.advtype=grouptypes.id) objinf\nwhere \nusman.SUSER=usdat.USER# \nand usman.SUSER<>usman.MUSER\nand usman.MUSER= :USERID\nand usman.ugrup=objinf.id\norder by obj",
+   "variables": [
+    {
+     "name": "USERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "SubmissionData",
+   "source": "TAdministrationData.SubmissionData",
+   "kind": "TOracleDataSet",
+   "sql": "select\nusman.MUSER,usdat.NAME,usdat.ctime,objinf.*\nfrom \nsba_userman usman,sys.user$ usdat,\n(select obj.id,obj.obj,grouptypes.descr as type$ from sba_objinf obj,sba_grouptypes grouptypes\nwhere obj.advtype=grouptypes.id) objinf\nwhere \nusman.MUSER=usdat.USER# \nand usman.MUSER<>usman.SUSER\nand usman.SUSER= :USERID\nand usman.ugrup=objinf.id\norder by obj",
+   "variables": [
+    {
+     "name": "USERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "FilialData",
+   "source": "TAdministrationData.FilialData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "ObjectsData",
+   "source": "TAdministrationData.ObjectsData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT object_name,object_type\nFROM sys.all_objects\nWHERE owner =:OWNERNAME and(object_type='TABLE' or object_type='VIEW'\nor object_type= 'FUNCTION' or object_type= 'PROCEDURE'  or object_type='PACKAGE') \nunion select ROLE,DECODE(ROLE,null,null,'ROLE') as Rtype from dba_roles\norder by object_name",
+   "variables": [
+    {
+     "name": "OWNERNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "ModPrivsData",
+   "source": "TAdministrationData.ModPrivsData",
+   "kind": "TOracleDataSet",
+   "sql": "select temptab.rowid,objects.* from \ndual temptab,\n(select grantee,TABLE_NAME,privilege\nfrom dba_tab_privs dgr\n union\nselect grantee,granted_role as TABLE_NAME,Decode(granted_role,null,null,'ROLE') as privilege\n from dba_role_privs\n union\nselect grantee,PRIVILEGE as TABLE_NAME,Decode(PRIVILEGE,null,null,'PRIVILEGE') as privilege\n from dba_sys_privs) objects\nwhere objects.grantee=UPPER(REPLACE(:MODULE,' '))\norder by objects.table_name",
+   "variables": [
+    {
+     "name": "MODULE",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "ModAdvancedGrantsData",
+   "source": "TAdministrationData.ModAdvancedGrantsData",
+   "kind": "TOracleDataSet",
+   "sql": "/*select sec.*,sec.rowid,fir.*,\nDecode(fir.username,null,0,1) as UserGranted\nfrom \n(select id,grantname,description,errormessage from\nsba_advanced_grants\nwhere moduleid=:modid) sec,\n(select * from sba_usergrants_advanced\nwhere username=:usernam) fir\nwhere \nsec.id=fir.advancedgrantid(+)\n*/\nselect sec.*, sec.rowid, fir.*,\n       decode (fir.username, null, 0, 1) as usergranted,\n       decode (mbo.advgrantid, null, 0, 1) havvalue,\n       nvl (mbo.maxavalue, 0) maxavalue\n  from (select id, grantname, description, errormessage\n          from sba_advanced_grants\n         where moduleid = :modid) sec,\n       (select *\n          from sba_usergrants_advanced\n         where username = :usernam) fir,\n       (select *\n          from sba_monetaryborder) mbo\n where sec.id = fir.advancedgrantid(+) and sec.id = mbo.advgrantid(+)\n",
+   "variables": [
+    {
+     "name": "MODID",
+     "type": "integer"
+    },
+    {
+     "name": "USERNAM",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "GroupTypesData",
+   "source": "TAdministrationData.GroupTypesData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, type$, descr\n  FROM sba_grouptypes\n  order by id",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "UserGroupData",
+   "source": "TAdministrationData.UserGroupData",
+   "kind": "TOracleDataSet",
+   "sql": "select grman.userid,grman.groupid,decode(type,1,'Baş',2,'Tabe',3,'Neytral') as UserState,objMan.*\nfrom sba_groupmanager grman,\n(select obj.id,obj.obj,obj.createdate,obj.description,grouptypes.descr as type$ from sba_objinf obj,sba_grouptypes grouptypes\nwhere obj.advtype=grouptypes.id) objMan\nwhere grman.groupid=objMan.id\nand userid = :USERID\norder by obj",
+   "variables": [
+    {
+     "name": "USERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "repGroupsData",
+   "source": "TAdministrationData.repGroupsData",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct(Groupman.groupid),Usergroups.* from sba_groupmanager Groupman,\n   (select \n   inf.id,inf.obj,inf.createdate,inf.description,inf.advtype,  \n   grtype.type$,grtype.descr \n   from sba_objInf inf,SBA_GROUPTYPES grtype\n   where type='G'\n   and inf.advtype=grtype.id\n   order by inf.obj) Usergroups\nwhere Groupman.groupid=Usergroups.id\norder by Usergroups.advtype,Usergroups.obj",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "repGroupManData",
+   "source": "TAdministrationData.repGroupManData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\nus.NAME,\ndecode(grman.type,1,'Baş',2,'Tabe',3,'Neytral',null)  UserType, \nus.ctime UserCreateDate,\ngrman.groupid\nFROM sba_groupmanager grman,user$ us\nwhere  userid=us.ID\nand grman.groupid=:groupid\norder by grMan.type,us.name",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "repAboutBankData",
+   "source": "TAdministrationData.repAboutBankData",
+   "kind": "TOracleDataSet",
+   "sql": "Select bank,\n  AZ_NAME as FullBankName ,\n  Logo ,\n  ManagerTitle ,\n  AccountantTitle \nFrom\n  BankInfo   \n",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "repUsersData",
+   "source": "TAdministrationData.repUsersData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   \n sus.id user#,\n sus.NAME,\n sus.ctime,\n sba.description,\n sba.fullname,\n Decode(sb_aca.isadm_num (sus.NAME)  ,0,' ',1,'(Администратор)') as  is_adm\n  FROM user$ sus, sba_objinf sba\n  WHERE sus.NAME = sba.obj(+)\nORDER BY is_adm,NAME",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "repUsersGrantsData",
+   "source": "TAdministrationData.repUsersGrantsData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from\n(select\n  s.name,\n  s.id as modid,\n  s.trvdesc, \n  decode(s.ModAcc ,1,:GRANTED,:NOTGRANTED) as \"Can use\",\n  decode(sba.can_insert,1,:GRANTED,:NOTGRANTED) as \"Can insert\",\n  decode(sba.can_delete,1,:GRANTED,:NOTGRANTED) as \"Can Delete\",\n  decode(sba.can_update,1,:GRANTED,:NOTGRANTED) as \"Can Update\"\nfrom\n  (SELECT u.name,m.id,m.trvdesc,m.description,SB_ACA.checkmodaccess_int(description,u.name) as ModAcc, \n  sb_aca.isadm_num (u.NAME) AS is_adm  \n  FROM modules m ,user$ u\n  order by u.name) s,\n  sba_usergrants sba\nwhere\n  s.is_adm<>1 and\n  s.modacc<>0 \n  and  sba.cur_user(+)=UPPER(s.name) \n  and  sba.cur_module (+)=s.description \n\nUNION \n\n  SELECT grantsadv.username as name, \n  grantsMod.moduleid as modid,\n  grantsMod.Advdescription as trvdesc,\n  :GRANTED as \"Can Use\",null,null,null\n  FROM sba_usergrants_advanced grantsadv,\n  (select modgrants.id advgrantid, modgrants.description Advdescription,modgrants.moduleid\n   from sba_advanced_grants modgrants) grantsMod\n   where grantsadv.advancedgrantid=grantsMod.advgrantid\n   and grantsadv.username in \n        (select name from user$)\n) AllGrants\nwhere name=:name\n   order by name,trvdesc",
+   "variables": [
+    {
+     "name": "NAME",
+     "type": "string"
+    },
+    {
+     "name": "GRANTED",
+     "type": "string"
+    },
+    {
+     "name": "NOTGRANTED",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "ODSBalAcc",
+   "source": "TAdministrationData.ODSBalAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sba_rtsas",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "ODSQuery",
+   "source": "TAdministrationData.ODSQuery",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sba_rtsas",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "ODSOpTypes",
+   "source": "TAdministrationData.ODSOpTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sba_optypes",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "repAdvGrantData",
+   "source": "TAdministrationData.repAdvGrantData",
+   "kind": "TOracleDataSet",
+   "sql": "select moduleid, m.trvdesc modulename, g.description, b.maxavalue, decode(username, null, '-', '+') hasaccess, username\n  from modules m, sba_advanced_grants g, sba_monetaryborder b, (select * from sba_usergrants_advanced )a\nwhere username='AKARIMOV'\n\n and moduleid = m.id and b.advgrantid(+)=g.id and a.advancedgrantid (+) = g.id\n order by a.username,\n2, 3\n",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "odsAccFlags",
+   "source": "TAdministrationData.odsAccFlags",
+   "kind": "TOracleDataSet",
+   "sql": "select symbol, description, decode(username,null,0,1) acc from (SELECT username, flagsymb\n  FROM sba_class_flags where username=:ClassName) u, account_flags a\n  where u.flagsymb(+)=a.symbol",
+   "variables": [
+    {
+     "name": "CLASSNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "odsClsBalAcc",
+   "source": "TAdministrationData.odsClsBalAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select bal_cn, decode(username,null,0,1) acc, :op optype from (SELECT username, bal_acc, optype\n  FROM sba_class_balance_acc where username=:classname and optype=:op) u, bal_spr1 b\n  where u.bal_acc(+)=b.bal_cn\n  order by bal_cn",
+   "variables": [
+    {
+     "name": "OP",
+     "type": "integer"
+    },
+    {
+     "name": "CLASSNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "odsClsModAdvGrant",
+   "source": "TAdministrationData.odsClsModAdvGrant",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id, a.description, decode (username, null, 0, 1) acc\n  from sba_advanced_grants a, (select *\n                                 from sba_classgrants_advanced\n                                where username = :classname) c\n where moduleid = :mid and a.id = c.advancedgrantid(+)\n",
+   "variables": [
+    {
+     "name": "CLASSNAME",
+     "type": "string"
+    },
+    {
+     "name": "MID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "ModeditDataX",
+   "source": "TAdministrationData.ModeditDataX",
+   "kind": "TOracleDataSet",
+   "sql": "select o.rowid, m.id, nvl(ins,0) ins, nvl(upd,0) upd, nvl(del,0) del from modules m, (select * from sba_objmanager where id=:clsid)o\nwhere o.object(+)=m.description and m.id=:modid",
+   "variables": [
+    {
+     "name": "CLSID",
+     "type": "integer"
+    },
+    {
+     "name": "MODID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "allqrants",
+   "source": "TAdministrationData.allqrants",
+   "kind": "TOracleDataSet",
+   "sql": "select * from\n(select\n  s.name,\n  s.id as modid,\n  s.trvdesc, \n  decode(s.ModAcc ,1,'+','-') as \"Can use\",\n  decode(sba.can_insert,1,'+','-') as \"Can insert\",\n  decode(sba.can_delete,1,'+','+') as \"Can Delete\",\n  decode(sba.can_update,1,'+','+') as \"Can Update\"\nfrom\n  (SELECT u.name,m.id,m.trvdesc,m.description,SB_ACA.checkmodaccess_int(description,u.name) as ModAcc, \n  sb_aca.isadm_num (u.NAME) AS is_adm  \n  FROM modules m ,user$ u\n  order by u.name) s,\n  sba_usergrants sba\nwhere\n  s.is_adm<>1 and\n  s.modacc<>0 \n  and  sba.cur_user(+)=UPPER(s.name) \n  and  sba.cur_module (+)=s.description \n\nUNION \n\n  SELECT grantsadv.username as name, \n  grantsMod.moduleid as modid,\n  grantsMod.Advdescription as trvdesc,\n  '+' as \"Can Use\",null,null,null\n  FROM sba_usergrants_advanced grantsadv,\n  (select modgrants.id advgrantid, modgrants.description Advdescription,modgrants.moduleid\n   from sba_advanced_grants modgrants) grantsMod\n   where grantsadv.advancedgrantid=grantsMod.advgrantid\n   and grantsadv.username in \n        (select name from user$)\n) AllGrants\n--where name=:name\n   order by name,trvdesc\n",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "clsf",
+   "source": "TAdministrationData.clsf",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid, a.* from sba_objinf a where a.type=:t and a.obj=:cls",
+   "variables": [
+    {
+     "name": "CLS",
+     "type": "string"
+    },
+    {
+     "name": "T",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "checksynonyms",
+   "source": "TAdministrationData.checksynonyms",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   *\n          FROM   dba_synonyms\n         WHERE   owner = UPPER (:usrnm) AND table_name = 'FILIAL_T'\nand synonym_name= 'FILIAL'",
+   "variables": [
+    {
+     "name": "USRNM",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "SlLang",
+   "source": "TAdministrationData.SlLang",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT name,full_name\n  FROM sl_langs ",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "Restrictions",
+   "source": "TAdministrationData.Restrictions",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "restrict",
+   "source": "TAdministrationData.restrict",
+   "kind": "TOracleDataSet",
+   "sql": "select grantee from dba_sys_privs where privilege like 'RESTRICTED SESSION'\n\n\nand grantee =:usern",
+   "variables": [
+    {
+     "name": "USERN",
+     "type": "string"
+    }
+   ],
+   "unit": "AdministrationDataModule"
+  },
+  {
+   "name": "AccountsData",
+   "source": "TfmAdmOwnerChangeAdvanced.AccountsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  acc.ID as AccID,\n  acc.OP_ID,\n  acc.ACC_NO as AccNo,\n  acc.NAME as AccName,\n  acc.OPEN_DAT as OpenDate,\n  acc.CLOSE_DAT as CloseDate,\n  acc.VAL_ACC as CurrencyID,\n  acc.bal_cn1 as SAcc,\n  acc.bal_cn2 as SAcc2,\n  acc.bal_cn3 as SAcc3,\n  acc.bal_cn4 as SAcc4,\n  acc.KLI_ID as CustomerID,\n  acc.PAIR_ACC as PairAcc,\n  acc.Limit as AccLimit,\n  acc.SIM_OTCET as ReportSymbol,\n  acc.tipacc as AccFlags , \n  acc.FILIAL as FilialID,\n  acc.Insider as Insider,\n  Currency.VAL_NAME as CurrencySName,\n  acc.rowid\nfrom\n  ACCOUNT acc,\n  AVALUTE Currency\nwhere\n (Currency.VALUTE = acc.VAL_ACC)",
+   "variables": [],
+   "unit": "AdministrationOwnerSheepAdvanced"
+  },
+  {
+   "name": "TransactionsData",
+   "source": "TfmAdmOwnerChangeAdvanced.TransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  p.rowid,\n  p.ID,\n  p.OP_ID,\n  p.dat as TransactionDate,\n  p.DEBT as DebitID,\n  ad.ACC_NO as DebitAccNo,\n  ad.filial as DebFil,\n  p.VAL_ACC as DebitCurrencyID,\n  dc.val_name as DebitCurrencySName,\n  p.KREDIT as CreditID,\n  ac.ACC_NO as CreditAccNo,\n  ac.filial as CredFil,\n  p.CurrencyID_C as CreditCurrencyID,\n  cc.val_name as CreditCurrencySName,\n  p.ammount as DebitAmount,\n  p.Ammount_C as CreditAmount,\n  p.LAmmount as LAmount,\n  p.Rate_D as DebitRate,\n  p.Rate_C as CreditRate,\n  p.Bank_D as DebitBank,\n  p.Bank_K as CreditBank,\n  p.NO_PACK as PackageNumber,\n  p.SHIFR as CYPHERCODE,\n  p.VID_OP as OPERATIONCODE,\n  p.Kassa_B as INBALANCECHAR,\n  p.Kassa_Z as OUTBALANCECHAR,\n  p.NO_FILIAL as FilialID,\n  ad.bal_cn1 as DebitBalance, \n  p.Name,\n  p.Vid_op as OperationType\nFROM\n  provarch p,\n account ad,\n account ac,\n avalute dc,\n avalute cc\nwhere\n p.dat = :DAT\n and (ad.ID = p.DEBT)\n and (ac.ID = p.KREDIT)\n and (ad.val_acc = p.val_acc)\n and (ac.val_acc = p.CurrencyID_C)\n and (dc.VALUTE = p.val_acc) \n and (cc.VALUTE = p.CurrencyID_C)\n  ORDER BY p.ID",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "AdministrationOwnerSheepAdvanced"
+  },
+  {
+   "name": "CustomersData",
+   "source": "TfmAdmOwnerChangeAdvanced.CustomersData",
+   "kind": "TOracleDataSet",
+   "sql": "select cs.*,cs.rowid from customers cs\norder by id",
+   "variables": [],
+   "unit": "AdministrationOwnerSheepAdvanced"
+  },
+  {
+   "name": "KreditsData",
+   "source": "TfmAdmOwnerChangeAdvanced.KreditsData",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n    Contracts.rowid,\n    Contracts.ID\n   ,Contracts.ContractNo\n   ,Contracts.SID#  as OP_ID      \n   ,Contracts.OpenDate\n   ,to_char(OpenDate,'DD') as MonthDay\n   ,Contracts.CloseDate\n   ,Contracts.Amount\n   ,Contracts.ContractType\n   ,Contracts.PledgeType\n   ,Contracts.ReliabilityID\n   ,Contracts.OverdueReliabilityID\n   ,Contracts.ClientType\n   ,Contracts.PledgePrice\n   ,ContractAccs.ContractAccID\n   ,ContractAccs.ClientAccID\n   ,ContractAccs.ReserveAccID\n   ,ContractAccs.InterestAccID\n   ,ContractAccs.OverdueAccID\n   ,ContractAccs.OverdueInterestAccID\n   ,ContractAccs.OverdueReserveAccID\n   ,ContractState.FacticalDebt\n   ,ContractState.FacticalInterestDebt\n   ,ContractState.OverdueDebt\n   ,ContractState.OverdueInterestDebt\n   ,ContractState.StopCalculationDate\n   ,ContractState.CalculationEnabled\n   ,ContractState.ReguiredAmountDec\n   ,ContractState.ReguiredPercentDec\n   ,ContractState.LastProcessDate\n   ,ContractState.ResiduaryAmount\n   ,SBCM_Stored_Programs.SBCMGetAccNoFromID(ContractAccs.ContractAccID) as ContractAccNo\n   ,SBCM_Stored_Programs.SBCMGetAccNoFromID(ContractAccs.InterestAccID) as InterestAccNo\n   ,SBCM_Stored_Programs.SBCMGetCurrencyShortName(ContractAccs.ContractAccID)as ContractCurrency\n   ,SBCM_Stored_Programs.SBCMGetAccName(ContractAccs.ContractAccID) as ContractAccName   \n   ,SBCM_Stored_Programs.GetContractCurrency(Contracts.ID) as ContractCurrencyID\n   ,SBCM_Stored_Programs.CheckContractState(Contracts.ID) as  Status\n   ,SBCM_Stored_Programs.GetAccountBalance(ContractAccs.InterestAccID) as InterestBalance\n   ,SBCM_Stored_Programs.GetAccountBalance(ContractAccs.ClientAccID) as ClientBalance\nFrom\n   SBCM_Contracts Contracts\n  ,SBCM_Contract_Accounts ContractAccs\n  ,SBCM_Contract_State ContractState\nWhere\n   Contracts.Type# in (1,2) And \n    Contracts.ID = ContractAccs.ID#\n   And Contracts.ID = ContractState.ID#\norder by ContractNo",
+   "variables": [],
+   "unit": "AdministrationOwnerSheepAdvanced"
+  },
+  {
+   "name": "DepozitsData",
+   "source": "TfmAdmOwnerChangeAdvanced.DepozitsData",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n    Contracts.rowid,\n    Contracts.ID\n   ,Contracts.ContractNo\n   ,Contracts.SID#  as OP_ID     \n   ,Contracts.OpenDate\n   ,to_char(OpenDate,'DD') as MonthDay\n   ,Contracts.CloseDate\n   ,Contracts.Amount\n   ,Contracts.ContractType\n   ,Contracts.PledgeType\n   ,Contracts.ReliabilityID\n   ,Contracts.OverdueReliabilityID\n   ,Contracts.ClientType\n   ,Contracts.PledgePrice\n   ,ContractAccs.ContractAccID\n   ,ContractAccs.ClientAccID\n   ,ContractAccs.ReserveAccID\n   ,ContractAccs.InterestAccID\n   ,ContractAccs.OverdueAccID\n   ,ContractAccs.OverdueInterestAccID\n   ,ContractAccs.OverdueReserveAccID\n   ,ContractState.FacticalDebt\n   ,ContractState.FacticalInterestDebt\n   ,ContractState.OverdueDebt\n   ,ContractState.OverdueInterestDebt\n   ,ContractState.StopCalculationDate\n   ,ContractState.CalculationEnabled\n   ,ContractState.ReguiredAmountDec\n   ,ContractState.ReguiredPercentDec\n   ,ContractState.LastProcessDate\n   ,ContractState.ResiduaryAmount\n   ,SBCM_Stored_Programs.SBCMGetAccNoFromID(ContractAccs.ContractAccID) as ContractAccNo\n   ,SBCM_Stored_Programs.SBCMGetAccNoFromID(ContractAccs.InterestAccID) as InterestAccNo\n   ,SBCM_Stored_Programs.SBCMGetCurrencyShortName(ContractAccs.ContractAccID)as ContractCurrency\n   ,SBCM_Stored_Programs.SBCMGetAccName(ContractAccs.ContractAccID) as ContractAccName   \n   ,SBCM_Stored_Programs.GetContractCurrency(Contracts.ID) as ContractCurrencyID\n   ,SBCM_Stored_Programs.CheckContractState(Contracts.ID) as  Status\n   ,SBCM_Stored_Programs.GetAccountBalance(ContractAccs.InterestAccID) as InterestBalance\n   ,SBCM_Stored_Programs.GetAccountBalance(ContractAccs.ClientAccID) as ClientBalance\nFrom\n   SBCM_Contracts Contracts\n  ,SBCM_Contract_Accounts ContractAccs\n  ,SBCM_Contract_State ContractState\nWhere\n   Contracts.Type# in (3,4) And \n    Contracts.ID = ContractAccs.ID#\n   And Contracts.ID = ContractState.ID#\norder by ContractNo",
+   "variables": [],
+   "unit": "AdministrationOwnerSheepAdvanced"
+  },
+  {
+   "name": "UsersData",
+   "source": "TfmAdmOwnerChangeAdvanced.UsersData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from user$ order by name",
+   "variables": [],
+   "unit": "AdministrationOwnerSheepAdvanced"
+  },
+  {
+   "name": "OracleDataSet12",
+   "source": "Tfingers.OracleDataSet12",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.*  from sba_objinf a where a.obj=:nam",
+   "variables": [
+    {
+     "name": "NAM",
+     "type": "string"
+    }
+   ],
+   "unit": "finger"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "Tfingers.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select fingername1.nextval as test from dual",
+   "variables": [],
+   "unit": "finger"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "Tfingers.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from sba_finger a where a.username=:nam",
+   "variables": [
+    {
+     "name": "NAM",
+     "type": "string"
+    }
+   ],
+   "unit": "finger"
+  }
+ ],
+ "packages": [
+  {
+   "component": "pcACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "*.pcACA",
+   "routines": [
+    {
+     "name": "checkclass",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "checkforuser",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "checkgroup",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "isadm",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "pcADM",
+   "package": "SB_ADM",
+   "mode": "positional",
+   "source": "*.pcADM",
+   "routines": [
+    {
+     "name": "CheckForAddUseringroup",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "DropAllSynonims",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "LockUser",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "SetAdvancedGrants",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "TriggerInterface",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UserAdvacedGrantsbyModule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addclassadvgrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addclassbalacc",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addclassflag",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addmodule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addnewadvancedgrant",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "addnewadvancedgrantwithborder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "adduseringrup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "applyclassgrants",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "backupgroupman",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "branchgrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "changeownerinAccount",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "changeownerinContracts",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "changeownerinTransaction",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "changeownerincustomers",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "clearclassforuser",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "cleargroupman",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "copyclass",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "create_synonyms",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "create_user",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "createclass",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "creategroup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deladvancedgrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delclassadvgrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delclassbalacc",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delclassflag",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deletemodule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delmoneyborder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "dropclass",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "dropgroup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "editadvancedgrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "editmoneyborder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "getprofilevalues",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "getusername",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "getusertablespaceid",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "grantclass",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "grantprivtorole",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "grrole",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "insertuserinf",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "islocked",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "locknewusers",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "lockunlockuser",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "refreshgroup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "revokeprivsfromtorole",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "setprofilevalues",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "updateallusersbyclass",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updateclass",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updateclassgrants",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updategroup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updatemodule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updclassgrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "user_passw",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "verify_password",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "pcAca",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TAdministrationData.pcAca",
+   "routines": [
+    {
+     "name": "isadm",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "pcAdm",
+   "package": "SB_ADM",
+   "mode": "positional",
+   "source": "*.pcAdm",
+   "routines": [
+    {
+     "name": "UserAdvancedGrants",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insertuserinf",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "Delete this module?",
+  "select bal_cn bal_acc, nvl(bal_acc, 0) hav from (select bal_acc from sba_balance_acc where upper(username)=upper('%s') and optype=%d) s, bal_spr1 b where s.bal_acc(+)=b.bal_cn"
+ ]
+}

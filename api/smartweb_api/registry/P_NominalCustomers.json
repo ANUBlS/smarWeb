@@ -1,0 +1,403 @@
+{
+ "name": "P_NominalCustomers",
+ "caption": "",
+ "dir": "Packages/Nominal_Customer",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DScustimage",
+   "source": "TCustNomData.DScustimage",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid, a.id, a.photo, a.custsign, a.stamp\n  FROM custimage a  where a.id=:cust_id",
+   "variables": [
+    {
+     "name": "CUST_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ODS_Customers_Phys_FS",
+   "source": "TCustNomData.ODS_Customers_Phys_FS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT*from PCust_view where  close_dat is  null \n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "Odscountries",
+   "source": "TCustNomData.Odscountries",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries order by id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "OdsGender",
+   "source": "TCustNomData.OdsGender",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 as id ,'yox' as name from dual\nunion\nselect 1 as id ,'Kişi' as name from dual\nunion\nselect 2 as id ,'Qadın' as name from dual",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "OdsFamstatus",
+   "source": "TCustNomData.OdsFamstatus",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 as id ,'yox' as name from dual\nunion\nselect 1 as id,'Evli' as name from dual\nunion\nselect 2 as id,'Subay' as name from dual",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ClientGroupData",
+   "source": "TCustNomData.ClientGroupData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from QRP_KLIE\norder by id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "EstateTypeData",
+   "source": "TCustNomData.EstateTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM VID_SOB\norder by id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "RelationData",
+   "source": "TCustNomData.RelationData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from PRINAD",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "OrganizationTypeData",
+   "source": "TCustNomData.OrganizationTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM ORG_PRAV\norder by id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ActionAreaData",
+   "source": "TCustNomData.ActionAreaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM SFERADEY\norder by id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "BranchData",
+   "source": "TCustNomData.BranchData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM OTRASLI",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "TaxAreaData",
+   "source": "TCustNomData.TaxAreaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM NALOG",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ODS_CUST_RISK_DESC",
+   "source": "TCustNomData.ODS_CUST_RISK_DESC",
+   "kind": "TOracleDataSet",
+   "sql": "select*from CUST_RISK_DESC\nwhere risk_id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ODS_SYSDATE",
+   "source": "TCustNomData.ODS_SYSDATE",
+   "kind": "TOracleDataSet",
+   "sql": "select*from sysdat",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "Ods_Customers_PhysFS_yoxlama",
+   "source": "TCustNomData.Ods_Customers_PhysFS_yoxlama",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT*from PCust_view where  close_dat is  null \nand id=:id_yoxlama",
+   "variables": [
+    {
+     "name": "ID_YOXLAMA",
+     "type": "integer"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ODS_risk",
+   "source": "TCustNomData.ODS_risk",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cust_risk_categ",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ODS_CUSTOMERS_PHYS_FS2",
+   "source": "TCustNomData.ODS_CUSTOMERS_PHYS_FS2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT*from pcust_view  where  close_dat is  null-- and cust_type in(1,2,3)\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "odsPassDeps",
+   "source": "TCustNomData.odsPassDeps",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from doc_deps where doc_type=:v_doctype\norder by ID",
+   "variables": [
+    {
+     "name": "V_DOCTYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "DS_INCORP_CNTR",
+   "source": "TCustNomData.DS_INCORP_CNTR",
+   "kind": "TOracleDataSet",
+   "sql": "select c.* from  countries c where lower(c.cntr_name) <> lower('yox')\norder by ID \n \n",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "Citizenship2",
+   "source": "TCustNomData.Citizenship2",
+   "kind": "TOracleDataSet",
+   "sql": "select ID,CNTR_NAME from countries order by cntr_name",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "Citizenship3",
+   "source": "TCustNomData.Citizenship3",
+   "kind": "TOracleDataSet",
+   "sql": "select ID,CNTR_NAME from countries order by cntr_name",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "Odscountries1",
+   "source": "TCustNomData.Odscountries1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries\norder by id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "Odscities",
+   "source": "TCustNomData.Odscities",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cities\nwhere country_id =:v_id\norder by id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "Odscountries2",
+   "source": "TCustNomData.Odscountries2",
+   "kind": "TOracleDataSet",
+   "sql": "select*from countries\norder by id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "Odscities1",
+   "source": "TCustNomData.Odscities1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cities\nwhere country_id=:v_id\n\norder by id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ODSFakt_Adrs_Country",
+   "source": "TCustNomData.ODSFakt_Adrs_Country",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from  countries c where lower(c.cntr_name)<>lower('yox')\norder by c.cntr_name",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ODSFakt_Adrs_City",
+   "source": "TCustNomData.ODSFakt_Adrs_City",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities\nwhere COUNTRY_ID = nvl(:CID,0)\norder by ID",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ds_tph_contact_type",
+   "source": "TCustNomData.ds_tph_contact_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_contact_type a\norder by a.id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "CountryByConctType",
+   "source": "TCustNomData.CountryByConctType",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from  countries c where lower(c.cntr_name) <> lower('yox')\norder by c.cntr_name",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "CityByConctType",
+   "source": "TCustNomData.CityByConctType",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities\nwhere COUNTRY_ID = nvl(:CID,0)\norder by ID",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ds_mmx_communication_type",
+   "source": "TCustNomData.ds_mmx_communication_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_communication_type a\norder by a.id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ds_mmx_contact_type",
+   "source": "TCustNomData.ds_mmx_contact_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_contact_type a\norder by a.id",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "ds_tph_country_prefix",
+   "source": "TCustNomData.ds_tph_country_prefix",
+   "kind": "TOracleDataSet",
+   "sql": "select c.phone_code from  countries c where c.phone_code is not null\norder by ID ",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "OdsDoctaypes",
+   "source": "TCustNomData.OdsDoctaypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name, a.symbol, a.series, a.pincodforced, a.fordoctypes\n  FROM doc_types a\n order by a.symbol",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  },
+  {
+   "name": "DS_issue_country",
+   "source": "TCustNomData.DS_issue_country",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from  countries c where lower(c.cntr_name)<>lower('yox')\norder by c.cntr_name",
+   "variables": [],
+   "unit": "NomCustDataImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "PG_PCustService",
+   "package": "PG_PCustService",
+   "mode": "positional",
+   "source": "TCustNomData.PG_PCustService",
+   "routines": [
+    {
+     "name": "add_customers_prosess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_customers_prosess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_customers_prosess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_Add_cust_yoxlama",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "convertpack",
+   "package": "convertpack",
+   "mode": "positional",
+   "source": "TCustNomData.convertpack",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

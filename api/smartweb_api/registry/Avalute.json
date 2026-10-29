@@ -1,0 +1,98 @@
+{
+ "name": "Avalute",
+ "caption": "Balans / Məlumatlar / Valyutalar",
+ "dir": "Packages/Avalute",
+ "mainForm": "TAvaluteX",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "AvaluteDataSet",
+   "source": "TAvaluteX.AvaluteDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.*  from AVALUTE a\n\n",
+   "variables": [],
+   "unit": "AvaluteImpl1"
+  },
+  {
+   "name": "Accounts",
+   "source": "TAvaluteX.Accounts",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  0 as status, \n  0 as ID,\n  'yox' as acc_no\nfrom\n  Dual     \n\nUnion   \n\nSelect\n   1 as status, \n   ID,\n   acc_no \nFrom \n   Account\n\nOrder by\n   status,acc_no\n",
+   "variables": [],
+   "unit": "AvaluteImpl1"
+  },
+  {
+   "name": "OrDS_Avalute_T",
+   "source": "TAvaluteX.OrDS_Avalute_T",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowID, a.* from avalute_t a\norder by valute",
+   "variables": [],
+   "unit": "AvaluteImpl1"
+  },
+  {
+   "name": "OrDS_ValuteSettings",
+   "source": "TAvaluteX.OrDS_ValuteSettings",
+   "kind": "TOracleDataSet",
+   "sql": "select VS.rowID, VS.* from ValuteSettings VS\nwhere VS.Valute=:Val",
+   "variables": [
+    {
+     "name": "VAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "AvaluteImpl1"
+  }
+ ],
+ "packages": [
+  {
+   "component": "P_AVALUTE",
+   "package": "SB_avalute",
+   "mode": "named",
+   "source": "TAvaluteX.P_AVALUTE",
+   "routines": []
+  },
+  {
+   "component": "P_avalute",
+   "package": "SB_avalute",
+   "mode": "positional",
+   "source": "*.P_avalute",
+   "routines": [
+    {
+     "name": "add_avalute",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

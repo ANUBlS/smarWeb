@@ -1,0 +1,206 @@
+{
+ "name": "XInsMfSuggestion",
+ "caption": "",
+ "dir": "Packages/Insurance/MFSuggestion",
+ "mainForm": "TMFSuggestion",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "INSWordExporter",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSFranshiz",
+   "source": "TDModule1.ODSFranshiz",
+   "kind": "TOracleDataSet",
+   "sql": "select itf.ammount as franshiz, it.ammount as tariff\n  from ins_tarif_franshiz itf, ins_tariffs it\nwhere month_id = :month_id\norder by itf.ammount",
+   "variables": [
+    {
+     "name": "MONTH_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDModule"
+  },
+  {
+   "name": "AValute",
+   "source": "TDModule1.AValute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute",
+   "variables": [],
+   "unit": "UDModule"
+  },
+  {
+   "name": "Policy",
+   "source": "TDModule1.Policy",
+   "kind": "TOracleDataSet",
+   "sql": "select  imp.rowid, imp.* from ins_mf_policy imp\nwhere imp.ms_id= :ms_id",
+   "variables": [
+    {
+     "name": "MS_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDModule"
+  },
+  {
+   "name": "Suggest_Rep",
+   "source": "TDModule1.Suggest_Rep",
+   "kind": "TOracleDataSet",
+   "sql": "select s.rowid,s.* from ins_mf_suggestion s\nwhere mk_id = :mk_id",
+   "variables": [
+    {
+     "name": "MK_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDModule"
+  },
+  {
+   "name": "Ins_MotorFull",
+   "source": "TDModule1.Ins_MotorFull",
+   "kind": "TOracleDataSet",
+   "sql": "select im.rowid,im.* from ins_motorfull im where im.id=:id\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDModule"
+  },
+  {
+   "name": "Suggestion",
+   "source": "TDModule1.Suggestion",
+   "kind": "TOracleDataSet",
+   "sql": "select s.rowid,s.* from ins_mf_suggestion s\nwhere mk_id = :mk_id",
+   "variables": [
+    {
+     "name": "MK_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDModule"
+  },
+  {
+   "name": "BankInfo",
+   "source": "TDModule1.BankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select *from BankInfo",
+   "variables": [],
+   "unit": "UDModule"
+  },
+  {
+   "name": "Risks",
+   "source": "TDModule1.Risks",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_risks idr",
+   "variables": [],
+   "unit": "UDModule"
+  },
+  {
+   "name": "Customers",
+   "source": "TDModule1.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,c.name||' '||c.surname||' '||c.fathername as name,c.address,c.mobilephone,c.fax from ins_customers c",
+   "variables": [],
+   "unit": "UDModule"
+  },
+  {
+   "name": "Conditions",
+   "source": "TDModule1.Conditions",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_conditions idr",
+   "variables": [],
+   "unit": "UDModule"
+  },
+  {
+   "name": "Risktypes",
+   "source": "TDModule1.Risktypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_dict_risk_types",
+   "variables": [],
+   "unit": "UDModule"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TDModule1.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere id = :cid\nand type_id = 4",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDModule"
+  },
+  {
+   "name": "ODSMonths",
+   "source": "TDModule1.ODSMonths",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_tarif_months\n\nwhere release_id = :release_id",
+   "variables": [
+    {
+     "name": "RELEASE_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UDModule"
+  },
+  {
+   "name": "ODSReliaseDates",
+   "source": "TDModule1.ODSReliaseDates",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_release_date\nwhere to_number(to_char(begindate, 'YYYY')) <= :releaseyear\nand to_number(to_char(enddate, 'YYYY')) >= :releaseyear\nand state_id in (select its.id from ins_tarif_states its\n                  where its.state_id = :state )",
+   "variables": [
+    {
+     "name": "RELEASEYEAR",
+     "type": "integer"
+    },
+    {
+     "name": "STATE",
+     "type": "integer"
+    }
+   ],
+   "unit": "UDModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "PINS_FULLMOTOR",
+   "package": "PINS_FULLMOTOR",
+   "mode": "named",
+   "source": "TDModule1.PINS_FULLMOTOR",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,205 @@
+{
+ "name": "P_CMAr_Schedule",
+ "caption": "",
+ "dir": "Packages/ArCive_Credit/CMAr_Schedule",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "ArCommonDecls",
+  "ArLogoutputImpl",
+  "ArTemporaryTransactionsViewFormImpl",
+  "CMCurrencyEdit",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ScheduleData",
+   "source": "TArScheduleDataModule.ScheduleData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT Z.RowID,Z.*\n  FROM CM_PAYMENT_SCHEDULE Z\nWHERE Z.CREDITID=:CREDITID\nORDER BY PAYMENTDATE",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArScheduleDataModuleImpl"
+  },
+  {
+   "name": "BoorowerInfo",
+   "source": "TArScheduleDataModule.BoorowerInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   bi.NAME,\n   cm_common.AccountNumber_Get(a.booroweraccid) as custaccno,\n   cm_common.AccountNumber_Get(a.Loanaccid) as loanaccno  \nFROM\n  CM_BOOROWERINFO bi, cm_accounts a\nWHERE bi.CreditID=:CREDITID\nand a.creditid = :CREDITID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArScheduleDataModuleImpl"
+  },
+  {
+   "name": "CreditInfo",
+   "source": "TArScheduleDataModule.CreditInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   A.ID , A.CURRENCY , A.CREDITLINEAMOUNT , A.ANNUALYINTERESTRATE , A.DATEOFCONCLUSION,a.annualbankrate,a.annualypenaltyrate,a.intcalcmethod\n , A.DUEDATEFIRSTCONTRACT , nvl(a.duedatelastcontract,DUEDATEFIRSTCONTRACT) enddat,\n   A.CREDITTYPE,a.branchid,\n   cm_common.GetPeriod(A.DATEOFCONCLUSION,A.DUEDATEFIRSTCONTRACT) as period,v.val_name,\n   c.rest+c.duerest rest\nFROM\n   CM_portfolio A,avalute v,\n   cm_curr_state c\nWHERE a.ID=:ID\nand c.creditid = :ID\nand a.currency=v.valute\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArScheduleDataModuleImpl"
+  },
+  {
+   "name": "ExportData",
+   "source": "TArScheduleDataModule.ExportData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  paymentdate, principal, interest,rest\n  FROM cm_payment_schedule\nwhere Creditid=:CREDITID\nORDER BY PAYMENTDATE",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArScheduleDataModuleImpl"
+  },
+  {
+   "name": "BankInfo",
+   "source": "TArScheduleDataModule.BankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select BANK,logo,az_name from smart.bankinfo",
+   "variables": [],
+   "unit": "ArScheduleDataModuleImpl"
+  },
+  {
+   "name": "FilialInfo",
+   "source": "TArScheduleDataModule.FilialInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial\nwhere id = :brid \n--smart.sb_aca.getuserfilialid(user)",
+   "variables": [
+    {
+     "name": "BRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArScheduleDataModuleImpl"
+  },
+  {
+   "name": "HeadOfficeID",
+   "source": "TArScheduleDataModule.HeadOfficeID",
+   "kind": "TOracleDataSet",
+   "sql": "select min(id) as minid from smart.filial_t",
+   "variables": [],
+   "unit": "ArScheduleDataModuleImpl"
+  },
+  {
+   "name": "AboutContractDataSet",
+   "source": "TArTrancheSheduleDataMod.AboutContractDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT V.VAL_NAME as CURRENCY\n     , C.NAME as CUSTNAME\n     , P.CREDITLINEAMOUNT as AMOUNT\n  FROM CM_portfolio P\n      ,CM_BOOROWERINFO C\n      ,AVALUTE V\n WHERE P.ID = C.CREDITID\n   AND P.CURRENCY = V.VALUTE\n   AND ID = :ID",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArTrancheScheduleDataModuleImpl"
+  },
+  {
+   "name": "TrancheScheduleDataSet",
+   "source": "TArTrancheSheduleDataMod.TrancheScheduleDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.RowID, T.*\n  FROM CM_TRANCHE_SCHEDULE T\n WHERE T.CREDITID = :CREDITID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArTrancheScheduleDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_SCHEDULE",
+   "package": "CM_SCHEDULE",
+   "mode": "positional",
+   "source": "*.CM_SCHEDULE",
+   "routines": [
+    {
+     "name": "ChangeSchedule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "InsertAnnutySchedule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "InsertEqualSchedule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "PaymentSchedule_AddEdit",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "PaymentSchedule_Delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "TrSchedule_Add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "TrSchedule_Del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "TrSchedule_Edit",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "adm",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TArScheduleDataModule.adm",
+   "routines": [
+    {
+     "name": "getadmaddition",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,307 @@
+{
+ "name": "P_CM_Statement",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Statement",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "StatementDataModule",
+  "StatementImpl",
+  "StatementReportUnit",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditsInfo",
+   "source": "TStatementDataMod.CreditsInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.CREDITLINEAMOUNT\n , B.ANNUALYINTERESTRATE\n , B.ANNUALYOVERDUERATE\n , B.DATEOFCONCLUSION\n , B.DUEDATEFIRSTCONTRACT\n , B.DUEDATELASTCONTRACT\n , B.PURPOSEOFCREDIT\n , B.USRGROUP\n , B.CUSTOMERTYPE\n , B.CREDITTYPE\n , L.NAME\nFROM\n   CM_ACTIVE_CREDITS B\n , CM_BOOROWERINFO L\nWHERE\n     (B.ID =:CrdID)\n AND (L.CREDITID =:CrdID)\n\n ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "Tranches",
+   "source": "TStatementDataMod.Tranches",
+   "kind": "TOracleDataSet",
+   "sql": "select *from (\nSELECT  creditid, tranchedate, trancheamount\n  FROM cm_tranches\n WHERE CreditID=:CrdID\n\nunion all\nselect id as creditid,dat tranchedate ,lammount trancheamount\n from provarch where id in(select komtrid from cm_tranches where CreditID=:CrdID)\n union all\nselect id as creditid,dat tranchedate ,lammount trancheamount\n from provarch where id in(select komcastrid from cm_tranches where CreditID=:CrdID)\n \n )a \n order by creditid\n\n\n/*sx\n\nSELECT id, creditid, tranchedate, trancheamount\n  FROM cm_tranches\n WHERE CreditID=:CrdID \norder by tranchedate*/",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "Payments",
+   "source": "TStatementDataMod.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum sira,  id ,\n        creditid ,\n        paydate , \n        payedamt , \n        payedintamt,\n        payeddueamt,\n       payeddueintamt, \n       payedpenaltyamt, advance,insurance,service,\n    payedamt + \n        payedintamt+\n        payeddueamt+\n       payeddueintamt+ \n       payedpenaltyamt+advance+insurance+service as sm\n\n  FROM cm_payments \nWHERE (CreditID=:CrdID)\norder by paydate ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "string"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "Schedule",
+   "source": "TStatementDataMod.Schedule",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum sira, id, creditid, paymentdate, rest,\n    principal, \n    interest,advance,service,insurance,\n    principal+interest as sm\n  FROM cm_payment_schedule\n WHERE CreditID=:CrdID\norder  by paymentdate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "UserGroups",
+   "source": "TStatementDataMod.UserGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups",
+   "variables": [],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TStatementDataMod.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "Categories",
+   "source": "TStatementDataMod.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "RestsInPeriod",
+   "source": "TStatementDataMod.RestsInPeriod",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT h.hdate,\n       h.rest,\n       h.interestrest,\n       abs(ar2.ostat) doublepaymentaccid,\n       abs(ar.ostat)  insurance,\n       abs(ar1.ostat) commisya,\n       h.duerest,\n       h.dueinterestrest,\n       h.dueday,\n       h.penaltyrest,\n       NVL(h.interst_dueday, 0) interst_dueday\n  FROM cm_history h, \n       cm_accounts a, \n       archost ar, \n       archost ar1,\n       archost ar2\n WHERE h.creditid = a.creditid\n   AND a.insuranceaccid = ar.acc_id(+)\n   AND a.commissionobligationaccid = ar1.acc_id(+)\n   AND a.doublepaymentaccid=ar2.acc_id(+)\n   AND h.hdate = ar.datdate(+)\n   AND h.hdate = ar1.datdate(+)\n   AND h.hdate = ar2.datdate(+)\n   AND h.creditid = :crdid\n   AND h.hdate BETWEEN :D1 AND :D2\n ORDER BY h.hdate DESC\n\n\n\n\n/*SELECT hdate,rest, interestrest,\n       duerest, dueinterestrest,dueday,penaltyrest,nvl(interst_dueday,0) interst_dueday\n  FROM cm_history\n  where creditid=:crdid \n    and hdate between :D1 and :D2 \norder by hdate desc*/",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    },
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "IntrInPeriod",
+   "source": "TStatementDataMod.IntrInPeriod",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  hdate,trunc(interest,2) interest, dueinterest,penaltyinterest\n  FROM cm_interests\n WHERE creditid=:crdid \n   AND hdate between :D1 and :D2 \norder by hdate desc",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    },
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "ReportDataSet",
+   "source": "TStatementDataMod.ReportDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select  \n        A.contractaccid,\n        P.boorowerid,(select tek_dat from sysdat) dat,\n        p.currency,\n        P.dateofconclusion,p.duedatefirstcontract,p.creditlineamount,\n        c.name,p.annualyinterestrate,\n       c.inn,h.rest+h.duerest as rest,\n        v.val_name ,h.interestrest+h.dueinterestrest intrest/*,\n        \n        cm_common.accountnumber_get(A.booroweraccid) as clientaccno,\n        cm_common.accountnumber_get(A.contractaccid) as contractacccno,\n        cm_common.accountnumber_get(A.interestaccid) as interestacccno,\n        cm_common.accountnumber_get(A.dueloanaccid) as dueloanaccno,\n        cm_common.accountnumber_get(A.dueinterestaccid) as dueinterestaccno,\n        cm_common.accountnumber_get(A.loanaccid) as loanaccAccno*/\n        \nfrom  CM_ACCOUNTS A,\n      cm_PORTFOLIO P,cm_curr_state h,\n      customers c,\n      avalute v     \nwhere \n      (P.id = :CrdId)and \n      (A.creditid = P.id)and\n      (c.id = p.boorowerid)and\n      (v.valute = p.currency)  and\n      (p.id=h.creditid)     ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "RatesDataSet",
+   "source": "TStatementDataMod.RatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  Ostat   as Rate\nfrom\n  OPERKURS\nwhere\n  Dat = :Dat   and\n  Val_Kod = :CurrencyID\n \n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "CURRENCYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "AboutBank",
+   "source": "TStatementDataMod.AboutBank",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  az_Name as FullBankName,\n  Logo ,\n  INN,\n  MANAGERTITLE\nfrom BANKINFO\n",
+   "variables": [],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "ProlongationDataSet",
+   "source": "TStatementDataMod.ProlongationDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  prolongdate, newclosedate\n  FROM cm_prolongations\nwhere creditid =:CrdID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "DefIntDatSet",
+   "source": "TStatementDataMod.DefIntDatSet",
+   "kind": "TOracleDataSet",
+   "sql": "select stopcalcdate from cm_curr_state\nwhere creditid=:CrdID",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "cust",
+   "source": "TStatementDataMod.cust",
+   "kind": "TOracleDataSet",
+   "sql": "select p.numberofcredit,b.name from cm_active_credits p, CM_BOOROWERINFO b\nwhere p.id=b.creditid \nand p.id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "DataSet",
+   "source": "TStatementDataMod.DataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum,-2, c.ID creditid, b.NAME user1, c.dateofconclusion hdate,\n        c.insertdat sysdat, '' oldparam, 'KREDITI DAXIL EDEN' newparam,\n        'Daxil edən' polya, 'USID' polyaen, 'CM_PORTFOLIO' tablename\n   FROM cm_portfolio c, smart.user$ b\n  WHERE c.ID = :id AND c.usid = b.ID\n union \n SELECT rownum+1, -1, c.ID creditid, b.NAME user1, c.dateofconclusion hdate,\n        c.postdate sysdat, '' oldparam, 'KREDITI TESDIQ EDEN' newparam,\n        'Təsdiq edən' polya, 'POSTUSER' polyaen, 'CM_PORTFOLIO' tablename\n   FROM cm_portfolio c, smart.user$ b\n  WHERE c.ID = :id AND c.postuser = b.ID\n union \n SELECT rownum+2, a.id, a.creditid, a.user1, a.hdate, a.sysdat, a.oldparam,\n        a.newparam, a.polya, a.polyaen, a.tablename\n   FROM cm_portfolio_update a\n where a.creditid=:id\n\n\n/*select rownum, a.* from cm_portfolio_update a\n\nwhere creditid=:id*/",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TStatementDataMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.creditid, a.hdate, a.enddat, a.interest, a.dueinterest,nvl(a.users,'SMART') users,\n       a.status\n  FROM cm_endcalac a where creditid=:creditid\nand a.enddat in (SELECT max(enddat)\n  FROM cm_endcalac  where creditid=:creditid)\n",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TStatementDataMod.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.creditid, a.hdate, a.enddat, a.interest, a.dueinterest,nvl(a.users,'SMART') users,\n       a.status\n  FROM cm_endcalac a where creditid=:creditid\nand a.hdate in (SELECT max(hdate)\n  FROM cm_endcalac  where creditid=:creditid)",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TStatementDataMod.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_expires where creditid=:creditid \n\norder by expdate",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "StatementDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_AK_REPORTS",
+   "package": "CM_AK_REPORTS",
+   "mode": "positional",
+   "source": "TStatementDataMod.CM_AK_REPORTS",
+   "routines": [
+    {
+     "name": "Get_CreditFullPayAmt",
+     "call": "CallFloatFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

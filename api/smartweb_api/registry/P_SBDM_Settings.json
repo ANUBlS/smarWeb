@@ -1,0 +1,207 @@
+{
+ "name": "P_SBDM_Settings",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_Settings",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "TVSubItems",
+   "source": "TDataModReferences.TVSubItems",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   *\n  From\n     SBCM_References\n   Where\n    ParentID =:ParentID",
+   "variables": [
+    {
+     "name": "PARENTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMReferences"
+  },
+  {
+   "name": "ReferLink",
+   "source": "TDataModReferences.ReferLink",
+   "kind": "TOracleDataSet",
+   "sql": "Select * From  SBCM_References",
+   "variables": [],
+   "unit": "DMReferences"
+  },
+  {
+   "name": "acc_zones",
+   "source": "TfrmAccGroups.acc_zones",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT zoneid ,description\n  FROM sbcm_acc_zones\n  order by zoneid",
+   "variables": [],
+   "unit": "frmAccGroupsImpl"
+  },
+  {
+   "name": "acc_zone_info",
+   "source": "TfrmAccGroups.acc_zone_info",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,zoneid, accgroup\n  FROM sbcm_acc_zone_info\n\nwhere zoneid = :zoneid",
+   "variables": [
+    {
+     "name": "ZONEID",
+     "type": "float"
+    }
+   ],
+   "unit": "frmAccGroupsImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TfrmAccountTurning.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from sbcm_categories",
+   "variables": [],
+   "unit": "frmAccountTurningImpl"
+  },
+  {
+   "name": "movie_names",
+   "source": "TfrmAccountTurning.movie_names",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, typeid,  description\n  FROM sbcm_movie_names\n\nwhere typeid = :typeid",
+   "variables": [
+    {
+     "name": "TYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmAccountTurningImpl"
+  },
+  {
+   "name": "settings",
+   "source": "TfrmAccountTurning.settings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, parentid, currencyid, accid, branchid\n  FROM sbcm_settings\n\nwhere parentid = :parentid",
+   "variables": [
+    {
+     "name": "PARENTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmAccountTurningImpl"
+  },
+  {
+   "name": "Accounts",
+   "source": "TfrmAccountTurning.Accounts",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       /*+ FIRST_ROWS_200(account) */\n       id,\n       acc_no,\n       name,\nval_acc\nfrom account \nwhere close_dat is null\nand  bal_cn1 in ( select accgroup from \nsbcm_acc_zone_info where zoneid = (select zoneid from sbcm_acc_zones\nwhere name = 'InternalBankAccs'))\norder by acc_no",
+   "variables": [],
+   "unit": "frmAccountTurningImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TfrmAccountTurning.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "frmAccountTurningImpl"
+  },
+  {
+   "name": "valute",
+   "source": "TfrmAccountTurning.valute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name,valu_name from avalute\n",
+   "variables": [],
+   "unit": "frmAccountTurningImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TfrmCategories.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "/* Formatted on 2007/08/31 13:02 (Formatter Plus v4.7.0) */\nSELECT ROWID, ID, CATEGORY\n  FROM sbcm_categories",
+   "variables": [],
+   "unit": "frmCategoriesImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TfrmDepositTypes.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, type, additionaltype, withdrawtype, dateinterval\n  FROM sbcm_deposit_types\norder by id ",
+   "variables": [],
+   "unit": "frmDepositTypesImpl"
+  },
+  {
+   "name": "AddTypesForColl",
+   "source": "TfrmDepositTypes.AddTypesForColl",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, addtypename, addtypedesc, withdrtype, withdrtypedesc\n  FROM sbcm_deposit_addtypes",
+   "variables": [],
+   "unit": "frmDepositTypesImpl"
+  },
+  {
+   "name": "AddTypesForWith",
+   "source": "TfrmDepositTypes.AddTypesForWith",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, addtypename, addtypedesc, withdrtype, withdrtypedesc\n  FROM sbcm_deposit_addtypes",
+   "variables": [],
+   "unit": "frmDepositTypesImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "ReferPackage",
+   "package": "sbcm_rpdepository",
+   "mode": "positional",
+   "source": "TDataModReferences.ReferPackage",
+   "routines": [
+    {
+     "name": "UPD_SBCM_REFERENCES",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBCM_RPDEPOSITORY",
+   "package": "SBCM_RPDEPOSITORY",
+   "mode": "positional",
+   "source": "TfrmDepositTypes.SBCM_RPDEPOSITORY",
+   "routines": [
+    {
+     "name": "delDepositTypes",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sbcm_ds",
+   "package": "SBCM_RPDEPOSITORY",
+   "mode": "positional",
+   "source": "TfrmAccountTurning.sbcm_ds",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

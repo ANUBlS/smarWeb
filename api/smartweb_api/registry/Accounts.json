@@ -1,0 +1,209 @@
+{
+ "name": "Accounts",
+ "caption": "Balans / Əməliyyat günü / Hesablar",
+ "dir": "Packages/Accounts",
+ "mainForm": "TAccountMainForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "AccessSelectFormImpl",
+  "AccountDataModuleImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SecurityBrowserImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "UserSelectFormImpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "AccStateData",
+   "source": "TAccStatesForm.AccStateData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  arc.DATDATE as ArchiveDate,\n  arc.ACC_ID as AccID,\n  abs(arc.OSTAT) as Amount,\n  abs(arc.POK_OSTAT) as LAmount,\n  abs(arc.OBR_D) as DebitTurnover,\n  abs(arc.POK_OBR_D) as DebitLTurnover,\n  abs(arc.OBR_K) as CreditTurnover,\n  abs(arc.POK_OBR_K) as CreditLTurnover\nfrom archost arc\nwhere arc.acc_id = :AccID\norder by arc.datdate desc",
+   "variables": [
+    {
+     "name": "ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccStatesImpl"
+  },
+  {
+   "name": "CreditTransactionsData",
+   "source": "TAccTransactionsForm.CreditTransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  p.ID,\n  p.kredit as CreditAccID,\n  p.dat as OperationDate,\n  p.ammount as DebitAmount,\n  p.ammount_c as CreditAmount,\n  p.lammount as LAmount,\n  ad.acc_no as DebitAccNo,\n  p.NAME as Destination\nfrom\n  provarch p,\n  account ad\nwhere\n  (p.kredit = :CreditAccID)\n  and (p.dat between :StartDate and :EndDate)\n  and (ad.id = p.debt)\norder by p.dat",
+   "variables": [
+    {
+     "name": "CREDITACCID",
+     "type": "integer"
+    },
+    {
+     "name": "STARTDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "AccTransactionsFormImpl"
+  },
+  {
+   "name": "DebitTransactionsData",
+   "source": "TAccTransactionsForm.DebitTransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  p.ID,\n  p.debt as DebitAccID,\n  p.dat as OperationDate,\n  p.ammount as DebitAmount,\n  p.ammount_c as CreditAmount,\n  p.lammount as LAmount,\n  ac.acc_no as CreditAccNo,\n  p.NAME as Destination\nfrom\n  provarch p,\n  account ac\nwhere\n  (p.dat between :StartDate and :EndDate)\n  and (p.debt = :DebitAccID)\n  and (ac.id = p.kredit)\norder by p.dat",
+   "variables": [
+    {
+     "name": "STARTDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "DEBITACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccTransactionsFormImpl"
+  },
+  {
+   "name": "SAccsData",
+   "source": "TAccountDataModule.SAccsData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bal_spr1\norder by bal_cn",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "CustomersData",
+   "source": "TAccountDataModule.CustomersData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CUSTOMERS\nwhere close_dat is null\norder by ID",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "CurrencyData",
+   "source": "TAccountDataModule.CurrencyData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from AVALUTE",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "ReportSymbolData",
+   "source": "TAccountDataModule.ReportSymbolData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "AccountsData",
+   "source": "TAccountDataModule.AccountsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  acc.ID as AccID,\n  acc.ACC_NO as AccNo,\n  acc.NAME as AccName,\n  acc.OPEN_DAT as OpenDate,\n  acc.CLOSE_DAT as CloseDate,\n  acc.VAL_ACC as CurrencyID,\n  acc.bal_cn1 as SAcc,\n  acc.bal_cn2 as SAcc2,\n  acc.bal_cn3 as SAcc3,\n  acc.bal_cn4 as SAcc4,\n  acc.KLI_ID as CustomerID,\n  acc.PAIR_ACC as PairAcc,\n  acc.Limit as AccLimit,\n  acc.SIM_OTCET as ReportSymbol,\n  acc.tipacc as AccFlags , \n  acc.FILIAL as FilialID,\n  acc.Insider as Insider,\n  t.OSTAT as Amount,\n  t.POK_OSTAT as LAmount,\n  t.OBR_D as DebitTurnover,\n  t.OBR_K as CreditTurnover,\n  t.POK_OBR_D as DebitLTurnover,\n  t.POK_OBR_K as CreditLTurnover,\n  Currency.VAL_NAME as CurrencySName,\n  dsb.OSTAT as DayStartAmount,\n  dsb.POK_OSTAT as DayStartLAmount,\n  dlb.OSTAT as DelayedAmount,\n  dlb.POK_OSTAT as DelayedLAmount,\n  acc.sid#,\n  acc.rowid\nfrom\n  ACCOUNT acc,\n  TENOSTAT t,\n  AVALUTE Currency,\n  TEMPOST dsb,\n  LAZYREST dlb\nwhere\n  (t.ACC_ID = acc.ID)\n  and (Currency.VALUTE = acc.VAL_ACC)\n  and (dsb.ACC_ID = acc.ID)\n  and (dlb.ACC_ID = acc.ID)\n\n ",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "SAccsData2",
+   "source": "TAccountDataModule.SAccsData2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bal_spr2\norder by bal_cn",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "SAccsData3",
+   "source": "TAccountDataModule.SAccsData3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bal_spr3\norder by bal_cn",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "SAccsData4",
+   "source": "TAccountDataModule.SAccsData4",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bal_spr4\norder by bal_cn",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "FilialsData",
+   "source": "TAccountDataModule.FilialsData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from FILIAL\norder by ID",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "AccFlagsData",
+   "source": "TAccountDataModule.AccFlagsData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT symbol, name, description\n  FROM account_flags",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "AccountFlagsData",
+   "source": "TAccountDataModule.AccountFlagsData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT symbol, name, description\n  FROM account_flags",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "AccountsData",
+   "source": "TAccountPropertiesForm.AccountsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  acc.ID as AccID,\n  acc.ACC_NO as AccNo\nfrom\n ACCOUNT acc\norder by acc.ACC_NO",
+   "variables": [],
+   "unit": "AccountPropertiesForm_Unit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TAccountDataModule.SB_ACA",
+   "routines": [
+    {
+     "name": "getuserfilialid",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

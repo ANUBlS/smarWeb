@@ -1,0 +1,300 @@
+{
+ "name": "P_InsPayment",
+ "caption": "",
+ "dir": "Insurance/InsPayment",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSPayments",
+   "source": "TDMPayment.ODSPayments",
+   "kind": "TOracleDataSet",
+   "sql": "select p.rowid,p.id,p.ins_id,p.traid,p.ammount,p.paydate ,sb_p.name,p.planid,\n/*CASE p.planid\n  WHEN 2 THEN 'Hadiseye gore'\n  WHEN 1 THEN 'Plan uzre'\n  END as plantype*/\n decode( p.planid, 2,'Hadiseye gore',\n                   1,'Plan uzre',\n                    0,'Plandan kenar')as plantype\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o,provarch pr\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(14,15,16,17,18,19,20,63)\nand pr.id=sb_o.parentid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "ODSPlan",
+   "source": "TDMPayment.ODSPlan",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT 1 as ID, 'Plan uzre' as paydate, 0 as ammount, 0 as status\n  FROM DUAL\nUNION ALL\nSELECT 2 as ID, 'Hadiseye gore' as paydate, 0 as ammount, 0 as status\n  FROM DUAL\n\n",
+   "variables": [],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSRestPayment",
+   "source": "TDMPayment.DSRestPayment",
+   "kind": "TOracleDataSet",
+   "sql": "select \nnvl((select nvl(ammount,0)+nvl(INS_PREMIUM,0)+nvl(RESP_PREMIUM,0)  as qaliq\nfrom ins_contracts c,ins_contr_per_acc_motor f,ins_contract_responsibility m\nwhere c.id=:pcid\nand   f.cid(+)=c.id\nand   m.cid(+)=c.id)-\n(select nvl(sum(ammount),0) as ammount from ins_payments p, sb_business_opers b\nwhere p.ins_id=:pcid\nand p.traid=b.parentid\nand p.planid=1\nand busproc in(35,36,37,38,39,40,41) ),0) as qaliq\n\n from dual",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSContracts",
+   "source": "TDMPayment.DSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_contracts\nwhere id=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSPlansetting",
+   "source": "TDMPayment.DSPlansetting",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_payment_plan_setting\nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSHesab",
+   "source": "TDMPayment.DSHesab",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSpaymentAcc",
+   "source": "TDMPayment.DSpaymentAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account where id in(select acc_id from ins_dict_acc_payment_loss)\nunion\nselect id, acc_no from account where bal_cn1 in(563)",
+   "variables": [],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSPaymentReal",
+   "source": "TDMPayment.DSPaymentReal",
+   "kind": "TOracleDataSet",
+   "sql": "select p.rowid,p.id,p.ins_id,p.traid,p.ammount,p.paydate ,sb_p.name,p.planid,\n/*CASE p.planid\n  WHEN 2 THEN 'Hadisəyə görə'\n  WHEN 1 THEN 'Hadisəyə görə'\n  END as plantype*/\n decode( p.planid, 2,'Hadiseye gore',\n                   1,'Plan uzre')as plantype\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(35,36,37,38,39,40,41,64)",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSTSighaqqı",
+   "source": "TDMPayment.DSTSighaqqı",
+   "kind": "TOracleDataSet",
+   "sql": "select(select nvl(sum(p.ammount),0) \nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o,provarch pr\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(14,15,16,17,18,19,20,63)\nand p.planid in (1,0)\nand pr.id=sb_o.parentid)-\n(select nvl(sum(p.ammount),0) \nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(35,36,37,38,39,40,41,64)\nand p.planid=1) as Sighaqqiqaliq from dual",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSTSighaqqıK",
+   "source": "TDMPayment.DSTSighaqqıK",
+   "kind": "TOracleDataSet",
+   "sql": "select(select nvl(sum(p.ammount),0) \n\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o,provarch pr\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(14)\nand p.planid in (1,0)\nand pr.id=sb_o.parentid)-\n(select nvl(sum(p.ammount),0) \n\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(35)\nand p.planid=1) as Sighaqqiqaliq from dual",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSTSighaqqıM",
+   "source": "TDMPayment.DSTSighaqqıM",
+   "kind": "TOracleDataSet",
+   "sql": "select(select nvl(sum(p.ammount),0) \n\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o,provarch pr\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(15)\nand p.planid in(1,0)\nand pr.id=sb_o.parentid)-\n(select nvl(sum(p.ammount),0)\n\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(36)\nand p.planid=1)  as Sighaqqiqaliq from dual",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSTSighaqqıFQ",
+   "source": "TDMPayment.DSTSighaqqıFQ",
+   "kind": "TOracleDataSet",
+   "sql": "select(select nvl(sum(p.ammount),0)\n\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o,provarch pr\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(16)\nand p.planid in (1,0)\nand pr.id=sb_o.parentid)-\n(select nvl(sum(p.ammount),0)\n\nfrom ins_payments p,sb_business_processes sb_p,sb_business_opers sb_o\nwhere p.traid=sb_o.parentid\nand sb_o.busproc=sb_p.id\nand  p.ins_id=:pcid\nand sb_o.busproc in(37)\nand p.planid=1) as Sighaqqiqaliq from dual",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "DSins_dict_next_event_per",
+   "source": "TDMPayment.DSins_dict_next_event_per",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.percent\n  FROM ins_dict_next_event_percent a",
+   "variables": [],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "dscustname",
+   "source": "TDMPayment.dscustname",
+   "kind": "TOracleDataSet",
+   "sql": "select name from customers\nwhere id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "dsotherkdhesab",
+   "source": "TDMPayment.dsotherkdhesab",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account\nwhere close_dat is  null\nand id in (select acc_id from ins_dict_acc_payment_loss)\nand bal_cn1=601\n\n",
+   "variables": [],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "dsotherdbhesab",
+   "source": "TDMPayment.dsotherdbhesab",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account\nwhere close_dat is  null\nand ownid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  },
+  {
+   "name": "Dskassabalans",
+   "source": "TDMPayment.Dskassabalans",
+   "kind": "TOracleDataSet",
+   "sql": "select id,kli_id,bal_cn1 from account\nwhere acc_no=:p_acc_no",
+   "variables": [
+    {
+     "name": "P_ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMPaymentImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TDMPayment.OPCOMMON",
+   "routines": [
+    {
+     "name": "addaditionalpaymentReal",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "addpaymentReal",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "cancelcontractpayment",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "commitcontract_other",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "commitotherdelete",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "getInsnatammebleg",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "getInsnatamsigortahaaqi",
+     "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "OPSBOP",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TDMPayment.OPSBOP",
+   "routines": [
+    {
+     "name": "get_Date",
+     "call": "CallDateFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMPayment.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

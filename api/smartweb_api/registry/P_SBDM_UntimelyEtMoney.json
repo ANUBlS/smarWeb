@@ -1,0 +1,102 @@
+{
+ "name": "P_SBDM_UntimelyEtMoney",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_UntimelyEaxtractMoney",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DepositInfo",
+   "source": "TfrmUntimelyEtMoney.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select cust.name,\n       sbcm_stored_programs.SbcmOpenDate(Cont.ID) as opendate,\n       sbcm_stored_programs.SBCMGetOldDate(Cont.ID) as closedate,\n       sbcm_stored_programs.GetpercentCollection(Cont.ID) as annualInt,\n       sbcm_stored_programs.getoverduepercent(Cont.ID) As OverDueAnnualInt,\n       -- sbcm_stored_programs.GetOverduePercentType(Cont.ID) As OverDueAnnualInt,\n        sbcm_stored_programs.Get_ContractAccount(Acc.ContractAccID) as ContractAccNo,\n      sbcm_stored_programs.Get_ContractAccount(Acc.ClientAccID) as ClientAccNo,\n      sbcm_stored_programs.Get_ContractAccount(Acc.InterestAccID) as InterestAccNo,\n      cstate.FACTICALDEBT,\n      cstate.FACTICALINTERESTDEBT\nfrom sbcm_contracts cont,\n     sbcm_contract_accounts acc,\n     sbcm_contract_state cstate,\ncustomers cust\nwhere \nCont.ID = :ContractID and\ncust.id = Cont.customerID and\nacc.id# = :ContractID and\ncstate.id# = :ContractID\n ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmUntimelyEtMoneyImpl"
+  },
+  {
+   "name": "CreditAccs",
+   "source": "TfrmUntimelyEtMoney.CreditAccs",
+   "kind": "TOracleDataSet",
+   "sql": "/*select id,\n       acc_no,\n       name\nfrom account \nwhere close_dat is null\nand kli_id =:KliID\nand  bal_cn1 in ( select accgroup from \nsbcm_acc_zone_info where zoneid = (select zoneid from sbcm_acc_zones\nwhere name = 'Account'))\nunion all*/\nselect \n       /*+ FIRST_ROWS_200(account) */\n       id,\n       acc_no,\n       name\nfrom account \nwhere close_dat is null\nand  bal_cn1 in ( select accgroup from \nsbcm_acc_zone_info where zoneid = (select zoneid from sbcm_acc_zones\nwhere name = 'InternalBankAccs'))\norder by acc_no\n\n\n",
+   "variables": [],
+   "unit": "frmUntimelyEtMoneyImpl"
+  },
+  {
+   "name": "DepositAccno",
+   "source": "TfrmUntimelyEtMoney.DepositAccno",
+   "kind": "TOracleDataSet",
+   "sql": "select ac.id,ac.acc_no,av.VAL_NAME from account ac,\n                                  sbcm_categories sc,\n                                  sbcm_movie_names sm,\n                                  sbcm_settings ss,\n                                  sbcm_contracts sb,\n                                  avalute av where \n \nsb.ID        =:ContractID             and\nss.CURRENCYID=sb.CURRENCY             and\nsc.id        =sm.TYPEID               and\nsm.NAME      ='outComeAccForDeposit'  and\nsm.id        =ss.PARENTID             and\nac.id        =ss.ACCID                and\nac.VAL_ACC   =av.VALUTE               and\nsc.id        =sb.CLIENTTYPE ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmUntimelyEtMoneyImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SBCM_PAYMENT",
+   "package": "sbcm_payment_new",
+   "mode": "positional",
+   "source": "*.SBCM_PAYMENT",
+   "routines": [
+    {
+     "name": "CommitWithDrawMoney",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sbcm_payment",
+   "package": "sbcm_payment",
+   "mode": "named",
+   "source": "TfrmUntimelyEtMoney.sbcm_payment",
+   "routines": [
+    {
+     "name": "UntimeWithDrawMoney",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

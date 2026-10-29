@@ -1,0 +1,148 @@
+{
+ "name": "P_NewDepositsShedule",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsShedule",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CustName",
+   "source": "TNewDepositsScheduleDataModule.CustName",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   dm_stored_programs.GetCustomerName(customerid) as name,\n   opendate,\n   closedate \nfrom \n   dm_contracts \nwhere \n   id=:id\n\n     \n\n ",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsScheduleDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TNewDepositsScheduleDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_contracts\nwhere id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsScheduleDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TNewDepositsScheduleDataModule.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT Z.RowID,Z.*\n  FROM DM_PAYMENT_SCHEDULE Z\nWHERE Z.id#=:Id\nORDER BY HDATE",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsScheduleDataModuleImpl"
+  },
+  {
+   "name": "Dm_contracts",
+   "source": "TNewDepositsScheduleDataModule.Dm_contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_contracts\nwhere \n   id=:v_id\n  and\n   dm_stored_programs.GetDepTypeDay(id)>0\n",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsScheduleDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_calculator",
+   "package": "dm_calculator",
+   "mode": "positional",
+   "source": "TNewDepositsScheduleDataModule.dm_calculator",
+   "routines": [
+    {
+     "name": "getdateinterval",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "dm_date",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TNewDepositsScheduleDataModule.dm_date",
+   "routines": []
+  },
+  {
+   "component": "dm_payment_schedules",
+   "package": "DM_PAYMENT_SCHEDULES",
+   "mode": "positional",
+   "source": "*.dm_payment_schedules",
+   "routines": [
+    {
+     "name": "DmPeriod",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "dm_stored_programs",
+   "package": "dm_stored_programs",
+   "mode": "positional",
+   "source": "TNewDepositsScheduleDataModule.dm_stored_programs",
+   "routines": [
+    {
+     "name": "GetDepTypeDay",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "GetFacticalDebt",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "GetFirstPaymentDate",
+     "call": "CallDateFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

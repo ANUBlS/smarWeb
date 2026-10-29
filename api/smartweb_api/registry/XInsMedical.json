@@ -1,0 +1,82 @@
+{
+ "name": "XInsMedical",
+ "caption": "Əlavə modullar / Sığorta / Tibbi sığorta",
+ "dir": "Packages/Insurance/InsMedical",
+ "mainForm": "TfmMedical",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSMedical",
+   "source": "TfmMedical.ODSMedical",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT im.ROWID, im.*,ic.*, ims.ID meds_id, imp.ID medp_id\n  FROM ins_medical im, ins_med_suggestion ims, ins_med_policy imp, ins_customers ic\n WHERE ic.ID = im.kli_id \n  AND im.ID = ims.med_id(+) \n  AND ims.ID = imp.meds_id(+) AND im.CLOSE_PREFIX=0\n\n",
+   "variables": [],
+   "unit": "fmMedicalImpl"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TfmMedical.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere blank_id = :blankid\nand type_id = 9",
+   "variables": [
+    {
+     "name": "BLANKID",
+     "type": "float"
+    }
+   ],
+   "unit": "fmMedicalImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "PINS_Medical",
+   "package": "INS_PKG_MEDICAL",
+   "mode": "named",
+   "source": "TfmMedical.PINS_Medical",
+   "routines": []
+  },
+  {
+   "component": "PInS_Medical",
+   "package": "INS_PKG_MEDICAL",
+   "mode": "positional",
+   "source": "*.PInS_Medical",
+   "routines": [
+    {
+     "name": "delete_medicalinfo",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

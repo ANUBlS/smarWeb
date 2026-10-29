@@ -1,0 +1,64 @@
+{
+ "name": "P_SBDM_TaxPayments",
+ "caption": "",
+ "dir": "DepozitAqroinvest_neftfondu/SBDM_TaxPayments",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSFields",
+   "source": "TDataModuleTax.ODSFields",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sbcmdeposits_fields",
+   "variables": [],
+   "unit": "UnitDataMod"
+  },
+  {
+   "name": "ODSTaxPayment",
+   "source": "TDataModuleTax.ODSTaxPayment",
+   "kind": "TOracleDataSet",
+   "sql": "select \n id,\n customerid,\n taxamount,\n taxpayamount,\n (select name from customers where id=customerid)custname,\n custpayamount\nfrom \n  sbcm_taxpayments\norder by :title\n",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDataMod"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

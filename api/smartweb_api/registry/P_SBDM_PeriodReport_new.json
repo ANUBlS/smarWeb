@@ -1,0 +1,129 @@
+{
+ "name": "P_SBDM_PeriodReport_new",
+ "caption": "",
+ "dir": "Packages/SBDM_PeriodReport_new",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "valutes",
+   "source": "TdmPeriodReport_new.valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "dmPeriodReportImpl_new"
+  },
+  {
+   "name": "Filials",
+   "source": "TdmPeriodReport_new.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "dmPeriodReportImpl_new"
+  },
+  {
+   "name": "Customers",
+   "source": "TdmPeriodReport_new.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,\n       name,\n      to_char(id)||'-'||name as KOD from customers\nwhere id in (select customerid from sbcm_contracts_new)\norder by id",
+   "variables": [],
+   "unit": "dmPeriodReportImpl_new"
+  },
+  {
+   "name": "Categories",
+   "source": "TdmPeriodReport_new.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from sbcm_categories_new",
+   "variables": [],
+   "unit": "dmPeriodReportImpl_new"
+  },
+  {
+   "name": "persons",
+   "source": "TdmPeriodReport_new.persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sbcm_persons_new",
+   "variables": [],
+   "unit": "dmPeriodReportImpl_new"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TdmPeriodReport_new.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type from sbcm_deposit_types_new",
+   "variables": [],
+   "unit": "dmPeriodReportImpl_new"
+  },
+  {
+   "name": "Deps",
+   "source": "TdmPeriodReport_new.Deps",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   cont.id,\n   cont.contractno,\n   sbcm_stored_programs_new.Get_ContractAccount(Acc.Contractaccid) as ContractAccNO\nfrom sbcm_contracts_new cont,\n     sbcm_contract_accounts_new acc\nwhere cont.id = acc.id#",
+   "variables": [],
+   "unit": "dmPeriodReportImpl_new"
+  },
+  {
+   "name": "ResultData",
+   "source": "TdmPeriodReport_new.ResultData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n      cont.contractno,\n      cont.opendate,\n      cont.closedate,\n      sbcm_stored_programs_new.get_contractaccount(acc.contractaccid) as ContractAccNo,\n      cust.name,sbcm_stored_programs_new.get_contract_BalNo(Cont.ID) as Balans,\n      av.val_name , \n      intr.interest as annualint,   \n      h1.facticaldebt as frest,\n      h1.facticaldebt*o1.ostat as efrest,\n      h1.facticalinterestdebt*o1.ostat as finterestrest,\n      h1.facticalinterestdebt*o1.ostat as efinterestrest,\n      \n      nvl(tranche.total,0) as tramt,\n      nvl(tranche.etotal,0) as etramt,\n      \n      nvl(payment.facticaldebt,0) as payamt,\n      nvl(payment.efacticaldebt,0) as epayamt,\n      nvl(payment.interestdebt,0) as payint,\n      nvl(payment.einterestdebt,0) as epayint,\n          \n      h2.facticaldebt as srest,\n      h2.facticaldebt*o2.ostat as esrest,\n      h2.facticalinterestdebt*o2.ostat as sinterestrest,\n      h2.facticalinterestdebt*o2.ostat as esinterestrest,\n      fil.name as filial,\n      dt.type  \n\nfrom sbcm_contracts_new cont,\n     sbcm_contract_accounts_new acc,\n     sbcm_contract_hist_new h1,\n     sbcm_contract_hist_new h2,\n     sbcm_tranches_temp_new /*report*/ tranche,\n     sbcm_payments_temp_new /*report*/ payment,\n     sbcm_interests_new intr,\n     customers  cust ,\n     avalute av,\n     operkurs o1,\n     operkurs o2,\n     filial fil,\n     sbcm_deposit_types_new dt\n   \nwhere  \n  cont.id  = acc.id# and\n  cont.customerid = cust.id and\n  cont.id = h1.id# and\n  cont.id = h2.id# and\n  cont.id  = intr.id# and\n  cont.currency  = av.valute and\n  cont.currency = o1.val_kod and\n  cont.currency = o2.val_kod and\n  o1.dat = :bdat and  \n  o2.dat = :edat and\n  h1.hdate = :bdat and  \n  h2.hdate = :edat and\n  cont.contracttype=dt.id  and\n  cont.BRANCHID    =fil.id and\n  cont.id = tranche.id# (+) and  \n  cont.id = payment.id#(+)   \n\n\n\n",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "dmPeriodReportImpl_new"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sbcm_period_report",
+   "package": "SBCM_PERIOD_REPORTS_new",
+   "mode": "named",
+   "source": "TdmPeriodReport_new.sbcm_period_report",
+   "routines": [
+    {
+     "name": "initreportdata",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

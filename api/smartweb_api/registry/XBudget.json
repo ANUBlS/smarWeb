@@ -1,0 +1,284 @@
+{
+ "name": "XBudget",
+ "caption": "Əlavə modullar / Mühasibat və balans / Büdcənin idarə olunması",
+ "dir": "Packages/BudgetMgr",
+ "mainForm": "TfrmBudgetMgr",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ArticlesDST",
+   "source": "TDMBudget.ArticlesDST",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  a.*, a.rowid\n  FROM articles a\norder by status,id",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "ItemsofArticlesDST",
+   "source": "TDMBudget.ItemsofArticlesDST",
+   "kind": "TOracleDataSet",
+   "sql": "select*from ItemsofArticles",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "AddArt",
+   "source": "TDMBudget.AddArt",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.*, a.rowid,a.id, a.name, a.numberofarticle, a.status\n  FROM articles a\n  where a.id = :artid",
+   "variables": [
+    {
+     "name": "ARTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "AddItems",
+   "source": "TDMBudget.AddItems",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid,t.* \nfrom ITEMSOFARTICLES  t\nwhere id_articl = :id_articl\n\n\norder by t.id",
+   "variables": [
+    {
+     "name": "ID_ARTICL",
+     "type": "float"
+    }
+   ],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "Accs",
+   "source": "TDMBudget.Accs",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no \nfrom account\nwhere bal_cn1 in (select acc from articles_accs\nwhere groupid = (select id from ARTICLES_ACCGROUP where name ='Artaccounts'))\nand close_dat is null",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "ItmDataSet",
+   "source": "TDMBudget.ItmDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid,t.* --,\n--P_ARTICLES.get_accno(accid) as accno\n--ar.smobr\n\nfrom ITEMSOFARTICLES t/*,\n(select acc_id,sum(obr_d) as smobr from archost\n where datdate between \n (select begindat from  articledates) and \n (select enddat  from articledates)\n group by acc_id) ar*/\n\nwhere t.id_articl = :id_articl\n--and t.accid = ar.acc_id\n\norder by id\n",
+   "variables": [
+    {
+     "name": "ID_ARTICL",
+     "type": "float"
+    }
+   ],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "ArtDataSet",
+   "source": "TDMBudget.ArtDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT  cont.id,cont.rowid , cont.name,cont.numberofarticle, cont.status\n  FROM articles cont\n --where a.id = :artid\norder by status,id\n--order by :OrderField\n--order by :artid",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "IncomeDst",
+   "source": "TDMBudget.IncomeDst",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  0 as id,\n  'Gəlir' as name\nfrom dual\nunion\nselect \n  1 as id,\n  'Xərc' as name\nfrom dual\n\nunion\nselect \n  2 as id,\n  'Balans' as name\nfrom dual",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "SetigDatSet",
+   "source": "TDMBudget.SetigDatSet",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid,t.*\n from ITEMSOFARTICLES  t\nwhere id_articl = :id_articl\norder by id",
+   "variables": [
+    {
+     "name": "ID_ARTICL",
+     "type": "float"
+    }
+   ],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "ArtDatSet",
+   "source": "TDMBudget.ArtDatSet",
+   "kind": "TOracleDataSet",
+   "sql": "select  a.rowid, a.*  from articledates a\n",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "SYSDAT",
+   "source": "TDMBudget.SYSDAT",
+   "kind": "TOracleDataSet",
+   "sql": "select to_date('01-jan-'||to_char(tek_dat,'YYYY')) as begindat,tek_dat,add_months(tek_dat,-12) olddat,\n       to_date('01-jan-'||(to_number(to_char(tek_dat,'YYYY'))+1)) as enddat from sysdat\n\n  \n",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "articles_accs",
+   "source": "TDMBudget.articles_accs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  a.rowid,a.* \n  FROM articles_accs a\nwhere groupid=:groupid\norder by acc\n",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "articles_accgroup",
+   "source": "TDMBudget.articles_accgroup",
+   "kind": "TOracleDataSet",
+   "sql": "select t.*from articles_accgroup t\n",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "accrest",
+   "source": "TDMBudget.accrest",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_id,sum(obr_d) as sm from archost ,itemsofarticles a\nwhere  datdate between (select to_date('01-jan-'||to_char(tek_dat,'YYYY')) as begindat from sysdat) and \n(select  to_date('01-jan-'||(to_number(to_char(tek_dat,'YYYY'))+1)) as enddat from sysdat)and\n  acc_id =a.accid\ngroup by acc_id\n\n\n\n/*select acc_id,sum(obr_d) as sm from archost\nwhere datdate between (select begindat from  articledates) and (select enddat  from articledates)\n--and where  acc_id = :acc_id\ngroup by acc_id*/",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "ArtDataSetExcl",
+   "source": "TDMBudget.ArtDataSetExcl",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT  cont.id,cont.rowid , cont.name,cont.numberofarticle, cont.status\n  FROM articles cont \n\n\n-- cont.status in(0,1)\n\norder by status,id\n--order by :OrderField\n--order by :artid",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "ItmDataSetExcl",
+   "source": "TDMBudget.ItmDataSetExcl",
+   "kind": "TOracleDataSet",
+   "sql": "select t.* \n\n\n\nfrom ITEMSOFARTICLES t\n\n where id_articl = :id_articl\norder by id\n --to_char(begindat,'YYYY')=to_char(sbop.get_date,'YYYY'))",
+   "variables": [
+    {
+     "name": "ID_ARTICL",
+     "type": "float"
+    }
+   ],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDMBudget.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_id,sum(obr_d) as sm from archost ,itemsofarticles a\n\nwhere datdate between (to_date('01-jan-'||to_char(sbop.get_date,'YYYY'))) and (to_date('31-mar-'||to_char(sbop.get_date,'YYYY')))and\n  acc_id =a.accid\ngroup by acc_id\n\n\n\n\n--P_ARTICLES.get_obr_ByDat(accid, to_date('01-jan-'||to_char(sbop.get_date,'YYYY')),to_date('31-mar-'||to_char(sbop.get_date,'YYYY'))) as AMOUNTOFFIRSTQUARTER_REAL,\n--P_ARTICLES.get_obr_ByDat(accid, to_date('01-apr-'||to_char(sbop.get_date,'YYYY')),to_date('30-jun-'||to_char(sbop.get_date,'YYYY'))) as AMOUNTOFSECONDQUARTER_REAL,\n--P_ARTICLES.get_obr_ByDat(accid, to_date('01-jul-'||to_char(sbop.get_date,'YYYY')),to_date('30-sep-'||to_char(sbop.get_date,'YYYY'))) as AMOUNTOFTHRIDQUARTER_REAL, \n--P_ARTICLES.get_obr_ByDat(accid, to_date('01-oct-'||to_char(sbop.get_date,'YYYY')),to_date('31-dec-'||to_char(sbop.get_date,'YYYY'))) as AMOUNTOFFOURTHQUARTER_REAL",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDMBudget.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_id,sum(obr_d) as sm1 from archost ,itemsofarticles a\n\nwhere datdate between (to_date('01-apr-'||to_char(sbop.get_date,'YYYY'))) and (to_date('30-jun-'||to_char(sbop.get_date,'YYYY')))and\n  acc_id =a.accid\ngroup by acc_id",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TDMBudget.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_id,sum(obr_d) as sm2 from archost ,itemsofarticles a\n\nwhere datdate between (to_date('01-jul-'||to_char(sbop.get_date,'YYYY'))) and (to_date('30-sep-'||to_char(sbop.get_date,'YYYY')))and\n  acc_id =a.accid\ngroup by acc_id\n",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TDMBudget.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_id,sum(obr_d) as sm3 from archost ,itemsofarticles a\n\nwhere datdate between (to_date('01-oct-'||to_char(sbop.get_date,'YYYY'))) and (to_date('30-dec-'||to_char(sbop.get_date,'YYYY')))and\n  acc_id =a.accid\ngroup by acc_id\n\n",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TDMBudget.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "Select sum(obr_d)as d from archost where acc_id in(select id from account where bal_cn1 in('1801','6301','2404','3801')) and datdate >'01-jan-2012'",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  },
+  {
+   "name": "DSetFilial",
+   "source": "TDMBudget.DSetFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 id, 'Bütun filiallar' as name from dual\nunion\nselect id,name from filial\n\norder by id",
+   "variables": [],
+   "unit": "Dmbudgetimpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "ArticlesPkg",
+   "package": "P_Articles",
+   "mode": "positional",
+   "source": "*.ArticlesPkg",
+   "routines": [
+    {
+     "name": "Balans",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "Gelir_buil",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "Gelir_kecenil",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "Xerc_buil",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "Xerc_kecenil",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "add_art",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "del_art",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

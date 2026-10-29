@@ -1,0 +1,204 @@
+{
+ "name": "XMasterBook",
+ "caption": "Əlavə modullar / Mühasibat və balans / Baş kitab",
+ "dir": "Packages/MasterBook",
+ "mainForm": "TMasterBook",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "KreditAccDataSet",
+   "source": "TMasterBook.KreditAccDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   bal_cn_debt, bal_cn_kredit\n    FROM (SELECT   bal_cn_debt, bal_cn_kredit, prvch.lammount, prvch.dat,\n                   TO_CHAR (prvch.dat, 'MM') month\n                   \n              FROM (SELECT bal_cn_debt, bal_cn_kredit, lammount, dat\n                      FROM (SELECT prvch.id, acc.bal_cn bal_cn_kredit,\n                                   prvch.lammount, prvch.dat\n                              FROM provarch prvch,\n                                   (SELECT id, acc_no,\n                                              bal_cn1\n                                           \n                                           || tipacc bal_cn\n                                      FROM ACCOUNT :wh) acc\n                             WHERE acc.id = prvch.kredit) provarch_kredit,\n                           (SELECT prvch.id, acc.bal_cn bal_cn_debt\n                              FROM provarch prvch,\n                                   (SELECT id, acc_no,\n                                              bal_cn1\n                                           \n                                           || tipacc bal_cn\n                                      FROM ACCOUNT :wh) acc\n                             WHERE acc.id = prvch.debt) provarch_debt\n                     WHERE provarch_kredit.id = provarch_debt.id) prvch\n             WHERE prvch.dat between :minDate and :maxDate\n          ORDER BY prvch.dat)\n         WHERE  bal_cn_debt = :bal_cn\nGROUP BY bal_cn_debt, bal_cn_kredit",
+   "variables": [
+    {
+     "name": "MINDATE",
+     "type": "date"
+    },
+    {
+     "name": "MAXDATE",
+     "type": "date"
+    },
+    {
+     "name": "BAL_CN",
+     "type": "string"
+    },
+    {
+     "name": "WH",
+     "type": "string"
+    }
+   ],
+   "unit": "MasterBookImpl"
+  },
+  {
+   "name": "ObrDebtDataSet",
+   "source": "TMasterBook.ObrDebtDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   bal_cn_debt, bal_cn_kredit, MONTH, SUM (lammount) obr\n    FROM (SELECT   bal_cn_debt, bal_cn_kredit, prvch.lammount, prvch.dat,\n                   TO_CHAR (prvch.dat, 'MM') MONTH\n              FROM (SELECT bal_cn_debt, bal_cn_kredit, lammount, dat\n                      FROM (SELECT prvch.id, acc.bal_cn bal_cn_kredit,\n                                   prvch.lammount, prvch.dat\n                              FROM provarch prvch,\n                                   (SELECT id, acc_no,\n                                              bal_cn1\n                                           || tipacc bal_cn\n                                      FROM ACCOUNT :wh) acc\n                             WHERE acc.id = prvch.kredit) provarch_kredit,\n                           (SELECT prvch.id, acc.bal_cn bal_cn_debt\n                              FROM provarch prvch,\n                                   (SELECT id, acc_no,\n                                              bal_cn1\n                                           || tipacc bal_cn\n                                      FROM ACCOUNT :wh) acc\n                             WHERE acc.id = prvch.debt) provarch_debt\n                     WHERE provarch_kredit.id = provarch_debt.id) prvch\n             WHERE prvch.dat BETWEEN :minDate AND :maxDate\n          ORDER BY prvch.dat)\n   where bal_cn_debt = :bal_cn     \nGROUP BY bal_cn_debt, bal_cn_kredit, MONTH",
+   "variables": [
+    {
+     "name": "MAXDATE",
+     "type": "date"
+    },
+    {
+     "name": "BAL_CN",
+     "type": "string"
+    },
+    {
+     "name": "MINDATE",
+     "type": "date"
+    },
+    {
+     "name": "WH",
+     "type": "string"
+    }
+   ],
+   "unit": "MasterBookImpl"
+  },
+  {
+   "name": "DataSetSumDebt",
+   "source": "TMasterBook.DataSetSumDebt",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   bal_debt, MONTH, SUM (lammount) obrdebt\n    FROM (SELECT   acc.bal_cn bal_debt, prvch.lammount, prvch.dat,\n                   TO_CHAR (prvch.dat, 'MM') MONTH\n              FROM (SELECT id, acc_no,    bal_cn1\n                                       || tipacc bal_cn\n                      FROM ACCOUNT :wh) acc,\n                   provarch prvch\n             WHERE prvch.debt = acc.id\n               AND prvch.dat BETWEEN :minDate AND :maxDate\n          ORDER BY prvch.dat)\n where  bal_debt = :bal_cn        \nGROUP BY bal_debt, MONTH",
+   "variables": [
+    {
+     "name": "MINDATE",
+     "type": "date"
+    },
+    {
+     "name": "MAXDATE",
+     "type": "date"
+    },
+    {
+     "name": "BAL_CN",
+     "type": "string"
+    },
+    {
+     "name": "WH",
+     "type": "string"
+    }
+   ],
+   "unit": "MasterBookImpl"
+  },
+  {
+   "name": "DataSetSumKredit",
+   "source": "TMasterBook.DataSetSumKredit",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   bal_kredit, MONTH, SUM (lammount) obrkredit\n    FROM (SELECT   acc.bal_cn bal_kredit, prvch.kredit, prvch.lammount,\n                   prvch.dat, TO_CHAR (prvch.dat, 'MM') MONTH\n              FROM (SELECT id, acc_no,    bal_cn1\n                                     \n                                       || tipacc bal_cn\n                      FROM ACCOUNT :wh) acc,\n                   provarch prvch\n             WHERE prvch.kredit = acc.id\n               AND prvch.dat BETWEEN :minDate AND :maxDate\n          ORDER BY prvch.dat)\nwhere bal_kredit = :bal_cn           \nGROUP BY bal_kredit, MONTH",
+   "variables": [
+    {
+     "name": "MINDATE",
+     "type": "date"
+    },
+    {
+     "name": "MAXDATE",
+     "type": "date"
+    },
+    {
+     "name": "BAL_CN",
+     "type": "string"
+    },
+    {
+     "name": "WH",
+     "type": "string"
+    }
+   ],
+   "unit": "MasterBookImpl"
+  },
+  {
+   "name": "DataSetSumSaldo",
+   "source": "TMasterBook.DataSetSumSaldo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   bal_cn, MONTH, SUM (active) active, SUM (passiv) passive\n    FROM (SELECT TO_CHAR (arch.datdate, 'MM') MONTH, arch.datdate,\n                 sb_mtoutview.active (\n                    arch.pok_ostat,\n                    bal.typeid,\n                    bal.additionaltypeid\n                 ) active,\n                 sb_mtoutview.passiv (\n                    arch.pok_ostat,\n                    bal.typeid,\n                    bal.additionaltypeid\n                 ) passiv,\n                    bal_cn1\n                 || tipacc bal_cn\n            FROM archost arch,\n                 ACCOUNT acc,\n                 bal_spr1 bal,\n                 (SELECT   acc_id, MONTH, MAX (datdate) datdate\n                      FROM (SELECT acc_id, datdate, TO_CHAR (datdate, 'MM') MONTH\n                              FROM archost\n                             WHERE datdate BETWEEN :minDate AND :maxDate) \n                  GROUP BY acc_id, MONTH) dat\n           WHERE arch.datdate = dat.datdate\n             AND arch.acc_id = dat.acc_id\n             AND arch.acc_id = acc.id\n             AND bal.bal_cn = acc.bal_cn1\n             :fil\n )\n   WHERE bal_cn = :bal_cn\nGROUP BY bal_cn, MONTH",
+   "variables": [
+    {
+     "name": "MINDATE",
+     "type": "date"
+    },
+    {
+     "name": "MAXDATE",
+     "type": "date"
+    },
+    {
+     "name": "BAL_CN",
+     "type": "string"
+    },
+    {
+     "name": "FIL",
+     "type": "string"
+    }
+   ],
+   "unit": "MasterBookImpl"
+  },
+  {
+   "name": "DataSetGetBalName",
+   "source": "TMasterBook.DataSetGetBalName",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   bal.bal_cn, MAX (balname) balname,\n         sb_mtoutview.active (sal.pok_ostat, bal.typeid, bal.additionaltypeid) active,\n         sb_mtoutview.passiv (sal.pok_ostat, bal.typeid, bal.additionaltypeid) passiv\n    FROM (SELECT bal.balname,    acc.bal_cn1\n                              || acc.tipacc bal_cn, typeid,\n                 additionaltypeid\n            FROM bal_spr1 bal, ACCOUNT acc\n           WHERE acc.bal_cn1 = bal.bal_cn :fil) bal,\n         (SELECT   datdate, bal_cn, SUM (pok_ostat) pok_ostat\n              FROM (SELECT acc.id, arch.datdate, arch.pok_ostat,\n                              bal_cn1\n                           || tipacc bal_cn\n                      FROM archost arch, ACCOUNT acc, bal_spr1 bal\n                     WHERE datdate = (SELECT MAX (datdate)\n                                        FROM archost\n                                       WHERE datdate < :minDat)\n                       AND arch.acc_id = acc.id\n                       AND bal.bal_cn = acc.bal_cn1 :fil)\n          GROUP BY datdate, bal_cn) sal\n   WHERE sal.bal_cn(+) = bal.bal_cn\nGROUP BY bal.bal_cn, sal.pok_ostat, bal.typeid, bal.additionaltypeid\nORDER BY bal.bal_cn",
+   "variables": [
+    {
+     "name": "MINDAT",
+     "type": "date"
+    },
+    {
+     "name": "FIL",
+     "type": "string"
+    }
+   ],
+   "unit": "MasterBookImpl"
+  },
+  {
+   "name": "DataSetBranch",
+   "source": "TMasterBook.DataSetBranch",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n    ID\n   ,Name\n   From  Filial",
+   "variables": [],
+   "unit": "MasterBookImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SBOperationDay",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "*.SBOperationDay",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

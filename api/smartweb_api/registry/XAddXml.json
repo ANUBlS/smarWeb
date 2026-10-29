@@ -1,0 +1,66 @@
+{
+ "name": "XAddXml",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / XML sənədlərin əlavə edilməsi",
+ "dir": "Packages/ADDXMLosx",
+ "mainForm": "TADDXML",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ods_kreditxml",
+   "source": "TADDXML.ods_kreditxml",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum,f.name filial,b.name,b.boorowerid\n,\ncase when c.cust_type=0 then (select(select name from customers where id=custid2)  from customers_relations where custid=c.id and work_post=2)/*mudur idisi*/end mudr,\ncase when c.cust_type=0 then (select(select name from customers where id=custid2)  from customers_relations where custid=c.id and work_post=3)/*tesisci idisi*/end tesici,\n'Bir-biri il? ?laq?li borcalanlar uzr? qrup kodu',\ncase when(select  prinad from customers_relations where custid2=p.boorowerid  )>0 then 'he' else 'Yox' end  tip,'?m?liyyat?n xarakteri',\np.dateofconclusion,p.dateofconclusion,p.duedatelastcontract,(select count(*)from cm_prolongations where id=p.id)uzadilmasayi,v.val_name,p.annualyinterestrate,\np.creditlineamount,h.rest, h.obligation,h.duerest,h.interestrest+h.dueinterestrest cemfaiz ,h.interestrest,h.dueinterestrest,h.penaltyrest,\ncm_utils.Get_creditPlanPrincipal(p.id,sbop.get_date),cm_utils.Get_creditPlaninterest(p.id,sbop.get_date),\n(select  max(paydate) from cm_payments   where creditid=p.id) opdtarix,\n (select sum(payedamt+payedintamt+payeddueamt+payeddueintamt+payedpenaltyamt )pay from cm_payments  where \n  paydate =(select max(paydate)from cm_payments where creditid=p.id) and creditid=p.id) odmeb,h.dueday,h.dueday,e1.percent,h.reserverest, e2.percent,h.reserveintrest,\n  case when  (select count(*) from cm_prolongations where tranceid is not null and creditid=p.id)=0 then 'Yox' else 'He' end as res,\n  (select max(prolongdate) from cm_prolongations where tranceid is not null and creditid=p.id)resdat,\n  (select count(*) from cm_prolongations where tranceid is not null and creditid=p.id)ressay,(select name from cust_quality where id=c.quality_id)kefiyyet\n  , case when g.pledgeid=3 then g.pledgeprice else 0 end as g1, case when g.pledgeid=25 then g.pledgeprice else 0 end as g2\n  , case when g.pledgeid=6 then g.pledgeprice else 0 end as g3 , case when g.pledgeid=4 then g.pledgeprice else 0 end as g4   \n  , case when g.pledgeid=5 then g.pledgeprice else 0 end as g5, case when g.pledgeid=2 then g.pledgeprice else 0 end as g6  ,g.pledgeprice,pg.description,t.description,ca.description,p.purposeofcredit\n from cm_active_credits p,filial f,cm_boorowerinfo b,customers c,avalute_t v,cm_curr_state h,\n cm_reserve_types e1,cm_reserve_types e2,cm_guarantee g,cm_pledges pg,cm_credittypes t,cm_categories ca\n\nwhere p.branchid=f.id and\np.id=b.creditid and\np.id=g.creditid(+) and\n pg.id=g.pledgeid and\nc.id=p.boorowerid and\np.currency=v.valute and\np.id=h.creditid and\nh.reserveid=e1.id and\nh.duereserveid=e2.id and \nt.id=p.credittype and\nca.id=p.customertype and   p.dateofconclusion between :dat1 and :dat2  and p.id in(65766,46515,66514,59319,34477)",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "ADD_XML"
+  },
+  {
+   "name": "ods_sysdat",
+   "source": "TFormFile.ods_sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char(tek_dat,'YYYY-DD-MM' ) as tek_dat from sysdat",
+   "variables": [],
+   "unit": "UnitFile"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

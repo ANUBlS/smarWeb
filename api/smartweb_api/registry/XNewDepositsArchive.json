@@ -1,0 +1,123 @@
+{
+ "name": "XNewDepositsArchive",
+ "caption": "Əlavə modullar / Depozitlər / Yeni depozitlərin arxivi",
+ "dir": "NewDepositsManager/NewDepositsArchive",
+ "mainForm": "TNewDepositsManagerArchiveFormImpl",
+ "plugin": false,
+ "plugins": {
+  "newdepositsapplymoneyarchive.bpl": "P_NewDepositsApplyMoneyArchive",
+  "newdepositsextractmoneyarchive.bpl": "P_NewDepositsExtractMoneyArchive"
+ },
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DmDataSetArchive",
+   "source": "TNewDepositDataModule.DmDataSetArchive",
+   "kind": "TOracleDataSet",
+   "sql": "select cont.rowid,\n       cont.id,\n       cont.contractno,\n       av.val_name,\n       dm_stored_programs.getcustomername(cont.customerid) as CustomerName,\n       cont.opendate,\n       cont.closedate,\n       cont.amount,\n       interest,      \n       (select sum(facticaldebt) from dm_history_currstate where id#=cont.id) as facticaldebt ,\n       (select sum(facticalinterestdebt) from dm_history_currstate where id#=cont.id) as facticalinterestdebt,\n       (select ostat from tenostat where acc_id=acc.clientaccid) as ostat,\n      (select type from dm_types where id=cont.contracttype)as contracttypename,\n       cont.currency,\n       cont.personaltype,\n       cont.clienttype,\n       cont.branchid,\n       cont.contracttype,\n       cont.customerid,\n       cont.prolongationdate,\n       cont.stopcalcdate,\n       cont.sid# as usid,\n       cont.agentid,\n       (select name from user$ where id=cont.sid#) username,\n       (select name from filial where id=cont.branchid) as filial\nfrom dm_archive_contracts cont,\n     dm_contract_accounts acc,\n     avalute av\nwhere acc.id# = cont.id and\n      cont.currency = av.valute \norder by :OrderField     ",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "string"
+    }
+   ],
+   "unit": "NewDepositsDataModule"
+  },
+  {
+   "name": "Valutes",
+   "source": "TNewDepositDataModule.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name \nfrom avalute",
+   "variables": [],
+   "unit": "NewDepositsDataModule"
+  },
+  {
+   "name": "Filials",
+   "source": "TNewDepositDataModule.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from \nfilial\norder by id ",
+   "variables": [],
+   "unit": "NewDepositsDataModule"
+  },
+  {
+   "name": "dm_types",
+   "source": "TNewDepositDataModule.dm_types",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type\nfrom dm_types",
+   "variables": [],
+   "unit": "NewDepositsDataModule"
+  },
+  {
+   "name": "dm_categories",
+   "source": "TNewDepositDataModule.dm_categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from dm_categories",
+   "variables": [],
+   "unit": "NewDepositsDataModule"
+  },
+  {
+   "name": "dm_persons",
+   "source": "TNewDepositDataModule.dm_persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from dm_persons",
+   "variables": [],
+   "unit": "NewDepositsDataModule"
+  },
+  {
+   "name": "BankDate",
+   "source": "TNewDepositDataModule.BankDate",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "NewDepositsDataModule"
+  },
+  {
+   "name": "FilialID",
+   "source": "TNewDepositDataModule.FilialID",
+   "kind": "TOracleDataSet",
+   "sql": "select kod_fil from bankinfo",
+   "variables": [],
+   "unit": "NewDepositsDataModule"
+  },
+  {
+   "name": "users",
+   "source": "TNewDepositDataModule.users",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from user$\nwhere id in (select sid# from dm_contracts group by sid#)",
+   "variables": [],
+   "unit": "NewDepositsDataModule"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

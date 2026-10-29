@@ -1,0 +1,139 @@
+{
+ "name": "P_SBDM_PercentSettings",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_PercentSettings",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DepositTypes",
+   "source": "TPercentSetting.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, type\n  FROM sbcm_deposit_types",
+   "variables": [],
+   "unit": "PercentSettingImpl"
+  },
+  {
+   "name": "Valutes",
+   "source": "TPercentSetting.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name,valu_name from avalute",
+   "variables": [],
+   "unit": "PercentSettingImpl"
+  },
+  {
+   "name": "DepositPerSetting",
+   "source": "TPercentSetting.DepositPerSetting",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,rowid, currencyid, interestrate,dueintrate,firstamount,lastamount,depid, periodid, capitalid, befointrate\nFROM sbcm_depositpersetting where Depid     = :depid\nand   Periodid  = :periodid  \nand   Capitalid = :capitalid\nand   Currencyid=:currencyid\n",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "integer"
+    },
+    {
+     "name": "PERIODID",
+     "type": "integer"
+    },
+    {
+     "name": "CAPITALID",
+     "type": "integer"
+    },
+    {
+     "name": "CURRENCYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PercentSettingImpl"
+  },
+  {
+   "name": "Depositdatsettings",
+   "source": "TPercentSetting.Depositdatsettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,rowid, percent, firstdateint, lastdateint, valcod,\n       depid, periodid, capitalid, depsetid\nFROM  sbcm_depositunitime\nwhere Depid     = :depid\nand   Periodid  = :periodid  \nand   Capitalid = :capitalid\nand   valcod    = :valcod\nand   depsetid  = :depsetid\n       \n",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "integer"
+    },
+    {
+     "name": "PERIODID",
+     "type": "integer"
+    },
+    {
+     "name": "CAPITALID",
+     "type": "integer"
+    },
+    {
+     "name": "VALCOD",
+     "type": "integer"
+    },
+    {
+     "name": "DEPSETID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PercentSettingImpl"
+  },
+  {
+   "name": "depperiods",
+   "source": "TPercentSetting.depperiods",
+   "kind": "TOracleDataSet",
+   "sql": "select id,rowid,period,description,depid from sbcm_depperiods\nwhere depid = :depid\norder by period ",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "float"
+    }
+   ],
+   "unit": "PercentSettingImpl"
+  },
+  {
+   "name": "depcapitalperiods",
+   "source": "TPercentSetting.depcapitalperiods",
+   "kind": "TOracleDataSet",
+   "sql": "select id,rowid,period,description,periodid,type# from sbcm_depcapitalperiods\nwhere periodid = :periodid\norder by period",
+   "variables": [
+    {
+     "name": "PERIODID",
+     "type": "float"
+    }
+   ],
+   "unit": "PercentSettingImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

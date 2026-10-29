@@ -1,0 +1,86 @@
+{
+ "name": "XPutyovka",
+ "caption": "Əlavə modullar / İdarəetmə / Putyovkalar",
+ "dir": "Packages/Putyovka",
+ "mainForm": "TPutyukova",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "BKT1",
+   "source": "TPutyukova.BKT1",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n  dtr =>:dtr\n  dtrn =>:dtrn\n  result =>:result\nend;",
+   "variables": [
+    {
+     "name": "DTR",
+     "type": "date"
+    },
+    {
+     "name": "DTRN",
+     "type": "date"
+    },
+    {
+     "name": "RESULT",
+     "type": "string"
+    }
+   ],
+   "unit": "Putyuvoka"
+  },
+  {
+   "name": "BKT2",
+   "source": "TPutyukova.BKT2",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n  dtr =>:dtr\n  dtrn =>:dtrn\n  result =>:result\nend;",
+   "variables": [
+    {
+     "name": "DTR",
+     "type": "date"
+    },
+    {
+     "name": "DTRN",
+     "type": "date"
+    },
+    {
+     "name": "RESULT",
+     "type": "string"
+    }
+   ],
+   "unit": "Putyuvoka"
+  }
+ ],
+ "packages": [],
+ "sql": [
+  "begin Putyovka.Hesabat1SQL(dtr=>:dtr,dtrn=>:dtrn,result=>:result); end;",
+  "begin Putyovka.Hesabat2SQL(dtr=>:dtr,dtrn=>:dtrn,result=>:result); end;"
+ ]
+}

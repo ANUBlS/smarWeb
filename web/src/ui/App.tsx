@@ -28,7 +28,13 @@ const PRODUCT = 'SmartBank';
 function Logon({ onDone }: { onDone: (company: string) => void }) {
   const [user, setUser] = useState(() => localStorage.getItem('sb:user') ?? '');
   const [pass, setPass] = useState('');
-  const [db, setDb] = useState('SB-CURRENT');
+  const [dbs, setDbs] = useState<string[]>(api.name === 'http' ? [] : ['SB-CURRENT', 'SB-TEST', 'SB-ARCHIVE']);
+  const [db, setDb] = useState(api.name === 'http' ? '' : 'SB-CURRENT');
+  // with the real API the database aliases come from its configuration (SB_DATABASES)
+  useEffect(() => {
+    if (!api.databases) return;
+    void api.databases().then((list) => { setDbs(list); setDb((d) => d || list[0] || ''); }).catch(() => undefined);
+  }, []);
   const [step, setStep] = useState<'logon' | 'company'>('logon');
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
   const [company, setCompany] = useState(0);
@@ -46,7 +52,10 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
       // same statement as sbMainForm.company_list
       const q = await api.query({ source: 'TsbMainForm.company_list', sql: 'select * from companies order by company_name', variables: [],
         fieldHints: [{ name: 'ID', type: 'integer' }, { name: 'COMPANY_NAME', type: 'string', size: 100 }] });
-      const list = q.rows.map((row) => ({ id: Number(row[0]), name: String(row[1]) }));
+      // by column name: the column order of `select *` is the table's
+      const ci = (n: string, d: number) => { const i = q.columns.findIndex((c) => c.name.toUpperCase() === n); return i >= 0 ? i : d; };
+      const iId = ci('ID', 0), iName = ci('COMPANY_NAME', 1);
+      const list = q.rows.map((row) => ({ id: Number(row[iId]), name: String(row[iName]) }));
       void warmLib();
       if (list.length > 1) { setCompanies(list); setCompany(list[0].id); setStep('company'); }
       else onDone(list[0]?.name ?? '');
@@ -86,7 +95,7 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
             <label>Şifrə<input type="password" value={pass} onChange={(e) => setPass(e.target.value)} autoComplete="current-password" /></label>
             <label>Baza
               <select value={db} onChange={(e) => setDb(e.target.value)}>
-                <option>SB-CURRENT</option><option>SB-TEST</option><option>SB-ARCHIVE</option>
+                {dbs.map((d) => <option key={d}>{d}</option>)}
               </select>
             </label>
             {err ? <div className="err" role="alert">{err}</div> : null}

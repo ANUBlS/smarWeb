@@ -1,0 +1,367 @@
+{
+ "name": "TransactionsReporter",
+ "caption": "Balans / Analiz / Günün sənədlərinin analizi",
+ "dir": "Packages/TransactionsReporter",
+ "mainForm": "TFrmTransactionsViewer",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBStoredProc",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "BankInfo",
+   "source": "TTransDataModule.BankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select \n*\nfrom bankinfo",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "Transactions_OLD",
+   "source": "TTransDataModule.Transactions_OLD",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n a1.bal_cn1 dbal_cn\n,a2.bal_cn1 kbal_cn\n,pr.dat ,pr.ID\n,pr.NAME, pr.userinsert as UserName,pr.usercommit as COMMITTER\n,a1.currencyname as val_acc, pr.val_acc as DCurrency, pr.rate_d\n,a2.currencyname as currencyid_c, pr.currencyid_c as KCurrency, pr.rate_c\n,pr.ammount,(select cntr_name from countries where id=nvl(:cntr_id,0)) as CNTR_NAME\n,pr.ammount_c\n,pr.lammount\n,pr.op_id as Operator, sb_expertanalyse.getoperationtype(pr.vid_op, pr.val_acc, pr.currencyID_c) as OperationType\n,decode((select dcustid from mmx_transinfo  where transid=pr.id),null,a1.kli_id,0,a1.kli_id,(select dcustid from mmx_transinfo  where transid=pr.id) )as  deb_kli_id,a1.acc_no debitor, a1.filial as DebetFilial\n,a1.NAME dname\n,decode((select ccustid from mmx_transinfo  where transid=pr.id),null,a2.kli_id,0,a2.kli_id,(select ccustid from mmx_transinfo  where transid=pr.id) )as  kred_kli_id,a2.acc_no kreditor, a2.filial as CreditFilial\n,a2.NAME kname\n,pr.debt\n,pr.kredit\n--,con.CNTR_NAME\n,pr.bdg_code,2 as status\nFROM  :TABLE_PROVARCH pr\n     ,:TABLE_ACCOUNT a1\n     ,:TABLE_ACCOUNT a2\n    -- ,countries con\n    WHERE\n       (a1.ID=pr.debt)AND(a2.ID=pr.kredit)\n       AND(pr.Dat between :d1 and :d2 )--and (nvl(pr.COUNTRID,0)=con.id)\n/*26*/   \n/*27*/ \n\n/*29*/    \n/*30*/  \n\n\n\n\n\n\n\n\n union all\nSELECT\n a1.bal_cn1 dbal_cn\n,a2.bal_cn1 kbal_cn\n,pr.dat ,pr.ID\n,pr.NAME, pr.userinsert as UserName,pr.usercommit as COMMITTER\n,a1.currencyname as val_acc, pr.val_acc as DCurrency, pr.rate_d\n,a2.currencyname as currencyid_c, pr.currencyid_c as KCurrency, pr.rate_c\n,pr.ammount,(select cntr_name from countries where id=nvl(:cntr_id,0)) as CNTR_NAME\n,pr.ammount_c\n,pr.lammount\n,pr.op_id as Operator, sb_expertanalyse.getoperationtype(pr.vid_op, pr.val_acc, pr.currencyID_c) as OperationType\n,decode((select dcustid from mmx_transinfo  where transid=pr.id),null,a1.kli_id,0,a1.kli_id,(select dcustid from mmx_transinfo  where transid=pr.id) )as  deb_kli_id,a1.acc_no debitor, a1.filial as DebetFilial\n,a1.NAME dname\n,decode((select ccustid from mmx_transinfo  where transid=pr.id),null,a2.kli_id,0,a2.kli_id,(select ccustid from mmx_transinfo  where transid=pr.id) )as  kred_kli_id,a2.acc_no kreditor, a2.filial as CreditFilial\n,a2.NAME kname\n,pr.debt\n,pr.kredit\n--,con.CNTR_NAME\n,pr.bdg_code,1 as status\nFROM  lazytransaction pr\n     ,:TABLE_ACCOUNT a1\n     ,:TABLE_ACCOUNT a2\n    -- ,countries con\n    WHERE\n       (a1.ID=pr.debt)AND(a2.ID=pr.kredit)\n       AND(pr.Dat between :d1 and :d2 )--and (nvl(pr.COUNTRID,0)=con.id)\n/*26*/   \n/*27*/ \n\n/*29*/    \n/*30*/  \n--order by :TITLE",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    },
+    {
+     "name": "TABLE_PROVARCH",
+     "type": "string"
+    },
+    {
+     "name": "TABLE_ACCOUNT",
+     "type": "string"
+    },
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    },
+    {
+     "name": "CNTR_ID",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "SYSDAT",
+   "source": "TTransDataModule.SYSDAT",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  TEK_DAT\nfrom\n  SYSDAT",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "Curr",
+   "source": "TTransDataModule.Curr",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "DFilial",
+   "source": "TTransDataModule.DFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial order by ID",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "Users",
+   "source": "TTransDataModule.Users",
+   "kind": "TOracleDataSet",
+   "sql": "select * from user$\norder by name",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "OpType",
+   "source": "TTransDataModule.OpType",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n   id, name\nFROM \n   vid_op\nOrder by\n   ID",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "OperationTypes",
+   "source": "TTransDataModule.OperationTypes",
+   "kind": "TOracleQuery",
+   "sql": "SELECT \n   id, name\nFROM \n   vid_op\nOrder by\n   ID\n",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "Currency",
+   "source": "TTransDataModule.Currency",
+   "kind": "TOracleQuery",
+   "sql": "select valute,valu_name from avalute order by valute",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "CFilial",
+   "source": "TTransDataModule.CFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial order by ID",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "SumTrans",
+   "source": "TTransDataModule.SumTrans",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n a1.bal_cn1 dbal_cn\n,a2.bal_cn1 kbal_cn\n,pr.dat\n,pr.NAME, SB_EXPERTANALYSE.GetUserName(pr.op_id) as UserName\n,sb_memorial.getcurrencyshortname(pr.val_acc) val_acc, pr.val_acc as DCurrency\n,sb_memorial.getcurrencyshortname(pr.currencyid_c) currencyid_c, pr.currencyid_c as KCurrency\n,pr.ammount\n,pr.ammount_c\n,pr.lammount\n,pr.op_id as Operator, sb_expertanalyse.getoperationtype(pr.vid_op, pr.val_acc, pr.currencyID_c) as OperationType\n,a1.acc_no debitor, a1.filial as DebetFilial\n,a1.NAME dname\n,a2.acc_no kreditor, a2.filial as CreditFilial\n,a2.NAME kname\n,pr.debt\n,pr.kredit\nFROM  provarch pr\n     ,ACCOUNT a1\n     ,ACCOUNT a2\n    WHERE\n       (a1.ID=pr.debt)AND(a2.ID=pr.kredit)\n    AND(pr.Dat between :d1 and :d2)\n/*23*/    AND(a1.bal_cn1 IN (\n/*24*/ 1001 ))\n\n/*26*/      AND(a2.bal_cn1 IN (\n/*27*/ 1001 ))\n    \nORDER BY :Title\n   --pr.Dat--,debitor,kreditor\n\n\n \n \n\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "old_Transactions",
+   "source": "TTransDataModule.old_Transactions",
+   "kind": "TOracleDataSet",
+   "sql": "select * from :view_transactionviewer\nwhere (dat between :d1 and :d2)\n:dbalcn :cbalcn\n:FilterLine\n:OrderByTitle\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "VIEW_TRANSACTIONVIEWER",
+     "type": "string"
+    },
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    },
+    {
+     "name": "DBALCN",
+     "type": "string"
+    },
+    {
+     "name": "CBALCN",
+     "type": "string"
+    },
+    {
+     "name": "FILTERLINE",
+     "type": "string"
+    },
+    {
+     "name": "ORDERBYTITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "TransactionsSUM",
+   "source": "TTransDataModule.TransactionsSUM",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n dbms_application_info.set_module(module_name=>'TRANSACTIONVIEWER', action_name=>'GET_TRANSVIEWER_SUM');\n pkg_report.get_transviewer_sum(\n   p_reportdate=>:p_begindate,\n   p_reportdate2=>:p_enddate,\n   p_view_transac=>:p_VIEW_TRANSAC,\n   p_debet=>:p_debet,\n   p_Kredit=>:p_kredet,\n   p_filter=>:p_filter,\n   p_dbal=>:p_dbalcn,\n   p_kbal=>:p_kbalcn,\n   p_reportoutput=>:p_reportoutput,\n   p_orderby=>:p_orderby,\n   p_result=>:p_result);\n\nend;",
+   "variables": [
+    {
+     "name": "P_BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "P_ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "P_VIEW_TRANSAC",
+     "type": "integer"
+    },
+    {
+     "name": "P_DEBET",
+     "type": "string"
+    },
+    {
+     "name": "P_KREDET",
+     "type": "string"
+    },
+    {
+     "name": "P_FILTER",
+     "type": "string"
+    },
+    {
+     "name": "P_DBALCN",
+     "type": "integer"
+    },
+    {
+     "name": "P_KBALCN",
+     "type": "integer"
+    },
+    {
+     "name": "P_REPORTOUTPUT",
+     "type": "integer"
+    },
+    {
+     "name": "P_RESULT",
+     "type": "string"
+    },
+    {
+     "name": "P_ORDERBY",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "Transactions",
+   "source": "TTransDataModule.Transactions",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n dbms_application_info.set_module(module_name=>'TRANSACTIONVIEWER', action_name=>'GET_TRANSVIEWER');\n pkg_report.get_transviewer(\n   p_reportdate=>:p_begindate,\n   p_reportdate2=>:p_enddate,\n   p_view_transac=>:p_VIEW_TRANSAC,\n   p_Debet=>:p_debet,\n   p_Kredit=>:p_kredet,\n   p_filter=>:p_filter,\n   p_dbal=>:p_dbalcn,\n   p_kbal=>:p_kbalcn,\n   p_reportoutput=>:p_reportoutput,\n   p_orderby=>:p_orderby,\n   p_result=>:p_result);\nend;\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "P_BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "P_ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "P_VIEW_TRANSAC",
+     "type": "integer"
+    },
+    {
+     "name": "P_DEBET",
+     "type": "string"
+    },
+    {
+     "name": "P_FILTER",
+     "type": "string"
+    },
+    {
+     "name": "P_DBALCN",
+     "type": "integer"
+    },
+    {
+     "name": "P_KBALCN",
+     "type": "integer"
+    },
+    {
+     "name": "P_REPORTOUTPUT",
+     "type": "integer"
+    },
+    {
+     "name": "P_RESULT",
+     "type": "string"
+    },
+    {
+     "name": "P_KREDET",
+     "type": "string"
+    },
+    {
+     "name": "P_ORDERBY",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TTransDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from customers",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "finfo",
+   "source": "TTransDataModule.finfo",
+   "kind": "TOracleDataSet",
+   "sql": "select swift from filialinfo where \nsvm_currencyid=0 and kod_fil=0",
+   "variables": [],
+   "unit": "TransactionsViewerDataModuleUnit"
+  },
+  {
+   "name": "Transactions_ins",
+   "source": "TTransDataModule.Transactions_ins",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n dbms_application_info.set_module(module_name=>'TRANSACTIONVIEWER', action_name=>'GET_TRANSVIEWER');\n pkg_report.get_transviewer(\n   p_reportdate=>:p_begindate,\n   p_reportdate2=>:p_enddate,\n   p_view_transac=>:p_VIEW_TRANSAC,\n   p_Debet=>:p_debet,\n   p_Kredit=>:p_kredet,\n   p_filter=>:p_filter,\n   p_dbal=>:p_dbalcn,\n   p_kbal=>:p_kbalcn,\n   p_reportoutput=>:p_reportoutput,\n   p_orderby=>:p_orderby,\n   p_result=>:p_result);\nend;\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "P_BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "P_ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "P_VIEW_TRANSAC",
+     "type": "integer"
+    },
+    {
+     "name": "P_DEBET",
+     "type": "string"
+    },
+    {
+     "name": "P_FILTER",
+     "type": "string"
+    },
+    {
+     "name": "P_DBALCN",
+     "type": "integer"
+    },
+    {
+     "name": "P_KBALCN",
+     "type": "integer"
+    },
+    {
+     "name": "P_REPORTOUTPUT",
+     "type": "integer"
+    },
+    {
+     "name": "P_RESULT",
+     "type": "string"
+    },
+    {
+     "name": "P_KREDET",
+     "type": "string"
+    },
+    {
+     "name": "P_ORDERBY",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionsViewerDataModuleUnit"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

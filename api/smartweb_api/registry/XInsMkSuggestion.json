@@ -1,0 +1,196 @@
+{
+ "name": "XInsMkSuggestion",
+ "caption": "",
+ "dir": "Packages/Insurance/MKSuggestion",
+ "mainForm": "TfmMKSuggestion",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "INSWordExporter",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSCusts",
+   "source": "TfmMKSuggestion.ODSCusts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from (\nSELECT a.id,a.act_id, a.surname || '  ' ||a.name|| '  ' ||a.fathername name, a.ADDRESS\n  FROM ins_customers a\n  where id = :id\n  order by a.surname\n\n)",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "float"
+    }
+   ],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSBankinfo",
+   "source": "TfmMKSuggestion.ODSBankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select BANK, AZ_NAME, SEHER, ADRESS, TEL, FAX, EMAIL  from bankinfo",
+   "variables": [],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSPolicy",
+   "source": "TfmMKSuggestion.ODSPolicy",
+   "kind": "TOracleDataSet",
+   "sql": "select imp.rowid, imp.* from ins_mk_policy imp\nwhere \nimp.CID = :CID",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSRisk",
+   "source": "TfmMKSuggestion.ODSRisk",
+   "kind": "TOracleDataSet",
+   "sql": "select ir.rowid,ir.* from ins_dict_risks ir\n",
+   "variables": [],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSFranshiz",
+   "source": "TfmMKSuggestion.ODSFranshiz",
+   "kind": "TOracleDataSet",
+   "sql": "select idr.rowid, idr.* from ins_dict_franshiz idr",
+   "variables": [],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TfmMKSuggestion.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid, ic.* from ins_contracts ic\nwhere id = :cid\nand type_id = 1",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSMotorKasko",
+   "source": "TfmMKSuggestion.ODSMotorKasko",
+   "kind": "TOracleDataSet",
+   "sql": "select im.*, insuredmark||' '||insuredmodel as insobject from \n        ins_motorkasco im\nwhere im.cid = :cid\n",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSAvalute",
+   "source": "TfmMKSuggestion.ODSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute\norder by valute",
+   "variables": [],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSTemplates",
+   "source": "TfmMKSuggestion.ODSTemplates",
+   "kind": "TOracleDataSet",
+   "sql": "select ibt.rowid, ibt.* from INS_BLOB_TEMPLATES ibt",
+   "variables": [],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSReport",
+   "source": "TfmMKSuggestion.ODSReport",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ic.surname || ' ' || ic.NAME || ' ' || ic.fathername AS NAME,\n       ic.surname || ' ' || ic.NAME || ' ' || ic.fathername AS NAME2,\n       ic.address insuredaddress,ic.mobilephone,ic.homephone,insuredtype, insuredcolor||' ,'||insuredtype||', '||insuredoutputyear as insuredcolor, insuredoutputyear,\n       insuredmark||'  '||  insuredmodel as insuredmodel, insuredstatenum, underframenum, insuredbannum,\n       insuredenginenum,driveintended,numseats,extrafranshiz,im.franshiz,\n       ins_pkg_motorkasco.getdraccesspeople(im.id) AS driveaccesspiople,\n       ins_pkg_motorkasco.getAccessoriesName(ict.id) AS accessoriesname,\n       im.drivecost as avtocost, im.inssumm,  \n       to_char(ict.begin_date, 'dd/mm/yyyy') begindate, \n\tto_char(ict.begin_date, 'dd/mm/yyyy') begindate2, \n       to_char(ict.ins_date, 'dd/mm/yyyy') insdate,\n       to_char(ict.end_date, 'dd/mm/yyyy') enddate, \n       ict.policy_num policynum,ict.beneficiary,ict.conditions,\n       theft,fire, explosion,trafficaccident, impactanyobject,\n       im.ammount,ic.sex,ict.tariff,ict.sugnum,\n       val.val_name valute,ida.name as activity, \n       ia.surname||' '||ia.name||' '||ia.fathername as agent, \n       ict.loanacc_id, ict.curracc_id\n  FROM ins_contracts ict,\n       ins_motorkasco im,      \n       ins_mk_policy imp,\n       ins_customers ic,\n       ins_dict_activity ida,\n       avalute val,\n       ins_agents ia\n WHERE \nic.ID = ict.kli_id \nand ict.id = im.cid\nand ict.id = imp.cid  \nand ict.valute_id = val.valute(+)\nand ict.agent_id = ia.id(+)\nand ict.id = :CID\n\n\n",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MKSuggestionImpl"
+  },
+  {
+   "name": "ODSActivity",
+   "source": "TfmMKSuggestion.ODSActivity",
+   "kind": "TOracleDataSet",
+   "sql": "select ido.rowid, ido.* from ins_dict_activity ido where ido.id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MKSuggestionImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TfmMKSuggestion.OPCOMMON",
+   "routines": [
+    {
+     "name": "disablepolicies",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_state",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "OPKASKO",
+   "package": "INS_PKG_MOTORKASCO",
+   "mode": "positional",
+   "source": "TfmMKSuggestion.OPKASKO",
+   "routines": []
+  },
+  {
+   "component": "OPSBMSG",
+   "package": "sb_msg",
+   "mode": "positional",
+   "source": "TfmMKSuggestion.OPSBMSG",
+   "routines": [
+    {
+     "name": "sendmessage",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

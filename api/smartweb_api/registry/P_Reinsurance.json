@@ -1,0 +1,771 @@
+{
+ "name": "P_Reinsurance",
+ "caption": "",
+ "dir": "Insurance/Reinsurance",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DSCustmers",
+   "source": "TDMreinsurance.DSCustmers",
+   "kind": "TOracleDataSet",
+   "sql": "select id , name from customers\nwhere cust_type=0\nand group_klie=70 \nand close_dat is  NULL\norder by id",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSins_reinsurance",
+   "source": "TDMreinsurance.DSins_reinsurance",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,ir.* from ins_reinsurance ir\nwhere ir.cid=:p_cid",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSins_reinsuranceMain",
+   "source": "TDMreinsurance.DSins_reinsuranceMain",
+   "kind": "TOracleDataSet",
+   "sql": "select ir.rowid,cust.name,ii.name as sigorta_novu,ir.* from \nins_reinsurance ir,ins_contracts ic,customers cust,ins_insurances ii\nwhere ir.cid=ic.id\nand ir.custid=cust.id\nand ir.cid=:p_cid\nand ir.type_id=ii.id \nand ii.obeykt_type is not null\n\n",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSins_reinsurance_upd",
+   "source": "TDMreinsurance.DSins_reinsurance_upd",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,ir.* from ins_reinsurance ir\nwhere id=:p_id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSaccounOthelik",
+   "source": "TDMreinsurance.DSaccounOthelik",
+   "kind": "TOracleDataSet",
+   "sql": "select id,\nacc_no from account\nwhere close_dat is null\nand kli_id=:p_kli_id",
+   "variables": [
+    {
+     "name": "P_KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSaccountDebitor",
+   "source": "TDMreinsurance.DSaccountDebitor",
+   "kind": "TOracleDataSet",
+   "sql": "select id,\nacc_no from account\nwhere close_dat is null\nand kli_id=:p_kli_id",
+   "variables": [
+    {
+     "name": "P_KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSSysdat",
+   "source": "TDMreinsurance.DSSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSFullbardero",
+   "source": "TDMreinsurance.DSFullbardero",
+   "kind": "TOracleDataSet",
+   "sql": "/*SELECT DISTINCT(ir.bardero_no),\n(SELECT max(status) FROM ins_reinsurance where bardero_no=ir.bardero_no) as status,\nCASE \nWHEN  ic.begin_date<='31-dec-2013' Then 0\nWHEN ic.begin_date>'31-dec-2013' Then ins_common.get_reins_haqq(ir.bardero_no)\nEND as sigorta_haqqi,\n(select name from customers where id=(SELECT max(custid) FROM ins_reinsurance where bardero_no=ir.bardero_no)) as cust_name\nFROM ins_reinsurance ir,ins_contracts ic\nwhere ic.id=ir.cid */\n\nselect bardero_no,(SELECT max(status) FROM ins_reinsurance where bardero_no=ir.bardero_no) as status,\nsum(ins_reins.get_reins_haqq_one(ir.bardero_no,ir.type_id,ir.id)) as sigorta_haqqi,\n(select name from customers where id=(SELECT max(custid) FROM ins_reinsurance where bardero_no=ir.bardero_no)) as cust_name\nFROM ins_reinsurance ir ,ins_contracts ic\nwhere ic.id=ir.cid and ic.begin_date >'31-dec-2013'group by bardero_no \n\n",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "dsinsurance_type",
+   "source": "TDMreinsurance.dsinsurance_type",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from ins_insurances \nwhere obeykt_type is not null",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DScontract",
+   "source": "TDMreinsurance.DScontract",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type_id,chkasko,chm,chfq from ins_contracts\nwhere id=:p_id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "ds_reins_info",
+   "source": "TDMreinsurance.ds_reins_info",
+   "kind": "TOracleDataSet",
+   "sql": "select ii.name as sigorta_novu,ir.bardero_no,ic.policy_num,cust.name,\nins_reins.get_reins_haqq_one(ir.bardero_no,ir.type_id,ir.id) as sigorta_haqqi,\nir.reins_part,ir.reins_part_komisiya\nfrom ins_reinsurance ir,ins_contracts ic,customers cust,ins_insurances ii\nwhere ir.cid=ic.id\nand ir.custid=cust.id\nand ir.bardero_no=:pbardero_no\nand ir.type_id=ii.id \nand ic.begin_date >'31-dec-2013'\n\n\n/*select ir.rowid,cust.name,ic.policy_num,ii.name as sigorta_novu,\nCASE \nWHEN  ic.begin_date<='31.12.2013' Then 0\nWHEN ic.begin_date>'31.12.2013' Then ins_reins.get_reins_haqq_one(ir.bardero_no,ir.type_id,ir.id) \nEND as sigorta_haqqi,ir.*\nfrom ins_reinsurance ir,ins_contracts ic,customers cust,ins_insurances ii\nwhere ir.cid=ic.id\nand ir.custid=cust.id\nand ir.bardero_no=:pbardero_no\nand ir.type_id=ii.id \nand ii.obeykt_type is not null */\n",
+   "variables": [
+    {
+     "name": "PBARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSCustReins",
+   "source": "TDMreinsurance.DSCustReins",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers\nwhere id in (select custid from ins_reinsurance where cid=:pcid )\nand close_dat is null",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSins_loss_bardero",
+   "source": "TDMreinsurance.DSins_loss_bardero",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.bardero_no, a.dep_id, a.cust_id,a.dat\n  FROM ins_loss_bardero a\nwhere id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSMainLossBardero",
+   "source": "TDMreinsurance.DSMainLossBardero",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.bardero_no, a.dep_id,a.cust_id,icd.claim_num,ic.policy_num,cus.name,a.status,ii.name as sigorta_novu\n  FROM ins_loss_bardero a ,ins_claim_description icd,ins_contracts ic,customers cus,ins_insurances ii\n  where icd.id= a.dep_id\n  and ic.id=icd.cid\n  and cus.id=a.cust_id\n  and ic.id=:pcid \nand a.dep_id=:Pdep_id\nand ii.id=icd.type",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    },
+    {
+     "name": "PDEP_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "ds_odenmislerin_sayi",
+   "source": "TDMreinsurance.ds_odenmislerin_sayi",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*)  as say from ins_claim_payment\nwhere dep_id=:p_id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "dsTekrar_s_say",
+   "source": "TDMreinsurance.dsTekrar_s_say",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*)  as say from ins_reinsurance\nwhere cid=:p_id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSFullbardero_loss",
+   "source": "TDMreinsurance.DSFullbardero_loss",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ir.bardero_no,\n(SELECT max(status) FROM ins_loss_bardero where bardero_no=ir.bardero_no) as status,\nins_reins.get_reins_loss(ir.bardero_no) as sigorta_haqqi,\n(select name from customers where id=(SELECT max(cust_id) FROM ins_loss_bardero where bardero_no=ir.bardero_no)) as cust_name\n FROM ins_loss_bardero ir\n group by ir.bardero_no",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "ds_reins_info_loss",
+   "source": "TDMreinsurance.ds_reins_info_loss",
+   "kind": "TOracleDataSet",
+   "sql": "select ilb.rowid,ins_i.name,ilb.bardero_no ,cust.name as t_sigortaci ,ins_c.policy_num,ilb.status,\nins_reins.get_reins_loss_one(ilb.bardero_no,icd.type,ilb.id) as sigorta_haqqi,icd.claim_num\nfrom ins_loss_bardero ilb, ins_insurances ins_i ,ins_claim_description icd,customers cust,ins_contracts ins_c--,ins_reinsurance ir\n\nwhere ins_i.obeykt_type is not NULL\nand ins_i.id=icd.type\nand ilb.dep_id=icd.id\nand cust.id=ilb.cust_id\nand ins_c.id=icd.cid\nand ilb.bardero_no=:PBARDERO_NO\n--and ir.cid=ins_c.id\n",
+   "variables": [
+    {
+     "name": "PBARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSKassa",
+   "source": "TDMreinsurance.DSKassa",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account where id in(select acc_id from ins_dict_acc_payment_loss)",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "TSCustacc",
+   "source": "TDMreinsurance.TSCustacc",
+   "kind": "TOracleDataSet",
+   "sql": "  select id ,acc_no from account where\n  kli_id=(SELECT max(custid) FROM ins_reinsurance where bardero_no=:p_bardero_no)\n  and bal_cn1 in (SELECT bal_cn  FROM ins_acc_bal_cn   where dict_id=4)",
+   "variables": [
+    {
+     "name": "P_BARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSFullBardero_terminated",
+   "source": "TDMreinsurance.DSFullBardero_terminated",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ir.bardero_no,\n(SELECT max(status) FROM ins_terminated_bardero where bardero_no=ir.bardero_no) as status,\nins_reins.get_reins_terminated(ir.bardero_no) as sigorta_haqqi,\n(select name from customers where id=(SELECT max(cust_id) FROM ins_terminated_bardero where bardero_no=ir.bardero_no)) as cust_name\n FROM ins_terminated_bardero ir\n group by ir.bardero_no",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSFullBardero_ter_info",
+   "source": "TDMreinsurance.DSFullBardero_ter_info",
+   "kind": "TOracleDataSet",
+   "sql": "select ilb.rowid,ins_i.name,ilb.bardero_no ,cust.name as t_sigortaci ,ins_c.policy_num,ilb.status,\nins_reins.get_reins_terminated_one(ilb.bardero_no,ins_c.type_id,ilb.id) as sigorta_haqqi\nfrom ins_terminated_bardero ilb, ins_insurances ins_i ,customers cust,\nins_contracts ins_c,ins_contract_terminated ict,ins_contract_terminated_detal ictd\nwhere ins_i.obeykt_type is not NULL\nand cust.id=ilb.cust_id\nand ilb.bardero_no=:PBARDERO_NO\nand ins_c.id=ict.cid\nand ict.id=ictd.ter_id\nand ilb.cid=ins_c.id\nand ins_i.id=ilb.type_id",
+   "variables": [
+    {
+     "name": "PBARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "TSCustaccZ",
+   "source": "TDMreinsurance.TSCustaccZ",
+   "kind": "TOracleDataSet",
+   "sql": "  select id ,acc_no from account where\n  kli_id=(SELECT max(cust_id) FROM ins_loss_bardero where bardero_no=:p_bardero_no)\n  and bal_cn1 in (SELECT bal_cn  FROM ins_acc_bal_cn   where dict_id=5)",
+   "variables": [
+    {
+     "name": "P_BARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSKassaZ",
+   "source": "TDMreinsurance.DSKassaZ",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account where id in(select acc_id from ins_dict_acc_payment_loss)",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "ds_main_bardero_terminate",
+   "source": "TDMreinsurance.ds_main_bardero_terminate",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.bardero_no, a.cid,a.cust_id,ic.policy_num,cus.name,a.status,ii.name as sigorta_novu\n  FROM ins_terminated_bardero a ,ins_contracts ic,customers cus,ins_insurances ii\n  where cus.id=a.cust_id\n  and ic.id=a.cid\n  AND a.type_id=ii.id\nand ic.id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSinsurancesX",
+   "source": "TDMreinsurance.DSinsurancesX",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from ins_insurances \nwhere obeykt_type is not null",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSins_terminated_bardero",
+   "source": "TDMreinsurance.DSins_terminated_bardero",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.bardero_no, a.cid, a.cust_id, a.dat, a.status, a.type_id\n  FROM ins_terminated_bardero a\nwhere cid=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DScustomersX",
+   "source": "TDMreinsurance.DScustomersX",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers\nwhere id in (select custid from ins_reinsurance where cid=:pcid )\nand close_dat is null",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "TSCustaccX",
+   "source": "TDMreinsurance.TSCustaccX",
+   "kind": "TOracleDataSet",
+   "sql": "  select id ,acc_no from account where\n  kli_id=(SELECT max(cust_id) FROM ins_terminated_bardero where bardero_no=:p_bardero_no)\n  and bal_cn1 in (SELECT bal_cn  FROM ins_acc_bal_cn   where dict_id=5)",
+   "variables": [
+    {
+     "name": "P_BARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSKassaX",
+   "source": "TDMreinsurance.DSKassaX",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account where id in(select acc_id from ins_dict_acc_payment_loss)",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSMusteriohtek_h",
+   "source": "TDMreinsurance.DSMusteriohtek_h",
+   "kind": "TOracleDataSet",
+   "sql": "select count (*) as say from account\nwhere close_dat is null\nand kli_id in (select max(custid) from ins_reinsurance\nwhere bardero_no=:pbardero_no)\nand bal_cn1 in (SELECT bal_cn\n  FROM ins_acc_bal_cn \n  where dict_id=4)",
+   "variables": [
+    {
+     "name": "PBARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSMustero_BH",
+   "source": "TDMreinsurance.DSMustero_BH",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT count(bal_cn) as say\n  FROM ins_acc_bal_cn \n  where dict_id=4",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSMusteriDep_H",
+   "source": "TDMreinsurance.DSMusteriDep_H",
+   "kind": "TOracleDataSet",
+   "sql": "select count (*) as say from account\nwhere close_dat is null\nand kli_id in (select max(cust_id) from ins_loss_bardero\nwhere bardero_no=:pbardero_no)\nand bal_cn1 in (SELECT bal_cn\n  FROM ins_acc_bal_cn \n  where dict_id=5)",
+   "variables": [
+    {
+     "name": "PBARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSMusteriDep_BH",
+   "source": "TDMreinsurance.DSMusteriDep_BH",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT count(bal_cn) as say\n  FROM ins_acc_bal_cn \n  where dict_id=5",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSterminated",
+   "source": "TDMreinsurance.DSterminated",
+   "kind": "TOracleDataSet",
+   "sql": "select count (*) as say from account\nwhere close_dat is null\nand kli_id in (select max(cust_id) from ins_terminated_bardero\nwhere bardero_no=:pbardero_no)\nand bal_cn1 in (SELECT bal_cn\n  FROM ins_acc_bal_cn \n  where dict_id=5)",
+   "variables": [
+    {
+     "name": "PBARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSFullbardero_sub",
+   "source": "TDMreinsurance.DSFullbardero_sub",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ir.bardero_no,\n(SELECT max(status) FROM ins_subraqasiya_bardero where bardero_no=ir.bardero_no) as status,\nins_reins.get_reins_sub(ir.bardero_no) as sigorta_haqqi,\n(select name from customers where id=(SELECT max(cust_id) FROM ins_subraqasiya_bardero where bardero_no=ir.bardero_no)) as cust_name\n FROM ins_subraqasiya_bardero ir\n group by ir.bardero_no",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "ds_reins_info_sub",
+   "source": "TDMreinsurance.ds_reins_info_sub",
+   "kind": "TOracleDataSet",
+   "sql": "select ilb.rowid,ins_i.name,ilb.bardero_no ,cust.name as t_sigortaci ,ins_c.policy_num,ilb.status,\nins_reins.get_reins_sub_one(ilb.bardero_no,icd.type,ilb.id) as sigorta_haqqi,icd.claim_num\nfrom ins_subraqasiya_bardero ilb, ins_insurances ins_i ,ins_claim_description icd,customers cust,ins_contracts ins_c--,ins_reinsurance ir\n\nwhere ins_i.obeykt_type is not NULL\nand ins_i.id=icd.type\nand ilb.dep_id=icd.id\nand cust.id=ilb.cust_id\nand ins_c.id=icd.cid\nand ilb.bardero_no=:PBARDERO_NO\n--and ir.cid=ins_c.id",
+   "variables": [
+    {
+     "name": "PBARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSMainSubBardero",
+   "source": "TDMreinsurance.DSMainSubBardero",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.bardero_no, a.dep_id,a.cust_id,icd.claim_num,ic.policy_num,cus.name,a.status ,ii.name as sigortanovu\n  FROM ins_subraqasiya_bardero a ,ins_claim_description icd,ins_contracts ic,customers cus, ins_insurances ii\n  where icd.id= a.dep_id\n  and ic.id=icd.cid\n  and cus.id=a.cust_id\n  and ic.id=:pcid \nand a.dep_id=:Pdep_id\nand ii.id=icd.type",
+   "variables": [
+    {
+     "name": "PDEP_ID",
+     "type": "integer"
+    },
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSins_sub_bardero",
+   "source": "TDMreinsurance.DSins_sub_bardero",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.bardero_no, a.dep_id, a.cust_id,a.dat\n  FROM ins_subraqasiya_bardero a\nwhere id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSCustReinssub",
+   "source": "TDMreinsurance.DSCustReinssub",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers\nwhere id in (select custid from ins_reinsurance where cid=:pcid )\nand close_dat is null",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "TSCustaccS",
+   "source": "TDMreinsurance.TSCustaccS",
+   "kind": "TOracleDataSet",
+   "sql": "  select id ,acc_no from account where\n  kli_id=(SELECT max(cust_id) FROM ins_subraqasiya_bardero where bardero_no=:p_bardero_no)\n  and bal_cn1 in (SELECT bal_cn  FROM ins_acc_bal_cn   where dict_id=4)",
+   "variables": [
+    {
+     "name": "P_BARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSKassaS",
+   "source": "TDMreinsurance.DSKassaS",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no from account where id in(select acc_id from ins_dict_acc_payment_loss)",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DSins_insurances",
+   "source": "TDMreinsurance.DSins_insurances",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from ins_insurances\nwhere changeguid is not NULL",
+   "variables": [],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "dssub_custH",
+   "source": "TDMreinsurance.dssub_custH",
+   "kind": "TOracleDataSet",
+   "sql": "select count (*) as say from account\nwhere close_dat is null\nand kli_id in (select max(cust_id) from ins_subraqasiya_bardero\nwhere bardero_no=:pbardero_no)\nand bal_cn1 in (SELECT bal_cn\n  FROM ins_acc_bal_cn \n  where dict_id=4)",
+   "variables": [
+    {
+     "name": "PBARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DS_Bardero__sub_sayi",
+   "source": "TDMreinsurance.DS_Bardero__sub_sayi",
+   "kind": "TOracleDataSet",
+   "sql": "select count (*)  as say from ins_subraqasiya_bardero\nwhere bardero_no=:p_bardero_no",
+   "variables": [
+    {
+     "name": "P_BARDERO_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DS_Bardero__loss_sayi",
+   "source": "TDMreinsurance.DS_Bardero__loss_sayi",
+   "kind": "TOracleDataSet",
+   "sql": "select count (*)  as say from ins_loss_bardero \nwhere bardero_no=:p_bardero_no\nand dep_id=:p_dep_id",
+   "variables": [
+    {
+     "name": "P_BARDERO_NO",
+     "type": "string"
+    },
+    {
+     "name": "P_DEP_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DS_Bardero__ter_sayi",
+   "source": "TDMreinsurance.DS_Bardero__ter_sayi",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say  from ins_terminated_bardero\nwhere bardero_no=:p_bardero_no\nand type_id=:p_type_id\nand cid=:p_cid",
+   "variables": [
+    {
+     "name": "P_BARDERO_NO",
+     "type": "string"
+    },
+    {
+     "name": "P_TYPE_ID",
+     "type": "integer"
+    },
+    {
+     "name": "P_CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DS_Sigorta_bardero_sayi",
+   "source": "TDMreinsurance.DS_Sigorta_bardero_sayi",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say  from ins_reinsurance \nwhere bardero_no=:p_bardero_no\nand type_id=:p_type_id\nand cid=:p_cid",
+   "variables": [
+    {
+     "name": "P_BARDERO_NO",
+     "type": "string"
+    },
+    {
+     "name": "P_TYPE_ID",
+     "type": "integer"
+    },
+    {
+     "name": "P_CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DS_Bardero__premiya_sogortaci",
+   "source": "TDMreinsurance.DS_Bardero__premiya_sogortaci",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from \nins_reinsurance ir,ins_contracts ic,customers cust,ins_insurances ii\nwhere ir.cid=ic.id\nand ir.custid=cust.id\nand ir.cid=:p_cid\nand ir.type_id=ii.id \nand ii.obeykt_type is not null\nand ir.custid=:p_custid\nand ir.type_id=:p_type_id",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    },
+    {
+     "name": "P_CUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "P_TYPE_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "DS_Bardero_ter_sogortaci",
+   "source": "TDMreinsurance.DS_Bardero_ter_sogortaci",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT count (*) as say\nFROM ins_terminated_bardero a ,ins_contracts ic,customers cus,ins_insurances ii\n  where cus.id=a.cust_id\n  and ic.id=a.cid\n  AND a.type_id=ii.id\nand ic.id=:pid\nand a.cust_id=:p_cust_id\nand a.type_id=:p_type_id",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    },
+    {
+     "name": "P_CUST_ID",
+     "type": "integer"
+    },
+    {
+     "name": "P_TYPE_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  },
+  {
+   "name": "contract",
+   "source": "TDMreinsurance.contract",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_contracts\nwhere id=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMreinsuranceImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "P_ins_reins",
+   "package": "ins_reins",
+   "mode": "positional",
+   "source": "*.P_ins_reins",
+   "routines": [
+    {
+     "name": "reins_bardero_odeme",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reins_bardero_taninma",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reins_lossbardero_odeme",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reins_lossbardero_taninma",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reins_subbardero_odeme",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reins_subbardero_taninma",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reins_terbardero_odeme",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reins_terbardero_taninma",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_loss_reins_status_back",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_loss_reins_status_commit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_sub_reins_status_back",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_sub_reins_status_commit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_ter_reins_status_back",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_ter_reins_status_commit",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "ins_common",
+   "package": "ins_common",
+   "mode": "positional",
+   "source": "TDMreinsurance.ins_common",
+   "routines": [
+    {
+     "name": "del_reins",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_reins_status_back",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_reins_status_commit",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMreinsurance.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

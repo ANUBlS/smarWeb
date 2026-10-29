@@ -1,0 +1,189 @@
+{
+ "name": "XInsCargo",
+ "caption": "Əlavə modullar / Sığorta / Yük sığortası",
+ "dir": "Insurance/Maincargo",
+ "mainForm": "TMaincargo",
+ "plugin": false,
+ "plugins": {
+  "cargoblank.bpl": "P_CargoBlank",
+  "inscontracterminated.bpl": "P_InsContracterminated",
+  "inspayment.bpl": "P_InsPayment",
+  "inspaymentplan.bpl": "P_InsPaymentPlan",
+  "loss.bpl": "P_Loss"
+ },
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DSins_agents",
+   "source": "TDMMainCargo.DSins_agents",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id,surname||' '||name||' '||fathername as name from ins_agents ",
+   "variables": [],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DScutomers",
+   "source": "TDMMainCargo.DScutomers",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id ,name from customers\nwhere close_dat is  null\nand id in (SELECT cust_id  FROM ins_customers where close_prefix=0)",
+   "variables": [],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DSIns_cust",
+   "source": "TDMMainCargo.DSIns_cust",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,surname||' '||name||' '||fathername as name1,id from ins_customers where close_prefix=0 and id in (select kli_id from ins_contracts) order by name1",
+   "variables": [],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DSSex_type",
+   "source": "TDMMainCargo.DSSex_type",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 as id ,'Kisi' as name from dual\nunion \nselect 1 as id ,'Qadin' as name from dual",
+   "variables": [],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DSins_insurances",
+   "source": "TDMMainCargo.DSins_insurances",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_insurances\nwhere changeguid is not NULL",
+   "variables": [],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DSSysdat",
+   "source": "TDMMainCargo.DSSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DSContract1",
+   "source": "TDMMainCargo.DSContract1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_v_contracts ic\nwhere  ic.type_id=8\n\n\n\n\n\n\n\n\n\n\n\norder by ic.id",
+   "variables": [],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DSContract",
+   "source": "TDMMainCargo.DSContract",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.id, ic.type_id, ic.ins_date, ic.begin_date, ic.end_date,\n       ic.valute_id, round(ic.ammount*(CASE WHEN (select count(*) from  operkurs  where val_kod=ic.valute_id and dat=ic.ins_date ) = 1 THEN opk.ostat else 1 END ),2)as ammount, ic.close_prefix, ic.kli_id, ic.loanacc_id,\n       ic.curracc_id, ic.policy_num, round(ic.inssumm*(CASE WHEN (select count(*) from  operkurs  where val_kod=ic.valute_id and dat=ic.ins_date ) = 1 THEN opk.ostat else 1 END ),2)as inssumm, ic.franshiz, ic.tariff,\n       ic.state, ic.agent_id, ic.pnum, ic.ben_id, ic.beneficiary,\n       ic.userinsert, ic.commitop_id, ic.commit_date, ic.cancelopid,ins_c_car.name_cargo,ins_c_car.loading_station,ins_c_car.number_parcels,\n       ic.canceldate, ic.filial,trim(ins_cus.surname||' '||ins_cus.name||' '||ins_cus.fathername) as Musterinin_ASA ,cust.id as custid,av.val_name,\n       ict.terminted_dat as xitam_tarixi,abs(t.ostat) as qaliq,f.name as Filial_name,\n       trim(translate(ins_cus.surname||' '||ins_cus.name||' '||ins_cus.fathername, 'IiİiIı', '``````')) as name1\n       from ins_contracts ic, ins_customers ins_cus,tenostat t,operkurs opk,filial f,customers cust,avalute av,ins_contract_cargo ins_c_car,ins_contract_terminated ict\nwhere  ic.type_id=8\nand ins_cus.id=ic.kli_id\nand t.acc_id=ic.loanacc_id\nand ic.filial=f.id\nand cust.id=ins_cus.cust_id\nand av.valute=ic.valute_id\nand ins_c_car.cid(+)=ic.id\nand ic.reins=0\nand  ict.cid(+)=ic.id \nand opk.val_kod(+)=ic.valute_id\nand opk.dat(+)=ic.ins_date\nand ic.ins_date=sbop.get_date\n\n\n\n/*select ic.id, ic.type_id, ic.ins_date, ic.begin_date, ic.end_date,\n       ic.valute_id, round(ic.ammount*(CASE WHEN (select count(*) from  operkurs  where val_kod=ic.valute_id and dat=ic.ins_date ) = 1 THEN opk.ostat else 1 END ),2)as ammount, ic.close_prefix, ic.kli_id, ic.loanacc_id,\n       ic.curracc_id, ic.policy_num, round(ic.inssumm*(CASE WHEN (select count(*) from  operkurs  where val_kod=ic.valute_id and dat=ic.ins_date ) = 1 THEN opk.ostat else 1 END ),2)as inssumm, ic.franshiz, ic.tariff,\n       ic.state, ic.agent_id, ic.pnum, ic.ben_id, ic.beneficiary,\n       ic.op_id, ic.commitop_id, ic.commit_date, ic.cancelopid,ins_c_car.name_cargo,ins_c_car.loading_station,ins_c_car.number_parcels,\n       ic.canceldate, ic.filial,trim(ins_cus.surname||' '||ins_cus.name||' '||ins_cus.fathername) as Musterinin_ASA ,cust.id as custid,av.val_name,\n       (SELECT terminted_dat  FROM ins_contract_terminated   where cid=ic.id) as  xitam_tarixi, abs(ar.pok_ostat) as qaliq,f.name as Filial_name,\n       trim(translate(ins_cus.surname||' '||ins_cus.name||' '||ins_cus.fathername, 'IiİiIı', '``````')) as name1\n       from ins_contracts ic, ins_customers ins_cus,archost ar,operkurs opk,filial f,customers cust,avalute av,ins_contract_cargo ins_c_car\nwhere  ic.type_id=8\nand ins_cus.id=ic.kli_id\nand ar.acc_id=ic.loanacc_id\nand ar.datdate=(select tek_dat from sysdat)\nand ic.filial=f.id\nand cust.id=ins_cus.cust_id\nand av.valute=ic.valute_id\nand ins_c_car.cid(+)=ic.id\nand ic.reins=0\nand opk.val_kod(+)=ic.valute_id\nand opk.dat(+)=ic.ins_date\nand ic.ins_date between (select tek_dat from sysdat) and (select tek_dat from sysdat)*/\n",
+   "variables": [],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "ODSAccount",
+   "source": "TDMMainCargo.ODSAccount",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   \n   acc.RowID, ID, kli_id, op_id, acc_no, val_acc, NAME, open_dat, close_dat,\n   DECODE (close_dat, NULL, 1, 2) AS status, bal_cn1, bal_cn2, bal_cn3,\n   bal_cn4, filial, sim_otcet, tipacc, LIMIT, old_acc_no, pair_acc,\n   insider, ownid, t.ostat, t.pok_ostat\nFROM ACCOUNT  acc, tenostat t\nwhere  t.acc_id = acc.id\nand\n ownid = :ownid\nand acc.close_dat is null\nORDER BY \n   id",
+   "variables": [
+    {
+     "name": "OWNID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "ODSPayPlan",
+   "source": "TDMMainCargo.ODSPayPlan",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid, a.*\n  FROM ins_payment_plan a\nwhere a.ins_id = :insid\norder by pay_date ",
+   "variables": [
+    {
+     "name": "INSID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DSPaymentInfo",
+   "source": "TDMMainCargo.DSPaymentInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_payment_plan\nwhere ins_id=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMMainCargoimpl"
+  },
+  {
+   "name": "DSPaymentSettingInfo",
+   "source": "TDMMainCargo.DSPaymentSettingInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_payment_plan_setting \nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMMainCargoimpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TDMMainCargo.OPCOMMON",
+   "routines": [
+    {
+     "name": "close_acc",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMMainCargo.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

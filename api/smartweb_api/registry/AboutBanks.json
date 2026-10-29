@@ -1,0 +1,156 @@
+{
+ "name": "AboutBanks",
+ "caption": "Balans / Məlumatlar / Banklar Haqqında Məlumat",
+ "dir": "Packages/AboutBanks",
+ "mainForm": "TAboutBanks",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleQuery1",
+   "source": "TAboutBanks.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "AboutBanksImpl"
+  },
+  {
+   "name": "ods_bas",
+   "source": "TAboutBanks.ods_bas",
+   "kind": "TOracleDataSet",
+   "sql": "declare \n\nbegin\n  select count(*)  into :v_count from bankm_test where bankcode=:v_bankcode and val_code=:v_val_code;\n\n if :v_count>0 then\n update bankm_test set\n krno=:v_krno, name=:v_name, inn=:v_inn, swift=:v_swift,\n bankcode=:v_bankcode, subkrno=:v_subkrno, ours=:v_ours, val_code=:v_val_code\n where  bankcode=:v_bankcode and  val_code=:v_val_code;\n\n else\n\ninsert into  bankm_test  (krno, name, inn, swift, bankcode, subkrno, ours, val_code)\n                  values (:v_krno, :v_name, :v_inn, :v_swift, :v_bankcode, :v_subkrno, :v_ours, :v_val_code);\n end if;\ncommit;\nend;",
+   "variables": [
+    {
+     "name": "V_COUNT",
+     "type": "integer"
+    },
+    {
+     "name": "V_BANKCODE",
+     "type": "string"
+    },
+    {
+     "name": "V_VAL_CODE",
+     "type": "string"
+    },
+    {
+     "name": "V_KRNO",
+     "type": "string"
+    },
+    {
+     "name": "V_NAME",
+     "type": "string"
+    },
+    {
+     "name": "V_INN",
+     "type": "string"
+    },
+    {
+     "name": "V_SWIFT",
+     "type": "string"
+    },
+    {
+     "name": "V_SUBKRNO",
+     "type": "string"
+    },
+    {
+     "name": "V_OURS",
+     "type": "string"
+    }
+   ],
+   "unit": "AboutBanksImpl"
+  },
+  {
+   "name": "ods_fil",
+   "source": "TAboutBanks.ods_fil",
+   "kind": "TOracleDataSet",
+   "sql": "declare \n\nbegin\n  select count(*)  into :v_count from bankm_test where bankcode=:v_bankcode ;\n\n if :v_count>0 then\n update bankm_test set\n krno=:v_krno, name=:v_name, inn=:v_inn, swift=:v_swift,bank_kod=:v_bank_kod,\n bankcode=:v_bankcode, subkrno=:v_subkrno, ours=:v_ours, val_code=:v_val_code\n where  bankcode=:v_bankcode;\n\n else\n\ninsert into  bankm_test  (krno, name, inn, swift, bankcode, subkrno,bank_kod, ours, val_code)\n                  values (:v_krno, :v_name, :v_inn, :v_swift, :v_bankcode, :v_subkrno,:v_bank_kod, :v_ours, :v_val_code);\n end if;\ncommit;\nend;",
+   "variables": [
+    {
+     "name": "V_COUNT",
+     "type": "integer"
+    },
+    {
+     "name": "V_BANKCODE",
+     "type": "string"
+    },
+    {
+     "name": "V_VAL_CODE",
+     "type": "string"
+    },
+    {
+     "name": "V_KRNO",
+     "type": "string"
+    },
+    {
+     "name": "V_NAME",
+     "type": "string"
+    },
+    {
+     "name": "V_INN",
+     "type": "string"
+    },
+    {
+     "name": "V_SWIFT",
+     "type": "string"
+    },
+    {
+     "name": "V_SUBKRNO",
+     "type": "string"
+    },
+    {
+     "name": "V_OURS",
+     "type": "string"
+    },
+    {
+     "name": "V_BANK_KOD",
+     "type": "string"
+    }
+   ],
+   "unit": "AboutBanksImpl"
+  },
+  {
+   "name": "Banks",
+   "source": "TDataModuleBanks.Banks",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.krno, a.name,a.inn, a.swift, a.bankcode,a.subkrno,a.bank_kod, a.license_date,a.tax_regcode, \na.ours, val_code\n  FROM bankm_t a\n\n\n\n\n\n\n\n\n\nOrder By\n     :Title\n\n ",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "string"
+    }
+   ],
+   "unit": "BanksDataModule"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

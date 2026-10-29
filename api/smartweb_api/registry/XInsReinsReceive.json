@@ -1,0 +1,202 @@
+{
+ "name": "XInsReinsReceive",
+ "caption": "Əlavə modullar / Sığorta / Təkrarsığorta qəbulu",
+ "dir": "Insurance/Ins_ReinsReceive",
+ "mainForm": "TMainReInsReceive",
+ "plugin": false,
+ "plugins": {
+  "ferid.bpl": "P_Ferid",
+  "ins_reins_exelinp.bpl": "P_ins_reins_exelinp",
+  "ins_reinsr_contract.bpl": "P_Ins_ReinsR_contract",
+  "inscontracterminated.bpl": "P_InsContracterminated",
+  "inspayment.bpl": "P_InsPayment",
+  "inspaymentplan.bpl": "P_InsPaymentPlan",
+  "loss.bpl": "P_Loss",
+  "reinsurance.bpl": "P_Reinsurance"
+ },
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DSMain",
+   "source": "TDMIns_ReinsReceive.DSMain",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.type_id, a.begin_date, a.end_date,\n        a.ammount,  a.policy_num, a.inssumm, a.franshiz,  a.reins,a.state,a.valute_id,a.ins_date,\n        b.id as info_id, b.ins_type, b.custid, b.reins_part_komis, b.reins_ammount,\n       b.reins_bruto_ammount, b.ins__pred_ammount, b.ins_id,b.cust_name,\n       b.ins_ammount, b.ins_pred_info, b.cid,f.name,ii.name as sigorta_novu\nFROM ins_contracts a,ins_rein_other_info b,filial f,ins_insurances ii\nWHERE a.reins=1\nand b.cid(+)=a.id\nand f.id=a.filial\nand ii.id=a.type_id\n\n\n",
+   "variables": [],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "DSIns_cust",
+   "source": "TDMIns_ReinsReceive.DSIns_cust",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,surname||' '||name||' '||fathername as name1,id from ins_customers where close_prefix=0 order by name1",
+   "variables": [],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "DScutomers",
+   "source": "TDMIns_ReinsReceive.DScutomers",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id ,name from customers\nwhere close_dat is  null\nand id in (SELECT cust_id  FROM ins_customers where close_prefix=0)",
+   "variables": [],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "DSins_agents",
+   "source": "TDMIns_ReinsReceive.DSins_agents",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id,surname||' '||name||' '||fathername as name from ins_agents ",
+   "variables": [],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "ODSAccount",
+   "source": "TDMIns_ReinsReceive.ODSAccount",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   \n   acc.RowID, ID, kli_id, op_id, acc_no, val_acc, NAME, open_dat, close_dat,\n   DECODE (close_dat, NULL, 1, 2) AS status, bal_cn1, bal_cn2, bal_cn3,\n   bal_cn4, filial, sim_otcet, tipacc, LIMIT, old_acc_no, pair_acc,\n   insider, ownid, t.ostat, t.pok_ostat\nFROM ACCOUNT  acc, tenostat t\nwhere  t.acc_id = acc.id\nand\n ownid = :ownid\nand acc.close_dat is null\nORDER BY \n   id",
+   "variables": [
+    {
+     "name": "OWNID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "dsins_type",
+   "source": "TDMIns_ReinsReceive.dsins_type",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from ins_insurances\nwhere obeykt_type is not NULL",
+   "variables": [],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "DSReins",
+   "source": "TDMIns_ReinsReceive.DSReins",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_reinsurance where cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "DSPaymentSettingInfo",
+   "source": "TDMIns_ReinsReceive.DSPaymentSettingInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_payment_plan_setting \nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "DSPaymentInfo",
+   "source": "TDMIns_ReinsReceive.DSPaymentInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_payment_plan\nwhere ins_id=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "DSPaymentsetting",
+   "source": "TDMIns_ReinsReceive.DSPaymentsetting",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from ins_payment_plan_setting a\nwhere a.cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMIns_ReinsReceiveImpl"
+  },
+  {
+   "name": "DSOperkurs",
+   "source": "TDMIns_ReinsReceive.DSOperkurs",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from operkurs\nwhere val_kod=:pval_kod\nand dat=:pdat",
+   "variables": [
+    {
+     "name": "PVAL_KOD",
+     "type": "integer"
+    },
+    {
+     "name": "PDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DMIns_ReinsReceiveImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TDMIns_ReinsReceive.OPCOMMON",
+   "routines": [
+    {
+     "name": "close_acc",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "commitcontract",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMIns_ReinsReceive.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

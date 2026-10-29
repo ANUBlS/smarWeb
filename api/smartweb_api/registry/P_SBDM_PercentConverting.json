@@ -1,0 +1,117 @@
+{
+ "name": "P_SBDM_PercentConverting",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_PercentConverting",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CalcedDeposits",
+   "source": "TDMPercentConvering.CalcedDeposits",
+   "kind": "TOracleDataSet",
+   "sql": "select \n cont.id,\n cont.contractno,\n sbcm_stored_programs.Get_ContractAccount(acc.ContractAccID)                  as ContractAccNo,\n sbcm_stored_programs.Get_ContractAccount(acc.InterestAccID)                  as InterestAccNo,\n sbcm_stored_programs.Get_ContractAccountName(acc.contractaccid)              as custname,\n(select sum(facticaldebt) from sbcm_contract_state where id#=cont.id)         as facticaldebt,\n(select sum(facticalinterestdebt) from sbcm_contract_state where id#=cont.id) as facticalinterestdebt,\n(select sum(interest) from sbcm_deposit_interests where id#=cont.id)          as interest,\n SBCM_Stored_Programs.CheckContractState(cont.ID)                             as  Status,\n av.val_name,\n cont.currency,\n cont.personaltype,\n cont.clienttype,\n cont.customerid,\n cont.branchid\nfrom sbcm_contracts cont,\n     sbcm_contract_accounts acc,\n     avalute av\nwhere cont.type# = 3\nand acc.id# = cont.id\nand cont.currency = av.valute\nand cont.type# = 3\norder by :OrderField\n",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "string"
+    }
+   ],
+   "unit": "DMPercentConveringImpl"
+  },
+  {
+   "name": "Valutes",
+   "source": "TDMPercentConvering.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "DMPercentConveringImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TDMPercentConvering.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "DMPercentConveringImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TDMPercentConvering.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from sbcm_categories",
+   "variables": [],
+   "unit": "DMPercentConveringImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TDMPercentConvering.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type from sbcm_deposit_types",
+   "variables": [],
+   "unit": "DMPercentConveringImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TDMPercentConvering.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers\nwhere id in (select customerid from sbcm_contracts\nwhere type# = 3) ",
+   "variables": [],
+   "unit": "DMPercentConveringImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TDMPercentConvering.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sbcm_persons",
+   "variables": [],
+   "unit": "DMPercentConveringImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sbcm_percent_converting",
+   "package": "sbcm_percent_converting",
+   "mode": "named",
+   "source": "TDMPercentConvering.sbcm_percent_converting",
+   "routines": [
+    {
+     "name": "CancelDepositIntCalc",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

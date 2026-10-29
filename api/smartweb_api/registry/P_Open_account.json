@@ -1,0 +1,68 @@
+{
+ "name": "P_Open_account",
+ "caption": "",
+ "dir": "Packages/Open_account",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODS_bal_spr_parts",
+   "source": "TOpenAccount_DataModule.ODS_bal_spr_parts",
+   "kind": "TOracleDataSet",
+   "sql": "select part, partname, part||''||partname as SEARCH,substr(part ,0,2) as part1  from bal_spr_parts  where part is not null\n\n\norder by part",
+   "variables": [],
+   "unit": "OpenAccount_DatamodImpl"
+  },
+  {
+   "name": "ODS_bal_spr_groups",
+   "source": "TOpenAccount_DataModule.ODS_bal_spr_groups",
+   "kind": "TOracleDataSet",
+   "sql": "select grp,grpname,grp||''|| grpname as SEARCH, substr(grp,0,2) as ger1 from bal_spr_groups where grp is not null\n\n--and accgroup=:ddd\n\n\n\norder by grp",
+   "variables": [],
+   "unit": "OpenAccount_DatamodImpl"
+  },
+  {
+   "name": "ODS_Bal_spr1",
+   "source": "TOpenAccount_DataModule.ODS_Bal_spr1",
+   "kind": "TOracleDataSet",
+   "sql": "select bal_cn,balname, bal_cn||''||balname as SEARCH  from bal_spr1 where length (bal_cn)>3  \n\n\n\n\norder by bal_cn",
+   "variables": [],
+   "unit": "OpenAccount_DatamodImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}
