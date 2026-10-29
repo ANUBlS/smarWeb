@@ -84,7 +84,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "AccountDataModuleImpl"
@@ -286,7 +286,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "out_accdatamodule"
@@ -428,18 +428,6 @@
    ]
   },
   {
-   "component": "SBUTIL",
-   "package": "SBUTIL",
-   "mode": "positional",
-   "source": "TDataModule2.SBUTIL",
-   "routines": [
-    {
-     "name": "FlagExsist",
-     "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
    "component": "SB_ACA",
    "package": "SB_ACA",
    "mode": "positional",
@@ -448,6 +436,18 @@
     {
      "name": "CheckObjectAccess",
      "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBUTIL",
+   "package": "SBUTIL",
+   "mode": "positional",
+   "source": "TDataModule2.SBUTIL",
+   "routines": [
+    {
+     "name": "FlagExsist",
+     "call": "CallBooleanFunction"
     }
    ]
   }

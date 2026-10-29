@@ -131,7 +131,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "InsMotorKascoImpl"
@@ -173,7 +173,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "InsMotorKascoImpl"
@@ -230,13 +230,6 @@
    "package": "INS_COMMON",
    "mode": "positional",
    "source": "TfmFind.OPCOMMON",
-   "routines": []
-  },
-  {
-   "component": "OPCommon",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "*.OPCommon",
    "routines": [
     {
      "name": "del_ins",

@@ -90,23 +90,15 @@
  ],
  "packages": [
   {
-   "component": "SBCM_PAYMENT",
-   "package": "sbcm_payment_new",
-   "mode": "positional",
-   "source": "*.SBCM_PAYMENT",
-   "routines": [
-    {
-     "name": "CommitWithDrawMoney",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "sbcm_payment",
    "package": "sbcm_payment",
    "mode": "named",
    "source": "TDMExtractMoney.sbcm_payment",
    "routines": [
+    {
+     "name": "CommitWithDrawMoney",
+     "call": "CallProcedure"
+    },
     {
      "name": "DeleteWithDrawMoney",
      "call": "CallProcedure"

@@ -130,15 +130,7 @@
     {
      "name": "changestatus",
      "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "tm_manage",
-   "package": "TM_MANAGE",
-   "mode": "positional",
-   "source": "*.tm_manage",
-   "routines": [
+    },
     {
      "name": "committicket",
      "call": "CallProcedure"

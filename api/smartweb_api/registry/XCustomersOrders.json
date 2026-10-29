@@ -137,7 +137,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ACC",
@@ -178,7 +178,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unit4"

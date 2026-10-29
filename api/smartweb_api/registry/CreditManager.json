@@ -113,7 +113,7 @@
    "component": "ConvertingPackage",
    "package": "SBCM_PERCENT_CONVERTING",
    "mode": "positional",
-   "source": "*.ConvertingPackage",
+   "source": "TContDataModule.ConvertingPackage",
    "routines": [
     {
      "name": "ConvertingLazyPercents",

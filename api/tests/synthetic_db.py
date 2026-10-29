@@ -34,6 +34,27 @@ def split_top(s: str, sep=',') -> list[str]:
     return out
 
 
+TABLE_COLS: dict[str, set[str]] = {}
+
+
+def from_table(sql: str):
+    m = re.search(r'\sfrom\s+([\w$#.]+)\s*(?:\w+\s*)?(?:where|order|group|$|\))', sql, re.I)
+    return m.group(1).split('.')[-1].upper() if m else None
+
+
+def learn_tables():
+    """Columns per table from every single-table SELECT in the registry, so `select * from T` gets the
+    columns the module's code reads."""
+    from smartweb_api import registry
+    for name in [m['name'] for m in registry.index()]:
+        for d in registry.module(name)['datasets']:
+            t = from_table(d['sql'])
+            if t and not re.search(r'\bjoin\b|,\s*\w+\s+\w+\s+where', d['sql'], re.I):
+                cols = [c for c in select_list(d['sql']) if c not in ('*',)]
+                if cols and not any(c.endswith('*') for c in cols):
+                    TABLE_COLS.setdefault(t, set()).update(c for c in cols if re.fullmatch(r'[A-Z_][\w$#]*', c))
+
+
 def select_list(sql: str) -> list[str]:
     s = re.sub(r'--[^\n]*|/\*.*?\*/', ' ', sql, flags=re.S)
     m = re.search(r'^\s*select\s+(distinct\s+)?(.*?)\s+from\s', s, re.I | re.S)
@@ -54,7 +75,8 @@ def select_list(sql: str) -> list[str]:
         if not it:
             continue
         if it == '*' or it.endswith('.*'):
-            names += ['ROWID', 'ID', 'NAME', 'CODE', 'DAT', 'AMMOUNT']
+            t = from_table(s)
+            names += ['ROWID'] + sorted(TABLE_COLS.get(t, {'ID', 'NAME', 'CODE', 'DAT', 'AMMOUNT'}) - {'ROWID'})
             continue
         a = re.search(r'\s+(?:as\s+)?"?([A-Za-z_][\w$#]*)"?\s*$', it, re.I)
         if a and not re.search(r'[\w)]\s*$', it[:a.start()].strip()) is None:
@@ -86,7 +108,10 @@ def value(name: str, t: str, i: int):
         return i + 1
     if t == 'NUMBER':
         return round(1250.75 * (i + 1), 2)
-    return f'{name.title()} {i + 1}'
+    # as in web/src/api/mock.ts: unclassified columns are mostly NUMBER in this schema (read with StrToFloat)
+    if re.search(r'NAME|DESC|TEXT|NOTE|TITLE|COMMENT|LABEL|CAPTION|MSG|MESSAGE|REMARK|REASON|STR|ADI|ADDR|UNVAN|SEBEB|QEYD|IZAH|PURPOSE|INFO', name.upper()):
+        return f'{name.title()} {i + 1}'
+    return str(i + 1)
 
 
 class SyntheticCursor(FakeCursor):
@@ -96,7 +121,8 @@ class SyntheticCursor(FakeCursor):
         if re.match(r'\s*(select|with)\b', sql, re.I) and not re.search(r'all_arguments|user_arguments|sys_context', sql, re.I):
             self._sql = sql
             self.conn.log.append((' '.join(sql.split()), dict(binds or {}, **kw)))
-            print('SQL', ' '.join(sql.split())[:160], file=sys.stderr)
+            flat = ' '.join(sql.split())
+            print('SQL', flat if len(flat) < 220 else flat[:150] + ' … ' + flat[-60:], file=sys.stderr)
             names = select_list(sql) or ['VALUE']
             types = [guess(n) for n in names]
             cols = [(n, {'INT': 'NUMBER', 'ROWID': 'ROWID'}.get(t, t)) + ((10, 0) if t == 'INT' else ()) for n, t in zip(names, types)]
@@ -120,5 +146,7 @@ if __name__ == '__main__':
 
     from smartweb_api import sessions
     sessions.connector = lambda u, p, d: SyntheticConnection()
+    learn_tables()
+    print('tables learned:', len(TABLE_COLS), file=sys.stderr)
     from smartweb_api.main import create_app
     uvicorn.run(create_app(), host='127.0.0.1', port=int(sys.argv[1]) if len(sys.argv) > 1 else 8000, log_level='warning')

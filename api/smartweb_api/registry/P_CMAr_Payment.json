@@ -216,8 +216,8 @@
   {
    "component": "CM_PAYMENT",
    "package": "CM_PAYMENT",
-   "mode": "positional",
-   "source": "*.CM_PAYMENT",
+   "mode": "named",
+   "source": "TArPaymentDataModule.CM_PAYMENT",
    "routines": [
     {
      "name": "CommitPayment",
@@ -250,22 +250,10 @@
    ]
   },
   {
-   "component": "OraclePackage1",
-   "package": "sbutil",
-   "mode": "named",
-   "source": "TArPaymentDataModule.OraclePackage1",
-   "routines": [
-    {
-     "name": "FindAccFlag",
-     "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
    "component": "cm_utils",
    "package": "CM_UTILS",
    "mode": "positional",
-   "source": "*.cm_utils",
+   "source": "TArPaymentDataModule.cm_utils",
    "routines": [
     {
      "name": "Get_BkIntPlanPayment",
@@ -286,6 +274,18 @@
     {
      "name": "get_period",
      "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "sbutil",
+   "mode": "named",
+   "source": "TArPaymentDataModule.OraclePackage1",
+   "routines": [
+    {
+     "name": "FindAccFlag",
+     "call": "CallBooleanFunction"
     }
    ]
   }

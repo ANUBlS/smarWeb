@@ -111,7 +111,7 @@
    "component": "Pins_common",
    "package": "ins_common",
    "mode": "positional",
-   "source": "*.Pins_common",
+   "source": "TdmPaymentTer.Pins_common",
    "routines": [
     {
      "name": "cancelTerreal",

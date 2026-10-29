@@ -49,7 +49,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "OrderImpl"
@@ -138,8 +138,8 @@
   {
    "component": "sbcm_construction",
    "package": "CC_GENERAL",
-   "mode": "positional",
-   "source": "*.sbcm_construction",
+   "mode": "named",
+   "source": "TPay.sbcm_construction",
    "routines": [
     {
      "name": "PaymentTracttransactions2",

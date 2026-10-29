@@ -75,6 +75,8 @@ class Variables {
     const k = Variables.key(name);
     if (!this.map.has(k)) this.map.set(k, { name: k, type: otType(type), value: null });
     else this.map.get(k)!.type = otType(type);
+    // otSubst (DFM code 1): the value is spliced into the SQL text, never bound
+    (this.map.get(k) as any).subst = type === 1 || String(type ?? '').toLowerCase() === 'otsubst';
   }
   declareIfMissing(name: unknown, type: unknown) { if (!this.map.has(Variables.key(name))) this.declare(name, type); }
   set(name: unknown, v: unknown) {
@@ -87,6 +89,7 @@ class Variables {
     // send declared variables that occur in the SQL (DOA ignores others); substitution vars are inlined.
     const out: BindValue[] = [];
     for (const v of this.map.values()) {
+      if ((v as any).subst) continue;
       if (new RegExp(':' + v.name.replace(/[$#]/g, '\\$&') + '\\b', 'i').test(sql)) out.push({ name: v.name, type: v.type, value: bindOut(v.value, v.type) });
     }
     return out;
@@ -94,7 +97,14 @@ class Variables {
   substitute(sql: string) {
     // otSubst variables are textually replaced before execution (DOA semantics)
     let s = sql;
-    for (const v of this.map.values()) if (v.type === 'string' && (v as any).subst) s = s.replace(new RegExp(':' + v.name + '\\b', 'gi'), str(v.value));
+    for (const v of this.map.values()) {
+      if (!(v as any).subst) continue;
+      const name = v.name.replace(/[$#]/g, '\\$&');
+      const text = str(v.value);
+      // an unassigned sort variable ("order by :Title" before the first title click) drops the clause
+      if (!text.trim()) s = s.replace(new RegExp('\\b(order|group)\\s+by\\s+:' + name + '\\b', 'gi'), '');
+      s = s.replace(new RegExp(':' + name + '\\b', 'gi'), text);
+    }
     return s;
   }
 }

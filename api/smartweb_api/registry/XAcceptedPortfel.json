@@ -259,7 +259,7 @@
    "variables": [
     {
      "name": "V_CSB",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "VAL",
@@ -394,10 +394,10 @@
    ]
   },
   {
-   "component": "SB_ACA",
+   "component": "sb_aca",
    "package": "sb_aca",
    "mode": "positional",
-   "source": "*.SB_ACA",
+   "source": "TDataMod.sb_aca",
    "routines": [
     {
      "name": "CheckAdvancedObjectAccess",
@@ -408,13 +408,6 @@
      "call": "CallIntegerFunction"
     }
    ]
-  },
-  {
-   "component": "sb_aca",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "TDataMod.sb_aca",
-   "routines": []
   }
  ],
  "sql": []

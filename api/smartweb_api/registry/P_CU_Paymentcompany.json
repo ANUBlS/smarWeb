@@ -216,8 +216,8 @@
   {
    "component": "CM_PAYMENT",
    "package": "CM_PAYMENT",
-   "mode": "positional",
-   "source": "*.CM_PAYMENT",
+   "mode": "named",
+   "source": "TCUPaymentDataModule.CM_PAYMENT",
    "routines": [
     {
      "name": "PaymentAdd",
@@ -246,22 +246,10 @@
    ]
   },
   {
-   "component": "OraclePackage1",
-   "package": "sbutil",
-   "mode": "named",
-   "source": "TCUPaymentDataModule.OraclePackage1",
-   "routines": [
-    {
-     "name": "FindAccFlag",
-     "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
    "component": "cm_utils",
    "package": "CM_UTILS",
    "mode": "positional",
-   "source": "*.cm_utils",
+   "source": "TCUPaymentDataModule.cm_utils",
    "routines": [
     {
      "name": "Get_CreditPenaltyAccID",
@@ -278,6 +266,18 @@
     {
      "name": "get_period",
      "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "sbutil",
+   "mode": "named",
+   "source": "TCUPaymentDataModule.OraclePackage1",
+   "routines": [
+    {
+     "name": "FindAccFlag",
+     "call": "CallBooleanFunction"
     }
    ]
   }

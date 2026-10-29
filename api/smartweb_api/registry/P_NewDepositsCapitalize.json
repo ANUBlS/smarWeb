@@ -82,8 +82,8 @@
   {
    "component": "dm_payment",
    "package": "dm_payment",
-   "mode": "positional",
-   "source": "*.dm_payment",
+   "mode": "named",
+   "source": "TNewDepositsFrmCapitalize.dm_payment",
    "routines": [
     {
      "name": "Capitalization",

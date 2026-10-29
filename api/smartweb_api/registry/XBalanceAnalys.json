@@ -94,7 +94,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataModuleBalance"
@@ -160,7 +160,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataModuleBalance"
@@ -181,7 +181,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataModuleBalance"

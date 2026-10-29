@@ -70,7 +70,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DMprop"

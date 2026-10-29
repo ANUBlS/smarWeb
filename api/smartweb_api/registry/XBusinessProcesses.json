@@ -62,7 +62,7 @@
     },
     {
      "name": "SORT",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DMBusProcSetimpl"
@@ -75,7 +75,7 @@
    "variables": [
     {
      "name": "SORT",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DMBusProcSetimpl"

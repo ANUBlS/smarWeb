@@ -149,20 +149,12 @@
    "component": "OPCOMMON",
    "package": "INS_COMMON",
    "mode": "positional",
-   "source": "*.OPCOMMON",
+   "source": "TPolicyDataModule.OPCOMMON",
    "routines": [
     {
      "name": "addtransaction",
      "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "OPCommon",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "*.OPCommon",
-   "routines": [
+    },
     {
      "name": "buildpolice",
      "call": "CallBooleanFunction"

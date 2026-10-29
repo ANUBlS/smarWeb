@@ -44,7 +44,7 @@
    "variables": [
     {
      "name": "ID",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UConstructionMain"
@@ -135,13 +135,6 @@
    "package": "INS_COMMON",
    "mode": "named",
    "source": "TConstructionMain.OPCOMMON",
-   "routines": []
-  },
-  {
-   "component": "OPCommon",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "*.OPCommon",
    "routines": [
     {
      "name": "del_ins",

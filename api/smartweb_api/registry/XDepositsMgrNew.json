@@ -140,13 +140,25 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DMDepositManagerImpl_new"
   }
  ],
  "packages": [
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMDepositsManager_new.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
   {
    "component": "Stored_Programs",
    "package": "sbcm_stored_programs_new",
@@ -168,18 +180,6 @@
     {
      "name": "IsCalculationEnabled",
      "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "sb_aca",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "TDMDepositsManager_new.sb_aca",
-   "routines": [
-    {
-     "name": "checkadvancedobjectaccess",
-     "call": "CallProcedure"
     }
    ]
   }

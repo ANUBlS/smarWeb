@@ -111,7 +111,7 @@
    "variables": [
     {
      "name": "ORDERCLAUSE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CRADatModImpl"

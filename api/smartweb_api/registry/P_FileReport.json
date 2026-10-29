@@ -675,42 +675,6 @@
    ]
   },
   {
-   "component": "OraclePackage1",
-   "package": "card_main",
-   "mode": "positional",
-   "source": "TKorrMoh.OraclePackage1",
-   "routines": [
-    {
-     "name": "mohset",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBOP",
-   "package": "SBOP",
-   "mode": "positional",
-   "source": "*.SBOP",
-   "routines": [
-    {
-     "name": "check_IBAN_acc_num",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "SB_ACA",
-   "package": "",
-   "mode": "positional",
-   "source": "Tcards.SB_ACA",
-   "routines": [
-    {
-     "name": "CheckAdvancedObjectAccess",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "mainpacket",
    "package": "card_main",
    "mode": "positional",
@@ -727,10 +691,22 @@
    ]
   },
   {
-   "component": "pack",
-   "package": "accepted_portfel",
+   "component": "OraclePackage1",
+   "package": "card_main",
    "mode": "positional",
-   "source": "*.pack",
+   "source": "TKorrMoh.OraclePackage1",
+   "routines": [
+    {
+     "name": "mohset",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "pack",
+   "package": "sw_main",
+   "mode": "positional",
+   "source": "TDataModbpl.pack",
    "routines": [
     {
      "name": "insert_298",
@@ -799,18 +775,28 @@
    ]
   },
   {
-   "component": "sb_aca",
+   "component": "SB_ACA",
    "package": "sb_aca",
    "mode": "positional",
-   "source": "TAllcards.sb_aca",
-   "routines": []
+   "source": "Tcards.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
   },
   {
    "component": "sbop",
    "package": "sbop",
    "mode": "positional",
    "source": "TDataModbpl.sbop",
-   "routines": []
+   "routines": [
+    {
+     "name": "check_IBAN_acc_num",
+     "call": "CallIntegerFunction"
+    }
+   ]
   }
  ],
  "sql": []

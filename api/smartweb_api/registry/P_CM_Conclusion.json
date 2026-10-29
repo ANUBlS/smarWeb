@@ -607,13 +607,33 @@
  ],
  "packages": [
   {
+   "component": "adm",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TDataModuleConcl.adm",
+   "routines": [
+    {
+     "name": "getadmaddition",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
    "component": "CM_COMMON",
    "package": "CM_COMMON",
    "mode": "positional",
-   "source": "*.CM_COMMON",
+   "source": "TDataModuleConcl.CM_COMMON",
    "routines": [
     {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    },
+    {
      "name": "Get_AccID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Get_meqsed",
      "call": "CallIntegerFunction"
     }
    ]
@@ -631,10 +651,17 @@
    ]
   },
   {
+   "component": "cm_decls",
+   "package": "cm_decls",
+   "mode": "positional",
+   "source": "TDataModuleConcl.cm_decls",
+   "routines": []
+  },
+  {
    "component": "IUPackage",
    "package": "CM_CREDIT",
-   "mode": "positional",
-   "source": "*.IUPackage",
+   "mode": "named",
+   "source": "TDataModuleConcl.IUPackage",
    "routines": [
     {
      "name": "Contract_Add",
@@ -669,41 +696,6 @@
      "call": "CallProcedure"
     }
    ]
-  },
-  {
-   "component": "adm",
-   "package": "CM_ADMINISTRATION",
-   "mode": "positional",
-   "source": "*.adm",
-   "routines": [
-    {
-     "name": "getadmaddition",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "cm_common",
-   "package": "CM_COMMON",
-   "mode": "positional",
-   "source": "*.cm_common",
-   "routines": [
-    {
-     "name": "GetPeriod",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "Get_meqsed",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "cm_decls",
-   "package": "cm_decls",
-   "mode": "positional",
-   "source": "TDataModuleConcl.cm_decls",
-   "routines": []
   }
  ],
  "sql": []

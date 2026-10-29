@@ -333,7 +333,12 @@
    "package": "CM_COMMON",
    "mode": "positional",
    "source": "TRtDataModule.CM_COMMON",
-   "routines": []
+   "routines": [
+    {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    }
+   ]
   },
   {
    "component": "PgRetel",
@@ -343,18 +348,6 @@
    "routines": [
     {
      "name": "cred_add",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "cm_common",
-   "package": "CM_COMMON",
-   "mode": "positional",
-   "source": "*.cm_common",
-   "routines": [
-    {
-     "name": "GetPeriod",
      "call": "CallIntegerFunction"
     }
    ]

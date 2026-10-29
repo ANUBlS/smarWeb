@@ -90,23 +90,15 @@
  ],
  "packages": [
   {
-   "component": "DM_PAYMENT",
-   "package": "dm_payment",
-   "mode": "positional",
-   "source": "*.DM_PAYMENT",
-   "routines": [
-    {
-     "name": "CommitWithDrawMoney",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "dm_payment",
    "package": "dm_payment",
    "mode": "named",
    "source": "TNewDepositsDMExtractMoney.dm_payment",
    "routines": [
+    {
+     "name": "CommitWithDrawMoney",
+     "call": "CallProcedure"
+    },
     {
      "name": "DeleteWithDrawMoney",
      "call": "CallProcedure"

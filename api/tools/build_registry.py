@@ -22,7 +22,7 @@ GEN = os.path.join(ROOT, 'web', 'src', 'generated')
 OUT = os.path.join(ROOT, 'api', 'smartweb_api', 'registry')
 
 DOA_TYPES = {3: 'integer', 4: 'float', 5: 'string', 12: 'date', 8: 'string', 102: 'cursor', 113: 'blob', 112: 'clob',
-             252: 'boolean', 1: 'string', 96: 'string'}  # same codes as web/src/runtime/data/oracle.ts
+             252: 'boolean', 1: 'subst', 96: 'string'}  # same codes as web/src/runtime/data/oracle.ts; 1 = otSubst
 SQL_START = re.compile(r'^\s*(select|insert|update|delete|merge|begin|declare|with|call|lock|truncate)\b', re.I)
 CALL = re.compile(r'"(Call(?:Procedure|IntegerFunction|FloatFunction|StringFunction|DateFunction|BooleanFunction|'
                   r'VariantFunction))", \[(?:"([A-Za-z][\w$#]*)"|\(await \$\.(?:wv|v)\((?:\[[^\]]*\], )?(?:C, )?"([A-Za-z]\w*)")')
@@ -160,14 +160,21 @@ def main():
             ds += a
             sq += c
             for k, v in b.items():
-                if k in pk:
-                    pk[k]['routines'] |= v['routines']
+                v.setdefault('name', k)
+                key = k.lower()  # Delphi identifiers are case-insensitive (sb_CustInfo = sb_custInfo)
+                if key in pk:
+                    cur = pk[key]
+                    cur['routines'] |= v['routines']
+                    if cur['source'].startswith('*.') and not v['source'].startswith('*.'):
+                        cur.update(package=v['package'] or cur['package'], mode=v['mode'], source=v['source'], name=v['name'])
+                    elif not cur['package'] and v['package']:
+                        cur['package'] = v['package']
                 else:
-                    pk[k] = v
+                    pk[key] = v
         return ds, pk, sq
 
     def finish(pk):
-        return [{'component': k, 'package': v['package'], 'mode': v['mode'], 'source': v['source'],
+        return [{'component': v.get('name', k), 'package': v['package'], 'mode': v['mode'], 'source': v['source'],
                  'routines': sorted({'name': r, 'call': c} for r, c in v['routines']) if False else
                  [{'name': r, 'call': c} for r, c in sorted(v['routines'])]}
                 for k, v in sorted(pk.items()) if v['routines'] or v['package']]

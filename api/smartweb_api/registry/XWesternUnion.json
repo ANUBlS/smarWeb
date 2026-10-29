@@ -67,7 +67,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataModuleUnit"
@@ -143,7 +143,7 @@
    "component": "TempPack",
    "package": "WU_CONTROL",
    "mode": "positional",
-   "source": "*.TempPack",
+   "source": "TDataModWU.TempPack",
    "routines": [
     {
      "name": "ConvertFileToTable",

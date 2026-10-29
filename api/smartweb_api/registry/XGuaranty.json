@@ -49,7 +49,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "GrDmImpl"

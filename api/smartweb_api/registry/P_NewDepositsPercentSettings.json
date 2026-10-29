@@ -181,18 +181,6 @@
  ],
  "packages": [
   {
-   "component": "PieceSofWriting",
-   "package": "PieceSofWriting",
-   "mode": "positional",
-   "source": "TNewPercentSetting.PieceSofWriting",
-   "routines": [
-    {
-     "name": "CurrencyToHR",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
    "component": "dm_percent_converting",
    "package": "dm_percent_converting",
    "mode": "positional",
@@ -213,6 +201,18 @@
     {
      "name": "upd_transh_percent",
      "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "PieceSofWriting",
+   "package": "PieceSofWriting",
+   "mode": "positional",
+   "source": "TNewPercentSetting.PieceSofWriting",
+   "routines": [
+    {
+     "name": "CurrencyToHR",
+     "call": "CallStringFunction"
     }
    ]
   },

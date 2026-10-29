@@ -43,7 +43,7 @@
    "variables": [
     {
      "name": "ORDERKIND",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DepositCorrectionImpl"

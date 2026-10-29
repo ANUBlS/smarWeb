@@ -183,7 +183,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DatModConstimpl"
@@ -348,7 +348,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DatModConstructionimpl"
@@ -435,7 +435,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "FlatsMgrIMPL"
@@ -448,7 +448,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitData"
@@ -477,7 +477,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "OWNID",
@@ -554,7 +554,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitData"
@@ -689,8 +689,8 @@
   {
    "component": "CC_GENERAL",
    "package": "CC_GENERAL",
-   "mode": "positional",
-   "source": "*.CC_GENERAL",
+   "mode": "named",
+   "source": "TDatModConstr.CC_GENERAL",
    "routines": [
     {
      "name": "GenerateAccountNumber",
@@ -766,7 +766,7 @@
    "component": "OPackage",
    "package": "customer_operations",
    "mode": "positional",
-   "source": "*.OPackage",
+   "source": "TDataMod_Buyers.OPackage",
    "routines": [
     {
      "name": "ins_commission_trans_km",
@@ -782,7 +782,7 @@
    "component": "OSCT",
    "package": "SB_COMPLEX_TRANSACTIONS",
    "mode": "positional",
-   "source": "*.OSCT",
+   "source": "TDataMod_Buyers.OSCT",
    "routines": [
     {
      "name": "settransactions",
@@ -794,23 +794,11 @@
    "component": "SBOP",
    "package": "SBOP",
    "mode": "positional",
-   "source": "*.SBOP",
+   "source": "TDatModConstr.SBOP",
    "routines": [
     {
      "name": "get_date",
      "call": "CallDateFunction"
-    }
-   ]
-  },
-  {
-   "component": "cc_general",
-   "package": "CC_GENERAL",
-   "mode": "positional",
-   "source": "*.cc_general",
-   "routines": [
-    {
-     "name": "GetPeriod",
-     "call": "CallIntegerFunction"
     }
    ]
   }

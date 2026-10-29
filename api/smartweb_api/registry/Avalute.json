@@ -79,13 +79,6 @@
    "package": "SB_avalute",
    "mode": "named",
    "source": "TAvaluteX.P_AVALUTE",
-   "routines": []
-  },
-  {
-   "component": "P_avalute",
-   "package": "SB_avalute",
-   "mode": "positional",
-   "source": "*.P_avalute",
    "routines": [
     {
      "name": "add_avalute",

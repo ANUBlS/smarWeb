@@ -516,10 +516,18 @@
    "component": "CR_COMMON",
    "package": "CR_COMMON",
    "mode": "positional",
-   "source": "*.CR_COMMON",
+   "source": "TCRDataModuleConcl.CR_COMMON",
    "routines": [
     {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    },
+    {
      "name": "Get_AccID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Get_meqsed",
      "call": "CallIntegerFunction"
     }
    ]
@@ -533,9 +541,9 @@
   },
   {
    "component": "IUPackage",
-   "package": "CM_CREDIT",
-   "mode": "positional",
-   "source": "*.IUPackage",
+   "package": "CR_CREDIT",
+   "mode": "named",
+   "source": "TCRDataModuleConcl.IUPackage",
    "routines": [
     {
      "name": "Contract_Add",
@@ -552,22 +560,6 @@
     {
      "name": "checkPerson",
      "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "cr_common",
-   "package": "CR_COMMON",
-   "mode": "positional",
-   "source": "*.cr_common",
-   "routines": [
-    {
-     "name": "GetPeriod",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "Get_meqsed",
-     "call": "CallIntegerFunction"
     }
    ]
   }

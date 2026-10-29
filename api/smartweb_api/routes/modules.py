@@ -11,6 +11,7 @@ these endpoints document each module and let other systems use the same data.
 """
 
 import json
+import re
 from enum import Enum
 from typing import Any
 
@@ -59,6 +60,24 @@ def list_modules():
            [{**m, 'apiReady': m['name'] in ready} for m in registry.index() if m.get('plugin')]
 
 
+SUBST_BAD = re.compile(r';|--|/\*|\b(select|union|insert|update|delete|merge|drop|alter|create|truncate|grant|revoke|'
+                       r'begin|declare|execute|exec|into|call)\b', re.I)
+
+
+def substitute(sql: str, name: str, value) -> str:
+    """DOA otSubst variable (`order by :Title`, `and cust_type :Cond`): its text replaces :name.
+
+    Over this endpoint the text may hold column names, numbers, operators, lists and quoted literals,
+    but no statement keywords, comments or `;`. An empty value drops a preceding ORDER/GROUP BY."""
+    text = '' if value is None else str(value)
+    bare = re.sub(r"'(?:[^']|'')*'", "''", text)
+    if "'" in bare.replace("''", '') or SUBST_BAD.search(bare):
+        raise gateway.GatewayError(20000, f'Substitution variable {name}: only column names, values and operators are accepted')
+    if not text.strip():
+        sql = re.sub(r'\b(order|group)\s+by\s+:' + re.escape(name) + r'\b', '', sql, flags=re.I)
+    return re.sub(r':' + re.escape(name) + r'\b', lambda _: text, sql, flags=re.I)
+
+
 def dataset_keys(m: dict) -> dict[str, dict]:
     """Endpoint key per dataset: its name, qualified by the form class when several forms use the same
     name, and numbered (_2, _3) when even that repeats (copied forms in different packages)."""
@@ -93,8 +112,14 @@ def build_router(name: str) -> APIRouter:
         def open_dataset(dataset: DS, body: DatasetOpen = Body(DatasetOpen()), s: Session = Depends(current)):  # type: ignore[valid-type]
             d = by_key[dataset.value]
             types = {v['name']: v['type'] for v in d['variables']}
-            variables = [{'name': k.upper(), 'type': types.get(k.upper()), 'value': v} for k, v in body.variables.items()]
-            return gateway.query(s, d['sql'], variables, body.maxRows)
+            sql = d['sql']
+            variables = []
+            for k, v in body.variables.items():
+                if types.get(k.upper()) == 'subst':
+                    sql = substitute(sql, k, v)
+                else:
+                    variables.append({'name': k.upper(), 'type': types.get(k.upper()), 'value': v})
+            return gateway.query(s, sql, variables, body.maxRows)
 
     routines = [(p, rt) for p in m['packages'] if p['package'] for rt in p['routines']]
     if routines:

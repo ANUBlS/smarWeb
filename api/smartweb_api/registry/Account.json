@@ -84,11 +84,11 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "PSEARCH",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "AccountDataModuleImpl"
@@ -175,7 +175,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ACCSRCHPOS",
@@ -303,6 +303,25 @@
    ]
   },
   {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "named",
+   "source": "TAccDataModule.SB_ACA",
+   "routines": []
+  },
+  {
+   "component": "SB_ACA11",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TAccDataModule.SB_ACA11",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
    "component": "SBACA",
    "package": "SB_ACA",
    "mode": "positional",
@@ -341,25 +360,6 @@
    "routines": [
     {
      "name": "FlagExsist",
-     "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "SB_ACA",
-   "package": "SB_ACA",
-   "mode": "named",
-   "source": "TAccDataModule.SB_ACA",
-   "routines": []
-  },
-  {
-   "component": "SB_ACA11",
-   "package": "SB_ACA",
-   "mode": "positional",
-   "source": "TAccDataModule.SB_ACA11",
-   "routines": [
-    {
-     "name": "checkadvancedobjectaccess",
      "call": "CallBooleanFunction"
     }
    ]

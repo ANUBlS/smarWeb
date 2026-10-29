@@ -73,7 +73,7 @@
    "component": "mainresoursce",
    "package": "mainresoursce",
    "mode": "positional",
-   "source": "*.mainresoursce",
+   "source": "TDataMod.mainresoursce",
    "routines": [
     {
      "name": "add_group",

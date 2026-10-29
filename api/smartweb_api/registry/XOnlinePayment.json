@@ -119,7 +119,7 @@
    "component": "mainpacket",
    "package": "terminalpayments",
    "mode": "positional",
-   "source": "*.mainpacket",
+   "source": "TWS_PAYDataModule.mainpacket",
    "routines": [
     {
      "name": "Payments",

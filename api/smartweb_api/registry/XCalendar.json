@@ -63,9 +63,9 @@
  "packages": [
   {
    "component": "OraclePackage1",
-   "package": "full_import",
+   "package": "PG_CALENDAR",
    "mode": "positional",
-   "source": "*.OraclePackage1",
+   "source": "TCalendarDataMod.OraclePackage1",
    "routines": [
     {
      "name": "SATURDAY",

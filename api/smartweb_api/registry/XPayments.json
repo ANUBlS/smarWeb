@@ -55,7 +55,7 @@
     },
     {
      "name": "SORT",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unit4"
@@ -99,23 +99,23 @@
    "routines": []
   },
   {
-   "component": "Sb_aca",
-   "package": "Sb_ACA",
-   "mode": "positional",
-   "source": "TDM.Sb_aca",
-   "routines": []
-  },
-  {
    "component": "pack",
    "package": "accepted_portfel",
    "mode": "positional",
-   "source": "*.pack",
+   "source": "TDM.pack",
    "routines": [
     {
      "name": "Ibank_change_status",
      "call": "CallProcedure"
     }
    ]
+  },
+  {
+   "component": "Sb_aca",
+   "package": "Sb_ACA",
+   "mode": "positional",
+   "source": "TDM.Sb_aca",
+   "routines": []
   },
   {
    "component": "sb_trans",

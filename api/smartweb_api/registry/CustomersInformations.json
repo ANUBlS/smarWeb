@@ -55,7 +55,7 @@
     },
     {
      "name": "P_CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CustomersInformationsImpl"

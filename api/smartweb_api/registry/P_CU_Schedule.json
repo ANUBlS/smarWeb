@@ -124,10 +124,22 @@
  ],
  "packages": [
   {
+   "component": "adm",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TScheduleDataModule.adm",
+   "routines": [
+    {
+     "name": "getadmaddition",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
    "component": "CM_SCHEDULE",
    "package": "CM_SCHEDULE",
-   "mode": "positional",
-   "source": "*.CM_SCHEDULE",
+   "mode": "named",
+   "source": "TScheduleDataModule.CM_SCHEDULE",
    "routines": [
     {
      "name": "ChangeSchedule",
@@ -160,18 +172,6 @@
     {
      "name": "TrSchedule_Edit",
      "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "adm",
-   "package": "CM_ADMINISTRATION",
-   "mode": "positional",
-   "source": "TScheduleDataModule.adm",
-   "routines": [
-    {
-     "name": "getadmaddition",
-     "call": "CallIntegerFunction"
     }
    ]
   }

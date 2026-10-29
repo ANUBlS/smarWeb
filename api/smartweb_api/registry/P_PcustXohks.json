@@ -150,7 +150,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTID",
@@ -238,7 +238,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataXohks"
@@ -437,10 +437,10 @@
  ],
  "packages": [
   {
-   "component": "DEL",
-   "package": "HOXPACK",
+   "component": "Del",
+   "package": "XS_CONTROL",
    "mode": "positional",
-   "source": "*.DEL",
+   "source": "TDataModXhoks.Del",
    "routines": [
     {
      "name": "xs_batchs_delete",
@@ -451,13 +451,6 @@
      "call": "CallProcedure"
     }
    ]
-  },
-  {
-   "component": "Del",
-   "package": "XS_CONTROL",
-   "mode": "positional",
-   "source": "TDataModXhoks.Del",
-   "routines": []
   },
   {
    "component": "GetReference",
@@ -483,31 +476,15 @@
    ]
   },
   {
-   "component": "INS",
-   "package": "HOXPACK",
-   "mode": "positional",
-   "source": "*.INS",
-   "routines": [
-    {
-     "name": "GetNewBeneficiaryReference",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "xs_Batchs_update",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "xs_Incoming_update",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "Ins",
    "package": "XS_CONTROL",
    "mode": "positional",
    "source": "TDataModXhoks.Ins",
    "routines": [
+    {
+     "name": "GetNewBeneficiaryReference",
+     "call": "CallStringFunction"
+    },
     {
      "name": "SetBatchsTransaction",
      "call": "CallProcedure"
@@ -523,6 +500,14 @@
     {
      "name": "xs_Batchs_ChangeStatus",
      "call": "CallIntegerFunction"
+    },
+    {
+     "name": "xs_Batchs_update",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "xs_Incoming_update",
+     "call": "CallProcedure"
     }
    ]
   },
@@ -530,7 +515,7 @@
    "component": "PackTemp",
    "package": "XS_CONTROL",
    "mode": "positional",
-   "source": "*.PackTemp",
+   "source": "TDataModXhoks.PackTemp",
    "routines": [
     {
      "name": "UpdateBatchReference",

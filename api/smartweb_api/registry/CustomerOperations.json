@@ -250,7 +250,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CO_datamod_impl"
@@ -524,7 +524,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "P_ACCID",
@@ -578,7 +578,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CO_datamod_impl"
@@ -660,7 +660,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CO_datamod_impl"
@@ -673,7 +673,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CO_datamod_impl"
@@ -694,7 +694,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CO_datamod_impl"
@@ -715,7 +715,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CO_datamod_impl"
@@ -1255,7 +1255,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CO_datamod_impl"
@@ -1344,7 +1344,7 @@
    "variables": [
     {
      "name": "CUSTOMERID",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CustInfoFormImpl"
@@ -1741,42 +1741,10 @@
  ],
  "packages": [
   {
-   "component": "OPCash",
-   "package": "SB_CASHREPORT",
-   "mode": "positional",
-   "source": "TCO_DataMod.OPCash",
-   "routines": [
-    {
-     "name": "CheckOICome",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "GetBankInfo",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "GetCustomerInfo",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "add_CashInfo",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "delete_CashInfo",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "update_CashInfo",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "OPackage",
    "package": "customer_operations",
    "mode": "positional",
-   "source": "*.OPackage",
+   "source": "TCO_DataMod.OPackage",
    "routines": [
     {
      "name": "get_Messaj",
@@ -1809,29 +1777,33 @@
    ]
   },
   {
-   "component": "OSCT",
-   "package": "SB_COMPLEX_TRANSACTIONS",
+   "component": "OPCash",
+   "package": "SB_CASHREPORT",
    "mode": "positional",
-   "source": "*.OSCT",
+   "source": "TCO_DataMod.OPCash",
    "routines": [
     {
-     "name": "SetTransactions",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "OrPack_BussProc",
-   "package": "P_BUSINESS_PROC",
-   "mode": "positional",
-   "source": "TCO_DataMod.OrPack_BussProc",
-   "routines": [
+     "name": "CheckOICome",
+     "call": "CallBooleanFunction"
+    },
     {
-     "name": "commitprocs",
+     "name": "GetBankInfo",
      "call": "CallProcedure"
     },
     {
-     "name": "execbprocess",
+     "name": "GetCustomerInfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_CashInfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_CashInfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_CashInfo",
      "call": "CallProcedure"
     }
    ]
@@ -1861,6 +1833,34 @@
    ]
   },
   {
+   "component": "OrPack_BussProc",
+   "package": "P_BUSINESS_PROC",
+   "mode": "positional",
+   "source": "TCO_DataMod.OrPack_BussProc",
+   "routines": [
+    {
+     "name": "commitprocs",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "execbprocess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OSCT",
+   "package": "SB_COMPLEX_TRANSACTIONS",
+   "mode": "positional",
+   "source": "TCO_DataMod.OSCT",
+   "routines": [
+    {
+     "name": "SetTransactions",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
    "component": "PG_PCustService",
    "package": "PG_PCustService",
    "mode": "positional",
@@ -1872,6 +1872,70 @@
     },
     {
      "name": "get_Modle_comp",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TCO_DataMod.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_custInfo",
+   "package": "sb_custInfo",
+   "mode": "named",
+   "source": "TCO_DataMod.sb_custInfo",
+   "routines": [
+    {
+     "name": "add_cust_relations",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_custinfo",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "check_work_post",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_cust_relations",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_custinfo",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SB_STATEMENT",
+   "package": "SB_STATEMENT",
+   "mode": "positional",
+   "source": "TCO_DataMod.SB_STATEMENT",
+   "routines": [
+    {
+     "name": "notAccId",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_TRANSACTION",
+   "package": "SB_TRANSACTION",
+   "mode": "named",
+   "source": "TCO_DataMod.SB_TRANSACTION",
+   "routines": [
+    {
+     "name": "Transaction_Add",
      "call": "CallIntegerFunction"
     }
    ]
@@ -1926,76 +1990,12 @@
   {
    "component": "SBUTIL",
    "package": "SBUTIL",
-   "mode": "positional",
-   "source": "*.SBUTIL",
+   "mode": "named",
+   "source": "TCO_DataMod.SBUTIL",
    "routines": [
     {
      "name": "FlagExsist",
      "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "SB_ACA",
-   "package": "SB_ACA",
-   "mode": "positional",
-   "source": "TCO_DataMod.SB_ACA",
-   "routines": [
-    {
-     "name": "CheckObjectAccess",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SB_STATEMENT",
-   "package": "SB_STATEMENT",
-   "mode": "positional",
-   "source": "*.SB_STATEMENT",
-   "routines": [
-    {
-     "name": "notAccId",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
-   "component": "SB_TRANSACTION",
-   "package": "EXCH_TRANS",
-   "mode": "positional",
-   "source": "*.SB_TRANSACTION",
-   "routines": [
-    {
-     "name": "Transaction_Add",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "sb_custInfo",
-   "package": "sb_custInfo",
-   "mode": "positional",
-   "source": "*.sb_custInfo",
-   "routines": [
-    {
-     "name": "add_cust_relations",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "add_custinfo",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "check_work_post",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "del_cust_relations",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "upd_custinfo",
-     "call": "CallProcedure"
     }
    ]
   }

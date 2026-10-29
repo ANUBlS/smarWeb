@@ -166,7 +166,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DatModConstructionImpl"
@@ -423,7 +423,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "FlatMgrUnit"
@@ -477,7 +477,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "OrderMgrUnit"
@@ -713,6 +713,74 @@
    "routines": []
   },
   {
+   "component": "sbcm_construction",
+   "package": "CC_GENERAL",
+   "mode": "named",
+   "source": "TDatModConstruction.sbcm_construction",
+   "routines": [
+    {
+     "name": "Close_Contract",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ContRefusal",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeletePaymentPlane",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GetFindExpdate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "PaymentPlane_AddEdit",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "PaymentTracttransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_Contract",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_account",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_payment_plane",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "commitdelayedtransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deletePayment",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "report",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_Contracts",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
    "component": "SBCorrection",
    "package": "SBCORRECTION",
    "mode": "named",
@@ -751,7 +819,7 @@
    "component": "SBOP",
    "package": "SBOP",
    "mode": "positional",
-   "source": "*.SBOP",
+   "source": "TDatModConstruction.SBOP",
    "routines": [
     {
      "name": "get_date",
@@ -828,81 +896,6 @@
    "mode": "named",
    "source": "TsboapiDataModule.SBUtil",
    "routines": []
-  },
-  {
-   "component": "cc_general",
-   "package": "cc_general",
-   "mode": "positional",
-   "source": "TCustMgrForm.cc_general",
-   "routines": []
-  },
-  {
-   "component": "sbcm_construction",
-   "package": "CC_GENERAL",
-   "mode": "positional",
-   "source": "*.sbcm_construction",
-   "routines": [
-    {
-     "name": "Close_Contract",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "ContRefusal",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "DeletePaymentPlane",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "GenerateAccountNumber",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "GetFindExpdate",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "GetPeriod",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "PaymentPlane_AddEdit",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "PaymentTracttransactions",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "add_Contract",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "add_account",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "add_payment_plane",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "commitdelayedtransactions",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "deletePayment",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "report",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "upd_Contracts",
-     "call": "CallIntegerFunction"
-    }
-   ]
   }
  ],
  "sql": []

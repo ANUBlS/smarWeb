@@ -220,8 +220,8 @@
   {
    "component": "CM_PAYMENT",
    "package": "CM_PAYMENT",
-   "mode": "positional",
-   "source": "*.CM_PAYMENT",
+   "mode": "named",
+   "source": "TPaymentDataModule.CM_PAYMENT",
    "routines": [
     {
      "name": "CommitPayment",
@@ -254,22 +254,10 @@
    ]
   },
   {
-   "component": "OraclePackage1",
-   "package": "sbutil",
-   "mode": "named",
-   "source": "TPaymentDataModule.OraclePackage1",
-   "routines": [
-    {
-     "name": "FindAccFlag",
-     "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
    "component": "cm_utils",
    "package": "CM_UTILS",
    "mode": "positional",
-   "source": "*.cm_utils",
+   "source": "TPaymentDataModule.cm_utils",
    "routines": [
     {
      "name": "Get_BkIntPlanPayment",
@@ -294,6 +282,18 @@
     {
      "name": "get_qetname",
      "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "sbutil",
+   "mode": "named",
+   "source": "TPaymentDataModule.OraclePackage1",
+   "routines": [
+    {
+     "name": "FindAccFlag",
+     "call": "CallBooleanFunction"
     }
    ]
   }

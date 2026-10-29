@@ -55,7 +55,7 @@
     },
     {
      "name": "WH",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "MasterBookImpl"
@@ -80,7 +80,7 @@
     },
     {
      "name": "WH",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "MasterBookImpl"
@@ -105,7 +105,7 @@
     },
     {
      "name": "WH",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "MasterBookImpl"
@@ -130,7 +130,7 @@
     },
     {
      "name": "WH",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "MasterBookImpl"
@@ -155,7 +155,7 @@
     },
     {
      "name": "FIL",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "MasterBookImpl"
@@ -172,7 +172,7 @@
     },
     {
      "name": "FIL",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "MasterBookImpl"

@@ -107,7 +107,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CustomerDataModuleImpl"
@@ -258,10 +258,10 @@
    "routines": []
   },
   {
-   "component": "sb_CustInfo",
+   "component": "sb_custInfo",
    "package": "sb_custInfo",
-   "mode": "positional",
-   "source": "*.sb_CustInfo",
+   "mode": "named",
+   "source": "TCustomerInfoForm.sb_custInfo",
    "routines": [
     {
      "name": "add_custinfo",
@@ -276,13 +276,6 @@
      "call": "CallProcedure"
     }
    ]
-  },
-  {
-   "component": "sb_custInfo",
-   "package": "sb_custInfo",
-   "mode": "named",
-   "source": "TCustomerInfoForm.sb_custInfo",
-   "routines": []
   }
  ],
  "sql": [

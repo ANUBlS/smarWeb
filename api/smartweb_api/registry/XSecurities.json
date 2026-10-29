@@ -68,7 +68,7 @@
    "component": "PG_EXPIRED_SECURITIES",
    "package": "PG_EXPIRED_SECURITIES",
    "mode": "positional",
-   "source": "*.PG_EXPIRED_SECURITIES",
+   "source": "TDmexpired_sec.PG_EXPIRED_SECURITIES",
    "routines": [
     {
      "name": "add_EXPIRED_SECURITIES",

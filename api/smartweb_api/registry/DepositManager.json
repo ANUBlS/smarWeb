@@ -82,7 +82,7 @@
    "component": "DepositsConvPackage",
    "package": "SBCM_PERCENT_CONVERTING",
    "mode": "positional",
-   "source": "*.DepositsConvPackage",
+   "source": "TDataModDeposits.DepositsConvPackage",
    "routines": [
     {
      "name": "ConverDeposits",

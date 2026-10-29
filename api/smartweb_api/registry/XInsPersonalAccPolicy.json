@@ -44,7 +44,7 @@
    "variables": [
     {
      "name": "ID",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UDataMod"

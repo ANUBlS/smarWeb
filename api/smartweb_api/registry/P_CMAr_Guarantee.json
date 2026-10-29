@@ -225,7 +225,7 @@
    "component": "Guarante",
    "package": "CM_Credit",
    "mode": "positional",
-   "source": "*.Guarante",
+   "source": "TArGurDm.Guarante",
    "routines": [
     {
      "name": "BAli_add",

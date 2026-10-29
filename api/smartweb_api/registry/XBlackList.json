@@ -244,7 +244,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DmBlackImpl"
@@ -261,9 +261,9 @@
  "packages": [
   {
    "component": "OraclePackage1",
-   "package": "full_import",
-   "mode": "positional",
-   "source": "*.OraclePackage1",
+   "package": "PG_CUST_BLACK",
+   "mode": "named",
+   "source": "TDmBlack.OraclePackage1",
    "routines": [
     {
      "name": "aa",
@@ -312,9 +312,9 @@
   },
   {
    "component": "SB_ACA",
-   "package": "sb_aca",
+   "package": "SB_ACA",
    "mode": "positional",
-   "source": "*.SB_ACA",
+   "source": "TDmBlack.SB_ACA",
    "routines": [
     {
      "name": "checkadvancedobjectaccess",

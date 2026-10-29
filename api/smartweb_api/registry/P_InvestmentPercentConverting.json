@@ -45,7 +45,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "PercentConvertingImpl"
@@ -103,8 +103,8 @@
   {
    "component": "dm_calculator",
    "package": "dm_calculator",
-   "mode": "positional",
-   "source": "*.dm_calculator",
+   "mode": "named",
+   "source": "TDMPercentConverting.dm_calculator",
    "routines": [
     {
      "name": "CancelDepositIntCalc",

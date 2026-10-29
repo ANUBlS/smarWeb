@@ -43,7 +43,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModuleCourt"
@@ -239,26 +239,10 @@
  ],
  "packages": [
   {
-   "component": "CT_CONTROL",
-   "package": "ct_control",
-   "mode": "positional",
-   "source": "*.CT_CONTROL",
-   "routines": [
-    {
-     "name": "admin_add",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "admin_del",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "ct_control",
    "package": "ct_control",
-   "mode": "positional",
-   "source": "*.ct_control",
+   "mode": "named",
+   "source": "TDataModuleCourt.ct_control",
    "routines": [
     {
      "name": "CourtBodyUpdate",
@@ -270,6 +254,14 @@
     },
     {
      "name": "add_folder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "admin_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "admin_del",
      "call": "CallProcedure"
     }
    ]

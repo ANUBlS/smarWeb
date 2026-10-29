@@ -96,7 +96,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "DAT",
@@ -168,7 +168,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "DAT",
@@ -917,7 +917,7 @@
    "component": "OPAdmin",
    "package": "EX_ADM",
    "mode": "positional",
-   "source": "*.OPAdmin",
+   "source": "TDataModExch.OPAdmin",
    "routines": [
     {
      "name": "create_new_user",
@@ -941,7 +941,7 @@
    "component": "OPExchMgr",
    "package": "EXCH_MGR",
    "mode": "positional",
-   "source": "*.OPExchMgr",
+   "source": "TDataModExch.OPExchMgr",
    "routines": [
     {
      "name": "Check_UserRole",
@@ -1118,30 +1118,6 @@
    ]
   },
   {
-   "component": "SBA_ACA",
-   "package": "SB_ACA",
-   "mode": "positional",
-   "source": "TDataModExch.SBA_ACA",
-   "routines": [
-    {
-     "name": "checkadvancedobjectaccess",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBOPDate",
-   "package": "SBOP",
-   "mode": "positional",
-   "source": "TDataModExch.SBOPDate",
-   "routines": [
-    {
-     "name": "get_date",
-     "call": "CallDateFunction"
-    }
-   ]
-  },
-  {
    "component": "sb_transaction",
    "package": "EXCH_TRANS",
    "mode": "positional",
@@ -1166,6 +1142,30 @@
     {
      "name": "ex_transaction_db",
      "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBA_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TDataModExch.SBA_ACA",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBOPDate",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TDataModExch.SBOPDate",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
     }
    ]
   }

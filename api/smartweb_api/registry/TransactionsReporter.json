@@ -52,15 +52,15 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "TABLE_PROVARCH",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "TABLE_ACCOUNT",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "D1",
@@ -72,7 +72,7 @@
     },
     {
      "name": "CNTR_ID",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "TransactionsViewerDataModuleUnit"
@@ -157,7 +157,7 @@
    "variables": [
     {
      "name": "VIEW_TRANSACTIONVIEWER",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "D1",
@@ -169,19 +169,19 @@
     },
     {
      "name": "DBALCN",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CBALCN",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "FILTERLINE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ORDERBYTITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "TransactionsViewerDataModuleUnit"

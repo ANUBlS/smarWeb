@@ -184,6 +184,13 @@
    ]
   },
   {
+   "component": "sbcm_ds",
+   "package": "SBCM_RPDEPOSITORY_new",
+   "mode": "positional",
+   "source": "TfrmAccountTurning_new.sbcm_ds",
+   "routines": []
+  },
+  {
    "component": "SBCM_RPDEPOSITORY",
    "package": "SBCM_RPDEPOSITORY_new",
    "mode": "positional",
@@ -194,13 +201,6 @@
      "call": "CallProcedure"
     }
    ]
-  },
-  {
-   "component": "sbcm_ds",
-   "package": "SBCM_RPDEPOSITORY_new",
-   "mode": "positional",
-   "source": "TfrmAccountTurning_new.sbcm_ds",
-   "routines": []
   }
  ],
  "sql": []

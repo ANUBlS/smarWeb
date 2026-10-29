@@ -121,7 +121,7 @@
    "component": "pk_ins_investment",
    "package": "ins_investment",
    "mode": "positional",
-   "source": "*.pk_ins_investment",
+   "source": "TDmPayment1.pk_ins_investment",
    "routines": [
     {
      "name": "del_invest_transaction1",

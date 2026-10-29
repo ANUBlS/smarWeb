@@ -58,13 +58,6 @@
    "package": "excelpkg",
    "mode": "positional",
    "source": "TOutExcelImp.OraclePackage1",
-   "routines": []
-  },
-  {
-   "component": "oraclePackage1",
-   "package": "full_import",
-   "mode": "positional",
-   "source": "*.oraclePackage1",
    "routines": [
     {
      "name": "Del_outexcel",

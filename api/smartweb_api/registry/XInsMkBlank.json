@@ -334,11 +334,19 @@
    "component": "OPCOMMON",
    "package": "INS_COMMON",
    "mode": "positional",
-   "source": "*.OPCOMMON",
+   "source": "TInsMKDataMod.OPCOMMON",
    "routines": [
     {
      "name": "disablepolicies",
      "call": "CallIntegerFunction"
+    },
+    {
+     "name": "generateInsuredAct",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "getClaimNums",
+     "call": "CallStringFunction"
     },
     {
      "name": "get_state",
@@ -347,26 +355,10 @@
    ]
   },
   {
-   "component": "OPCommon",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "*.OPCommon",
-   "routines": [
-    {
-     "name": "generateInsuredAct",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "getClaimNums",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
    "component": "pkgMotorKasco",
    "package": "INS_PKG_MOTORKASCO",
    "mode": "positional",
-   "source": "*.pkgMotorKasco",
+   "source": "TInsMKDataMod.pkgMotorKasco",
    "routines": [
     {
      "name": "getAccessoriesSum",

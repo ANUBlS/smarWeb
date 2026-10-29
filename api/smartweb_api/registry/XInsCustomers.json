@@ -342,7 +342,7 @@
    "component": "OPCOMMON",
    "package": "INS_COMMON",
    "mode": "positional",
-   "source": "*.OPCOMMON",
+   "source": "TInsDataMod.OPCOMMON",
    "routines": [
     {
      "name": "DeleteOperations",

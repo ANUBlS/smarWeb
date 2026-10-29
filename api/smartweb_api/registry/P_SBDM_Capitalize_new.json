@@ -67,18 +67,6 @@
  ],
  "packages": [
   {
-   "component": "SBCM_PAYMENT",
-   "package": "sbcm_payment_new",
-   "mode": "positional",
-   "source": "*.SBCM_PAYMENT",
-   "routines": [
-    {
-     "name": "CommitWithDrawMoney",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "sb_aca",
    "package": "sb_aca",
    "mode": "positional",
@@ -93,11 +81,15 @@
   {
    "component": "sbcm_payment",
    "package": "sbcm_payment_new",
-   "mode": "positional",
-   "source": "*.sbcm_payment",
+   "mode": "named",
+   "source": "TfrmCapitalize_new.sbcm_payment",
    "routines": [
     {
      "name": "Capitalization",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CommitWithDrawMoney",
      "call": "CallProcedure"
     },
     {

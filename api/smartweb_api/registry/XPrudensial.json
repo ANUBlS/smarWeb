@@ -469,10 +469,10 @@
    "routines": []
   },
   {
-   "component": "Prudensial",
+   "component": "prudensial",
    "package": "prudensial",
    "mode": "positional",
-   "source": "*.Prudensial",
+   "source": "TFormAdd.prudensial",
    "routines": [
     {
      "name": "BktAdd",
@@ -483,13 +483,6 @@
      "call": "CallProcedure"
     }
    ]
-  },
-  {
-   "component": "prudensial",
-   "package": "prudensial",
-   "mode": "positional",
-   "source": "TFormAdd.prudensial",
-   "routines": []
   },
   {
    "component": "sbop",

@@ -95,7 +95,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "datamodule"
@@ -108,7 +108,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "datamodule"
@@ -121,7 +121,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "datamodule"
@@ -134,7 +134,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ID",
@@ -155,7 +155,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "datamodule"
@@ -198,7 +198,7 @@
    "component": "customer_orders",
    "package": "customer_orders",
    "mode": "positional",
-   "source": "*.customer_orders",
+   "source": "TDataModCustOrders.customer_orders",
    "routines": [
     {
      "name": "CurrentDate",

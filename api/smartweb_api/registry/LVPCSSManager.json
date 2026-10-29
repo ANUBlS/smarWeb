@@ -158,7 +158,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Data_Unit"
@@ -225,7 +225,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Data_Unit"
@@ -644,9 +644,9 @@
  "packages": [
   {
    "component": "Convert_pack",
-   "package": "HOXPACK",
+   "package": "XS_CONTROL",
    "mode": "positional",
-   "source": "*.Convert_pack",
+   "source": "TPrepareFile_Form.Convert_pack",
    "routines": [
     {
      "name": "BatchToReadyBatchs",
@@ -667,10 +667,10 @@
    ]
   },
   {
-   "component": "DEL",
-   "package": "HOXPACK",
+   "component": "Del",
+   "package": "XS_CONTROL",
    "mode": "positional",
-   "source": "*.DEL",
+   "source": "TDataMod.Del",
    "routines": [
     {
      "name": "xs_batchs_delete",
@@ -685,13 +685,6 @@
      "call": "CallProcedure"
     }
    ]
-  },
-  {
-   "component": "Del",
-   "package": "XS_CONTROL",
-   "mode": "positional",
-   "source": "TDataMod.Del",
-   "routines": []
   },
   {
    "component": "GetReference",
@@ -717,31 +710,15 @@
    ]
   },
   {
-   "component": "INS",
-   "package": "HOXPACK",
+   "component": "Ins",
+   "package": "XS_CONTROL",
    "mode": "positional",
-   "source": "*.INS",
+   "source": "TDataMod.Ins",
    "routines": [
     {
      "name": "GetNewBeneficiaryReference",
      "call": "CallStringFunction"
     },
-    {
-     "name": "xs_Batchs_update",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "xs_Incoming_update",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "Ins",
-   "package": "HOXPACK",
-   "mode": "positional",
-   "source": "*.Ins",
-   "routines": [
     {
      "name": "SetBatchsTransaction",
      "call": "CallProcedure"
@@ -787,11 +764,19 @@
      "call": "CallProcedure"
     },
     {
+     "name": "xs_Batchs_update",
+     "call": "CallProcedure"
+    },
+    {
      "name": "xs_Filter_Account_Delete",
      "call": "CallProcedure"
     },
     {
      "name": "xs_Filter_Account_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "xs_Incoming_update",
      "call": "CallProcedure"
     },
     {
@@ -860,7 +845,7 @@
    "component": "PackTemp",
    "package": "XS_CONTROL",
    "mode": "positional",
-   "source": "*.PackTemp",
+   "source": "TDataMod.PackTemp",
    "routines": [
     {
      "name": "SendToArchive",

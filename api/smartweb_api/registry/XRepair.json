@@ -160,23 +160,15 @@
  ],
  "packages": [
   {
-   "component": "P_Correct",
+   "component": "p_correct",
    "package": "p_correct",
-   "mode": "positional",
-   "source": "*.P_Correct",
+   "mode": "named",
+   "source": "TDataMod.p_correct",
    "routines": [
     {
      "name": "GetRate",
      "call": "CallFloatFunction"
-    }
-   ]
-  },
-  {
-   "component": "p_correct",
-   "package": "p_correct",
-   "mode": "positional",
-   "source": "*.p_correct",
-   "routines": [
+    },
     {
      "name": "Main",
      "call": "CallIntegerFunction"

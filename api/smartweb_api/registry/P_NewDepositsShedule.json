@@ -114,8 +114,8 @@
   {
    "component": "dm_payment_schedules",
    "package": "DM_PAYMENT_SCHEDULES",
-   "mode": "positional",
-   "source": "*.dm_payment_schedules",
+   "mode": "named",
+   "source": "TNewDepositsScheduleDataModule.dm_payment_schedules",
    "routines": [
     {
      "name": "DmPeriod",

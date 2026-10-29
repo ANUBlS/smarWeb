@@ -139,7 +139,7 @@
    "component": "CABLE",
    "package": "CABLE_MANAGER",
    "mode": "positional",
-   "source": "*.CABLE",
+   "source": "TDataModCable.CABLE",
    "routines": [
     {
      "name": "ContractAdditional",

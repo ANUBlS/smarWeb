@@ -93,23 +93,23 @@
  ],
  "packages": [
   {
+   "component": "Sbcm_date",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TScheduleDataModule_new.Sbcm_date",
+   "routines": []
+  },
+  {
    "component": "SBCM_PAYMENT_SCHEDULE1",
    "package": "SBCM_PAYMENT_SCHEDULE1_new",
-   "mode": "positional",
-   "source": "*.SBCM_PAYMENT_SCHEDULE1",
+   "mode": "named",
+   "source": "TScheduleDataModule_new.SBCM_PAYMENT_SCHEDULE1",
    "routines": [
     {
      "name": "sbcmperiod",
      "call": "CallProcedure"
     }
    ]
-  },
-  {
-   "component": "Sbcm_date",
-   "package": "SBOP",
-   "mode": "positional",
-   "source": "TScheduleDataModule_new.Sbcm_date",
-   "routines": []
   },
   {
    "component": "sbcm_percent_converting",

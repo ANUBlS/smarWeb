@@ -581,6 +581,18 @@
  ],
  "packages": [
   {
+   "component": "amartizator",
+   "package": "ins_report",
+   "mode": "positional",
+   "source": "TDmLoss.amartizator",
+   "routines": [
+    {
+     "name": "get_Ammount_amartizator",
+     "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
    "component": "OPCOMMON",
    "package": "INS_COMMON",
    "mode": "positional",
@@ -601,18 +613,6 @@
     {
      "name": "del_loss",
      "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "amartizator",
-   "package": "ins_report",
-   "mode": "positional",
-   "source": "TDmLoss.amartizator",
-   "routines": [
-    {
-     "name": "get_Ammount_amartizator",
-     "call": "CallFloatFunction"
     }
    ]
   },

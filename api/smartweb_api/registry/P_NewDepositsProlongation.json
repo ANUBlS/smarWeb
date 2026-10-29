@@ -81,7 +81,7 @@
    "component": "sbcm_prolongation",
    "package": "dm_prolongation",
    "mode": "positional",
-   "source": "*.sbcm_prolongation",
+   "source": "TNewDepositsFrmProlongation.sbcm_prolongation",
    "routines": [
     {
      "name": "AddProlongation",

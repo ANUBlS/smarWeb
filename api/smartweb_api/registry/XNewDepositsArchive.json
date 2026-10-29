@@ -48,7 +48,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "NewDepositsDataModule"

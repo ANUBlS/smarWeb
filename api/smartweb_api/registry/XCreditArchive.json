@@ -54,7 +54,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "ArchiveCredUnit"
@@ -70,13 +70,6 @@
  ],
  "packages": [
   {
-   "component": "CRAr_ADMIN",
-   "package": "CM_ADMINISTRATION",
-   "mode": "positional",
-   "source": "TDataMArchiveCr.CRAr_ADMIN",
-   "routines": []
-  },
-  {
    "component": "cm_bad_loans",
    "package": "cm_bad_loans",
    "mode": "positional",
@@ -87,6 +80,13 @@
      "call": "CallProcedure"
     }
    ]
+  },
+  {
+   "component": "CRAr_ADMIN",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TDataMArchiveCr.CRAr_ADMIN",
+   "routines": []
   }
  ],
  "sql": []

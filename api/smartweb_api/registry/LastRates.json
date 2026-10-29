@@ -43,7 +43,7 @@
    "variables": [
     {
      "name": "TITLE_ORDER",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "BEG_DAT",

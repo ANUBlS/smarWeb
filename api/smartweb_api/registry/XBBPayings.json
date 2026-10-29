@@ -74,7 +74,7 @@
    "component": "OrPack_CableManager",
    "package": "Cable_Manager",
    "mode": "positional",
-   "source": "*.OrPack_CableManager",
+   "source": "TDataModBBPayings.OrPack_CableManager",
    "routines": [
     {
      "name": "AbnServAdd",
@@ -98,7 +98,7 @@
    "component": "OrPack_SBOP",
    "package": "SBOP",
    "mode": "positional",
-   "source": "*.OrPack_SBOP",
+   "source": "TDataModBBPayings.OrPack_SBOP",
    "routines": [
     {
      "name": "get_date",

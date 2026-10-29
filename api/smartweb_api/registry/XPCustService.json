@@ -187,7 +187,7 @@
    "variables": [
     {
      "name": "P_VALU",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CustomersImpl"
@@ -224,7 +224,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "ExpUnittrans"
@@ -237,7 +237,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "ExpUnittrans"
@@ -348,7 +348,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "SMSFormİmpl"
@@ -510,7 +510,7 @@
    "variables": [
     {
      "name": "SIRA",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "IDS",
@@ -535,19 +535,19 @@
     },
     {
      "name": "BALCN",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "VTIPACC",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CURRENCY",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ACCSRCHPOS",
@@ -564,19 +564,19 @@
    "variables": [
     {
      "name": "BALCN",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "VTIPACC",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CURRENCY",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ACCSRCHPOS",
@@ -597,19 +597,19 @@
     },
     {
      "name": "BALCN",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "VTIPACC",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CURRENCY",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModPCustService"
@@ -759,7 +759,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTID",
@@ -914,7 +914,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModPCustService"
@@ -1162,7 +1162,7 @@
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ACCSRCHPOS",
@@ -1283,7 +1283,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModPCustService"
@@ -1300,7 +1300,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModPCustService"
@@ -1345,7 +1345,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModPCustService"
@@ -1358,7 +1358,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModPCustService"
@@ -1775,7 +1775,7 @@
    "variables": [
     {
      "name": "P_ACCID",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "TITLE",
@@ -1971,7 +1971,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitTransaction11"
@@ -2030,7 +2030,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unitcust_potencial"
@@ -2067,7 +2067,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unitcust_potencial"
@@ -2192,6 +2192,25 @@
    ]
   },
   {
+   "component": "convertpack",
+   "package": "convertpack",
+   "mode": "positional",
+   "source": "TDataModPCustService.convertpack",
+   "routines": []
+  },
+  {
+   "component": "cust_exch",
+   "package": "cust_exch",
+   "mode": "positional",
+   "source": "TFormepxtrans.cust_exch",
+   "routines": [
+    {
+     "name": "cust_exchtrans",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
    "component": "IUPackage",
    "package": "CM_CREDIT",
    "mode": "named",
@@ -2199,10 +2218,34 @@
    "routines": []
   },
   {
+   "component": "msg_control",
+   "package": "msg_control",
+   "mode": "positional",
+   "source": "TDataModPCustService.msg_control",
+   "routines": [
+    {
+     "name": "GetMessage",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
+   "component": "OPackage",
+   "package": "customer_operations",
+   "mode": "positional",
+   "source": "TDataModPCustService.OPackage",
+   "routines": [
+    {
+     "name": "ins_date",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
    "component": "OPCash",
    "package": "SB_CASHREPORT",
    "mode": "positional",
-   "source": "*.OPCash",
+   "source": "TDataModPCustService.OPCash",
    "routines": [
     {
      "name": "GetCustomerInfo",
@@ -2214,7 +2257,7 @@
    "component": "OPG_BusProc",
    "package": "P_Business_Proc",
    "mode": "positional",
-   "source": "*.OPG_BusProc",
+   "source": "TDataModPCustService.OPG_BusProc",
    "routines": [
     {
      "name": "ExecBProcess",
@@ -2231,22 +2274,10 @@
    ]
   },
   {
-   "component": "OPackage",
-   "package": "customer_operations",
-   "mode": "positional",
-   "source": "*.OPackage",
-   "routines": [
-    {
-     "name": "ins_date",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "PG_PCustService",
    "package": "PG_PCustService",
    "mode": "positional",
-   "source": "*.PG_PCustService",
+   "source": "TDataModPCustService.PG_PCustService",
    "routines": [
     {
      "name": "GET_WORLD_YOXLAMA",
@@ -2351,10 +2382,46 @@
    ]
   },
   {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TDataModPCustService.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckObjectAccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SB_STATEMENT",
+   "package": "SB_STATEMENT",
+   "mode": "positional",
+   "source": "TDataModPCustService.SB_STATEMENT",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "notAccId",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
    "component": "SBOP",
    "package": "SBOP",
    "mode": "positional",
-   "source": "*.SBOP",
+   "source": "TDataModPCustService.SBOP",
    "routines": [
     {
      "name": "GenerateAccountNumber",
@@ -2385,79 +2452,12 @@
   {
    "component": "SBUTIL",
    "package": "SBUTIL",
-   "mode": "positional",
-   "source": "*.SBUTIL",
+   "mode": "named",
+   "source": "TDataModPCustService.SBUTIL",
    "routines": [
     {
      "name": "FlagExsist",
      "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "SB_ACA",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "*.SB_ACA",
-   "routines": [
-    {
-     "name": "CheckObjectAccess",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "checkadvancedobjectaccess",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "checkadvancedobjectaccess",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SB_STATEMENT",
-   "package": "SB_STATEMENT",
-   "mode": "positional",
-   "source": "*.SB_STATEMENT",
-   "routines": [
-    {
-     "name": "get_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "notAccId",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
-   "component": "convertpack",
-   "package": "convertpack",
-   "mode": "positional",
-   "source": "TDataModPCustService.convertpack",
-   "routines": []
-  },
-  {
-   "component": "cust_exch",
-   "package": "cust_exch",
-   "mode": "positional",
-   "source": "TFormepxtrans.cust_exch",
-   "routines": [
-    {
-     "name": "cust_exchtrans",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "msg_control",
-   "package": "msg_control",
-   "mode": "positional",
-   "source": "*.msg_control",
-   "routines": [
-    {
-     "name": "GetMessage",
-     "call": "CallStringFunction"
     }
    ]
   }

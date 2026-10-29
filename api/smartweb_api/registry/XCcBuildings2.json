@@ -43,7 +43,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModccBuildings"
@@ -64,7 +64,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "BLD_ID",
@@ -85,7 +85,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataModccBuildings"
@@ -96,7 +96,7 @@
    "component": "CC_OP",
    "package": "cc_general",
    "mode": "positional",
-   "source": "*.CC_OP",
+   "source": "TDataModccBuildings.CC_OP",
    "routines": [
     {
      "name": "add_Buildings",

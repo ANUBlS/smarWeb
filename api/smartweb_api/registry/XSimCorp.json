@@ -51,15 +51,15 @@
    "variables": [
     {
      "name": "PSEARCH",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "PFILTER",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "SimCorpImpl"
@@ -68,9 +68,9 @@
  "packages": [
   {
    "component": "OraclePackage1",
-   "package": "full_import",
-   "mode": "positional",
-   "source": "*.OraclePackage1",
+   "package": "pg_simcorp",
+   "mode": "named",
+   "source": "TSimCorp.OraclePackage1",
    "routines": [
     {
      "name": "Simcop_Adi",

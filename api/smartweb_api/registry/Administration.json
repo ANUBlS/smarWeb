@@ -528,10 +528,10 @@
  ],
  "packages": [
   {
-   "component": "pcACA",
+   "component": "pcAca",
    "package": "SB_ACA",
    "mode": "positional",
-   "source": "*.pcACA",
+   "source": "TAdministrationData.pcAca",
    "routines": [
     {
      "name": "checkclass",
@@ -555,7 +555,7 @@
    "component": "pcADM",
    "package": "SB_ADM",
    "mode": "positional",
-   "source": "*.pcADM",
+   "source": "TAdministrationData.pcADM",
    "routines": [
     {
      "name": "CheckForAddUseringroup",
@@ -579,6 +579,10 @@
     },
     {
      "name": "UserAdvacedGrantsbyModule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UserAdvancedGrants",
      "call": "CallProcedure"
     },
     {
@@ -788,34 +792,6 @@
     {
      "name": "verify_password",
      "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "pcAca",
-   "package": "SB_ACA",
-   "mode": "positional",
-   "source": "TAdministrationData.pcAca",
-   "routines": [
-    {
-     "name": "isadm",
-     "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "pcAdm",
-   "package": "SB_ADM",
-   "mode": "positional",
-   "source": "*.pcAdm",
-   "routines": [
-    {
-     "name": "UserAdvancedGrants",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "insertuserinf",
-     "call": "CallProcedure"
     }
    ]
   }

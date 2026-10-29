@@ -341,7 +341,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "ExpDataModuleUnit"
@@ -396,7 +396,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "ExpDataModuleUnit"
@@ -961,7 +961,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "ExpDataModuleUnit"
@@ -982,7 +982,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "ExpDataModuleUnit"
@@ -1317,8 +1317,8 @@
   {
    "component": "EXPESSPAC",
    "package": "EXPESS_OPERATIONS",
-   "mode": "positional",
-   "source": "*.EXPESSPAC",
+   "mode": "named",
+   "source": "TExpDataModule.EXPESSPAC",
    "routines": [
     {
      "name": "AmountCompare",
@@ -1398,7 +1398,7 @@
    "component": "Repair",
    "package": "EXPESS_OPERATIONS",
    "mode": "positional",
-   "source": "*.Repair",
+   "source": "TExpDataModule.Repair",
    "routines": [
     {
      "name": "Date_Difference",
@@ -1433,7 +1433,35 @@
      "call": "CallProcedure"
     },
     {
+     "name": "Exp_ConsolidationTTransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_Consolidation_SendTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_Consolidation_TakeTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_GPayKomiks_SendTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_GPayKomiks_TakeTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_Payments_Transactions",
+     "call": "CallProcedure"
+    },
+    {
      "name": "Exp_accounts_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_batchs_Transactions",
      "call": "CallProcedure"
     },
     {
@@ -1489,6 +1517,10 @@
      "call": "CallProcedure"
     },
     {
+     "name": "Exp_vester_Transactions",
+     "call": "CallProcedure"
+    },
+    {
      "name": "Filid",
      "call": "CallIntegerFunction"
     },
@@ -1512,52 +1544,12 @@
   },
   {
    "component": "SB_ACA",
-   "package": "sb_aca",
+   "package": "SB_ACA",
    "mode": "positional",
-   "source": "*.SB_ACA",
+   "source": "TExpDataModule.SB_ACA",
    "routines": [
     {
      "name": "CheckAdvancedObjectAccess",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "repair",
-   "package": "EXPESS_OPERATIONS",
-   "mode": "positional",
-   "source": "*.repair",
-   "routines": [
-    {
-     "name": "Exp_ConsolidationTTransactions",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Exp_Consolidation_SendTrans",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Exp_Consolidation_TakeTrans",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Exp_GPayKomiks_SendTrans",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Exp_GPayKomiks_TakeTrans",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Exp_Payments_Transactions",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Exp_batchs_Transactions",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Exp_vester_Transactions",
      "call": "CallProcedure"
     }
    ]

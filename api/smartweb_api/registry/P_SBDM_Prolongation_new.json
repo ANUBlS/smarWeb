@@ -79,9 +79,9 @@
   },
   {
    "component": "sbcm_prolongation",
-   "package": "dm_prolongation",
+   "package": "sbcm_prolongation_new",
    "mode": "positional",
-   "source": "*.sbcm_prolongation",
+   "source": "TfrmProlongation_new.sbcm_prolongation",
    "routines": [
     {
      "name": "AddProlongation",

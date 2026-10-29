@@ -97,7 +97,7 @@
    "component": "qk_accsettings",
    "package": "qk_accsettings",
    "mode": "positional",
-   "source": "*.qk_accsettings",
+   "source": "TQKİmportDataMod.qk_accsettings",
    "routines": [
     {
      "name": "Add_QK_Acc_settings_yoxlama",

@@ -67,11 +67,11 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "PSEARCH",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "AccountDataModuleImpl"
@@ -158,7 +158,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ACCSRCHPOS",
@@ -485,7 +485,7 @@
    "variables": [
     {
      "name": "P_VALU",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "CustomersImpl"
@@ -614,7 +614,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataCustNomImpl"
@@ -865,7 +865,7 @@
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataCustNomImpl"
@@ -946,7 +946,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataCustNomImpl"
@@ -972,7 +972,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataMGuarantee"
@@ -1312,7 +1312,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DatModConstimpl"
@@ -1445,7 +1445,7 @@
    "variables": [
     {
      "name": "ORDERCLAUSE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DepositDataModuleUnit"
@@ -1508,7 +1508,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DMprop"
@@ -1745,7 +1745,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "FlatsMgrIMPL"
@@ -1928,7 +1928,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "OpenAccdataImpl"
@@ -2124,7 +2124,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Payment_DataModul"
@@ -2187,7 +2187,7 @@
    "variables": [
     {
      "name": "ORDERCLAUSE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "PercentConvertingDataModule"
@@ -2491,7 +2491,7 @@
    "variables": [
     {
      "name": "ORDERKIND",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "sbcmMainDataModule"
@@ -2757,11 +2757,11 @@
     },
     {
      "name": "BYVALD",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "BYVALK",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "StatementDataModule"
@@ -2936,7 +2936,7 @@
     },
     {
      "name": "V_KLIID",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Transaction_DataModuleUnit"
@@ -2953,7 +2953,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "TRID",
@@ -3112,7 +3112,7 @@
    "variables": [
     {
      "name": "VALUTE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Transaction_DataModuleUnit"
@@ -3125,7 +3125,7 @@
    "variables": [
     {
      "name": "VALUTE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Transaction_DataModuleUnit"
@@ -3748,7 +3748,7 @@
     },
     {
      "name": "VIDS",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unit18"
@@ -4478,7 +4478,7 @@
     },
     {
      "name": "SORT",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unit4"
@@ -4612,7 +4612,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitData"
@@ -4641,7 +4641,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "OWNID",
@@ -4718,7 +4718,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitData"
@@ -4872,11 +4872,11 @@
    "variables": [
     {
      "name": "SIRA",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "IDS",
@@ -4901,7 +4901,7 @@
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ACC_ID",
@@ -4981,7 +4981,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataBussProc"
@@ -4998,19 +4998,19 @@
     },
     {
      "name": "BALCN",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "VTIPACC",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CURRENCY",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "ACCSRCHPOS",
@@ -5035,19 +5035,19 @@
     },
     {
      "name": "BALCN",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "VTIPACC",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CURRENCY",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTTYPE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataBussProc"
@@ -5060,7 +5060,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitDataBussProc"
@@ -5094,7 +5094,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "CUSTID",
@@ -5367,11 +5367,11 @@
    "variables": [
     {
      "name": "V_BALCN1",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "V_KLI_ID",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitHesab"
@@ -6382,10 +6382,78 @@
    ]
   },
   {
+   "component": "CalcedPercentsPack",
+   "package": "SBCM_PERCENT_CONVERTING",
+   "mode": "positional",
+   "source": "TDataModPercentConv.CalcedPercentsPack",
+   "routines": [
+    {
+     "name": "ApplyDefferedTransactions",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "CapitalizationPackage",
+   "package": "SBCM_PAYMENT",
+   "mode": "positional",
+   "source": "TFrmCapitalization.CapitalizationPackage",
+   "routines": [
+    {
+     "name": "Capitalization",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "card",
+   "package": "cardufx",
+   "mode": "positional",
+   "source": "*.card",
+   "routines": [
+    {
+     "name": "CardCheck",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "UfxCheck",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "Ufx_send",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "card_commission_our_pos_onus",
+   "package": "card_commission_our_pos_onus",
+   "mode": "positional",
+   "source": "TDataMod_CARDS.card_commission_our_pos_onus",
+   "routines": [
+    {
+     "name": "card_merchand_c_comission",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_card_messages_c_commision",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_card_messages_comm_commit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ins_card_messages_c_commision",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
    "component": "CC_GENERAL",
    "package": "CC_GENERAL",
-   "mode": "positional",
-   "source": "*.CC_GENERAL",
+   "mode": "named",
+   "source": "TDatModConstr.CC_GENERAL",
    "routines": [
     {
      "name": "GenerateAccountNumber",
@@ -6462,7 +6530,12 @@
    "package": "CM_COMMON",
    "mode": "positional",
    "source": "TRtDataModule.CM_COMMON",
-   "routines": []
+   "routines": [
+    {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    }
+   ]
   },
   {
    "component": "CM_LOGIN",
@@ -6479,25 +6552,17 @@
    "routines": []
   },
   {
-   "component": "CalcedPercentsPack",
-   "package": "SBCM_PERCENT_CONVERTING",
+   "component": "cm_sd",
+   "package": "CM_SD",
    "mode": "positional",
-   "source": "TDataModPercentConv.CalcedPercentsPack",
+   "source": "TSDHesabat.cm_sd",
    "routines": [
     {
-     "name": "ApplyDefferedTransactions",
+     "name": "ins_report_sd",
      "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "CapitalizationPackage",
-   "package": "SBCM_PAYMENT",
-   "mode": "positional",
-   "source": "TFrmCapitalization.CapitalizationPackage",
-   "routines": [
+    },
     {
-     "name": "Capitalization",
+     "name": "prepare_sddata",
      "call": "CallProcedure"
     }
    ]
@@ -6535,6 +6600,13 @@
    ]
   },
   {
+   "component": "convertpack",
+   "package": "convertpack",
+   "mode": "positional",
+   "source": "TDataCustNom.convertpack",
+   "routines": []
+  },
+  {
    "component": "DepositMoneyPackage",
    "package": "SBCM_CREDIT_TRANCHES",
    "mode": "positional",
@@ -6561,6 +6633,13 @@
      "call": "CallProcedure"
     }
    ]
+  },
+  {
+   "component": "dm_tranches",
+   "package": "dm_credit_tranches",
+   "mode": "named",
+   "source": "TNewDepositsDMApplyMoney.dm_tranches",
+   "routines": []
   },
   {
    "component": "ExpirePackage",
@@ -6594,1244 +6673,10 @@
    ]
   },
   {
-   "component": "OPCOMMON",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "TPAccidentBlank.OPCOMMON",
-   "routines": []
-  },
-  {
-   "component": "OPCash",
-   "package": "SB_CASHREPORT",
-   "mode": "positional",
-   "source": "TDataCustNom.OPCash",
-   "routines": [
-    {
-     "name": "GetCustomerInfo",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "OPCommon",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "*.OPCommon",
-   "routines": [
-    {
-     "name": "newinsurance",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "setblankdata",
-     "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "OPG_BusProc",
-   "package": "P_Business_Proc",
-   "mode": "positional",
-   "source": "*.OPG_BusProc",
-   "routines": [
-    {
-     "name": "ExecBProcess",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "OPPayment",
-   "package": "sb_PaymentDecree",
-   "mode": "positional",
-   "source": "TPaymentOrderDataMod.OPPayment",
-   "routines": [
-    {
-     "name": "GetCurrentDate",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "add_payment",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "delete_payment",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "isAccountDetails",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "update_payment",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "OPTransactions",
-   "package": "SB_MAIN_FACILITIES",
-   "mode": "positional",
-   "source": "TFrmTransactions.OPTransactions",
-   "routines": [
-    {
-     "name": "GetPresentDate",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "GetTransactions",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
-   "component": "OP_MMX",
-   "package": "MMX",
-   "mode": "positional",
-   "source": "TTransaction_DataModule.OP_MMX",
-   "routines": [
-    {
-     "name": "delete_mmx_transinfo",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "get_report",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "ins_mmx_transinfo",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "mmx_transaction",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "OPackage",
-   "package": "customer_operations",
-   "mode": "positional",
-   "source": "*.OPackage",
-   "routines": [
-    {
-     "name": "ins_commission_trans_km",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "ins_transaction",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "ORAPAK",
-   "package": "Zsd_1",
-   "mode": "positional",
-   "source": "TSDHesabat.ORAPAK",
-   "routines": []
-  },
-  {
-   "component": "OSCT",
-   "package": "SB_COMPLEX_TRANSACTIONS",
-   "mode": "positional",
-   "source": "*.OSCT",
-   "routines": [
-    {
-     "name": "settransactions",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "OrPack_SL",
-   "package": "SL_CONTROL",
-   "mode": "positional",
-   "source": "TCMDataModule.OrPack_SL",
-   "routines": []
-  },
-  {
-   "component": "OrPack_SMS",
-   "package": "SMSBanking",
-   "mode": "positional",
-   "source": "TsboapiDataModule.OrPack_SMS",
-   "routines": []
-  },
-  {
-   "component": "OraPackVExtraction",
-   "package": "V_Extraction",
-   "mode": "positional",
-   "source": "TStatementDataModNew.OraPackVExtraction",
-   "routines": []
-  },
-  {
-   "component": "OraclePackage1",
-   "package": "PG_Guar",
-   "mode": "positional",
-   "source": "TDataMGuarante.OraclePackage1",
-   "routines": [
-    {
-     "name": "add_Guar",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "edit_Guar",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_vergul_tax",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "OraclePackage2",
-   "package": "PG_PROPERTIES",
-   "mode": "named",
-   "source": "TDMproperties.OraclePackage2",
-   "routines": [
-    {
-     "name": "report_tax",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "PACKBPROC",
-   "package": "P_BUSINESS_PROC",
-   "mode": "positional",
-   "source": "TTransaction_DataModule.PACKBPROC",
-   "routines": []
-  },
-  {
-   "component": "PG_PCustService",
-   "package": "PG_PCustService",
-   "mode": "positional",
-   "source": "*.PG_PCustService",
-   "routines": [
-    {
-     "name": "add_cust_relations",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "close_customers_prosess",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "edit_cust_Vid_sbo_sfera_dey",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "get_Add_cust_yoxlama",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_Messaj",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_Modle_comp",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_add_customers_prosess",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_edit_customers_prosess",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_operation_tesdiq",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_rate",
-     "call": "CallFloatFunction"
-    }
-   ]
-  },
-  {
-   "component": "PINS_PACCIDENT",
-   "package": "PINS_PACCIDENT",
-   "mode": "named",
-   "source": "TPAccidentBlank.PINS_PACCIDENT",
-   "routines": []
-  },
-  {
-   "component": "PINS_Paccident",
-   "package": "PINS_PACCIDENT",
-   "mode": "positional",
-   "source": "*.PINS_Paccident",
-   "routines": [
-    {
-     "name": "generateID",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "P_Extraction_OP",
-   "package": "smart.p_statement",
-   "mode": "positional",
-   "source": "TStatementDataModNew.P_Extraction_OP",
-   "routines": [
-    {
-     "name": "GetUserName",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "getextraction",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "PaymentsPackage",
-   "package": "SBCM_Payment",
-   "mode": "positional",
-   "source": "*.PaymentsPackage",
-   "routines": [
-    {
-     "name": "AddPayment",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "PaymentsPlane",
-   "package": "SBCM_PAYMENT_PLANE",
-   "mode": "positional",
-   "source": "TPlaneDataModule.PaymentsPlane",
-   "routines": [
-    {
-     "name": "Payments_Plane_Add",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Payments_Plane_Del",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Payments_Plane_Upd",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "PgRetel",
-   "package": "cm_rtl",
-   "mode": "named",
-   "source": "TRtDataModule.PgRetel",
-   "routines": [
-    {
-     "name": "cred_add",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "ProlongationPackage",
-   "package": "SBCM_Prolongation",
-   "mode": "positional",
-   "source": "TDataModuleProlongation.ProlongationPackage",
-   "routines": [
-    {
-     "name": "AddProlongation",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "DelLastProlongation",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "ReferPackage",
-   "package": "SBCM_Stored_Programs",
-   "mode": "positional",
-   "source": "TDataModuleRefer.ReferPackage",
-   "routines": [
-    {
-     "name": "CloseContract",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "CloseDeposit",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "DisableCalculation",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "EnableCalculation",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "GetAdditionalDepositType",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "GetBankDate",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "GetReference",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "GetTypeIDFromName",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "IsCalculationEnabled",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "UPD_SBCM_REFERENCES",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "ReserveCont",
-   "package": "SBCM_RESERVE_CONT",
-   "mode": "positional",
-   "source": "*.ReserveCont",
-   "routines": [
-    {
-     "name": "ChangeReserve",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBACA",
-   "package": "SB_ACA",
-   "mode": "positional",
-   "source": "TAccDataModule.SBACA",
-   "routines": []
-  },
-  {
-   "component": "SBAca",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "TsboapiDataModule.SBAca",
-   "routines": []
-  },
-  {
-   "component": "SBCM_REPORT",
-   "package": "SBCM_REPORT",
-   "mode": "positional",
-   "source": "TSDHesabat.SBCM_REPORT",
-   "routines": [
-    {
-     "name": "ins_report_sd",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "prepare_sddata",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBComplexTrans",
-   "package": "SB_COMPLEX_TRANSACTIONS",
-   "mode": "named",
-   "source": "TTransaction_DataModule.SBComplexTrans",
-   "routines": [
-    {
-     "name": "SetTransactions",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBCorrection",
-   "package": "SBCORRECTION",
-   "mode": "positional",
-   "source": "*.SBCorrection",
-   "routines": [
-    {
-     "name": "check_account_balance",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "correct_account_balance",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBInstallation",
-   "package": "SBInstall",
-   "mode": "positional",
-   "source": "*.SBInstallation",
-   "routines": [
-    {
-     "name": "add_task_query",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "del_task_actions",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "del_task_query",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "execute_task_query",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "get_task_id",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "upd_task_query",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBLogin",
-   "package": "SBLOGIN",
-   "mode": "positional",
-   "source": "*.SBLogin",
-   "routines": [
-    {
-     "name": "GetSessionID",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "UserID",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "SBMessage",
-   "package": "SBMSG",
-   "mode": "positional",
-   "source": "*.SBMessage",
-   "routines": [
-    {
-     "name": "get_error",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "get_error",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
-   "component": "SBModules",
-   "package": "SBMODULES",
-   "mode": "positional",
-   "source": "TsboapiDataModule.SBModules",
-   "routines": [
-    {
-     "name": "add_module",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "del_module",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBOP",
-   "package": "SBOP",
-   "mode": "positional",
-   "source": "*.SBOP",
-   "routines": [
-    {
-     "name": "GenerateAccountNumber",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "GenerateID",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "add_account",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "add_account",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "close_account",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "get_acc_no_lenght",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_acc_no_sub",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "upd_account",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBOperationDay",
-   "package": "SBOP",
-   "mode": "positional",
-   "source": "*.SBOperationDay",
-   "routines": [
-    {
-     "name": "add_account",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "add_customer",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "close_account",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "close_customer",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "gen_temp_id",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "set_acc_sid",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "upd_account",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "upd_customer",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBRateManagement",
-   "package": "SBRM",
-   "mode": "named",
-   "source": "TsboapiDataModule.SBRateManagement",
-   "routines": [
-    {
-     "name": "calc_rate_difference",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "commit_new_rates",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "correct_lamount",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBReferences",
-   "package": "SBREF",
-   "mode": "positional",
-   "source": "*.SBReferences",
-   "routines": [
-    {
-     "name": "add_custinfo",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "del_custinfo",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "SBReport",
-   "package": "SBREP",
-   "mode": "named",
-   "source": "TsboapiDataModule.SBReport",
-   "routines": []
-  },
-  {
-   "component": "SBSecurity",
-   "package": "SBSEC",
-   "mode": "positional",
-   "source": "TsboapiDataModule.SBSecurity",
-   "routines": [
-    {
-     "name": "GetUserName",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "access_check",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "access_user_grant",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "access_user_revoke",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "build_default_security",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "create_sid",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "destroy_sid",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "get_access_descr",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "get_type_id",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "get_user_id",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "group_add",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "group_delete",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "group_edit",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "group_membership_array",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "group_roles_array",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "link_add",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "link_remove",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "module_get_sid",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "sid_rights_array",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "user_add",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "user_delete",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "user_edit",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "user_recreate_repository",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "user_set_password",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBSessionMgr",
-   "package": "SB_SESSION_MGR",
-   "mode": "positional",
-   "source": "TsboapiDataModule.SBSessionMgr",
-   "routines": [
-    {
-     "name": "KillAll",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "KillSession",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "SendMessage",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBSettings",
-   "package": "SBSETTINGS",
-   "mode": "positional",
-   "source": "TsboapiDataModule.SBSettings",
-   "routines": [
-    {
-     "name": "get_option",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
-   "component": "SBSystem",
-   "package": "SBSYS",
-   "mode": "named",
-   "source": "TsboapiDataModule.SBSystem",
-   "routines": [
-    {
-     "name": "close_day",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "close_day_profits",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "is_day_opened",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "open_day",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SBTransaction",
-   "package": "SB_TRANSACTION",
-   "mode": "named",
-   "source": "TsboapiDataModule.SBTransaction",
-   "routines": [
-    {
-     "name": "GenerateID",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "transaction_add",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "transaction_commit",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "transaction_delete",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "transaction_get_status",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "transaction_reject",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "transactions_delayed_commit",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "transactions_temp_commit",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "transactions_temp_delete",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "SBUTIL",
-   "package": "SBUTIL",
-   "mode": "positional",
-   "source": "*.SBUTIL",
-   "routines": [
-    {
-     "name": "FlagExsist",
-     "call": "CallBooleanFunction"
-    }
-   ]
-  },
-  {
-   "component": "SBUtil",
-   "package": "SBUTIL",
-   "mode": "positional",
-   "source": "*.SBUtil",
-   "routines": [
-    {
-     "name": "FlagExsist",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "get_group_id",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "SB_ACA",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "*.SB_ACA",
-   "routines": [
-    {
-     "name": "CheckAdvancedObjectAccess",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "CheckObjectAccess",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "checkadvancedobjectaccess",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "checkadvancedobjectaccess",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "checkadvancedobjectaccess_func",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "SB_ACA11",
-   "package": "SB_ACA",
-   "mode": "positional",
-   "source": "TAccDataModule.SB_ACA11",
-   "routines": []
-  },
-  {
-   "component": "SB_MAIN_RESOURCE",
-   "package": "SB_MAIN_RESOURCE",
-   "mode": "positional",
-   "source": "*.SB_MAIN_RESOURCE",
-   "routines": [
-    {
-     "name": "Calculate_Wares",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Calculate_Wares_For_Day",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Delete_Groups",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Delete_Wares",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Enable_Delete_Groups",
-     "call": "CallBooleanFunction"
-    },
-    {
-     "name": "GetAccountID",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "Stop_Calculate",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Sum_For_Group_Params",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "Update_Wares",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "add_groups",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "add_wares",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "add_wares",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "archive_wares",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "first_amort_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "get_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "get_view_turn_sql",
-     "call": "CallStringFunction"
-    },
-    {
-     "name": "last_amort_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "last_calc_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "repair_wares",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "restore_calculate",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "set_transaction_new",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "settransaction",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "settransaction_buy_sell",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "upd_groups",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "update_wares_ar_per",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "update_wares_trans",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "usr_upd",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "wares_all_transaction",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "wares_all_transaction2",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SB_STATEMENT",
-   "package": "SB_STATEMENT",
-   "mode": "positional",
-   "source": "*.SB_STATEMENT",
-   "routines": [
-    {
-     "name": "get_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "notAccId",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
-   "component": "SB_STATEMENTSB",
-   "package": "SB_STATEMENT",
-   "mode": "positional",
-   "source": "*.SB_STATEMENTSB",
-   "routines": [
-    {
-     "name": "get_date",
-     "call": "CallDateFunction"
-    },
-    {
-     "name": "notAccId",
-     "call": "CallStringFunction"
-    }
-   ]
-  },
-  {
-   "component": "Sb_aca",
-   "package": "Sb_ACA",
-   "mode": "positional",
-   "source": "TDM.Sb_aca",
-   "routines": []
-  },
-  {
-   "component": "TranchesPackage",
-   "package": "SBCM_Credit_Tranches",
-   "mode": "positional",
-   "source": "TTranchesDataModule.TranchesPackage",
-   "routines": [
-    {
-     "name": "AddTranch",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "WithdrawPackage",
-   "package": "SBCM_PAYMENT",
-   "mode": "positional",
-   "source": "TFrmWithDraw.WithdrawPackage",
-   "routines": [
-    {
-     "name": "WithDrawMoney",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "card",
-   "package": "cardufx",
-   "mode": "positional",
-   "source": "*.card",
-   "routines": [
-    {
-     "name": "CardCheck",
-     "call": "CallIntegerFunction"
-    },
-    {
-     "name": "UfxCheck",
-     "call": "CallFloatFunction"
-    },
-    {
-     "name": "Ufx_send",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "card_commission_our_pos_onus",
-   "package": "card_commission_our_pos_onus",
-   "mode": "positional",
-   "source": "*.card_commission_our_pos_onus",
-   "routines": [
-    {
-     "name": "card_merchand_c_comission",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "del_card_messages_c_commision",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "del_card_messages_comm_commit",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "ins_card_messages_c_commision",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "cc_general",
-   "package": "CC_GENERAL",
-   "mode": "positional",
-   "source": "*.cc_general",
-   "routines": [
-    {
-     "name": "GetPeriod",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "cm_common",
-   "package": "CM_COMMON",
-   "mode": "positional",
-   "source": "*.cm_common",
-   "routines": [
-    {
-     "name": "GetPeriod",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
-   "component": "cm_sd",
-   "package": "CM_SD",
-   "mode": "positional",
-   "source": "TSDHesabat.cm_sd",
-   "routines": [
-    {
-     "name": "ins_report_sd",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "prepare_sddata",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "convertpack",
-   "package": "convertpack",
-   "mode": "positional",
-   "source": "TDataCustNom.convertpack",
-   "routines": []
-  },
-  {
-   "component": "dm_tranches",
-   "package": "dm_credit_tranches",
-   "mode": "named",
-   "source": "TNewDepositsDMApplyMoney.dm_tranches",
-   "routines": []
-  },
-  {
    "component": "mainpacket",
-   "package": "terminalpayments",
+   "package": "card_main",
    "mode": "positional",
-   "source": "*.mainpacket",
+   "source": "TDataMod_CARDS.mainpacket",
    "routines": [
     {
      "name": "CARDNUMBER",
@@ -8155,10 +7000,173 @@
    "routines": []
   },
   {
-   "component": "orapak",
+   "component": "OP_MMX",
+   "package": "MMX",
+   "mode": "positional",
+   "source": "TTransaction_DataModule.OP_MMX",
+   "routines": [
+    {
+     "name": "delete_mmx_transinfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_report",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "ins_mmx_transinfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "mmx_transaction",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPackage",
+   "package": "customer_operations",
+   "mode": "positional",
+   "source": "TDataMod_Buyers.OPackage",
+   "routines": [
+    {
+     "name": "ins_commission_trans_km",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ins_transaction",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPCash",
+   "package": "SB_CASHREPORT",
+   "mode": "positional",
+   "source": "TDataCustNom.OPCash",
+   "routines": [
+    {
+     "name": "GetCustomerInfo",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TPAccidentBlank.OPCOMMON",
+   "routines": [
+    {
+     "name": "newinsurance",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "setblankdata",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "OPG_BusProc",
+   "package": "P_Business_Proc",
+   "mode": "positional",
+   "source": "TDataModule_bussProc.OPG_BusProc",
+   "routines": [
+    {
+     "name": "ExecBProcess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPPayment",
+   "package": "sb_PaymentDecree",
+   "mode": "positional",
+   "source": "TPaymentOrderDataMod.OPPayment",
+   "routines": [
+    {
+     "name": "GetCurrentDate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "add_payment",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_payment",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "isAccountDetails",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "update_payment",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPTransactions",
+   "package": "SB_MAIN_FACILITIES",
+   "mode": "positional",
+   "source": "TFrmTransactions.OPTransactions",
+   "routines": [
+    {
+     "name": "GetPresentDate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "GetTransactions",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "PG_Guar",
+   "mode": "positional",
+   "source": "TDataMGuarante.OraclePackage1",
+   "routines": [
+    {
+     "name": "add_Guar",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "edit_Guar",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_vergul_tax",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage2",
+   "package": "PG_PROPERTIES",
+   "mode": "named",
+   "source": "TDMproperties.OraclePackage2",
+   "routines": [
+    {
+     "name": "report_tax",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraPackVExtraction",
+   "package": "V_Extraction",
+   "mode": "positional",
+   "source": "TStatementDataModNew.OraPackVExtraction",
+   "routines": []
+  },
+  {
+   "component": "ORAPAK",
    "package": "Zsd_1",
    "mode": "positional",
-   "source": "*.orapak",
+   "source": "TSDHesabat.ORAPAK",
    "routines": [
     {
      "name": "check_unique",
@@ -8167,10 +7175,52 @@
    ]
   },
   {
+   "component": "OrPack_SL",
+   "package": "SL_CONTROL",
+   "mode": "positional",
+   "source": "TCMDataModule.OrPack_SL",
+   "routines": []
+  },
+  {
+   "component": "OrPack_SMS",
+   "package": "SMSBanking",
+   "mode": "positional",
+   "source": "TsboapiDataModule.OrPack_SMS",
+   "routines": []
+  },
+  {
+   "component": "OSCT",
+   "package": "SB_COMPLEX_TRANSACTIONS",
+   "mode": "positional",
+   "source": "TDataMod_Buyers.OSCT",
+   "routines": [
+    {
+     "name": "settransactions",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "P_Extraction_OP",
+   "package": "smart.p_statement",
+   "mode": "positional",
+   "source": "TStatementDataModNew.P_Extraction_OP",
+   "routines": [
+    {
+     "name": "GetUserName",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "getextraction",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
    "component": "pack",
    "package": "accepted_portfel",
    "mode": "positional",
-   "source": "*.pack",
+   "source": "TDM.pack",
    "routines": [
     {
      "name": "Ibank_change_status",
@@ -8178,6 +7228,45 @@
     },
     {
      "name": "Templ_del",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "PACKBPROC",
+   "package": "P_BUSINESS_PROC",
+   "mode": "positional",
+   "source": "TTransaction_DataModule.PACKBPROC",
+   "routines": []
+  },
+  {
+   "component": "PaymentsPackage",
+   "package": "SBCM_Payment",
+   "mode": "positional",
+   "source": "TDataModPayments.PaymentsPackage",
+   "routines": [
+    {
+     "name": "AddPayment",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "PaymentsPlane",
+   "package": "SBCM_PAYMENT_PLANE",
+   "mode": "positional",
+   "source": "TPlaneDataModule.PaymentsPlane",
+   "routines": [
+    {
+     "name": "Payments_Plane_Add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Payments_Plane_Del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Payments_Plane_Upd",
      "call": "CallProcedure"
     }
    ]
@@ -8195,6 +7284,54 @@
    ]
   },
   {
+   "component": "PG_PCustService",
+   "package": "PG_PCustService",
+   "mode": "positional",
+   "source": "TAccDataModule.PG_PCustService",
+   "routines": [
+    {
+     "name": "add_cust_relations",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_customers_prosess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_cust_Vid_sbo_sfera_dey",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_Add_cust_yoxlama",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_Messaj",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_Modle_comp",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_add_customers_prosess",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_edit_customers_prosess",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_operation_tesdiq",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_rate",
+     "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
    "component": "pgcust_note",
    "package": "pgcust_note",
    "mode": "positional",
@@ -8207,14 +7344,297 @@
    ]
   },
   {
-   "component": "sb_aca",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "TNewDepositsDMApplyMoney.sb_aca",
+   "component": "PgRetel",
+   "package": "cm_rtl",
+   "mode": "named",
+   "source": "TRtDataModule.PgRetel",
    "routines": [
+    {
+     "name": "cred_add",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "PINS_PACCIDENT",
+   "package": "PINS_PACCIDENT",
+   "mode": "named",
+   "source": "TPAccidentBlank.PINS_PACCIDENT",
+   "routines": [
+    {
+     "name": "generateID",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "ProlongationPackage",
+   "package": "SBCM_Prolongation",
+   "mode": "positional",
+   "source": "TDataModuleProlongation.ProlongationPackage",
+   "routines": [
+    {
+     "name": "AddProlongation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DelLastProlongation",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "ReferPackage",
+   "package": "SBCM_Stored_Programs",
+   "mode": "positional",
+   "source": "TDataModuleRefer.ReferPackage",
+   "routines": [
+    {
+     "name": "CloseContract",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CloseDeposit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DisableCalculation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "EnableCalculation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "GetAdditionalDepositType",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GetBankDate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "GetReference",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GetTypeIDFromName",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "IsCalculationEnabled",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "UPD_SBCM_REFERENCES",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "ReserveCont",
+   "package": "SBCM_RESERVE_CONT",
+   "mode": "positional",
+   "source": "TDataModExpire.ReserveCont",
+   "routines": [
+    {
+     "name": "ChangeReserve",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "named",
+   "source": "TAccDataModule.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CheckObjectAccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkadvancedobjectaccess_func",
+     "call": "CallIntegerFunction"
+    },
     {
      "name": "getuserfilial",
      "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA11",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TAccDataModule.SB_ACA11",
+   "routines": []
+  },
+  {
+   "component": "SB_MAIN_RESOURCE",
+   "package": "SB_MAIN_RESOURCE",
+   "mode": "positional",
+   "source": "*.SB_MAIN_RESOURCE",
+   "routines": [
+    {
+     "name": "Calculate_Wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Calculate_Wares_For_Day",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Delete_Groups",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Delete_Wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Enable_Delete_Groups",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "GetAccountID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Stop_Calculate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Sum_For_Group_Params",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Update_Wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_groups",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_wares",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "archive_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "first_amort_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "get_view_turn_sql",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "last_amort_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "last_calc_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "repair_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "restore_calculate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "set_transaction_new",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "settransaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "settransaction_buy_sell",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_groups",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_wares_ar_per",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_wares_trans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "usr_upd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "wares_all_transaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "wares_all_transaction2",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SB_STATEMENT",
+   "package": "SB_STATEMENT",
+   "mode": "positional",
+   "source": "*.SB_STATEMENT",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "notAccId",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_STATEMENTSB",
+   "package": "SB_STATEMENT",
+   "mode": "positional",
+   "source": "TDataModule_bussProc.SB_STATEMENTSB",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "notAccId",
+     "call": "CallStringFunction"
     }
    ]
   },
@@ -8224,6 +7644,488 @@
    "mode": "positional",
    "source": "TDM.sb_trans",
    "routines": []
+  },
+  {
+   "component": "SBACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TAccDataModule.SBACA",
+   "routines": []
+  },
+  {
+   "component": "SBCM_REPORT",
+   "package": "SBCM_REPORT",
+   "mode": "positional",
+   "source": "TSDHesabat.SBCM_REPORT",
+   "routines": [
+    {
+     "name": "ins_report_sd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "prepare_sddata",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBComplexTrans",
+   "package": "SB_COMPLEX_TRANSACTIONS",
+   "mode": "named",
+   "source": "TTransaction_DataModule.SBComplexTrans",
+   "routines": [
+    {
+     "name": "SetTransactions",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBCorrection",
+   "package": "SBCORRECTION",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBCorrection",
+   "routines": [
+    {
+     "name": "check_account_balance",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "correct_account_balance",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBInstallation",
+   "package": "SBInstall",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBInstallation",
+   "routines": [
+    {
+     "name": "add_task_query",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "del_task_actions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_task_query",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "execute_task_query",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_task_id",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "upd_task_query",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBLogin",
+   "package": "SBLOGIN",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBLogin",
+   "routines": [
+    {
+     "name": "GetSessionID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "UserID",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBMessage",
+   "package": "SBMSG",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBMessage",
+   "routines": [
+    {
+     "name": "get_error",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "get_error",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBModules",
+   "package": "SBMODULES",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBModules",
+   "routines": [
+    {
+     "name": "add_module",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "del_module",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBOP",
+   "package": "SBOP",
+   "mode": "named",
+   "source": "TAccDataModule.SBOP",
+   "routines": [
+    {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GenerateID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_account",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_account",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "close_account",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_acc_no_lenght",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_acc_no_sub",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "upd_account",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBOperationDay",
+   "package": "SBOP",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBOperationDay",
+   "routines": [
+    {
+     "name": "add_account",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_customer",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_account",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_customer",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "gen_temp_id",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "set_acc_sid",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_account",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_customer",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBRateManagement",
+   "package": "SBRM",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBRateManagement",
+   "routines": [
+    {
+     "name": "calc_rate_difference",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "commit_new_rates",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "correct_lamount",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBReferences",
+   "package": "SBREF",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBReferences",
+   "routines": [
+    {
+     "name": "add_custinfo",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "del_custinfo",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBReport",
+   "package": "SBREP",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBReport",
+   "routines": []
+  },
+  {
+   "component": "SBSecurity",
+   "package": "SBSEC",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBSecurity",
+   "routines": [
+    {
+     "name": "GetUserName",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "access_check",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "access_user_grant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "access_user_revoke",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "build_default_security",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "create_sid",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "destroy_sid",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_access_descr",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "get_type_id",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_user_id",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "group_add",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "group_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "group_edit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "group_membership_array",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "group_roles_array",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "link_add",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "link_remove",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "module_get_sid",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "sid_rights_array",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "user_add",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "user_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "user_edit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "user_recreate_repository",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "user_set_password",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBSessionMgr",
+   "package": "SB_SESSION_MGR",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBSessionMgr",
+   "routines": [
+    {
+     "name": "KillAll",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "KillSession",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SendMessage",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBSettings",
+   "package": "SBSETTINGS",
+   "mode": "positional",
+   "source": "TsboapiDataModule.SBSettings",
+   "routines": [
+    {
+     "name": "get_option",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBSystem",
+   "package": "SBSYS",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBSystem",
+   "routines": [
+    {
+     "name": "close_day",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_day_profits",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "is_day_opened",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "open_day",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBTransaction",
+   "package": "SB_TRANSACTION",
+   "mode": "named",
+   "source": "TsboapiDataModule.SBTransaction",
+   "routines": [
+    {
+     "name": "GenerateID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "transaction_add",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "transaction_commit",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "transaction_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "transaction_get_status",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "transaction_reject",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "transactions_delayed_commit",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "transactions_temp_commit",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "transactions_temp_delete",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBUTIL",
+   "package": "SBUTIL",
+   "mode": "named",
+   "source": "TAccDataModule.SBUTIL",
+   "routines": [
+    {
+     "name": "FlagExsist",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "get_group_id",
+     "call": "CallIntegerFunction"
+    }
+   ]
   },
   {
    "component": "sw_in_insert",
@@ -8369,6 +8271,30 @@
     },
     {
      "name": "updout",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "TranchesPackage",
+   "package": "SBCM_Credit_Tranches",
+   "mode": "positional",
+   "source": "TTranchesDataModule.TranchesPackage",
+   "routines": [
+    {
+     "name": "AddTranch",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "WithdrawPackage",
+   "package": "SBCM_PAYMENT",
+   "mode": "positional",
+   "source": "TFrmWithDraw.WithdrawPackage",
+   "routines": [
+    {
+     "name": "WithDrawMoney",
      "call": "CallProcedure"
     }
    ]

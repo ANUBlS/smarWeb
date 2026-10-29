@@ -57,7 +57,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UMainCProperty"
@@ -138,13 +138,6 @@
    "package": "INS_COMMON",
    "mode": "positional",
    "source": "TfrmMainCProperty.OPCOMMON",
-   "routines": []
-  },
-  {
-   "component": "OPCommon",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "*.OPCommon",
    "routines": [
     {
      "name": "del_ins",

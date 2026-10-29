@@ -43,7 +43,7 @@
    "variables": [
     {
      "name": "MAINTABLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DictChildeImpl"

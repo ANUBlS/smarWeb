@@ -63,13 +63,6 @@
    "package": "INS_PKG_MEDICAL",
    "mode": "named",
    "source": "TfmMedical.PINS_Medical",
-   "routines": []
-  },
-  {
-   "component": "PInS_Medical",
-   "package": "INS_PKG_MEDICAL",
-   "mode": "positional",
-   "source": "*.PInS_Medical",
    "routines": [
     {
      "name": "delete_medicalinfo",

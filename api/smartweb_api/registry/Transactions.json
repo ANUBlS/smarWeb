@@ -237,6 +237,13 @@
    "routines": []
   },
   {
+   "component": "OraclePackage",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TTransactionsDataModule.OraclePackage",
+   "routines": []
+  },
+  {
    "component": "SBReport",
    "package": "SBREP",
    "mode": "named",

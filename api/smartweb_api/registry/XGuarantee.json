@@ -255,7 +255,7 @@
    "variables": [
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "DataMGuarantee"
@@ -470,9 +470,9 @@
  "packages": [
   {
    "component": "Guarante",
-   "package": "CM_Credit",
+   "package": "PG_Guar",
    "mode": "positional",
-   "source": "*.Guarante",
+   "source": "TDataMGuarante.Guarante",
    "routines": [
     {
      "name": "Guarantee_Add1",

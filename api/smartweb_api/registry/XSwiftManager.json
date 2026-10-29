@@ -608,7 +608,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unit2"
@@ -658,7 +658,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unit2"
@@ -688,7 +688,7 @@
    "variables": [
     {
      "name": "IDS",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unit2"
@@ -1414,26 +1414,10 @@
  ],
  "packages": [
   {
-   "component": "SB_ACA",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "*.SB_ACA",
-   "routines": [
-    {
-     "name": "CheckAdvancedObjectAccess",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "checkadvancedobjectaccess_func",
-     "call": "CallIntegerFunction"
-    }
-   ]
-  },
-  {
    "component": "card",
    "package": "cardufx",
    "mode": "positional",
-   "source": "*.card",
+   "source": "TSWDataModule.card",
    "routines": [
     {
      "name": "CardCheck",
@@ -1477,13 +1461,22 @@
    "package": "sb_aca",
    "mode": "positional",
    "source": "TSWDataModule.sb_aca",
-   "routines": []
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkadvancedobjectaccess_func",
+     "call": "CallIntegerFunction"
+    }
+   ]
   },
   {
    "component": "sw_in_insert",
    "package": "sw_main",
    "mode": "positional",
-   "source": "*.sw_in_insert",
+   "source": "TSWDataModule.sw_in_insert",
    "routines": [
     {
      "name": "Azp205",

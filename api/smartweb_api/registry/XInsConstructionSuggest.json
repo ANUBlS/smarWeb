@@ -133,13 +133,6 @@
    "package": "PINS_CONSTRUCTION",
    "mode": "named",
    "source": "TConstructionSuggest.PINS_CONSTRUCTION",
-   "routines": []
-  },
-  {
-   "component": "PINS_construction",
-   "package": "PINS_CONSTRUCTION",
-   "mode": "positional",
-   "source": "*.PINS_construction",
    "routines": [
     {
      "name": "generateSugID",

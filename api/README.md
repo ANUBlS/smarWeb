@@ -39,12 +39,20 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 
 | Module | Status |
 |---|---|
-| Common — shared SmartBank API units (sboapi50, 592 datasets, 84 packages) | ✅ ready |
+| Common — shared SmartBank API units (sboapi50, 592 datasets, 75 packages) | ✅ ready |
 | Accounts — Balans / Əməliyyat günü / Hesablar | ✅ ready |
+| Customers — Balans / Müştərilər / Bankın müştəriləri (23 datasets; OPCust → SBREF, sb_custInfo named) | ✅ ready |
 | all others | gateway works; own Swagger section pending |
 
 The web client uses the gateway for **every** module already; the per-module sections document and
 check each module one by one.
+
+### Substitution variables
+
+DOA `otSubst` variables (`order by :Title`, `and cust_type :Cond`) are spliced into the SQL text, not
+bound — as in the desktop application. On the module endpoints their value may contain column names,
+numbers, operators, lists and quoted literals, but no statement keywords, comments or `;`. An empty value
+drops a preceding `ORDER BY` / `GROUP BY` (the first open of a grid before any sort is chosen).
 
 ### Statement allow-list
 

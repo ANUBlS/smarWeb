@@ -137,13 +137,6 @@
    "package": "INS_COMMON",
    "mode": "positional",
    "source": "TPAccidentBlank.OPCOMMON",
-   "routines": []
-  },
-  {
-   "component": "OPCommon",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "*.OPCommon",
    "routines": [
     {
      "name": "newinsurance",
@@ -160,13 +153,6 @@
    "package": "PINS_PACCIDENT",
    "mode": "named",
    "source": "TPAccidentBlank.PINS_PACCIDENT",
-   "routines": []
-  },
-  {
-   "component": "PINS_Paccident",
-   "package": "PINS_PACCIDENT",
-   "mode": "positional",
-   "source": "*.PINS_Paccident",
    "routines": [
     {
      "name": "generateID",

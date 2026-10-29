@@ -114,13 +114,6 @@
    "package": "INS_COMMON",
    "mode": "positional",
    "source": "TConstraction.OPCOMMON",
-   "routines": []
-  },
-  {
-   "component": "OPCommon",
-   "package": "INS_COMMON",
-   "mode": "positional",
-   "source": "*.OPCommon",
    "routines": [
     {
      "name": "newinsurance",

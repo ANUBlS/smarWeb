@@ -66,7 +66,7 @@
    "variables": [
     {
      "name": "PSEARCH",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "VAL_ACC",
@@ -176,22 +176,10 @@
    ]
   },
   {
-   "component": "ReferPackage",
-   "package": "sbcm_rpdepository_new",
-   "mode": "positional",
-   "source": "TNewDepositsDataModReferences.ReferPackage",
-   "routines": [
-    {
-     "name": "UPD_SBCM_REFERENCES",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "dm_stored_programs",
    "package": "dm_stored_programs",
    "mode": "positional",
-   "source": "*.dm_stored_programs",
+   "source": "TNewDepositsFrmDepositTypes.dm_stored_programs",
    "routines": [
     {
      "name": "AddDepositTypes",
@@ -207,6 +195,18 @@
     },
     {
      "name": "UpdDepositTypes",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "ReferPackage",
+   "package": "sbcm_rpdepository_new",
+   "mode": "positional",
+   "source": "TNewDepositsDataModReferences.ReferPackage",
+   "routines": [
+    {
+     "name": "UPD_SBCM_REFERENCES",
      "call": "CallProcedure"
     }
    ]

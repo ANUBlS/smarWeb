@@ -113,7 +113,7 @@
    "component": "tranche",
    "package": "cm_tranche",
    "mode": "positional",
-   "source": "*.tranche",
+   "source": "TTrData.tranche",
    "routines": [
     {
      "name": "tranche_commit",
@@ -125,7 +125,7 @@
    "component": "webservispkg",
    "package": "webservispkg",
    "mode": "positional",
-   "source": "*.webservispkg",
+   "source": "TTrData.webservispkg",
    "routines": [
     {
      "name": "call_services",

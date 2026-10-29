@@ -222,8 +222,8 @@
   {
    "component": "PrPackage",
    "package": "asan_transaction",
-   "mode": "positional",
-   "source": "*.PrPackage",
+   "mode": "named",
+   "source": "TAsanDm.PrPackage",
    "routines": [
     {
      "name": "add_cust",

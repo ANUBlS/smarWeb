@@ -73,7 +73,7 @@
     },
     {
      "name": "ORDERFIELD",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "dmpbf_transactionimpl"

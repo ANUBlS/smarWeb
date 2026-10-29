@@ -671,10 +671,30 @@
  ],
  "packages": [
   {
+   "component": "ins_common",
+   "package": "ins_common",
+   "mode": "positional",
+   "source": "TDMreinsurance.ins_common",
+   "routines": [
+    {
+     "name": "del_reins",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_reins_status_back",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_reins_status_commit",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
    "component": "P_ins_reins",
    "package": "ins_reins",
    "mode": "positional",
-   "source": "*.P_ins_reins",
+   "source": "TDMreinsurance.P_ins_reins",
    "routines": [
     {
      "name": "reins_bardero_odeme",
@@ -730,26 +750,6 @@
     },
     {
      "name": "upd_ter_reins_status_commit",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "ins_common",
-   "package": "ins_common",
-   "mode": "positional",
-   "source": "TDMreinsurance.ins_common",
-   "routines": [
-    {
-     "name": "del_reins",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "upd_reins_status_back",
-     "call": "CallProcedure"
-    },
-    {
-     "name": "upd_reins_status_commit",
      "call": "CallProcedure"
     }
    ]

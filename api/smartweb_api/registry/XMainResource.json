@@ -106,7 +106,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitData"
@@ -123,7 +123,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitData"
@@ -337,7 +337,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitData"
@@ -504,7 +504,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitData"
@@ -625,7 +625,7 @@
    "component": "SB_MAIN_RESOURCE",
    "package": "SB_MAIN_RESOURCE",
    "mode": "positional",
-   "source": "*.SB_MAIN_RESOURCE",
+   "source": "TDataModWares.SB_MAIN_RESOURCE",
    "routines": [
     {
      "name": "Calculate_Wares",

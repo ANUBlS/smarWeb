@@ -176,18 +176,6 @@
  ],
  "packages": [
   {
-   "component": "SB_ACA",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "*.SB_ACA",
-   "routines": [
-    {
-     "name": "CheckAdvancedObjectAccess",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "pack",
    "package": "accepted_portfel",
    "mode": "positional",
@@ -240,7 +228,12 @@
    "package": "sb_aca",
    "mode": "positional",
    "source": "TDataMod.sb_aca",
-   "routines": []
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
   }
  ],
  "sql": []

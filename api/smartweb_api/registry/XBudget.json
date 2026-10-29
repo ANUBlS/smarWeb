@@ -247,7 +247,7 @@
    "component": "ArticlesPkg",
    "package": "P_Articles",
    "mode": "positional",
-   "source": "*.ArticlesPkg",
+   "source": "TDMBudget.ArticlesPkg",
    "routines": [
     {
      "name": "Balans",

@@ -352,10 +352,10 @@
    ]
   },
   {
-   "component": "INS",
+   "component": "Ins",
    "package": "HOXPACK",
    "mode": "positional",
-   "source": "*.INS",
+   "source": "TDataMod.Ins",
    "routines": [
     {
      "name": "UPD_HOX102_OUT",
@@ -366,13 +366,6 @@
      "call": "CallProcedure"
     }
    ]
-  },
-  {
-   "component": "Ins",
-   "package": "HOXPACK",
-   "mode": "positional",
-   "source": "TDataMod.Ins",
-   "routines": []
   },
   {
    "component": "Proper_pack",

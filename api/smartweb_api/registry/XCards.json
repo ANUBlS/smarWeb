@@ -683,7 +683,7 @@
     },
     {
      "name": "VIDS",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "Unit18"
@@ -1462,34 +1462,10 @@
  ],
  "packages": [
   {
-   "component": "OraclePackage1",
-   "package": "card_main",
-   "mode": "positional",
-   "source": "TKorrMoh.OraclePackage1",
-   "routines": [
-    {
-     "name": "mohset",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
-   "component": "SB_ACA",
-   "package": "sb_aca",
-   "mode": "positional",
-   "source": "*.SB_ACA",
-   "routines": [
-    {
-     "name": "CheckAdvancedObjectAccess",
-     "call": "CallProcedure"
-    }
-   ]
-  },
-  {
    "component": "card_commission_our_pos_onus",
    "package": "card_commission_our_pos_onus",
    "mode": "positional",
-   "source": "*.card_commission_our_pos_onus",
+   "source": "TDataMod_CARDS.card_commission_our_pos_onus",
    "routines": [
     {
      "name": "card_merchand_c_comission",
@@ -1511,9 +1487,9 @@
   },
   {
    "component": "mainpacket",
-   "package": "terminalpayments",
+   "package": "card_main",
    "mode": "positional",
-   "source": "*.mainpacket",
+   "source": "TDataMod_CARDS.mainpacket",
    "routines": [
     {
      "name": "CARDNUMBER",
@@ -1870,11 +1846,28 @@
    ]
   },
   {
+   "component": "OraclePackage1",
+   "package": "card_main",
+   "mode": "positional",
+   "source": "TKorrMoh.OraclePackage1",
+   "routines": [
+    {
+     "name": "mohset",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
    "component": "sb_aca",
    "package": "sb_aca",
    "mode": "positional",
    "source": "TDataMod_CARDS.sb_aca",
-   "routines": []
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
   }
  ],
  "sql": [

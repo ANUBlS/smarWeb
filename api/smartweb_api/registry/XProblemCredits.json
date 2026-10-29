@@ -43,7 +43,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "PrCmDMImpl"
@@ -141,7 +141,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "PrCmDMImpl"
@@ -245,7 +245,7 @@
     },
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "PrCmDMImpl"
@@ -308,9 +308,9 @@
   },
   {
    "component": "PrPackage",
-   "package": "asan_transaction",
-   "mode": "positional",
-   "source": "*.PrPackage",
+   "package": "cm_folder",
+   "mode": "named",
+   "source": "TPrCmDM.PrPackage",
    "routines": [
     {
      "name": "CountCreditUser",

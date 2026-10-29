@@ -56,7 +56,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "NomCustDataImpl"
@@ -191,7 +191,7 @@
    "variables": [
     {
      "name": "TITLE",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "NomCustDataImpl"
@@ -368,6 +368,13 @@
  ],
  "packages": [
   {
+   "component": "convertpack",
+   "package": "convertpack",
+   "mode": "positional",
+   "source": "TCustNomData.convertpack",
+   "routines": []
+  },
+  {
    "component": "PG_PCustService",
    "package": "PG_PCustService",
    "mode": "positional",
@@ -390,13 +397,6 @@
      "call": "CallIntegerFunction"
     }
    ]
-  },
-  {
-   "component": "convertpack",
-   "package": "convertpack",
-   "mode": "positional",
-   "source": "TCustNomData.convertpack",
-   "routines": []
   }
  ],
  "sql": []

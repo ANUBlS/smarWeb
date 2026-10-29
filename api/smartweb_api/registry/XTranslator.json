@@ -43,7 +43,7 @@
    "variables": [
     {
      "name": "FILT",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "UnitTranslatorImpl1"

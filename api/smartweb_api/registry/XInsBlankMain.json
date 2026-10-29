@@ -296,11 +296,11 @@
     },
     {
      "name": "BALCNKR",
-     "type": "string"
+     "type": "subst"
     },
     {
      "name": "BALCNDB",
-     "type": "string"
+     "type": "subst"
     }
    ],
    "unit": "BlankDMImpl"
