@@ -309,7 +309,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
     void select(n, k, trailOf(path).slice(0, -1));
   };
 
-  const mdi = list.filter((w) => w.kind !== 'modal');
+  const mdi = list.filter((w) => w.kind !== 'modal' && !w.hidden);
   const closeAll = async () => { for (const w of [...mdi]) await runGuarded(() => w.form.Close(), w.form.Name); };
   const arrange = (mode: 'v' | 'h' | 'c') => {
     const ws = mdi.filter((w) => !w.minimized);

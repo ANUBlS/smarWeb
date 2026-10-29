@@ -78,7 +78,7 @@ function WindowBody({ form, minW, minH }: { form: TCustomForm; minW?: number; mi
 export function Workspace({ splash }: { splash: React.ReactNode }) {
   useTick();
   const list = useWindows();
-  const mdi = list.filter((w) => w.kind !== 'modal');
+  const mdi = list.filter((w) => w.kind !== 'modal' && !w.hidden);
   const active = windows.activeId;
   const activeWin = mdi.find((w) => w.id === active && !w.minimized);
   const coverBySplash = !activeWin || !activeWin.maximized;
@@ -121,7 +121,7 @@ function MdiWindow({ w, active }: { w: FormWindow; active: boolean }) {
 export function ModalLayer() {
   useTick();
   const list = useWindows();
-  const modals = list.filter((w) => w.kind === 'modal');
+  const modals = list.filter((w) => w.kind === 'modal' && !w.hidden);
   return (
     <>
       {modals.map((w, i) => (

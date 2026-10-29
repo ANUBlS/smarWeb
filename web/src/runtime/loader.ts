@@ -182,13 +182,14 @@ export async function openModule(name: string, params: Record<string, string>, c
   const init = def.findMethod('instanceinitialize');
   if (init) await runGuarded(() => init(f), `${name}.Initialize`);
   if (params.Caption) f.Caption = params.Caption;
-  windows.add(f, 'module', key);
+  // painted only after Activate / OnShow / OnActivate and the first action update: one complete frame
+  const w = windows.add(f, 'module', key, true);
   (f as any).shown = true;
   const act = def.findMethod('uiobjectactivate');
-  if (act) await runGuarded(() => act(f), `${name}.Activate`);
-  await f.fire('OnShow', f);
-  await f.fire('OnActivate', f);
-  f.focusActiveControl();
+  try {
+    if (act) await runGuarded(() => act(f), `${name}.Activate`);
+  } catch (e) { windows.reveal(w); throw e; }
+  await f.prepareAndReveal(w);
   return f;
 }
 

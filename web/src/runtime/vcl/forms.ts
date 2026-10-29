@@ -28,6 +28,8 @@ export interface FormWindow {
   key?: string;
   minimized: boolean;
   maximized: boolean;
+  /** Between Show and the end of OnShow/OnActivate: not painted yet (Delphi shows the form afterwards). */
+  hidden?: boolean;
   x: number; y: number; w: number; h: number;
 }
 
@@ -38,20 +40,30 @@ export const windows = {
   activeId: 0,
   subscribe(l: () => void) { winListeners.add(l); return () => { winListeners.delete(l); }; },
   emit() { windows.list = [...windows.list]; winListeners.forEach((l) => l()); invalidate(); },
-  add(form: TCustomForm, kind: WindowKind, key?: string) {
+  add(form: TCustomForm, kind: WindowKind, key?: string, hidden = false) {
     const existing = windows.list.find((w) => w.form === form);
-    if (existing) { windows.activate(existing.id); return existing; }
+    if (existing) { if (existing.hidden) windows.reveal(existing); windows.activate(existing.id); return existing; }
     const n = windows.list.filter((w) => w.kind !== 'modal').length;
     const w: FormWindow = {
       id: ++winSeq, form, kind, key, minimized: false,
       maximized: kind === 'module' && (form.WindowState === 'wsmaximized' || true),
       x: 24 + (n % 8) * 24, y: 24 + (n % 8) * 24,
       w: Math.max(320, form.designWidth), h: Math.max(160, form.designHeight + (form.Menu ? 22 : 0)),
+      hidden,
     };
     windows.list.push(w);
+    if (hidden) return w;
     if (kind !== 'modal') windows.activeId = w.id;
     windows.emit();
     return w;
+  },
+  /** First paint of a window added hidden: fully prepared, in one frame. */
+  reveal(w: FormWindow) {
+    if (!w.hidden) return;
+    w.hidden = false;
+    if (!windows.list.includes(w)) return;
+    if (w.kind !== 'modal') windows.activeId = w.id;
+    windows.emit();
   },
   remove(form: TCustomForm) {
     windows.list = windows.list.filter((w) => w.form !== form);
@@ -136,12 +148,10 @@ export class TCustomForm extends TWinControl {
 
   async ShowModal(): Promise<number> {
     this._modalResult = 0;
-    const w = windows.add(this, 'modal');
+    const w = windows.add(this, 'modal', undefined, true);
     this.shown = true;
     const done = new Promise<number>((resolve) => { this.modalResolve = resolve; });
-    await this.fire('OnShow', this);
-    await this.fire('OnActivate', this);
-    this.focusActiveControl();
+    await this.prepareAndReveal(w);
     const unhold = suspendHold();
     let r: number;
     try { r = await done; } finally { unhold(); }
@@ -165,15 +175,26 @@ export class TCustomForm extends TWinControl {
   async Show() {
     if (this.shown) { this.BringToFront(); return; }
     this.shown = true;
-    windows.add(this, this.FormStyle === 'fsmdichild' ? 'module' : 'float');
-    await this.fire('OnShow', this);
-    await this.fire('OnActivate', this);
-    this.focusActiveControl();
+    const w = windows.add(this, this.FormStyle === 'fsmdichild' ? 'module' : 'float', undefined, true);
+    await this.prepareAndReveal(w);
+  }
+  /** OnShow, OnActivate and the first action OnUpdate run before the window is painted, and focus is
+   *  set before the first frame: the window appears once, complete (no enabled/focus blink). */
+  async prepareAndReveal(w: FormWindow) {
+    try {
+      await this.fire('OnShow', this);
+      await this.fire('OnActivate', this);
+      await this.UpdateActions();
+    } finally {
+      windows.reveal(w);
+      this.focusActiveControl();
+    }
   }
   focusActiveControl() {
     const ac = this.ActiveControl ?? this.firstTabControl();
     if (!ac) return;
-    setTimeout(() => ac.SetFocus(), 30);
+    // the window renders in a microtask after reveal; rAF runs before that frame is painted
+    requestAnimationFrame(() => ac.SetFocus());
     if (ac instanceof TTreeView) void runGuarded(() => ac.focusSelectFirst(), `${ac.Name}.OnChange`);
   }
   /** The control TCustomForm.SetFocus would focus first: lowest TabOrder, depth-first. */
