@@ -129,6 +129,9 @@ def guess(name: str) -> str:
 def value(name: str, t: str, i: int):
     if t == 'ROWID':
         return f'AAAR{i:04d}'
+    if t == 'DATE' and name.upper() == 'HDATE':
+        # history tables (SBCM_Interests …) are read in insertion order: ascending dates
+        return dt.datetime.combine(dt.date.today(), dt.time()) - dt.timedelta(days=30 * (3 - i))
     if t == 'DATE':
         # first row dated today (operational-day checks: only today's documents may be changed), then older
         return dt.datetime.combine(dt.date.today(), dt.time()) - dt.timedelta(days=7 * i)

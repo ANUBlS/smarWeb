@@ -49,6 +49,9 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | TransactionManager — Balans / Əməliyyat günü / Günün sənədləri (20 datasets; add / edit / delete / confirm / reject through SB_TRANSACTION; SB_COMPLEX_TRANSACTIONS.SetTransactions; threaded currency/operation filter lists) | ✅ ready |
 | Account — Balans / Əməliyyat günü / Yeni hesablar (23 datasets; SBOP.GenerateAccountNumber (Ctrl+H) / add_account / upd_account / close_account from OnApplyRecord; account turnover over a REF CURSOR, pkg_report.get_account_turnover) | ✅ ready |
 | PaymentDecree — Balans / Əməliyyat günü / Ödəmə tapşırığı (16 datasets; sb_PaymentDecree.add_payment / update_payment / delete_payment, positional, DATE arguments typed from ALL_ARGUMENTS; archive) | ✅ ready |
+| CreditManager — Balans / Kreditlər / Kreditlərin idarə olunması (new / edit contract via SBCM_Contract.Init / AddValue / NewContract / UpdateingContract; tranche, overdue, payment, prolongation, reserve; enable/disable calculation; percent converting; close contract(s) on the selected rows; SBCM shared units in Common) | ✅ ready |
+| ContractCorrection — Balans / Kreditlər / Kreditlərdə düzəlişlər (grid edit of SBCM_Contract_Correction by ROWID, CommitOnPost; Qəbul = commit, İmtina = rollback) | ✅ ready |
+| CreditsArchive — Balans / Kreditlər / Arxiv Kreditlər (grid edit of TYPE# with pick list, CommitOnPost; Qəbul / İmtina) | ✅ ready |
 | all others | gateway works; own Swagger section pending |
 
 The web client uses the gateway for **every** module already; the per-module sections document and

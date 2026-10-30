@@ -8,5 +8,8 @@
   "Transactions",
   "TransactionManager",
   "Account",
-  "PaymentDecree"
+  "PaymentDecree",
+  "CreditManager",
+  "ContractCorrection",
+  "CreditsArchive"
 ]

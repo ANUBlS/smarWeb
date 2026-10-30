@@ -701,12 +701,18 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
               style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : !isCur ? colBg : undefined, color: !isCur && st?.fg !== undefined ? toCss(st.fg) : undefined, fontWeight: st?.bold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
               onMouseDown={(e) => {
                 if (ed && isCur && ci === ed.col) return;
+                // VCL TDBGrid: only the left button moves the record / changes the selection (right = popup)
+                if (e.button !== 0) return;
                 const again = isCur && ci === g.SelectedIndex && !e.ctrlKey && !e.shiftKey;
                 if (!isInsertRow) run(g.userClickCell(viewIdx, ci, { ctrl: e.ctrlKey || e.metaKey, shift: e.shiftKey }), g.Name);
                 if (again) { e.preventDefault(); openEd(); }
               }}>
               {ed && isCur && ci === ed.col ? (
+                <>{(col as any).PickList?.Count ? (
+                  <datalist id={`pl-${g.Name}-${ci}`}>{String((col as any).PickList.Text).split('\r\n').filter((x: string) => x !== '').map((x: string) => <option key={x} value={x} />)}</datalist>
+                ) : null}
                 <input className="cell-ed" autoFocus value={ed.text} spellCheck={false} style={{ textAlign: align ?? (isNum ? 'right' : 'left') }}
+                  list={(col as any).PickList?.Count ? `pl-${g.Name}-${ci}` : undefined}
                   maxLength={f?.fieldType === 'string' && f.Size ? f.Size : undefined}
                   onChange={(ev) => setEd({ ...ed, text: ev.target.value })}
                   onFocus={(ev) => ev.currentTarget.select()}
@@ -724,7 +730,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
                       const to = Math.max(0, Math.min(count - 1, cur + (ev.key === 'ArrowUp' ? -1 : 1)));
                       run(commitEd(ed.text).then(() => ds!.gotoIndex(to)), g.Name);
                     }
-                  }} />
+                  }} /></>
               ) : f?.fieldType === 'boolean' ? (v ? '✓' : '') : text}
             </td>
           );
