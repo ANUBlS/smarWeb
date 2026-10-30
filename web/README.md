@@ -97,6 +97,27 @@ VITE_API_MODE=http VITE_API_URL=/api npm run build
 API_TARGET=http://127.0.0.1:8000 PORT=8086 npm start          # systemd: set API_TARGET in the unit
 ```
 
+## Application log (İdarəetmə / Jurnal ayarları)
+
+The web server writes one file per day, `logs/smartweb-YYYY-MM-DD.log` next to `server.mjs` (or in
+`SB_LOG_DIR`); the folder needs write access for the service user. Each line:
+
+```
+2026-10-30 08:42:05.669 | 192.168.2.15 | SABUHI@PDBNBC | XOutAvalute | CALL | P_AVALUTE.upd_avalute(v_VALUTE => "1", …)
+```
+
+- **Internal errors** (access violations, undeclared members, JavaScript errors) are no longer shown to
+  users; they are written to the day's file with the module and a short stack. Application messages
+  (`raise`, Oracle errors, conversions such as `'' is not a valid floating point value`) still show their
+  message box and are logged too. On by default.
+- **User actions** (off by default) — logon/logoff and company, module and dialog open/close, buttons,
+  menu items and shortcuts, record inserts/updates/deletes with old → new values, PL/SQL blocks and DML,
+  package procedure/function calls (except getters), commit/rollback. For all modules or only selected
+  ones, per event type.
+
+Settings are stored on the server (`logs/settings.json`) and apply to all users; the page
+*Balans / İdarəetmə / Jurnal ayarları* changes them and shows the files.
+
 ## How it is built
 
 ```

@@ -268,3 +268,31 @@ body.busy, body.busy * { cursor: progress !important; }
 .workspace, .win, .v-toolbar, .v-controlbar, .vc.v-panel { overflow: clip; }
 .v-grid td:has(> .cell-ed) { padding: 0; }
 .v-grid .cell-ed { width: 100%; height: 100%; border: 0; outline: 2px solid var(--accent); outline-offset: -2px; padding: 0 5px; font: inherit; color: var(--ink); background: var(--surface); }
+
+/* İdarəetmə / Jurnal ayarları */
+.modal.logset { width: min(860px, 96vw); height: min(640px, 92vh); }
+.logset-tabs { display: flex; gap: 2px; padding: 6px 10px 0; border-bottom: 1px solid var(--rule); }
+.logset-tabs button { border: 1px solid transparent; border-bottom: 0; background: none; padding: 5px 14px; border-radius: var(--radius) var(--radius) 0 0; color: var(--ink-2); }
+.logset-tabs button.on { background: var(--surface); border-color: var(--rule); color: var(--ink); margin-bottom: -1px; font-weight: 500; }
+.logset-body { flex: 1; overflow: auto; padding: 10px 16px; }
+.logset-note { color: var(--muted); margin: 0 0 10px; }
+.logset-note code { background: var(--sunken); padding: 0 4px; border-radius: 3px; }
+.logset-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
+.logset-row small { color: var(--muted); margin-left: auto; padding-right: 6px; }
+.logset-group { border: 1px solid var(--rule); border-radius: var(--radius); margin: 10px 0; padding: 6px 12px 8px; }
+.logset-group:disabled { opacity: .55; }
+.logset-group legend { padding: 0 4px; color: var(--ink-2); font-weight: 500; }
+.logset-search { width: 100%; height: 26px; margin: 6px 0; }
+.logset-mods { max-height: 230px; overflow: auto; border: 1px solid var(--rule); border-radius: var(--radius); padding: 2px 8px; }
+.logset .dlg-buttons { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 8px 12px; border-top: 1px solid var(--rule); }
+.logset .dlg-buttons .v-btn { display: inline-flex; gap: 6px; }
+.logset-msg { margin-right: auto; color: var(--accent); }
+.logset-files { flex: 1; display: flex; min-height: 0; }
+.logset-filelist { width: 200px; border-right: 1px solid var(--rule); overflow: auto; padding: 6px; }
+.logset-filelist button { display: flex; align-items: center; gap: 6px; width: 100%; border: 0; background: none; padding: 4px 6px; border-radius: var(--radius); text-align: left; }
+.logset-filelist button small { margin-left: auto; color: var(--muted); }
+.logset-filelist button.on { background: var(--sunken); font-weight: 500; }
+.logset-view { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.logset-viewbar { display: flex; gap: 6px; padding: 6px; border-bottom: 1px solid var(--rule); }
+.logset-viewbar .v-input { flex: 1; height: 26px; }
+.logset-view pre { flex: 1; margin: 0; overflow: auto; padding: 8px; font: 11.5px/1.45 ui-monospace, Consolas, monospace; white-space: pre; background: var(--paper); }

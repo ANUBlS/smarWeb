@@ -508,7 +508,8 @@ fn('EnsureRange', (v, a, b) => Math.min(Math.max(num(v), num(a)), num(b)));
 fn('DivMod', async (a, b, q: Ref, r: Ref) => { await q.set(Math.trunc(num(a) / num(b))); await r.set(num(a) % num(b)); });
 fn('Hi', (v) => (num(v) >> 8) & 0xff);
 fn('Lo', (v) => num(v) & 0xff);
-fn('High', (v) => (Array.isArray(v) ? v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647));
+// nil = empty dynamic array: High = -1 (for i := 0 to High(arr) does nothing)
+fn('High', (v) => (v === null || v === undefined ? -1 : Array.isArray(v) ? v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647));
 fn('Low', (v) => (Array.isArray(v) ? 0 : typeof v === 'string' ? 1 : 0));
 fn('SetLength', async (r: Ref, n) => {
   const v = await r.get();

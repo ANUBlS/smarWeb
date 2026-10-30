@@ -1,4 +1,6 @@
 /* SmartBank web shell: logon → company → main frame (menu tree, MDI workspace, task bar, output log). */
+import { audit, auditClick, setAuditUser, loadLogSettings, flush } from '../runtime/audit';
+import { LogSettingsPanel } from './LogSettings';
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import {
   ChevronDown, ChevronRight, Folder, FolderOpen, FileText, LayoutGrid, Search, X, Loader2,
@@ -17,9 +19,28 @@ import { formatDateTime, todayDelphi } from '../runtime/datetime';
 import { MenuBar, type MenuSpec } from './MenuView';
 import { Workspace, ModalLayer, DialogLayer, PopupLayer, ToastLayer, useWindows } from './Windows';
 
-interface MenuNode { caption: string; action: number | null; params: Record<string, string>; children: MenuNode[] }
+interface MenuNode { caption: string; action: number | null; params: Record<string, string>; children: MenuNode[]; builtin?: string }
 const TREE = (menuData as { tree: MenuNode[] }).tree;
 const ACTIONS = (menuData as { actions: Record<string, string> }).actions;
+// built-in page: Balans / İdarəetmə / Jurnal ayarları (application log settings and files)
+{
+  const admin = TREE.find((r) => r.caption === 'Balans')?.children.find((c) => c.caption === 'İdarəetmə');
+  if (admin && !admin.children.some((c) => c.builtin === 'logs'))
+    admin.children.push({ caption: 'Jurnal ayarları', action: null, params: {}, children: [], builtin: 'logs' });
+}
+/** Modules for the log settings: every menu leaf that opens one, with its menu path. */
+const MODULE_CHOICES = (() => {
+  const out = new Map<string, string>();
+  const walk = (nodes: MenuNode[], trail: string[]) => {
+    for (const n of nodes) {
+      const mod = n.action !== null ? ACTIONS[String(n.action)] : undefined;
+      if (mod && !out.has(mod)) out.set(mod, [...trail, n.caption].join(' / '));
+      walk(n.children, [...trail, n.caption]);
+    }
+  };
+  walk(TREE, []);
+  return [...out].map(([name, caption]) => ({ name, caption })).sort((a, b) => a.caption.localeCompare(b.caption, 'az'));
+})();
 const REPORTS = new Set((menuData as { reportActions: number[] }).reportActions);
 const PRODUCT = 'SmartBank';
 
@@ -48,6 +69,9 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
     try {
       const r = await api.logon({ username: user, password: pass, database: db });
       Object.assign(oraSession, { connected: true, username: r.username, password: pass, database: r.database, sid: r.sid, serverDate: r.serverDate });
+      setAuditUser(r.username, r.database);
+      await loadLogSettings();
+      audit('logon', `Sistemə daxil oldu (SID ${r.sid})`, '');
       localStorage.setItem('sb:user', user);
       // same statement as sbMainForm.company_list
       const q = await api.query({ source: 'TsbMainForm.company_list', sql: 'select * from companies order by company_name', variables: [],
@@ -69,6 +93,7 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
     const c = companies.find((x) => x.id === company)!;
     try {
       await api.execute({ source: 'TsbMainForm.SetCompany', sql: 'begin sb_adm.set_company(:COMP_ID); end;', variables: [{ name: 'COMP_ID', type: 'integer', value: c.id }] });
+      audit('logon', `Şirkət seçildi: ${c.name}`, '');
       onDone(c.name);
     } catch (ex) { setErr((ex as Error).message); } finally { setBusy(false); }
   };
@@ -222,6 +247,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
   const [showTree, setShowTree] = useState(true);
   const [showTaskbar, setShowTaskbar] = useState(true);
   const [showLog, setShowLog] = useState(false);
+  const [showLogSet, setShowLogSet] = useState(false);
   const [sel, setSel] = useState('');
   const [selNode, setSelNode] = useState<{ node: MenuNode; trail: string[] } | null>(null);
   const [open, setOpen] = useState<Set<string>>(new Set(['0', '0.0']));
@@ -269,6 +295,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
       const act = top.form.owned.find((c) => (c instanceof TAction || c instanceof TMenuItem) && (c as any).ShortCut === code && (c as any).Enabled);
       if (act) {
         e.preventDefault();
+        auditClick(act as any, 'Qısa yol');
         void runGuarded(async () => { if (act instanceof TAction) await act.execFrom(null); else await (act as TMenuItem).Click(); }, act.Name);
       }
     };
@@ -278,6 +305,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
 
   const select = async (n: MenuNode, k: string, trail: string[]) => {
     setSel(k);
+    if (n.builtin === 'logs') { setShowLogSet(true); audit('form', 'Jurnal ayarları açıldı', 'İdarəetmə'); return; }
     if (n.action === null || n.action === 0 || REPORTS.has(n.action) || !ACTIONS[String(n.action)]) {
       setSelNode({ node: n, trail });
       windows.activeId = 0;
@@ -416,6 +444,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
         <button style={{ border: 0, background: 'none', color: 'inherit', padding: 0 }} onClick={() => setShowLog((s) => !s)}>Çıxışlar</button>
       </div>
       <ModalLayer />
+      {showLogSet ? <LogSettingsPanel modules={MODULE_CHOICES} onClose={() => setShowLogSet(false)} /> : null}
       <PopupLayer />
       <DialogLayer />
       <ToastLayer />
@@ -427,6 +456,6 @@ export default function App() {
   const [company, setCompany] = useState<string | null>(null);
   const content = useMemo(() => company === null
     ? <><Logon onDone={(c) => setCompany(c)} /><DialogLayer /></>
-    : <MainFrame company={company} onLogoff={() => { oraSession.connected = false; setCompany(null); }} />, [company]);
+    : <MainFrame company={company} onLogoff={() => { audit('logon', 'Sistemdən çıxdı', ''); void flush(); oraSession.connected = false; setCompany(null); }} />, [company]);
   return content;
 }

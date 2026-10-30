@@ -27,12 +27,6 @@
        "children": []
       },
       {
-       "caption": "Əməliyyatlar",
-       "action": 3,
-       "params": {},
-       "children": []
-      },
-      {
        "caption": "Günün sənədləri",
        "action": 60,
        "params": {},

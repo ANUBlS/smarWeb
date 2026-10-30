@@ -164,6 +164,11 @@ FIRST_ACTION = 1000
 
 # Generated (reachable from other modules by GUID) but not listed: they only work with the menu
 # parameters of an installation-specific INI that is not in the repository.
+# SmartBank.ini menu nodes removed from the web menu (caption path); the module itself stays available
+INI_MENU_HIDDEN = {
+    ('Balans', 'Əməliyyat günü', 'Əməliyyatlar'),  # Transactions: replaced by Günün sənədləri (TransactionManager)
+}
+
 MENU_HIDDEN = {
     'XInsDictChilde',  # generic dictionary editor: MainTable/MainField/MasterField come from menu params
 }

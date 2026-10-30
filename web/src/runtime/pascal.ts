@@ -469,6 +469,7 @@ export function makeDollar(env: Env) {
       let v: unknown;
       try { v = await value(); } catch { v = null; }
       if (which === 'low') return Array.isArray(v) ? 0 : typeof v === 'string' ? 1 : 0;
+      if (v === null || v === undefined) return -1; // nil = empty dynamic array
       return Array.isArray(v) ? v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647;
     },
     /** Typed constant of a routine: one value shared by all calls (Delphi writable typed const). */

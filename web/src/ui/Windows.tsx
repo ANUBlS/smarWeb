@@ -133,10 +133,27 @@ export function ModalLayer() {
   );
 }
 
+/** A dialog larger than the browser window is scaled down to fit (at least to MIN_SCALE), so its
+ *  buttons stay visible; only below that does it scroll. */
+const MIN_SCALE = 0.75;
+function useViewport() {
+  const [v, setV] = useState({ w: window.innerWidth, h: window.innerHeight });
+  useEffect(() => {
+    const on = () => setV({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener('resize', on);
+    return () => window.removeEventListener('resize', on);
+  }, []);
+  return v;
+}
+
 function ModalWindow({ w }: { w: FormWindow }) {
   const f = w.form;
-  const width = Math.min(window.innerWidth - 24, f.designWidth);
-  const height = Math.min(window.innerHeight - 60, f.designHeight + (f.Menu ? 22 : 0));
+  const vp = useViewport();
+  const formH = f.designHeight + (f.Menu ? 22 : 0);
+  const availW = vp.w - 24, availH = vp.h - 24 - 31; // 31 = title bar
+  const scale = Math.max(MIN_SCALE, Math.min(1, availW / f.designWidth, availH / formH));
+  const width = Math.min(availW, f.designWidth * scale);
+  const height = Math.min(availH, formH * scale);
   const onKey = (e: React.KeyboardEvent) => {
     const tag = (e.target as HTMLElement).tagName;
     const buttons = f.owned.filter((c): c is TButtonControl => c instanceof TButtonControl && c.Visible && c.Enabled);
@@ -151,8 +168,10 @@ function ModalWindow({ w }: { w: FormWindow }) {
   return (
     <div className="modal" role="dialog" aria-modal="true" aria-label={f.Caption} style={{ width: width + 2 }} onKeyDown={onKey}>
       <TitleBar w={w} modal />
-      <div style={{ height, display: 'flex', flexDirection: 'column' }}>
-        <WindowBody form={f} minW={f.designWidth} minH={f.designHeight} />
+      <div style={{ height, display: 'flex', flexDirection: 'column', overflow: scale < 1 && height < formH * scale - 1 ? 'auto' : undefined }}>
+        <div style={scale < 1 ? { zoom: scale, width: f.designWidth, height: formH, display: 'flex', flexDirection: 'column', flex: 'none' } : { display: 'contents' }}>
+          <WindowBody form={f} minW={f.designWidth} minH={f.designHeight} />
+        </div>
       </div>
     </div>
   );

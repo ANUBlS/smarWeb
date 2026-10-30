@@ -1,4 +1,5 @@
 /* Visual controls (Controls.pas, StdCtrls.pas, ExtCtrls.pas, ComCtrls.pas, Buttons.pas …). */
+import { auditClick } from '../audit';
 import { TObject, Ref, ValueRef, NOTFOUND, GAP, PasException } from '../core';
 import { toast } from '../toast';
 import { logger } from '../log';
@@ -157,6 +158,7 @@ export class TControl extends TComponent {
   /** User-initiated click: actions first, then OnClick. */
   async Click() {
     if (!this.Enabled) return;
+    if (this._action || this.hasHandler('OnClick')) auditClick(this as any);
     if (this._action && !this.hasHandler('OnClick')) {
       await (this._action as TBasicAction).execFrom(this);
       return;

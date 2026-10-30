@@ -3,6 +3,7 @@
  * forms the way the SmartBank shell's plugin host did:
  *   create ActiveForm (OnCreate) → Set_Params(name, value)… → InstanceInitialize → UIObjectActivate
  */
+import { audit } from './audit';
 import { Env, ClassDef } from './env';
 import { makeDollar } from './pascal';
 import { rootLookup, defineGlobal, registerEnumNames, getSettingGlobal, setGlobal } from './stdlib';
@@ -174,6 +175,7 @@ export async function openModule(name: string, params: Record<string, string>, c
   if (!form) return null;
   const f = form as TCustomForm;
   f.isModuleForm = true;
+  (f as any).moduleName = name;
   f.FormStyle = 'fsmdichild';
   if (!f.Caption || f.Caption === f.Name) f.Caption = params.Caption ?? caption;
   // IParamInput / IUIObject protocol
@@ -190,6 +192,7 @@ export async function openModule(name: string, params: Record<string, string>, c
     if (act) await runGuarded(() => act(f), `${name}.Activate`);
   } catch (e) { windows.reveal(w); throw e; }
   await f.prepareAndReveal(w);
+  audit('module', `Modul açıldı: ${f.Caption || name}`, name);
   return f;
 }
 
@@ -232,6 +235,7 @@ export async function showModuleModal(guid: unknown, params: unknown): Promise<n
   if (!form) return 2;
   const f = form as TCustomForm;
   f.isModuleForm = true;
+  (f as any).moduleName = name;
   const handle = allocHandle((msg, w) => { if (msg === WM_MODALRESULT) f.ModalResult = w || 2; return 0; });
   try {
     const setParams = def.findMethod('set_params');

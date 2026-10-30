@@ -25,8 +25,20 @@ function copyGenerated(): Plugin {
   };
 }
 
+/** Dev server: the same /applog endpoints as server.mjs (application log files in ./logs). */
+function appLog(): Plugin {
+  return {
+    name: 'smartweb-applog',
+    async configureServer(server) {
+      // @ts-expect-error plain ES module without types
+      const { handleAppLog } = await import('./applog.mjs');
+      server.middlewares.use((req, res, next) => { if (!handleAppLog(req, res)) next(); });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), copyGenerated()],
+  plugins: [react(), copyGenerated(), appLog()],
   build: { chunkSizeWarningLimit: 4000, target: 'es2022' },
   server: { port: 5173 },
 });

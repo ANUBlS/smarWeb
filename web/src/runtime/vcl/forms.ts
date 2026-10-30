@@ -16,6 +16,7 @@ import { TDataSet } from '../data/dataset';
 import { TField } from '../data/fields';
 import { TOracleDataSet, TOracleQuery } from '../data/oracle';
 import { MR } from '../dialogs';
+import { audit, setModuleResolver } from '../audit';
 
 /* ------------------------------------------------------------------ window manager */
 
@@ -66,6 +67,11 @@ export const windows = {
     windows.emit();
   },
   remove(form: TCustomForm) {
+    const was = windows.list.find((w) => w.form === form);
+    if (was && !was.hidden) {
+      if (form.isModuleForm) audit('module', `Modul bağlandı: ${form.Caption || form.Name}`, moduleOfForm(form));
+      else if (was.kind === 'modal') audit('form', `Pəncərə bağlandı: ${form.Caption || form.Name}`, moduleOfForm(form));
+    }
     windows.list = windows.list.filter((w) => w.form !== form);
     if (!windows.list.some((w) => w.id === windows.activeId)) {
       const last = [...windows.list].reverse().find((w) => w.kind !== 'modal' && !w.minimized);
@@ -85,6 +91,15 @@ export const windows = {
   byKey(key: string) { return windows.list.find((w) => w.key === key); },
   modalTop() { return [...windows.list].reverse().find((w) => w.kind === 'modal'); },
 };
+
+/** Module a form belongs to: its own (module windows) or the module window that owns it. */
+export function moduleOfForm(f: TComponent | null | undefined): string {
+  for (let c: any = f; c; c = c.Owner) if (c.moduleName) return c.moduleName;
+  // dialogs created with Owner = nil: the module the user is working in
+  const act = windows.list.find((w) => w.id === windows.activeId);
+  return (act?.form as any)?.moduleName ?? '';
+}
+setModuleResolver(() => moduleOfForm(windows.modalTop()?.form ?? windows.list.find((w) => w.id === windows.activeId)?.form));
 
 /* ------------------------------------------------------------------ forms */
 
@@ -150,6 +165,7 @@ export class TCustomForm extends TWinControl {
     this._modalResult = 0;
     const w = windows.add(this, 'modal', undefined, true);
     this.shown = true;
+    audit('form', `Pəncərə açıldı: ${this.Caption || this.Name}`, moduleOfForm(this));
     const done = new Promise<number>((resolve) => { this.modalResolve = resolve; });
     await this.prepareAndReveal(w);
     const unhold = suspendHold();
