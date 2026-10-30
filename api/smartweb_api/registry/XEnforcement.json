@@ -1,0 +1,49 @@
+{
+ "name": "XEnforcement",
+ "caption": "Əlavə modullar / Kreditlər / İcra işlərinin idarə olunması",
+ "dir": "Packages/SB_Credit/EnforcementManager",
+ "mainForm": "TExecutionManager",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSEnforcement",
+   "source": "TDataModuleEnforcement.ODSEnforcement",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id,p.courtid,p.boorowerid,p.numberofcredit,val_name,b.name,\n       rest,duerest,interestrest,p.creditlineamount,h.penaltyrest, \n       p.dateofconclusion,p.duedatefirstcontract,p.qovid,(select name from ct_qrup where id=p.courtid) CORT_STATUS,\n       case when p.placestatus=0 then (select name from ct_executive_body where id=p.placeid) else (select name from ct_judicial_body where id=p.placeid) end as placename,\n       cr.description crtype,b.phonenumber,p.annualyinterestrate,p.annualyoverduerate,p.annualypenaltyrate,\n       dueinterestrest,p.purposeofcredit,cm_utils.Get_MainPlanPayment(p.id) odenilmeli,\n       cm_utils.Get_MainPlanPayment(p.id)+ duerest + interestrest + dueinterestrest+h.penaltyrest fullrest,\n       dueday,q.name qovluq,f.name filial,m.name mehsul,a.name meqed,e.name expert,r.description ehtiyyat,py.maxpaydate,\n       case when dueday =1 then 0\n        when py.maxpaydate=sbop.GET_DATE then 1  end as status,        \n  b.pincode,b.boorowerid pasnum,b.address,i.birthday dogum_tarixi,i.birthplace dogum_yeri,i.work_place,i.work_post\nFROM cm_active_credits p,\n     cm_credittypes cr,\n     cm_curr_state h,\n     cm_boorowerinfo b,\n     cm_qovluq q,\n     filial_t f,\n     avalute_t v,\n     cm_mehsul m ,\n     cm_aim_cred a,\n     cm_expert e,\n     cm_reserve_types r,custinfo i,\n     (select creditid ,max(paydate) maxpaydate from cm_payments group by creditid) py\n     \nWHERE     p.id = h.creditid\n      AND p.id = b.creditid\n      AND p.id = py.creditid(+)\n      AND p.qovid = q.id\n      AND p.mehsulid=m.id\n      AND h.reserveid=r.id\n      AND p.aim_id=a.id\n      AND p.expertid=e.id\n      AND h.rest + h.duerest + h.interestrest + h.interestrest > 0\n      AND h.dueday>0\n      AND p.branchid = f.id\n      AND p.currency = v.valute\n      AND p.credittype = cr.id\n      AND p.courtid=5 and p.boorowerid=i.idcust\n  \n\n\n\n\n\n\n\n\n\n\n  order by :title",
+   "variables": [],
+   "unit": "DataModEnforcement"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

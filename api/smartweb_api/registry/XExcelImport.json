@@ -1,0 +1,116 @@
+{
+ "name": "XExcelImport",
+ "caption": "Əlavə modullar / İdxal / Excel-dən idxal",
+ "dir": "Packages/Excel_import",
+ "mainForm": "TExcelimp",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet3",
+   "source": "TExcelimp.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "--select * from vid_op where id in(-1,87)\n\nselect * from vid_op",
+   "variables": [],
+   "unit": "ExcelimpImpl1"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TExcelimp.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "ExcelimpImpl1"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TExcelimp.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,t. * from excel_table  t where userid=uid",
+   "variables": [],
+   "unit": "ExcelimpImpl1"
+  },
+  {
+   "name": "accountins",
+   "source": "TExcelimp.accountins",
+   "kind": "TOracleDataSet",
+   "sql": "select id,accno from ins_account",
+   "variables": [],
+   "unit": "ExcelimpImpl1"
+  },
+  {
+   "name": "bankinfo",
+   "source": "TExcelimp.bankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select*from bankinfo",
+   "variables": [],
+   "unit": "ExcelimpImpl1"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TExcelimp.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "ExcelimpImpl1"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "excelpkg",
+   "mode": "positional",
+   "source": "TExcelimp.OraclePackage1",
+   "routines": [
+    {
+     "name": "Del_excel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "EXCELTRANSACTIONS",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "EXCELTRANSACTIONSins",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_inspayments",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "SELECT * FROM [Sheet1$]"
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "name": "CashSymbols",
+ "caption": "Balans / Məlumatlar / Kassa simvolu",
+ "dir": "Packages/CashSymbols",
+ "mainForm": "TCashSymbolX",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSCashSymbols",
+   "source": "TCashSymbolX.ODSCashSymbols",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n CashSymbol.RowID\n  , CashSymbol.symbol\n    , CashSymbol.name\n      , CashSymbol.mediocrity\nFROM \n    Kassa_b CashSymbol\nOrder by\n    CashSymbol.Symbol\n    ",
+   "variables": [],
+   "unit": "CashSymbolImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCashSymbols",
+   "package": "SB_CashReport",
+   "mode": "positional",
+   "source": "TCashSymbolX.OPCashSymbols",
+   "routines": [
+    {
+     "name": "AddCashSymbols",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteCashSymbols",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UpdateCashSymbols",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

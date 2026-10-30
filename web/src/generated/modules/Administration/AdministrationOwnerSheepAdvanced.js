@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("AdministrationOwnerSheepAdvanced", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Buttons", "ExtCtrls", "ComCtrls", "Grids", "DBGrids", "Tabs", "Db", "OracleData", "Oracle", "sboapiDataModuleImpl", "sbcore", "AdministrationDataModule", "DuplicateUint"]);
   const C = [U];
+  U.enumType("tsearchorder", 3);
   U.const("soForward", 0);
   U.const("soBackward", 1);
   U.const("soNone", 2);

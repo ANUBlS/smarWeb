@@ -1,0 +1,460 @@
+{
+ "name": "OutAccount",
+ "caption": "Balansdan kənar / Əməliyyat günü / Hesablar",
+ "dir": "Packages/Out_account/ocx",
+ "mainForm": "TAccountForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "AccountDataModuleImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Branches",
+   "source": "Tout_accdatamodule.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, name from filial \norder by ID\n",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Users",
+   "source": "Tout_accdatamodule.Users",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, Name from user$\nOrder by name\n\n",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Currency",
+   "source": "Tout_accdatamodule.Currency",
+   "kind": "TOracleDataSet",
+   "sql": "select Valute, Valu_Name from out_Avalute\nOrder by valute\n",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "AccFlags",
+   "source": "Tout_accdatamodule.AccFlags",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT symbol, symbol||'     '||description as name\n  FROM OUT_account_flags",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "BalAcc",
+   "source": "Tout_accdatamodule.BalAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char(bal_cn) as BAL_CN, BalName from OUT_bal_spr1\norder by bal_cn\n",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Account",
+   "source": "Tout_accdatamodule.Account",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   \n   OUT_ACCOUNT.RowID, ID, kli_id, op_id, acc_no, val_acc, NAME, open_dat, close_dat,\n   DECODE (close_dat, NULL, 1, 2) AS statu1, bal_cn1, bal_cn2, bal_cn3,\n   bal_cn4, filial, sim_otcet, tipacc, LIMIT, old_acc_no, pair_acc,\n   insider,tempid,(select name from cm_expert where id=tempid) expert\nFROM OUT_ACCOUNT \n\nORDER BY \n   :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Tenostat",
+   "source": "Tout_accdatamodule.Tenostat",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  acc_id, ostat, pok_ostat \nfrom \n  OUT_tenostat \nwhere acc_id=:acc_id",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Lazyrest",
+   "source": "Tout_accdatamodule.Lazyrest",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  acc_id, ostat, pok_ostat \nfrom \n  OUT_lazyrest \nwhere acc_id=:acc_id",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "ReportSymbol",
+   "source": "Tout_accdatamodule.ReportSymbol",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL\norder by ID",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "PairAccount",
+   "source": "Tout_accdatamodule.PairAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  ID,\n  acc_no,\n  DECODE (close_dat, NULL, 1, 2) AS status\nfrom\n  OUT_Account\norder by acc_no\n ",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Sysdat",
+   "source": "Tout_accdatamodule.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "Select tek_dat from sysdat",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "BalAccnew",
+   "source": "Tout_accdatamodule.BalAccnew",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char(bal_cn) as BAL_CN, BalName from OUT_bal_spr2\norder by bal_cn\n",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "Tout_accdatamodule.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "begin\npkg_report.get_customers(p_result=>:p_result);\nend;",
+   "variables": [
+    {
+     "name": "P_RESULT",
+     "type": "cursor"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TAccountPropertiesForm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cm_expert",
+   "variables": [],
+   "unit": "AccountPropertiesImpl"
+  },
+  {
+   "name": "AccStateData",
+   "source": "TAccountState.AccStateData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  arc.DATDATE as ArchiveDate,\n  arc.ACC_ID as AccID,\n  abs(arc.OSTAT) as Amount,\n  abs(arc.POK_OSTAT) as LAmount,\n  abs(arc.OBR_D) as DebitTurnover,\n  abs(arc.POK_OBR_D) as DebitLTurnover,\n  abs(arc.OBR_K) as CreditTurnover,\n  abs(arc.POK_OBR_K) as CreditLTurnover\nfrom out_archost arc\nwhere arc.acc_id = :AccID\norder by arc.datdate --desc",
+   "variables": [
+    {
+     "name": "ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountRestState"
+  },
+  {
+   "name": "DebetTransactionsData",
+   "source": "TFormAccountTransactions.DebetTransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  p.ID,\n  p.debt as DebitAccID,\n  p.dat as OperationDate,\n  p.ammount as DebitAmount,\n  p.ammount_c as CreditAmount,\n  p.lammount as LAmount,\n  ac.acc_no as CreditAccNo,\n  p.NAME as Destination\nfrom\n  SMART.out_provarch p,\n  SMART.out_account ac\nwhere\n  (p.dat between :StartDate and :EndDate)\n  and (p.debt = :AccountID)\n  and (ac.id = p.kredit)\norder by p.dat\n ",
+   "variables": [
+    {
+     "name": "STARTDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "ACCOUNTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountTransactionsImpl"
+  },
+  {
+   "name": "CreditTransactionsData",
+   "source": "TFormAccountTransactions.CreditTransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  p.ID,\n  p.kredit as CreditAccID,\n  p.dat as OperationDate,\n  p.ammount as DebitAmount,\n  p.ammount_c as CreditAmount,\n  p.lammount as LAmount,\n  ad.acc_no as DebitAccNo,\n  p.NAME as Destination\nfrom\n  SMART.out_provarch p,\n  SMART.out_account ad\nwhere\n  (p.kredit = :AccountID)\n  and (p.dat between :StartDate and :EndDate)\n  and (ad.id = p.debt)\norder by p.dat",
+   "variables": [
+    {
+     "name": "STARTDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "ACCOUNTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountTransactionsImpl"
+  },
+  {
+   "name": "AccStateData",
+   "source": "TFormAccountState.AccStateData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  arc.DATDATE as ArchiveDate,\n  arc.ACC_ID as AccID,\n  abs(arc.OSTAT) as Amount,\n  abs(arc.POK_OSTAT) as LAmount,\n  abs(arc.OBR_D) as DebitTurnover,\n  abs(arc.POK_OBR_D) as DebitLTurnover,\n  abs(arc.OBR_K) as CreditTurnover,\n  abs(arc.POK_OBR_K) as CreditLTurnover\nfrom archost arc\nwhere arc.acc_id = :AccID\norder by arc.datdate --desc",
+   "variables": [
+    {
+     "name": "ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "out_AccountRestState"
+  },
+  {
+   "name": "DebetTransactionsData",
+   "source": "TFormAccountTransactions.DebetTransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  p.ID,\n  p.debt as DebitAccID,\n  p.dat as OperationDate,\n  p.ammount as DebitAmount,\n  p.ammount_c as CreditAmount,\n  p.lammount as LAmount,\n  ac.acc_no as CreditAccNo,\n  p.NAME as Destination\nfrom\n  SMART.provarch p,\n  SMART.account ac\nwhere\n  (p.dat between :StartDate and :EndDate)\n  and (p.debt = :AccountID)\n  and (ac.id = p.kredit)\norder by p.dat\n ",
+   "variables": [
+    {
+     "name": "STARTDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "ACCOUNTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "out_AccountTransactionsImpl"
+  },
+  {
+   "name": "CreditTransactionsData",
+   "source": "TFormAccountTransactions.CreditTransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  p.ID,\n  p.kredit as CreditAccID,\n  p.dat as OperationDate,\n  p.ammount as DebitAmount,\n  p.ammount_c as CreditAmount,\n  p.lammount as LAmount,\n  ad.acc_no as DebitAccNo,\n  p.NAME as Destination\nfrom\n  SMART.provarch p,\n  SMART.account ad\nwhere\n  (p.kredit = :AccountID)\n  and (p.dat between :StartDate and :EndDate)\n  and (ad.id = p.debt)\norder by p.dat",
+   "variables": [
+    {
+     "name": "STARTDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "ACCOUNTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "out_AccountTransactionsImpl"
+  },
+  {
+   "name": "Account",
+   "source": "TDataModule2.Account",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   \n   out_ACCOUNT.RowID, ID, kli_id, op_id, acc_no, val_acc, NAME, open_dat, close_dat,\n   DECODE (close_dat, NULL, 1, 2) AS status, bal_cn1, bal_cn2, bal_cn3,\n   bal_cn4, filial, sim_otcet, tipacc, LIMIT, old_acc_no, pair_acc,\n   insider\nFROM out_ACCOUNT\nORDER BY \n   :title\n",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "customers",
+   "source": "TDataModule2.customers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CUSTOMERS\nwhere close_dat is null\norder by ID\n",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "users",
+   "source": "TDataModule2.users",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as ID, 'Bütün istifadəçilər' as Name from Dual\nUnion All\nselect * from \n(\nselect ID, Name from user$\nOrder by name\n)\n",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "branches",
+   "source": "TDataModule2.branches",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "currency",
+   "source": "TDataModule2.currency",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as Valute, 'Bütün valyutalar' as Valu_Name from Dual\nUnion All\nselect Valute, Valu_Name from Avalute\nOrder by valute\n",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "AccFlags",
+   "source": "TDataModule2.AccFlags",
+   "kind": "TOracleDataSet",
+   "sql": "select ' ' as symbol, 'Bütün simvollar' as Name from Dual\nUnion All\nSELECT symbol, symbol||'     '||description as name\n  FROM account_flags\n",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "BalAcc",
+   "source": "TDataModule2.BalAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select 'Bütün balans hesabları' as Bal_cn,'Bütün balans hesabları' as BalName from dual\nUnion All\nselect * from \n(\nselect to_char(bal_cn), BalName from out_bal_spr1\norder by bal_cn\n)\n",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "tenostat",
+   "source": "TDataModule2.tenostat",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  acc_id, ostat, pok_ostat \nfrom \n  out_tenostat \nwhere acc_id=:acc_id\n",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "Lazyrest",
+   "source": "TDataModule2.Lazyrest",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  acc_id, ostat, pok_ostat \nfrom \n  out_lazyrest \nwhere acc_id=:acc_id\n",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "PairAccount",
+   "source": "TDataModule2.PairAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  ID,\n  acc_no,\n  DECODE (close_dat, NULL, 1, 2) AS status\nfrom\n  out_Account\norder by acc_no\n ",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "sysdat",
+   "source": "TDataModule2.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "Select tek_dat from sysdat\n",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  },
+  {
+   "name": "ReportSymbol",
+   "source": "TDataModule2.ReportSymbol",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL",
+   "variables": [],
+   "unit": "out_accdatamodule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OUT_SBOP",
+   "package": "OUT_SBOP",
+   "mode": "named",
+   "source": "Tout_accdatamodule.OUT_SBOP",
+   "routines": [
+    {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GenerateID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_account",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "close_account",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_account",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OUT_SBUTIL",
+   "package": "OUT_SBUTIL",
+   "mode": "named",
+   "source": "Tout_accdatamodule.OUT_SBUTIL",
+   "routines": [
+    {
+     "name": "FlagExsist",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "Tout_accdatamodule.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBUTIL",
+   "package": "SBUTIL",
+   "mode": "positional",
+   "source": "TDataModule2.SBUTIL",
+   "routines": [
+    {
+     "name": "FlagExsist",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

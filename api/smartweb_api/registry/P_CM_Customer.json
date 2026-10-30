@@ -1,0 +1,135 @@
+{
+ "name": "P_CM_Customer",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Customer",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SystemState",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "RelationData",
+   "source": "TDatModCustmer.RelationData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from PRINAD",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  },
+  {
+   "name": "ClientGroupData",
+   "source": "TDatModCustmer.ClientGroupData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from QRP_KLIE",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  },
+  {
+   "name": "EstateTypeData",
+   "source": "TDatModCustmer.EstateTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM VID_SOB",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  },
+  {
+   "name": "OrganizationTypeData",
+   "source": "TDatModCustmer.OrganizationTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM ORG_PRAV",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  },
+  {
+   "name": "ActionAreaData",
+   "source": "TDatModCustmer.ActionAreaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM SFERADEY",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  },
+  {
+   "name": "BranchData",
+   "source": "TDatModCustmer.BranchData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM OTRASLI",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  },
+  {
+   "name": "TaxAreaData",
+   "source": "TDatModCustmer.TaxAreaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM NALOG",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  },
+  {
+   "name": "FilialsData",
+   "source": "TDatModCustmer.FilialsData",
+   "kind": "TOracleDataSet",
+   "sql": "select *\nfrom sb_FILIAL",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  },
+  {
+   "name": "ActiveCustomerList",
+   "source": "TDatModCustmer.ActiveCustomerList",
+   "kind": "TOracleDataSet",
+   "sql": "select C.*, C.rowid from cm_sb_CUSTOMERS C\nwhere CLOSE_DAT IS NULL\norder by C.ID",
+   "variables": [],
+   "unit": "DatModCustmerImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "cm_credit",
+   "package": "cm_credit",
+   "mode": "named",
+   "source": "TDatModCustmer.cm_credit",
+   "routines": [
+    {
+     "name": "add_cm_customer",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

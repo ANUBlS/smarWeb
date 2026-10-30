@@ -1,4 +1,5 @@
 /* ActnList.pas / Menus.pas emulation. */
+import { auditClick } from '../audit';
 import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
@@ -158,6 +159,7 @@ export class TMenuItem extends TComponent {
   GetParentMenu() { let p: TMenuItem | null = this; while (p?.Parent) p = p.Parent; return (p as any)?.menu ?? null; }
   async Click() {
     if (!this.Enabled) return;
+    if (this._action || this.hasHandler('OnClick')) auditClick(this as any, 'Menyu');
     if (this.AutoCheck) this.Checked = !this.Checked;
     if (this._action && !this.hasHandler('OnClick')) { await this._action.execFrom(this); return; }
     await this.fire('OnClick', this);

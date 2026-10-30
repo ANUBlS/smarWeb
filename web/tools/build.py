@@ -17,7 +17,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from dfm2json import parse_file as parse_dfm  # noqa: E402
 from modules import ACTIONS, REPORT_ACTIONS  # noqa: E402
-from extra_modules import EXTRA, EXTRA_ROOT, CATEGORY_ORDER, FIRST_ACTION, MENU_HIDDEN  # noqa: E402
+from extra_modules import EXTRA, EXTRA_ROOT, CATEGORY_ORDER, FIRST_ACTION, MENU_HIDDEN, INI_MENU_HIDDEN  # noqa: E402
 from pas2js import parse_unit_file, collect_sigs, gen_unit, PasError  # noqa: E402
 
 REPO = os.environ.get('SMARWEB_REPO') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')) + '/'
@@ -411,6 +411,17 @@ def main():
         json.dump(enum_names, fh)
 
     tree = decode_menu()
+
+    def drop_hidden(nodes, trail=()):
+        out = []
+        for n in nodes:
+            path = trail + (n['caption'],)
+            if path in INI_MENU_HIDDEN:
+                continue
+            n['children'] = drop_hidden(n['children'], path)
+            out.append(n)
+        return out
+    tree = drop_hidden(tree)
     actions = {str(k): v[0] for k, v in ACTIONS.items()}
     # Off-balance reference books that are registered (actions 69, 75) but missing from this INI's tree
     for root in tree:

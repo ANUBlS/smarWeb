@@ -1,0 +1,357 @@
+{
+ "name": "P_CM_RETIL",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_CREDRETEIL",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "DMprop",
+  "MainFormIMPL",
+  "OraVariables",
+  "ReportImpl",
+  "RtDmImpl",
+  "Rtl_AzeriAbo_Impl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "retelcommon",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "PersonLink",
+   "source": "TRtDataModule.PersonLink",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, a.* from cm_mehsul a\nwhere personid in(select id from cm_retlpersons where personid in(select cust_type from customers where id=:id))\n\n\n\n\n\n\n\n\norder by name",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "Branches",
+   "source": "TRtDataModule.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select\nID ,Name\nfrom FILIAL",
+   "variables": [],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "CurrencysData",
+   "source": "TRtDataModule.CurrencysData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    valute as CurrID ,\n    Valu_Name as CurrName,VAL_NAME\n  from\n    smart.avalute_t\norder by val_name",
+   "variables": [],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "PldDataSet",
+   "source": "TRtDataModule.PldDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.typecode, a.description\n  FROM cm_pledges_t a\norder by id",
+   "variables": [],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "comp",
+   "source": "TRtDataModule.comp",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_retelview where mehid=:mehid\n\n\n\n\n\n\norder by id ,mehid,name\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "MEHID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "TemplatesDataSet",
+   "source": "TRtDataModule.TemplatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,path,name,mehid from\ncm_wr_templates\nwhere mehid=:mehid",
+   "variables": [
+    {
+     "name": "MEHID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "CreditInfoDataSet",
+   "source": "TRtDataModule.CreditInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.* ,:man as manat ,:dat as data,:gir as GIROW\n  FROM cm_wr_creditinfo a\n where a.creditid = :crid",
+   "variables": [
+    {
+     "name": "CRID",
+     "type": "integer"
+    },
+    {
+     "name": "MAN",
+     "type": "string"
+    },
+    {
+     "name": "DAT",
+     "type": "string"
+    },
+    {
+     "name": "GIR",
+     "type": "string"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "BookmarksDataSet",
+   "source": "TRtDataModule.BookmarksDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select  fieldid, bookmarkname\nfrom cm_wr_bookmarks\nwhere templateid=:templid\n",
+   "variables": [
+    {
+     "name": "TEMPLID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "FieldsDataSet",
+   "source": "TRtDataModule.FieldsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,fieldname,description\nfrom cm_wr_fields\n",
+   "variables": [],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "ReplaceDataSet",
+   "source": "TRtDataModule.ReplaceDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   CM_WR_BOOKMARKS B\n , CM_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "yazi",
+   "source": "TRtDataModule.yazi",
+   "kind": "TOracleDataSet",
+   "sql": "select p.CREDITLINEAMOUNT,v.VALU_NAME ,round(months_between(p.duedatefirstcontract, p.dateofconclusion)) per, h.pledgeprice\nfrom cm_active_credits p,avalute v,cm_curr_state h\nwhere p.id=:id \nand p.currency=v.VALUTE and p.id=h.creditid\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "Percent",
+   "source": "TRtDataModule.Percent",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, bper, eper, faiz, gecfaiz, penya,komissia,mehsetid\n  FROM cm_percent_setting\nwhere mehsetid in (select id   from CM_RETLPORIOD where  retcurid=:retcurid and period =(select min(period) from CM_RETLPORIOD where period>=:period and retcurid=:retcurid) )\n\nand  :meb between bper and  eper",
+   "variables": [
+    {
+     "name": "MEB",
+     "type": "float"
+    },
+    {
+     "name": "RETCURID",
+     "type": "integer"
+    },
+    {
+     "name": "PERIOD",
+     "type": "float"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TRtDataModule.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from pcust_view where id=:id\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TRtDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select ADD_MONTHS(:dat ,:mon) end from dual",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "MON",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TRtDataModule.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char(sysdate,'YYYY')||'/'|| lpad(nvl(( select count(*) from cm_portfolio)+1,'00000')  ,5,0)||'-' as num  from cm_mehsul",
+   "variables": [],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "BankInfo",
+   "source": "TRtDataModule.BankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select BANK,logo,az_name from smart.bankinfo",
+   "variables": [],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "FilialInfo",
+   "source": "TRtDataModule.FilialInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial\nwhere id = :brid \n--smart.sb_aca.getuserfilialid(user)",
+   "variables": [
+    {
+     "name": "BRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "BoorowerInfo",
+   "source": "TRtDataModule.BoorowerInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   bi.NAME,\n   cm_common.AccountNumber_Get(a.booroweraccid) as custaccno,\n   cm_common.AccountNumber_Get(a.Loanaccid) as loanaccno  \nFROM\n  CM_BOOROWERINFO bi, cm_accounts a\nWHERE bi.CreditID=:CREDITID\nand a.creditid = :CREDITID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "CreditInfo",
+   "source": "TRtDataModule.CreditInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   A.ID , A.CURRENCY , A.CREDITLINEAMOUNT , A.ANNUALYINTERESTRATE , A.DATEOFCONCLUSION\n , A.DUEDATEFIRSTCONTRACT , \n   A.CREDITTYPE,a.branchid,\n   TRUNC (MONTHS_BETWEEN (A.DUEDATEFIRSTCONTRACT ,A.DATEOFCONCLUSION)) as period,v.val_name,\n   c.rest\nFROM\n   CM_ACTIVE_CREDITS A,avalute v,\n   cm_curr_state c\nWHERE a.ID=:ID\nand c.creditid = :ID\nand a.currency=v.valute\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "ScheduleData",
+   "source": "TRtDataModule.ScheduleData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT Z.RowID,Z.*\n  FROM CM_PAYMENT_SCHEDULE Z\nWHERE Z.CREDITID=:CREDITID\nORDER BY PAYMENTDATE",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "HeadOfficeID",
+   "source": "TRtDataModule.HeadOfficeID",
+   "kind": "TOracleDataSet",
+   "sql": "select min(id) as minid from smart.filial_t",
+   "variables": [],
+   "unit": "RtDmImpl"
+  },
+  {
+   "name": "perodcurr",
+   "source": "TRtDataModule.perodcurr",
+   "kind": "TOracleDataSet",
+   "sql": " SELECT a.id, a.mehsulid, a.valute, a.valu_name\n  FROM cm_mehsullinks a   where mehsulid=:mehsulid and valute=:valute",
+   "variables": [
+    {
+     "name": "MEHSULID",
+     "type": "integer"
+    },
+    {
+     "name": "VALUTE",
+     "type": "integer"
+    }
+   ],
+   "unit": "RtDmImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_COMMON",
+   "package": "CM_COMMON",
+   "mode": "positional",
+   "source": "TRtDataModule.CM_COMMON",
+   "routines": [
+    {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "PgRetel",
+   "package": "cm_rtl",
+   "mode": "named",
+   "source": "TRtDataModule.PgRetel",
+   "routines": [
+    {
+     "name": "cred_add",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

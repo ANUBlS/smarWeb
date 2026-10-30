@@ -1,0 +1,1561 @@
+{
+ "name": "XExpress",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Ekspres köçürmələr",
+ "dir": "Packages/ExpressManager_nbc",
+ "mainForm": "TExpress",
+ "plugin": false,
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cu_conclusion.bpl": "P_CU_Conclusion",
+  "cu_payment.bpl": "P_CU_Payment",
+  "cu_schedule.bpl": "P_CU_Schedule",
+  "cu_statement.bpl": "P_cu_Statement",
+  "cu_wreport.bpl": "P_cu_WReport",
+  "sb_general.bpl": "P_Sb_General",
+  "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
+  "sbdm_contract.bpl": "P_SBDM_Contract",
+  "sbdm_extractmoney.bpl": "P_SBDM_ExtractMoney",
+  "sbdm_wreport.bpl": "P_SBDM_WReport",
+  "transinfopack.bpl": "P_TransInfoPack"
+ },
+ "lib": [
+  "AccounFlagsLmpl",
+  "Account_edit_Unit",
+  "BProc_Trans",
+  "CMCurrencyEdit",
+  "CMHintBox",
+  "CULogoutputImpl",
+  "CommonDeclsImpl",
+  "Creditİmpl",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "Cust_contactUnit",
+  "CustomersImpl",
+  "DataCustNomImpl",
+  "DepozLmpl",
+  "Form1_BalCnImpl",
+  "FormBalCnImpl",
+  "FormCustNomImpl",
+  "FormCustNom_GridImpl",
+  "FormOperationShow1Lmpl",
+  "FormOperationShowLmpl",
+  "FormOperationbplLmpl",
+  "FormTransaction1Lmpl",
+  "FormTransaction2Lmpl",
+  "FormTransaction3Lmpl",
+  "Form_AccountsImpl",
+  "Form_BalCnImpl",
+  "Form_Statmentlmpl",
+  "OpenAccdataImpl",
+  "OpenAccountImpl",
+  "OraVariables",
+  "Payment_DataModul",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SMSUnit",
+  "TemporaryTransactionsFormImpl",
+  "Transaction_DataModuleUnit",
+  "Transaction_DestinationImpl",
+  "Transaction_PropertiesImpl",
+  "UnitChangePasswordForm",
+  "UnitDataBussProc",
+  "UnitNote",
+  "UnitPayment_order",
+  "UnitProc_type",
+  "UnitSBOraLogOn",
+  "UnitTransaction",
+  "Unit_Archive",
+  "Unit_Rekvezit",
+  "Unit_Report",
+  "Unit_ReportR",
+  "Unit_TransView",
+  "UnitbussProc",
+  "UntIntervalRpt",
+  "UntMain_Report",
+  "UntSecond_Report",
+  "accserch",
+  "addcombobox1",
+  "cap_UntMainReport",
+  "cap_UntSecondReport",
+  "cuCommonDecls",
+  "cuTemporaryTransactionsViewFormImpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "AdminAllUserDataSet",
+   "source": "TAdminAllForm.AdminAllUserDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,NAME from user$\nwhere SB_ACA.checkmodaccess_int('EXPRESSMANAGER',name)=1\norder by name",
+   "variables": [],
+   "unit": "AdminAllUnit"
+  },
+  {
+   "name": "ExpAdminAllDataSet",
+   "source": "TAdminAllForm.ExpAdminAllDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Exp_Admin_All where USER_ID=:USER_ID",
+   "variables": [
+    {
+     "name": "USER_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdminAllUnit"
+  },
+  {
+   "name": "AdminUserDataSet",
+   "source": "TAdminForm.AdminUserDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,NAME from user$\nwhere SB_ACA.checkmodaccess_int('EXPRESSMANAGER',name)=1\norder by name",
+   "variables": [],
+   "unit": "AdminUnit"
+  },
+  {
+   "name": "ExpAdminDataSet",
+   "source": "TAdminForm.ExpAdminDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Exp_Admin where USER_ID=:USER_ID",
+   "variables": [
+    {
+     "name": "USER_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdminUnit"
+  },
+  {
+   "name": "ExpTypeDataSet",
+   "source": "TExpAllParametr.ExpTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id,name,groups from exp_type\norder by id\n",
+   "variables": [],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "ExpSettingsDataSet",
+   "source": "TExpAllParametr.ExpSettingsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,typeid, name FROM exp_settings\nwhere id not in(2,3) and\n      typeid=:typeid\norder by id\n",
+   "variables": [
+    {
+     "name": "TYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TExpAllParametr.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.filial",
+   "variables": [],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "ExpTypeAccountsDataSet",
+   "source": "TExpAllParametr.ExpTypeAccountsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id,debet, kredet,bdebet,bkredet,valute, branchid,OPTYPE from exp_type_accounts\nwhere OPTYPE=:OPTYPE\norder by branchid",
+   "variables": [
+    {
+     "name": "OPTYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "ValyutaDataSet",
+   "source": "TExpAllParametr.ValyutaDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "DebetDataSet",
+   "source": "TExpAllParametr.DebetDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere bal_cn1 in(4509,4519,2803,2813) and\n      close_dat is null",
+   "variables": [],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "KredetDataSet",
+   "source": "TExpAllParametr.KredetDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere bal_cn1 in(4509,4519,4803,4813) and\n      close_dat is null \n   ",
+   "variables": [],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "ExpSettingsTypeDataSet",
+   "source": "TExpAllParametr.ExpSettingsTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,stypeid, name,description FROM exp_settingstype\nwhere stypeid=:stypeid\norder by id",
+   "variables": [
+    {
+     "name": "STYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "BDebetDataSet",
+   "source": "TExpAllParametr.BDebetDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere bal_cn1 in(2803,2813) and\n      filial=0 and\n      close_dat is null",
+   "variables": [],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "BKredetDataSet",
+   "source": "TExpAllParametr.BKredetDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere bal_cn1 in(4803,4813) and\n      filial=0 and\n      close_dat is null \n   ",
+   "variables": [],
+   "unit": "ExpAllParametrUnit"
+  },
+  {
+   "name": "ExpChequeAccDataSet",
+   "source": "TExpComAccForm.ExpChequeAccDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT x.*,v.val_name, a.acc_no, f.NAME\n  FROM EXP_CHEQUEACCOUNT x, avalute v, ACCOUNT a, Filial f\n WHERE (x.valute = v.valute) AND (x.acc_id = a.id) AND (f.id = x.branchid)\norder by x.valute,x.branchid\n\n",
+   "variables": [],
+   "unit": "ExpComAccUnit"
+  },
+  {
+   "name": "ValyutaDataSet",
+   "source": "TExpComAccForm.ValyutaDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "ExpComAccUnit"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TExpComAccForm.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial \norder by id",
+   "variables": [],
+   "unit": "ExpComAccUnit"
+  },
+  {
+   "name": "AccountDataSet",
+   "source": "TExpComAccForm.AccountDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account\nwhere close_dat is null and\n      bal_cn1=6402",
+   "variables": [],
+   "unit": "ExpComAccUnit"
+  },
+  {
+   "name": "ExpComissionAccDataSet",
+   "source": "TExpComAccForm.ExpComissionAccDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT x.*,v.val_name, a.acc_no, f.NAME\n  FROM EXP_COMISSIONACCOUNT x, avalute v, ACCOUNT a, Filial f\n WHERE (x.valute = v.valute) AND (x.acc_id = a.id) AND (f.id = x.branchid)\norder by x.valute,x.branchid",
+   "variables": [],
+   "unit": "ExpComAccUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TExpComAccForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account\nwhere close_dat is null and\n      bal_cn1=6404",
+   "variables": [],
+   "unit": "ExpComAccUnit"
+  },
+  {
+   "name": "PasspDataSet",
+   "source": "TExpDataModule.PasspDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_deps\nwhere doc_type=:doc_type\norder by name",
+   "variables": [
+    {
+     "name": "DOC_TYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ValyutaDataSet",
+   "source": "TExpDataModule.ValyutaDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TExpDataModule.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.filial_t\n\n\n\norder by id\n\n \n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AllFilialDataSet",
+   "source": "TExpDataModule.AllFilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as ID, 'Bütün filiallar' as name from Dual\nUnion All\nselect ID, name from smart.filial\norder by ID",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "SysdateDataSet",
+   "source": "TExpDataModule.SysdateDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select sysdate as dat from dual",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpBatchsDataSet",
+   "source": "TExpDataModule.ExpBatchsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,\n       a.id, \n       a.expid, \n       a.kliid, \n       (select  name from customers where id=a.kliid)as sentname,   \n       a.filial,\n      (select name from filial_t where id=a.filial) as filialname, \n       a.debetaccid,\n       a.amount, \n       a.val_cod,\n       (select val_name from avalute where valute=a.val_cod) as valname,\n       a.trans_ref, \n       a.remit_inf,\n       a.countryid,\n       a.userid,\n       a.username,\n       a.senddate, \n       a.senddatetime, \n       a.commituserid,\n       a.commitusername,\n       a.bkliid, \n       case when a.bkliid is null then  a.bkliname\n       else \n      (select  name from customers where id=a.bkliid) end as senttoname,\n       a.bfilial,\n       case when a.bfilial=-1 then 'Butun filiallar'  else  \n      (select name from filial_t where id=a.bfilial)  end as bfilialname, \n       a.kreditaccid, \n       a.badd_inf, \n       a.buserid,\n       a.busername, \n       a.password,\n       a.vkliid, \n      (select name from customers where id=a.vkliid) as takename, \n       a.vfilial,\n       case when a.vfilial=-1 then 'Butun filiallar'  else\n      (select name from filial where id=a.vfilial) end as vfilialname, \n       a.vkreditaccid, \n       a.vadd_inf,\n       a.vuserid,\n       a.takeusername,  \n       a.pfattorser, \n       a.pfattornum, \n       a.pfattorbdat,\n       a.pfattoredat, \n       a.recdate, \n       a.recdatetime, \n       a.status, \n       a.optype,\n       a.setid,\n       a.contractno,\n       a.bkliname, \n       a.PRICEAMOUNT,\n       a.transtype,\n       a.countryid,\n       a.transfers_accno,\n       a.SENDTRANSID,\n       a.comissionamount     \nfrom exp_batchs_today a\n\norder by :title      \n      \n       \n       \n       \n\n      \n      \n\n",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AccountDataSet",
+   "source": "TExpDataModule.AccountDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account\nwhere kli_id=:kli_id and\n      close_dat is null and\n      bal_cn1 in (3205,3301,3302,3303,3304,3305,3306,3307,3308,3311,3312,3313,3314,3315,3316,3317,3318,3709,3719,3801,3802,\n                  3803,3804,3805,3806,3807,3808,3809,3811,3812,3813,3814,3815,3816,3817,3818,3819,3821,3822,3823,3824)\n\n",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "BankInfoDataSet",
+   "source": "TExpDataModule.BankInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankinfo",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpComissionDataSet",
+   "source": "TExpDataModule.ExpComissionDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select e.rowid,e.* from exp_comission e\nwhere e.expid=:expid",
+   "variables": [
+    {
+     "name": "EXPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpBatchsArchiveDataSet",
+   "source": "TExpDataModule.ExpBatchsArchiveDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,\n       a.id, \n       a.expid, \n       a.kliid, \n       (select  name from customers where id=a.kliid)as sentname,   \n       a.filial,\n      (select name from filial_t where id=a.filial) as filialname, \n       a.debetaccid,\n       a.amount, \n       a.val_cod,\n       (select val_name from avalute where valute=a.val_cod) as valname,\n       a.trans_ref, \n       a.remit_inf, \n       a.userid,\n       a.username,\n       a.senddate, \n       a.senddatetime, \n       a.commituserid,\n       a.commitusername,\n       a.bkliid, \n      (select  name from customers where id=a.bkliid)as senttoname, \n       a.bfilial,\n       case when a.bfilial=-1 then 'Butun filiallar'  else  \n      (select name from filial_t where id=a.bfilial)  end as bfilialname, \n       a.kreditaccid, \n       a.badd_inf, \n       a.buserid,\n       a.busername, \n       a.password,\n       a.vkliid, \n      (select name from customers where id=a.vkliid) as takename, \n       a.vfilial,\n       case when a.vfilial=-1 then 'Butun filiallar'  else\n      (select name from filial where id=a.vfilial) end as vfilialname, \n       a.vkreditaccid, \n       a.vadd_inf,\n       a.vuserid,\n       a.takeusername,   \n       a.pfattorser, \n       a.pfattornum, \n       a.pfattorbdat,\n       a.pfattoredat, \n       a.recdate, \n       a.recdatetime, \n       a.status, \n       a.optype,\n       a.setid,\n       a.contractno   \nfrom EXP_BATCHS_ARCHIVE  a \nwhere senddate between :bdate and :edate\norder by :title\n      \n      \n\n\n",
+   "variables": [
+    {
+     "name": "BDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpGroupsDataset",
+   "source": "TExpDataModule.ExpGroupsDataset",
+   "kind": "TOracleDataSet",
+   "sql": "select * from exp_type \nwhere id in(select typeid from exp_settings where name=:name)",
+   "variables": [
+    {
+     "name": "NAME",
+     "type": "string"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CountriesDataSet",
+   "source": "TExpDataModule.CountriesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CustCountriesDataSet",
+   "source": "TExpDataModule.CustCountriesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitiesDataSet",
+   "source": "TExpDataModule.CitiesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities \nwhere country_id = :country_id\norder by city_name",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet",
+   "source": "TExpDataModule.CitizenShipDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet1",
+   "source": "TExpDataModule.CitizenShipDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet2",
+   "source": "TExpDataModule.CitizenShipDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AdressCountriesDataSet",
+   "source": "TExpDataModule.AdressCountriesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AdressCitiiesDataSet",
+   "source": "TExpDataModule.AdressCitiiesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities where country_id = :country_id",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "DocTypesDataSet",
+   "source": "TExpDataModule.DocTypesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_types where express_showing is null\norder by id",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "SendToDataSet",
+   "source": "TExpDataModule.SendToDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM EXP_CUSTSEND \nwhere id=-1\n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "TakeDataSet",
+   "source": "TExpDataModule.TakeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM EXP_CUSTSEND\nwhere id=-1",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "FloorDataSet",
+   "source": "TExpDataModule.FloorDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Floor",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "MarriedDataSet",
+   "source": "TExpDataModule.MarriedDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from married",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "SendDataSet",
+   "source": "TExpDataModule.SendDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM EXP_CUSTSEND\nwhere id=-1\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "DocTypesDataSet1",
+   "source": "TExpDataModule.DocTypesDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_types where express_showing is null\norder by id",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CountriesDataSet1",
+   "source": "TExpDataModule.CountriesDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "PasspDataSet1",
+   "source": "TExpDataModule.PasspDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_deps\nwhere doc_type=:doc_type\norder by name",
+   "variables": [
+    {
+     "name": "DOC_TYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet4",
+   "source": "TExpDataModule.CitizenShipDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet5",
+   "source": "TExpDataModule.CitizenShipDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet6",
+   "source": "TExpDataModule.CitizenShipDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "FloorDataSet1",
+   "source": "TExpDataModule.FloorDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Floor",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "MarriedDataSett1",
+   "source": "TExpDataModule.MarriedDataSett1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from married",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CustCountriesDataSet1",
+   "source": "TExpDataModule.CustCountriesDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitiesDataSet1",
+   "source": "TExpDataModule.CitiesDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities\n\nwhere country_id = :country_id\norder by city_name",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AdressCountriesDataSet1",
+   "source": "TExpDataModule.AdressCountriesDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AdressCitiiesDataSet1",
+   "source": "TExpDataModule.AdressCitiiesDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities where country_id = :country_id",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AccountDataSet1",
+   "source": "TExpDataModule.AccountDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account\nwhere kli_id=:kli_id\n\n",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AccountDataSet2",
+   "source": "TExpDataModule.AccountDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere kli_id=:kli_id",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AccDataSet",
+   "source": "TExpDataModule.AccDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere \n   close_dat is null and\n   id=:id\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CustomerDataSet",
+   "source": "TExpDataModule.CustomerDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.customers where close_dat is null\n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "KredetDataSet",
+   "source": "TExpDataModule.KredetDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere close_dat is null\n     and\n      (bal_cn1 >= 3300)  and\n      (bal_cn1 <= 3999) \n     /* bal_cn1 in (3205,3301,3302,3303,3304,3305,3306,3307,3308,3311,3312,3313,3314,3315,3316,3317,3318,3709,3719,3801,3802,\n                  3803,3804,3805,3806,3807,3808,3809,3811,3812,3813,3814,3815,3816,3817,3818,3819,3821,3822,3823,3824)*/\n      and\n      kli_id=:kli_id \n",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpSetDataSet",
+   "source": "TExpDataModule.ExpSetDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,rowid,typeid,name FROM exp_settings\n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpTypeDataSet",
+   "source": "TExpDataModule.ExpTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id,name,groups from exp_type\norder by id",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpSettingsDataSet",
+   "source": "TExpDataModule.ExpSettingsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,rowid,typeid, name FROM exp_settings \nwhere typeid=:typeid \norder by id",
+   "variables": [
+    {
+     "name": "TYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CountriesDataSet2",
+   "source": "TExpDataModule.CountriesDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CustCountriesDataSet2",
+   "source": "TExpDataModule.CustCountriesDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitiesDataSet2",
+   "source": "TExpDataModule.CitiesDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities\n\nwhere country_id = :country_id\norder by city_name",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet7",
+   "source": "TExpDataModule.CitizenShipDataSet7",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "DocTypesDataSet2",
+   "source": "TExpDataModule.DocTypesDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_types where express_showing is null\norder by id",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet8",
+   "source": "TExpDataModule.CitizenShipDataSet8",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitizenShipDataSet9",
+   "source": "TExpDataModule.CitizenShipDataSet9",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "FloorDataSet2",
+   "source": "TExpDataModule.FloorDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Floor",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "MarriedDataSett2",
+   "source": "TExpDataModule.MarriedDataSett2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from married",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AdressCountriesDataSet2",
+   "source": "TExpDataModule.AdressCountriesDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "AdressCitiiesDataSet2",
+   "source": "TExpDataModule.AdressCitiiesDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities where country_id = :country_id",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "PasspDataSet2",
+   "source": "TExpDataModule.PasspDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_deps\nwhere doc_type=:doc_type\norder by name",
+   "variables": [
+    {
+     "name": "DOC_TYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "KreditRestDataSet",
+   "source": "TExpDataModule.KreditRestDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(rest) rest,sum(interestrest)interestrest from cm_history \nwhere \n creditid in(select creditid from cm_accounts where booroweraccid=:acc_id) and \n hdate=(select tek_dat from sysdat)\n ",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "Expdescription",
+   "source": "TExpDataModule.Expdescription",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from exp_descriptions a\norder by a.id",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "Bankinfo",
+   "source": "TExpDataModule.Bankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select inn from bankinfo",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "MmxContactType",
+   "source": "TExpDataModule.MmxContactType",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_contact_type a\norder by a.id",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CountriesWork",
+   "source": "TExpDataModule.CountriesWork",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CitiesWork",
+   "source": "TExpDataModule.CitiesWork",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities \nwhere country_id = :country_id\norder by city_name",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "TPHCONTACTTYPE",
+   "source": "TExpDataModule.TPHCONTACTTYPE",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_contact_type a\norder by a.id",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "TphCommunicationtype",
+   "source": "TExpDataModule.TphCommunicationtype",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM MMX_COMMUNICATION_TYPE a\norder by a.id",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "TPHCOUNTRYPREFIX",
+   "source": "TExpDataModule.TPHCOUNTRYPREFIX",
+   "kind": "TOracleDataSet",
+   "sql": "select c.phone_code from  countries c where c.phone_code is not null\norder by ID ",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "SearchCustDataSet",
+   "source": "TExpDataModule.SearchCustDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select\nc.id           id,\nc.inn          inn,\nc.name         name,\nc.cust_type    cust_type,\nc.nerezident   nerezident,\nd.passpin      passpin,\nd.paspnum      paspnum,\nd.passer       passer,\nd.doc_type     doc_type,\nd.doc_country  doc_country,\nd.paspplace    paspplace,\nd.paspdate     paspdate,\nd.passexpire   passexpire,\nd.citizenship  citizenship,\nd.sex          sex,\nd.fam_status   fam_status,\nd.birthplace   birthplace,\nd.birth_state  birth_state,\nd.birthday     birthday,\nd.adrs_state   adrs_state,\nd.city         city,\nd.reg_zip      reg_zip,\nd.phone_m      phone_m,\nd.phone_h      phone_h,\nd.e_mail       e_mail,\nd.address      address,\nd.work_place   work_place,\n(select id from mmx_contact_type  where symbol=d.work_adrs_spec)work_adrs_spec,\nd.work_cntr    work_cntr,\nd.work_city    work_city,\nd.work_state   work_state,\nd.work_zip     work_zip,\nd.work_adress  work_adress,\n(select id from mmx_contact_type  where symbol=d.work_phone_spec)work_phone_spec,\n(select id from mmx_communication_type where symbol=d.work_phconttype)work_phconttype,\nd.work_phoppref work_phoppref,\nd.work_phone    work_phone,\nd.work_phext    work_phext,\nd.work_phcode   work_phcode,\nd.lastname      lastname,\nd.name          cname,    \nd.soname        soname\nfrom customers c,custinfo d\nwhere \n      c.id=d.idcust(+) and\n      c.close_dat is null and\n      c.id=-1\n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "FilialDataSet1",
+   "source": "TExpDataModule.FilialDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.filial_t \n\n\n \n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpFieldSearch",
+   "source": "TExpDataModule.ExpFieldSearch",
+   "kind": "TOracleDataSet",
+   "sql": "select * from exp_visible_fields",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpIncomingDataSet",
+   "source": "TExpDataModule.ExpIncomingDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,\n       a.id, \n       a.expid, \n       a.kliid, \n       (select  name from customers where id=a.kliid)as sentname,   \n       a.filial,\n      (select name from filial_t where id=a.filial) as filialname, \n       a.debetaccid,\n       a.amount, \n       a.val_cod,\n       (select val_name from avalute where valute=a.val_cod) as valname,\n       a.trans_ref, \n       a.remit_inf, \n       a.userid,\n       a.username,\n       a.senddate, \n       a.senddatetime, \n       a.commituserid,\n       a.commitusername,\n       a.bkliid, \n      (select  name from customers where id=a.bkliid)as senttoname, \n       a.bfilial,\n       case when a.bfilial=-1 then 'Butun filiallar'  else  \n      (select name from filial_t where id=a.bfilial)  end as bfilialname, \n       a.kreditaccid, \n       a.badd_inf, \n       a.buserid,\n       a.busername, \n       a.password,\n       a.vkliid, \n      (select name from customers where id=a.vkliid) as takename, \n       a.vfilial,\n       case when a.vfilial=-1 then 'Butun filiallar'  else\n      (select name from filial where id=a.vfilial) end as vfilialname, \n       a.vkreditaccid, \n       a.vadd_inf,\n       a.vuserid,\n       a.takeusername,  \n       a.pfattorser, \n       a.pfattornum, \n       a.pfattorbdat,\n       a.pfattoredat, \n       a.recdate, \n       a.recdatetime, \n       a.status, \n       a.optype,\n       a.setid ,\n       a.contractno,\n       a.comissionamount   \nfrom exp_incoming_today a where a.status in(0,1)\n\norder by :title      ",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpIncomingarchiveDataSet",
+   "source": "TExpDataModule.ExpIncomingarchiveDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,\n       a.id, \n       a.expid, \n       a.kliid, \n       (select  name from customers where id=a.kliid)as sentname,   \n       a.filial,\n      (select name from filial_t where id=a.filial) as filialname, \n       a.debetaccid,\n       a.amount, \n       a.val_cod,\n       (select val_name from avalute where valute=a.val_cod) as valname,\n       a.trans_ref, \n       a.remit_inf, \n       a.userid,\n       a.username,\n       a.senddate, \n       a.senddatetime, \n       a.commituserid,\n       a.commitusername,\n       a.bkliid, \n      (select  name from customers where id=a.bkliid)as senttoname, \n       a.bfilial,\n       case when a.bfilial=-1 then 'Butun filiallar'  else  \n      (select name from filial_t where id=a.bfilial)  end as bfilialname, \n       a.kreditaccid, \n       a.badd_inf, \n       a.buserid,\n       a.busername, \n       a.password,\n       a.vkliid, \n      (select name from customers where id=a.vkliid) as takename, \n       a.vfilial,\n       case when a.vfilial=-1 then 'Butun filiallar'  else\n      (select name from filial where id=a.vfilial) end as vfilialname, \n       a.vkreditaccid, \n       a.vadd_inf,\n       a.vuserid,\n       a.takeusername,   \n       a.pfattorser, \n       a.pfattornum, \n       a.pfattorbdat,\n       a.pfattoredat, \n       a.recdate, \n       a.recdatetime, \n       a.status, \n       a.optype,\n       a.setid,\n       a.contractno   \nfrom EXP_INCOMING_ARCHIVE a \nwhere RECDATE between :bdate and :edate\norder by :title",
+   "variables": [
+    {
+     "name": "BDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "Accountid",
+   "source": "TExpDataModule.Accountid",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where acc_no=:accno",
+   "variables": [
+    {
+     "name": "ACCNO",
+     "type": "string"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "Exp_settingstype",
+   "source": "TExpDataModule.Exp_settingstype",
+   "kind": "TOracleDataSet",
+   "sql": "select * from exp_settingstype\nwhere stypeid=:stypeid\norder by id",
+   "variables": [
+    {
+     "name": "STYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "SearchCustDataSet1",
+   "source": "TExpDataModule.SearchCustDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select\nc.id           id,\nc.inn          inn,\nc.name         name,\nc.cust_type    cust_type,\nc.nerezident   nerezident,\nd.passpin      passpin,\nd.paspnum      paspnum,\nd.passer       passer,\nd.doc_type     doc_type,\nd.doc_country  doc_country,\nd.paspplace    paspplace,\nd.paspdate     paspdate,\nd.passexpire   passexpire,\nd.citizenship  citizenship,\nd.sex          sex,\nd.fam_status   fam_status,\nd.birthplace   birthplace,\nd.birth_state  birth_state,\nd.birthday     birthday,\nd.adrs_state   adrs_state,\nd.city         city,\nd.reg_zip      reg_zip,\nd.phone_m      phone_m,\nd.phone_h      phone_h,\nd.e_mail       e_mail,\nd.address      address,\nd.work_place   work_place,\n(select id from mmx_contact_type  where symbol=d.work_adrs_spec)work_adrs_spec,\nd.work_cntr    work_cntr,\nd.work_city    work_city,\nd.work_state   work_state,\nd.work_zip     work_zip,\nd.work_adress  work_adress,\n(select id from mmx_contact_type  where symbol=d.work_phone_spec)work_phone_spec,\n(select id from mmx_communication_type where symbol=d.work_phconttype)work_phconttype,\nd.work_phoppref work_phoppref,\nd.work_phone    work_phone,\nd.work_phext    work_phext,\nd.work_phcode   work_phcode,\nd.lastname      lastname,\nd.name          cname,    \nd.soname        soname\nfrom customers c,custinfo d\nwhere \n      c.id=d.idcust(+) and\n      c.close_dat is null  and c.cust_type in(1,2,3,4) and\n      c.id=-1\n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpIncomingPassword",
+   "source": "TExpDataModule.ExpIncomingPassword",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,\n       a.id, \n       a.expid, \n       a.kliid, \n       (select  name from customers where id=a.kliid)as sentname,   \n       a.filial,\n      (select name from filial_t where id=a.filial) as filialname, \n       a.debetaccid,\n       a.amount, \n       a.val_cod,\n       (select val_name from avalute where valute=a.val_cod) as valname,\n       a.trans_ref, \n       a.remit_inf, \n       a.userid,\n      (select name from user$ where id=a.userid) as username,\n       a.senddate, \n       a.senddatetime, \n       a.commituserid,\n       case when commituserid is null then ''  else \n      (select name from user$ where id=a.commituserid) end as commitusername,\n       a.bkliid, \n      (select  name from customers where id=a.bkliid)as senttoname, \n       a.bfilial,\n       case when a.bfilial=-1 then 'Butun filiallar'  else  \n      (select name from filial_t where id=a.bfilial)  end as bfilialname, \n       a.kreditaccid, \n       a.badd_inf, \n       a.buserid,\n       case when a.buserid is null then ''  else \n      (select name from user$ where id=a.buserid) end as busername, \n       a.password,\n       a.vkliid, \n      (select name from customers where id=a.vkliid) as takename, \n       a.vfilial,\n       case when a.vfilial=-1 then 'Butun filiallar'  else\n      (select name from filial where id=a.vfilial) end as vfilialname, \n       a.vkreditaccid, \n       a.vadd_inf,\n       a.vuserid,\n      (select name from user$ where id=a.vuserid) as takeusername,  \n       a.pfattorser, \n       a.pfattornum, \n       a.pfattorbdat,\n       a.pfattoredat, \n       a.recdate, \n       a.recdatetime, \n       a.status, \n       a.optype,\n       a.setid   \nfrom exp_incoming_today a where (a.status is null) and (a.password=:v_password )\n",
+   "variables": [
+    {
+     "name": "V_PASSWORD",
+     "type": "string"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "SearchContractno",
+   "source": "TExpDataModule.SearchContractno",
+   "kind": "TOracleDataSet",
+   "sql": "select * from EXP_LIZINQ@liz where \nnumberofcredit=''\n\n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "RFilialDataSet",
+   "source": "TExpDataModule.RFilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.filial_t\n\n\n\norder by id\n\n \n",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ODSTenostat",
+   "source": "TExpDataModule.ODSTenostat",
+   "kind": "TOracleDataSet",
+   "sql": "select ostat from tenostat where acc_id=:accid",
+   "variables": [
+    {
+     "name": "ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CustDataSet",
+   "source": "TExpDataModule.CustDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.customers where close_dat is null and id=:custid",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "Settings",
+   "source": "TExpDataModule.Settings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.*,rowid\n\nFROM\n    cash_settings a\n ",
+   "variables": [],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "OdsQkreport",
+   "source": "TExpDataModule.OdsQkreport",
+   "kind": "TOracleDataSet",
+   "sql": " select debet,kredet from exp_type_accounts where optype=:setid and branchid=:filial  and  valute=:val_cod",
+   "variables": [
+    {
+     "name": "SETID",
+     "type": "integer"
+    },
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    },
+    {
+     "name": "VAL_COD",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "CustInfoDataSet",
+   "source": "TExpDataModule.CustInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.custinfo where  idcust=:custid",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "DocTpDataSet",
+   "source": "TExpDataModule.DocTpDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_types where id=:vid\norder by id",
+   "variables": [
+    {
+     "name": "VID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ODSAccount",
+   "source": "TExpDataModule.ODSAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere \n   close_dat is null and\n   id=:id\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpDataModuleUnit"
+  },
+  {
+   "name": "ExpAccDataSet",
+   "source": "TExpParameter.ExpAccDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT x.*,v.val_name, a.acc_no, f.NAME\n  FROM exp_accounts x, avalute v, ACCOUNT a, Filial f\n WHERE (x.valute = v.valute) AND (x.acc_id = a.id) AND (f.id = x.branchid) and a.close_dat is null\norder by x.valute,x.branchid",
+   "variables": [],
+   "unit": "ExpParameterUnit"
+  },
+  {
+   "name": "BranchDataSet",
+   "source": "TExpParameter.BranchDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT x.*,v.Val_Name, a.Acc_No, f.Name\n  FROM Exp_Branchaccount x, Avalute v, Account a, Filial f\n WHERE (x.valute = v.valute) and (x.AccID = a.ID) and (f.ID = x.BranchID)",
+   "variables": [],
+   "unit": "ExpParameterUnit"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TExpParameter.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial \norder by id",
+   "variables": [],
+   "unit": "ExpParameterUnit"
+  },
+  {
+   "name": "ValyutaDataSet",
+   "source": "TExpParameter.ValyutaDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "ExpParameterUnit"
+  },
+  {
+   "name": "AccountDataSet",
+   "source": "TExpParameter.AccountDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account",
+   "variables": [],
+   "unit": "ExpParameterUnit"
+  },
+  {
+   "name": "ExpCashboxAccDataSet",
+   "source": "TExpSubForm.ExpCashboxAccDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT x.*,v.val_name, a.acc_no, f.NAME\n  FROM EXP_CASHBOXACCOUNT x, avalute v, ACCOUNT a, Filial f\n WHERE (x.valute = v.valute) AND (x.acc_id = a.id) AND (f.id = x.branchid)\norder by x.valute,x.branchid",
+   "variables": [],
+   "unit": "ExpSubUnit"
+  },
+  {
+   "name": "ExpTransitAccDataSet",
+   "source": "TExpSubForm.ExpTransitAccDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT x.*,v.val_name, a.acc_no, f.NAME\n  FROM EXP_TRANSITACCOUNT x, avalute v, ACCOUNT a, Filial f\n WHERE (x.valute = v.valute) AND (x.accid = a.id) AND (f.id = x.branchid)\norder by x.valute,x.branchid\n\n",
+   "variables": [],
+   "unit": "ExpSubUnit"
+  },
+  {
+   "name": "AccountDataSet",
+   "source": "TExpSubForm.AccountDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account",
+   "variables": [],
+   "unit": "ExpSubUnit"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TExpSubForm.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial \norder by id",
+   "variables": [],
+   "unit": "ExpSubUnit"
+  },
+  {
+   "name": "ValyutaDataSet",
+   "source": "TExpSubForm.ValyutaDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "ExpSubUnit"
+  },
+  {
+   "name": "Templates",
+   "source": "TFormExpVesterPrint.Templates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.RowID , T.*\n  FROM CUSTOMERS_WR_TEMPLATES T where CUSTTYPE in(0,1,2,3)",
+   "variables": [],
+   "unit": "ExpVesterPrintUnit"
+  },
+  {
+   "name": "Bookmarks",
+   "source": "TFormExpVesterPrint.Bookmarks",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,ID, TEMPLATEID, FIELDID, BOOKMARKNAME\n  FROM CUSTOMERS_WR_BOOKMARKS\nwhere templateid = :templateid",
+   "variables": [
+    {
+     "name": "TEMPLATEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpVesterPrintUnit"
+  },
+  {
+   "name": "Fields",
+   "source": "TFormExpVesterPrint.Fields",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, FIELDNAME, DESCRIPTION\n  FROM CUSTOMERS_WR_FIELDS\norder by id\n",
+   "variables": [],
+   "unit": "ExpVesterPrintUnit"
+  },
+  {
+   "name": "CustomerInfoDataSet",
+   "source": "TFormExpVesterPrint.CustomerInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM PCUST_WR_INFO\nwhere accID=:Acc_ID",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpVesterPrintUnit"
+  },
+  {
+   "name": "ReplaceCustDataSet",
+   "source": "TFormExpVesterPrint.ReplaceCustDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   CUSTOMERS_WR_BOOKMARKS B\n , CUSTOMERS_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "ExpVesterPrintUnit"
+  },
+  {
+   "name": "Account",
+   "source": "TFormPaymentsCredit.Account",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account \nwhere close_dat is null and\n     (bal_cn1 >= 3300)  and\n     (bal_cn1 <= 3999)  and\n      acc_no=:accno\n    \n\n",
+   "variables": [
+    {
+     "name": "ACCNO",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitPaymentsCredit"
+  },
+  {
+   "name": "ODSAccNo",
+   "source": "TFormPaymentsCredit.ODSAccNo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.account where bal_cn1 in(1711,1712) and close_dat is null",
+   "variables": [],
+   "unit": "UnitPaymentsCredit"
+  },
+  {
+   "name": "ODSCountry",
+   "source": "TFormPaymentsCredit.ODSCountry",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries",
+   "variables": [],
+   "unit": "UnitPaymentsCredit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "EXPESSPAC",
+   "package": "EXPESS_OPERATIONS",
+   "mode": "named",
+   "source": "TExpDataModule.EXPESSPAC",
+   "routines": [
+    {
+     "name": "AmountCompare",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "ExpAccountOpen",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "ExpTakeUpdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_GoldenPayKomiks_insert",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_GoldenPayKomiks_update",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_batchs_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_batchs_insert",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_batchs_recupdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_batchs_status",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_batchs_update",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Getnewexpressreference",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "exp_payments_insert",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "exp_payments_update",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "exp_vester_insert",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "exp_vester_update",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPCash",
+   "package": "SB_CASHREPORT",
+   "mode": "positional",
+   "source": "TExpDataModule.OPCash",
+   "routines": [
+    {
+     "name": "GetBankInfo",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "Repair",
+   "package": "EXPESS_OPERATIONS",
+   "mode": "positional",
+   "source": "TExpDataModule.Repair",
+   "routines": [
+    {
+     "name": "Date_Difference",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "ExpAdminAll_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ExpAdminAll_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ExpAdmin_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ExpAdmin_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ExpSimvolAccount",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ExpTakeTransaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_Accounts_Del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_ConsolidationTTransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_Consolidation_SendTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_Consolidation_TakeTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_GPayKomiks_SendTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_GPayKomiks_TakeTrans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_Payments_Transactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_accounts_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_batchs_Transactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_branchaccount_Del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_branchaccount_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_cashboxaccount_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_cashboxaccount_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_checkstatus",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Exp_checkstatusIN",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Exp_chequeaccount_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_chequeaccount_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_comissionaccount_Del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_comissionaccount_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_comissionoperation",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "Exp_transitaccount_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_transitaccount_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Exp_vester_Transactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Filid",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "RetrunFiledName",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "SumNominalid",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "SumTakeid",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "return_trans",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TExpDataModule.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "SELECT * FROM EXP_CUSTSEND"
+ ]
+}

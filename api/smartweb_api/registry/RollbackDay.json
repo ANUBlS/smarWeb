@@ -1,0 +1,62 @@
+{
+ "name": "RollbackDay",
+ "caption": "Balans / Sistem servisi / Günün qaytarılması",
+ "dir": "Packages/RollbackDay",
+ "mainForm": "TFormRollbackDay",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Sysdat",
+   "source": "TFormRollbackDay.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "Select * from sysdat",
+   "variables": [],
+   "unit": "RollbackDayImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SBSystem",
+   "package": "SBSYS",
+   "mode": "positional",
+   "source": "TFormRollbackDay.SBSystem",
+   "routines": [
+    {
+     "name": "rollback_day",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,568 @@
+{
+ "name": "P_CR_Conclusion",
+ "caption": "",
+ "dir": "Packages/Cr_Credit/CR_Conclusion",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "cm_customer.bpl": "P_CM_Customer"
+ },
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "crCommonDecls",
+  "crLogoutputImpl",
+  "crTemporaryTransactionsViewFormImpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleQuery1",
+   "source": "TConclusionForm.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "crConclusionMainUnitImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TConclusionForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select max(id) id from cr_guarantyorgname",
+   "variables": [],
+   "unit": "crConclusionMainUnitImpl"
+  },
+  {
+   "name": "LoanAccs",
+   "source": "TCRDataModuleConcl.LoanAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n   val_acc =:val_acc  AND close_dat is null and \n\n   (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'LoanAccs'))\n         )\nORDER BY accno,kli_id\n\n \n ",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "DueLoanAccs",
+   "source": "TCRDataModuleConcl.DueLoanAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE \nval_acc = :val_acc AND  close_dat is null and \n\n(ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'DueLoanAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "PReserveAccs",
+   "source": "TCRDataModuleConcl.PReserveAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE val_acc = 0 and\n      ac.kli_id=:kli_id and close_dat is null \n\n     AND (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'PReserveAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "SReserveAccs",
+   "source": "TCRDataModuleConcl.SReserveAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE val_acc = 0 and close_dat is null \n     AND (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'SReserveAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "CurrencysData",
+   "source": "TCRDataModuleConcl.CurrencysData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    valute as CurrID ,\n    Valu_Name as CurrName,VAL_NAME\n  from\n    smart.avalute_t",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "Reserves",
+   "source": "TCRDataModuleConcl.Reserves",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    ID,\n    Percent ,\n    Description\n  from\n    CR_RESERVES",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "Customer",
+   "source": "TCRDataModuleConcl.Customer",
+   "kind": "TOracleDataSet",
+   "sql": "select \nID,\nName\nfrom CUSTOMERS\nwhere cust_type=0",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "ClientCategories",
+   "source": "TCRDataModuleConcl.ClientCategories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, person, description,code,act_id,kodu\n  FROM cr_categories\n where\nact_id=:act_id and\n  act_id is not null\n--order by act_id,id",
+   "variables": [
+    {
+     "name": "ACT_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TCRDataModuleConcl.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, renewablestatus, itype, iclass, description\n  FROM cr_credittypes",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "CreditProps",
+   "source": "TCRDataModuleConcl.CreditProps",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.ROWID,p.currency, p.boorowerid, p.creditlineamount,\n       p.annualyinterestrate, p.annualyoverduerate, p.annualypenaltyrate,p.payintday, p.payperiod,\n       p.dateofconclusion, p.duedatefirstcontract, p.numberofcredit,\n       p.purposeofcredit, p.customertype, p.credittype, p.personaltype,\n       p.autopayment, p.autoexpire, p.usrgroup, p.branchid,p.annualbankrate,p.newfinanceamount, \n       p.numberofbankcredit,p.CREDITACT,p.KOMISION,\n       p.GUR_ID,p.GURINFO,p.GURLETTER,a.penaccid,\n       p.intcalcmethod,p.activities, p.activities_type,\n       p.pledgsorts,p.aim_id,p.EXPERTID,\n       a.booroweraccid,\n       a.loanaccid, a.dueloanaccid, a.interestaccid, a.dueinterestaccid,\n       a.primaryreserveaccid, a.secondaryreserveaccid, a.outcollateralaccid,\n       a.outguaranteeaccid, a.OutInterestAccid,a.crdlineoblaccid,a.outloanaccid,\n       a.primarypurreserveaccid,a.secondarypurreserveaccid,s.reserveid, s.pledgeprice, \n       s.pledgepricetorpaq, s.pledgepriceev,g.pledgeid, s.duereserveid,\n       g.pledgepriceevkv, \n       g.pledgepricetorpaqha,\n       g.PLEDGENAME , g.PLEDGEID_P,\n       g.HOLDERNAME , \n       g.HOLDERADDRESS , \n       g.ANYINFOTODISTING , \n       g.REGISTRYNO ,\n       g.REGISTRYAGENCY , g.INSURANCERIGHT,\n       g.REGISTRYDATE , \n       g.PLEDGEINUSE , \n       g.PLEDGEINSURANT , \n       g.INSURANCEAGENCY ,\n       g.INSURANCEAMOUNT , \n       g.INSURANCEDATE , \n       b.BOOROWERID as boorid, \n       b.NAME , \n       b.COUNTRYCODE , \n       b.BANKRUPTEYSTATUS , \n       b.PHONENUMBER , \n       b.ADDRESS , \n       b.FIRSTOWNERID ,\n       b.FIRSTOWNERNAME , \n       b.SECONDOWNERID , \n       b.SECONDOWNERNAME , \n       b.THIRDOWNERID , \n       b.THIRDOWNERNAME ,\n       b.salary,\n       b.guarantorname, \n       b.guarantorid, \n       b.guarantorsalary,\n       b.guarantorname2, \n       b.guarantorid2, \n       b.guarantorsalary2,\n\tb.guarantorname3, \n       b.guarantorid3, \n       b.guarantorsalary3,\n\tb.PINCODE,b.zaminwork1,b.zaminadres1,b.zamintel1,b.zaminwork2,b.zaminadres2,b.zamintel2\n    , b.zmpaspyer1, b.zmpaspdat1, b.zmtelmob1,b.zmpaspyer2, b.zmpaspdat2, b.zmtelmob2\n  , g.gqname, g.gqpaspnum, g.gqpaspyer, g.gqpaspdate,g.gqadress, g.seryamh, g.reyster,g.GQTEL\n  FROM cr_active_credits p, \n       cr_accounts a, \n       cr_curr_state s, \n       cr_guarantee g,\n       cr_boorowerinfo b\n WHERE p.id = :creditid\n   AND a.creditid = :creditid\n   AND s.creditid = :creditid\n   AND g.creditid = :creditid\n   and b.creditid=:creditid\n\n \n \n ",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "AutoPayment",
+   "source": "TCRDataModuleConcl.AutoPayment",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cr_automation",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "AutoExpire",
+   "source": "TCRDataModuleConcl.AutoExpire",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cr_automation",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "DueInterests",
+   "source": "TCRDataModuleConcl.DueInterests",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE \nval_acc = :val_acc AND  close_dat is null and \n\n(ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'InterestAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "Branches",
+   "source": "TCRDataModuleConcl.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select\nID ,Name\nfrom FILIAL",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "PersonTypes",
+   "source": "TCRDataModuleConcl.PersonTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  ID,\n  DESCRIPION\nfrom\n  Cr_PERSONS\n\norder by id",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "UsrGroups",
+   "source": "TCRDataModuleConcl.UsrGroups",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  id,\ndescription\nfrom\n  Cr_USERGROUPS",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "Pledges",
+   "source": "TCRDataModuleConcl.Pledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cr_pledges",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "OUTObligationAccs",
+   "source": "TCRDataModuleConcl.OUTObligationAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM OUT_ACCOUNT ac \n   WHERE ac.kli_id=:kli_id and\n  (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'ObligationAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "OUTCollatralAccs",
+   "source": "TCRDataModuleConcl.OUTCollatralAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM OUT_ACCOUNT ac\n   WHERE\n  (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'CollateralAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "CustAccs",
+   "source": "TCRDataModuleConcl.CustAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac where ac.kli_id=:kli_id\n   and close_dat is null and \n\n  (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'ClientAccs'))\n         )\nORDER BY accno,kli_id\n",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "PercentAccounts",
+   "source": "TCRDataModuleConcl.PercentAccounts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM sba_account ac\n   WHERE\n   val_acc =:val_acc  AND  close_dat is null and \n(ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'InterestAccs'))\n         )\nORDER BY accno,kli_id\n\n ",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "DueReserves",
+   "source": "TCRDataModuleConcl.DueReserves",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    ID,\n    Percent ,\n    Description\n  from\n    CR_RESERVES",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "OUTInterestAccs",
+   "source": "TCRDataModuleConcl.OUTInterestAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM OUT_ACCOUNT ac\n   WHERE\n  (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'OutInterestAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "CrdLineoblAccs",
+   "source": "TCRDataModuleConcl.CrdLineoblAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM ACCOUNT ac\n   WHERE close_dat is null and \n\n  (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'CrdLineOblAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "OutLoanAccs",
+   "source": "TCRDataModuleConcl.OutLoanAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM OUT_ACCOUNT ac\n   WHERE\n  (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'OutLoanAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "BalcnLoan",
+   "source": "TCRDataModuleConcl.BalcnLoan",
+   "kind": "TOracleDataSet",
+   "sql": "select bal_cn,\n       balname ,\n       bal_cn||' - '||balname as FullName from smart.bal_spr1\nwhere bal_cn in (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'LoanAccs'))\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "CalcIntMethod",
+   "source": "TCRDataModuleConcl.CalcIntMethod",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cr_intcalcmethod",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "Countrys",
+   "source": "TCRDataModuleConcl.Countrys",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT code, name\n  FROM cr_countrys",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "pledgsorts",
+   "source": "TCRDataModuleConcl.pledgsorts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM cr_pledgsorts",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "InsSorts",
+   "source": "TCRDataModuleConcl.InsSorts",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from cr_insuranceagency",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "DataSetActivities",
+   "source": "TCRDataModuleConcl.DataSetActivities",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description,bank_kod, act_id, newid\n  from smart.cr_activities  \nwhere \n act_id=:act_id\norder by description\n",
+   "variables": [
+    {
+     "name": "ACT_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "creditcatData",
+   "source": "TCRDataModuleConcl.creditcatData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  a.id, a.name, a.kod,a.vid_sob\n  FROM smart.cr_creditcat a\nwhere \nvid_sob=:vid_sob\norder by vid_sob,id",
+   "variables": [
+    {
+     "name": "VID_SOB",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "EstateTypeData",
+   "source": "TCRDataModuleConcl.EstateTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id ,a.name,a.kodu  FROM smart.cr_vid_sob a\n\n\n\n\n\n\n\n\n\norder by id\n\n\n\n\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "Aim_Set",
+   "source": "TCRDataModuleConcl.Aim_Set",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name \n  from smart.cr_aim_cred  \n\n\norder by id",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "PldDataSet",
+   "source": "TCRDataModuleConcl.PldDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.typecode, a.description\n  FROM cr_pledges_t a\norder by id",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "SexDataSet",
+   "source": "TCRDataModuleConcl.SexDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  2 as id,\n  'Qadın' as name\nfrom dual\nunion\nselect \n  1 as id,\n  'Kişi' as name\nfrom dual\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "custe",
+   "source": "TCRDataModuleConcl.custe",
+   "kind": "TOracleDataSet",
+   "sql": "select \nc.ID,\ni.sex\nfrom SBA_CUSTOMERS c ,smart.custinfo i\nwhere i.IDCUST=c.id",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "PrinadDataSet",
+   "source": "TCRDataModuleConcl.PrinadDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select \nc.ID,\np.name\nfrom SBA_CUSTOMERS c ,smart.prinad p\nwhere c.PRINAD_KOD=p.id",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "ExpertSet",
+   "source": "TCRDataModuleConcl.ExpertSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cr_expert  where FILIALID is null\n\nunion\nselect * from cr_expert  where FILIALID in (select id from filial)\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "OracleDataSet",
+   "source": "TCRDataModuleConcl.OracleDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, return_dat\n  FROM cr_returntrance \norder by id",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "PayIntSet",
+   "source": "TCRDataModuleConcl.PayIntSet",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  1 as id,\n  'Biri' as name\nfrom dual\nunion\nselect \n  2 as id,\n  'Ikisi' as name\nfrom dual\nunion\nselect\n  3 as id,\n  'Üçü' as name\nfrom dual\nunion\nselect \n 4 as id,\n  'Dördü' as name\nfrom dual\nunion\nselect\n  5 as id,\n  'Beşi' as name\nfrom dual\nunion\nselect \n  6 as id,\n  'Altısı' as name\nfrom dual\nunion\nselect\n  7 as id,\n  'Yeddsi' as name\nfrom dual\nunion\nselect \n 8 as id,\n  'Səkkizi' as name\nfrom dual\nunion\nselect\n  9 as id,\n  'Doqquzu' as name\nfrom dual\nunion\nselect \n  10 as id,\n  'Ону' as name\nfrom dual\nunion\nselect\n  11 as id,\n  'Onbiri' as name\nfrom dual\nunion\nselect \n 12 as id,\n  'Onikisi' as name\nfrom dual\nunion\nselect\n  13 as id,\n  'Onüçü' as name\nfrom dual\nunion\nselect \n  14 as id,\n  'Ondördü' as name\nfrom dual\nunion\nselect\n  15 as id,\n  'Onbuşi' as name\nfrom dual\nunion\nselect \n 16 as id,\n  'Onaltısı' as name\nfrom dual\nunion\nselect\n  17 as id,\n  'Onyeddisi' as name\nfrom dual\nunion\nselect \n  18 as id,\n  'Onsəkkizi' as name\nfrom dual\nunion\nselect\n  19 as id,\n  'Ondoqquzu' as name\nfrom dual\nunion\nselect \n 20 as id,\n  'Ийримиси' as name\nfrom dual\nunion\nselect\n  21 as id,\n  'Ийримбири' as name\nfrom dual\nunion\nselect \n  22 as id,\n  'Ийримикиси' as name\nfrom dual\nunion\nselect\n  23 as id,\n  'İyrimüçü' as name\nfrom dual\nunion\nselect \n 24 as id,\n  'Ийримдюрдй' as name\nfrom dual\nunion\nselect\n  25 as id,\n  'Ийримбеши' as name\nfrom dual\nunion\nselect \n  26 as id,\n  'Ийрималтысы' as name\nfrom dual\nunion\nselect\n  27 as id,\n  'İyrimyeddisi' as name\nfrom dual\nunion\nselect \n 28 as id,\n  'Ийримсяккизи' as name\nfrom dual\nunion\nselect\n  29 as id,\n  'Ийримдоггузу' as name\nfrom dual\nunion\nselect \n  30 as id,\n  'Otuzu' as name\nfrom dual\nunion\nselect\n  31 as id,\n  'Otuzbiri' as name\nfrom dual\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "DataSenbol",
+   "source": "TCRDataModuleConcl.DataSenbol",
+   "kind": "TOracleDataSet",
+   "sql": "Select ID,kod,KOD||'- '||NAME AS NAM  from smart.report_symbol\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "Interests",
+   "source": "TCRDataModuleConcl.Interests",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM sba_account ac\n   WHERE ac.kli_id=:kli_id  and\nval_acc = :val_acc AND  close_dat is null and \n\n(ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'InterestAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    },
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "GUR_name",
+   "source": "TCRDataModuleConcl.GUR_name",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM cr_guarantyorgname\n",
+   "variables": [],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "PenSet",
+   "source": "TCRDataModuleConcl.PenSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE  close_dat is null and val_acc = :val_acc AND\n\n      (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cr_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cr_accountgroups g\n                                            WHERE g.iname = 'PenaccAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  },
+  {
+   "name": "loc",
+   "source": "TCRDataModuleConcl.loc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cr_accounts where creditid=:creditid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "crDataModuleConclusion"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_CREDIT",
+   "package": "CM_CREDIT",
+   "mode": "positional",
+   "source": "TFormCreateCMAccounts.CM_CREDIT",
+   "routines": [
+    {
+     "name": "AddCreditAccounts",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "CR_COMMON",
+   "package": "CR_COMMON",
+   "mode": "positional",
+   "source": "TCRDataModuleConcl.CR_COMMON",
+   "routines": [
+    {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Get_AccID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Get_meqsed",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "CR_decls",
+   "package": "CR_decls",
+   "mode": "positional",
+   "source": "TCRDataModuleConcl.CR_decls",
+   "routines": []
+  },
+  {
+   "component": "IUPackage",
+   "package": "CR_CREDIT",
+   "mode": "named",
+   "source": "TCRDataModuleConcl.IUPackage",
+   "routines": [
+    {
+     "name": "Contract_Add",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Contract_Edit",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "GenerateCreditAccNumber",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkPerson",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

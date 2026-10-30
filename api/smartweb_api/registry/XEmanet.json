@@ -1,0 +1,189 @@
+{
+ "name": "XEmanet",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Emanət ödənişləri",
+ "dir": "Packages/Emanet",
+ "mainForm": "TEmanet",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "Data_Unit",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TEmanet.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Emanet\norder by bal_cn",
+   "variables": [],
+   "unit": "EmanetS"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TEmanet.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bal_spr1\norder by bal_cn",
+   "variables": [],
+   "unit": "EmanetS"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TEmanet.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bal_spr1",
+   "variables": [],
+   "unit": "EmanetS"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TEmanet.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select valute as valute from avalute where VAL_NAME=:val_n",
+   "variables": [
+    {
+     "name": "VAL_N",
+     "type": "string"
+    }
+   ],
+   "unit": "EmanetS"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TEmanet.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select  *  from emanet_simvol where id=:v_id\n ",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "EmanetS"
+  },
+  {
+   "name": "ODSIntrusted",
+   "source": "TEmanet.ODSIntrusted",
+   "kind": "TOracleDataSet",
+   "sql": "select * from emanet_descript",
+   "variables": [],
+   "unit": "EmanetS"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "SB_Emanet",
+   "mode": "positional",
+   "source": "TEmanet.OraclePackage1",
+   "routines": [
+    {
+     "name": "AllAmountOstat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "AmountContractOstat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "AmountContractOstatValyuta",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "AmountOstat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "AmountOstatValyuta",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Amount_Qaliqlar",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CompenAmountOstat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Delete_Balans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "GetBankDay",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "HQaliqlar",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Herif_Hesablar",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Insert_Balans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Kurs",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "PAmountOstat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "PAmountOstatValyuta",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ProtAmountOstat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Qaliqlar",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Umumi_Hesablar",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "VAL_Qaliqlar",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Val_Hesablar",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

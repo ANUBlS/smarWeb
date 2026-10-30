@@ -132,12 +132,26 @@ function focusHandlers(c: TControl) {
 
 /* ------------------------------------------------------------------ containers */
 
+const ORIGIN_AT_CORNER = new Set(['groupbox', 'radiogroup', 'panel']);
+/** TToolButton / TSpeedButton are graphic controls in VCL: clicking them never moves the focus
+ *  (actions checking Grid.Focused keep working). */
+const noFocus = (e: React.MouseEvent) => e.preventDefault();
+
 export function Children({ parent, width, height }: { parent: TControl; width: number; height: number }) {
   const ins = insets(parent);
   const w = Math.max(0, width - ins.l - ins.r);
   const h = Math.max(0, height - ins.t - ins.b);
   const kids = parent.children;
   const rects = layoutChildren(kids, w, h);
+  // VCL: aligned children fill the adjusted client rect (below a group box caption, inside bevels), but
+  // free children of panels / group boxes keep Left/Top relative to the control's own corner
+  if (ORIGIN_AT_CORNER.has(parent.kind) && (ins.l || ins.t)) {
+    for (const k of kids) {
+      const a = k.Align || 'alnone';
+      const r = rects.get(k);
+      if (r && (a === 'alnone' || a === 'alcustom')) rects.set(k, { ...r, left: r.left - ins.l, top: r.top - ins.t });
+    }
+  }
   return (
     <div style={{ position: 'absolute', left: ins.l, top: ins.t, width: w, height: h }}>
       {kids.map((k) => {
@@ -214,7 +228,7 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
       return (
         <div {...p}>
           <button className={`v-btn${b.Flat ? ' flat' : ''}${b.Down ? ' down' : ''}`} style={{ width: '100%', height: '100%', padding: 0, ...fontStyle(c) }} disabled={dis}
-            onClick={() => run(b.Click(), b.Name)} aria-pressed={b.GroupIndex ? b.Down : undefined}>
+            onClick={() => run(b.Click(), b.Name)} aria-pressed={b.GroupIndex ? b.Down : undefined} onMouseDown={noFocus} tabIndex={-1}>
             {b.Caption ? b.Caption.replace(/&(?!&)/g, '') : Ic ? <Ic size={14} /> : null}
           </button>
         </div>
@@ -567,7 +581,8 @@ function ToolButtonView({ b, bar, style }: { b: TToolButton; bar?: TToolBar; sty
   return (
     <span style={{ display: 'inline-flex', ...style }}>
       <button ref={ref} className={`tb-btn${capBelow ? ' cap-below' : ''}${b.Down ? ' down' : ''}`} disabled={!b.Enabled} title={b.Hint || b.Caption}
-        aria-pressed={st === 'tbscheck' ? b.Down : undefined} onClick={click} style={{ minWidth: bar && !showCap ? bar.ButtonWidth : undefined, ...fontStyle(b) }}>
+        aria-pressed={st === 'tbscheck' ? b.Down : undefined} onClick={click} style={{ minWidth: bar && !showCap ? bar.ButtonWidth : undefined, ...fontStyle(b) }}
+        onMouseDown={noFocus} tabIndex={-1}>
         {Ic ? <span className="ic"><Ic size={capBelow ? 16 : 14} /></span> : null}
         {showCap && b.Caption ? <span>{b.Caption.replace(/&(?!&)/g, '')}</span> : null}
       </button>
@@ -600,6 +615,29 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
   const first = Math.max(0, Math.floor(scroll / ROW_H) - 5);
   const last = Math.min(total, first + Math.ceil(viewH / ROW_H) + 12);
   const rowsKey = active ? ds!.rows : null;
+  // in-place cell editor (dgEditing), as TDBGrid's InplaceEditor
+  const [ed, setEd] = useState<{ row: number; col: number; text: string } | null>(null);
+  const editRow = insertAt >= 0 ? insertAt : cur;
+  const canEdit = (ci: number) => {
+    const col = cols[ci]; const f = col?.Field;
+    return !!f && !!g.DataSource && g.Options.includes('dgediting') && !rowSelect && !g.ReadOnly && !(col as any).ReadOnly
+      && !f.ReadOnly && f.FieldKind === 'fkdata' && f.fieldType !== 'boolean' && !(ds as any)?.ReadOnly;
+  };
+  const openEd = (initial?: string) => {
+    const ci = g.SelectedIndex;
+    if (!active || editRow < 0 || !canEdit(ci)) return false;
+    setEd({ row: editRow, col: ci, text: initial ?? cols[ci].Field!.Text });
+    return true;
+  };
+  const commitEd = async (text: string) => {
+    const e = ed; setEd(null);
+    box.current?.focus({ preventScroll: true });
+    if (!e) return;
+    const f = cols[e.col]?.Field;
+    if (!f || text === f.Text) return;
+    await g.DataSource!.editField(f, f.fieldType === 'string' ? text : f.fromString(text));
+  };
+  useEffect(() => { if (ed && (ed.row !== editRow || ed.col !== g.SelectedIndex)) setEd(null); }, [editRow, g.SelectedIndex]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { g.markStylesDirty(); }, [rowsKey, count, g]);
   useEffect(() => { if (active) void g.computeStyles(); });
   // keep current row visible
@@ -619,6 +657,8 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
     if (ch && hasKeyHandlers(g, true)) void runGuarded(() => keyEvents(g, { key: ch, keyCode: e.keyCode, shift }, 'press'), g.Name);
     const page = Math.max(1, Math.floor(viewH / ROW_H) - 1);
     const go = (i: number) => { e.preventDefault(); run(ds.gotoIndex(Math.max(0, Math.min(count - 1, i))), g.Name); };
+    if ((e.key === 'F2' || e.key === 'Enter') && openEd()) { e.preventDefault(); return; }
+    if (ch && !e.ctrlKey && !e.altKey && !e.metaKey && openEd(ch)) { e.preventDefault(); return; }
     switch (e.key) {
       case 'ArrowDown': go(cur + 1); break;
       case 'ArrowUp': go(cur - 1); break;
@@ -646,7 +686,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
     const cls = [isCur ? (rowSelect ? 'rowsel' : 'cur') : '', msel ? 'msel' : '', isCur && ds!.isEditing() ? 'editing' : ''].join(' ');
     rows.push(
       <tr key={isInsertRow ? 'ins' : viewIdx} className={cls} style={{ height: ROW_H }}
-        onDoubleClick={() => run(g.userDblClick(), g.Name)}>
+        onDoubleClick={() => { if (!g.hasHandler('OnDblClick') && openEd()) return; run(g.userDblClick(), g.Name); }}>
         {ind ? <td className="ind">{isCur ? (ds!.isEditing() ? (isInsertRow ? '*' : '✎') : <Play size={9} fill="currentColor" />) : msel ? '•' : ''}</td> : null}
         {cols.map((col, ci) => {
           const f = col.Field;
@@ -659,8 +699,39 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           return (
             <td key={ci} className={`${isNum && !align ? 'num' : ''}${isCur && ci === g.SelectedIndex ? ' cell-sel' : ''}`}
               style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : !isCur ? colBg : undefined, color: !isCur && st?.fg !== undefined ? toCss(st.fg) : undefined, fontWeight: st?.bold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
-              onMouseDown={(e) => { if (!isInsertRow) run(g.userClickCell(viewIdx, ci, { ctrl: e.ctrlKey || e.metaKey, shift: e.shiftKey }), g.Name); }}>
-              {f?.fieldType === 'boolean' ? (v ? '✓' : '') : text}
+              onMouseDown={(e) => {
+                if (ed && isCur && ci === ed.col) return;
+                // VCL TDBGrid: only the left button moves the record / changes the selection (right = popup)
+                if (e.button !== 0) return;
+                const again = isCur && ci === g.SelectedIndex && !e.ctrlKey && !e.shiftKey;
+                if (!isInsertRow) run(g.userClickCell(viewIdx, ci, { ctrl: e.ctrlKey || e.metaKey, shift: e.shiftKey }), g.Name);
+                if (again) { e.preventDefault(); openEd(); }
+              }}>
+              {ed && isCur && ci === ed.col ? (
+                <>{(col as any).PickList?.Count ? (
+                  <datalist id={`pl-${g.Name}-${ci}`}>{String((col as any).PickList.Text).split('\r\n').filter((x: string) => x !== '').map((x: string) => <option key={x} value={x} />)}</datalist>
+                ) : null}
+                <input className="cell-ed" autoFocus value={ed.text} spellCheck={false} style={{ textAlign: align ?? (isNum ? 'right' : 'left') }}
+                  list={(col as any).PickList?.Count ? `pl-${g.Name}-${ci}` : undefined}
+                  maxLength={f?.fieldType === 'string' && f.Size ? f.Size : undefined}
+                  onChange={(ev) => setEd({ ...ed, text: ev.target.value })}
+                  onFocus={(ev) => ev.currentTarget.select()}
+                  onBlur={() => run(commitEd(ed.text), g.Name)}
+                  onKeyDown={(ev) => {
+                    ev.stopPropagation();
+                    if (ev.key === 'Enter') { ev.preventDefault(); run(commitEd(ed.text), g.Name); }
+                    else if (ev.key === 'Escape') { ev.preventDefault(); setEd(null); box.current?.focus({ preventScroll: true }); }
+                    else if (ev.key === 'Tab') {
+                      ev.preventDefault();
+                      const next = Math.max(0, Math.min(cols.length - 1, g.SelectedIndex + (ev.shiftKey ? -1 : 1)));
+                      run(commitEd(ed.text).then(() => { g.SelectedIndex = next; }), g.Name);
+                    } else if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') {
+                      ev.preventDefault();
+                      const to = Math.max(0, Math.min(count - 1, cur + (ev.key === 'ArrowUp' ? -1 : 1)));
+                      run(commitEd(ed.text).then(() => ds!.gotoIndex(to)), g.Name);
+                    }
+                  }} /></>
+              ) : f?.fieldType === 'boolean' ? (v ? '✓' : '') : text}
             </td>
           );
         })}

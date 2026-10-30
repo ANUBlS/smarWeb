@@ -1,0 +1,80 @@
+{
+ "name": "P_SBDM_Prognoz",
+ "caption": "",
+ "dir": "Packages/SBDM_Prognoz",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "valutes",
+   "source": "TPrognoz.valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "prognozImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TPrognoz.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "prognozImpl"
+  },
+  {
+   "name": "Sysdat",
+   "source": "TPrognoz.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "prognozImpl"
+  },
+  {
+   "name": "prognoz",
+   "source": "TPrognoz.prognoz",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT cont.contractno, av.val_name,fil.name as filname ,cont.opendate,cont.closedate,intr.interest||'%' as intres,\n       sbcm_stored_programs.get_customernamebyid (cont.customerid)AS custname,stat.facticaldebt,\n       sbcm_stored_programs.Get_ContractAccount(ac.contractaccid)  as InterestAccNO,\n       ar.pok_ostat ,round(sbcm_report.get_prognoz(cont.id ,:dat),2 ) as prognoz ,\n         ar.pok_ostat+round(sbcm_report.get_prognoz(cont.id ,:dat),2 ) as sumprognoz                                                       \nFROM sbcm_contracts cont,\n       filial fil,\n       avalute av,sbcm_contract_state stat,sbcm_contract_accounts ac,archost ar,sbcm_interests intr\nWHERE  cont.currency = av.valute\nAND cont.branchid = fil.ID and  intr.id# = cont.id\nand cont.type# = 3 and ac.id#=cont.id and ac.interestaccid=ar.acc_id and ar.datdate=(select tek_dat from sysdat) and \nstat.id#=cont.id\n /*13*/\n--select * from sysdat\n\n\n  \n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "prognozImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

@@ -1,0 +1,240 @@
+{
+ "name": "XLawModule",
+ "caption": "Əlavə modullar / Kreditlər / Hüquq modulu",
+ "dir": "Packages/LawModule",
+ "mainForm": "TLawmodule",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Mainscrpt",
+   "source": "TDataMod.Mainscrpt",
+   "kind": "TOracleDataSet",
+   "sql": "select id,num,musteriid,pinkod,names,fil,status,branch,source,\n(select VAL_NAME from avalute where valute=ACCEPTED_VALUTE) valute,lstrest,frest,court_status,COURT_LASTSTAT,court_OPERS,lstd,lstp,DUEDATEFIRSTCONTRACT,closedate\n from (\nselect prtid id,'' num,CUST_ID musteriid,INNORPIN pinkod,BORROWER_NAME names,(select name from filial where id=BRANCH) fil,\naccepted_portfel.status(AC.PRTID) status,ac.branch branch,'ABB' source,ac.ACCEPTED_VALUTE ACCEPTED_VALUTE,accepted_portfel.lstrest(ac.prtid) lstrest, accepted_portfel.frstrest(ac.prtid,ac.ACCEPTED_VALUTE) frest\n,  court_status,cour.COURT_LASTSTAT,cour.court_OPERS,accepted_portfel.lastpaydat(ac.prtid,0)lstd,accepted_portfel.lastpayamt(ac.prtid,0)lstp,\n TO_DATE('', 'dd-MM-yyyy') DUEDATEFIRSTCONTRACT,TO_DATE('', 'dd-MM-yyyy')  closedate  from accepted_cr_portfels ac,credit_courts cour where   ac.prtid=cour.id(+)\nunion all\nselect cr.id id,cr.numberofcredit num,cr.boorowerid musteriid,cv.passpin pinkod, s.name names ,\n(select name from filial where id=cr.branchid) fil,\naccepted_portfel.status(CR.ID) status,cr.branchid branch,'KRD' source,cr.currency ACCEPTED_VALUTE,accepted_portfel.cred_lst(cr.id) lstrest, accepted_portfel.cred_frs(cr.id) frest,\n cour.court_status,cour.COURT_LASTSTAT,cour.court_OPERS,accepted_portfel.lastpaydat(cr.id,1)lstd,accepted_portfel.lastpayamt(cr.id,1)lstp,\n cr.DUEDATEFIRSTCONTRACT ,cr.closedate  from cm_portfolio cr,credit_courts cour\n ,customers s,custinfo cv where s.id=cr.boorowerid and idcust=cr.boorowerid and s.id=cv.idcust and cr.id=cour.id(+)\n\n\n ) where 1=1 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "Maincrpt_one_old",
+   "source": "TDataMod.Maincrpt_one_old",
+   "kind": "TOracleDataSet",
+   "sql": "select  crts.rowid,crts.* from credit_courts crts\nwhere crts.id=:prts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "PRTS",
+     "type": "float"
+    }
+   ],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "filials",
+   "source": "TDataMod.filials",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "Main_court_old",
+   "source": "TDataMod.Main_court_old",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum,credid,custid,pin,names,branch,id, court_ammount, court_status, court_date_num,\n       court_name, court_accepted_ammount, court_desc,court_manage, court_laststat, court_measure,\n       court_replace, replacement_count, investigation_org,infos, property, prop_desc, prop_address,\n       porp_passport, prop_price, prop_info, closedate,DUEDATEFIRSTCONTRACT from(\nselect  rownum,ac.prtid credid,ac.cust_id custid,ac.innorpin pin ,ac.borrower_name names,ac.branch branch,cour.id, cour.court_ammount, cour.court_status, cour.court_date_num,\n       cour.court_name, cour.court_accepted_ammount, cour.court_desc, cour.court_manage, cour.court_laststat, cour.court_measure,\n       cour.court_replace, cour.replacement_count, cour.investigation_org,\n       cour.infos, cour.property, cour.prop_desc, cour.prop_address,\n       cour.porp_passport, cour.prop_price, cour.prop_info,to_date('') closedate,to_date('') DUEDATEFIRSTCONTRACT,cour.court_OPERS,cour.mediation_date,cour.mediation_num  from accepted_cr_portfels ac,credit_courts cour\nwhere  ac.court_id= cour.id\nunion all\nselect  rownum,cr.id credid,cr.boorowerid custid,(select passpin from custinfo where idcust=cr.boorowerid) pin,(select name from customers where id=cr.boorowerid) names,\ncr.branchid branch,\n cor.id, cor.court_ammount, cor.court_status, cor.court_date_num,\n       cor.court_name, cor.court_accepted_ammount, cor.court_desc,\n       cor.court_manage, cor.court_laststat, cor.court_measure,\n       cor.court_replace, cor.replacement_count, cor.investigation_org,\n       cor.infos, cor.property, cor.prop_desc, cor.prop_address,\n       cor.porp_passport, cor.prop_price, cor.prop_info,cr.closedate closedate,cr.DUEDATEFIRSTCONTRACT,cor.court_OPERS,cor.mediation_date,cor.mediation_num from cm_portfolio cr,credit_courts cor\n\n\n where cr.id=cor.id\n\n\n\n  ) where 1=1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "Court_status",
+   "source": "TDataMod.Court_status",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 id ,'Bütün statuslar' names\n from dual\nunion\nselect cd.id,cd.names from court_settings cd  where cour_id =1",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "Court_laststat",
+   "source": "TDataMod.Court_laststat",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 id ,'Bütün statuslar' names\n from dual\nunion\nselect cd.id,cd.names from court_settings cd  where cour_id =2",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "Court_managers",
+   "source": "TDataMod.Court_managers",
+   "kind": "TOracleDataSet",
+   "sql": "select cd.rowid,cd.* from court_settings cd  where cour_id =3\nand status=0",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "court_stat_add",
+   "source": "TDataMod.court_stat_add",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect cd.id,cd.names from court_settings cd  where cour_id =1",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "court_last_stat_add",
+   "source": "TDataMod.court_last_stat_add",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect cd.id,cd.names from court_settings cd  where cour_id =2",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "court_operates_add",
+   "source": "TDataMod.court_operates_add",
+   "kind": "TOracleDataSet",
+   "sql": "select cd.rowid,cd.* from court_settings cd  where cour_id =4",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "court_opers",
+   "source": "TDataMod.court_opers",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 id ,'Bütün Operatorlar' names\n from dual\nunion\nselect cd.id,cd.names from court_settings cd  where cour_id =4",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "court_manager_state",
+   "source": "TDataMod.court_manager_state",
+   "kind": "TOracleDataSet",
+   "sql": "select cd.rowid,cd.* from court_settings cd  where cour_id =3 and status=1",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "court_managers_add",
+   "source": "TDataMod.court_managers_add",
+   "kind": "TOracleDataSet",
+   "sql": "select cd.rowid,cd.* from court_settings cd  where cour_id =3\n\nand status=0",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "court_managers_add_state",
+   "source": "TDataMod.court_managers_add_state",
+   "kind": "TOracleDataSet",
+   "sql": "select cd.rowid,cd.* from court_settings cd  where cour_id =3\n\nand status=1",
+   "variables": [],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "Maincrpt_one",
+   "source": "TDataMod.Maincrpt_one",
+   "kind": "TOracleDataSet",
+   "sql": "select  crts.rowid,crts.* from credit_courts crts\nwhere crts.id=:prts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "PRTS",
+     "type": "float"
+    }
+   ],
+   "unit": "Datmodule"
+  },
+  {
+   "name": "Main_court",
+   "source": "TDataMod.Main_court",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum,credid,custid,pin,names,branch,id, court_ammount, court_status, court_date_num,\n       court_name, court_accepted_ammount, court_desc,court_manage, court_laststat, court_measure,\n       court_replace, replacement_count, investigation_org,infos, property, prop_desc, prop_address,\n       porp_passport, prop_price, prop_info, closedate,DUEDATEFIRSTCONTRACT,lstd,lstp,lstrest,frest from(\nselect  rownum,ac.prtid credid,ac.cust_id custid,ac.innorpin pin ,ac.borrower_name names,ac.branch branch,cour.id, cour.court_ammount, cour.court_status, cour.court_date_num,\n       cour.court_name, cour.court_accepted_ammount, cour.court_desc, cour.court_manage, cour.court_laststat, cour.court_measure,\n       cour.court_replace, cour.replacement_count, cour.investigation_org,\n       cour.infos, cour.property, cour.prop_desc, cour.prop_address,\n       cour.porp_passport, cour.prop_price, cour.prop_info,to_date('') closedate,to_date('') DUEDATEFIRSTCONTRACT,cour.court_OPERS,cour.mediation_date,cour.mediation_num ,\n       accepted_portfel.lastpaydat(ac.prtid,0)lstd,accepted_portfel.lastpayamt(ac.prtid,0)lstp,accepted_portfel.cred_lst(ac.prtid) lstrest, accepted_portfel.cred_frs(ac.prtid) frest\n        from accepted_cr_portfels ac,credit_courts cour\nwhere  ac.court_id= cour.id\nunion all\nselect  rownum,cr.id credid,cr.boorowerid custid,cv.passpin pin,s.name names,\ncr.branchid branch,\n cor.id, cor.court_ammount, cor.court_status, cor.court_date_num,\n       cor.court_name, cor.court_accepted_ammount, cor.court_desc,\n       cor.court_manage, cor.court_laststat, cor.court_measure,\n       cor.court_replace, cor.replacement_count, cor.investigation_org,\n       cor.infos, cor.property, cor.prop_desc, cor.prop_address,\n       cor.porp_passport, cor.prop_price, cor.prop_info,cr.closedate closedate,cr.DUEDATEFIRSTCONTRACT,cor.court_OPERS,cor.mediation_date,cor.mediation_num,\n       accepted_portfel.lastpaydat(cr.id,0)lstd,accepted_portfel.lastpayamt(cr.id,0)lstp,accepted_portfel.cred_lst(cr.id) lstrest, accepted_portfel.cred_frs(cr.id) frest \n       from cm_portfolio cr,credit_courts cor,customers s,custinfo cv where s.id=cr.boorowerid and idcust=cr.boorowerid and s.id=cv.idcust and cr.id=cor.id\n\n\n\n\n  ) where 1=1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Datmodule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "pack",
+   "package": "accepted_portfel",
+   "mode": "positional",
+   "source": "TDataMod.pack",
+   "routines": [
+    {
+     "name": "Delcourt",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Delicra",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Dellaststat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Deloper",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Delstat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "inscourt_icra",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "inscourt_oper",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "inscourtmana",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "inscourtstat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "inslastcourtstat",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDataMod.sb_aca",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,140 @@
+{
+ "name": "P_Investment_Transaction",
+ "caption": "",
+ "dir": "Packages/İnvestmentTransaction",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DsSysdat",
+   "source": "TDm_invst.DsSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "Dm_invstimpl"
+  },
+  {
+   "name": "Dscontracts",
+   "source": "TDm_invst.Dscontracts",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.ammount,cust.name as musteri, a.contract_name,a.status,a.main_acc_id from ins_investment_contracts a,customers cust\nwhere a.kli_id=cust.id and a.id=:cid\n",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dm_invstimpl"
+  },
+  {
+   "name": "DsInvest",
+   "source": "TDm_invst.DsInvest",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from ins_invest_payment c\nwhere c.id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dm_invstimpl"
+  },
+  {
+   "name": "DsMain",
+   "source": "TDm_invst.DsMain",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.cid,a.ammount,a.dat,ic.contract_name,a.trid from ins_invest_payment a,ins_investment_contracts ic \nwhere a.cid=ic.id and (a.trid in(select id from lazytransaction) or a.trid in (select id from provarch))\nand a.cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dm_invstimpl"
+  },
+  {
+   "name": "ds_sum",
+   "source": "TDm_invst.ds_sum",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(sum(ammount),0)as cem  from ins_invest_payment\nwhere cid=:p_cid\n",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dm_invstimpl"
+  },
+  {
+   "name": "ds_main_acc_no",
+   "source": "TDm_invst.ds_main_acc_no",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.acc_no from ins_investment_contracts iic,account a\nwhere iic.main_acc_id=a.id and  iic.id=:p_id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dm_invstimpl"
+  },
+  {
+   "name": "ds_kassa",
+   "source": "TDm_invst.ds_kassa",
+   "kind": "TOracleDataSet",
+   "sql": "select a.acc_no,a.id from ins_investment_acc_bal_cn ib,account a\nwhere dict_id=4 and a.bal_cn1=ib.bal_cn and a.acc_no is not null",
+   "variables": [],
+   "unit": "Dm_invstimpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "pk_ins_investment",
+   "package": "ins_investment",
+   "mode": "positional",
+   "source": "TDm_invst.pk_ins_investment",
+   "routines": [
+    {
+     "name": "del_invest_transaction",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ins_investment_transaction",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

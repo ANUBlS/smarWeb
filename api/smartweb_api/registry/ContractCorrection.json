@@ -1,0 +1,49 @@
+{
+ "name": "ContractCorrection",
+ "caption": "Balans / Kreditlər / Kreditlərdə düzəlişlər",
+ "dir": "Packages/SBCM_ContractCorrection",
+ "mainForm": "TFrmContractCorrection",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Contracts",
+   "source": "TFrmContractCorrection.Contracts",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  ContrCorrect.RowID\n ,ContrCorrect.*\n  From \n   SBCM_Contract_Correction ContrCorrect\n Where \n    (\n      ContrCorrect.Type#=(\n      Select  ID\n        From  SBCM_Contract_Types\n         Where upper(Name)='CREDIT')\n     )\norder by ContrCorrect.id\n \n \n ",
+   "variables": [],
+   "unit": "UntContractCorrectionImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

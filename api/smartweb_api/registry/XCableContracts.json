@@ -1,0 +1,146 @@
+{
+ "name": "XCableContracts",
+ "caption": "Əlavə modullar / Tikinti və kommunal / Kabel TV müqavilələri",
+ "dir": "Packages/CableContracts",
+ "mainForm": "TCableContractsX",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "odsContracts",
+   "source": "TDataModC.odsContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id, contract_num, card_num, sign_date, abn_id, inst_date, inst_place,\n       serie, works_num, c.receiver_num, cable_length, amount, amount_eqv,\n       curr_code, discount, c.eng_id, pack_num, acc_id, rest, rest_eqv,\n       b.name abonent, a.acc_no, p.name packagename, e.name engineer,\n       v.val_name, decode (c.inst_place, 0, 'Balkon', 1, 'Dam', 'Başqa') instplc,\n       round(rest,2) rest_r, lastcalcdate, calcag, decode(calcag,0,'Hə',1,'Yox') calcags,\n       discount_desc, c.usname, c.updusname, c.upddate, exp_date, p.price\n  from bb_contracts c,\n       bb_abonents b,\n       account a,\n       bb_packages p,\n       bb_engineers e,\n       avalute v\n where c.abn_id = b.id\n   and c.acc_id = a.id(+)\n   and c.pack_num = p.id\n   and c.eng_id = e.id\n   and v.valute = c.curr_code\n",
+   "variables": [],
+   "unit": "DataModCableContr"
+  },
+  {
+   "name": "odsValutes",
+   "source": "TDataModC.odsValutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute id, val_name name from avalute\norder by 2",
+   "variables": [],
+   "unit": "DataModCableContr"
+  },
+  {
+   "name": "odsPacks",
+   "source": "TDataModC.odsPacks",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name, inst_price, price, deposit from bb_packages\norder by 2",
+   "variables": [],
+   "unit": "DataModCableContr"
+  },
+  {
+   "name": "odsServices",
+   "source": "TDataModC.odsServices",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name from bb_services\norder by 2",
+   "variables": [],
+   "unit": "DataModCableContr"
+  },
+  {
+   "name": "odsAccs",
+   "source": "TDataModC.odsAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no name from account where close_dat is null\norder by 2",
+   "variables": [],
+   "unit": "DataModCableContr"
+  },
+  {
+   "name": "odsEngineers",
+   "source": "TDataModC.odsEngineers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bb_engineers\n\norder by 2",
+   "variables": [],
+   "unit": "DataModCableContr"
+  },
+  {
+   "name": "odsAbonents",
+   "source": "TDataModC.odsAbonents",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name from bb_abonents\norder by 2",
+   "variables": [],
+   "unit": "DataModCableContr"
+  },
+  {
+   "name": "OrDS_DeletedConts",
+   "source": "TDataModC.OrDS_DeletedConts",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id, contract_num, card_num, sign_date, abn_id, inst_date, inst_place,\n       serie, works_num, c.receiver_num, cable_length, amount, amount_eqv,\n       curr_code, discount, c.eng_id, pack_num, acc_id, rest, rest_eqv,\n       b.name abonent, a.acc_no, p.name packagename, e.name engineer,\n       v.val_name, decode (c.inst_place, 0, 'Balkon', 1, 'Dam', 'Başqa') instplc,\n       round(rest,2) rest_r, lastcalcdate, calcag, decode(calcag,0,'Hə',1,'Yox') calcags,\n       discount_desc, c.usname, c.updusname, c.upddate, exp_date, p.price\n  from bb_deleted_conts c,\n       bb_abonents b,\n       account a,\n       bb_packages p,\n       bb_engineers e,\n       avalute v\n where c.abn_id = b.id\n   and c.acc_id = a.id(+)\n   and c.pack_num = p.id\n   and c.eng_id = e.id\n   and v.valute = c.curr_code",
+   "variables": [],
+   "unit": "DataModCableContr"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CABLE",
+   "package": "CABLE_MANAGER",
+   "mode": "positional",
+   "source": "TDataModC.CABLE",
+   "routines": [
+    {
+     "name": "ContractRestore",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "calccontracts",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "calconecontract",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "contractadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "contractdel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "contractsetlastdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "contractupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "open_account",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

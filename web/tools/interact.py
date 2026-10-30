@@ -19,7 +19,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errs.append(str(e)))
     pg.goto(os.environ.get('BASE', 'http://localhost:5173/'))
     pg.fill('input[autocomplete=username]', 'sabuhi'); pg.fill('input[type=password]', 'x'); pg.click('button.primary')
-    pg.wait_for_timeout(1000)
+    pg.wait_for_function("document.querySelector('.tree') || document.body.innerText.includes('Şirkəti seçin')", timeout=20000)
     if pg.locator('text=Şirkəti seçin').count(): pg.click('button.primary')
     pg.wait_for_selector('.tree')
     parts = path.split('.')

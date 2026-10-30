@@ -1,0 +1,520 @@
+{
+ "name": "XGuarantee",
+ "caption": "Əlavə modullar / Kreditlər / Bank zəmanətlərinin idarə olunması",
+ "dir": "Packages/Guarantee",
+ "mainForm": "TGuaranteeMgr",
+ "plugin": false,
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cu_conclusion.bpl": "P_CU_Conclusion",
+  "cu_payment.bpl": "P_CU_Payment",
+  "cu_schedule.bpl": "P_CU_Schedule",
+  "cu_statement.bpl": "P_cu_Statement",
+  "cu_wreport.bpl": "P_cu_WReport",
+  "sb_general.bpl": "P_Sb_General",
+  "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
+  "sbdm_contract.bpl": "P_SBDM_Contract",
+  "sbdm_extractmoney.bpl": "P_SBDM_ExtractMoney",
+  "sbdm_wreport.bpl": "P_SBDM_WReport",
+  "transinfopack.bpl": "P_TransInfoPack"
+ },
+ "lib": [
+  "AccounFlagsLmpl",
+  "Account_edit_Unit",
+  "BProc_Trans",
+  "CULogoutputImpl",
+  "CommonDecls",
+  "CommonDeclsImpl",
+  "Creditİmpl",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "Cust_contactUnit",
+  "CustomersImpl",
+  "DataCustNomImpl",
+  "DataMGuarantee",
+  "DepozLmpl",
+  "Form1_BalCnImpl",
+  "FormBalCnImpl",
+  "FormCustNomImpl",
+  "FormCustNom_GridImpl",
+  "FormOperationShow1Lmpl",
+  "FormOperationShowLmpl",
+  "FormOperationbplLmpl",
+  "FormTransaction1Lmpl",
+  "FormTransaction2Lmpl",
+  "FormTransaction3Lmpl",
+  "Form_AccountsImpl",
+  "Form_BalCnImpl",
+  "Form_Statmentlmpl",
+  "LogoutputImpl",
+  "OpenAccdataImpl",
+  "OpenAccountImpl",
+  "OraVariables",
+  "Payment_DataModul",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SMSUnit",
+  "TemporaryTransactionsFormImpl",
+  "TemporaryTransactionsViewFormImpl",
+  "Transaction_DataModuleUnit",
+  "Transaction_DestinationImpl",
+  "Transaction_PropertiesImpl",
+  "Unit16",
+  "UnitChangePasswordForm",
+  "UnitDataBussProc",
+  "UnitNote",
+  "UnitPayment_order",
+  "UnitProc_type",
+  "UnitSBOraLogOn",
+  "UnitTransaction",
+  "Unit_Archive",
+  "Unit_Rekvezit",
+  "Unit_Report",
+  "Unit_ReportR",
+  "Unit_TransView",
+  "UnitbussProc",
+  "UntIntervalRpt",
+  "UntMain_Report",
+  "UntSecond_Report",
+  "accserch",
+  "addcombobox1",
+  "cap_UntMainReport",
+  "cap_UntSecondReport",
+  "cuCommonDecls",
+  "cuTemporaryTransactionsViewFormImpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ods_avto_qizl",
+   "source": "TAfForm.ods_avto_qizl",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cm_guarantee_field_info where gur_type=:v_gur_type",
+   "variables": [
+    {
+     "name": "V_GUR_TYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "AftoInfiIpl"
+  },
+  {
+   "name": "Ods_goldstandart",
+   "source": "TAfForm.Ods_goldstandart",
+   "kind": "TOracleDataSet",
+   "sql": "select id,standart||' '||description standart1, standart,description,price,percent  from crfw_gold_standart",
+   "variables": [],
+   "unit": "AftoInfiIpl"
+  },
+  {
+   "name": "ods_gold",
+   "source": "TAfForm.ods_gold",
+   "kind": "TOracleDataSet",
+   "sql": "select*from crfw_gold_lombard where creditid =:v_crid and cardid=:v_cardid",
+   "variables": [
+    {
+     "name": "V_CRID",
+     "type": "integer"
+    },
+    {
+     "name": "V_CARDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AftoInfiIpl"
+  },
+  {
+   "name": "ods_goldsum",
+   "source": "TAfForm.ods_goldsum",
+   "kind": "TOracleDataSet",
+   "sql": "select LISTAGG(gold_name,',')name, sum(gold_liquid_price) likvid,sum(gold_price) price from crfw_gold_lombard where creditid =:v_crid and cardid=:v_cardid",
+   "variables": [
+    {
+     "name": "V_CRID",
+     "type": "integer"
+    },
+    {
+     "name": "V_CARDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AftoInfiIpl"
+  },
+  {
+   "name": "ods_sum",
+   "source": "TAfForm.ods_sum",
+   "kind": "TOracleDataSet",
+   "sql": "select\nsum(gold_liquid_price)lik ,sum(gold_price) baz\nfrom crfw_gold_lombard where creditid=:v_crid\ngroup by creditid",
+   "variables": [
+    {
+     "name": "V_CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AftoInfiIpl"
+  },
+  {
+   "name": "CompanySet",
+   "source": "TFrmDashinmaz.CompanySet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM prvaluedcompany\norder by name",
+   "variables": [],
+   "unit": "DashinmazImpl"
+  },
+  {
+   "name": "ods_phys",
+   "source": "TFrmDashinmaz.ods_phys",
+   "kind": "TOracleDataSet",
+   "sql": "select idcust,\nname||' '||lastname||' '||soname as ful_name, passer||' '||paspnum as pasport ,passpin as pinko from custinfo where idcust=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DashinmazImpl"
+  },
+  {
+   "name": "ods_mkt",
+   "source": "TFrmDashinmaz.ods_mkt",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name,inn  from customers where cust_type=0 and id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DashinmazImpl"
+  },
+  {
+   "name": "ods_mutex",
+   "source": "TFrmDashinmaz.ods_mutex",
+   "kind": "TOracleDataSet",
+   "sql": "select idcust,\nname||' '||lastname||'  '||soname as ful_name, passer||'  '||paspnum as pasport ,passpin as pinko from custinfo where idcust=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DashinmazImpl"
+  },
+  {
+   "name": "ODS_borc",
+   "source": "TFrmDashinmaz.ODS_borc",
+   "kind": "TOracleDataSet",
+   "sql": "select idcust,\nname||' '||lastname||' '||soname as ful_name, passer||' '||paspnum as pasport ,passpin as pinko from custinfo where idcust=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DashinmazImpl"
+  },
+  {
+   "name": "ODS_borc2",
+   "source": "TFrmDashinmaz.ODS_borc2",
+   "kind": "TOracleDataSet",
+   "sql": "select idcust,\nname||' '||lastname||' '||soname as ful_name, passer||' '||paspnum as pasport ,passpin as pinko from custinfo where idcust=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DashinmazImpl"
+  },
+  {
+   "name": "DataSetGuarantee",
+   "source": "TDataMGuarante.DataSetGuarantee",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.rowid,p.*\n,F.NAME,s.description as girovtip,'' kreditstatus,\n i.generalarea, i.livingarea, i.buildingsoilarea,i.soilarea, i.adress, i.inforegion, i.infovilg\n\n FROM cm_Guarantee_credit p,cm_pledges s,Gua_pldginfo i,filial f\nwhere p.pledgeid=s.id and\np.id=i.propid(+) and p.brance=f.id(+) and new in(1,2)",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "OracleDataSet",
+   "source": "TDataMGuarante.OracleDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "Gura_taypcal",
+   "source": "TDataMGuarante.Gura_taypcal",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, typical\n  FROM proptypical \norder by id",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "GuaraClientAccs",
+   "source": "TDataMGuarante.GuaraClientAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n --   kli_id = :CustID and\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM sbcm_acc_zones g\n                                            WHERE g.name = 'Account'))\n\n         )\nand close_dat is null\nORDER BY kli_id,accno\n\n",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "GuaraCreditAccs",
+   "source": "TDataMGuarante.GuaraCreditAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM sbcm_acc_zones g\n                                            WHERE g.name = 'Account'))\n         )\nand close_dat is null\nORDER BY kli_id,accno\n",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "DataS_Gua_credit",
+   "source": "TDataMGuarante.DataS_Gua_credit",
+   "kind": "TOracleDataSet",
+   "sql": "select propid, numberofcredit\n from properties_credit\nwhere propid=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "DataSGuacredit",
+   "source": "TDataMGuarante.DataSGuacredit",
+   "kind": "TOracleDataSet",
+   "sql": "select id, numberofcredit\n  FROM cm_active_credits\nwhere \n/*numberofcredit not in ( select numberofcredit from properties_credit)\nand*/ id  in(\n select creditid\n from cm_curr_state where /*STOPCALCDATE is not null\n and*/ rest>=0 )\n\n/* [10] axtarish*/\n \norder by numberofcredit",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "Pledges",
+   "source": "TDataMGuarante.Pledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_pledges",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "Filals",
+   "source": "TDataMGuarante.Filals",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "DistrictsDataSet",
+   "source": "TDataMGuarante.DistrictsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, name_eng\n  FROM agro_region",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "VillagesDataSet",
+   "source": "TDataMGuarante.VillagesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, depend_id\n  FROM agro_village\n\nwhere depend_id = :depend_id",
+   "variables": [
+    {
+     "name": "DEPEND_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "proSorts",
+   "source": "TDataMGuarante.proSorts",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from cm_insuranceagency",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDataMGuarante.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from cm_insuranceagency",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "Customer",
+   "source": "TDataMGuarante.Customer",
+   "kind": "TOracleDataSet",
+   "sql": "select \nID,\nName\nfrom CUSTOMERS",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "pledgsorts",
+   "source": "TDataMGuarante.pledgsorts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM cm_pledgsorts\nwhere pldid = :pldid",
+   "variables": [
+    {
+     "name": "PLDID",
+     "type": "float"
+    }
+   ],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "MainDSet",
+   "source": "TDataMGuarante.MainDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.rowid,p.*\n FROM cm_Guarantee_credit p\nwhere new=1\nand p.id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "MainDset_d",
+   "source": "TDataMGuarante.MainDset_d",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.rowid,p.*,i.*\n FROM cm_Guarantee_credit p,Gua_pldginfo i\nwhere new=2\nand p.id=:id and\np.id=i.propid(+)",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "ods_qediyat",
+   "source": "TDataMGuarante.ods_qediyat",
+   "kind": "TOracleDataSet",
+   "sql": "select  1 as id,'qabaqcadan qeydiyyat'name from dual\nunion\nselect  2 as id,'çıxarış'name from dual\nunion\nselect  3 as id,'qeydiyyat'name from dual\n        ",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "ods_mukiyet",
+   "source": "TDataMGuarante.ods_mukiyet",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id ,'Mənzil' name from dual\nunion\nselect 2 id ,'Fərdi yaşayış' name from dual\nunion\nselect 3 id ,'Bağ evi' name from dual",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "Ods_cities",
+   "source": "TDataMGuarante.Ods_cities",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cities\norder by country_id",
+   "variables": [],
+   "unit": "DataMGuarantee"
+  },
+  {
+   "name": "CompanySet",
+   "source": "TFormGuarAdd.CompanySet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM prvaluedcompany\norder by name",
+   "variables": [],
+   "unit": "FormGuarAddlmpl"
+  },
+  {
+   "name": "ODS_CUSTOMERS",
+   "source": "TFormCUT.ODS_CUSTOMERS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id ,name,inn from customers where  close_dat is  null and cust_type in(0)\n\n\n\n\n\norder by id\n\n\n\n\n",
+   "variables": [],
+   "unit": "Unitcust"
+  },
+  {
+   "name": "Ods_satici",
+   "source": "TFormCUT.Ods_satici",
+   "kind": "TOracleDataSet",
+   "sql": "select custid, custid2,  soname,name,lastname,passpin,passer||' '||paspnum as passser, soname||'  '||name||'   '||lastname as ful_name\nfrom customers_relations r,custinfo i where r.custid2=i.idcust and r.custid=:custid\n",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unitcust"
+  }
+ ],
+ "packages": [
+  {
+   "component": "Guarante",
+   "package": "PG_Guar",
+   "mode": "positional",
+   "source": "TDataMGuarante.Guarante",
+   "routines": [
+    {
+     "name": "Guarantee_Add1",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Guarantee_Add2",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Guarantee_AddGold",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_gold_lombard",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "PG_Guar",
+   "mode": "positional",
+   "source": "TDataMGuarante.OraclePackage1",
+   "routines": [
+    {
+     "name": "add_Guar",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "edit_Guar",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "PgCompany",
+   "package": "PG_Guar",
+   "mode": "positional",
+   "source": "TFormGuarAdd.PgCompany",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

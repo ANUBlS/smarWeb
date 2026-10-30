@@ -2,7 +2,7 @@
  * Root globals: Delphi RTL / VCL functions, constants and exception types
  * that transpiled code reaches when an identifier is not declared in any unit.
  */
-import { NOTFOUND, Found, routine, Ref, PasException, AbortSignal, PType, TObject, isPObj } from './core';
+import { NOTFOUND, Found, routine, Ref, PasException, AbortSignal, PType, TObject, isPObj, pointerHandle, derefPointer } from './core';
 import { getBuiltin } from './env';
 import { num, str, rangeOf } from './pascal';
 import {
@@ -508,7 +508,8 @@ fn('EnsureRange', (v, a, b) => Math.min(Math.max(num(v), num(a)), num(b)));
 fn('DivMod', async (a, b, q: Ref, r: Ref) => { await q.set(Math.trunc(num(a) / num(b))); await r.set(num(a) % num(b)); });
 fn('Hi', (v) => (num(v) >> 8) & 0xff);
 fn('Lo', (v) => num(v) & 0xff);
-fn('High', (v) => (Array.isArray(v) ? v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647));
+// nil = empty dynamic array: High = -1 (for i := 0 to High(arr) does nothing)
+fn('High', (v) => (v === null || v === undefined ? -1 : Array.isArray(v) ? v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647));
 fn('Low', (v) => (Array.isArray(v) ? 0 : typeof v === 'string' ? 1 : 0));
 fn('SetLength', async (r: Ref, n) => {
   const v = await r.get();
@@ -543,7 +544,8 @@ fn('SysErrorMessage', () => '');
 fn('RaiseLastOSError', () => undefined);
 fn('RaiseLastWin32Error', () => undefined);
 fn('OutputDebugString', (s) => logger.debug(str(s)));
-fn('Integer', (v) => (typeof v === 'boolean' ? (v ? 1 : 0) : typeof v === 'string' ? (v.charCodeAt(0) || 0) : Math.trunc(num(v))));
+fn('Integer', (v) => (typeof v === 'boolean' ? (v ? 1 : 0) : typeof v === 'string' ? (v.charCodeAt(0) || 0)
+  : v !== null && (typeof v === 'object' || typeof v === 'function') ? pointerHandle(v as object) : Math.trunc(num(v))));
 for (const n of ['LongInt', 'Cardinal', 'Word', 'Byte', 'SmallInt', 'ShortInt', 'Int64', 'LongWord', 'DWORD']) G.set(n.toLowerCase(), G.get('integer'));
 fn('Boolean', (v) => !!v && v !== 0);
 fn('Double', (v) => num(v));
@@ -561,7 +563,7 @@ fn('AnsiChar', (v) => (typeof v === 'number' ? String.fromCharCode(v) : str(v).c
 fn('WideChar', (v) => (typeof v === 'number' ? String.fromCharCode(v) : str(v).charAt(0)));
 fn('Variant', (v) => v);
 fn('OleVariant', (v) => v);
-fn('Pointer', (v) => v);
+fn('Pointer', (v) => derefPointer(v));
 fn('TObject', (v) => v);
 fn('TDateTime', (v) => toDateValue(v));
 fn('TDate', (v) => toDateValue(v));

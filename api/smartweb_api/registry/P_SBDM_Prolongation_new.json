@@ -1,0 +1,98 @@
+{
+ "name": "P_SBDM_Prolongation_new",
+ "caption": "",
+ "dir": "Packages/SBDM_Prolongation_new",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DepositInf",
+   "source": "TfrmProlongation_new.DepositInf",
+   "kind": "TOracleDataSet",
+   "sql": "select closedate from sbcm_contracts_new\nwhere id = :ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmProlongationImpl_new"
+  },
+  {
+   "name": "prolongations",
+   "source": "TfrmProlongation_new.prolongations",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, id#, hdate, olddate, newdate\n  FROM sbcm_prolongations_new\nwhere id# = :Contractid\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmProlongationImpl_new"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TfrmProlongation_new.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sbcm_prolongation",
+   "package": "sbcm_prolongation_new",
+   "mode": "positional",
+   "source": "TfrmProlongation_new.sbcm_prolongation",
+   "routines": [
+    {
+     "name": "AddProlongation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DelLastProlongation",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

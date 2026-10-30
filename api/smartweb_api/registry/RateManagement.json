@@ -1,0 +1,200 @@
+{
+ "name": "RateManagement",
+ "caption": "Balans / Sistem servisi / Yeni Valyuta məzənnələri",
+ "dir": "Packages/RateManagement",
+ "mainForm": "TRateManagementForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionCommitFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "RatesDataSet",
+   "source": "TRateManagementForm.RatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  tr.VAL_KOD as CurrencyID,\n  tr.OSTAT,\n  tr.buy_rate,\n  tr.sell_rate,Currency.val_name,\n  Currency.VALU_NAME as Name,\n  tr.dat,tr.sell_rate_cashless,tr.buy_rate_cashless,\n  tr.rowid\nfrom\n  temprate tr,\n  AVALUTE Currency\nwhere\n  Currency.VALUTE = tr.VAL_KOD\norder by Currency.Valute",
+   "variables": [],
+   "unit": "RateManagementFormImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TRateManagementForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select\n* from\nvalute_cek",
+   "variables": [],
+   "unit": "RateManagementFormImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TRateManagementForm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select\n* from\nvalute_cek",
+   "variables": [],
+   "unit": "RateManagementFormImpl"
+  },
+  {
+   "name": "OracleQuery1",
+   "source": "TRateManagementForm.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "DECLARE \nCURSOR C_P is\nselect v.ostat,vt.valute from valute_cek V,avalute_t vt\n where v.val_cod=vt.val_name;\n BEGIN\n for c in c_p loop\nupdate temprate  set ostat=c.ostat\nwhere val_kod=c.valute;\nend loop; \n end;",
+   "variables": [],
+   "unit": "RateManagementFormImpl"
+  },
+  {
+   "name": "dsoperkurs",
+   "source": "TRateManagementForm.dsoperkurs",
+   "kind": "TOracleDataSet",
+   "sql": "/*select a.val_name,o.ostat,o.dat,o.sell_rate,o.buy_rate,a.rowid from avalute a,operkurs o\nwhere a.valute=o.val_kod\nand o.dat=:PDATE\norder by a.valute*/\n\n\nselect o.rowid,o.ostat,a.val_name,o.dat,o.sell_rate,o.buy_rate,o.sell_rate_cashless,o.buy_rate_cashless from operkurs o,avalute a\nwhere a.valute=o.val_kod\nand o.dat=:PDATE\norder by a.valute\n\n\n",
+   "variables": [
+    {
+     "name": "PDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "RateManagementFormImpl"
+  },
+  {
+   "name": "sysdat",
+   "source": "TRateManagementForm.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "RateManagementFormImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TRateManagementForm.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.op_id, a.no_prov, a.dat, a.debt, a.kredit, a.val_acc,\n       a.vid_op, a.ammount, a.lammount, a.tim, a.shifr, a.no_pack,\n       a.kassa_b, a.kassa_z, a.no_filial, a.sloj_prov, a.bank_d,\n       a.bank_k, a.no_doc, a.no_mem, a.d1, a.k1, a.rate_d, a.rate_c,\n       a.parentid, a.currencyid_c, a.ammount_c, a.name, a.commit_opid,\n       a.countrid, a.reportid, a.committime, a.userinsert, a.usercommit,\n       a.bdg_code, a.procname\n  FROM temprepairerrors a",
+   "variables": [],
+   "unit": "RateManagementFormImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TRateManagementForm.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select * from updateoperkurs",
+   "variables": [],
+   "unit": "RateManagementFormImpl"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TRateManagementForm.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  SID,\n  Serial#,\n  AudSID,\n  user#,\n  UserName,\n  Status,\n  OSUser,\n  Process,\n  Machine,\n  Terminal,\n  Program,\n  Logon_Time,\n  decode(UserEnv('SESSIONID'), AudSID, 1, 0) as IsCurrentUser\nfrom sys.v_$session\nwhere\n  (Type = 'USER')\n  and (UserName is not null)\n  and (Program = (\n    select program \n      from sys.v_$session \n    where AudSID = UserEnv('SESSIONID')\n    )\n  )\n  and (Status <> 'KILLED')",
+   "variables": [],
+   "unit": "RateManagementFormImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "ExchMgr",
+   "package": "Exch_mgr",
+   "mode": "positional",
+   "source": "TRateManagementForm.ExchMgr",
+   "routines": [
+    {
+     "name": "Ex_CourseRatesOper",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "Fsbsys",
+   "package": "sbsys",
+   "mode": "positional",
+   "source": "TRateManagementForm.Fsbsys",
+   "routines": [
+    {
+     "name": "add_future_rates",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_future_rates",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBA_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TRateManagementForm.SBA_ACA",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBRateManagement",
+   "package": "SBRM",
+   "mode": "named",
+   "source": "TRateManagementForm.SBRateManagement",
+   "routines": [
+    {
+     "name": "AddArchiveTransactions",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "AddLazyTransactions",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ArchiveTransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CheckAmmounts",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteOldTransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Recalculate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "calc_rate_difference",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "commit_new_rates",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

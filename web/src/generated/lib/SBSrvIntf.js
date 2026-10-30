@@ -117,8 +117,8 @@ export default function define($) {
   const L0 = {"arr": $.copyArg(p0), result: '', "index": 0};
   await $.fixArgs(L0, ["arr"]);
   L0["result"] = "";
-  { const $t1 = (await $.call(C, "High", [L0["arr"]]));
-    L0["index"] = (await $.call(C, "Low", [L0["arr"]]));
+  { const $t1 = (await $.lowHigh("high", "TConstArray", async () => L0["arr"]));
+    L0["index"] = (await $.lowHigh("low", "TConstArray", async () => L0["arr"]));
     let $t2 = true;
     for (;;) {
       if (!$t2) { L0["index"] = $.succ(L0["index"], 1); }

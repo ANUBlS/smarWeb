@@ -1208,18 +1208,6 @@ export default [
   "source": "Packages/CC_Buyers/FlatsMgrIMPL.pas"
  },
  {
-  "unit": "FlatSpeed",
-  "file": "FlatSpeed",
-  "form": null,
-  "ok": 10,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TFlatSpeed"
-  ],
-  "source": "Packages/Insurance/InsVCL50/FlatSpeed.pas"
- },
- {
   "unit": "Form1_BalCnImpl",
   "file": "Form1_BalCnImpl",
   "form": "TFormBalCn1",
@@ -1388,18 +1376,6 @@ export default [
   "source": "Packages/SBGeneral/FormTransaction3Lmpl.pas"
  },
  {
-  "unit": "frmAddPaymentTerminateimpl",
-  "file": "frmAddPaymentTerminateimpl",
-  "form": "TForm2",
-  "ok": 0,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TForm2"
-  ],
-  "source": "Insurance/PaymenTerminate/frmAddPaymentTerminateimpl.pas"
- },
- {
   "unit": "FrmChangePasswordImpl",
   "file": "FrmChangePasswordImpl",
   "form": "TFrmChangePassword",
@@ -1434,18 +1410,6 @@ export default [
    "TIn_sett"
   ],
   "source": "Packages/SWIFT_MANAGER_IBAN_NEW/insett.pas"
- },
- {
-  "unit": "INSWordExporter",
-  "file": "INSWordExporter",
-  "form": null,
-  "ok": 12,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TINSWordExporter"
-  ],
-  "source": "Packages/Insurance/InsVCL50/INSWordExporter.pas"
  },
  {
   "unit": "klirinqUnit",
@@ -1518,18 +1482,6 @@ export default [
    "TMainResource"
   ],
   "source": "Packages/MainResource/MainResourceImpl.pas"
- },
- {
-  "unit": "MDIChildPanel",
-  "file": "MDIChildPanel",
-  "form": null,
-  "ok": 4,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TMDIChildPanel"
-  ],
-  "source": "Packages/Insurance/InsVCL50/MDIChildPanel.pas"
  },
  {
   "unit": "MTsett",
@@ -1709,18 +1661,6 @@ export default [
    "TOUT_FORM"
   ],
   "source": "Packages/SWIFT_MANAGER_IBAN_NEW/OUT_MT.pas"
- },
- {
-  "unit": "PanelSpeed",
-  "file": "PanelSpeed",
-  "form": null,
-  "ok": 8,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TPanelSpeed"
-  ],
-  "source": "Packages/Insurance/InsVCL50/PanelSpeed.pas"
  },
  {
   "unit": "payment",
@@ -3789,30 +3729,6 @@ export default [
    "TQRCommonReport"
   ],
   "source": "Packages/SBGeneral/UntSecond_Report.pas"
- },
- {
-  "unit": "UPAccidentBlank",
-  "file": "UPAccidentBlank",
-  "form": "TPAccidentBlank",
-  "ok": 75,
-  "fail": 0,
-  "activeForm": "TPAccidentBlank",
-  "classes": [
-   "TPAccidentBlank"
-  ],
-  "source": "Packages/Insurance/PersonalAccident/UPAccidentBlank.pas"
- },
- {
-  "unit": "UPAccidentRisks",
-  "file": "UPAccidentRisks",
-  "form": "TfmRiskTypes",
-  "ok": 3,
-  "fail": 0,
-  "activeForm": null,
-  "classes": [
-   "TfmRiskTypes"
-  ],
-  "source": "Packages/Insurance/PersonalAccMain/UPAccidentRisks.pas"
  },
  {
   "unit": "UserSelectFormImpl",

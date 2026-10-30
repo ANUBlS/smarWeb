@@ -56,7 +56,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"datetime": $.copyArg(p0), "decimalsymbol": $.copyArg(p1), result: '', "year": 0, "month": 0, "day": 0};
   await $.fixArgs(L0, ["datetime", "decimalsymbol"]);
-  L0["months"] = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"];
+  await $.staticConst(L0, "months", "formoperationlmpl..extractmonth.months", async () => ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"]);
   await $.stmt((await $.call(C, "DecodeDate", [L0["datetime"], $.ref(async () => L0["year"], async ($t3) => { L0["year"] = $t3; }), $.ref(async () => L0["month"], async ($t4) => { L0["month"] = $t4; }), $.ref(async () => L0["day"], async ($t5) => { L0["day"] = $t5; })])));
   L0["result"] = $.add($.add($.add($.add((await $.call(C, "IntToStr", [L0["day"]])), L0["decimalsymbol"]), (await $.idx(L0["months"], [L0["month"]]))), L0["decimalsymbol"]), (await $.call(C, "IntToStr", [L0["year"]])));
   return L0.result;

@@ -1,0 +1,49 @@
+{
+ "name": "XRatesViewer",
+ "caption": "Əlavə modullar / Mühasibat və balans / Məzənnələrə baxış",
+ "dir": "Packages/RatesViewer",
+ "mainForm": "TFrmRates",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "RatesDataSet",
+   "source": "TFrmRates.RatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "UntRatesImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

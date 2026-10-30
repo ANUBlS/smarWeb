@@ -1,0 +1,181 @@
+{
+ "name": "P_SBDM_TransactionViewer",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_TransactionViewer",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "TransactionData",
+   "source": "TdmTransactionViewer.TransactionData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n     pr.dat,\n     pr.no_prov,\n     pr.vid_op,\n     pr.val_acc,\n     pr.rate_d,\n     pr.debt,\n     pr.currencyid_c,\n     pr.rate_c,\n     pr.kredit,\n     pr.ammount,\n     pr.ammount_c,\n     pr.lammount,\n     pr.kassa_b,\n     pr.kassa_z,\n     pr.name\nfrom \n    provarch pr\nwhere ID = :TransactionID  \n\nunion \n\nselect \n     lr.dat,\n     lr.no_prov,\n     lr.vid_op,\n     lr.val_acc,\n     lr.rate_d,\n     lr.debt,\n     lr.currencyid_c,\n     lr.rate_c,\n     lr.kredit,\n     lr.ammount,\n     lr.ammount_c,\n     lr.lammount,\n     lr.kassa_b,\n     lr.kassa_z,\n     lr.name\nfrom \n    lazytransaction lr\nwhere ID = :TransactionID  \n\n\n\n    ",
+   "variables": [
+    {
+     "name": "TRANSACTIONID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "AvaluteDebit",
+   "source": "TdmTransactionViewer.AvaluteDebit",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute\nwhere valute = :valute",
+   "variables": [
+    {
+     "name": "VALUTE",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "AvaluteCredit",
+   "source": "TdmTransactionViewer.AvaluteCredit",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute\nwhere valute = :valute\n",
+   "variables": [
+    {
+     "name": "VALUTE",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "AccDebit",
+   "source": "TdmTransactionViewer.AccDebit",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no,name from account\nwhere id = :ID",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "AccCredit",
+   "source": "TdmTransactionViewer.AccCredit",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no,name from account\nwhere id = :ID\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "RestCredit",
+   "source": "TdmTransactionViewer.RestCredit",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_id,\n       nvl(abs(ostat),0) as ostat,\n       nvl(abs(pok_ostat),0) as pok_ostat\nfrom archost \nwhere acc_id = :acc_id\nand datdate = :dat",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "float"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "operations",
+   "source": "TdmTransactionViewer.operations",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM vid_op\n\nwhere id = :ID",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "CashSymbols",
+   "source": "TdmTransactionViewer.CashSymbols",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  symbol,\n  name\nFROM\n  kassa_b\nwhere symbol = :symbol \n",
+   "variables": [
+    {
+     "name": "SYMBOL",
+     "type": "string"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "ConvertationSymbols",
+   "source": "TdmTransactionViewer.ConvertationSymbols",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CONVERT_ASSIGNMENTS\nwhere id = :ID\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  },
+  {
+   "name": "RestDebit",
+   "source": "TdmTransactionViewer.RestDebit",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_id,\n       nvl(abs(ostat),0) as ostat,\n       nvl(abs(pok_ostat),0) as pok_ostat\nfrom archost \nwhere acc_id = :acc_id\nand datdate = :dat\n",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "dmTransactionViewerImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

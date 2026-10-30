@@ -127,9 +127,9 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "res": 0, "bmp": '', "bmpsize": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["pimageset"] = null;
-  L0["pimageprocessor"] = null;
-  L0["ptemp"] = null;
+  await $.staticConst(L0, "pimageset", "finger.tfingers.takesamplebuttonclick.pimageset", async () => null);
+  await $.staticConst(L0, "pimageprocessor", "finger.tfingers.takesamplebuttonclick.pimageprocessor", async () => null);
+  await $.staticConst(L0, "ptemp", "finger.tfingers.takesamplebuttonclick.ptemp", async () => null);
   await $.set(C, "filename", $.add($.add($.add((await $.v(C, "FDBDir")), "\\"), (await $.mv((await $.v(C, "OracleDataSet2TEST")), "AsString"))), ".bmp"));
   await $.stmt((await $.call(C, "LogMessage", ["Acquiring fingerprint..."])));
   await $.set(C, "pLastScannedImpression", (await $.call(C, "ScanImage", [(await $.v(C, "pScanner"))])));

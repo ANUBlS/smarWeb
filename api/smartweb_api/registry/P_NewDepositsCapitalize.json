@@ -1,0 +1,120 @@
+{
+ "name": "P_NewDepositsCapitalize",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsCapitalize",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Capitals",
+   "source": "TNewDepositsFrmCapitalize.Capitals",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT ID,  hdate, total, trid\n  FROM dm_capitalization\n  where ID# = :ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsFrmCapitalizeImpl"
+  },
+  {
+   "name": "DepositInfo",
+   "source": "TNewDepositsFrmCapitalize.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select cust.name,\n       cont.amount,\n       cont.currency,\n       cstate.facticaldebt,\n       cstate.facticalinterestdebt,\n      (select ostat from tenostat where acc_id=acc.clientaccid) ostat\nfrom dm_contracts cont,\n     customers cust,\n     dm_contract_accounts acc,\n     dm_history_currstate cstate\nwhere\n    cont.id = :ContractID and\n    cust.id = cont.customerID and\n    acc.id# = :ContractID and\n    cstate.id# = :ContractID ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsFrmCapitalizeImpl"
+  },
+  {
+   "name": "CustAcc",
+   "source": "TNewDepositsFrmCapitalize.CustAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select clientaccid \n       ,dm_stored_programs.GetContractAccount(ContractAccID) as ContractAccNo\n       ,dm_stored_programs.GetContractAccount(InterestAccID) as InterestAccNo\n       ,dm_stored_programs.GetContractAccount(ClientAccID)   as ClientAccNo\nfrom dm_contract_accounts\nwhere id# = :Contractid",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsFrmCapitalizeImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_payment",
+   "package": "dm_payment",
+   "mode": "named",
+   "source": "TNewDepositsFrmCapitalize.dm_payment",
+   "routines": [
+    {
+     "name": "Capitalization",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CommitWithDrawMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteCapitalization",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SetResiduaryAmount",
+     "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TNewDepositsFrmCapitalize.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

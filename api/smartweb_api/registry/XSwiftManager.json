@@ -1,0 +1,1644 @@
+{
+ "name": "XSwiftManager",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / SWIFT menecer (IBAN)",
+ "dir": "Packages/SWIFT_MANAGER_IBAN_NEW",
+ "mainForm": "TSWIFT_MAIN",
+ "plugin": false,
+ "plugins": {
+  "filereport.bpl": "P_FileReport"
+ },
+ "lib": [
+  "AzipsSett",
+  "Azipsn",
+  "CC_ACCInUnit",
+  "CC_AccInForm_Unit",
+  "CC_AccOutForm_Unit",
+  "CC_AccState_Unit",
+  "CC_AccTransact_Unit",
+  "CC_AccTransaction_Unit",
+  "CC_Commision_Trans_Unit",
+  "CC_Country_Unit",
+  "CC_FormInterval_Unit",
+  "CC_Repairing_Unit",
+  "CC_Settings_Unit",
+  "CMHintBox",
+  "Checkacc",
+  "Contractimpl",
+  "CustomersordersImpl1",
+  "DBSumLst",
+  "DatModConstimpl",
+  "DataMGuarantee",
+  "Data_Unit",
+  "Editmt103Show",
+  "FlatsMgrIMPL",
+  "MAINFORMImpl1",
+  "MTsett",
+  "MainResourceImpl",
+  "OUT_MT",
+  "OraVariables",
+  "PaymentsImpl1",
+  "PostCommisionOnusImpl",
+  "Rbsdofiles",
+  "RepContImpl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SWIFT_MAINImpl1",
+  "StatementFrmImpl",
+  "Taxfilessettings",
+  "Taxrbs",
+  "TaxsUnit",
+  "Tranzit_account",
+  "U9",
+  "UFX71",
+  "Uninfo",
+  "Unit1",
+  "Unit10",
+  "Unit11",
+  "Unit12",
+  "Unit155",
+  "Unit16",
+  "Unit18",
+  "Unit19",
+  "Unit2",
+  "Unit22",
+  "Unit3",
+  "Unit4",
+  "Unit5",
+  "Unit6",
+  "Unit7",
+  "Unit8",
+  "Unit9",
+  "UnitAccBuyers",
+  "UnitAddBuyers",
+  "UnitAddGroups",
+  "UnitArWaresSRep",
+  "UnitArchiveWares",
+  "UnitCalcWares",
+  "UnitChangePasswordForm",
+  "UnitChoice",
+  "UnitCurrentRep",
+  "UnitCurrentRepNL",
+  "UnitDat",
+  "UnitData",
+  "UnitDfile",
+  "UnitDxxx",
+  "UnitExcel",
+  "UnitGroupDat",
+  "UnitHesab",
+  "UnitImpXLS",
+  "UnitInsWares",
+  "UnitInsert_t",
+  "UnitPaymentsProperties",
+  "UnitPreview",
+  "UnitRep",
+  "UnitRepGroupNB",
+  "UnitRepGroupNL",
+  "UnitReport",
+  "UnitReportR",
+  "UnitRvisa",
+  "UnitSBOraLogOn",
+  "UnitShowTrans",
+  "UnitTraffics",
+  "UnitTrafficsNL",
+  "UnitTransOut",
+  "UnitTransView",
+  "UnitUpdBuyers",
+  "UnitUpdGroups",
+  "UnitUpdTrans",
+  "UnitViewTurn",
+  "UnitWares",
+  "UnitWaresArSent",
+  "Unitcardarxiv",
+  "Unitclient2",
+  "Unitintfile",
+  "Uniybuysellwares",
+  "Unthsd",
+  "ZamirImpl1",
+  "accountcloseunit",
+  "applicationpas",
+  "archivout",
+  "arxivufx",
+  "atmendpos",
+  "balans",
+  "balhs",
+  "banksettings",
+  "card_Exchange_file",
+  "card_states",
+  "card_ufx",
+  "cardbranch",
+  "cardnumbersource",
+  "cc_BuyersImpl",
+  "ceskin",
+  "cfile_addi",
+  "cfilepas",
+  "closecardunit",
+  "comp",
+  "crdtype",
+  "createmess",
+  "creditinfopas",
+  "customers",
+  "datamod1",
+  "datclose",
+  "dilingUnit",
+  "domesticbank",
+  "dpforms",
+  "editmt103",
+  "excsett",
+  "filialaccounts",
+  "formmt103",
+  "insett",
+  "klirinqUnit",
+  "limittur",
+  "multiform",
+  "newcard",
+  "onlinec",
+  "opencardunit",
+  "payment",
+  "paymentsett",
+  "poscomission",
+  "qrp1",
+  "qrp5",
+  "quickrep",
+  "rbsstate",
+  "rezform",
+  "sboapiDataModuleImpl",
+  "setac",
+  "sms",
+  "unitfilter",
+  "unitverification",
+  "yoxp"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TSWIFT_MAIN.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "update sw_out_new set status=44 where id =:ids",
+   "variables": [
+    {
+     "name": "IDS",
+     "type": "integer"
+    }
+   ],
+   "unit": "SWIFT_MAINImpl1"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TSWIFT_MAIN.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char(sysdate,'hh24:mi:ss') as time from dual",
+   "variables": [],
+   "unit": "SWIFT_MAINImpl1"
+  },
+  {
+   "name": "prior",
+   "source": "TSWIFT_MAIN.prior",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "SWIFT_MAINImpl1"
+  },
+  {
+   "name": "User",
+   "source": "TSWIFT_MAIN.User",
+   "kind": "TOracleDataSet",
+   "sql": "select User from dual",
+   "variables": [],
+   "unit": "SWIFT_MAINImpl1"
+  },
+  {
+   "name": "MT",
+   "source": "TSWDataModule.MT",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct COLUMN_NAME from dba_tab_columns where TABLE_NAME='SW_FIELDS' and COLUMN_NAME<>'CATEGORY' and COLUMN_NAME<>'SW_FIELD' and COLUMN_NAME<>'SW_MAIN'\n and COLUMN_NAME<>'SW_MAIN_FIELD'  and COLUMN_NAME in ('MT103','MT205')    order by COLUMN_NAME\n ",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "mt_select",
+   "source": "TSWDataModule.mt_select",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where  sw_main_field='00' and sw_field=:PANELNAME\n\n \n",
+   "variables": [
+    {
+     "name": "PANELNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TSWDataModule.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields order by sw_field desc",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "InvisibleAll",
+   "source": "TSWDataModule.InvisibleAll",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where SW_MAIN_FIELD='00' and SW_FIELD=:panelname2 order by sw_field desc",
+   "variables": [
+    {
+     "name": "PANELNAME2",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "ComboItems",
+   "source": "TSWDataModule.ComboItems",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where sw_main_field=:comboname and category<>'00' \n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "COMBONAME",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Comboselect",
+   "source": "TSWDataModule.Comboselect",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where sw_main_field=:name and category=:selected\n",
+   "variables": [
+    {
+     "name": "SELECTED",
+     "type": "string"
+    },
+    {
+     "name": "NAME",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "aftercomboselect",
+   "source": "TSWDataModule.aftercomboselect",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where sw_main_field=:name and category<>:selected\n\n\n",
+   "variables": [
+    {
+     "name": "SELECTED",
+     "type": "string"
+    },
+    {
+     "name": "NAME",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Visible_main",
+   "source": "TSWDataModule.Visible_main",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where sw_field=:panel_name and category='combo'",
+   "variables": [
+    {
+     "name": "PANEL_NAME",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "sw_out",
+   "source": "TSWDataModule.sw_out",
+   "kind": "TOracleDataSet",
+   "sql": "select s.*,s.rowid,sw_main.Find_UserName_out(s.id)  from sw_out_new\n s   where status in (2,8,15)  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by id desc",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "ViewPanel",
+   "source": "TSWDataModule.ViewPanel",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_field from sw_fields  ",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TSWDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where sw_main_field='00'",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "valute",
+   "source": "TSWDataModule.valute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute\nwhere val_name<>'AZN'",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Sysdate",
+   "source": "TSWDataModule.Sysdate",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from smart.sysdat",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "sw_settings",
+   "source": "TSWDataModule.sw_settings",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_settings",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "banks",
+   "source": "TSWDataModule.banks",
+   "kind": "TOracleDataSet",
+   "sql": "select BIC,NAME,CITY,address,country from sw_banks\n\n\nwhere \n\n\n\n\n\ncity='BAKU'",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "settings",
+   "source": "TSWDataModule.settings",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_settings",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Account",
+   "source": "TSWDataModule.Account",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where CLOSE_DAT is null order by acc_no",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "corracount",
+   "source": "TSWDataModule.corracount",
+   "kind": "TOracleDataSet",
+   "sql": "select a.acc_no,b.bic from sw_coraccounts b, account a where b.ACC_ID=a.id",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TSWDataModule.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "sw_out_2",
+   "source": "TSWDataModule.sw_out_2",
+   "kind": "TOracleDataSet",
+   "sql": "select s.rowid, s.*,sw_main.Find_UserName_out(s.id),sw_main.Find_UserName3_out(s.id) from sw_out_new \n s   where status in (5,7,55)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by id desc",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "SW_OUT3",
+   "source": "TSWDataModule.SW_OUT3",
+   "kind": "TOracleDataSet",
+   "sql": "select s.rowid, s.*,sw_main.Find_UserName_out(s.id),sw_main.Find_UserName3_out(s.id),sw_main.Find_UserName2_out(s.id) from sw_out_new \n s   where status in (1)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by id desc",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "referans",
+   "source": "TSWDataModule.referans",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_main.Set_Referense(:FORMATS,:currensy) as refe from dual ",
+   "variables": [
+    {
+     "name": "FORMATS",
+     "type": "string"
+    },
+    {
+     "name": "CURRENSY",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "sw_in",
+   "source": "TSWDataModule.sw_in",
+   "kind": "TOracleDataSet",
+   "sql": "select s.rowid, s.*,sw_main.Find_UserName2_in(s.id) as userh from sw_in  s  where s.status<>96  and status<>10\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "fillial",
+   "source": "TSWDataModule.fillial",
+   "kind": "TOracleDataSet",
+   "sql": "select name from filial",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "settings_fields",
+   "source": "TSWDataModule.settings_fields",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_field from sw_fields where :formats is not null order by SW_FIELD",
+   "variables": [
+    {
+     "name": "FORMATS",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "settings_fields2",
+   "source": "TSWDataModule.settings_fields2",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_field from sw_fields where :formats is not null order by SW_FIELD",
+   "variables": [
+    {
+     "name": "FORMATS",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "settings_fields3",
+   "source": "TSWDataModule.settings_fields3",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_field from sw_fields where :formats is not null order by SW_FIELD",
+   "variables": [
+    {
+     "name": "FORMATS",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "settings_fields4",
+   "source": "TSWDataModule.settings_fields4",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_field from sw_fields where :formats is not null order by SW_FIELD",
+   "variables": [
+    {
+     "name": "FORMATS",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "prowo",
+   "source": "TSWDataModule.prowo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_prow",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "setprow",
+   "source": "TSWDataModule.setprow",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_prow where format=:Q",
+   "variables": [
+    {
+     "name": "Q",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "transac",
+   "source": "TSWDataModule.transac",
+   "kind": "TOracleDataSet",
+   "sql": "select  *  from  sw_out_new where id=:ids1",
+   "variables": [
+    {
+     "name": "IDS1",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "test",
+   "source": "TSWDataModule.test",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where sw_main_field='00'\n\n\n\norder by sw_field \n\n\n\n\n ",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "test2",
+   "source": "TSWDataModule.test2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where sw_main_field='00'  order by sw_field",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "test3",
+   "source": "TSWDataModule.test3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields where sw_main_field='00'  order by sw_field ",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "bankinfo",
+   "source": "TSWDataModule.bankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankinfo",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "sw_customers",
+   "source": "TSWDataModule.sw_customers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers order by id",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "ARXIVIN",
+   "source": "TSWDataModule.ARXIVIN",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM SW_ARCHIVE where dat between :dat1 and :dat2 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "country",
+   "source": "TSWDataModule.country",
+   "kind": "TOracleDataSet",
+   "sql": "select * from COUNTRIES",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "hteyinat",
+   "source": "TSWDataModule.hteyinat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from reportdescs\n",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Tobic",
+   "source": "TSWDataModule.Tobic",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_banks where bic=:dbs",
+   "variables": [
+    {
+     "name": "DBS",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "out_archive",
+   "source": "TSWDataModule.out_archive",
+   "kind": "TOracleDataSet",
+   "sql": "select s.* ,sw_main.find_username_out (s.id) as creat,sw_main.find_deleter_out (s.id) as deleter,\n       sw_main.find_username3_out (s.id) as modsi,sw_main.find_editor_out(s.id) as editor,sw_main.find_sender_out (s.id) as avto,\n       sw_main.find_username2_out (s.id) as veri from sw_out_sba s where MF32A_DATE between :dat1 and :dat2 --and fcreate_opid=:oper\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "CORR",
+   "source": "TSWDataModule.CORR",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM sw_coraccounts where (BIC=:b) and (VALUTE=(select VALUTE from smart.avalute_t where VAL_NAME=:v))",
+   "variables": [
+    {
+     "name": "B",
+     "type": "string"
+    },
+    {
+     "name": "V",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "SW_IN_FORAddIn",
+   "source": "TSWDataModule.SW_IN_FORAddIn",
+   "kind": "TOracleDataSet",
+   "sql": "select s.*,sw_main.Find_UserName2_in(s.id) from sw_in_syn s  where s.status<>10 and s.id in (:IDs)\n\n\n\n \n ",
+   "variables": [
+    {
+     "name": "IDS",
+     "type": "subst"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "DS_AccsForComission",
+   "source": "TSWDataModule.DS_AccsForComission",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account -- SBA_ACCOUNT\nwhere kli_id=:v_acc_no",
+   "variables": [
+    {
+     "name": "V_ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Chk_AccNo",
+   "source": "TSWDataModule.Chk_AccNo",
+   "kind": "TOracleDataSet",
+   "sql": "select cust_type from bal_spr1 where bal_cn=(select bal_cn1 from account where acc_no=:acc_no)\n",
+   "variables": [
+    {
+     "name": "ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "settings_fields5",
+   "source": "TSWDataModule.settings_fields5",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_field from sw_fields where :formats is not null order by SW_FIELD",
+   "variables": [
+    {
+     "name": "FORMATS",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "ValuteForCommit",
+   "source": "TSWDataModule.ValuteForCommit",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute\n",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "azips",
+   "source": "TSWDataModule.azips",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,to_char(a.cdat,'hh:mi:ss') as saat,to_char(a.tdat,'hh:mi:ss') as ysaat,to_char(a.fdat,'hh:mi:ss') as gsaat from sw_out_new a\nwhere \na.status in (55,44,1,20) and \na.FINCOPY='AZN' and \na.messagetype='MT103' \nand  a.mf50_account in (select acc_no from account where kli_id=:v) \nand a.mf32a_date=to_date(to_char(sysdate))",
+   "variables": [
+    {
+     "name": "V",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "gonderen",
+   "source": "TSWDataModule.gonderen",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filialinfo where kod_fil=:fid",
+   "variables": [
+    {
+     "name": "FID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "alanm",
+   "source": "TSWDataModule.alanm",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,convertpack.CONVERT_INT(a.name) as d  from customers a where a.id=:kid",
+   "variables": [
+    {
+     "name": "KID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "templates",
+   "source": "TSWDataModule.templates",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_templates",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TSWDataModule.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select sw_main.Set_Referense(:FORMATS,:currensy) as refe from dual ",
+   "variables": [
+    {
+     "name": "FORMATS",
+     "type": "string"
+    },
+    {
+     "name": "CURRENSY",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "acount",
+   "source": "TSWDataModule.acount",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where close_dat is null /*and kli_id=:vx*/ and val_acc=0 and bal_cn1 like '38%' /*and filial=0 */order by acc_no",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TSWDataModule.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid, a.* from bankm a order by a.name",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "bankl",
+   "source": "TSWDataModule.bankl",
+   "kind": "TOracleDataSet",
+   "sql": "select BIC,NAME,CITY,address,country from sw_banks\n\n\nwhere \n\n\n\n\n\ncity='BAKU' and bic=:bic",
+   "variables": [
+    {
+     "name": "BIC",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "swmammount",
+   "source": "TSWDataModule.swmammount",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(mf32a_amount) as summ from sw_out_new where status=1",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "sw_in2",
+   "source": "TSWDataModule.sw_in2",
+   "kind": "TOracleDataSet",
+   "sql": "select s.rowid, s.*,sw_main.Find_UserName2_in(s.id) as userh from sw_in  s  where s.status=96 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n \n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "MT102data",
+   "source": "TSWDataModule.MT102data",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_out_new_t where\n\nmessagetype='MT102' and mf20_reference=:refer and status=1",
+   "variables": [
+    {
+     "name": "REFER",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Inaccounts",
+   "source": "TSWDataModule.Inaccounts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Intesdiq",
+   "source": "TSWDataModule.Intesdiq",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_in where id =:vid",
+   "variables": [
+    {
+     "name": "VID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "updswin1",
+   "source": "TSWDataModule.updswin1",
+   "kind": "TOracleDataSet",
+   "sql": "update sw_in set hesabat=:kod where id=:vid ",
+   "variables": [
+    {
+     "name": "KOD",
+     "type": "string"
+    },
+    {
+     "name": "VID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "updswin",
+   "source": "TSWDataModule.updswin",
+   "kind": "TOracleQuery",
+   "sql": "update sw_in set hesabat=:kod where id=:vid ",
+   "variables": [
+    {
+     "name": "KOD",
+     "type": "string"
+    },
+    {
+     "name": "VID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Operators",
+   "source": "TSWDataModule.Operators",
+   "kind": "TOracleDataSet",
+   "sql": " select -1 as ID, 'Butun operatorlar' as Name from Dual\nUnion all\nselect id,name from (\n select ID, Name from User$\nOrder by name) \n ",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "acc_check",
+   "source": "TSWDataModule.acc_check",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where acc_no=:acc",
+   "variables": [
+    {
+     "name": "ACC",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TSWDataModule.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "userfil",
+   "source": "TSWDataModule.userfil",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT filialid\n                   FROM sba_objinf\n                  WHERE obj = (SELECT USER FROM DUAL)",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "usercl",
+   "source": "TSWDataModule.usercl",
+   "kind": "TOracleDataSet",
+   "sql": "select classid from sba_objinf where obj=(SELECT USER FROM DUAL )",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Tranzit",
+   "source": "TSWDataModule.Tranzit",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from sw_transit_acc a\n",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "SW_amount",
+   "source": "TSWDataModule.SW_amount",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(mf32a_amount) as summ from sw_out_new where status=5",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "azpsettings",
+   "source": "TSWDataModule.azpsettings",
+   "kind": "TOracleDataSet",
+   "sql": "select * from azips_bp_procces_acc\n\n",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "AzpFilial",
+   "source": "TSWDataModule.AzpFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "mbacc",
+   "source": "TSWDataModule.mbacc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where bal_cn1=:bal1\n",
+   "variables": [
+    {
+     "name": "BAL1",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "comm_acc",
+   "source": "TSWDataModule.comm_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where bal_cn1=:BAL2\nand filial=:fil and val_acc=:val",
+   "variables": [
+    {
+     "name": "BAL2",
+     "type": "integer"
+    },
+    {
+     "name": "FIL",
+     "type": "integer"
+    },
+    {
+     "name": "VAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "azpval",
+   "source": "TSWDataModule.azpval",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "mt102sum",
+   "source": "TSWDataModule.mt102sum",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(mf32a_amount) from sw_out_new_t where\n\nmessagetype='MT102' and mf20_reference=:refer and status=1",
+   "variables": [
+    {
+     "name": "REFER",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Azpsett",
+   "source": "TSWDataModule.Azpsett",
+   "kind": "TOracleDataSet",
+   "sql": "select * from azp205_sett",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Main_acc",
+   "source": "TSWDataModule.Main_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_no,id from account where bal_cn1=:bal1 and val_acc=:valcode",
+   "variables": [
+    {
+     "name": "BAL1",
+     "type": "integer"
+    },
+    {
+     "name": "VALCODE",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "alter_acc",
+   "source": "TSWDataModule.alter_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_no,id from account where bal_cn1=:bal2 and val_acc=:valcode",
+   "variables": [
+    {
+     "name": "BAL2",
+     "type": "integer"
+    },
+    {
+     "name": "VALCODE",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "All_Banks",
+   "source": "TSWDataModule.All_Banks",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankm_t where val_code=:valute",
+   "variables": [
+    {
+     "name": "VALUTE",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "azpsett_in",
+   "source": "TSWDataModule.azpsett_in",
+   "kind": "TOracleDataSet",
+   "sql": "select * from azp205_sett_in",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "AZpsettings_in",
+   "source": "TSWDataModule.AZpsettings_in",
+   "kind": "TOracleDataSet",
+   "sql": "select * from azips_bp_procces_acc_in\n\n",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "comit",
+   "source": "TSWDataModule.comit",
+   "kind": "TOracleQuery",
+   "sql": "commit;",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "b_proc",
+   "source": "TSWDataModule.b_proc",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM sw_busproc_sett_out a order by id ",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "bproc",
+   "source": "TSWDataModule.bproc",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,name from sb_business_processes",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "b_proc_in",
+   "source": "TSWDataModule.b_proc_in",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM sw_busproc_sett_in a order by id ",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "sw_rbname",
+   "source": "TSWDataModule.sw_rbname",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from sw_rbnames a order by a.id",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Sw_names",
+   "source": "TSWDataModule.Sw_names",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_names",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "swnames",
+   "source": "TSWDataModule.swnames",
+   "kind": "TOracleDataSet",
+   "sql": "select * from   sw_names where valute=:val and mt=:type order by id ",
+   "variables": [
+    {
+     "name": "VAL",
+     "type": "string"
+    },
+    {
+     "name": "TYPE",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "sw_radioname",
+   "source": "TSWDataModule.sw_radioname",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_names where mtname=:mt",
+   "variables": [
+    {
+     "name": "MT",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "cardfindcredit",
+   "source": "TSWDataModule.cardfindcredit",
+   "kind": "TOracleDataSet",
+   "sql": "select accid(:card_accid) as crdt from dual",
+   "variables": [
+    {
+     "name": "CARD_ACCID",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "get_cr_acc",
+   "source": "TSWDataModule.get_cr_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) ncount from cm_accounts where booroweraccid=:vaccid",
+   "variables": [
+    {
+     "name": "VACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "get_ufx_check",
+   "source": "TSWDataModule.get_ufx_check",
+   "kind": "TOracleDataSet",
+   "sql": "  select nvl(count(*),0) v_cnt from card_ufx_check where acc_id=:vaccid and trunc(Dat)=trunc(sysdate)",
+   "variables": [
+    {
+     "name": "VACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "get_creditid",
+   "source": "TSWDataModule.get_creditid",
+   "kind": "TOracleDataSet",
+   "sql": "select  creditid vcreditid from cm_accounts where booroweraccid=:vaccid",
+   "variables": [
+    {
+     "name": "VACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "get_debtamount",
+   "source": "TSWDataModule.get_debtamount",
+   "kind": "TOracleDataSet",
+   "sql": "select debtint vdueinterestrest from cm_report_job where creditid=:vcreditid and trunc(hdate)=trunc(sysdate)",
+   "variables": [
+    {
+     "name": "VCREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "Insufx",
+   "source": "TSWDataModule.Insufx",
+   "kind": "TOracleDataSet",
+   "sql": " insert into card_ufx_check (id,dat,status,acc_id,amount,rest_amount,code) values (:vcreditid,:datdate,1,:vaccid,:vdueinterestrest,:v_rest,:vcode)",
+   "variables": [
+    {
+     "name": "VCREDITID",
+     "type": "integer"
+    },
+    {
+     "name": "VACCID",
+     "type": "integer"
+    },
+    {
+     "name": "VDUEINTERESTREST",
+     "type": "float"
+    },
+    {
+     "name": "V_REST",
+     "type": "float"
+    },
+    {
+     "name": "VCODE",
+     "type": "string"
+    },
+    {
+     "name": "DATDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "get_restufxcheck",
+   "source": "TSWDataModule.get_restufxcheck",
+   "kind": "TOracleDataSet",
+   "sql": "select rest_amount v_rstamount from card_ufx_check where acc_id=:vaccid and trunc(Dat)=trunc(sysdate)",
+   "variables": [
+    {
+     "name": "VACCID",
+     "type": "float"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "updufx",
+   "source": "TSWDataModule.updufx",
+   "kind": "TOracleDataSet",
+   "sql": " update card_ufx_check set  rest_amount =:transamount  where acc_id=:vaccid and trunc(Dat)=trunc(sysdate)",
+   "variables": [
+    {
+     "name": "VACCID",
+     "type": "integer"
+    },
+    {
+     "name": "TRANSAMOUNT",
+     "type": "float"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "ufxcode",
+   "source": "TSWDataModule.ufxcode",
+   "kind": "TOracleDataSet",
+   "sql": "  select code,dat from card_ufx_check where acc_id=:vaccid and trunc(Dat)=trunc(sysdate)",
+   "variables": [
+    {
+     "name": "VACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Unit2"
+  },
+  {
+   "name": "datatemps",
+   "source": "TSWDataModule.datatemps",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_out_new",
+   "variables": [],
+   "unit": "Unit2"
+  },
+  {
+   "name": "dbgridfilial",
+   "source": "TSazlama.dbgridfilial",
+   "kind": "TOracleDataSet",
+   "sql": "select a.filial as filial , a.account as hesab from sw_filials a",
+   "variables": [],
+   "unit": "Unit3"
+  },
+  {
+   "name": "filialoffilial",
+   "source": "TSazlama.filialoffilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "Unit3"
+  },
+  {
+   "name": "accountoffilial",
+   "source": "TSazlama.accountoffilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where close_dat is null order by acc_no",
+   "variables": [],
+   "unit": "Unit3"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TSazlama.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from  sw_prow_in\n",
+   "variables": [],
+   "unit": "Unit3"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TSazlama.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields\n ",
+   "variables": [],
+   "unit": "Unit3"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TSazlama.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields",
+   "variables": [],
+   "unit": "Unit3"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TSazlama.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields",
+   "variables": [],
+   "unit": "Unit3"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TSazlama.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sw_fields",
+   "variables": [],
+   "unit": "Unit3"
+  }
+ ],
+ "packages": [
+  {
+   "component": "card",
+   "package": "cardufx",
+   "mode": "positional",
+   "source": "TSWDataModule.card",
+   "routines": [
+    {
+     "name": "CardCheck",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "UfxCheck",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "Ufx_send",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "mainpacket",
+   "package": "terminalpayments",
+   "mode": "positional",
+   "source": "*.mainpacket",
+   "routines": [
+    {
+     "name": "delete_salary",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "transaction_salary",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "pack",
+   "package": "sw_main",
+   "mode": "positional",
+   "source": "TSWDataModule.pack",
+   "routines": []
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TSWDataModule.sb_aca",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkadvancedobjectaccess_func",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "sw_in_insert",
+   "package": "sw_main",
+   "mode": "positional",
+   "source": "TSWDataModule.sw_in_insert",
+   "routines": [
+    {
+     "name": "Azp205",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Azp205_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Azp205_del_in",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Azp205_in",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Azp900",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UPDIN",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_in_transactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_in_transactions2",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_prow",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_transaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "azp900_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "azpsettings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "azpsettings_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "azpsettings_del_in",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "azpsettings_in",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "bproc_in",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "bproc_in_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "bproc_out",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "check_account",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_in",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_in_all",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_in_other",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insert_in_other102",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "new_dat",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "savetransaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "saving205",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "sw_in_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "sw_out_CreateFile",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "sw_out_back",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "sw_out_commit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "sw_out_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "sw_out_fileafter",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "sw_tranzit_insert",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "transend",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "undifined_transactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_none",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_prow",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updout",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "transaction",
+   "package": "sb_transaction",
+   "mode": "positional",
+   "source": "TSWDataModule.transaction",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

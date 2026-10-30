@@ -1,0 +1,27 @@
+# systemd unit for the SmartWeb API (FastAPI) on the application server.
+#
+#   sudo useradd -r -s /usr/sbin/nologin smartweb || true
+#   cd /opt/smartweb/api && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+#   cp .env.example .env   # set SB_DATABASES
+#   sudo cp deploy/smartweb-api.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now smartweb-api
+#   journalctl -u smartweb-api -f
+#
+# The web app (smartweb.service, port 8086) forwards /api to it: set API_TARGET=http://127.0.0.1:8000
+# in smartweb.service. The API listens on localhost only; Swagger: http://192.168.2.93:8086/api/docs
+
+[Unit]
+Description=SmartWeb API (Oracle gateway)
+After=network.target
+
+[Service]
+Type=simple
+User=smartweb
+WorkingDirectory=/opt/smartweb/api
+ExecStart=/opt/smartweb/api/.venv/bin/uvicorn smartweb_api.main:app --host 127.0.0.1 --port 8000 --workers 1 --proxy-headers
+Restart=always
+RestartSec=3
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

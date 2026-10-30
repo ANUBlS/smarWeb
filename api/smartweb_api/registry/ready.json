@@ -1,0 +1,15 @@
+[
+  "Common",
+  "Accounts",
+  "Customers",
+  "XTaxes",
+  "XOutAvalute",
+  "XProblemCreditMgr",
+  "Transactions",
+  "TransactionManager",
+  "Account",
+  "PaymentDecree",
+  "CreditManager",
+  "ContractCorrection",
+  "CreditsArchive"
+]

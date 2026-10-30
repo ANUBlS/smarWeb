@@ -1,0 +1,94 @@
+{
+ "name": "XCreditsMgrSB",
+ "caption": "Əlavə modullar / Kreditlər / Kredit menecer (SB)",
+ "dir": "Packages/SB_Credit/Sm_creditsmgr",
+ "mainForm": "TCreditsmgr_sb",
+ "plugin": false,
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cmcrdfilter.bpl": "P_CMCrdFilter"
+ },
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "PluginMenu",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CR_ACTIVE",
+   "source": "TCreditsMgrMainDataModule.CR_ACTIVE",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,translate(a.name, 'IiİiIı', '``````') as iname,translate(a.numberofcredit, 'IiİiIı', '``````') as inumberofcredit\n  from cm_active a where id is not null\n\n\n\n\n\norder by :OrderField    \n ",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "CMMainUnitImpl"
+  },
+  {
+   "name": "VisibleFieldsData",
+   "source": "TCreditsMgrMainDataModule.VisibleFieldsData",
+   "kind": "TOracleDataSet",
+   "sql": "select seqno, fieldname, frozen, visible,fielddesc\nfrom cm_fields_list\n order by seqno",
+   "variables": [],
+   "unit": "CMMainUnitImpl"
+  },
+  {
+   "name": "SeqDataSet",
+   "source": "TCreditsMgrMainDataModule.SeqDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select seqno, fieldname, frozen, visible,fielddesc\nfrom cm_fields_list \nwhere fieldname='STATUS'\n\norder by seqno",
+   "variables": [],
+   "unit": "CMMainUnitImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CR_ADMIN",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TCreditsMgrMainDataModule.CR_ADMIN",
+   "routines": [
+    {
+     "name": "getpluginid",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "pluginaccess",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

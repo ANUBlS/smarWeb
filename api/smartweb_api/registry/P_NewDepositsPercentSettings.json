@@ -1,0 +1,233 @@
+{
+ "name": "P_NewDepositsPercentSettings",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsPercentSettings",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DepTypes",
+   "source": "TDataModuleTypes.DepTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, type\n  FROM dm_types",
+   "variables": [],
+   "unit": "NewDepositsPercentDataModule"
+  },
+  {
+   "name": "ODSDayCount",
+   "source": "TDataModuleTypes.ODSDayCount",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM dm_daycount",
+   "variables": [],
+   "unit": "NewDepositsPercentDataModule"
+  },
+  {
+   "name": "depcapitalperiods",
+   "source": "TNewPercentSetting.depcapitalperiods",
+   "kind": "TOracleDataSet",
+   "sql": "select id,rowid,period,description,periodid,type#,periodtype,periodtypeid from dm_depcapitalperiods\nwhere periodid = :periodid\norder by id",
+   "variables": [
+    {
+     "name": "PERIODID",
+     "type": "float"
+    }
+   ],
+   "unit": "NewDepositsPercentSettingImpl"
+  },
+  {
+   "name": "Depositdatsettings",
+   "source": "TNewPercentSetting.Depositdatsettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,rowid, percent, firstdateint, lastdateint, valcod,\n       depid, periodid, capitalid, depsetid,amount_setting_id\nFROM  dm_depositunitime\nwhere Depid     = :depid\nand   Periodid  = :periodid  \nand   Capitalid = :capitalid\nand   valcod    = :valcod\n--and   depsetid  = :depsetid\nand amount_setting_id=:amount_setting_id\norder by lastdateint\n       \n",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "integer"
+    },
+    {
+     "name": "PERIODID",
+     "type": "integer"
+    },
+    {
+     "name": "CAPITALID",
+     "type": "integer"
+    },
+    {
+     "name": "VALCOD",
+     "type": "integer"
+    },
+    {
+     "name": "AMOUNT_SETTING_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsPercentSettingImpl"
+  },
+  {
+   "name": "DepositPerSetting",
+   "source": "TNewPercentSetting.DepositPerSetting",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,rowid, currencyid, interestrate,dueintrate,firstamount,lastamount,depid, periodid, capitalid, \n       befointrate,first_day,percentage_growth_step,LAST_DAY,amount_setting_id,amount_growth_first,amount_growth_last,\n       write_memory,confirmation,hdate,prolongation\nFROM \n  dm_depositpersettings \nwhere     Depid     = :depid\n      and Periodid  = :periodid  \n      and Capitalid = :capitalid\n      and Currencyid=:currencyid\n      and Amount_setting_id=:amount_setting_id\norder by LAST_DAY,id",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "integer"
+    },
+    {
+     "name": "PERIODID",
+     "type": "integer"
+    },
+    {
+     "name": "CAPITALID",
+     "type": "integer"
+    },
+    {
+     "name": "CURRENCYID",
+     "type": "integer"
+    },
+    {
+     "name": "AMOUNT_SETTING_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsPercentSettingImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TNewPercentSetting.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, type\n  FROM dm_types",
+   "variables": [],
+   "unit": "NewDepositsPercentSettingImpl"
+  },
+  {
+   "name": "depperiods",
+   "source": "TNewPercentSetting.depperiods",
+   "kind": "TOracleDataSet",
+   "sql": "select id,rowid,period,description,depid,period_type,periodtypeid from dm_depperiods\nwhere depid = :depid\norder by id",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "float"
+    }
+   ],
+   "unit": "NewDepositsPercentSettingImpl"
+  },
+  {
+   "name": "Valutes",
+   "source": "TNewPercentSetting.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name,valu_name from avalute where valute not in(16,48,50,792)\norder by valute",
+   "variables": [],
+   "unit": "NewDepositsPercentSettingImpl"
+  },
+  {
+   "name": "DSsbcm_amount_setting",
+   "source": "TNewPercentSetting.DSsbcm_amount_setting",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id,firstamount,lastamount,periodid,currencyid,maxamuontconrtact,maxamuontconrtactpercent\n  FROM dm_amount_settings\nwhere periodid = :periodid\nand currencyid = :currencyid\norder by lastamount,periodid ",
+   "variables": [
+    {
+     "name": "PERIODID",
+     "type": "integer"
+    },
+    {
+     "name": "CURRENCYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsPercentSettingImpl"
+  },
+  {
+   "name": "DSsysdat",
+   "source": "TNewPercentSetting.DSsysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "NewDepositsPercentSettingImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_percent_converting",
+   "package": "dm_percent_converting",
+   "mode": "positional",
+   "source": "TNewPercentSetting.dm_percent_converting",
+   "routines": [
+    {
+     "name": "deppseting_hist_new",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_write_memory",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "upd_confir_and_writ_memory_new",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_transh_percent",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "PieceSofWriting",
+   "package": "PieceSofWriting",
+   "mode": "positional",
+   "source": "TNewPercentSetting.PieceSofWriting",
+   "routines": [
+    {
+     "name": "CurrencyToHR",
+     "call": "CallStringFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TNewPercentSetting.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

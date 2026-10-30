@@ -1,0 +1,89 @@
+{
+ "name": "XSecurities",
+ "caption": "Əlavə modullar / Depozitlər / Qiymətli kağızlar",
+ "dir": "Packages/Expired_Securities",
+ "mainForm": "Tnew",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "Unit1",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Avalute",
+   "source": "TDmexpired_sec.Avalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute\norder by valute",
+   "variables": [],
+   "unit": "DMSec"
+  },
+  {
+   "name": "Sysdat",
+   "source": "TDmexpired_sec.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "DMSec"
+  },
+  {
+   "name": "dsexp_sec_ins",
+   "source": "TDmexpired_sec.dsexp_sec_ins",
+   "kind": "TOracleDataSet",
+   "sql": "select e.rowid, e.* from expired_securities e order by id\n",
+   "variables": [],
+   "unit": "DMSec"
+  }
+ ],
+ "packages": [
+  {
+   "component": "PG_EXPIRED_SECURITIES",
+   "package": "PG_EXPIRED_SECURITIES",
+   "mode": "positional",
+   "source": "TDmexpired_sec.PG_EXPIRED_SECURITIES",
+   "routines": [
+    {
+     "name": "add_EXPIRED_SECURITIES",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_Expired_sec",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "edit_EXPIRED_SECURITIES",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

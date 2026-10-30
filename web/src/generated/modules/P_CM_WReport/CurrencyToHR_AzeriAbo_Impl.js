@@ -14,9 +14,9 @@ export default function define($) {
   await $.fixArgs(L0, ["value", "decimals", "flags", "currencyname"]);
   L0["s100"] = "yüz";
   L0["s001"] = "qəpik";
-  L0["digits1"] = ["bir", "iki", "üç", "dörd", "beş", "altı", "yeddi", "səkkiz", "doqquz"];
-  L0["digits2"] = ["on", "iyirmi", "otuz", "qırx", "əlli", "altmış", "yetmiş", "səksən", "doxsan"];
-  L0["digits3"] = ["", "min", "milyon", "milyard", "bilyard", "trliyon", "trilliard"];
+  await $.staticConst(L0, "digits1", "currencytohr_azeriabo_impl..currencytohr_azeri.digits1", async () => ["bir", "iki", "üç", "dörd", "beş", "altı", "yeddi", "səkkiz", "doqquz"]);
+  await $.staticConst(L0, "digits2", "currencytohr_azeriabo_impl..currencytohr_azeri.digits2", async () => ["on", "iyirmi", "otuz", "qırx", "əlli", "altmış", "yetmiş", "səksən", "doxsan"]);
+  await $.staticConst(L0, "digits3", "currencytohr_azeriabo_impl..currencytohr_azeri.digits3", async () => ["", "min", "milyon", "milyard", "bilyard", "trliyon", "trilliard"]);
   L0["convertpart"] = $.fn(async function ConvertPart(p0) {
   const L1 = {"value": $.copyArg(p0), result: '', "index": 0};
   await $.fixArgs(L1, ["value"]);
@@ -60,7 +60,7 @@ export default function define($) {
   }
   L1["counter"] = 0;
   while ($.truthy($.ne(L1["int"], 0))) {
-    if ($.truthy($.gt(L1["counter"], (await $.call(C, "High", [L0["digits3"]]))))) {
+    if ($.truthy($.gt(L1["counter"], (await $.lowHigh("high", "Digits3", async () => L0["digits3"]))))) {
       throw $.raise((await $.mcall((await $.v(C, "EInvalidOp")), "Create", ["Too big integer to convert"])));
     }
     L1["part"] = (await $.call(C, "Round", [$.mul((await $.mcall((await $.v(C, "System")), "Frac", [$.fdiv(L1["int"], 1000)])), 1000)]));

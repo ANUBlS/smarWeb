@@ -1,0 +1,99 @@
+{
+ "name": "P_NewDepositsFilter",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsFilter",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Valutes",
+   "source": "TdmFilter.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "NewDepositsFilterImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TdmFilter.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "NewDepositsFilterImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TdmFilter.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from sbcm_categories",
+   "variables": [],
+   "unit": "NewDepositsFilterImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TdmFilter.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type from sbcm_deposit_types",
+   "variables": [],
+   "unit": "NewDepositsFilterImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TdmFilter.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers\nwhere id in (select customerid from sbcm_contracts\nwhere type# = 3) ",
+   "variables": [],
+   "unit": "NewDepositsFilterImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TdmFilter.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sbcm_persons",
+   "variables": [],
+   "unit": "NewDepositsFilterImpl"
+  },
+  {
+   "name": "users",
+   "source": "TdmFilter.users",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from user$\nwhere id in (select sid# from sbcm_contracts group by sid# )\n",
+   "variables": [],
+   "unit": "NewDepositsFilterImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

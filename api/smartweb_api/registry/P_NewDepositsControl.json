@@ -1,0 +1,80 @@
+{
+ "name": "P_NewDepositsControl",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsControl",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "filials",
+   "source": "TNewDepositsFrmControldp.filials",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as id,'Bütün filiallar' as name from dual\nunion\nselect id,name from filial\n",
+   "variables": [],
+   "unit": "NewDepositsFrmControldpImpll"
+  },
+  {
+   "name": "sysdat",
+   "source": "TNewDepositsFrmControldp.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "NewDepositsFrmControldpImpll"
+  },
+  {
+   "name": "ResultControl",
+   "source": "TNewDepositsFrmControldp.ResultControl",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.contractnum, a.custname, a.drest, a.dintrest, a.filial\n  FROM dm_controls a\n  order by filial",
+   "variables": [],
+   "unit": "NewDepositsFrmControldpImpll"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_control",
+   "package": "dm_control",
+   "mode": "positional",
+   "source": "TNewDepositsFrmControldp.dm_control",
+   "routines": [
+    {
+     "name": "control",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

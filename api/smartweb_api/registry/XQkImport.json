@@ -1,0 +1,138 @@
+{
+ "name": "XQkImport",
+ "caption": "Əlavə modullar / İdxal / QK idxalı",
+ "dir": "Packages/QK_inport",
+ "mainForm": "TQK_Import",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODS_QK_Import",
+   "source": "TQKİmportDataMod.ODS_QK_Import",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.*\n  FROM qk_import a where a.status=0\n\n\n\n\n",
+   "variables": [],
+   "unit": "QK_İmpotDataMod"
+  },
+  {
+   "name": "Ods_FormIncomeAcc",
+   "source": "TQKİmportDataMod.Ods_FormIncomeAcc",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, A.ACC_NO, A.NAME, B.BAL_CN FROM\n  ACCOUNT A\n ,BAL_SPR1 B \nWHERE\n  A.BAL_CN1 = B.BAL_CN\n  AND\n  A.CLOSE_DAT IS NULL  and a.id is not null\n\n\n\n\n\n\n\nORDER BY A.id\n \n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "QK_İmpotDataMod"
+  },
+  {
+   "name": "ODS_ACCOUNT",
+   "source": "TQKİmportDataMod.ODS_ACCOUNT",
+   "kind": "TOracleDataSet",
+   "sql": "select id,bal_cn1,acc_no,old_acc_no,name from account where close_dat is  null and id is not null \n\n\n\n\n\n\n\n\n\n\norder by id\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "QK_İmpotDataMod"
+  },
+  {
+   "name": "ODS_BAL_SPR1",
+   "source": "TQKİmportDataMod.ODS_BAL_SPR1",
+   "kind": "TOracleDataSet",
+   "sql": "select bal_cn,balname from bal_spr1 where bal_cn is not null \n\n\n\n\n\n\n\n\n\n order by bal_cn\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "QK_İmpotDataMod"
+  },
+  {
+   "name": "ODS_QK_ACC_SETTINGS",
+   "source": "TQKİmportDataMod.ODS_QK_ACC_SETTINGS",
+   "kind": "TOracleDataSet",
+   "sql": "select id,(select acc_no from account where id=income_acc_id) income_acc_id,\ncase when b_s_status=1 then\n(select acc_no from account where id=balcn_accno_id) \nelse\nto_char(balcn_accno_id)   end as balcn_accno_id\n from qk_acc_settings",
+   "variables": [],
+   "unit": "QK_İmpotDataMod"
+  },
+  {
+   "name": "ods_qk_transaction",
+   "source": "TQKİmportDataMod.ods_qk_transaction",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT*\n  FROM qk_transaction a",
+   "variables": [],
+   "unit": "QK_İmpotDataMod"
+  },
+  {
+   "name": "ODS_QK_Import_excel",
+   "source": "TQKİmportDataMod.ODS_QK_Import_excel",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.*\n  FROM qk_import_excel a \n\n\n\n\n",
+   "variables": [],
+   "unit": "QK_İmpotDataMod"
+  }
+ ],
+ "packages": [
+  {
+   "component": "qk_accsettings",
+   "package": "qk_accsettings",
+   "mode": "positional",
+   "source": "TQKİmportDataMod.qk_accsettings",
+   "routines": [
+    {
+     "name": "Add_QK_Acc_settings_yoxlama",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_acc_settings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_QK_Acc_settings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_QK_import",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delet_qk_import",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delet_qk_transaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "excel_sum",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "tr_add",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

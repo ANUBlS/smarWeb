@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("TransactionPropertiesImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "ComCtrls", "SearchEdit", "DBCtrls", "CurrencyEdit", "Db", "Mask", "ExtCtrls", "ActnList", "Variants", "out_TransactionDestinationForm", "TransactionDataModuleUnit", "TransactionManagerImpl", "sboapiDataModuleImpl", "SBTranslateProc"]);
   const C = [U];
+  U.enumType("ttransactionside", 3);
   U.const("tsDebet", 0);
   U.const("tsCredit", 1);
   U.const("tsUnknown", 2);

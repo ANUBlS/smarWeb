@@ -1,0 +1,52 @@
+{
+ "name": "P_CMAr_Search",
+ "caption": "",
+ "dir": "Packages/ArCive_Credit/CMAr_Search",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "ArCommonDecls",
+  "ArLogoutputImpl",
+  "ArTemporaryTransactionsViewFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "EnabledFieldsData",
+   "source": "TArSFDataModule.EnabledFieldsData",
+   "kind": "TOracleDataSet",
+   "sql": "select seqno, fieldname,fielddesc\nfrom cm_fields_list \nwhere visible=0\norder by seqno",
+   "variables": [],
+   "unit": "ArSFDataModuleImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

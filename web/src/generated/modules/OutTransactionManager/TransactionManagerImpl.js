@@ -5,9 +5,11 @@
 export default function define($) {
   const U = $.unit("TransactionManagerImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ActiveX", "AxCtrls", "out_TransactionManagerForm_TLB", "StdVcl", "ImgList", "Menus", "ActnList", "ToolWin", "ComCtrls", "DBTables", "StdCtrls", "Grids", "DBGrids", "DBCtrls", "DB", "Oracledata", "Mask", "Buttons", "CheckLst", "ExtCtrls", "ComObj", "ComServ", "TransactionPropertiesImpl", "TransactionDataModuleUnit", "out_TransactionDestinationForm", "out_CommissionImpl", "sboapiDataModuleImpl", "SBTranslateProc"]);
   const C = [U];
+  U.enumType("toperationmode", 3);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.const("omCommission", 2);
+  U.enumType("ttransactionstate", 3);
   U.const("tsCommit", 0);
   U.const("tsDelete", 1);
   U.const("tsReject", 2);
@@ -648,7 +650,7 @@ export default function define($) {
   await $.fixArgs(L0, ["flag"]);
   L0["checkrow"] = $.fn(async function CheckRow() {
   const L1 = {result: undefined};
-  L1["result"] = $.eq((await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "GridTransactions")), "DataSource")), "DataSet")), "FieldByName", ["Status"])), "AsInteger")), L0["flag"]);
+  L0["result"] = $.eq((await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "GridTransactions")), "DataSource")), "DataSet")), "FieldByName", ["Status"])), "AsInteger")), L0["flag"]);
   return L1.result;
 });
   L0["result"] = false;

@@ -1,0 +1,93 @@
+{
+ "name": "XCreditArchive",
+ "caption": "Əlavə modullar / Kreditlər / Kreditlərin arxivi",
+ "dir": "Packages/ArCive_Credit/Archve_Credit",
+ "mainForm": "TFormArchiveCredit",
+ "plugin": false,
+ "plugins": {
+  "cmar_conclusion.bpl": "P_CMAr_Conclusion",
+  "cmar_guarantee.bpl": "P_CMAr_Guarantee",
+  "cmar_payment.bpl": "P_CMAr_Payment",
+  "cmar_schedule.bpl": "P_CMAr_Schedule",
+  "cmar_search.bpl": "P_CMAr_Search",
+  "cmar_statement.bpl": "P_CMAr_Statement",
+  "cmarfilter.bpl": "P_CMArFilter"
+ },
+ "lib": [
+  "ArCommonDecls",
+  "ArLogoutputImpl",
+  "ArTemporaryTransactionsViewFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Ods_ArchiveCred",
+   "source": "TDataMArchiveCr.Ods_ArchiveCred",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,translate(a.name, 'IiİiIı', '``````') as iname\n  from cm_active_close a where nvl(id,0)>0\n\n\n\n\n\norder by :OrderField    ",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "ArchiveCredUnit"
+  },
+  {
+   "name": "ods_sys",
+   "source": "TFormTr.ods_sys",
+   "kind": "TOracleDataSet",
+   "sql": "select*from sysdat",
+   "variables": [],
+   "unit": "UnitTR"
+  }
+ ],
+ "packages": [
+  {
+   "component": "cm_bad_loans",
+   "package": "cm_bad_loans",
+   "mode": "positional",
+   "source": "TDataMArchiveCr.cm_bad_loans",
+   "routines": [
+    {
+     "name": "bad_loans_trans",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "CRAr_ADMIN",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TDataMArchiveCr.CRAr_ADMIN",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,106 @@
+{
+ "name": "CloseDay",
+ "caption": "Balans / Sistem servisi / Əməliyyat gününün bağlanması",
+ "dir": "Packages/CloseDay",
+ "mainForm": "TsbCloseDayForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "SB_CloseDay",
+   "source": "TFormCloseDay.SB_CloseDay",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  DESCRIPTION,\n  QUERY,\n  INTERNAL,\n  HINT,\n  ID\nFROM\n  SB_CLOSEDAY\nWHERE\n  INTERNAL=1\nORDER BY\n  ID",
+   "variables": [],
+   "unit": "CloseDayManager"
+  },
+  {
+   "name": "ControlData",
+   "source": "TControlManagerForm.ControlData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  DESCRIPTION,\n  QUERY,\n  INTERNAL,\n  HINT,\n  ID\nFROM\n  SB_QUERIES\nWHERE\n  INTERNAL=1\nORDER BY\n  ID\n\n ",
+   "variables": [],
+   "unit": "ControlManagerImpl"
+  },
+  {
+   "name": "ODS_Settings",
+   "source": "TsbCloseDayForm.ODS_Settings",
+   "kind": "TOracleDataSet",
+   "sql": "select s.RowID, nvl(s.Value,0) Value from Settings s\nwhere upper(s.Name) = 'TRANSACTION_COMMIT'",
+   "variables": [],
+   "unit": "sbCloseDayFormImpl"
+  },
+  {
+   "name": "closingstatus",
+   "source": "TsbCloseDayForm.closingstatus",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "sbCloseDayFormImpl"
+  },
+  {
+   "name": "ODS_NewDate",
+   "source": "TsbCloseDayForm.ODS_NewDate",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT MIN(c.dat) \n  FROM (\n    SELECT sbop.get_date + LEVEL AS dat\n    FROM dual\n    CONNECT BY LEVEL <= 20  -- Look for the next 20 days (you can adjust this number)\n  ) c\n  WHERE NOT EXISTS (\n    SELECT 1\n    FROM calendar cal\n    WHERE cal.holiday_date = c.dat\n  )",
+   "variables": [],
+   "unit": "sbCloseDayFormImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SBSYSTEM",
+   "package": "SBSYS",
+   "mode": "named",
+   "source": "TsbCloseDayForm.SBSYSTEM",
+   "routines": [
+    {
+     "name": "calc_percent",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "calc_reserv",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "close_day",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "statusclose",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

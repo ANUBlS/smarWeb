@@ -1,0 +1,188 @@
+{
+ "name": "XDepositsMgrNew",
+ "caption": "Əlavə modullar / Depozitlər / Depozit menecer (yeni)",
+ "dir": "Packages/DepositsManager_New",
+ "mainForm": "TDepositsManager_new",
+ "plugin": false,
+ "plugins": {
+  "sbdm_applymoney_new.bpl": "P_SBDM_ApplyMoney_new",
+  "sbdm_capitalize_new.bpl": "P_SBDM_Capitalize_new",
+  "sbdm_contract_new.bpl": "P_SBDM_Contract_new",
+  "sbdm_contractreport_new.bpl": "P_SBDM_ContractReport_new",
+  "sbdm_depozitaccsettings_new.bpl": "P_SBDM_DepozitAccSettings_new",
+  "sbdm_extractmoney_new.bpl": "P_SBDM_ExtractMoney_new",
+  "sbdm_partialpayment_new.bpl": "P_SBDM_PartialPayment_new",
+  "sbdm_percentsettings_new.bpl": "P_SBDM_PercentSettings_new",
+  "sbdm_periodreport_new.bpl": "P_SBDM_PeriodReport_new",
+  "sbdm_prolongation_new.bpl": "P_SBDM_Prolongation_new",
+  "sbdm_report_new.bpl": "P_SBDM_Report_new",
+  "sbdm_reportofbalance_new.bpl": "P_SBDM_ReportofBalance_new",
+  "sbdm_settings_new.bpl": "P_SBDM_Settings_new",
+  "sbdm_shedule_new.bpl": "P_Sbdm_Shedule_new",
+  "sbdm_untimelyetmoney_new.bpl": "P_SBDM_UntimelyEtMoney_new",
+  "sbdm_wreport_new.bpl": "P_SBDM_WReport_new",
+  "sbdm_wrsetup_new.bpl": "P_SBDM_WRSetup_new"
+ },
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Valutes",
+   "source": "TDMDepositsManager_new.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name \nfrom avalute",
+   "variables": [],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "Filials",
+   "source": "TDMDepositsManager_new.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from \nfilial\norder by id ",
+   "variables": [],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TDMDepositsManager_new.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type\nfrom sbcm_deposit_Types_new",
+   "variables": [],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "Categories",
+   "source": "TDMDepositsManager_new.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,Category from sbcm_categories_new",
+   "variables": [],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "persons",
+   "source": "TDMDepositsManager_new.persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sbcm_persons_new",
+   "variables": [],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "BankDate",
+   "source": "TDMDepositsManager_new.BankDate",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "FilialID",
+   "source": "TDMDepositsManager_new.FilialID",
+   "kind": "TOracleDataSet",
+   "sql": "select kod_fil from bankinfo",
+   "variables": [],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "users",
+   "source": "TDMDepositsManager_new.users",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from user$\nwhere id in (select sid# from sbcm_contracts_new group by sid#)",
+   "variables": [],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "Tranches",
+   "source": "TDMDepositsManager_new.Tranches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT total,hdate,reserve\n  FROM sbcm_tranches_new\n  where id# = :ContractID\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMDepositManagerImpl_new"
+  },
+  {
+   "name": "DepositsData",
+   "source": "TDMDepositsManager_new.DepositsData",
+   "kind": "TOracleDataSet",
+   "sql": "select cont.rowid,\n       cont.id,\n       cont.contractno,\n       sbcm_stored_programs_new.Get_ContractAccount(acc.contractaccid) as ContractAccNO,\n       sbcm_stored_programs_new.Get_ContractAccount(acc.interestaccid) as InterestAccNO,\n       av.val_name,\n       sbcm_stored_programs_new.Get_ContractAccountName(acc.contractaccid) as CustomerName,\n       cont.opendate,\n       cont.closedate,\n       cont.amount,\n       cont.amount*tmp.ostat as ekamount,\n       sbcm_stored_programs_new.GetpercentCollection(cont.id) as interest,      \n       (select sum(facticaldebt) from sbcm_contract_state_new where id#=cont.id) as facticaldebt ,\n       (select sum(facticaldebt) from sbcm_contract_state_new where id#=cont.id) *tmp.ostat as ekfacticaldebt,\n       (select sum(facticalinterestdebt) from sbcm_contract_state_new where id#=cont.id) as facticalinterestdebt,\n       (select sum(facticalinterestdebt) from sbcm_contract_state_new where id#=cont.id) *tmp.ostat as ekfacticalinterestdebt,\n       (select distinct stopcalculationdate from sbcm_contract_state_new where id#=cont.id) as stopcalculationdate,\n       cont.currency,\n       cont.personaltype,\n       cont.clienttype,\n       cont.branchid,\n       cont.contracttype,\n      (select distinct calculationenabled from sbcm_contract_state_new where id#=cont.id)as status,\n       cont.customerid,\n       cont.sid# as usid\nfrom sbcm_contracts_new cont,\n     sbcm_contract_accounts_new acc,\n     avalute av,\n     temprate tmp\nwhere acc.id# = cont.id and\n      cont.currency = av.valute and\n      cont.currency = tmp.val_kod and \n      cont.type# = 3 \n\norder by :OrderField     \n  ",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "DMDepositManagerImpl_new"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMDepositsManager_new.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "Stored_Programs",
+   "package": "sbcm_stored_programs_new",
+   "mode": "named",
+   "source": "TDMDepositsManager_new.Stored_Programs",
+   "routines": [
+    {
+     "name": "CloseDeposit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DisableCalculation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "EnableCalculation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "IsCalculationEnabled",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -5,12 +5,15 @@
 export default function define($) {
   const U = $.unit("customers_operation_impl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ActiveX", "AxCtrls", "customer_operations_TLB", "StdVcl", "StdCtrls", "SearchCombo", "ExtCtrls", "ComCtrls", "Grids", "DBGrids", "ToolWin", "Buttons", "Db", "OracleData", "ImgList", "Menus", "ActnList", "Mask", "DBCtrls", "Variants", "ComObj", "ComServ", "SBCore", "SBCustomer", "sboapiDataModuleImpl", "UnitFrmZoom", "co_properties_unit", "co_commission_unit", "CO_TransactionPropertiesImpl", "co_statement_impl", "co_st_check", "co_memorial", "CO_Interval_unit", "InFormUnit", "OutForm_Unit", "CO_In_Unit", "CO_Out_Unit", "TransactionDataModuleUnit", "FormAcc_Unit", "CurrencyToHR_Azeri_Impl", "CO_reportUnit", "CO_AccSettings_Unit", "P_AccState_Unit", "P_AccTransaction_Unit", "P_Interval_Unit", "CO_Transact_Unitp", "UnitCustProps", "uAccViewFormImpl", "uTrViewFormImpl", "UnitBProc", "co_Order_Rep_unit", "co_order_qrep_unit", "BookmarkSetup", "CO_TemplateAddEditUnt", "CO_BookmarkAddEditunt", "CO_frmWReportImpl", "UnitOrderInfo", "SBTranslateProc", "CO_datamod_impl"]);
   const C = [U];
+  U.enumType("toperationmode", 3);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.const("omCommission", 2);
+  U.enumType("ttransactionstate", 3);
   U.const("tsCommit", 0);
   U.const("tsDelete", 1);
   U.const("tsReject", 2);
+  U.enumType("taccorder", 5);
   U.const("aotAccNo", 0);
   U.const("aotAccName", 1);
   U.const("aotAccCurrency", 2);
@@ -436,7 +439,7 @@ export default function define($) {
   await $.fixArgs(L0, ["flag"]);
   L0["checkrow"] = $.fn(async function CheckRow() {
   const L1 = {result: undefined};
-  L1["result"] = $.eq((await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "DBGridTransactions")), "DataSource")), "DataSet")), "FieldByName", ["Status"])), "AsInteger")), L0["flag"]);
+  L0["result"] = $.eq((await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "DBGridTransactions")), "DataSource")), "DataSet")), "FieldByName", ["Status"])), "AsInteger")), L0["flag"]);
   return L1.result;
 });
   L0["result"] = false;
@@ -535,7 +538,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"datetime": $.copyArg(p0), "decimalsymbol": $.copyArg(p1), result: '', "year": 0, "month": 0, "day": 0};
   await $.fixArgs(L0, ["datetime", "decimalsymbol"]);
-  L0["months"] = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"];
+  await $.staticConst(L0, "months", "customers_operation_impl.tco_main.extractmonth.months", async () => ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"]);
   await $.stmt((await $.call(C, "DecodeDate", [L0["datetime"], $.ref(async () => L0["year"], async ($t13) => { L0["year"] = $t13; }), $.ref(async () => L0["month"], async ($t14) => { L0["month"] = $t14; }), $.ref(async () => L0["day"], async ($t15) => { L0["day"] = $t15; })])));
   L0["result"] = $.add($.add($.add($.add((await $.call(C, "IntToStr", [L0["day"]])), L0["decimalsymbol"]), (await $.idx(L0["months"], [L0["month"]]))), L0["decimalsymbol"]), (await $.call(C, "IntToStr", [L0["year"]])));
   return L0.result;

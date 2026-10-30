@@ -1,0 +1,166 @@
+{
+ "name": "P_TransInfoPack",
+ "caption": "",
+ "dir": "Packages/TransInfo",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODS_mmx_account_status",
+   "source": "TDM.ODS_mmx_account_status",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_account_status a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_mmx_account_type",
+   "source": "TDM.ODS_mmx_account_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_account_type a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_mmx_communication_type",
+   "source": "TDM.ODS_mmx_communication_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_communication_type a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_mmx_contact_type",
+   "source": "TDM.ODS_mmx_contact_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_contact_type a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_mmx_fromfunds",
+   "source": "TDM.ODS_mmx_fromfunds",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_fromfunds a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_mmx_reportcode",
+   "source": "TDM.ODS_mmx_reportcode",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name, a.description\n  FROM mmx_reportcode a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_mmx_transaction_item_type",
+   "source": "TDM.ODS_mmx_transaction_item_type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_transaction_item_type a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_mmx_transmode",
+   "source": "TDM.ODS_mmx_transmode",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name, a.description\n  FROM mmx_transmode a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_MMX_TRANS_ITEM_STATUS",
+   "source": "TDM.ODS_MMX_TRANS_ITEM_STATUS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM MMX_TRANS_ITEM_STATUS a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_Countries",
+   "source": "TDM.ODS_Countries",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.CNTR_NAME,a.SYMB\n  FROM COUNTRIES a order by a.id, a.CNTR_NAME",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_Cityes",
+   "source": "TDM.ODS_Cityes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.country_id, a.city_name\n  FROM cities a \nwhere country_id = :country_id\norder by a.id, a.city_name",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_mmx_tofunds",
+   "source": "TDM.ODS_mmx_tofunds",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.symbol, a.description\n  FROM mmx_fromfunds a",
+   "variables": [],
+   "unit": "DMTransInfo"
+  },
+  {
+   "name": "ODS_TransInfo",
+   "source": "TDM.ODS_TransInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid, t.* from mmx_TransInfo t where t.transid=:v_transid",
+   "variables": [
+    {
+     "name": "V_TRANSID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTransInfo"
+  }
+ ],
+ "packages": [
+  {
+   "component": "MMX",
+   "package": "MMX",
+   "mode": "positional",
+   "source": "TDM.MMX",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

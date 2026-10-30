@@ -1,0 +1,118 @@
+{
+ "name": "P_SBDM_WRSetup",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_WRSetup",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "SBWRTemplatesDSet",
+   "source": "TSBWRSetupDataMod.SBWRTemplatesDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.RowID , T.*\n  FROM SBCM_WR_TEMPLATES T",
+   "variables": [],
+   "unit": "SBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBWRBookmarksDSet",
+   "source": "TSBWRSetupDataMod.SBWRBookmarksDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,ID, TEMPLATEID, FIELDID, BOOKMARKNAME\n  FROM SBCM_WR_BOOKMARKS\nwhere templateid = :templateid",
+   "variables": [
+    {
+     "name": "TEMPLATEID",
+     "type": "float"
+    }
+   ],
+   "unit": "SBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBWRFieldsDSet",
+   "source": "TSBWRSetupDataMod.SBWRFieldsDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, FIELDNAME, DESCRIPTION\n  FROM SBCM_WR_FIELDS",
+   "variables": [],
+   "unit": "SBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBOracleDSetTamplates",
+   "source": "TSBWRSetupDataMod.SBOracleDSetTamplates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.*\n  FROM SBCM_WR_TEMPLATES T",
+   "variables": [],
+   "unit": "SBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBDMInfoDataSet",
+   "source": "TSBWRSetupDataMod.SBDMInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.type#, a.opendate, a.closedate, a.amount, a.contractno,\n       a.contracttype, a.pledgetype, a.reliabilityid, a.clienttype,\n       a.pledgeprice, a.sid#, a.overduereliabilityid, a.branchid,\n       a.personaltype, a.currency\n  FROM sbcm_contracts a\n where id = :conid",
+   "variables": [
+    {
+     "name": "CONID",
+     "type": "integer"
+    }
+   ],
+   "unit": "SBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBReplaceDataSet",
+   "source": "TSBWRSetupDataMod.SBReplaceDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   SMART.SBCM_WR_BOOKMARKS B\n , SMART.SBCM_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "SBWRSetupDataModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SBCM_WR_TOOLS",
+   "package": "SBCM_WR_TOOLS",
+   "mode": "positional",
+   "source": "TSBWRSetupDataMod.SBCM_WR_TOOLS",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

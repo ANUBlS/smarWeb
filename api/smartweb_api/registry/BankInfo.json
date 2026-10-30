@@ -1,0 +1,86 @@
+{
+ "name": "BankInfo",
+ "caption": "Balans / Sistem servisi / Bank haqqında məlumat",
+ "dir": "Packages/BankInfo",
+ "mainForm": "TBankInfoX",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "BANKINFODataSet",
+   "source": "TBankInfoX.BANKINFODataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  b.*, b.rowid\nfrom\nBANKINFOES b",
+   "variables": [],
+   "unit": "BankInfoImpl1"
+  },
+  {
+   "name": "OrDS_GetUserBranchID",
+   "source": "TBankInfoX.OrDS_GetUserBranchID",
+   "kind": "TOracleDataSet",
+   "sql": "(select filialid from sba_objinf where obj=(select user from dual))",
+   "variables": [],
+   "unit": "BankInfoImpl1"
+  },
+  {
+   "name": "bnkinfo",
+   "source": "TForm21.bnkinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from bankinfo_adif a where a.cn=:nf",
+   "variables": [
+    {
+     "name": "NF",
+     "type": "string"
+    }
+   ],
+   "unit": "Bnkinfo"
+  },
+  {
+   "name": "bankaddinfo",
+   "source": "TForm23.bankaddinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankinfo_adif where kod_b=:addinfo\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "ADDINFO",
+     "type": "integer"
+    }
+   ],
+   "unit": "frminfo"
+  }
+ ],
+ "packages": [],
+ "sql": [
+  "select a.rowid ,a.* from bankinfo_adif a",
+  "select a.rowid ,a.* from bankinfo_adif a where a.kod_b=:addinfo"
+ ]
+}

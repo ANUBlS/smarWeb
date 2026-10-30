@@ -1,0 +1,135 @@
+{
+ "name": "XCcBuilding",
+ "caption": "Əlavə modullar / Tikinti və kommunal / Tikinti obyektləri",
+ "dir": "Packages/CC_Building",
+ "mainForm": "TCC_Building",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CC_Company",
+   "source": "TCC_DataMod.CC_Company",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cc_companies order by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "CC_Datamodule"
+  },
+  {
+   "name": "CC_Flat",
+   "source": "TCC_DataMod.CC_Flat",
+   "kind": "TOracleDataSet",
+   "sql": "select  *  from cc_flats order by id",
+   "variables": [],
+   "unit": "CC_Datamodule"
+  },
+  {
+   "name": "CC_Buyer_Flat",
+   "source": "TCC_DataMod.CC_Buyer_Flat",
+   "kind": "TOracleDataSet",
+   "sql": "select id, code, bld_id, flatnumber, entrance, ffloor, rooms, area, price1,\n       pricegen, buyer, userid,CC_general.get_buyername(buyer) as Buyer_status from cc_flats\nwhere Bld_ID = :Bld_ID\n\n\n\n\n\n\n\n\n\norder by :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    },
+    {
+     "name": "BLD_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CC_Datamodule"
+  },
+  {
+   "name": "CC_building",
+   "source": "TCC_DataMod.CC_building",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cc_buildings\nwhere\ncomp_id=:comp_id\norder by  :title",
+   "variables": [
+    {
+     "name": "COMP_ID",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "CC_Datamodule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CC_OP",
+   "package": "cc_general",
+   "mode": "positional",
+   "source": "TCC_DataMod.CC_OP",
+   "routines": [
+    {
+     "name": "add_Buildings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_Companies",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_Flats",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_fromTable",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_Buildings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_Companies",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_Flats",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "Select * from cc_buildings where entrances>0 and entrances<10"
+ ]
+}

@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("CustomerMainFormImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ActiveX", "AxCtrls", "Customers_TLB", "StdVcl", "ToolWin", "ComCtrls", "ExtCtrls", "Grids", "DBGrids", "ActnList", "ImgList", "StdCtrls", "DBCtrls", "Menus", "SBOInitPkg", "DB", "DBViewComboBox", "OracleData", "SBPlgAx50_TLB", "SearchCombo", "ComObj", "ComServ", "CustomerDataModuleImpl", "CustomerPropertiesForm_Unit", "SBCore", "SBCustomer", "sboapiDataModuleImpl", "CustomerInfoFormImpl", "UnitFrmZoom", "uSettingsImpl", "SBTranslateProc"]);
   const C = [U];
+  U.enumType("taccorder", 5);
   U.const("aotAccNo", 0);
   U.const("aotAccName", 1);
   U.const("aotAccCurrency", 2);

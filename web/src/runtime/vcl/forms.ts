@@ -6,7 +6,7 @@ import { invalidate, suspendHold, flushNow } from '../ui';
 import { logger } from '../log';
 import type { DfmNode } from '../dfm';
 import { mergeInherited } from '../dfm';
-import { TComponent, REF_PROPS, runGuarded, setRefResolver } from './component';
+import { TComponent, REF_PROPS, runGuarded, setRefResolver, whileLoading } from './component';
 import { TControl, TWinControl, TTabSheet, TPageControl, TStatusPanel, THeaderSection, TListColumn, TTimer, TTreeView } from './controls';
 import { TStrings, TCollection, TFont } from './classes';
 import { colorValue } from './colors';
@@ -16,6 +16,7 @@ import { TDataSet } from '../data/dataset';
 import { TField } from '../data/fields';
 import { TOracleDataSet, TOracleQuery } from '../data/oracle';
 import { MR } from '../dialogs';
+import { audit, setModuleResolver } from '../audit';
 
 /* ------------------------------------------------------------------ window manager */
 
@@ -28,6 +29,8 @@ export interface FormWindow {
   key?: string;
   minimized: boolean;
   maximized: boolean;
+  /** Between Show and the end of OnShow/OnActivate: not painted yet (Delphi shows the form afterwards). */
+  hidden?: boolean;
   x: number; y: number; w: number; h: number;
 }
 
@@ -38,22 +41,37 @@ export const windows = {
   activeId: 0,
   subscribe(l: () => void) { winListeners.add(l); return () => { winListeners.delete(l); }; },
   emit() { windows.list = [...windows.list]; winListeners.forEach((l) => l()); invalidate(); },
-  add(form: TCustomForm, kind: WindowKind, key?: string) {
+  add(form: TCustomForm, kind: WindowKind, key?: string, hidden = false) {
     const existing = windows.list.find((w) => w.form === form);
-    if (existing) { windows.activate(existing.id); return existing; }
+    if (existing) { if (existing.hidden) windows.reveal(existing); windows.activate(existing.id); return existing; }
     const n = windows.list.filter((w) => w.kind !== 'modal').length;
     const w: FormWindow = {
       id: ++winSeq, form, kind, key, minimized: false,
       maximized: kind === 'module' && (form.WindowState === 'wsmaximized' || true),
       x: 24 + (n % 8) * 24, y: 24 + (n % 8) * 24,
       w: Math.max(320, form.designWidth), h: Math.max(160, form.designHeight + (form.Menu ? 22 : 0)),
+      hidden,
     };
     windows.list.push(w);
+    if (hidden) return w;
     if (kind !== 'modal') windows.activeId = w.id;
     windows.emit();
     return w;
   },
+  /** First paint of a window added hidden: fully prepared, in one frame. */
+  reveal(w: FormWindow) {
+    if (!w.hidden) return;
+    w.hidden = false;
+    if (!windows.list.includes(w)) return;
+    if (w.kind !== 'modal') windows.activeId = w.id;
+    windows.emit();
+  },
   remove(form: TCustomForm) {
+    const was = windows.list.find((w) => w.form === form);
+    if (was && !was.hidden) {
+      if (form.isModuleForm) audit('module', `Modul bağlandı: ${form.Caption || form.Name}`, moduleOfForm(form));
+      else if (was.kind === 'modal') audit('form', `Pəncərə bağlandı: ${form.Caption || form.Name}`, moduleOfForm(form));
+    }
     windows.list = windows.list.filter((w) => w.form !== form);
     if (!windows.list.some((w) => w.id === windows.activeId)) {
       const last = [...windows.list].reverse().find((w) => w.kind !== 'modal' && !w.minimized);
@@ -73,6 +91,15 @@ export const windows = {
   byKey(key: string) { return windows.list.find((w) => w.key === key); },
   modalTop() { return [...windows.list].reverse().find((w) => w.kind === 'modal'); },
 };
+
+/** Module a form belongs to: its own (module windows) or the module window that owns it. */
+export function moduleOfForm(f: TComponent | null | undefined): string {
+  for (let c: any = f; c; c = c.Owner) if (c.moduleName) return c.moduleName;
+  // dialogs created with Owner = nil: the module the user is working in
+  const act = windows.list.find((w) => w.id === windows.activeId);
+  return (act?.form as any)?.moduleName ?? '';
+}
+setModuleResolver(() => moduleOfForm(windows.modalTop()?.form ?? windows.list.find((w) => w.id === windows.activeId)?.form));
 
 /* ------------------------------------------------------------------ forms */
 
@@ -136,12 +163,11 @@ export class TCustomForm extends TWinControl {
 
   async ShowModal(): Promise<number> {
     this._modalResult = 0;
-    const w = windows.add(this, 'modal');
+    const w = windows.add(this, 'modal', undefined, true);
     this.shown = true;
+    audit('form', `Pəncərə açıldı: ${this.Caption || this.Name}`, moduleOfForm(this));
     const done = new Promise<number>((resolve) => { this.modalResolve = resolve; });
-    await this.fire('OnShow', this);
-    await this.fire('OnActivate', this);
-    this.focusActiveControl();
+    await this.prepareAndReveal(w);
     const unhold = suspendHold();
     let r: number;
     try { r = await done; } finally { unhold(); }
@@ -165,15 +191,26 @@ export class TCustomForm extends TWinControl {
   async Show() {
     if (this.shown) { this.BringToFront(); return; }
     this.shown = true;
-    windows.add(this, this.FormStyle === 'fsmdichild' ? 'module' : 'float');
-    await this.fire('OnShow', this);
-    await this.fire('OnActivate', this);
-    this.focusActiveControl();
+    const w = windows.add(this, this.FormStyle === 'fsmdichild' ? 'module' : 'float', undefined, true);
+    await this.prepareAndReveal(w);
+  }
+  /** OnShow, OnActivate and the first action OnUpdate run before the window is painted, and focus is
+   *  set before the first frame: the window appears once, complete (no enabled/focus blink). */
+  async prepareAndReveal(w: FormWindow) {
+    try {
+      await this.fire('OnShow', this);
+      await this.fire('OnActivate', this);
+      await this.UpdateActions();
+    } finally {
+      windows.reveal(w);
+      this.focusActiveControl();
+    }
   }
   focusActiveControl() {
     const ac = this.ActiveControl ?? this.firstTabControl();
     if (!ac) return;
-    setTimeout(() => ac.SetFocus(), 30);
+    // the window renders in a microtask after reveal; rAF runs before that frame is painted
+    requestAnimationFrame(() => ac.SetFocus());
     if (ac instanceof TTreeView) void runGuarded(() => ac.focusSelectFirst(), `${ac.Name}.OnChange`);
   }
   /** The control TCustomForm.SetFocus would focus first: lowest TabOrder, depth-first. */
@@ -315,7 +352,8 @@ void ENUMISH;
 
 const COLOR_PROPS = new Set(['color', 'fixedcolor', 'titlecolor', 'brush.color', 'pen.color', 'transparentcolor', 'bkcolor', 'hottrackcolor', 'selectedcolor']);
 const STRINGS_PROPS = new Set(['items.strings', 'lines.strings', 'sql.strings', 'tabs.strings', 'picklist.strings', 'values.strings', 'hints.strings', 'strings.strings', 'deletesql.strings', 'insertsql.strings', 'modifysql.strings', 'refreshsql.strings', 'lockSQL.strings']);
-const IGNORE_PROPS = new Set(['designsize', 'explicitleft', 'explicittop', 'explicitwidth', 'explicitheight', 'textheight', 'pixelsperinch', 'oldcreateorder', 'itemheight', 'qbedefinition.qbefielddefs', 'designactivation', 'variables.data', 'picture.data', 'glyph.data', 'bitmap', 'icon.data', 'image.data', 'displaylabelfont', 'helpcontext', 'parentbidimode', 'bidimode', 'imemode', 'imename', 'ctl3d', 'parentctl3d', 'dragcursor', 'dragkind', 'dragmode', 'touch.interactivegestures', 'touch.interactivegestureoptions', 'touch.parenttabletoptions', 'touch.tabletoptions', 'defaultmonitor', 'glasframe.enabled']);
+// 'active': datasets open after loading (Delphi Loaded), not while their variables/refs are still streaming
+const IGNORE_PROPS = new Set(['active', 'designsize', 'explicitleft', 'explicittop', 'explicitwidth', 'explicitheight', 'textheight', 'pixelsperinch', 'oldcreateorder', 'itemheight', 'qbedefinition.qbefielddefs', 'designactivation', 'variables.data', 'picture.data', 'glyph.data', 'bitmap', 'icon.data', 'image.data', 'displaylabelfont', 'helpcontext', 'parentbidimode', 'bidimode', 'imemode', 'imename', 'ctl3d', 'parentctl3d', 'dragcursor', 'dragkind', 'dragmode', 'touch.interactivegestures', 'touch.interactivegestureoptions', 'touch.parenttabletoptions', 'touch.tabletoptions', 'defaultmonitor', 'glasframe.enabled']);
 
 /** Instantiate the builtin or user class for a DFM node. */
 async function makeComponent(node: DfmNode, env: Env | null, owner: TComponent | null = null): Promise<TComponent> {
@@ -356,9 +394,11 @@ export async function streamRoot(root: TComponent, layout: DfmNode) {
     if (c instanceof TDBGrid) for (const col of c.Columns.all() as TColumn[]) col.grid = c;
   }
   // datasets saved with Active = True open after loading (Delphi Loaded)
-  for (const c of created) {
-    if (c instanceof TDataSet && c.dfm.Active === true) await runGuarded(() => c.Open(), `${c.Name}.Open`);
-  }
+  await whileLoading(async () => {
+    for (const c of created) {
+      if (c instanceof TDataSet && c.dfm.Active === true) await runGuarded(() => c.Open(), `${c.Name}.Open`);
+    }
+  });
   for (const c of created) if (c instanceof TTimer) { c.started = true; c.restart(); }
 }
 
@@ -446,6 +486,8 @@ export function applyProps(comp: TComponent, props: Record<string, unknown>, isR
     if (IGNORE_PROPS.has(l) || l.startsWith('font.') || l.startsWith('titlefont.') || l.startsWith('constraints.')
       || l.startsWith('margins.') || l.startsWith('padding.') || l.startsWith('touch.') || l.startsWith('customhint')) continue;
     if (/^on[a-z]/.test(l) && (isId(raw) || typeof raw === 'string')) { comp.events.set(l, str(dfmValue(raw))); continue; }
+    // dataset / report events without the On prefix (AfterScroll, BeforePost, AfterPost, BeforePrint …)
+    if (/^(after|before)[a-z]/.test(l) && isId(raw)) { comp.events.set(l, str(dfmValue(raw))); continue; }
     if (REF_PROPS.has(l)) continue;
     if (STRINGS_PROPS.has(l)) { setStrings((comp as any)[k.split('.')[0]] ?? (comp as any)[capital(k.split('.')[0])], raw); continue; }
     if (Array.isArray(raw) && raw.length && typeof raw[0] === 'object' && !isId(raw[0])) { applyCollection(comp, k, raw as Record<string, unknown>[]); continue; }

@@ -10,7 +10,10 @@ Type=simple
 WorkingDirectory=/opt/smartweb/web
 Environment=HOST=0.0.0.0
 Environment=PORT=8086
-# Environment=API_TARGET=http://127.0.0.1:3000
+# SmartWeb API (api/): forward /api to it
+# Environment=API_TARGET=http://127.0.0.1:8000
+# Application log (İdarəetmə / Jurnal ayarları): one file per day, folder must be writable by User
+# Environment=SB_LOG_DIR=/var/log/smartweb
 ExecStart=/usr/bin/node server.mjs
 Restart=always
 RestartSec=3

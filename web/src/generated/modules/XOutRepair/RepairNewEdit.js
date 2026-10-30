@@ -5,12 +5,15 @@
 export default function define($) {
   const U = $.unit("RepairNewEdit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Mask", "DBCtrls", "CurrencyEdit", "Buttons", "ComCtrls", "ExtCtrls", "db", "SearchEdit", "HintBox", "Variants", "RepairNewDataModule", "Out_RepairImpl1", "sboapiDataModuleImpl", "SBTranslateProc"]);
   const C = [U];
+  U.enumType("tamountoperation", 3);
   U.const("aoDebet", 0);
   U.const("aoCredit", 1);
   U.const("aoLamount", 2);
+  U.enumType("tinbalancechar", 3);
   U.const("ibDebet", 0);
   U.const("ibCredit", 1);
   U.const("ibUnknown", 2);
+  U.enumType("teditaction", 4);
   U.const("acInsert", 0);
   U.const("acUpdate", 1);
   U.const("acDelete", 2);

@@ -1,0 +1,72 @@
+{
+ "name": "XSbLogs",
+ "caption": "Əlavə modullar / İdarəetmə / Sistem jurnalları",
+ "dir": "Packages/SBLogs",
+ "mainForm": "TSBLogs",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "odsTables",
+   "source": "TDataModuleLogs.odsTables",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sba_log_tables\norder by id",
+   "variables": [],
+   "unit": "DMImpl"
+  },
+  {
+   "name": "odsLogQ",
+   "source": "TDataModuleLogs.odsLogQ",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sbav_logs_modaccess\n",
+   "variables": [],
+   "unit": "DMImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SB_ADM",
+   "package": "SB_ADM",
+   "mode": "positional",
+   "source": "TDataModuleLogs.SB_ADM",
+   "routines": [
+    {
+     "name": "logs_del",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "select %s from sbav_logs_%s"
+ ]
+}

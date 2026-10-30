@@ -1,0 +1,286 @@
+{
+ "name": "P_CU_Paymentcompany",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CU_Paymentcompany",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CULogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "cuCommonDecls",
+  "cuTemporaryTransactionsViewFormImpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "PaymentInfo",
+   "source": "TCUPaymentDataModule.PaymentInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  p.id,p.creditid, paydate, payedamt, payedintamt, payeddueamt,\n       payeddueintamt, payedpenaltyamt, tridamt, tridintamt, triddueamt,\n       triddueintamt, tridpenaltyamt, tridprimreserve, tridsecreserve,\n       outtridobligation,BKAMMOUNT,h.rest,h.interestrest  INTEREST\n  FROM cm_payments p, cm_history h\nWHERE\np.creditid=h.creditid  and\n p.CreditID=:CREDITID and \nh.hdate=p.paydate\nORDER BY PayDate DESC",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "CustAccount",
+   "source": "TCUPaymentDataModule.CustAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select \n      BOOROWERACCID \n   from \n      CM_ACCOUNTS\n where CreditID=:CreditID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "PaymentAccounts",
+   "source": "TCUPaymentDataModule.PaymentAccounts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   a.id AS accid, a.kli_id, a.acc_no AS accountnumber , abs(t.OSTAT) as Rest, v.VAL_NAME\n    FROM ACCOUNT  a ,\n         TENOSTAT t ,\n         AVALUTE  v\n   WHERE (    a.kli_id = :kli_id\n          AND a.bal_cn1 IN (SELECT accountnumber\n                            FROM cm_aginfo\n                           WHERE groupid = (SELECT g.id\n                                              FROM cm_accountgroups g\n                                             WHERE g.iname = 'ClientAccs'))\n         )\n         AND t.Acc_ID = a.ID\n         AND v.VALUTE = a.VAL_ACC\nUNION ALL\nSELECT   a.id AS accid, a.kli_id, a.acc_no AS accountnumber , abs(t.OSTAT) as Rest, v.VAL_NAME\n    FROM ACCOUNT  a ,\n         TENOSTAT t ,\n         AVALUTE  v\n   WHERE ((bal_cn1 IN (SELECT accountnumber\n                         FROM cm_aginfo\n                        WHERE groupid = (SELECT g.id\n                                           FROM cm_accountgroups g\n                                          WHERE g.iname = 'InternalBankAccs'))\n          )\n         )\n         AND t.Acc_ID = a.ID\n         AND v.VALUTE = a.VAL_ACC\n         \nORDER BY kli_id, accountnumber",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "LoanRest",
+   "source": "TCUPaymentDataModule.LoanRest",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   C.REST , \n   CM_COMMON.AccountNumber_Get(D.LOANACCID) as ACC_NO,\n   C.PenaltyRest,\n   cm_utils.Get_CreditPenaltyAccount(b.id) as penaltyAccno\nFROM\n   CM_portfolio B\n , CM_CURR_STATE C\n , CM_ACCOUNTS D\nWHERE\n     (B.ID =:CreditID)\n AND (D.CREDITID =:CreditID)\n AND (C.CREDITID =:CreditID)",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "DueIntRest",
+   "source": "TCUPaymentDataModule.DueIntRest",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   C.DUEINTERESTREST , \n   CM_COMMON.AccountNumber_Get(D.DUEINTERESTACCID) as ACC_NO\nFROM\n   cm_portfolio B\n , CM_CURR_STATE C\n , CM_ACCOUNTS D\nWHERE\n     (B.ID =:CreditID)\n AND (D.CREDITID =:CreditID)\n AND (C.CREDITID =:CreditID)",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "DueRest",
+   "source": "TCUPaymentDataModule.DueRest",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   C.DUEREST , \n   CM_COMMON.AccountNumber_Get(D.DUELOANACCID) as ACC_NO\nFROM\n   cm_portfolio B\n , CM_CURR_STATE C\n , CM_ACCOUNTS D\nWHERE\n     (B.ID =:CreditID)\n AND (D.CREDITID =:CreditID)\n AND (C.CREDITID =:CreditID)",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "IntRest",
+   "source": "TCUPaymentDataModule.IntRest",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   --(C.INTERESTREST -nvl(( select tramount  from cm_int_outbalance where creditid=:CreditID),0)) INTERESTREST, \n   C.INTERESTREST,\n   CM_COMMON.AccountNumber_Get(D.INTERESTACCID) as ACC_NO,\n   CM_COMMON.OutAccountNumber_Get(D.OUTINTERESTACCID) as BKACC_NO,\n   nvl((select tramount  from cm_int_outbalance where creditid=:CreditID),0) BKINTERESTREST,\n abs(CM_COMMON.AccountRest_Get(D.INTERESTACCID)) intrest\nFROM\n   CM_portfolio B\n , CM_CURR_STATE C\n , CM_ACCOUNTS D\nWHERE\n     (B.ID =:CreditID)\n AND (D.CREDITID =:CreditID)\n AND (C.CREDITID =:CreditID)\n\n\n\n\n\n/*\n\nSELECT\n   C.INTERESTREST , \n   CM_COMMON.AccountNumber_Get(D.INTERESTACCID) as ACC_NO,\n   CM_COMMON.AccountNumber_Get(D.OUTINTERESTACCID) as BKACC_NO\n\nFROM\n   CM_ACTIVE_CREDITS B\n , CM_CURR_STATE C\n , CM_ACCOUNTS D\nWHERE\n     (B.ID =:CreditID)\n AND (D.CREDITID =:CreditID)\n AND (C.CREDITID =:CreditID)\n*/",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "PortfInfo",
+   "source": "TCUPaymentDataModule.PortfInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   BOOROWERID , NAME,credittype\nFROM\n   CM_ACTIVE\nWHERE ID=:CREDITID   ",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "PeniyaPayAccounts",
+   "source": "TCUPaymentDataModule.PeniyaPayAccounts",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT   a.id AS accid, a.kli_id, a.acc_no AS accountnumber , abs(t.OSTAT) as Rest, v.VAL_NAME\n    FROM ACCOUNT  a ,\n         TENOSTAT t ,\n         AVALUTE  v\n   WHERE ((bal_cn1 IN (SELECT accountnumber\n                         FROM cm_aginfo\n                        WHERE groupid = (SELECT g.id\n                                           FROM cm_accountgroups g\n                                          WHERE g.iname = 'InternalBankAccs'))\n          )\n         )\n         AND t.Acc_ID = a.ID\n         AND v.VALUTE = a.VAL_ACC\n         \nORDER BY kli_id, accountnumber",
+   "variables": [],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "expcrdcnt_",
+   "source": "TCUPaymentDataModule.expcrdcnt_",
+   "kind": "TOracleDataSet",
+   "sql": "select \ncm_utils.bankdaysbetween (MIN (psh.paymentdate),\n                                   :dat\n                                  ) AS exdatcount\n                                  \nfrom   cm_payment_schedule psh ,cm_curr_state cs\nwhere  psh.rest < cs.rest+cs.duerest and (cs.duerest+cs.rest - psh.rest >= 0.5) \nand psh.creditid = cs.creditid\nand psh.paymentdate <=:dat\nand psh.creditid = :crdid\ngroup by psh.creditid",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "Girov",
+   "source": "TCUPaymentDataModule.Girov",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_guarantee where creditid=:creditid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "expcrdcnt",
+   "source": "TCUPaymentDataModule.expcrdcnt",
+   "kind": "TOracleDataSet",
+   "sql": "select \ncm_utils.Get_Gecgun (:crdid,  :dat\n                                  ) AS exdatcount\n                                  \nfrom   dual",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  },
+  {
+   "name": "ODS_CUST_COMBİNED",
+   "source": "TCUPaymentDataModule.ODS_CUST_COMBİNED",
+   "kind": "TOracleDataSet",
+   "sql": "select p.*from CM_CUST_COMBINED p where p.creditid=:creditid ",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CUPaymentDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_PAYMENT",
+   "package": "CM_PAYMENT",
+   "mode": "named",
+   "source": "TCUPaymentDataModule.CM_PAYMENT",
+   "routines": [
+    {
+     "name": "PaymentAdd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Payment_Delete",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "CM_SCHEDULE",
+   "package": "CM_SCHEDULE",
+   "mode": "named",
+   "source": "TCUPaymentDataModule.CM_SCHEDULE",
+   "routines": [
+    {
+     "name": "ChangeSchedule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "annuty_period",
+     "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "cm_utils",
+   "package": "CM_UTILS",
+   "mode": "positional",
+   "source": "TCUPaymentDataModule.cm_utils",
+   "routines": [
+    {
+     "name": "Get_CreditPenaltyAccID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Get_MainPlanPayment",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "Get_creditPenalty",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "get_period",
+     "call": "CallFloatFunction"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "sbutil",
+   "mode": "named",
+   "source": "TCUPaymentDataModule.OraclePackage1",
+   "routines": [
+    {
+     "name": "FindAccFlag",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -5,8 +5,10 @@
 export default function define($) {
   const U = $.unit("UntContractConclusion", ["Windows", "Buttons", "StdCtrls", "ComCtrls", "Mask", "DBCtrls", "Controls", "ExtCtrls", "Classes", "Forms", "SysUtils", "Db", "Messages", "Dialogs", "Graphics", "Grids", "DBGrids", "SearchEdit", "DBViewComboBox", "CurrencyEdit", "StoredProgramsUnit", "UntConclusionDataModule", "sbcmMainDataModule"]);
   const C = [U];
+  U.enumType("tpercentmode", 2);
   U.const("pmNormal", 0);
   U.const("pmOverdue", 1);
+  U.enumType("toperationmode", 2);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.defClass("EInvalidPercents", "Exception", {}, {});

@@ -1,0 +1,347 @@
+{
+ "name": "XProblemCredits",
+ "caption": "Əlavə modullar / Kreditlər / Problemli kreditlər",
+ "dir": "Packages/ProblemCreditMgrs",
+ "mainForm": "TProblemCreditMgr",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "IntCache1",
+   "source": "TPrCmDM.IntCache1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id,p.boorowerid,p.numberofcredit,val_name,b.name,\n       rest,duerest,interestrest,p.creditlineamount,h.penaltyrest,\n       p.dateofconclusion,p.duedatefirstcontract,p.qovid,\n       cr.description crtype,b.phonenumber,p.annualyinterestrate,p.annualyoverduerate,p.annualypenaltyrate,\n       dueinterestrest,p.purposeofcredit,cm_utils.Get_MainPlanPayment(p.id) odenilmeli,\n       cm_utils.Get_MainPlanPayment(p.id)+ duerest + interestrest + dueinterestrest+h.penaltyrest fullrest,\n       dueday,q.name qovluq,f.name filial,m.name mehsul,a.name meqed,e.name expert,r.description ehtiyyat,py.maxpaydate,\n       case when dueday =1 then 0\n        when py.maxpaydate=sbop.GET_DATE then 1  end as status,        \n  b.pincode,b.boorowerid pasnum,b.address,cm_deca.GET_CUSTDATEOFBIRTH(p.boorowerid) dogum_tarixi,cm_deca.GET_CUSTPLACEOFBIRTH(p.boorowerid) dogum_yeri\nFROM cm_active_credits p,\n     cm_credittypes cr,\n     cm_curr_state h,\n     cm_boorowerinfo b,\n     cm_qovluq q,\n     filial_t f,\n     avalute_t v,\n     cm_mehsul m ,\n     cm_aim_cred a,\n     cm_expert e,\n     cm_reserve_types r,\n     (select creditid ,max(paydate) maxpaydate from cm_payments group by creditid) py\n     \nWHERE     p.id = h.creditid\n      AND p.id = b.creditid\n      AND p.id = py.creditid(+)\n      AND p.qovid = q.id\n      AND p.mehsulid=m.id\n      AND h.reserveid=r.id\n      AND p.aim_id=a.id\n      AND p.expertid=e.id\n      AND h.rest + h.duerest + h.interestrest + h.interestrest > 0\n      AND h.dueday>0\n      AND p.branchid = f.id\n      AND p.currency = v.valute\n      AND p.credittype = cr.id\n     AND ((q.usname=user) or decode(user,'SMART',0,1)=0)\n  \n\n\n\n\n\n\n\n\n\n\n\norder by :title\n\n\n\n\n\n\n\n\n\n\n\n  ",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "QovluqDSet",
+   "source": "TPrCmDM.QovluqDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_qovluq q\n\nwhere q.id in(select qrupid from cm_qovluq_in where userid=uid)\norder by q.num",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TPrCmDM.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum,a.rowid, a.* FROM cm_folderplace_info a where creditid=:creditid\norder by a.dat desc",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "Schedule",
+   "source": "TPrCmDM.Schedule",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum sira, id, creditid, paymentdate, rest,\n    principal, \n    interest,\n    principal+interest as sm\n  FROM cm_payment_schedule\n WHERE CreditID=:CrdID\norder  by paymentdate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "Payments",
+   "source": "TPrCmDM.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum sira,  id ,\n        creditid ,\n        paydate , \n        payedamt , \n        payedintamt,\n        payeddueamt,\n       payeddueintamt, \n       payedpenaltyamt,\n    payedamt + \n        payedintamt+\n        payeddueamt+\n       payeddueintamt+ \n       payedpenaltyamt as sm\n\n  FROM cm_payments \nWHERE (CreditID=:CrdID)\norder by paydate desc",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "string"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TPrCmDM.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_qovluq\n\nwhere \n---(usname=user) or decode(user,'SMART',0,1)=0\n\n--and \nstatus=1\norder by id\n/*\nselect \nuserid id,\nq.username||'-'||q.qrupname name\nfrom cm_qovluq a,cm_qovluq_in q\n\nwhere status=0 and a.id=q.qrupid\n\nunion all\n\nselect id,name from cm_qovluq\n\nwhere status=1\n\norder by id*/\n",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "PaymentReport",
+   "source": "TPrCmDM.PaymentReport",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id, p.numberofcredit,b.name custname, s.paydate,s.payedamt,s.payedintamt,s.payeddueamt,s.payeddueintamt,\ns.payedpenaltyamt,s.dueday ,q.name, s.BONUS_USER  from\ncm_portfolio p,\ncm_payments s,\ncm_qovluq q,\ncm_boorowerinfo b\nwhere \np.id=s.creditid \nAnd p.id=b.creditid\nAnd s.qovid=q.id \n\nAnd s.paydate between :bdat and :edat\n --AND (( instr(q.usname,user )>0) or decode(user,cm_folder.Get_user_grant(user),0,1)=0)\n  AND uid in( select userid from cm_qovluq_in where qrupid=s.qovid )\norder by p.id",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "ZaminDSet",
+   "source": "TPrCmDM.ZaminDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_guarantor where creditid=:CrdID\n\norder by cardid",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "IntCache",
+   "source": "TPrCmDM.IntCache",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id,p.boorowerid,p.numberofcredit,val_name,b.name,\n       rest,duerest,interestrest+dueinterestrest interestrest ,p.creditlineamount,h.penaltyrest,(select g.gqtelmob from cm_guarantee g WHERE CreditID=p.id)gqtelmob,\n       p.dateofconclusion,p.duedatefirstcontract,p.qovid,\n       cr.description crtype,b.phonenumber||phone5 phonenumber,p.annualyinterestrate,p.annualyoverduerate,p.annualypenaltyrate,\n       dueinterestrest,p.purposeofcredit,cm_utils.Get_MainPlanPayment(p.id)+duerest  odenilmeli,\n       cm_utils.Get_MainPlanPayment(p.id)+ duerest + interestrest + dueinterestrest+h.penaltyrest fullrest,\n       dueday,q.name qovluq,f.name filial,m.name mehsul,a.name meqed,e.name expert,r.description ehtiyyat,py.maxpaydate,\n       case when dueday =1 then 0\n        when py.maxpaydate=sbop.GET_DATE then 1  end as status,        \n  b.pincode,b.boorowerid pasnum,b.address,i.birthday dogum_tarixi,i.birthplace dogum_yeri,i.work_place,i.work_post,\ncase when nvl(p.duedatelastcontract,p.duedatefirstcontract)<sbop.get_date \nthen 'Vaxtı bitib ' else ' - ' end as creditend,p.bonus_user,\ni.address qaddress,i.fakt_adress\nFROM cm_active_credits p,\n     cm_credittypes cr,\n     cm_curr_state h,\n     cm_boorowerinfo b,\n     cm_qovluq q,\n     filial_t f,\n     avalute_t v,\n     cm_mehsul m ,\n     cm_aim_cred a,\n     cm_expert e,\n     cm_reserve_types r,custinfo i,\n     (select creditid ,max(paydate) maxpaydate from cm_payments group by creditid) py\n     \nWHERE     p.id = h.creditid\n      AND p.id = b.creditid\n      AND p.id = py.creditid(+)\n      AND p.qovid = q.id\n      AND p.mehsulid=m.id\n      AND h.reserveid=r.id\n      AND p.aim_id=a.id\n      AND p.boorowerid=i.idcust\n      AND p.expertid=e.id\n      AND h.rest + h.duerest + h.interestrest + h.interestrest > 0\n      AND h.dueday>0\n      AND p.branchid = f.id\n      AND p.currency = v.valute\n      AND p.credittype = cr.id\n      --AND p.id in (select creditid from cm_qovluq_user where userid=uid)\n      --AND p.qovid in( select qrupid from cm_qovluq_in where userid=uid)\n      AND uid in( select userid from cm_qovluq_in where qrupid=p.qovid )\n     --AND (( instr(q.usname,user )>0) or decode(user,cm_folder.Get_user_grant(user),0,1)=0)\n      \n\n\n\n\n\n\n\n\n\norder by :title\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "GirovDSet",
+   "source": "TPrCmDM.GirovDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select g.creditid,g.pledgename,g.anyinfotodisting,g.registryno,g.registryagency,REYSTER,\ng.gqname,g.gqpaspnum,g.gqpaspyer,g.gqpaspdate,g.gqadress,g.pledgeprice,g.gqtelhome,g.gqtelmob from cm_guarantee g\nWHERE (CreditID=:CrdID)\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "string"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "FilialDSet",
+   "source": "TPrCmDM.FilialDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_filial",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "ReportDelays",
+   "source": "TPrCmDM.ReportDelays",
+   "kind": "TOracleDataSet",
+   "sql": "select \ng.filial,\ng.tipi,\numumi_portfel \"Ümumi portfel\",\ngecikmede_qaliq \"Gecikmede olan portfel\",\nkredit_sayi \"Gecikmede olan  kredit sayı\",\numumi_par \"Ümumi par\",\npar_ferq \"Öten ayla muqaisede artış\",\ngecikmede_qaliq_30plus \"Gecikmede olan portfel 30+\",\nkredit_sayi_30plus \"Gecikmede olan  say 30+\",\numumi_par_30_plus  \"30+ Par\",\npar_ferq_30plus   \"Öten ayla muqaise artış 30+\",\ngec_qaliq_1_30 \"Mebleğ gecikme günü 1-30\",\ngec_qaliq_31_180 \"Mebleğ gecikme günü 31-180\",\ngec_qaliq_181_365 \"Mebleğ gecikme günü 181-365\",\ngecikmede_qaliq_365_plus \"Mebleğ gecikme günü 365+\",\nk_say_1_30 \"Kredit sayı gecikme  1-30\",\nk_say_31_180 \"Kredit sayı gecikme  31-180\",\nk_say_181_365  \"Kredit sayı gecikme  181-365\",\nk_say_365_plus  \"Kredit sayı gecikme  365+\",\npar_1_30 \"Par gecikme günü 1-30\",\npar_31_180 \"Par gecikme günü 31-181\",\npar_181_365 \"Par gecikme günü 181-365\",\npar_365_plus \"Par gecikme günü 365+\"\n\n from gecikme_hesabat1 g full outer join  (\n\nselect \nnvl(ad,'Total') Filiallar,\nnvl(tipi,'Total') Tipi,\numumi_portfel ,\ngecikmede_qaliq ,\nkredit_sayi,\numumi_par||'%' umumi_par,\numumi_par-umumi_par_evvel||'%' par_ferq,\ngecikmede_qaliq_30plus ,\nkredit_sayi_30plus ,\numumi_par_30_plus||'%' umumi_par_30_plus ,\numumi_par_30_plus-umumi_par_30_plus_evvel||'%'   par_ferq_30plus,\ngec_qaliq_1_30 ,\ngec_qaliq_31_180 ,\ngec_qaliq_181_365 ,\ngecikmede_qaliq_365_plus,\nk_say_1_30 ,\nk_say_31_180 ,\nk_say_181_365  ,\nk_say_365_plus  ,\npar_1_30 ,\npar_31_180 ,\npar_181_365 ,\npar_365_plus \n\nfrom(\n\nselect \n\n case when e.id in (153,157,158,162) then 'Baş ofis' \n      when e.id in (156,161,168) then 'Best Qazax' else e.name end  ad,\n --e.name ad,\nnvl(  d.description , 'Girovsuz') Tipi,\n\nsum(case when h.hdate=:dat1 then h.rest+h.duerest end) umumi_portfel,\nsum(case when h.hdate=:dat1 and nvl(h.dueday,0)<>0 then h.rest+h.duerest  end) gecikmede_qaliq,\ncount(case when h.hdate=:dat1 and nvl(h.dueday,0)<>0 then p.id end   ) kredit_sayi,\n\nnvl(round(sum(case when h.hdate=:dat1 and  nvl(h.dueday,0)<>0 then h.rest+h.duerest  end)/\n sum(case when h.hdate=:dat1 then h.rest+h.duerest end) *100,2),0) Umumi_Par,\n  \n nvl(round(sum(case when h.hdate=(select max(hdate) from cm_history where hdate<=ADD_MONTHS(LAST_DAY(:dat1),-1)) and  nvl(h.dueday,0)<>0 then h.rest+h.duerest  end)/\n sum(case when h.hdate=(select max(hdate) from cm_history where hdate<=ADD_MONTHS(LAST_DAY(:dat1),-1)) then h.rest+h.duerest end) *100,2),0) Umumi_Par_evvel,\n \nsum(case when h.hdate=:dat1 and nvl(h.dueday,0)>30 then h.rest+h.duerest  end) gecikmede_qaliq_30plus,\n\ncount(case when h.hdate=:dat1 and nvl(h.dueday,0)>30 then p.id end  ) kredit_sayi_30plus,\n\nnvl(round(sum(case when h.hdate=:dat1 and  nvl(h.dueday,0)>30 then h.rest+h.duerest  end)/\n sum(case when h.hdate=:dat1 then h.rest+h.duerest end) *100,2),0) Umumi_Par_30_plus,\n \n nvl(round(sum(case when h.hdate=(select max(hdate) from cm_history where hdate<=ADD_MONTHS(LAST_DAY(:dat1),-1)) and  nvl(h.dueday,0)>30 then h.rest+h.duerest  end)/\n sum(case when h.hdate=(select max(hdate) from cm_history where hdate<=ADD_MONTHS(LAST_DAY(:dat1),-1)) then h.rest+h.duerest end) *100,2),0) Umumi_Par_30_plus_evvel,\n \nsum(case when h.hdate=:dat1 and nvl(h.dueday,0) between 1 and 30  then h.rest+h.duerest  end) gec_qaliq_1_30,\nsum(case when h.hdate=:dat1 and nvl(h.dueday,0)between 31 and 180 then h.rest+h.duerest  end) gec_qaliq_31_180,\nsum(case when h.hdate=:dat1 and nvl(h.dueday,0)between 181 and 365 then h.rest+h.duerest  end) gec_qaliq_181_365,\nsum(case when h.hdate=:dat1 and nvl(h.dueday,0)>365 then h.rest+h.duerest  end) gecikmede_qaliq_365_plus,\ncount(case when h.hdate=:dat1 and nvl(h.dueday,0) between 1 and 30  then p.id  end) k_say_1_30,\ncount(case when h.hdate=:dat1 and nvl(h.dueday,0)between 31 and 180 then p.id  end) k_say_31_180,\ncount(case when h.hdate=:dat1 and nvl(h.dueday,0)between 181 and 365 then p.id  end)  k_say_181_365,\ncount(case when h.hdate=:dat1 and nvl(h.dueday,0)>365 then p.id  end)  k_say_365_plus,\nnvl(round(sum(case when h.hdate=:dat1 and nvl(h.dueday,0) between 1 and 30  then h.rest+h.duerest  end)/sum(case when h.hdate=:dat1  then h.rest+h.duerest  end)*100,2),0)||'%' Par_1_30,\nnvl(round(sum(case when h.hdate=:dat1 and nvl(h.dueday,0)between 31 and 180 then h.rest+h.duerest  end)/sum(case when h.hdate=:dat1  then h.rest+h.duerest  end)*100,2),0)||'%' Par_31_180,\nnvl(round(sum(case when h.hdate=:dat1 and nvl(h.dueday,0)between 181 and 365 then h.rest+h.duerest  end)/sum(case when h.hdate=:dat1  then h.rest+h.duerest  end)*100,2),0)||'%' Par_181_365,\nnvl(round(sum(case when h.hdate=:dat1 and nvl(h.dueday,0)>365 then h.rest+h.duerest  end)/sum(case when h.hdate=:dat1  then h.rest+h.duerest  end)*100,2),0)||'%' Par_365_plus\n\n from   \n ( select * from\n  (select row_number() over (partition by creditid  order by creditid  )rn, c.*  \n   from cm_guarantee_credit c ) \n  where rn=1) g,\n  cm_portfolio p,\n cm_expert e,\n cm_pledges d,\n cm_history h\n where g.creditid(+)=p.id \n and e.id(+)=p.expertid \n and d.id(+)=g.pledgeid\nand p.id=h.creditid\n and   h.hdate IN (:dat1,(select max(hdate) from cm_history where hdate<=ADD_MONTHS(LAST_DAY(:dat1),-1)))\n and nvl(h.rest,0)+nvl(h.duerest,0)<>0\n group by ROLLUP(\ncase when e.id in (153,157,158,162) then 'Baş ofis' \n      when e.id in (156,161,168) then 'Best Qazax' else e.name end,\n--e.name,\n nvl(  d.description , 'Girovsuz')) ) where nvl(umumi_portfel,0)<>0\n )  b on g.filial=b.Filiallar and g.tipi=b.Tipi order by idd",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "ReportInterval",
+   "source": "TPrCmDM.ReportInterval",
+   "kind": "TOracleDataSet",
+   "sql": "select\n p.id ,\ncase when  c.sex=1 then 'kişi' \n     when  c.sex=2 then 'qadın' else null end cinsi,\n p.initialamount*nvl(p.annualbankrate,0)/100 komision,\n a.description,\n  h.penaltyrest,\n -- h.dueday,\n  case when   nvl(h.dueday,0) between 1 and 30 then  '1-30 gun'\n       when  nvl(h.dueday,0) between 31 and 180 then '31-180 gun'\n       when  nvl(h.dueday,0) between 181 and 365 then  '181-365 gun'\n       when  nvl(h.dueday,0) >365 then   '365 günden çox'  end gecikme,\n       \n   (select     case when   nvl(t.dueday,0) between 1 and 30 then  '1-30 gun'\n            when   nvl(t.dueday,0) between 31 and 180 then '31-180 gun'\n            when   nvl(t.dueday,0) between 181 and 365 then  '181-365 gun'\n            when   nvl(t.dueday,0) >365 then   '365 günden çox' end oten_ayda_gecikme \n from cm_history t where t.creditid=h.creditid and  t.hdate  =ADD_MONTHS(:dat1,-1)-pg_calendar.alti_bazar(ADD_MONTHS(:dat1,-1)) ) oten_ayda_gecikme, \n    (select     case when   nvl(t.dueday,0) between 1 and 30 then  '1-30 gun'\n            when   nvl(t.dueday,0) between 31 and 180 then '31-180 gun'\n            when   nvl(t.dueday,0) between 181 and 365 then  '181-365 gun'\n            when   nvl(t.dueday,0) >365 then   '365 günden çox' end oten_ayda_gecikme  \n from cm_history t where t.creditid=h.creditid and   t.hdate =ADD_MONTHS(:dat1,1)-pg_calendar.alti_bazar(ADD_MONTHS(:dat1,1)) )   novbeti_ayda_gecikme,                \n     case when p.dateofconclusion > ADD_MONTHS(:dat1,-1) then 1 else 0 end yeni_kredit,\n     case when p.dateofconclusion > ADD_MONTHS(:dat1,-1) then p.initialamount end yeni_kreditin_meblegi,\n     case when p.initialamount<=1000 then '1000 manatadek'\n           when p.initialamount>1000 then '1000 manatdan çox' end mebleg_qruplari\n from cm_portfolio p,custinfo c,cm_activities a,cm_history h \n  where p.boorowerid=c.idcust\n  and a.id=p.activities\n  and h.creditid=p.id\n  and h.hdate =:dat1-pg_calendar.alti_bazar(:dat1)\n  and p.closedate is null",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "ODSDueDay",
+   "source": "TPrCmDM.ODSDueDay",
+   "kind": "TOracleDataSet",
+   "sql": "select * from portfel_in_out2\norder by dat,status",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "ODSDueDay7",
+   "source": "TPrCmDM.ODSDueDay7",
+   "kind": "TOracleDataSet",
+   "sql": "select * from portfel_in_out7\norder by tarix,status",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "ODSDueDay6",
+   "source": "TPrCmDM.ODSDueDay6",
+   "kind": "TOracleDataSet",
+   "sql": " select \n ad ,\n sum(dat2_1_30) say_1_30,\n sum(dat2_1_30_qaliq) Qaliq_1_30,\n sum(dat2_31_90) say_31_90,\n sum(dat2_31_90_qaliq)  Qaliq_31_90,\n sum(dat2_91_180) say_91_180, \n sum(dat2_91_180_qaliq) qaliq_91_180,\n sum(dat2_181_365) say_181_365,\n sum(dat2_181_365_qaliq) qaliq_181_365,\n sum(dat2_365_plus) say_365_plus,\n sum(dat2_365_plus_qaliq) Qaliq_365_plus\n from portfel_in_out7\n group by AD,status\n order by status",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "AdminGroups",
+   "source": "TPrCmDM.AdminGroups",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_qovluq \norder by status\n",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "CourtAdmin",
+   "source": "TPrCmDM.CourtAdmin",
+   "kind": "TOracleDataSet",
+   "sql": "select id,NAME from user$\nwhere SB_ACA.checkmodaccess_int('PROBLEMCREDITMGRS',name)=1\norder by name",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "ODSKredit",
+   "source": "TPrCmDM.ODSKredit",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id,p.boorowerid,p.numberofcredit,val_name,b.name,\n       rest,duerest,interestrest,p.creditlineamount,h.penaltyrest,\n       p.dateofconclusion,p.duedatefirstcontract,p.qovid,\n       cr.description crtype,b.phonenumber,p.annualyinterestrate,p.annualyoverduerate,p.annualypenaltyrate,\n       dueinterestrest,p.purposeofcredit,cm_utils.Get_MainPlanPayment(p.id) odenilmeli,\n       cm_utils.Get_MainPlanPayment(p.id)+ duerest + interestrest + dueinterestrest+h.penaltyrest fullrest,\n       dueday,q.name qovluq,f.name filial,m.name mehsul,a.name meqed,e.name expert,r.description ehtiyyat,py.maxpaydate,\n       case when dueday =1 then 0\n        when py.maxpaydate=sbop.GET_DATE then 1  end as status,        \n  b.pincode,b.boorowerid pasnum,b.address,i.birthday dogum_tarixi,i.birthplace dogum_yeri,i.work_place,i.work_post,\ncase when nvl(p.duedatelastcontract,p.duedatefirstcontract)<sbop.get_date \nthen 'Vaxtı bitib ' else ' - ' end as creditend\nFROM cm_active_credits p,\n     cm_credittypes cr,\n     cm_curr_state h,\n     cm_boorowerinfo b,\n     cm_qovluq q,\n     filial_t f,\n     avalute_t v,\n     cm_mehsul m ,\n     cm_aim_cred a,\n     cm_expert e,\n     cm_reserve_types r,custinfo i,\n     (select creditid ,max(paydate) maxpaydate from cm_payments group by creditid) py\n     \nWHERE     p.id = h.creditid\n      AND p.id = b.creditid\n      AND p.id = py.creditid(+)\n      AND p.qovid = q.id\n      AND p.mehsulid=m.id\n      AND h.reserveid=r.id\n      AND p.aim_id=a.id\n      AND p.boorowerid=i.idcust\n      AND p.expertid=e.id\n      AND h.rest + h.duerest + h.interestrest + h.interestrest > 0\n      AND h.dueday>0\n      AND p.branchid = f.id\n      AND p.currency = v.valute\n      AND p.credittype = cr.id\n      AND p.qovid =:pqovid\n\n      \n\n\n\n\n\n\n\n\n\norder by :title\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "PQOVID",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "AdminIn",
+   "source": "TPrCmDM.AdminIn",
+   "kind": "TOracleDataSet",
+   "sql": "select cta.*,case when cta.bons_status=0 then 'Verilməyəcək' else 'Veriləcək' end as bons_name from cm_qovluq_in cta\nwhere cta.userid=:userid\norder by qrupname\n\n\n\n",
+   "variables": [
+    {
+     "name": "USERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "CheckBonsDSet",
+   "source": "TPrCmDM.CheckBonsDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select cta.*,case when cta.bons_status=0 then 'Verilməyəcək' else 'Veriləcək' end as bons_name from cm_qovluq_in cta\nwhere cta.userid=:userid and cta.bons_status>0 \norder by qrupname\n\n\n\n",
+   "variables": [
+    {
+     "name": "USERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TPrCmDM.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct userid,username from smart.cm_qovluq_in where bons_status=1",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  },
+  {
+   "name": "BonsFilterSet",
+   "source": "TPrCmDM.BonsFilterSet",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct userid,username from smart.cm_qovluq_in where bons_status=1\nand  userid=uid\n\n",
+   "variables": [],
+   "unit": "PrCmDMImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPSbAca",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TPrCmDM.OPSbAca",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "PrPackage",
+   "package": "cm_folder",
+   "mode": "named",
+   "source": "TPrCmDM.PrPackage",
+   "routines": [
+    {
+     "name": "CountCreditUser",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "DivideDaysCredit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DivideDaysCreditPart",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_folder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "admin_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "admin_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "portfel_araliq_7",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

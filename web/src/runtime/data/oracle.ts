@@ -1,5 +1,5 @@
 /* Direct Oracle Access (DOA) components, routed to the Oracle gateway API. */
-import { PasException, routine, ValueRef } from '../core';
+import { PasException, routine, ValueRef, TObject } from '../core';
 import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
@@ -53,7 +53,7 @@ const OT: Record<string, OraType> = {
   otblob: 'blob', otclob: 'clob', otcursor: 'cursor', otchar: 'string', otvarchar2: 'string', otsubst: 'string',
   otboolean: 'boolean', otraw: 'blob', otplsqlstring: 'string', ottimestamp: 'date', otnumber: 'float',
 };
-const OT_CODES: Record<number, OraType> = { 3: 'integer', 4: 'float', 5: 'string', 12: 'date', 8: 'string', 102: 'cursor', 113: 'blob', 112: 'clob', 252: 'boolean', 1: 'string', 96: 'string' };
+const OT_CODES: Record<number, OraType> = { 3: 'integer', 4: 'float', 5: 'string', 12: 'date', 8: 'string', 102: 'cursor', 116: 'cursor', 113: 'blob', 112: 'clob', 252: 'boolean', 1: 'string', 96: 'string' };
 for (const [k, v] of Object.entries(OT)) defineGlobal(k, k);
 const PAR: Record<string, OraType> = { parstring: 'string', parinteger: 'integer', parfloat: 'float', pardate: 'date', parboolean: 'boolean', parcursor: 'cursor', parblob: 'blob', parclob: 'clob' };
 export class OutParam { constructor(public out: OraType) {} }
@@ -75,7 +75,10 @@ class Variables {
     const k = Variables.key(name);
     if (!this.map.has(k)) this.map.set(k, { name: k, type: otType(type), value: null });
     else this.map.get(k)!.type = otType(type);
+    // otSubst (DFM code 1): the value is spliced into the SQL text, never bound
+    (this.map.get(k) as any).subst = type === 1 || String(type ?? '').toLowerCase() === 'otsubst';
   }
+  declareIfMissing(name: unknown, type: unknown) { if (!this.map.has(Variables.key(name))) this.declare(name, type); }
   set(name: unknown, v: unknown) {
     const k = Variables.key(name);
     const e = this.map.get(k);
@@ -86,6 +89,7 @@ class Variables {
     // send declared variables that occur in the SQL (DOA ignores others); substitution vars are inlined.
     const out: BindValue[] = [];
     for (const v of this.map.values()) {
+      if ((v as any).subst) continue;
       if (new RegExp(':' + v.name.replace(/[$#]/g, '\\$&') + '\\b', 'i').test(sql)) out.push({ name: v.name, type: v.type, value: bindOut(v.value, v.type) });
     }
     return out;
@@ -93,9 +97,36 @@ class Variables {
   substitute(sql: string) {
     // otSubst variables are textually replaced before execution (DOA semantics)
     let s = sql;
-    for (const v of this.map.values()) if (v.type === 'string' && (v as any).subst) s = s.replace(new RegExp(':' + v.name + '\\b', 'gi'), str(v.value));
+    for (const v of this.map.values()) {
+      if (!(v as any).subst) continue;
+      const name = v.name.replace(/[$#]/g, '\\$&');
+      const text = str(v.value);
+      // an unassigned sort variable ("order by :Title" before the first title click) drops the clause
+      if (!text.trim()) s = s.replace(new RegExp('\\b(order|group)\\s+by\\s+:' + name + '\\b', 'gi'), '');
+      s = s.replace(new RegExp(':' + name + '\\b', 'gi'), text);
+    }
     return s;
   }
+}
+
+/** TVariables view of a DOA dataset / query: forwards to the owner's variable methods. */
+class TVariablesView extends TObject {
+  constructor(private owner: any) { super(); }
+  SetVariable(n: unknown, v: unknown) { return this.owner.SetVariable(n, v); }
+  GetVariable(n: unknown) { return this.owner.GetVariable(n); }
+  DeclareVariable(n: unknown, t: unknown) { return this.owner.DeclareVariable(n, t); }
+  DeleteVariable(n: unknown) { return this.owner.DeleteVariable(n); }
+  DeleteVariables() { return this.owner.DeleteVariables(); }
+  ClearVariables() { return this.owner.ClearVariables?.(); }
+  get Count() { return this.owner.vars.map.size; }
+  Name(i: unknown) { return [...this.owner.vars.map.keys()][num(i)] ?? ''; }
+  Exists(n: unknown) { return this.owner.vars.map.has(Variables.key(n)); }
+}
+const variableViews = new WeakMap<object, TVariablesView>();
+function variablesOf(owner: object) {
+  let v = variableViews.get(owner);
+  if (!v) { v = new TVariablesView(owner); variableViews.set(owner, v); }
+  return v;
 }
 
 function initVarsFromDfm(vars: Variables, dfm: Record<string, any>) {
@@ -206,6 +237,8 @@ export class TOracleDataSet extends TDataSet {
   }
 
   /* variables */
+  /** DOA `Variables` (TVariables): `with Variables do SetVariable(…)`, Variables.Count … */
+  get Variables() { return variablesOf(this as any); }
   DeclareVariable(n: unknown, t: unknown) { this.vars.declare(n, t); }
   DeleteVariable(n: unknown) { this.vars.map.delete(Variables.key(n)); }
   DeleteVariables() { this.vars.map.clear(); }
@@ -262,7 +295,11 @@ export class TOracleDataSet extends TDataSet {
     const df = this.DetailFields.split(';').map((s) => s.trim()).filter(Boolean);
     mf.forEach((m, i) => {
       const f = this._master!.FindField(m);
-      this.vars.set(df[i] ?? m, f ? f.Value : null);
+      const name = df[i] ?? m;
+      // DOA binds master values with the master field's type (a date stays a DATE)
+      if (f) this.vars.declareIfMissing(name, f.fieldType.startsWith('date') || f.fieldType === 'time' ? 'otdate'
+        : f.fieldType === 'integer' ? 'otinteger' : f.fieldType === 'float' ? 'otfloat' : 'otstring');
+      this.vars.set(name, f ? f.Value : null);
     });
   }
   override async masterChanged() {
@@ -279,7 +316,11 @@ export class TOracleDataSet extends TDataSet {
       const applied = new ValueRef(false);
       const newRowId = new ValueRef('');
       await this.fireRaw('OnApplyRecord', this, action === 'insert' ? 'I' : action === 'update' ? 'U' : 'D', applied, newRowId);
-      if (applied.value) return { rowid: newRowId.value || row.rowid };
+      if (applied.value) {
+        // DOA commits after the post however the record was applied (here: by a package call)
+        if (this.CommitOnPost) { try { await api.commit(); } catch (e) { toOracleError(e); } }
+        return { rowid: newRowId.value || row.rowid };
+      }
     }
     if (this.ReadOnly) throw new PasException('EDatabaseError', `${this.Name}: Cannot modify a read-only dataset`, ['exception']);
     const fieldNames = this.fields.filter((f) => f.FieldKind === 'fkdata').map((f) => f.key);
@@ -343,6 +384,8 @@ export class TOracleQuery extends TComponent {
   Create(owner?: unknown) { super.Create(owner); }
   initFromDfm() { initVarsFromDfm(this.vars, this.dfm); }
 
+  /** DOA `Variables` (TVariables): `with Variables do SetVariable(…)`, Variables.Count … */
+  get Variables() { return variablesOf(this as any); }
   DeclareVariable(n: unknown, t: unknown) { this.vars.declare(n, t); }
   DeleteVariable(n: unknown) { this.vars.map.delete(Variables.key(n)); }
   DeleteVariables() { this.vars.map.clear(); }
@@ -373,8 +416,22 @@ export class TOracleQuery extends TComponent {
       this.pos = 0;
       this.RowsProcessed = r.rowsProcessed;
       this.executed = true;
-    } catch (e) { toOracleError(e); }
+    } catch (e) {
+      if (this.Threaded && this.hasHandler('OnThreadError')) { await this.fire('OnThreadError', this, (e as Error)?.message ?? String(e)); return; }
+      toOracleError(e);
+    }
+    // DOA Threaded queries: OnThreadExecuted, OnThreadRecord for each fetched row, OnThreadFinished
+    if (this.Threaded) {
+      await this.fire('OnThreadExecuted', this);
+      if (this.hasHandler('OnThreadRecord')) {
+        for (this.pos = 0; this.pos < this.data.length; this.pos++) await this.fire('OnThreadRecord', this);
+      }
+      await this.fire('OnThreadFinished', this);
+    }
   }
+  ThreadSynchronized = true;
+  get ThreadIsRunning() { return false; }
+  BreakThread() { /* fetching is not interruptible here */ }
   async ExecuteArray() { await this.Execute(); }
   async Describe() { /* */ }
   Close() { this.data = []; this.pos = 0; this.executed = false; }

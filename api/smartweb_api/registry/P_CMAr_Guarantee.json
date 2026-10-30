@@ -1,0 +1,266 @@
+{
+ "name": "P_CMAr_Guarantee",
+ "caption": "",
+ "dir": "Packages/ArCive_Credit/CMAr_Guarantee",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "ArCommonDecls",
+  "ArLogoutputImpl",
+  "ArTemporaryTransactionsViewFormImpl",
+  "CMHintBox",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Pledges",
+   "source": "TArGurDm.Pledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM cm_pledges",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "CompanyDSet",
+   "source": "TArGurDm.CompanyDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CM_GUARCOMPANY",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "OracleQuery1",
+   "source": "TArGurDm.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "maxid",
+   "source": "TArGurDm.maxid",
+   "kind": "TOracleDataSet",
+   "sql": "select max(id) as mid from CM_GUARCOMPANY",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "BAliDSet",
+   "source": "TArGurDm.BAliDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select g.rowid, g.* from cm_guarantor g\nwhere creditid=:creditid\norder by cardid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "Credit",
+   "source": "TArGurDm.Credit",
+   "kind": "TOracleDataSet",
+   "sql": "   SELECT max(id) \n    as creditid\n     FROM cm_portfolio ",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "MainDSet",
+   "source": "TArGurDm.MainDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select g.rowid, g.* from cm_guarantee_credit g\nwhere creditid=:creditid\norder by cardid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TArGurDm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, sid\n  FROM cm_insuranceagency ",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "OUTCollatralAccs",
+   "source": "TArGurDm.OUTCollatralAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM OUT_ACCOUNT ac\n   WHERE\n  (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cm_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cm_accountgroups g\n                                            WHERE g.iname = 'CollateralAccs'))\n         )\n\nand  ac.kli_id in( select distinct BOOROWERID from cm_portfolio where id=:creditid)\n--and ac.bal_cn1 =:balcin\nORDER BY accno,kli_id\n\n",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "DSetPLd",
+   "source": "TArGurDm.DSetPLd",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_guarantee g\nwhere creditid=:creditid \nand pledgeid=:plid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    },
+    {
+     "name": "PLID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "VillagesDataSet",
+   "source": "TArGurDm.VillagesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, depend_id\n  FROM agro_village\n\nwhere depend_id = :depend_id",
+   "variables": [
+    {
+     "name": "DEPEND_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "DistrictsDataSet",
+   "source": "TArGurDm.DistrictsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, name_eng\n  FROM agro_region",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "GurOracleData",
+   "source": "TArGurDm.GurOracleData",
+   "kind": "TOracleDataSet",
+   "sql": "select id,id||'_'||pledgename as name from cm_guarantee where custid in(select boorowerid from cm_portfolio where id=:credid)",
+   "variables": [
+    {
+     "name": "CREDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "PersonTypes",
+   "source": "TArGurDm.PersonTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  ID,\n  DESCRIPION\nfrom\n  CM_PERSONS\n\norder by id",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "CountrySet",
+   "source": "TArGurDm.CountrySet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\norder by cntr_name",
+   "variables": [],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "CitySet",
+   "source": "TArGurDm.CitySet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cities\nwhere country_id = :country_id\norder by city_name",
+   "variables": [
+    {
+     "name": "COUNTRY_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "ArDmImpl"
+  },
+  {
+   "name": "pledgsorts",
+   "source": "TArGurDm.pledgsorts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM cm_pledgsorts\nwhere pldid = :pldid",
+   "variables": [
+    {
+     "name": "PLDID",
+     "type": "float"
+    }
+   ],
+   "unit": "ArDmImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "Guarante",
+   "package": "CM_Credit",
+   "mode": "positional",
+   "source": "TArGurDm.Guarante",
+   "routines": [
+    {
+     "name": "BAli_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Bali_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Guarantee_Add1",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Gur_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Gur_del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Upd_girov",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_Guarantor",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkPerson",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

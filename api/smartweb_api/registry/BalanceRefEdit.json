@@ -1,0 +1,97 @@
+{
+ "name": "BalanceRefEdit",
+ "caption": "Balans / Məlumatlar / Balans hesabları",
+ "dir": "Packages/BalanceRefEdit",
+ "mainForm": "TBalanceRefEditX",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "BalanceDataSet",
+   "source": "TBalanceRefEditX.BalanceDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select b.*, b.rowid from \nbal_spr1 b\n\nOrder by BAL_CN",
+   "variables": [],
+   "unit": "BalanceRefEditImpl1"
+  },
+  {
+   "name": "CloseTypesData",
+   "source": "TBalanceRefEditX.CloseTypesData",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, DisplayName from CLOSE_ACC_TYPE\nwhere Visible = 1\norder by ID",
+   "variables": [],
+   "unit": "BalanceRefEditImpl1"
+  },
+  {
+   "name": "account_symbols",
+   "source": "TBalanceRefEditX.account_symbols",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account_symbols",
+   "variables": [],
+   "unit": "BalanceRefEditImpl1"
+  },
+  {
+   "name": "ODS_Type",
+   "source": "TBalanceRefEditX.ODS_Type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name FROM acc_types ",
+   "variables": [],
+   "unit": "BalanceRefEditImpl1"
+  },
+  {
+   "name": "ODSSferadey",
+   "source": "TBalanceRefEditX.ODSSferadey",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name FROM sferadey ",
+   "variables": [],
+   "unit": "BalanceRefEditImpl1"
+  },
+  {
+   "name": "ODS_VID",
+   "source": "TBalanceRefEditX.ODS_VID",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,name FROM vid_sob",
+   "variables": [],
+   "unit": "BalanceRefEditImpl1"
+  },
+  {
+   "name": "ODS_Sector",
+   "source": "TBalanceRefEditX.ODS_Sector",
+   "kind": "TOracleDataSet",
+   "sql": "Select -1 as ID,'Yox' as name,'' as kod from dual\nunion\nselect id,name,kod from CM_CREDITCAT",
+   "variables": [],
+   "unit": "BalanceRefEditImpl1"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

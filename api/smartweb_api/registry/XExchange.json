@@ -1,0 +1,1177 @@
+{
+ "name": "XExchange",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Valyuta mübadiləsi",
+ "dir": "Packages/ExchangeMGR-NBC",
+ "mainForm": "TExchangeMGR_X",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitRep",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSExchOffice",
+   "source": "TDataModExch.ODSExchOffice",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ex_office \norder by ex_no",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExchAcc",
+   "source": "TDataModExch.ODSExchAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select  rowid,a.*\n from ex_accounts a\n\nwhere ex_id = :ex_id\norder by ex_id,val_id\n",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExchRate",
+   "source": "TDataModExch.ODSExchRate",
+   "kind": "TOracleDataSet",
+   "sql": "select r.rowid, r.* from ex_rates r\n\nwhere \n     dat   =:dat\n\norder by \n         val_id ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSAcc_main_debt",
+   "source": "TDataModExch.ODSAcc_main_debt",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no\n      \nfrom \n        account   \nwhere \n       bal_cn1 =:balance\nand   \n       filial=:filial",
+   "variables": [
+    {
+     "name": "BALANCE",
+     "type": "integer"
+    },
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExchProvarch",
+   "source": "TDataModExch.ODSExchProvarch",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n      rownum,\n      p.*,\n      decode(p.status,'1', 'alış', '2','satış', '3', 'mübadilə') as status_str,\n      decode(p.cashless,'0', 'nağd', '1','nağdsız') as status_cashless\n\nFROM \n       ex_provarch p\n\nWHERE\n       p.ex_id = :ex_id\n\n\nAND\n       p.dat=:dat\n\nAND\n       p.status not in (4,5)\n\n\nORDER BY :Title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "EX_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSReport",
+   "source": "TDataModExch.ODSReport",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n\n     rownum,ex.*,\n      p.*\n\nFrom \n      ex_office ex,ex_provarch p\nWhere \n        ex.ex_no=p.ex_id \n   and\n        p.id=:p_id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSRateInsert",
+   "source": "TDataModExch.ODSRateInsert",
+   "kind": "TOracleDataSet",
+   "sql": "/*select r.rowid, r.* from ex_rates r where ex_id = :ex_id and dat=(select max(dat) from ex_rates where dat<dat and ex_id = :ex_id)order by  val_id*/\n\nselect \n operkurs.val_kod val_id,\n(select val_name from avalute where valute=operkurs.val_kod)  val_name,\n(select valu_name from avalute where valute=operkurs.val_kod) val_full_name,\n operkurs.buy_rate  val_purchase_course,\noperkurs.sell_rate val_selling_course,\n operkurs.ostat     val_nb_course,\n :dat as dat,\n /*nvl((select abs(ostat) from tenostat where acc_id=ex_accounts.selling_acc_id),0) first_ostat,\n nvl((select purchase_turn from ex_rates where ex_rates.ex_id=:ex_id and ex_rates.val_id=temprate.val_kod),0)purchase_turn,\n nvl((select selling_turn from ex_rates where ex_rates.ex_id=:ex_id and ex_rates.val_id=temprate.val_kod),0)selling_turn,\n(nvl((select abs(ostat) from tenostat where acc_id=ex_accounts.selling_acc_id),0)+\n nvl((select purchase_turn from ex_rates where ex_rates.ex_id=:ex_id and ex_rates.val_id=temprate.val_kod),0)-\n nvl((select selling_turn from ex_rates where ex_rates.ex_id=:ex_id and ex_rates.val_id=temprate.val_kod),0))current_ostat,*/\n :Tim as Tim\n\nfrom operkurs \nwhere\noperkurs.dat=:dat\n/*left join ex_accounts on  temprate.val_kod=ex_accounts.val_id and  ex_accounts.ex_id=:ex_id*/\n\norder by  operkurs.val_kod\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "TIM",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExchRateOther",
+   "source": "TDataModExch.ODSExchRateOther",
+   "kind": "TOracleDataSet",
+   "sql": "select r.rowid, r.* from ex_rates r\n\nwhere \n      dat   =:dat\norder by \n         val_id",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSTraffics",
+   "source": "TDataModExch.ODSTraffics",
+   "kind": "TOracleDataSet",
+   "sql": " select p.*,\n        decode(p.status,'1', 'alış', '2','satış', '3', 'mübadilə') as status_str,\n        (p.cust_lname||' '||p.cust_name||' '||p.cust_father) as custname,\n        (p.country||cust_passport) as custpassport, \n        (select name from filial where id=(select filial from EX_OFFICE where ex_no=p.ex_id))as FilialName,\n        (select ex_name from EX_OFFICE where ex_no=p.ex_id) as VDMName\nfrom ex_provarch p \n where \n   p.id is not null  and p.dat between '24-Nov-2006' and '28-Nov-2006' ",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExchProvarchTrans",
+   "source": "TDataModExch.ODSExchProvarchTrans",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n      p.*\n\nFROM \n       ex_provarch p\n\nWHERE\n      id=:v_id\n\nand\n       p.dat=:dat\nAND\n       p.status <>3\nAND\n       p.trans_close=0\n\nORDER BY :Title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSCust_Name",
+   "source": "TDataModExch.ODSCust_Name",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct cust_name from ex_constants where cust_name is not null",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSCust_LName",
+   "source": "TDataModExch.ODSCust_LName",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct cust_lname from ex_constants where cust_lname is not null",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSCust_Father",
+   "source": "TDataModExch.ODSCust_Father",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct cust_father from ex_constants where cust_father is not null",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSCust_Confirm",
+   "source": "TDataModExch.ODSCust_Confirm",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct cust_confirm from ex_constants where cust_confirm is not null",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSCust_Country",
+   "source": "TDataModExch.ODSCust_Country",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct cust_country from ex_constants where cust_country is not null",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSGiving_Member",
+   "source": "TDataModExch.ODSGiving_Member",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct cust_giving_member from ex_constants where cust_giving_member is not null",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSUserList",
+   "source": "TDataModExch.ODSUserList",
+   "kind": "TOracleDataSet",
+   "sql": "select username,user_id from dba_users where default_tablespace='SMARTBANK' order by username",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSRateTurn",
+   "source": "TDataModExch.ODSRateTurn",
+   "kind": "TOracleDataSet",
+   "sql": "select val_id, val_name, val_full_name, val_purchase_course,val_purchase_course_end,\n       val_selling_course,val_selling_course_end,val_nb_course, dat, tim,username\nfrom ex_rates \nwhere dat=:dat \n      \nunion\n\nselect val_id, val_name, val_full_name, val_purchase_course,val_purchase_course_end,\n       val_selling_course,val_selling_course_end, val_nb_course, dat, tim,username\nfrom ex_rates_archive \nwhere dat=:dat \n \norder by  val_id,tim\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSAcc_main_cred",
+   "source": "TDataModExch.ODSAcc_main_cred",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no\nfrom \n        account   \nwhere \n       bal_cn1 =:balance\nand\n       val_acc=:val_id\nand   \n       filial=:filial",
+   "variables": [
+    {
+     "name": "BALANCE",
+     "type": "integer"
+    },
+    {
+     "name": "VAL_ID",
+     "type": "float"
+    },
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSAcc_child_debt",
+   "source": "TDataModExch.ODSAcc_child_debt",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no\nfrom \n        account   \nwhere \n       bal_cn1 =:balance\nand   \n       filial=:filial",
+   "variables": [
+    {
+     "name": "BALANCE",
+     "type": "integer"
+    },
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSAcc_child_cred",
+   "source": "TDataModExch.ODSAcc_child_cred",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no\nfrom \n        account   \nwhere \n       bal_cn1 =:balance\nand   \n       filial=:filial",
+   "variables": [
+    {
+     "name": "BALANCE",
+     "type": "integer"
+    },
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSSumTrans",
+   "source": "TDataModExch.ODSSumTrans",
+   "kind": "TOracleDataSet",
+   "sql": "select \n        sum(fee_amount) as fee_amount\nfrom \n        ex_provarch\nwhere \n        ex_id=:ex_id\nand\n        dat=(select max(dat) from ex_provarch)\nand\n        status in(1,2,3)\n\n",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSUsers",
+   "source": "TDataModExch.ODSUsers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,username from USERS where username not in ('EXCHANGEMGR','SMART') ORDER BY ID",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODsAccount",
+   "source": "TDataModExch.ODsAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select acc_no from account where close_dat is null order by acc_no",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExp_Provarch",
+   "source": "TDataModExch.ODSExp_Provarch",
+   "kind": "TOracleDataSet",
+   "sql": "select r.rowid, r.* from exp_provarch r",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "Kurs",
+   "source": "TDataModExch.Kurs",
+   "kind": "TOracleDataSet",
+   "sql": "select a.val_name,o.* from operkurs o,avalute a\nwhere o.val_kod=a.valute  and o.dat=:datdate  and o.val_kod>0\norder by o.VAL_KOD",
+   "variables": [
+    {
+     "name": "DATDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSFilial",
+   "source": "TDataModExch.ODSFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial\norder by id",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSDel_ExProvarch",
+   "source": "TDataModExch.ODSDel_ExProvarch",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   p.*,\n   decode(p.status,'1', 'alış', '2','satış') as status_str,\n  (select name from filial where id=(select filial from EX_OFFICE where ex_no=p.ex_id))as FilialName,\n  (p.cust_lname||' '||p.cust_name||' '||p.cust_father) as custname,\n  (p.country||cust_passport) as custpassport, \n  (select ex_name from EX_OFFICE where ex_no=p.ex_id) as VDMName \nfrom \n  ex_provarch_delete p\nwhere\n  p.dat between '24-Nov-2006' and '28-Nov-2006' \n\n\n\n",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSParametr",
+   "source": "TDataModExch.ODSParametr",
+   "kind": "TOracleDataSet",
+   "sql": "select id,NAME from user$\nwhere SB_ACA.checkmodaccess_int('EXCHANGEMGR',name)=1\norder by name",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExAdminIn",
+   "source": "TDataModExch.ODSExAdminIn",
+   "kind": "TOracleDataSet",
+   "sql": "select EX_A_I.* from EX_admin_in EX_A_I\nwhere EX_A_I.USER_ID=:USER_ID",
+   "variables": [
+    {
+     "name": "USER_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExOffice",
+   "source": "TDataModExch.ODSExOffice",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ex_office",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSAvalute",
+   "source": "TDataModExch.ODSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute where valute<>0",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSCashDebt",
+   "source": "TDataModExch.ODSCashDebt",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no\nfrom \n        account   \nwhere \n       bal_cn1 =:balance\nand   \n       filial=:filial",
+   "variables": [
+    {
+     "name": "BALANCE",
+     "type": "integer"
+    },
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSCashKredit",
+   "source": "TDataModExch.ODSCashKredit",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no\nfrom \n        account   \nwhere \n       bal_cn1 =:balance\nand\n       val_acc=:val_id\nand   \n       filial=:filial",
+   "variables": [
+    {
+     "name": "BALANCE",
+     "type": "integer"
+    },
+    {
+     "name": "VAL_ID",
+     "type": "integer"
+    },
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExchRateDelete",
+   "source": "TDataModExch.ODSExchRateDelete",
+   "kind": "TOracleDataSet",
+   "sql": "delete \n    ex_rates \nwhere \n   dat =:dat\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExchRatearchive",
+   "source": "TDataModExch.ODSExchRatearchive",
+   "kind": "TOracleDataSet",
+   "sql": "insert into ex_rates_archive\n  select * from ex_rates\nwhere\n   dat =:dat",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExchRateAll",
+   "source": "TDataModExch.ODSExchRateAll",
+   "kind": "TOracleDataSet",
+   "sql": "select r.* from avalute r\n\nwhere \n  --       dat   =:dat\n--and     \n         valute<>0\n\norder by \n         valute",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSVDMAll",
+   "source": "TDataModExch.ODSVDMAll",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as ex_no, 'Bütün məntəqələr' as ex_name from ex_office \nunion\nselect ex_no,ex_name filial from ex_office ",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSReporting",
+   "source": "TDataModExch.ODSReporting",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    p.ex_no,\n    p.ex_name Ex_name,\n   (select name from filial where id=p.filial) Filial,\n    :val_name val_name,\n    nvl((select decode(status,'1', 'alış')from ex_provarch where ex_id=p.ex_no and status=1 and trans_close=1 and dat between :bdat and :edat and VAL_ID=:val_id group by status),'alış') purchase,\n    nvl((select round(sum(lamount)/sum(debitamount),6)from ex_provarch where ex_id=p.ex_no and status=1  and trans_close=1 and dat between :bdat and :edat and VAL_ID=:val_id),0) exchangerate,\n    nvl((select sum(debitamount) from ex_provarch where ex_id=p.ex_no and status=1 and trans_close=1 and dat between :bdat and :edat and VAL_ID=:val_id ),0) purchaseamount,\n    nvl((select count(id) from ex_provarch where ex_id=p.ex_no and status=1 and trans_close=1 and dat between :bdat and :edat and VAL_ID=:val_id ),0) purchasenumber,\n    nvl((select  decode(status,'2','satış') from ex_provarch where ex_id=p.ex_no and status=2 and trans_close=1 and dat between :bdat and :edat and VAL_ID=:val_id group by status),'satış') sale,\n    nvl((select round(sum(lamount)/sum(debitamount),6)from ex_provarch where ex_id=p.ex_no and status=2  and trans_close=1 and dat between :bdat and :edat and VAL_ID=:val_id),0) salecourse,\n    nvl((select sum(debitamount) from ex_provarch where ex_id=p.ex_no and status=2 and trans_close=1 and dat between :bdat and :edat and VAL_ID=:val_id ),0)  salesamount,\n    nvl((select count(id) from ex_provarch where ex_id=p.ex_no and status=2        and trans_close=1 and dat between :bdat and :edat and VAL_ID=:val_id ),0) salesnumber\nfrom \n  ex_office p\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by ex_no\n",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    },
+    {
+     "name": "VAL_ID",
+     "type": "integer"
+    },
+    {
+     "name": "VAL_NAME",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSOperKurs",
+   "source": "TDataModExch.ODSOperKurs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM operkurs PARTITION (TODAY)",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSBankInfo",
+   "source": "TDataModExch.ODSBankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankinfo",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExRemainder",
+   "source": "TDataModExch.ODSExRemainder",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n  vdat     =>:dat\n  v_exid   =>:ex_id\n  sdat     =>:sdat\n  result   =>:result\nend;",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "SDAT",
+     "type": "date"
+    },
+    {
+     "name": "RESULT",
+     "type": "cursor"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSValute",
+   "source": "TDataModExch.ODSValute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSExRemainderInsert",
+   "source": "TDataModExch.ODSExRemainderInsert",
+   "kind": "TOracleDataSet",
+   "sql": "select  \n temprate.val_kod,\n nvl((select abs(ostat) from tenostat where acc_id=ex_accounts.selling_acc_id),0) ftpe_ostat,\n nvl((select abs(ostat) from tenostat where acc_id=ex_accounts.selling_acc_id),0) pefr_ostat,\n nvl((select abs(ostat) from tenostat where acc_id=ex_accounts.selling_acc_id),0) first_ostat,\n nvl((select obr_d from tenostat where acc_id=ex_accounts.selling_acc_id),0)purchase_turn,\n nvl((select obr_k from tenostat where acc_id=ex_accounts.selling_acc_id),0)selling_turn,\n nvl((select abs(ostat) from tenostat where acc_id=ex_accounts.selling_acc_id),0) current_ostat,\n :ex_id as ex_id,\n :dat as dat,\n :Tim as tim\n\nfrom temprate \n     left join ex_accounts on  temprate.val_kod=ex_accounts.val_id and  ex_accounts.ex_id=:ex_id\nwhere \n\n  temprate.val_kod<>0 \n\n  \n\norder by  temprate.val_kod",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "TIM",
+     "type": "date"
+    },
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSAccNo",
+   "source": "TDataModExch.ODSAccNo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where close_dat is null",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSReestrReport",
+   "source": "TDataModExch.ODSReestrReport",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  val_name,\n  nvl((select round(sum(lamount)/sum(debitamount),6) from  ex_provarch \n  where  dat=:dat  and  val_id=r.val_id  and ex_id=:ex_id and status=1 and trans_close=1),val_purchase_course)purchase,\n  nvl((select sum(debitamount) from  ex_provarch where  dat=:dat  and  val_id=r.val_id  and ex_id=:ex_id and status=1 and trans_close=1),0) purchasenumber,\n  nvl((select sum(debitamount) * round(sum(lamount)/sum(debitamount),6) from  ex_provarch \n  where  dat=:dat  and  val_id=r.val_id  and ex_id=:ex_id and status=1 and trans_close=1),0)purchaseamount, \n  nvl((select round(sum(lamount)/sum(debitamount),6) from  ex_provarch \n  where  dat=:dat  and  val_id=r.val_id  and ex_id=:ex_id and status=2 and trans_close=1),val_selling_course)salecourse,\n  nvl((select sum(debitamount) from  ex_provarch where  dat=:dat  and  val_id=r.val_id  and ex_id=:ex_id and status=2 and trans_close=1),0) salenumber,\n  nvl((select sum(debitamount) * round(sum(lamount)/sum(debitamount),6) from  ex_provarch \n  where  dat=:dat  and  val_id=r.val_id and ex_id=:ex_id and status=2 and trans_close=1),0)saleamount\nfrom \n   ex_rates r\n  where \n      dat=:dat and r.val_id in(select val_id from ex_provarch  where trans_close=1 and dat=:dat)\n     and \n      r.val_id in(select val_id from ex_accounts where ex_id=:ex_id)\n\n\n\n\n\n\norder by r.val_id\n     \n  \n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSReestrOstat",
+   "source": "TDataModExch.ODSReestrOstat",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n  vdat     =>:dat\n  v_exid   =>:ex_id\n  sdat     =>:sdat\n  result   =>:result\nend;\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "SDAT",
+     "type": "date"
+    },
+    {
+     "name": "RESULT",
+     "type": "cursor"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSReestrVdm",
+   "source": "TDataModExch.ODSReestrVdm",
+   "kind": "TOracleDataSet",
+   "sql": "select ex_no,ex_name filial from ex_office ",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSReestrValyuta",
+   "source": "TDataModExch.ODSReestrValyuta",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as val_id, 'Bütün valyutalar' as val_name from avalute\nunion\nselect valute as val_id,val_name from avalute where valute<>0\n\n--select 0 as val_id, 'AZN' as val_name from ex_rates\n--union",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSReestrEkvOstat",
+   "source": "TDataModExch.ODSReestrEkvOstat",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   (select val_name from ex_rates where val_id=a.val_id and dat=:dat)v_name,pefr_ostat from ex_remainder a \nwhere \n    a.val_id<>0 \n  and \n    a.ex_id=:ex_id \n  and \n    a.dat=:dat    \n\nunion\nselect \n    (select val_name from avalute where valute=a.val_id)v_name,\n     pefr_ostat\n from \n    ex_remainder a \nwhere \n     a.val_id=0 \n   and\n     a.ex_id=:ex_id \n   and \n     a.dat=:dat\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    },
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSDeleteVDM",
+   "source": "TDataModExch.ODSDeleteVDM",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as ex_no, 'Bütün məntəqələr' as ex_name from ex_office \nunion\nselect ex_no,ex_name filial from ex_office ",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSToplamVDM",
+   "source": "TDataModExch.ODSToplamVDM",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as ex_no, 'Bütün məntəqələr' as ex_name from ex_office \nunion\nselect ex_no,ex_name filial from ex_office ",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSAvaluteDelete",
+   "source": "TDataModExch.ODSAvaluteDelete",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute where valute<>0",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSAvaluteToplam",
+   "source": "TDataModExch.ODSAvaluteToplam",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute where valute<>0",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSVDM",
+   "source": "TDataModExch.ODSVDM",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ex_office where ex_no=:ex_id",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSSysdat",
+   "source": "TDataModExch.ODSSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select trunc(sysdate) ssdat,to_char(sysdate,'HH24:MI:SS') stime from dual",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODS_ExRemain",
+   "source": "TDataModExch.ODS_ExRemain",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n  vdat     =>:dat\n  v_exid   =>:ex_id\n  sdat     =>:sdat\n  result   =>:result\nend;",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    },
+    {
+     "name": "SDAT",
+     "type": "date"
+    },
+    {
+     "name": "RESULT",
+     "type": "cursor"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDataModExch.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   p.*,decode(p.status,'1', 'alış', '2','satış') as status_str,\n  (select name from filial where id=(select filial from EX_OFFICE where ex_no=p.ex_id))as FilialName,\n  (select ex_name from EX_OFFICE where ex_no=p.ex_id) as VDMName \nfrom \n  ex_provarch_delete p\nwhere\n  p.dat between '24-Nov-2006' and '28-Nov-2006'",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSResurs",
+   "source": "TDataModExch.ODSResurs",
+   "kind": "TOracleDataSet",
+   "sql": "select  r.*,\n       decode(r.status,'1', 'Resurs verilir', '2','Resurs qaytarılır') as status_str \nfrom\n   ex_resurs r where r.ex_no=:ex_id and (r.dat=:vdat or r.nextstatus=1)\norder by :title",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "string"
+    },
+    {
+     "name": "VDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSResursValyuta",
+   "source": "TDataModExch.ODSResursValyuta",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute where valute in (0,1,45,48,50,784,792,981)",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSVdmResurs",
+   "source": "TDataModExch.ODSVdmResurs",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ex_office where ex_no=:ex_id",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSTrdestination",
+   "source": "TDataModExch.ODSTrdestination",
+   "kind": "TOracleDataSet",
+   "sql": "select * from trdestination",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSVdmRResurs",
+   "source": "TDataModExch.ODSVdmRResurs",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ex_office where ex_no=:ex_id",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSRResursValyuta",
+   "source": "TDataModExch.ODSRResursValyuta",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute where valute in (0,1,45,48,50,784,792,981)",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSRTrdestination",
+   "source": "TDataModExch.ODSRTrdestination",
+   "kind": "TOracleDataSet",
+   "sql": "select * from trdestination",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSRatesFilial",
+   "source": "TDataModExch.ODSRatesFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select r.rowid, r.* from ex_rates_filial r\nwhere \n     dat   =:dat and val_id in(1,45,48,50,784,792,981)\n \n\norder by \n         ex_id,val_id ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODS_RFilial",
+   "source": "TDataModExch.ODS_RFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as ID, 'Bütün məntəqələr' as name from Dual\nUnion All\nselect ex_no as id, ex_name from ex_office\norder by ID",
+   "variables": [],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSSumValyuta",
+   "source": "TDataModExch.ODSSumValyuta",
+   "kind": "TOracleDataSet",
+   "sql": "select * from\n  ( select      debitamount,  val_name\n     from ex_provarch  where status=1 and (dat>=:dat1 and dat<=:dat2) \nand ex_id=:ex_id\n)\n  pivot\n  ( sum(debitamount) for val_name in ('USD' as USD,'EUR' as EUR,\n                  'RUR' as RUR,'GBP' as GBP\n                  )  )\n ",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    },
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "ODSSumValyuta1",
+   "source": "TDataModExch.ODSSumValyuta1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from\n  ( select      debitamount,  val_name\n     from ex_provarch  where status=2 and (dat>=:dat1 and dat<=:dat2) \n  and ex_id=:ex_id\n)\n  pivot\n  ( sum(debitamount) for val_name in ('USD' as USD,'EUR' as EUR,\n                  'RUR' as RUR,'GBP' as GBP\n                  )  )\n ",
+   "variables": [
+    {
+     "name": "EX_ID",
+     "type": "integer"
+    },
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  },
+  {
+   "name": "Amountsum",
+   "source": "TDataModExch.Amountsum",
+   "kind": "TOracleDataSet",
+   "sql": " select sum(p.debitamount),sum(lamount),sum(fee_amount)    \nfrom ex_provarch p \n where \n   p.id is not null  and p.dat between :dat1 and :dat2\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitDateExch"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPAdmin",
+   "package": "EX_ADM",
+   "mode": "positional",
+   "source": "TDataModExch.OPAdmin",
+   "routines": [
+    {
+     "name": "create_new_user",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "create_user",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "drop_synonym",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "dropuser",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPExchMgr",
+   "package": "EXCH_MGR",
+   "mode": "positional",
+   "source": "TDataModExch.OPExchMgr",
+   "routines": [
+    {
+     "name": "Check_UserRole",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "Ex_Admin_In_Add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Ex_Admin_in_Del",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Ex_Calendar",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "Ex_RemainderLaz_Change",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Ex_RemainderProv_Change",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Get_Turn_Over_Str",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "Get_Turn_Over_StrDel",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "Ins_UserName",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "LastWorkDay_Calendar",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "NextResurs",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ReturnUserId",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "RoundNew",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "UserID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "VDMResursDelete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "VDMResursInsert",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "VDMResursTransaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "VDMResursUpdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "VDMRetrunResursInsert",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "VDMRetrunResursUpdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "calculate_remainder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ex_accounts_add",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ex_accounts_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ex_accounts_edit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ex_date_change",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ex_office_add",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ex_office_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ex_office_edit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ex_provarch_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_cash_acc_no",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "get_ex_office_out_params",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_harm_no",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "get_profit_no",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "get_pur_acc_no",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "get_purchase_no",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "get_selling_no",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "trans_closing",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "trans_return_close",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OPTrans",
+   "package": "EXCH_MGR",
+   "mode": "named",
+   "source": "TDataModExch.OPTrans",
+   "routines": [
+    {
+     "name": "add_ex_prov_trans",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ex_constants_add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ex_provarch_edit",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_transaction",
+   "package": "EXCH_TRANS",
+   "mode": "positional",
+   "source": "TDataModExch.sb_transaction",
+   "routines": [
+    {
+     "name": "Get_Acc_Id",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ex_transaction",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ex_transaction_additional",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ex_transaction_additional_db",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ex_transaction_db",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBA_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TDataModExch.SBA_ACA",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBOPDate",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TDataModExch.SBOPDate",
+   "routines": [
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "SELECT t.val_kod,",
+  "begin exch_mgr.ExRemainderSql(vdat=>:dat,v_exid=>:ex_id,sdat=>:sdat,result=>:result); end;"
+ ]
+}

@@ -4,7 +4,7 @@ import { registerBuiltin } from '../env';
 import { invalidate, beginHold, endHold } from '../ui';
 import { logger } from '../log';
 import { messageBox } from '../dialogs';
-import { toast } from '../toast';
+import { audit } from '../audit';
 import { Indexed } from './classes';
 import { num, str } from '../pascal';
 
@@ -242,18 +242,36 @@ export async function runGuarded<T>(fn: () => Promise<T> | T, where: string): Pr
   }
 }
 
+/** While datasets saved with Active = True open after loading, handler errors (AfterScroll writing to a
+ *  dataset that is not open yet …) are logged, not shown: the form is still being created. */
+let loadingDepth = 0;
+/** Exception classes that are web-runtime / programming errors, never shown in a message box. */
+const INTERNAL_ERRORS = new Set(['EAccessViolation', 'EUndeclared', 'ENotPorted', 'EInvalidPointer', 'EInvalidCast']);
+export async function whileLoading<T>(fn: () => Promise<T>): Promise<T> {
+  loadingDepth++;
+  try { return await fn(); } finally { loadingDepth--; }
+}
+
 export function reportException(e: unknown, where: string) {
   const msg = e instanceof PasException ? e.message : (e as Error)?.message ?? String(e);
   const cls = e instanceof PasException ? e.className : 'Exception';
-  // Gaps of the web runtime (undeclared VCL/WinAPI members, JS errors) go to the Output log + toast,
-  // genuine application exceptions (raise …, Oracle errors, conversions) get the classic error box.
-  if (!(e instanceof PasException) || cls === 'EUndeclared') {
-    logger.warn(`${where}: ${msg}`);
+  if (loadingDepth > 0 && e instanceof PasException && cls !== 'EOracleError') {
+    logger.warn(`${where} (while loading): ${cls}: ${msg}`);
+    audit('error', `${where} (yüklənərkən): ${cls}: ${msg}`);
+    return;
+  }
+  // Internal errors (access violations, gaps of the web runtime, JS errors) are not shown to the user:
+  // they go to the day's log file (İdarəetmə / Jurnal ayarları) and the Output panel.
+  // Genuine application exceptions (raise …, Oracle errors, conversions) keep the classic error box.
+  if (!(e instanceof PasException) || INTERNAL_ERRORS.has(cls)) {
+    logger.warn(`${where}: ${cls}: ${msg}`);
     if (!(e instanceof PasException)) console.error(e);
-    toast(`${where}: ${msg}`);
+    const stack = (e as Error)?.stack ? ' | ' + (e as Error).stack!.split('\n').slice(1, 6).map((x) => x.trim()).join(' < ') : '';
+    audit('error', `${where}: ${cls}: ${msg}${stack}`);
     return;
   }
   logger.error(`${where}: ${cls}: ${msg}`);
+  audit('error', `${where}: ${cls}: ${msg}`);
   if ((e as Error).stack) logger.debug(`stack: ${(e as Error).stack!.split('\n').slice(1, 16).join(' | ')}`);
   void messageBox(msg, cls === 'EOracleError' ? 'Oracle' : 'SmartBank', 0x10);
 }

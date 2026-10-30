@@ -40,7 +40,11 @@ export class TDBEdit extends TCustomEdit {
   set Text(v: string) { this._text = str(v); }
   override async setTextFromCode(v: string) {
     const f = this.Field;
-    if (f && this.DataSource) await this.DataSource.editField(f, f.fromString(str(v)));
+    // VCL: Text := X only reaches the field when the dataset is already editing (UpdateRecord on post);
+    // in browse mode it never puts the dataset into edit (the text is replaced on the next record change).
+    const st = f?.DataSet?.State;
+    if (f && this.DataSource && (st === 'dsedit' || st === 'dsinsert')) await this.DataSource.editField(f, f.fromString(str(v)));
+    else if (f) { this._text = str(v); invalidate(); }
     else await super.setTextFromCode(v);
   }
   override async userInput(v: string) {
@@ -491,7 +495,8 @@ export class TDBGrid extends TWinControl {
         const r = this.curRow();
         if (r) {
           if (e?.ctrl) { if (this.SelectedRows.set.has(r)) this.SelectedRows.set.delete(r); else this.SelectedRows.set.add(r); }
-          else if (!e?.shift) { this.SelectedRows.set.clear(); }
+          // VCL TCustomDBGrid.MouseDown: a plain click selects just the clicked row
+          else if (!e?.shift) { this.SelectedRows.set.clear(); this.SelectedRows.set.add(r); }
         }
       }
       invalidate();

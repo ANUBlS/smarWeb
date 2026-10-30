@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("CO_datamod_impl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Oracle", "Db", "OracleData", "DBTables", "Variants", "SBCore", "SBCustomer", "CO_Memorial", "sboapiDataModuleImpl", "InFormUnit", "CO_In_Unit"]);
   const C = [U];
+  U.enumType("toperationmode", 3);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.const("omCommission", 2);

@@ -1,4 +1,5 @@
 /* Visual controls (Controls.pas, StdCtrls.pas, ExtCtrls.pas, ComCtrls.pas, Buttons.pas …). */
+import { auditClick } from '../audit';
 import { TObject, Ref, ValueRef, NOTFOUND, GAP, PasException } from '../core';
 import { toast } from '../toast';
 import { logger } from '../log';
@@ -120,7 +121,8 @@ export class TControl extends TComponent {
   focusDom() {
     const el = this.dom?.matches('input,textarea,select,button,[tabindex]') ? this.dom
       : this.dom?.querySelector<HTMLElement>('input,textarea,select,button,[tabindex]');
-    el?.focus();
+    // VCL never scrolls a parent on focus; a browser would scroll clipped panels to the control
+    el?.focus({ preventScroll: true });
   }
   CanFocus() { return this.Visible && this.Enabled; }
   BringToFront() { if (this.Parent) { this.Parent.children = [...this.Parent.children.filter((c) => c !== this), this]; invalidate(); } }
@@ -156,6 +158,7 @@ export class TControl extends TComponent {
   /** User-initiated click: actions first, then OnClick. */
   async Click() {
     if (!this.Enabled) return;
+    if (this._action || this.hasHandler('OnClick')) auditClick(this as any);
     if (this._action && !this.hasHandler('OnClick')) {
       await (this._action as TBasicAction).execFrom(this);
       return;
@@ -864,6 +867,7 @@ registerBuiltin('TTrackBar', class TTrackBar extends TUpDown {});
 
 export class THeaderSection extends TCollectionItem { Text = ''; Width = 50; Alignment = 'taleftjustify'; MinWidth = 0; MaxWidth = 10000; }
 export class THeaderControl extends TWinControl {
+  override Align = 'altop'; // VCL default (not stored in the DFM)
   Sections = new TCollection(() => new THeaderSection());
   get kind() { return 'header'; }
 }

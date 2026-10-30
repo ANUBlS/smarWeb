@@ -76,7 +76,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
-  L0["sqls"] = "select bal_cn bal_acc, nvl(bal_acc, 0) hav from (select bal_acc from sba_balance_acc where upper(username)=upper('%s') and optype=%d) s, bal_spr1 b where s.bal_acc(+)=b.bal_cn";
+  await $.staticConst(L0, "sqls", "ubalaccs.tfrmbalaccs.dblookupcombobox1click.sqls", async () => "select bal_cn bal_acc, nvl(bal_acc, 0) hav from (select bal_acc from sba_balance_acc where upper(username)=upper('%s') and optype=%d) s, bal_spr1 b where s.bal_acc(+)=b.bal_cn");
   {
     const $t8 = (await $.v(C, "AdministrationData"));
     const $t9 = (await $.wv([$t8], "ODSBalAcc", C, false));

@@ -1,0 +1,274 @@
+{
+ "name": "Transactions",
+ "caption": "",
+ "dir": "Packages/Transactions",
+ "mainForm": "TTransactionsMainForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionCommitFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DescrTable",
+   "source": "TTrDescrForm.DescrTable",
+   "kind": "TOracleDataSet",
+   "sql": "select d.*, d.rowid from TRDESTINATION d\norder by ID",
+   "variables": [],
+   "unit": "TrDescrForm_Unit"
+  },
+  {
+   "name": "DebitCurrencyData",
+   "source": "TTransactionsDataModule.DebitCurrencyData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  currency.valute as ID,\n  currency.val_name as SName,\n  currency.valu_name as Name,\n  rates.OSTAT as Rate\nfrom\n  avalute currency,\n  TEMPRATE rates\nwhere\n  rates.VAL_KOD = currency.VALUTE\norder by currency.valute",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "CreditCurrencyData",
+   "source": "TTransactionsDataModule.CreditCurrencyData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  currency.valute as ID,\n  currency.val_name as SName,\n  currency.valu_name as Name,\n  rates.OSTAT as Rate\nfrom\n  avalute currency,\n  TEMPRATE rates\nwhere\n  rates.VAL_KOD = currency.VALUTE\norder by currency.valute",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "DebitAccData",
+   "source": "TTransactionsDataModule.DebitAccData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  a.ID,\n  a.ACC_NO,\n  a.VAL_ACC,\n  a.NAME,\n  t.ostat as Balance,\n  t.pok_ostat as LBalance,\n  b.CashIncoming as IsCacheAccount\nFROM\n  Account a,\n  Tenostat t,\n  Bal_SPR1 b\nwhere\n  (A.CLOSE_DAT IS NULL)\n  and (a.val_acc = :val_acc)\n  and (t.acc_id = a.ID)\n  and (b.bal_cn = a.bal_cn1)\nORDER BY ACC_NO\n\n\n ",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "CreditAccData",
+   "source": "TTransactionsDataModule.CreditAccData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  a.ID,\n  a.ACC_NO,\n  a.VAL_ACC,\n  a.NAME,\n  t.ostat as Balance,\n  t.pok_ostat as LBalance,\n  b.CashIncoming as IsCacheAccount\nFROM\n  Account a,\n  Tenostat t,\n  Bal_SPR1 b\nwhere\n  (A.CLOSE_DAT IS NULL)\n  and (a.val_acc = :val_acc)\n  and (t.acc_id = a.ID)\n  and (b.bal_cn = a.bal_cn1)\nORDER BY ACC_NO\n\n ",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "BankMData",
+   "source": "TTransactionsDataModule.BankMData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankm",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "TransactionsData",
+   "source": "TTransactionsDataModule.TransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  p.ID,\n  p.DebitID,\n  p.DebitAccNo,\n  p.DebitCurrencyID,\n  p.DebitCurrencySName,\n  p.CreditID,\n  p.CreditAccNo,\n  p.CreditCurrencyID,\n  p.CreditCurrencySName,\n  p.DebitAmount,\n  p.CreditAmount,\n  p.LAmount,\n  p.DebitRate,\n  p.CreditRate,\n  p.DebitBank,\n  p.CreditBank,\n  p.PackageNumber,\n  p.CYPHERCODE,\n  p.OPERATIONCODE,\n  p.INBALANCECHAR,\n  p.OUTBALANCECHAR,\n  p.FilialID,\n  p.DebitBalance,\n  p.Name,\n  p.Status,\n  p.REJECT_REASON,\n  p.TransactionDate\nFROM\n TRANSACTIONS p\n WHERE\n (p.TransactionDate between sysdate AND sysdate) AND ( ((p.DebitCurrencyID = 0) AND (p.CreditCurrencyID = 0))\n OR ((p.DebitCurrencyID <> 0) AND (p.DebitCurrencyID = p.CreditCurrencyID))\n OR (p.DebitCurrencyID <> p.CreditCurrencyID)\n OR ((p.LAmount <> 0) and ((p.DebitAmount = 0) or (p.CreditAmount = 0)))\n)\n AND (Status in ( 1 , 2 , 3))\n  ORDER BY p.ID",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "DebitAccountData",
+   "source": "TTransactionsDataModule.DebitAccountData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  a.ID,\n  a.ACC_NO as AccountNo,\n  a.Name,\n  t.ostat as Balance,\n  t.POK_OSTAT as LBalance,\n  b.CashIncoming as IsCacheAccount\nfrom\n  account a,\n  tenostat t,\n  bal_spr1 b\nwhere\n  (t.acc_id = a.id)\n  and (b.bal_cn = a.bal_cn1)\norder by AccountNo\n",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "CreditAccountData",
+   "source": "TTransactionsDataModule.CreditAccountData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  a.ID,\n  a.ACC_NO as AccountNo,\n  a.Name,\n  t.ostat as Balance,\n  t.POK_OSTAT as LBalance,\n  b.CashIncoming as IsCacheAccount\nfrom\n  account a,\n  tenostat t,\n  bal_spr1 b\nwhere\n  (t.acc_id = a.id)\n  and (b.bal_cn = a.bal_cn1)\norder by AccountNo\n \n\n ",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "DebitBalanceData",
+   "source": "TTransactionsDataModule.DebitBalanceData",
+   "kind": "TOracleDataSet",
+   "sql": "select bal_cn as No, balname as Name\nfrom bal_spr1\nwhere bal_cn>=1000\norder by bal_cn",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "InBalanceSymbolsData",
+   "source": "TTransactionsDataModule.InBalanceSymbolsData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from KASSA_B\nwhere MedioCrity = :AccountSide\norder by symbol",
+   "variables": [
+    {
+     "name": "ACCOUNTSIDE",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "OutbalanceSymbolsData",
+   "source": "TTransactionsDataModule.OutbalanceSymbolsData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CONVERT_ASSIGNMENTS\norder by ID",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "ODSCommisionTrans",
+   "source": "TTransactionsDataModule.ODSCommisionTrans",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    commision_trans.Rowid\n   ,id\n   ,name\n   ,debt\n   ,sb_complex_transactions.getaccountnumber(debt) as DebitAccount\n   ,sb_complex_transactions.GetAccountCurrency(debt) as DebitCurrency\n   ,credit\n   ,sb_complex_transactions.getaccountnumber(credit) as CreditAccount\n   ,sb_complex_transactions.GetAccountCurrency(credit) as CreditCurrency\n   ,additionalDebt\n   ,additionalCredit\n   ,sb_complex_transactions.getaccountnumber(additionalDebt) as ADebt\n   ,sb_complex_transactions.GetAccountCurrency(additionalDebt) as ADebitCurrency\n   ,sb_complex_transactions.getaccountnumber(additionalCredit) as ACredit\n   ,sb_complex_transactions.GetAccountCurrency(additionalCredit) as ACreditCurrency\n   ,assignment\n   ,commisionassignment\n   ,UserID\nfrom\n    commision_trans\nwhere\n   UserID = 0 or\n    UserID = (SBLogin.UserID)\norder by\n    commision_trans.ID",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "FilialsData",
+   "source": "TTransactionsDataModule.FilialsData",
+   "kind": "TOracleDataSet",
+   "sql": "select *\nfrom FILIAL",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "FilialsCData",
+   "source": "TTransactionsDataModule.FilialsCData",
+   "kind": "TOracleDataSet",
+   "sql": "select *\nfrom FILIAL",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "UsData",
+   "source": "TTransactionsDataModule.UsData",
+   "kind": "TOracleDataSet",
+   "sql": "select ID,NAME from\nuser$",
+   "variables": [],
+   "unit": "TransactionsDataModuleImpl"
+  },
+  {
+   "name": "DebitAccountData",
+   "source": "TTransactionsMainForm.DebitAccountData",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, ACC_NO as AccountNo, Name from account\norder by AccountNo",
+   "variables": [],
+   "unit": "TransactionsMainFormImpl"
+  },
+  {
+   "name": "CreditAccountData",
+   "source": "TTransactionsMainForm.CreditAccountData",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, ACC_NO as AccountNo, Name from account\norder by AccountNo",
+   "variables": [],
+   "unit": "TransactionsMainFormImpl"
+  },
+  {
+   "name": "DebitBalanceData",
+   "source": "TTransactionsMainForm.DebitBalanceData",
+   "kind": "TOracleDataSet",
+   "sql": "select bal_cn as No, balname as Name\nfrom bal_spr1\nwhere bal_cn>=1000\norder by bal_cn",
+   "variables": [],
+   "unit": "TransactionsMainFormImpl"
+  },
+  {
+   "name": "CreditBalanceData",
+   "source": "TTransactionsMainForm.CreditBalanceData",
+   "kind": "TOracleDataSet",
+   "sql": "select bal_cn as No, balname as Name\nfrom bal_spr1\nwhere bal_cn>=1000\norder by bal_cn",
+   "variables": [],
+   "unit": "TransactionsMainFormImpl"
+  },
+  {
+   "name": "DebitCurrencyData",
+   "source": "TTransactionsMainForm.DebitCurrencyData",
+   "kind": "TOracleDataSet",
+   "sql": "select VALUTE as CurrencyID, VALU_NAME as Name\nfrom AVALUTE\norder by CurrencyID",
+   "variables": [],
+   "unit": "TransactionsMainFormImpl"
+  },
+  {
+   "name": "CreditCurrencyData",
+   "source": "TTransactionsMainForm.CreditCurrencyData",
+   "kind": "TOracleDataSet",
+   "sql": "select VALUTE as CurrencyID, VALU_NAME as Name\nfrom AVALUTE\norder by CurrencyID",
+   "variables": [],
+   "unit": "TransactionsMainFormImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPComplexTrans",
+   "package": "SB_COMPLEX_TRANSACTIONS",
+   "mode": "positional",
+   "source": "TTransactionsDataModule.OPComplexTrans",
+   "routines": [
+    {
+     "name": "GetAccountCurrencyID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "SetTransactions",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage",
+   "package": "",
+   "mode": "positional",
+   "source": "TTransactionsDataModule.OraclePackage",
+   "routines": [
+    {
+     "name": "EXCHANGE_CALLBACK",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBReport",
+   "package": "SBREP",
+   "mode": "named",
+   "source": "TTransactionsDataModule.SBReport",
+   "routines": [
+    {
+     "name": "TrBuildQuery",
+     "call": "CallStringFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

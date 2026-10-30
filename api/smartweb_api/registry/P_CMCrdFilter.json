@@ -1,0 +1,52 @@
+{
+ "name": "P_CMCrdFilter",
+ "caption": "",
+ "dir": "Packages/CM_Credit_filter",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Customers",
+   "source": "TMainForm.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM customers where id in(select BOOROWERID from cm_active_credits )\nORDER BY NAME",
+   "variables": [],
+   "unit": "MainFormFilİmpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

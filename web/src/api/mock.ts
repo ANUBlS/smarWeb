@@ -117,6 +117,13 @@ function curOf(r: RowCtx) {
   return hash(r.seed + 'cur') % 3 === 0 ? CURRENCIES[1] : CURRENCIES[0];
 }
 
+/** Base queries the mock answers for server-side query builders (the real function adds the filters). */
+const MOCK_BUILT_QUERY: Record<string, string> = {
+  'SBREP.TRBUILDQUERY': 'SELECT p.ID, p.DebitID, p.DebitAccNo, p.DebitCurrencyID, p.DebitCurrencySName, p.CreditID, p.CreditAccNo, '
+    + 'p.CreditCurrencyID, p.CreditCurrencySName, p.DebitAmount, p.CreditAmount, p.LAmount, p.DebitRate, p.CreditRate, p.DebitBank, '
+    + 'p.CreditBank, p.PackageNumber, p.CYPHERCODE, p.OPERATIONCODE, p.INBALANCECHAR, p.OUTBALANCECHAR, p.FilialID, p.DebitBalance, '
+    + 'p.Name, p.Status, p.REJECT_REASON, p.TransactionDate FROM TRANSACTIONS p ORDER BY p.ID',
+};
 let seqCounter = 900000;
 
 function valueFor(col: string, expr: string, type: OraType, r: RowCtx, isPrimaryId: boolean): unknown {
@@ -383,7 +390,8 @@ export class MockOracleApi implements OracleApi {
         : /FILIAL|BRANCH|USER|GROUP|COMPANY|LANG/.test(full) ? 1 : /ID|SEQ|NEW|NEXT/.test(full) ? ++seqCounter : 1; break;
       case 'float': result = /RATE|KURS/.test(full) ? 1.7 : 0; break;
       case 'boolean': result = !/EXIST|ERROR|LOCK|CLOSED|ARCHIV/.test(full) || /CAN|ALLOW|ACCESS|GRANT/.test(full); break;
-      case 'string': result = /USER|NAME/.test(full) ? 'SABUHI' : /VERSION/.test(full) ? '4.0' : ''; break;
+      // server-side query builders (SBREP.TrBuildQuery …) return SQL text
+      case 'string': result = /BUILDQUERY$/.test(full) ? MOCK_BUILT_QUERY[full] ?? '' : /USER|NAME/.test(full) ? 'SABUHI' : /VERSION/.test(full) ? '4.0' : ''; break;
       case 'variant': result = null; break;
       default: result = null;
     }

@@ -1,0 +1,49 @@
+{
+ "name": "OutTuningAccTypes",
+ "caption": "Balansdan kənar / Məlumatlar / Hesab növləri",
+ "dir": "Packages/Out_Tuningacctypes",
+ "mainForm": "TFlagsEditor",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Account_Types",
+   "source": "TFlagsEditor.Account_Types",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  AT.* ,\n  AT.RowID\nfrom\n  Out_Account_Flags AT  ",
+   "variables": [],
+   "unit": "TuningAccTypesImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

@@ -93,6 +93,8 @@ export interface ApplyRecordResult { rowid?: string | null; values?: Record<stri
 
 export interface OracleApi {
   readonly name: string;
+  /** Database aliases offered on the logon screen (real API only). */
+  databases?(): Promise<string[]>;
   logon(r: LogonRequest): Promise<LogonResult>;
   logoff(): Promise<void>;
   query(r: QueryRequest): Promise<QueryResult>;

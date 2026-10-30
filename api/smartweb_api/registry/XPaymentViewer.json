@@ -1,0 +1,109 @@
+{
+ "name": "XPaymentViewer",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Ödənişlərə baxış",
+ "dir": "Packages/paymentviewer",
+ "mainForm": "TPaymentViewer",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Paymentdata",
+   "source": "TDataModule5.Paymentdata",
+   "kind": "TOracleDataSet",
+   "sql": "select * from emanat_credit_inserts where trunc(systemdate) between :dat1 and :dat2",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "Datamodules"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDataModule5.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select  \n\n(select policy_num from ins_contracts where id=contractnum) Polis,\namount mebleg,customer musteri,respdatetime odenis_tarixi,sys_date sistem_tarixi,0\n from ws_payment_million where sys_date between :dat1 and :dat2\n union all \n \n select  \n\n(select policy_num from ins_contracts where id=contract_num) Polis,\namount mebleg,customer musteri,respdatetime odenis_tarixi,sys_date sistem_tarixi,1\n from ws_temppayment_million\nsys_date between :dat1 and :dat2\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "Datamodules"
+  },
+  {
+   "name": "Paymentdata",
+   "source": "TPaymentViewer.Paymentdata",
+   "kind": "TOracleDataSet",
+   "sql": "select * from emanat_credit_inserts where trunc(systemdate) between :dat1 and :dat2\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "ViewPayments"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TPaymentViewer.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select  \nid,\n(select policy_num from ins_contracts where id=contractnum) Polis,\namount mebleg,customer musteri,respdatetime odenis_tarixi,sys_date sistem_tarixi,0 \n from ws_payment_million where sys_date between :dat1 and :dat2\n union all \n \n select  \nid,\n(select policy_num from ins_contracts where id=contract_num) Polis,\namount mebleg,customer musteri,respdatetime odenis_tarixi,sys_date sistem_tarixi,1\n from ws_temppayment_million where\nsys_date between :dat1 and :dat2\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "ViewPayments"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

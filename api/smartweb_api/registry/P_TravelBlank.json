@@ -1,0 +1,199 @@
+{
+ "name": "P_TravelBlank",
+ "caption": "",
+ "dir": "Insurance/TravelBlank",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "loss.bpl": "P_Loss",
+  "reinsurance.bpl": "P_Reinsurance"
+ },
+ "lib": [
+  "CMCurrencyEdit",
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Customers",
+   "source": "TDMTravelBlank.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,trim(c.name||' '||c.surname||' '||c.fathername) as name,c.address,c.mobilephone,c.fax,c.contactperson from ins_customers c where c.close_prefix=0",
+   "variables": [],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TDMTravelBlank.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.rowid,ib.* from ins_beneficiary ib",
+   "variables": [],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "ODSAgents",
+   "source": "TDMTravelBlank.ODSAgents",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.name||' '||a.surname||' '||a.fathername as name from ins_agents a",
+   "variables": [],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "DsSysdat",
+   "source": "TDMTravelBlank.DsSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "ODSAvalute",
+   "source": "TDMTravelBlank.ODSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute\norder by valute",
+   "variables": [],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "DSins_contracts",
+   "source": "TDMTravelBlank.DSins_contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from ins_contracts c\nwhere c.id=:cid",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "DSins_contract_travel",
+   "source": "TDMTravelBlank.DSins_contract_travel",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,a.*\n  FROM ins_contract_travel a\nwhere a.cid=:p_cid",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "DSBank",
+   "source": "TDMTravelBlank.DSBank",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankm\nwhere id in (select BANK_ID from ins_bank_setting)\norder by name",
+   "variables": [],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "DSinscust",
+   "source": "TDMTravelBlank.DSinscust",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id,c.cust_id,c.surname||' '||c.name||' '||c.fathername as ins_name,cus.name as cus_name from ins_customers c, customers cus\nwhere cus.id=c.cust_id\nand cus.close_dat is NULL\nand  c.id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "DSFilial",
+   "source": "TDMTravelBlank.DSFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial\norder by id",
+   "variables": [],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "ds_ekvalent",
+   "source": "TDMTravelBlank.ds_ekvalent",
+   "kind": "TOracleDataSet",
+   "sql": "select * from operkurs\nwhere dat=:pdat\nand  val_kod=:pval_id",
+   "variables": [
+    {
+     "name": "PDAT",
+     "type": "date"
+    },
+    {
+     "name": "PVAL_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTravelBlankImpl"
+  },
+  {
+   "name": "Ds_bnf_type",
+   "source": "TDMTravelBlank.Ds_bnf_type",
+   "kind": "TOracleDataSet",
+   "sql": "select * from  ins_bnf_type\n",
+   "variables": [],
+   "unit": "DMTravelBlankImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "ins_common",
+   "package": "ins_common",
+   "mode": "positional",
+   "source": "TDMTravelBlank.ins_common",
+   "routines": [
+    {
+     "name": "account_open",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_acc_balanc_hesab",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_acc_id",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMTravelBlank.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

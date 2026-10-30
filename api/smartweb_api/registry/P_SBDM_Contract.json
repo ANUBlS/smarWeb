@@ -1,0 +1,239 @@
+{
+ "name": "P_SBDM_Contract",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_Contract",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ClientTypes",
+   "source": "TdmDepositContract.ClientTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, category\n  FROM sbcm_categories",
+   "variables": [],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "Filals",
+   "source": "TdmDepositContract.Filals",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "persons",
+   "source": "TdmDepositContract.persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM sbcm_persons",
+   "variables": [],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "valutes",
+   "source": "TdmDepositContract.valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TdmDepositContract.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from customers",
+   "variables": [],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "DepositAccs",
+   "source": "TdmDepositContract.DepositAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n   kli_id = :CustID and\n   val_acc =:val_acc AND\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM sbcm_acc_zones g\n                                            WHERE g.name = 'Deposit'))\n         )\nand close_dat is null\nORDER BY kli_id,accno",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    },
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "DepositPorps",
+   "source": "TdmDepositContract.DepositPorps",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT cont.rowid,\n       cont.opendate, \n       cont.closedate, \n       cont.amount, \n       cont.contractno, \n       cont.contracttype,\n       cont.clienttype,\n       cont.sid#, \n       cont.branchid,\n       cont.Autopr, \n       cont.currency, \n       cont.personaltype,\n       cont.customerid,\n       cont.capitalperid,\n       cont.periodid,\n       sbcm_stored_programs.GetpercentCollection(cont.id) as interest,\n       ointr.overdueinterest,\n       ointr.dueinterest,\n       acc.contractaccid,\n       acc.clientaccid,\n       acc.interestaccid,\n       acc.booroweraccid,\n       cont.firstinterestpaydat\n  FROM sbcm_contracts cont,\n       sbcm_overdueinterests ointr,\n       sbcm_contract_accounts acc\n where \n      cont.id = :ContractID and     \n      ointr.id# = :ContractID and\n      acc.id# = :ContractID \n    \n       ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "DepositTypes1",
+   "source": "TdmDepositContract.DepositTypes1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, type\n  FROM sbcm_deposit_types",
+   "variables": [],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "ClientAccs",
+   "source": "TdmDepositContract.ClientAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n    kli_id = :CustID and\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM sbcm_acc_zones g\n                                            WHERE g.name = 'Account'))\n         )\nand close_dat is null\nORDER BY kli_id,accno\n",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "InterestsAccs",
+   "source": "TdmDepositContract.InterestsAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n   kli_id = :CustID and\n   val_acc =:val_acc AND\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM sbcm_acc_zones g\n                                            WHERE g.name = 'Percent'))\n         )\nand close_dat is null\nORDER BY kli_id,accno\n",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    },
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "CreditAccs",
+   "source": "TdmDepositContract.CreditAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM sbcm_acc_zones g\n                                            WHERE g.name = 'Credit'))\n         )\nand close_dat is null\nORDER BY kli_id,accno\n",
+   "variables": [],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "DepCapperiod",
+   "source": "TdmDepositContract.DepCapperiod",
+   "kind": "TOracleDataSet",
+   "sql": "select id,period,description,periodid from sbcm_depcapitalperiods\nwhere periodid = :periodid\norder by period",
+   "variables": [
+    {
+     "name": "PERIODID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "DepPeriods",
+   "source": "TdmDepositContract.DepPeriods",
+   "kind": "TOracleDataSet",
+   "sql": "select id,period,description,depid from sbcm_depperiods\n\nwhere depid = :depid\norder by period ",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "float"
+    }
+   ],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "BoorowerAccs",
+   "source": "TdmDepositContract.BoorowerAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n    kli_id = :CustID and\n    val_acc =:val_acc AND\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM sbcm_acc_zones g\n                                            WHERE g.name = 'Account'))\n         )\nand close_dat is null\nORDER BY kli_id,accno\n\n",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    },
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositContractImpl"
+  },
+  {
+   "name": "usrs",
+   "source": "TdmDepositContract.usrs",
+   "kind": "TOracleDataSet",
+   "sql": "select id,lower(name) as name from user$",
+   "variables": [],
+   "unit": "dmDepositContractImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sbcm_contract",
+   "package": "sbcm_contract",
+   "mode": "named",
+   "source": "TdmDepositContract.sbcm_contract",
+   "routines": [
+    {
+     "name": "Check_BankAccount",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "GetPeriod",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Get_DefaultContractRate",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "NewDeposit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UpdateDeposit",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}
