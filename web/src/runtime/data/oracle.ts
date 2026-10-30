@@ -53,7 +53,7 @@ const OT: Record<string, OraType> = {
   otblob: 'blob', otclob: 'clob', otcursor: 'cursor', otchar: 'string', otvarchar2: 'string', otsubst: 'string',
   otboolean: 'boolean', otraw: 'blob', otplsqlstring: 'string', ottimestamp: 'date', otnumber: 'float',
 };
-const OT_CODES: Record<number, OraType> = { 3: 'integer', 4: 'float', 5: 'string', 12: 'date', 8: 'string', 102: 'cursor', 113: 'blob', 112: 'clob', 252: 'boolean', 1: 'string', 96: 'string' };
+const OT_CODES: Record<number, OraType> = { 3: 'integer', 4: 'float', 5: 'string', 12: 'date', 8: 'string', 102: 'cursor', 116: 'cursor', 113: 'blob', 112: 'clob', 252: 'boolean', 1: 'string', 96: 'string' };
 for (const [k, v] of Object.entries(OT)) defineGlobal(k, k);
 const PAR: Record<string, OraType> = { parstring: 'string', parinteger: 'integer', parfloat: 'float', pardate: 'date', parboolean: 'boolean', parcursor: 'cursor', parblob: 'blob', parclob: 'clob' };
 export class OutParam { constructor(public out: OraType) {} }
@@ -416,8 +416,22 @@ export class TOracleQuery extends TComponent {
       this.pos = 0;
       this.RowsProcessed = r.rowsProcessed;
       this.executed = true;
-    } catch (e) { toOracleError(e); }
+    } catch (e) {
+      if (this.Threaded && this.hasHandler('OnThreadError')) { await this.fire('OnThreadError', this, (e as Error)?.message ?? String(e)); return; }
+      toOracleError(e);
+    }
+    // DOA Threaded queries: OnThreadExecuted, OnThreadRecord for each fetched row, OnThreadFinished
+    if (this.Threaded) {
+      await this.fire('OnThreadExecuted', this);
+      if (this.hasHandler('OnThreadRecord')) {
+        for (this.pos = 0; this.pos < this.data.length; this.pos++) await this.fire('OnThreadRecord', this);
+      }
+      await this.fire('OnThreadFinished', this);
+    }
   }
+  ThreadSynchronized = true;
+  get ThreadIsRunning() { return false; }
+  BreakThread() { /* fetching is not interruptible here */ }
   async ExecuteArray() { await this.Execute(); }
   async Describe() { /* */ }
   Close() { this.data = []; this.pos = 0; this.executed = false; }

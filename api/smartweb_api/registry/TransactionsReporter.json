@@ -230,7 +230,7 @@
     },
     {
      "name": "P_RESULT",
-     "type": "string"
+     "type": "cursor"
     },
     {
      "name": "P_ORDERBY",
@@ -279,7 +279,7 @@
     },
     {
      "name": "P_RESULT",
-     "type": "string"
+     "type": "cursor"
     },
     {
      "name": "P_KREDET",
@@ -348,7 +348,7 @@
     },
     {
      "name": "P_RESULT",
-     "type": "string"
+     "type": "cursor"
     },
     {
      "name": "P_KREDET",

@@ -277,7 +277,7 @@
    "variables": [
     {
      "name": "ACURSOR",
-     "type": "string"
+     "type": "cursor"
     },
     {
      "name": "ASTRPARAM",

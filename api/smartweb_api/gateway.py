@@ -76,6 +76,22 @@ def query(s: Session, sql: str, variables: list[dict], max_rows: int | None = No
             cur.arraysize = 500
             names = _bind_names(cur, sql)
             given = _bind_map(variables)
+            cursors = [n for n in names if (given.get(n) or {}).get('type') == 'cursor']
+            if cursors:
+                # DOA dataset over a PL/SQL block returning a REF CURSOR:
+                #   begin pkg_report.get_customers(p_result => :p_result); end;
+                binds: dict[str, Any] = {}
+                for n in names:
+                    if n in cursors:
+                        binds[n] = cur.var(oracledb.DB_TYPE_CURSOR)
+                    else:
+                        binds[n] = convert.to_db(given[n].get('value'), given[n].get('type')) if n in given else None
+                cur.execute(None, binds)
+                rc = binds[cursors[0]].getvalue()
+                if rc is None or rc.description is None:  # the routine did not open the cursor
+                    return {'columns': [], 'rows': []}
+                rc.arraysize = 500
+                return {'columns': convert.columns_of(rc.description), 'rows': _rows(rc, max_rows)}
             binds = {n: convert.to_db(given[n].get('value'), given[n].get('type')) if n in given else None for n in names}
             cur.execute(None, binds)
             cols = convert.columns_of(cur.description)

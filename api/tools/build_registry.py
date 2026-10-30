@@ -21,7 +21,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 GEN = os.path.join(ROOT, 'web', 'src', 'generated')
 OUT = os.path.join(ROOT, 'api', 'smartweb_api', 'registry')
 
-DOA_TYPES = {3: 'integer', 4: 'float', 5: 'string', 12: 'date', 8: 'string', 102: 'cursor', 113: 'blob', 112: 'clob',
+DOA_TYPES = {3: 'integer', 4: 'float', 5: 'string', 12: 'date', 8: 'string', 102: 'cursor', 116: 'cursor', 113: 'blob', 112: 'clob',
              252: 'boolean', 1: 'subst', 96: 'string'}  # same codes as web/src/runtime/data/oracle.ts; 1 = otSubst
 SQL_START = re.compile(r'^\s*(select|insert|update|delete|merge|begin|declare|with|call|lock|truncate)\b', re.I)
 CALL = re.compile(r'"(Call(?:Procedure|IntegerFunction|FloatFunction|StringFunction|DateFunction|BooleanFunction|'

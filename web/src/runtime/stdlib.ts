@@ -2,7 +2,7 @@
  * Root globals: Delphi RTL / VCL functions, constants and exception types
  * that transpiled code reaches when an identifier is not declared in any unit.
  */
-import { NOTFOUND, Found, routine, Ref, PasException, AbortSignal, PType, TObject, isPObj } from './core';
+import { NOTFOUND, Found, routine, Ref, PasException, AbortSignal, PType, TObject, isPObj, pointerHandle, derefPointer } from './core';
 import { getBuiltin } from './env';
 import { num, str, rangeOf } from './pascal';
 import {
@@ -544,7 +544,8 @@ fn('SysErrorMessage', () => '');
 fn('RaiseLastOSError', () => undefined);
 fn('RaiseLastWin32Error', () => undefined);
 fn('OutputDebugString', (s) => logger.debug(str(s)));
-fn('Integer', (v) => (typeof v === 'boolean' ? (v ? 1 : 0) : typeof v === 'string' ? (v.charCodeAt(0) || 0) : Math.trunc(num(v))));
+fn('Integer', (v) => (typeof v === 'boolean' ? (v ? 1 : 0) : typeof v === 'string' ? (v.charCodeAt(0) || 0)
+  : v !== null && (typeof v === 'object' || typeof v === 'function') ? pointerHandle(v as object) : Math.trunc(num(v))));
 for (const n of ['LongInt', 'Cardinal', 'Word', 'Byte', 'SmallInt', 'ShortInt', 'Int64', 'LongWord', 'DWORD']) G.set(n.toLowerCase(), G.get('integer'));
 fn('Boolean', (v) => !!v && v !== 0);
 fn('Double', (v) => num(v));
@@ -562,7 +563,7 @@ fn('AnsiChar', (v) => (typeof v === 'number' ? String.fromCharCode(v) : str(v).c
 fn('WideChar', (v) => (typeof v === 'number' ? String.fromCharCode(v) : str(v).charAt(0)));
 fn('Variant', (v) => v);
 fn('OleVariant', (v) => v);
-fn('Pointer', (v) => v);
+fn('Pointer', (v) => derefPointer(v));
 fn('TObject', (v) => v);
 fn('TDateTime', (v) => toDateValue(v));
 fn('TDate', (v) => toDateValue(v));

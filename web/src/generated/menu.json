@@ -1277,133 +1277,6 @@
        "children": []
       }
      ]
-    },
-    {
-     "caption": "Sığorta",
-     "action": 0,
-     "params": {},
-     "children": [
-      {
-       "caption": "Avto KASKO",
-       "action": 1114,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Avto KASKO sığortası",
-       "action": 1115,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Avtomobil soraqçası",
-       "action": 1096,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Avtomobil sığortası",
-       "action": 1098,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Blanklar",
-       "action": 1099,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Fərdi qəza sığortası",
-       "action": 1105,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Hüquqlar",
-       "action": 1101,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Kommersiya əmlakı",
-       "action": 1125,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Korporativ KASKO",
-       "action": 1119,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Məsuliyyət sığortası",
-       "action": 1102,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Qəza sığortası",
-       "action": 1106,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Sığorta müştəriləri",
-       "action": 1091,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Sığortalar",
-       "action": 1092,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Səyahət sığortası",
-       "action": 1103,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Tam avto KASKO",
-       "action": 1117,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Tam avto sığorta",
-       "action": 1116,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Tibbi sığorta",
-       "action": 1110,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Tikinti sığortası",
-       "action": 1129,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Təkrarsığorta qəbulu",
-       "action": 1100,
-       "params": {},
-       "children": []
-      },
-      {
-       "caption": "Yük sığortası",
-       "action": 1104,
-       "params": {},
-       "children": []
-      }
-     ]
     }
    ]
   }
@@ -1542,27 +1415,7 @@
   "1087": "XBusinessProcesses",
   "1088": "XTranslator",
   "1089": "XTickets",
-  "1090": "XPutyovka",
-  "1091": "XInsCustomers",
-  "1092": "XInsurances",
-  "1096": "XInsAutoDict",
-  "1098": "XInsAuto",
-  "1099": "XInsBlankMain",
-  "1100": "XInsReinsReceive",
-  "1101": "XInsRights",
-  "1102": "XInsResponsibility",
-  "1103": "XInsTravel",
-  "1104": "XInsCargo",
-  "1105": "XInsMyAccident",
-  "1106": "XInsPersonalAccMain",
-  "1110": "XInsMedical",
-  "1114": "XInsMotorKasko",
-  "1115": "XInsMotorKascoIns",
-  "1116": "XInsFullMotor",
-  "1117": "XInsFullMotorCasco",
-  "1119": "XInsMkCorporate",
-  "1125": "XInsCPropMain",
-  "1129": "XInsConstructionMain"
+  "1090": "XPutyovka"
  },
  "reportActions": [
   9,
@@ -1725,64 +1578,9 @@
   "{5C5A59BF-8727-456B-AE49-EFE239287938}": "XBusinessProcesses",
   "{5184707F-B3A7-496B-BA1D-E3AB0942D6A3}": "XTranslator",
   "{2063A59A-7AFB-4C93-BC54-05983CA3C713}": "XTickets",
-  "{91EC7FA8-C520-42DB-ADCC-B568BE39D4CD}": "XPutyovka",
-  "{3CC60E0C-5FC9-4955-9F88-2DCD325348C5}": "XInsCustomers",
-  "{5EDB6B9E-AE6D-46EE-A492-394A6E8BCA46}": "XInsurances",
-  "{33777E01-D797-4C04-85D0-31C85C7EDB12}": "XInsPayments",
-  "{8C35B7B8-2AF6-4BEA-BD7E-F0D01DBDC7EC}": "XInsAccountDoc",
-  "{839CCAEF-9A7F-447B-AF7E-C8DE033306CA}": "XInsAccountState",
-  "{3605F638-6AA8-49BE-BF70-93D0941B056F}": "XInsAutoDict",
-  "{EC6A8A67-987B-45C3-9147-BD9682F4FDC3}": "XInsDictChilde",
-  "{A6EBF974-7EBE-491D-AD3D-C5928E6BED46}": "XInsAuto",
-  "{75ADEE5D-F2E7-42F5-82B5-2C92755E0C9E}": "XInsBlankMain",
-  "{C16FF2DF-BC1C-4782-AAB1-479E5B9C5456}": "XInsReinsReceive",
-  "{DD1260F7-C3B4-4733-98E9-58222E007F97}": "XInsRights",
-  "{9E271E35-624F-497A-ACED-4AC604BE77DD}": "XInsResponsibility",
-  "{C2B1892A-A9B6-4CEA-AE0E-741C6A2853E4}": "XInsTravel",
-  "{5F7BF270-01ED-4A67-BA10-CE77047C11E1}": "XInsCargo",
-  "{257E7985-0813-4576-B1E5-36CDA8F05E58}": "XInsMyAccident",
-  "{88E19B24-4064-4BA9-8FD3-39CA45B0D47F}": "XInsPersonalAccMain",
-  "{4CE12A01-2B74-46A1-B926-62459B0099FF}": "XInsPersonalAccident",
-  "{DF05FA85-2A5E-472D-8506-3C31DF75BDD8}": "XInsPersonalAccPolicy",
-  "{F64B6260-CAB7-4D0A-9149-CF1A4639CD5C}": "XInsPersonalAccSuggest",
-  "{8672975E-F050-48A4-8CFA-145A1ADD3AF2}": "XInsMedical",
-  "{0B7E3E71-EE29-4EED-9D88-4BC424513DDC}": "XInsMedBlank",
-  "{6730B53F-5460-40A6-8554-F904B6690915}": "XInsMedPolicy",
-  "{8488AAD4-B4AC-42D2-B3F4-53A042977147}": "XInsMedSuggestion",
-  "{6E94A6C5-E470-41B8-99E5-6E85878ECAA1}": "XInsMotorKasko",
-  "{8106CEEA-CD59-4C56-BA25-580451F2A4BB}": "XInsMotorKascoIns",
-  "{08A8ED2B-1456-4D4A-829F-EDA7FDC4AA94}": "XInsFullMotor",
-  "{AE6A6E9D-6D9C-4B1A-89A8-D8F81AC7B87F}": "XInsFullMotorCasco",
-  "{10B7A209-A993-466D-A763-98A80A7E74C6}": "XInsMkBlank",
-  "{27085BFE-C0A2-46CB-B257-78E43EDCB08C}": "XInsMkCorporate",
-  "{3C454A4C-C304-4633-AAAD-4C46C68BB8EE}": "XInsMkPolicy",
-  "{D5269FCA-2559-4984-A565-16C0EE110CF6}": "XInsMkSuggestion",
-  "{E23FC4C0-937D-4C1A-B8A0-00F4D9130FAA}": "XInsMfBlank",
-  "{7269AF35-5AC3-406B-8330-29850E49B6A6}": "XInsMfPolicy",
-  "{9D5D6D94-4ED9-4D64-9BC1-67394E009B52}": "XInsMfSuggestion",
-  "{0F4C8CDF-6070-4231-9680-4C679DC67C9D}": "XInsCPropMain",
-  "{9174F6E6-DEF4-4861-8301-61919D456EC5}": "XInsCPropBlank",
-  "{0F2A35A4-7A65-4085-BED1-BDCBC55C5836}": "XInsCPropPolicy",
-  "{3918AA1B-6A5D-4559-8F6E-826F4E72F309}": "XInsCPropSuggest",
-  "{717ABF77-67D7-4EC8-AEEC-3B772905DB99}": "XInsConstructionMain",
-  "{5F747E30-D623-4C34-BB55-9FBC1288AA9C}": "XInsConstructionBlank",
-  "{FEE93B74-CDCF-49A1-A5D9-84162C91971C}": "XInsConstructionPolicy",
-  "{0D0BAE0E-C323-439C-AAD6-EBBB63D04E9C}": "XInsConstructionSuggest"
+  "{91EC7FA8-C520-42DB-ADCC-B568BE39D4CD}": "XPutyovka"
  },
  "plugins": {
-  "cargoblank.bpl": "P_CargoBlank",
-  "inscontracterminated.bpl": "P_InsContracterminated",
-  "inspayment.bpl": "P_InsPayment",
-  "inspaymentplan.bpl": "P_InsPaymentPlan",
-  "loss.bpl": "P_Loss",
-  "paymentloss.bpl": "P_Paymentloss",
-  "reinsurance.bpl": "P_Reinsurance",
-  "paymenterminateimpl.bpl": "P_PaymenTerminateimpl",
-  "travelblank.bpl": "P_TravelBlank",
-  "responsibilityblank.bpl": "P_ResponsibilityBlank",
-  "ferid.bpl": "P_Ferid",
-  "ins_reins_exelinp.bpl": "P_ins_reins_exelinp",
-  "ins_reinsr_contract.bpl": "P_Ins_ReinsR_contract",
   "filereport.bpl": "P_FileReport",
   "cm_conclusion.bpl": "P_CM_Conclusion",
   "cm_guarantee.bpl": "P_Cm_Guarantee",

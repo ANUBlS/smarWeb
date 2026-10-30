@@ -49,7 +49,9 @@ def test_dataset_endpoint_runs_registered_sql(client, conn, session, module, key
     assert sql == ' '.join(expected.split())
     used = _binds_in(expected)
     for v in ds['variables']:
-        if v['name'] in used and v['type'] != 'subst':
+        if v['name'] in used and v['type'] == 'cursor':
+            assert v['name'] in binds, v  # REF CURSOR out bind (no input value)
+        elif v['name'] in used and v['type'] != 'subst':
             assert binds[v['name']] == EXPECT.get(v['type'], 'X'), v
 
 

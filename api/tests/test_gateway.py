@@ -162,3 +162,17 @@ def test_day_first_date_text(text):
     import datetime as dt
     from smartweb_api.convert import parse_date
     assert parse_date(text) == dt.datetime(2026, 10, 29)
+
+
+def test_dataset_over_plsql_ref_cursor(client, conn, session):
+    """DOA dataset: begin pkg.get_customers(p_result => :p_result); end; with an otCursor variable."""
+    from tests.fake_oracle import FakeCursor
+    rc = FakeCursor(conn)
+    rc._set([('ID', 'NUMBER'), ('NAME', 'VARCHAR2')], [(1, 'Azər Tikinti ASC'), (2, 'Nur Pharma')])
+    conn.on(r'pkg_report\.get_customers', out={'P_RESULT': rc})
+    r = client.post('/api/query', headers=session, json={'source': 'TAccDataModule.Customers',
+                    'sql': 'begin pkg_report.get_customers(p_result=>:p_result); end;',
+                    'variables': [{'name': 'P_RESULT', 'type': 'cursor', 'value': None}]})
+    assert r.status_code == 200, r.text
+    j = r.json()
+    assert [c['name'] for c in j['columns']] == ['ID', 'NAME'] and j['rows'] == [[1, 'Azər Tikinti ASC'], [2, 'Nur Pharma']]

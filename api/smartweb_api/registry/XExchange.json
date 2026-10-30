@@ -549,7 +549,7 @@
     },
     {
      "name": "RESULT",
-     "type": "string"
+     "type": "cursor"
     }
    ],
    "unit": "UnitDateExch"
@@ -628,7 +628,7 @@
     },
     {
      "name": "RESULT",
-     "type": "string"
+     "type": "cursor"
     }
    ],
    "unit": "UnitDateExch"
@@ -739,7 +739,7 @@
     },
     {
      "name": "RESULT",
-     "type": "string"
+     "type": "cursor"
     }
    ],
    "unit": "UnitDateExch"

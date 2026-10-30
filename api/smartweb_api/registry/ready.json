@@ -1,1 +1,12 @@
-["Common", "Accounts", "Customers", "XTaxes", "XOutAvalute", "XProblemCreditMgr", "Transactions"]
+[
+  "Common",
+  "Accounts",
+  "Customers",
+  "XTaxes",
+  "XOutAvalute",
+  "XProblemCreditMgr",
+  "Transactions",
+  "TransactionManager",
+  "Account",
+  "PaymentDecree"
+]

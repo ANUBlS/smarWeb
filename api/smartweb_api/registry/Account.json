@@ -192,7 +192,7 @@
    "variables": [
     {
      "name": "P_RESULT",
-     "type": "string"
+     "type": "cursor"
     }
    ],
    "unit": "AccountDataModuleImpl"
@@ -241,7 +241,7 @@
     },
     {
      "name": "RESULT",
-     "type": "string"
+     "type": "cursor"
     }
    ],
    "unit": "AccountRestState"

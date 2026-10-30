@@ -6,7 +6,7 @@
  */
 import {
   NOTFOUND, Found, Routine, routine, isRoutine, isType, PType, isPObj, PasException, AbortSignal, Ref, ValueRef,
-  TObject, inheritsFrom, reflectGet, GAP,
+  TObject, inheritsFrom, reflectGet, GAP, derefPointer,
 } from './core';
 import { Env, UnitObj, getBuiltin, pickOverload, ENUM_TYPES } from './env';
 import { logger } from './log';
@@ -85,7 +85,7 @@ function accessViolation(name: string) {
 
 export async function callValue(f: unknown, args: unknown[]): Promise<unknown> {
   if (isRoutine(f) || typeof f === 'function') return await (f as Routine)(...args);
-  if (isType(f)) return args[0]; // typecast  TFoo(x)
+  if (isType(f)) return derefPointer(args[0]); // typecast  TFoo(x); TFoo(Tag) with a pointer handle
   if (args.length === 0) return f;
   // Variant arrays / indexed default property used with () syntax
   if (isPObj(f) && typeof (f as any).pindex === 'function') return (f as any).pindex(args);

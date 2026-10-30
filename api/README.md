@@ -45,7 +45,10 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | XTaxes — Əlavə modullar / Ödənişlər və köçürmələr / Vergi ödənişləri (5 datasets; pg_pcustservice.get_vergul_tax, sb_taxs.report_tax) | ✅ ready |
 | XOutAvalute — Əlavə modullar / Mühasibat və balans / Valyutalar (balansdankənar) (4 datasets; P_AVALUTE.add_avalute / upd_avalute, named, from OnApplyRecord) | ✅ ready |
 | XProblemCreditMgr — Əlavə modullar / Kreditlər / Problemli kreditlərin idarə olunması (3 datasets, read-only; PrViewDSet reads dba_col_comments) | ✅ ready |
-| Transactions — Balans / Əməliyyat günü / Əməliyyatlar ("Transaction manager"; 22 datasets; SBREP.TrBuildQuery builds the grid SQL on the server; SB_COMPLEX_TRANSACTIONS; EXCHANGE_CALLBACK schema-level; saving through SB_TRANSACTION in Common) | ✅ ready |
+| Transactions — "Transaction manager" (menu item Əməliyyat günü / Əməliyyatlar removed; 22 datasets; SBREP.TrBuildQuery builds the grid SQL on the server; SB_COMPLEX_TRANSACTIONS; EXCHANGE_CALLBACK schema-level; saving through SB_TRANSACTION in Common) | ✅ ready |
+| TransactionManager — Balans / Əməliyyat günü / Günün sənədləri (20 datasets; add / edit / delete / confirm / reject through SB_TRANSACTION; SB_COMPLEX_TRANSACTIONS.SetTransactions; threaded currency/operation filter lists) | ✅ ready |
+| Account — Balans / Əməliyyat günü / Yeni hesablar (23 datasets; SBOP.GenerateAccountNumber (Ctrl+H) / add_account / upd_account / close_account from OnApplyRecord; account turnover over a REF CURSOR, pkg_report.get_account_turnover) | ✅ ready |
+| PaymentDecree — Balans / Əməliyyat günü / Ödəmə tapşırığı (16 datasets; sb_PaymentDecree.add_payment / update_payment / delete_payment, positional, DATE arguments typed from ALL_ARGUMENTS; archive) | ✅ ready |
 | all others | gateway works; own Swagger section pending |
 
 The web client uses the gateway for **every** module already; the per-module sections document and

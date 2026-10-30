@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import datetime as dt
 import re
+
+import oracledb
 from pathlib import Path
 import sys
 
@@ -144,7 +146,8 @@ class SyntheticCursor(FakeCursor):
     def execute(self, sql, binds=None, **kw):
         if sql is None:
             sql = self._sql
-        if re.match(r'\s*(select|with)\b', sql, re.I) and not re.search(r'all_arguments|user_arguments|sys_context', sql, re.I):
+        lead = re.sub(r'^(\s*(--[^\n]*\n|/\*.*?\*/))*', '', sql or '', flags=re.S)  # leading comments
+        if re.match(r'\s*(select|with)\b', lead, re.I) and not re.search(r'all_arguments|user_arguments|sys_context', sql, re.I):
             self._sql = sql
             self.conn.log.append((' '.join(sql.split()), dict(binds or {}, **kw)))
             flat = ' '.join(sql.split())
@@ -163,8 +166,17 @@ class SyntheticCursor(FakeCursor):
         shown = {k: (v.getvalue() if hasattr(v, 'getvalue') else getattr(v, 'value', v)) for k, v in dict(binds or {}, **kw).items()}
         print('SQL', ' '.join((sql or '').split())[:160], shown or '', file=sys.stderr)
         super().execute(sql, binds, **kw)
+        # REF CURSOR out variables (datasets over begin pkg.get_x(p_result => :p_result); end;)
+        for b in dict(binds or {}, **kw).values():
+            if getattr(b, 'type', None) is oracledb.DB_TYPE_CURSOR and getattr(b, 'value', None) is None:
+                rc = SyntheticCursor(self.conn)
+                names = ['ID', 'NAME', 'CODE', 'DAT', 'AMMOUNT']
+                types = [guess(n) for n in names]
+                rc._set([(n, {'INT': 'NUMBER'}.get(t, t)) for n, t in zip(names, types)],
+                        [tuple(value(n, t, i) for n, t in zip(names, types)) for i in range(3)])
+                b.value = rc
         # date functions (SBOP.get_date = operational day …) answer today
-        m = re.search(r':(\w+)\s*:=\s*\w+\.(get_?date|\w*_date)\b', sql or '', re.I)
+        m = re.search(r':(\w+)\s*:=\s*\w+\.(\w*date)\b', sql or '', re.I)
         if m:
             b = dict(binds or {}, **kw).get(m.group(1))
             if b is not None and hasattr(b, 'setvalue'):
@@ -175,6 +187,12 @@ class SyntheticCursor(FakeCursor):
             b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
             if b is not None and hasattr(b, 'setvalue'):
                 b.setvalue(0, 'SELECT p.rowid, p.* FROM TRANSACTIONS p ORDER BY p.ID')
+        # account number generators answer a 20-digit number
+        m = re.search(r':(\w+)\s*:=\s*\w+\.(Generate\w*Number)\b', sql or '', re.I)
+        if m:
+            b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
+            if b is not None and hasattr(b, 'setvalue'):
+                b.setvalue(0, '33010019440000000001')
         if re.match(r'\s*(insert|update|delete)\b', sql or '', re.I):
             self.rowcount = 1
 

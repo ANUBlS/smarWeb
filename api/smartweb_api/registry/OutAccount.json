@@ -155,7 +155,7 @@
    "variables": [
     {
      "name": "P_RESULT",
-     "type": "string"
+     "type": "cursor"
     }
    ],
    "unit": "AccountDataModuleImpl"

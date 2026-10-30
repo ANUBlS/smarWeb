@@ -1,6 +1,6 @@
 {
  "name": "Transactions",
- "caption": "Balans / Əməliyyat günü / Əməliyyatlar",
+ "caption": "",
  "dir": "Packages/Transactions",
  "mainForm": "TTransactionsMainForm",
  "plugin": false,
