@@ -3,7 +3,8 @@ import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
 import { TWinControl, TCustomEdit, TCheckBox, TComboBox, TRadioGroup, TControl } from './controls';
-import { TCollection, TCollectionItem, TFont, TCanvas, TStrings, Indexed } from './classes';
+import { TCollection, TCollectionItem, TFont, TCanvas, TStrings, Indexed, TPicture } from './classes';
+import { base64ToBlob, blobToBase64 } from '../files';
 import { colorValue } from './colors';
 import type { TDataSource } from '../data/datasource';
 import type { TDataSet, Row } from '../data/dataset';
@@ -553,13 +554,47 @@ registerBuiltin('TDBGridEh', TDBGridEh);
 registerBuiltin('TXDBGrid', TDBGrid);
 registerBuiltin('TDBCtrlGrid', TDBGrid);
 
+/** TDBImage: the picture of a BLOB field (base64 in the field); changing the picture while the record is
+ * being edited writes it to the field (VCL: TDBImage.UpdateData assigns the picture on post). */
 export class TDBImage extends TControl {
   DataSource: TDataSource | null = null;
   DataField = '';
   Stretch = false;
+  Center = true;
+  Proportional = false;
+  AutoDisplay = true;
+  ReadOnly = false;
+  QuickDraw = true;
+  private pic = new TPicture();
+  private syncedFrom: unknown = undefined;
+  constructor() {
+    super();
+    this.pic.onChange = () => { void this.pictureChanged(); };
+  }
   get kind() { return 'image'; }
-  get Picture() { return { Graphic: null, LoadFromFile: () => undefined, SaveToFile: () => undefined, Assign: () => undefined }; }
-  LoadPicture() { /* */ }
+  get kindDb() { return true; }
+  get Field() { return TDBControlBase.field(this.DataSource, this.DataField); }
+  private sync() {
+    const v = this.Field?.Value;
+    if (v === this.syncedFrom) return;
+    this.syncedFrom = v;
+    const ch = this.pic.onChange; this.pic.onChange = null;
+    this.pic.setBlob(typeof v === 'string' && v ? base64ToBlob(v) : null);
+    this.pic.onChange = ch;
+  }
+  get Picture() { this.sync(); return this.pic; }
+  private async pictureChanged() {
+    const f = this.Field;
+    const st = f?.DataSet?.State;
+    if (!f || this.ReadOnly || (st !== 'dsedit' && st !== 'dsinsert')) return;
+    const data = this.pic.Graphic ? await this.pic.Graphic.encoded() : null;
+    const v = data ? await blobToBase64(data) : null;
+    this.syncedFrom = v;
+    await f.setValue(v);
+  }
+  LoadPicture() { this.sync(); invalidate(); }
+  CopyToClipboard() { /* */ }
+  PasteFromClipboard() { /* */ }
 }
 registerBuiltin('TDBImage', TDBImage);
 

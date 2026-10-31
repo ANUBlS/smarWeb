@@ -28,7 +28,7 @@ function audited(a: OracleApi): OracleApi {
       switch (prop) {
         case 'execute': return async (r: Parameters<OracleApi['execute']>[0]) => {
           const res = await v.call(target, r);
-          if (!/^\s*(select|with)\b/i.test(r.sql)) {
+          if (!/^[\s(]*(select|with)\b/i.test(r.sql)) {
             const binds = r.variables.map((b) => `${b.name}=${show(b.value)}`).join(', ');
             audit('change', `SQL ${r.source}: ${oneLine(r.sql)}${binds ? ` [${binds}]` : ''} → ${res.rowsProcessed} sətir`);
           }

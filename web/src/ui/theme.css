@@ -143,6 +143,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .v-panel.bordered { border: 1px solid var(--rule); }
 .v-panel .pcap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--ink-2); pointer-events: none; padding: 0 6px; }
 .v-panel .pcap.left { justify-content: flex-start; }
+.v-panel .pcap.right { justify-content: flex-end; }
 .v-group { border: 1px solid var(--rule); border-radius: var(--radius); }
 .v-group > .legend { position: absolute; top: -8px; left: 7px; padding: 0 4px; background: var(--gb-bg, var(--surface)); color: var(--ink-2); font-weight: 500; white-space: nowrap; line-height: 15px; }
 .v-input { border: 1px solid var(--rule-strong); border-radius: var(--radius); background: var(--surface); padding: 1px 5px; height: 100%; width: 100%; min-height: 0; }

@@ -16,6 +16,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from dfm2json import parse_file as parse_dfm  # noqa: E402
+from source_fixes import fixed_path  # noqa: E402
 from modules import ACTIONS, REPORT_ACTIONS  # noqa: E402
 from extra_modules import EXTRA, EXTRA_ROOT, CATEGORY_ORDER, FIRST_ACTION, MENU_HIDDEN, INI_MENU_HIDDEN  # noqa: E402
 from pas2js import parse_unit_file, collect_sigs, gen_unit, PasError  # noqa: E402
@@ -85,9 +86,67 @@ def pick(paths, prefer_dir):
     return sorted(paths, key=score)[0]
 
 
+# Credentials saved in the Delphi forms (TOracleSession.LogonPassword …) must never reach the browser bundle:
+# the web logon uses what the user types; database credentials of the API live on the server only.
+SECRET_PROPS = re.compile(r'(^|\.)(LogonPassword|Password|Passwd|Pwd)$', re.I)
+
+
+def dpr_units(module_dir):
+    """Unit names listed in the module's project file(s): `Unit1 in 'Unit1.pas'`."""
+    names = set()
+    d = os.path.join(REPO, module_dir)
+    if not os.path.isdir(d):
+        return names
+    for f in os.listdir(d):
+        if f.lower().endswith(('.dpr', '.dpk')):
+            try:
+                txt = open(os.path.join(d, f), 'rb').read().decode('cp1251', 'replace')
+            except OSError:
+                continue
+            names.update(m.lower() for m in re.findall(r"(\w+)\s+in\s+'[^']+\.pas'", txt, re.I))
+    return names
+
+
+def attach_imagelists(dfm_path, tree, outdir, base):
+    """TImageList bitmaps -> <Unit>.<ImageList>.png sprites next to the layout; the node gets
+    `Bitmap.Sprite` (path under generated/), `Bitmap.Count`, `Bitmap.Cx`, `Bitmap.Cy` (GetIcon / GetBitmap)."""
+    from imagelist import dfm_imagelists, imagelist_png
+    try:
+        text = open(dfm_path, 'rb').read().decode('cp1251', 'replace')
+    except OSError:
+        return
+    if 'ImageList' not in text:
+        return
+    lists = dfm_imagelists(text)
+    if not lists:
+        return
+    stack = [tree]
+    while stack:
+        node = stack.pop()
+        stack.extend(node['children'])
+        data = lists.get(node.get('name'))
+        if data is None:
+            continue
+        try:
+            r = imagelist_png(data)
+        except Exception:  # noqa: BLE001 — an unreadable image list stays without pictures
+            r = None
+        if not r:
+            continue
+        png, count, cx, cy = r
+        fname = f'{base}.{node["name"]}.png'
+        with open(os.path.join(outdir, fname), 'wb') as fh:
+            fh.write(png)
+        node['props'].update({'Bitmap.Sprite': os.path.relpath(os.path.join(outdir, fname), OUT).replace(os.sep, '/'),
+                              'Bitmap.Count': count, 'Bitmap.Cx': cx, 'Bitmap.Cy': cy})
+
+
 def strip_binary(node):
     p = node['props']
     for k in list(p.keys()):
+        if SECRET_PROPS.search(k) and isinstance(p[k], str) and p[k] != '':
+            p[k] = ''
+            continue
         if p[k] == '<binary>' or k in ('Bitmap', 'Picture.Data', 'Glyph.Data', 'QBEDefinition.QBEFieldDefs',
                                       'Variables.Data', 'Icon.Data'):
             if k == 'Variables.Data':
@@ -159,7 +218,7 @@ def main():
             report.setdefault('emptySources', []).append(path[len(REPO):])
         if path not in all_units:
             try:
-                all_units[path] = parse_unit_file(path)
+                all_units[path] = parse_unit_file(fixed_path(path, REPO))
                 if all_units[path]:
                     all_units[path]['uses'] = [UNIT_ALIASES.get(x.lower(), x) for x in all_units[path]['uses']]
             except Exception as e:  # noqa
@@ -329,7 +388,8 @@ def main():
         form = None
         if os.path.exists(dfm):
             try:
-                tree = strip_binary(parse_dfm(dfm))
+                tree = strip_binary(parse_dfm(fixed_path(dfm, REPO)))
+                attach_imagelists(dfm, tree, outdir, base)
                 with open(os.path.join(outdir, base + '.dfm.json'), 'w', encoding='utf-8') as fh:
                     json.dump(tree, fh, ensure_ascii=False, separators=(',', ':'))
                 form = tree['class']
@@ -384,7 +444,11 @@ def main():
             if r:
                 r['source'] = p[len(REPO):]
                 man.append(r)
-        main = next((m['activeForm'] for m in man if m['activeForm']), None)
+        # the main form is an ActiveForm of a unit the project (.dpr) uses: folders keep abandoned copies
+        # (Packages/ProfitClosing: SBProfiClosingMainFormImplImpl.pas next to the real SBProfitClosing…)
+        in_dpr = dpr_units(modules[name])
+        main = next((m['activeForm'] for m in man if m['activeForm'] and m['unit'].lower() in in_dpr), None) \
+            or next((m['activeForm'] for m in man if m['activeForm']), None)
         manifest = {'name': name, 'dir': modules[name], 'mainForm': main, 'units': man, 'lib': lib_closure(paths),
                     'plugins': module_plugins.get(name, {})}
         if name in plugin_exports:

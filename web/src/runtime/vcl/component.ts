@@ -239,12 +239,25 @@ export async function runGuarded<T>(fn: () => Promise<T> | T, where: string): Pr
   } finally {
     busyDepth--;
     endHold();
+    if (eventEndWatchers.size) for (const f of [...eventEndWatchers]) f();
   }
 }
+/** Nesting of user-event handlers running now (runGuarded). */
+export function eventDepth() { return busyDepth; }
+const eventEndWatchers = new Set<() => void>();
+/** Called whenever an event handler finishes (the VCL modal loop checks ModalResult at that point). */
+export function onEventEnd(f: () => void) { eventEndWatchers.add(f); return () => { eventEndWatchers.delete(f); }; }
 
 /** While datasets saved with Active = True open after loading, handler errors (AfterScroll writing to a
  *  dataset that is not open yet …) are logged, not shown: the form is still being created. */
 let loadingDepth = 0;
+/** > 0 while DFM properties / references are being streamed (VCL csLoading). */
+let streamingDepth = 0;
+export function isStreaming() { return streamingDepth > 0; }
+export async function whileStreaming<T>(fn: () => Promise<T>): Promise<T> {
+  streamingDepth++;
+  try { return await fn(); } finally { streamingDepth--; }
+}
 /** Exception classes that are web-runtime / programming errors, never shown in a message box. */
 const INTERNAL_ERRORS = new Set(['EAccessViolation', 'EUndeclared', 'ENotPorted', 'EInvalidPointer', 'EInvalidCast']);
 export async function whileLoading<T>(fn: () => Promise<T>): Promise<T> {

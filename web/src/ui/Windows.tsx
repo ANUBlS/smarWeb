@@ -193,7 +193,7 @@ export function DialogLayer() {
         {d.input ? (
           <form className="dlg-input" onSubmit={(e) => { e.preventDefault(); d.resolve({ result: 1, value: val }); }}>
             <label>{d.input.label}</label>
-            <input className="v-input" style={{ height: 28 }} autoFocus value={val} onChange={(e) => setVal(e.target.value)} />
+            <input className="v-input" style={{ height: 28 }} autoFocus value={val} type={d.input.password ? 'password' : 'text'} autoComplete={d.input.password ? 'off' : undefined} onChange={(e) => setVal(e.target.value)} />
           </form>
         ) : null}
         <div className="dlg-buttons">

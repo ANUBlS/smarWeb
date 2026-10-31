@@ -6,7 +6,7 @@ import { invalidate, suspendHold, flushNow } from '../ui';
 import { logger } from '../log';
 import type { DfmNode } from '../dfm';
 import { mergeInherited } from '../dfm';
-import { TComponent, REF_PROPS, runGuarded, setRefResolver, whileLoading } from './component';
+import { TComponent, REF_PROPS, runGuarded, setRefResolver, whileLoading, whileStreaming, eventDepth, onEventEnd } from './component';
 import { TControl, TWinControl, TTabSheet, TPageControl, TStatusPanel, THeaderSection, TListColumn, TTimer, TTreeView } from './controls';
 import { TStrings, TCollection, TFont } from './classes';
 import { colorValue } from './colors';
@@ -138,8 +138,18 @@ export class TCustomForm extends TWinControl {
   get ModalResult() { return this._modalResult; }
   set ModalResult(v: number) {
     this._modalResult = num(v);
-    if (this._modalResult !== 0 && this.modalResolve) void this.tryCloseModal();
+    if (this._modalResult === 0 || !this.modalResolve) return;
+    // VCL: the modal loop looks at ModalResult only after the running event handler returns, so a handler
+    // can still change it (TButton.ModalResult = mrOk, then OnClick sets mrRetry and OnClose keeps the form).
+    // Checked one microtask later: a UI event's runGuarded is registered by then.
+    queueMicrotask(() => {
+      if (this._modalResult === 0 || !this.modalResolve) return;
+      if (eventDepth() > this.modalBase) this.closePending = true;
+      else void this.tryCloseModal();
+    });
   }
+  private modalBase = 0;
+  private closePending = false;
   get Visible() { return this.shown; }
   set Visible(v: boolean) { if (v) void this.Show(); else this.Hide(); }
   get Active() { return windows.list.find((w) => w.id === windows.activeId)?.form === this; }
@@ -167,10 +177,18 @@ export class TCustomForm extends TWinControl {
     this.shown = true;
     audit('form', `Pəncərə açıldı: ${this.Caption || this.Name}`, moduleOfForm(this));
     const done = new Promise<number>((resolve) => { this.modalResolve = resolve; });
+    this.modalBase = eventDepth();
+    this.closePending = false;
+    const unwatch = onEventEnd(() => {
+      if (this.closePending && eventDepth() <= this.modalBase) {
+        this.closePending = false;
+        if (this._modalResult !== 0 && this.modalResolve) void this.tryCloseModal();
+      }
+    });
     await this.prepareAndReveal(w);
     const unhold = suspendHold();
     let r: number;
-    try { r = await done; } finally { unhold(); }
+    try { r = await done; } finally { unhold(); unwatch(); }
     void w;
     return r;
   }
@@ -382,13 +400,15 @@ export async function streamRoot(root: TComponent, layout: DfmNode) {
   for (const child of layout.children) await streamChild(child, root, root instanceof TWinControl ? root : null, created, env);
   // resolve references once every component exists; unresolved globals become fixups
   const names = new Set(created.map((c) => (c.Name || '').toLowerCase()).filter(Boolean));
-  for (const c of created) {
-    pendingRef.current = null;
-    await c.resolveRefs((prop, global, walk) => addFixup(global, async (target) => {
-      const t = await walk(target);
-      if (t != null) await c.assignRef(prop, t);
-    }), names);
-  }
+  await whileStreaming(async () => {
+    for (const c of created) {
+      pendingRef.current = null;
+      await c.resolveRefs((prop, global, walk) => addFixup(global, async (target) => {
+        const t = await walk(target);
+        if (t != null) await whileStreaming(() => c.assignRef(prop, t));
+      }), names);
+    }
+  });
   for (const c of created) {
     if (c instanceof TOracleDataSet || c instanceof TOracleQuery) c.initFromDfm();
     if (c instanceof TDBGrid) for (const col of c.Columns.all() as TColumn[]) col.grid = c;

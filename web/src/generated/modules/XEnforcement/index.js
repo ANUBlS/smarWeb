@@ -2,7 +2,7 @@
 export default {
  "name": "XEnforcement",
  "dir": "Packages/SB_Credit/EnforcementManager",
- "mainForm": "TExecutionManager",
+ "mainForm": "TEnforcementManager",
  "units": [
   {
    "unit": "DataModEnforcement",

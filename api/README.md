@@ -56,6 +56,14 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | DepositManager — Balans / Depozitlər / Depozitlərin idarə olunması (SBCM_CONTRACT.NewDeposit / UpdateDeposit; deposit money, withdrawal, capitalization; enable/disable calculation; percent converting; close deposit(s) on the selected rows; Excel export) | ✅ ready |
 | DepositCorrection — Balans / Depozitlər / Depozitlərdə düzəlişlər (grid edit of SBCM_Contract_Correction by ROWID, CommitOnPost; Qəbul = commit; sort by column title) | ✅ ready |
 | DepositsArchive — Balans / Depozitlər / Arxiv Depozitlər (read-only; filter, search, sort by title button; tranches / payments views; Excel exports) | ✅ ready |
+| RollbackDay — Balans / Sistem servisi / Günün qaytarılması (SBSYS.rollback_day) | ✅ ready |
+| BankInfo — Balans / Sistem servisi / Bank haqqında məlumat (BANKINFOES edit; logo / signature pictures into BLOB columns; additional info bankinfo_adif) | ✅ ready |
+| RateManagement — Balans / Sistem servisi / Yeni Valyuta məzənnələri (temprate grid edit; SBRM.commit_new_rates / calc_rate_difference; recalculation; future rates; Exch_mgr.Ex_CourseRatesOper; session messages) | ✅ ready |
+| ProfitClosing — Balans / Sistem servisi / Gəlir-zərərlərin bağlanması (SBSYS.close_day_profits + temporary transaction commit; CloseCoins) | ✅ ready |
+| RepairNew — Balans / Sistem servisi / Arxiv Günə duzəliş (p_Correct.Main insert / delete; filter; search) | ✅ ready |
+| CloseDay — Balans / Sistem servisi / Əməliyyat gününün bağlanması (SBSYS.close_day / calc_percent / calc_reserv; pre-close checks run the SQL stored in their table) | ✅ ready |
+| QueryExporter — Balans / Sistem servisi / Sorğular (SB_Queries edit; runs the stored query with :begindat / :enddat; Excel export) | ✅ ready |
+| BackupCreator — Balans / Sistem servisi / Məlumatın arxivləşdirilməsi (runs Oracle `exp` on the user's PC — not possible in a browser; needs a server-side export decision) | ⏸ waiting |
 | all others | gateway works; own Swagger section pending |
 
 The web client uses the gateway for **every** module already; the per-module sections document and

@@ -2,7 +2,7 @@
 export default {
  "name": "ProfitClosing",
  "dir": "Packages/ProfitClosing",
- "mainForm": "TSBProfiClosingMainFormImpl",
+ "mainForm": "TSBProfitClosingMainForm",
  "units": [
   {
    "unit": "SBProfiClosingMainFormImplImpl",

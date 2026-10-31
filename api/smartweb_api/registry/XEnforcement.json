@@ -2,7 +2,7 @@
  "name": "XEnforcement",
  "caption": "Əlavə modullar / Kreditlər / İcra işlərinin idarə olunması",
  "dir": "Packages/SB_Credit/EnforcementManager",
- "mainForm": "TExecutionManager",
+ "mainForm": "TEnforcementManager",
  "plugin": false,
  "plugins": {},
  "lib": [

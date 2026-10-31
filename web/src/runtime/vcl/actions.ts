@@ -3,7 +3,7 @@ import { auditClick } from '../audit';
 import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
-import { TComponent } from './component';
+import { TComponent, isStreaming } from './component';
 import { logger } from '../log';
 import { Indexed } from './classes';
 
@@ -129,7 +129,7 @@ export class TMenuItem extends TComponent {
   set Action(a: TAction | null) {
     this._action = a;
     const d = Object.keys(this.dfm).map((k) => k.toLowerCase());
-    if (a) for (const p of ['caption', 'checked', 'enabled', 'visible', 'hint', 'imageindex']) if (!d.includes(p)) this.linked.add(p);
+    if (a) for (const p of ['caption', 'checked', 'enabled', 'visible', 'hint', 'imageindex']) if (!isStreaming() || !d.includes(p)) this.linked.add(p);
     invalidate();
   }
   private lv(p: string, own: unknown) {

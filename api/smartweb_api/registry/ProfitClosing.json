@@ -2,7 +2,7 @@
  "name": "ProfitClosing",
  "caption": "Balans / Sistem servisi / Gəlir-zərərlərin bağlanması",
  "dir": "Packages/ProfitClosing",
- "mainForm": "TSBProfiClosingMainFormImpl",
+ "mainForm": "TSBProfitClosingMainForm",
  "plugin": false,
  "plugins": {},
  "lib": [

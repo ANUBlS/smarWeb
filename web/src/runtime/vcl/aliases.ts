@@ -17,7 +17,6 @@ const ALIASES: Record<string, string> = {
   TTntEdit: 'TEdit', TTntLabel: 'TLabel', TTntComboBox: 'TComboBox', TTntMemo: 'TMemo',
   TEditCut: 'TAction', TEditCopy: 'TAction', TEditPaste: 'TAction', TDataSetPost: 'TAction', TDataSetCancel: 'TAction',
   TDataSetInsert: 'TAction', TDataSetDelete: 'TAction', TDataSetRefresh: 'TAction', TFileExit: 'TAction',
-  THintBox: 'TStaticText',
   TTable: 'TClientDataSet', TADODataSet: 'TClientDataSet', TADOQuery: 'TClientDataSet', TSQLStoredProc: 'TClientDataSet',
   TSQLQuery: 'TClientDataSet', TQuery: 'TClientDataSet',
 };

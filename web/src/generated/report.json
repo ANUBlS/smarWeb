@@ -31,7 +31,7 @@
    "failed": 0
   },
   "ProfitClosing": {
-   "mainForm": "TSBProfiClosingMainFormImpl",
+   "mainForm": "TSBProfitClosingMainForm",
    "units": 2,
    "routines": 102,
    "failed": 0
@@ -301,7 +301,7 @@
    "failed": 0
   },
   "XEnforcement": {
-   "mainForm": "TExecutionManager",
+   "mainForm": "TEnforcementManager",
    "units": 3,
    "routines": 145,
    "failed": 0

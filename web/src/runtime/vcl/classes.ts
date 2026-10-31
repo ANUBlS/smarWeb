@@ -320,28 +320,124 @@ export class TCanvas extends TObject {
 }
 registerBuiltin('TCanvas', TCanvas);
 
+/**
+ * Graphics hold real image data (a Blob) so pictures can travel between files the user picked,
+ * files the code writes (Picture.SaveToFile(Path)), TDBImage and BLOB fields. Drawing on a
+ * graphic's Canvas is not emulated.
+ */
 export class TGraphic extends TObject {
-  Width = 0; Height = 0; Transparent = false; Empty = true;
+  Width = 0; Height = 0; Transparent = false;
   Canvas = new TCanvas();
+  data: Blob | null = null;
+  get Empty() { return !this.data; }
   Create() { /* */ }
-  LoadFromFile() { /* */ }
-  SaveToFile() { /* */ }
+  protected async setData(b: Blob | null) {
+    this.data = b;
+    this.Width = 0; this.Height = 0;
+    if (b && typeof createImageBitmap === 'function') {
+      try { const bm = await createImageBitmap(b); this.Width = bm.width; this.Height = bm.height; bm.close(); } catch { /* not an image the browser decodes */ }
+    }
+  }
+  /** Image data from code (ImageList.GetIcon / GetBitmap). */
+  async loadBlob(b: Blob | null) { await this.setData(b); invalidate(); this.owner?.notify(); }
+  /** The picture this graphic belongs to (Picture.Icon / Picture.Bitmap). */
+  owner: { notify(): void } | null = null;
+  async LoadFromFile(name: unknown) {
+    const { readFile } = await import('../files');
+    const b = readFile(name);
+    if (!b) throw new PasException('EFOpenError', `Cannot open file "${str(name)}". The system cannot find the file specified`, ['estreamerror', 'exception']);
+    await this.setData(b);
+  }
+  /** The bytes this graphic class writes (a TJPEGImage writes JPEG). */
+  async encoded(): Promise<Blob | null> { return this.data; }
+  async SaveToFile(name: unknown) {
+    const b = await this.encoded();
+    if (!b) return;
+    const { writeFile } = await import('../files');
+    writeFile(name, b);
+  }
   LoadFromStream() { /* */ }
   SaveToStream() { /* */ }
-  Assign() { /* */ }
+  async Assign(src: unknown) {
+    if (src instanceof TPicture) await this.setData(src.Graphic?.data ?? null);
+    else if (src instanceof TGraphic) await this.setData(src.data);
+    else if (src == null) await this.setData(null);
+  }
+  /** Object URL for <img>, kept while the data does not change. */
+  private _url: string | null = null;
+  private _urlOf: Blob | null = null;
+  get url() {
+    if (this._urlOf !== this.data) {
+      if (this._url) URL.revokeObjectURL(this._url);
+      this._url = this.data ? URL.createObjectURL(this.data) : null;
+      this._urlOf = this.data;
+    }
+    return this._url;
+  }
 }
 registerBuiltin('TGraphic', TGraphic);
-registerBuiltin('TBitmap', class TBitmap extends TGraphic { PixelFormat = 'pf24bit'; TransparentColor = 0; Handle = 0; });
-registerBuiltin('TJPEGImage', class TJPEGImage extends TGraphic { CompressionQuality = 90; });
+export class TBitmap extends TGraphic { PixelFormat = 'pf24bit'; TransparentColor = 0; Handle = 0; }
+registerBuiltin('TBitmap', TBitmap);
+export class TJPEGImage extends TGraphic {
+  CompressionQuality = 90;
+  Grayscale = false;
+  override async encoded(): Promise<Blob | null> {
+    if (!this.data || this.data.type === 'image/jpeg') return this.data;
+    // Jpg.Assign(Bmp); Jpg.SaveToFile(…): re-encode as JPEG, as Delphi's TJPEGImage does
+    try {
+      const bm = await createImageBitmap(this.data);
+      const cv = document.createElement('canvas');
+      cv.width = bm.width; cv.height = bm.height;
+      const ctx = cv.getContext('2d')!;
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(bm, 0, 0); bm.close();
+      const q = Math.min(100, Math.max(1, Number(this.CompressionQuality) || 90)) / 100;
+      return await new Promise<Blob | null>((res) => cv.toBlob((b) => res(b), 'image/jpeg', q));
+    } catch { return this.data; }
+  }
+}
+registerBuiltin('TJPEGImage', TJPEGImage);
 registerBuiltin('TIcon', class TIcon extends TGraphic { Handle = 0; });
 registerBuiltin('TMetafile', class TMetafile extends TGraphic {});
+registerBuiltin('TPngImage', class TPngImage extends TGraphic {});
+registerBuiltin('TPNGObject', class TPNGObject extends TGraphic {});
+registerBuiltin('TGIFImage', class TGIFImage extends TGraphic {});
+
 export class TPicture extends TObject {
   Graphic: TGraphic | null = null;
-  Bitmap = new TGraphic();
-  url: string | null = null;
-  LoadFromFile() { /* */ }
-  SaveToFile() { /* */ }
-  Assign(p: unknown) { if (p instanceof TPicture) this.url = p.url; }
+  /** Notified when the picture changes (TDBImage marks its field as modified). */
+  onChange: (() => void) | null = null;
+  get Bitmap() { if (!(this.Graphic instanceof TBitmap)) { this.Graphic = new TBitmap(); this.Graphic.owner = this; } return this.Graphic; }
+  set Bitmap(v: TGraphic) { this.Graphic = v ?? null; this.changed(); }
+  get Icon() { if (!this.Graphic) { this.Graphic = new TGraphic(); this.Graphic.owner = this; } return this.Graphic; }
+  set Icon(v: TGraphic) { this.Graphic = v ?? null; this.changed(); }
+  get Jpeg() { return this.Graphic; }
+  get Width() { return this.Graphic?.Width ?? 0; }
+  get Height() { return this.Graphic?.Height ?? 0; }
+  get url() { return this.Graphic?.url ?? null; }
+  async LoadFromFile(name: unknown) {
+    const { readFile } = await import('../files');
+    if (!readFile(name)) {
+      // pictures shipped with the desktop installation (..\\Bin\\Photo\\blank.jpg) do not exist here: an empty picture
+      this.Graphic = null;
+      this.changed();
+      return;
+    }
+    const g = /\.jpe?g$/i.test(str(name)) ? new TJPEGImage() : new TGraphic();
+    await g.LoadFromFile(name);
+    this.Graphic = g;
+    this.changed();
+  }
+  async SaveToFile(name: unknown) { if (this.Graphic) await this.Graphic.SaveToFile(name); }
+  async Assign(p: unknown) {
+    if (p instanceof TPicture) { this.Graphic = p.Graphic; }
+    else if (p instanceof TGraphic) { this.Graphic = p; }
+    else if (p == null) { this.Graphic = null; }
+    this.changed();
+  }
+  setBlob(b: Blob | null) { const g = new TGraphic(); g.data = b; this.Graphic = b ? g : null; }
+  private changed() { invalidate(); this.onChange?.(); }
+  notify() { this.changed(); }
 }
 registerBuiltin('TPicture', TPicture);
 

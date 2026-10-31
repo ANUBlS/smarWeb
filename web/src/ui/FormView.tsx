@@ -220,7 +220,7 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
         <div {...p} className={`vc v-panel${bordered ? ' bordered' : ''}`} style={{ ...p.style, ...bgStyle(c), ...fontStyle(c) }}
           onClick={(e) => { if (e.target === e.currentTarget && c.hasHandler('OnClick')) run(c.Click(), c.Name); }}
           onDoubleClick={(e) => { if (e.target === e.currentTarget) run(c.fire('OnDblClick', c), c.Name); }}>
-          {c.Caption && !placeholder ? <div className={`pcap${pnl.Alignment === 'taleftjustify' ? ' left' : ''}`}>{c.Caption}</div> : null}
+          {c.Caption && !placeholder ? <div className={`pcap${pnl.Alignment === 'taleftjustify' ? ' left' : pnl.Alignment === 'tarightjustify' ? ' right' : ''}`}>{c.Caption}</div> : null}
           {placeholder && !c.children.length ? <div className="v-placeholder" style={{ position: 'absolute', inset: 0 }}>{placeholder}</div> : null}
           <Children parent={c} width={r.width} height={r.height} />
         </div>
@@ -259,9 +259,11 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
     case 'checkbox': case 'radio': {
       const cb = c as TCheckBox;
       const isRadio = c.kind === 'radio';
+      // a box-only check (Width 13 in the DFM / code) must not clip the browser's slightly larger box
+      const boxOnly = c.Width > 0 && c.Width < 18;
       return (
-        <div {...p}>
-          <label className={`v-check${dis ? ' disabled' : ''}`} style={{ height: '100%', ...fontStyle(c), flexDirection: (cb as any).Alignment === 'taleftjustify' ? 'row-reverse' : undefined, justifyContent: (cb as any).Alignment === 'taleftjustify' ? 'flex-end' : undefined }}>
+        <div {...p} style={boxOnly ? { ...p.style, overflow: 'visible', minWidth: 16 } : p.style}>
+          <label className={`v-check${dis ? ' disabled' : ''}`} style={{ height: '100%', ...(boxOnly ? { overflow: 'visible' } : {}), ...fontStyle(c), flexDirection: (cb as any).Alignment === 'taleftjustify' ? 'row-reverse' : undefined, justifyContent: (cb as any).Alignment === 'taleftjustify' ? 'flex-end' : undefined }}>
             <input type={isRadio ? 'radio' : 'checkbox'} checked={cb.Checked} disabled={dis} onChange={() => run(cb.userToggle(), cb.Name)} {...focusHandlers(c)} />
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{cb.Caption.replace(/&(?!&)/g, '')}</span>
           </label>
@@ -327,7 +329,23 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
       return <div {...p} style={{ ...p.style, background: toCss(s.Brush?.Color) ?? 'transparent', border: `1px solid ${toCss(s.Pen?.Color) ?? 'var(--rule)'}`, borderRadius: String(s.Shape).includes('circle') || String(s.Shape).includes('ellipse') ? '50%' : String(s.Shape).includes('round') ? 6 : 0 }} />;
     }
     case 'splitter': return <SplitterView c={c as TSplitter} p={p} r={r} />;
-    case 'image': return <div {...p} style={{ ...p.style, pointerEvents: c.hasHandler('OnClick') ? undefined : 'none' }} onClick={() => run(c.Click(), c.Name)} />;
+    case 'image': {
+      // TImage / TDBImage: the picture's data (picked file, BLOB field …); Stretch / Proportional / Center
+      const im = c as any;
+      const url: string | null = im.Picture?.url ?? null;
+      const fit = im.Stretch ? (im.Proportional ? 'contain' : 'fill') : im.Proportional ? 'contain' : 'none';
+      const active = c.hasHandler('OnClick') || c.hasHandler('OnDblClick');
+      const g = im.Picture?.Graphic;
+      const auto = im.AutoSize && url && g?.Width ? { width: g.Width, height: g.Height } : null;
+      return (
+        <div {...p} style={{ ...p.style, ...(auto ?? {}), pointerEvents: active ? undefined : 'none', overflow: 'hidden', display: 'flex',
+          alignItems: im.Center === false ? 'flex-start' : 'center', justifyContent: im.Center === false ? 'flex-start' : 'center',
+          border: im.kindDb ? '1px solid var(--rule)' : undefined }}
+          onClick={() => run(c.Click(), c.Name)} onDoubleClick={() => run(c.fire('OnDblClick', c), c.Name)}>
+          {url ? <img src={url} alt="" draggable={false} style={{ width: fit === 'none' ? undefined : '100%', height: fit === 'none' ? undefined : '100%', objectFit: fit as any }} /> : null}
+        </div>
+      );
+    }
     case 'dbgrid': return <GridView g={c as TDBGrid} p={p} r={r} />;
     case 'stringgrid': return <StringGridView g={c as TStringGrid} p={p} />;
     case 'treeview': return <TreeViewView t={c as TTreeView} p={p} />;

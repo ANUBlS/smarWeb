@@ -175,7 +175,14 @@ def('Win32Platform', 2);
 /** SBTranslateProc (UI language switching) — its source is empty in the repository; calls are no-ops. */
 def('SBTranslateProc', new Proxy({}, { get: (_t, k) => (k === 'pget' ? () => routine(() => undefined) : k === 'pset' ? () => true : undefined) }));
 fn('TranslateAllCompForms', () => undefined);
-fn('FileSize', () => 0);
+// typed files (`F: File of Byte`) over the in-memory files (runtime/files): AssignFile / Reset / FileSize
+fn('FileSize', async (f) => {
+  const v = f instanceof Ref ? await f.get() : f;
+  const name = (v as { __file?: string } | null)?.__file;
+  if (!name) return 0;
+  const { readFile } = await import('./files');
+  return readFile(name)?.size ?? 0;
+});
 fn('GetPropInfo', () => null);
 fn('SetPropValue', () => undefined);
 fn('GetPropValue', () => null);
@@ -720,7 +727,7 @@ fn('ChangeFileExt', (s, e) => str(s).replace(/\.[^.\\/]*$/, '') + str(e));
 fn('IncludeTrailingPathDelimiter', (s) => (str(s).endsWith('\\') ? str(s) : str(s) + '\\'));
 fn('IncludeTrailingBackslash', (s) => (str(s).endsWith('\\') ? str(s) : str(s) + '\\'));
 fn('ExcludeTrailingPathDelimiter', (s) => str(s).replace(/[\\/]$/, ''));
-fn('FileExists', () => false);
+fn('FileExists', async (n) => (await import('./files')).fileExists(n));
 fn('DirectoryExists', () => false);
 fn('ForceDirectories', () => true);
 fn('CreateDir', () => true);
@@ -733,7 +740,17 @@ fn('ParamStr', (i) => (num(i) === 0 ? 'C:\\SmartBank\\Bin\\SmartBank.exe' : ''))
 fn('ParamCount', () => 0);
 fn('FindCmdLineSwitch', () => false);
 fn('GetEnvironmentVariable', () => '');
-fn('ShellExecute', () => 0);
+// ShellExecute(0, 'open', target, …): web pages open in a new tab; local programs (.bat, .exe, exp …) cannot run
+// in the browser — say so instead of silently doing nothing (the desktop code ignores the result)
+fn('ShellExecute', async (_h, _op, target) => {
+  const t = str(target).trim();
+  if (/^(https?:|mailto:)/i.test(t)) { window.open(t, '_blank', 'noopener'); return 42; }
+  if (t) {
+    const { toast } = await import('./toast');
+    toast(`Bu əməliyyat kompüterdə proqram işə salır (${t.split(/[\\/]/).pop()}) və brauzerdə mümkün deyil.`, 'warn');
+  }
+  return 2; // ERROR_FILE_NOT_FOUND
+});
 fn('WinExec', () => 33);
 fn('ShellExecuteA', () => 0);
 fn('ShellExecuteW', () => 0);
@@ -754,13 +771,14 @@ Object.entries({ SW_HIDE: 0, SW_SHOWNORMAL: 1, SW_NORMAL: 1, SW_SHOWMINIMIZED: 2
   SW_SHOWDEFAULT: 10, SHGFP_TYPE_CURRENT: 0, SHGFP_TYPE_DEFAULT: 1 }).forEach(([k, v]) => def(k, v));
 fn('WinExec', () => 0);
 fn('GetComputerName', () => true);
-fn('AssignFile', () => undefined);
+fn('AssignFile', async (f, name) => { if (f instanceof Ref) await f.set({ __file: str(name) }); });
 fn('Rewrite', () => undefined);
 fn('Reset', () => undefined);
 fn('Append', () => undefined);
 fn('CloseFile', () => undefined);
 fn('Eof', () => true);
-fn('Writeln', (...a) => logger.debug('Writeln: ' + a.slice(1).map(str).join('')));
+// Writeln to a file: there is no file system; the text is not logged (it may hold credentials, e.g. a backup command line)
+fn('Writeln', () => undefined);
 fn('Write', () => undefined);
 fn('Readln', () => undefined);
 fn('IOResult', () => 0);

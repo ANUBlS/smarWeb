@@ -14,7 +14,7 @@ export interface DialogRequest {
   title: string;
   message: string;
   buttons: DlgButton[];
-  input?: { label: string; value: string };
+  input?: { label: string; value: string; password?: boolean };
   resolve: (r: { result: number; value?: string }) => void;
 }
 
@@ -105,7 +105,9 @@ export async function messageBox(text: unknown, caption: unknown, flags: unknown
 }
 
 export async function inputQuery(caption: unknown, prompt: unknown, value: string): Promise<{ ok: boolean; value: string }> {
+  // password prompts: the desktop code masks them through a window message (EM_SETPASSWORDCHAR) after InputBox opens
+  const password = /parol|şifrə|sifre|password|пароль/i.test(`${String(caption ?? '')} ${String(prompt ?? '')}`);
   const r = await dialogs.open({ kind: 'custom', title: String(caption ?? ''), message: '',
-    input: { label: String(prompt ?? ''), value }, buttons: [BTN.mbok, BTN.mbcancel] });
+    input: { label: String(prompt ?? ''), value, password }, buttons: [BTN.mbok, BTN.mbcancel] });
   return { ok: r.result === MR.mrOk, value: r.value ?? value };
 }

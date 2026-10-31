@@ -15,5 +15,12 @@
   "XImportService",
   "DepositManager",
   "DepositCorrection",
-  "DepositsArchive"
+  "DepositsArchive",
+  "RollbackDay",
+  "BankInfo",
+  "RateManagement",
+  "ProfitClosing",
+  "RepairNew",
+  "CloseDay",
+  "QueryExporter"
 ]

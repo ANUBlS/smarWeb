@@ -56,6 +56,27 @@ def learn_tables():
                 cols = [c for c in select_list(d['sql']) if c not in ('*',)]
                 if cols and not any(c.endswith('*') for c in cols):
                     TABLE_COLS.setdefault(t, set()).update(c for c in cols if re.fullmatch(r'[A-Z_][\w$#]*', c))
+            learn_join_columns(d['sql'])
+
+
+def learn_join_columns(sql: str):
+    """`select tr.buy_rate, c.val_name … from temprate tr, avalute c`: alias-qualified columns belong to
+    the aliased tables (the gateway updates a join dataset's first table through these columns)."""
+    s = re.sub(r'--[^\n]*|/\*.*?\*/', ' ', sql or '', flags=re.S)
+    m = re.search(r'^\s*select\s+(?:distinct\s+)?(.*?)\s+from\s+(.*?)(?:\s+where\s|\s+order\s|\s+group\s|$)', s, re.I | re.S)
+    if not m:
+        return
+    aliases = {}
+    for part in m.group(2).split(','):
+        w = part.split()
+        if len(w) >= 2 and re.fullmatch(r'[\w$#.]+', w[0]) and re.fullmatch(r'\w+', w[1]):
+            aliases[w[1].lower()] = w[0].split('.')[-1].upper()
+    if not aliases:
+        return
+    for item in split_top(m.group(1)):
+        im = re.fullmatch(r'\s*(\w+)\.(\w+)(?:\s+(?:as\s+)?\w+)?\s*', item, re.I)
+        if im and im.group(1).lower() in aliases and im.group(2).lower() != 'rowid':
+            TABLE_COLS.setdefault(aliases[im.group(1).lower()], set()).add(im.group(2).upper())
 
 
 def learn_dfm_fields():
@@ -104,6 +125,7 @@ def learn_dfm_fields():
 
 def select_list(sql: str) -> list[str]:
     s = re.sub(r'--[^\n]*|/\*.*?\*/', ' ', sql, flags=re.S)
+    s = re.sub(r'^\s*\(+', '', s)  # (select filialid from …)
     m = re.search(r'^\s*select\s+(distinct\s+)?(.*?)\s+from\s', s, re.I | re.S)
     if not m:
         return []
@@ -170,7 +192,7 @@ class SyntheticCursor(FakeCursor):
         if sql is None:
             sql = self._sql
         lead = re.sub(r'^(\s*(--[^\n]*\n|/\*.*?\*/))*', '', sql or '', flags=re.S)  # leading comments
-        if re.match(r'\s*(select|with)\b', lead, re.I) and not re.search(r'all_arguments|user_arguments|sys_context', sql, re.I):
+        if re.match(r'[\s(]*(select|with)\b', lead, re.I) and not re.search(r'all_arguments|user_arguments|sys_context', sql, re.I):
             self._sql = sql
             self.conn.log.append((' '.join(sql.split()), dict(binds or {}, **kw)))
             flat = ' '.join(sql.split())
@@ -210,6 +232,12 @@ class SyntheticCursor(FakeCursor):
             b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
             if b is not None and hasattr(b, 'setvalue'):
                 b.setvalue(0, 'SELECT p.rowid, p.* FROM TRANSACTIONS p ORDER BY p.ID')
+        # the operational day is open while people work (SBSYS.is_day_opened …)
+        m = re.search(r':(\w+)\s*:=\s*case when \w+\.(is_?day_?opened)\b', sql or '', re.I)
+        if m:
+            b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
+            if b is not None and hasattr(b, 'setvalue'):
+                b.setvalue(0, 1)
         # account number generators answer a 20-digit number
         m = re.search(r':(\w+)\s*:=\s*\w+\.(Generate\w*Number)\b', sql or '', re.I)
         if m:

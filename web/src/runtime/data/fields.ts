@@ -165,6 +165,20 @@ export class TField extends TComponent {
     await this.DataSet.setValue(this, this.coerce(v));
   }
   Clear() { return this.setValue(null); }
+  /* TBlobField / TGraphicField: BLOB values are base64 strings (as the API sends them) */
+  async LoadFromFile(name: unknown) {
+    const { readFile, blobToBase64 } = await import('../files');
+    const b = readFile(name);
+    if (!b) throw new PasException('EFOpenError', `Cannot open file "${str(name)}". The system cannot find the file specified`, ['estreamerror', 'exception']);
+    await this.setValue(await blobToBase64(b));
+  }
+  async SaveToFile(name: unknown) {
+    const v = this.Value;
+    if (typeof v !== 'string' || !v) return;
+    const { writeFile, base64ToBlob } = await import('../files');
+    writeFile(name, base64ToBlob(v));
+  }
+  get BlobSize() { const v = this.Value; return typeof v === 'string' ? Math.floor(v.length * 3 / 4) : 0; }
   FocusControl() { /* */ }
   GetData() { return this.Value; }
   SetData(v: unknown) { return this.setValue(v); }
