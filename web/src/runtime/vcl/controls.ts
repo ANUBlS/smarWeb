@@ -1139,6 +1139,16 @@ export class TCommonDialog extends TComponent {
       if (!this.FileName) this.FileName = 'export' + (this.DefaultExt ? '.' + this.DefaultExt.replace(/^\./, '') : '.xls');
       return true;
     }
+    // Open dialogs: the browser's file picker; the chosen file is readable by its name (runtime/files)
+    if (this.__className === 'TOpenDialog' || this.__className === 'TOpenPictureDialog') {
+      const { pickFiles, acceptFromFilter } = await import('../files');
+      const files = await pickFiles(acceptFromFilter(this.Filter), this.Options.includes('ofallowmultiselect'));
+      if (!files.length) return false;
+      this.FileName = files[0].name;
+      this.Files.Clear();
+      for (const f of files) this.Files.Add(f.name);
+      return true;
+    }
     return false;
   }
 }
@@ -1151,13 +1161,13 @@ for (const n of ['TOpenDialog', 'TSaveDialog', 'TOpenPictureDialog', 'TSavePictu
 
 /* Inert components: exist in forms but have no browser behaviour. */
 for (const n of ['TNLSLocalizer', 'TEvanescence', 'THintBoxHelper', 'TApplicationEvents', 'TXPManifest',
-  'TOleContainer', 'TExcelApplication', 'TExcelWorkbook', 'TExcelWorksheet', 'TWordApplication', 'TWordDocument',
+  'TOleContainer', 'TExcelWorkbook', 'TExcelWorksheet', 'TWordApplication', 'TWordDocument',
   'TIdSSLIOHandlerSocketOpenSSL', 'THTTPRIO', 'TXMLDocument', 'TQuickRep', 'TQRBand', 'TQRDBText',
   'TQRExpr', 'TQRShape', 'TQRSubDetail', 'TQRImage', 'TQRDBImage', 'TQRSysData', 'TQRMemo', 'TQRRichText',
   'TQRPDFFilter', 'TQRExcelFilter', 'TQRTextFilter', 'TQRCSVFilter', 'TQRHTMLFilter', 'TQRCompositeReport',
   'TQRGroup', 'TQRChildBand', 'TQRStringsBand', 'TQRPreview', 'TOracleEvent', 'TOracleLogon', 'TOracleNavigator',
   'TOracleScript', 'TOracleDirectPathLoader', 'TOracleQueue', 'TPrintDialogEx', 'TFormInterval', 'TJvFormStorage',
-  'TFormStorage', 'TPropStorageEh', 'TIniPropStorageManEh', 'TdxSkinController', 'TCMExcelExport']) {
+  'TFormStorage', 'TPropStorageEh', 'TIniPropStorageManEh', 'TdxSkinController']) {
   const isReport = /^TQR|^TQuickRep/.test(n);
   const C = class extends TComponent {
     // QuickReport layouts are not rendered in this phase; a report's DataSet is an inert stand-in

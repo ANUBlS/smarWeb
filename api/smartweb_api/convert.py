@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import base64
 import datetime as dt
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from typing import Any
 
 import oracledb
@@ -98,6 +98,18 @@ def parse_date(v: Any) -> dt.datetime | None:
     raise ValueError(f'not a date: {v!r}')
 
 
+def _exact_number(text: str, integer: bool) -> Any:
+    """'33010019440000000001' -> int without float rounding; '1500,5' -> 1500.5."""
+    try:
+        d = Decimal(text)
+    except InvalidOperation:
+        raise ValueError(f"'{text}' is not a valid number") from None
+    if integer or d == d.to_integral_value():
+        return int(d) if integer else (int(d) if abs(d) >= 2 ** 53 else float(d))
+    f = float(d)
+    return f if Decimal(repr(f)) == d else d
+
+
 def to_db(value: Any, ora: str | None) -> Any:
     """A JSON value of the given OraType -> a python value for binding."""
     if value is None:
@@ -109,12 +121,12 @@ def to_db(value: Any, ora: str | None) -> Any:
             return int(value)
         if isinstance(value, str):
             value = value.strip().replace(',', '.')
-            return None if value == '' else int(float(value))
+            return None if value == '' else _exact_number(value, True)
         return int(value)
     if ora == 'float':
         if isinstance(value, str):
             value = value.strip().replace(',', '.')
-            return None if value == '' else float(value)
+            return None if value == '' else _exact_number(value, False)
         return float(value)
     if ora == 'boolean':
         return 1 if value in (True, 1, '1', 'true', 'True', 'T', 'Y') else 0

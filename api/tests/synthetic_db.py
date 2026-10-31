@@ -69,6 +69,26 @@ def learn_dfm_fields():
             tree = json.load(open(f, encoding='utf-8'))
         except (OSError, ValueError):
             continue
+        # grid columns name the columns too: grid → DataSource → DataSet → table
+        sqls: dict[str, str] = {}
+        sources: dict[str, str] = {}
+        grids: list[tuple[str, list[str]]] = []
+        walk = [tree]
+        while walk:
+            o = walk.pop()
+            walk.extend(o.get('children', []))
+            p = o.get('props', {})
+            if p.get('SQL.Strings'):
+                sqls[o.get('name', '')] = '\n'.join(p['SQL.Strings'])
+            if isinstance(p.get('DataSet'), dict) and 'i' in p['DataSet']:
+                sources[o.get('name', '')] = p['DataSet']['i']
+            if isinstance(p.get('Columns'), list) and isinstance(p.get('DataSource'), dict):
+                grids.append((p['DataSource'].get('i', ''), [c.get('FieldName') for c in p['Columns'] if isinstance(c, dict)]))
+        for src, cols in grids:
+            sql = sqls.get(sources.get(src.split('.')[-1], ''), '')
+            t = from_table(sql) if sql and not re.search(r'\bjoin\b|\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I) else None
+            if t:
+                TABLE_COLS.setdefault(t, set()).update(n.upper() for n in cols if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
         stack = [tree]
         while stack:
             o = stack.pop()

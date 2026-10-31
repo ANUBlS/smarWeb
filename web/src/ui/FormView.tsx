@@ -98,6 +98,7 @@ function hasKeyHandlers(c: TControl, press: boolean) {
 function inputKeyHandler(c: TControl, getValue: () => string, setValue: (v: string) => void) {
   return (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const el = e.currentTarget;
+    stopBrowserFnKey(c, e);
     const down = hasKeyHandlers(c, false);
     const ch = pressChar(e);
     const press = ch !== null && hasKeyHandlers(c, true);
@@ -122,6 +123,27 @@ function inputKeyHandler(c: TControl, getValue: () => string, setValue: (v: stri
       }
     }, `${c.Name}.OnKeyPress`);
   };
+}
+/** OnKeyUp (with Form.KeyPreview). */
+function keyUpHandler(c: TControl) {
+  return (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const f = rootForm(c);
+    const preview = !!f?.KeyPreview && f !== c && f.hasHandler('OnKeyUp');
+    if (!c.hasHandler('OnKeyUp') && !preview) return;
+    const keyCode = e.keyCode, shift = shiftOf(e);
+    void runGuarded(async () => {
+      const ref = new ValueRef(keyCode);
+      if (preview) await f!.fire('OnKeyUp', f, ref, shift);
+      if (ref.value !== 0) await c.fire('OnKeyUp', c, ref, shift);
+    }, `${c.Name}.OnKeyUp`);
+  };
+}
+/** Function keys handled by the form's code must not trigger the browser's own (F1 help, F3 find, F5 reload …). */
+function stopBrowserFnKey(c: TControl, e: KeyboardEvent) {
+  if (!/^F\d{1,2}$/.test(e.key)) return;
+  const f = rootForm(c);
+  const handled = ['OnKeyDown', 'OnKeyUp', 'OnKeyPress'].some((ev) => c.hasHandler(ev) || (!!f?.KeyPreview && f.hasHandler(ev)));
+  if (handled) e.preventDefault();
 }
 function focusHandlers(c: TControl) {
   return {
@@ -367,7 +389,7 @@ function EditView({ c, p }: { c: TCustomEdit; p: Common }) {
         type={c.PasswordChar && c.PasswordChar !== '#0' && c.PasswordChar !== '\0' ? 'password' : 'text'}
         maxLength={c.MaxLength || undefined} style={fontStyle(c)} spellCheck={false}
         onChange={(e) => { if (db && field && field.fieldType !== 'string') setDraft(e.target.value); else commit(e.target.value); }}
-        onKeyDown={inputKeyHandler(c, () => value, (v) => commit(v))}
+        onKeyDown={inputKeyHandler(c, () => value, (v) => commit(v))} onKeyUp={keyUpHandler(c)}
         onFocus={(e) => { focusHandlers(c).onFocus(); if (c.AutoSelect) e.currentTarget.select(); }}
         onBlur={() => { if (draft !== null) commit(draft); focusHandlers(c).onBlur(); }}
         onDoubleClick={() => run(c.fire('OnDblClick', c), c.Name)} onClick={() => run(c.fire('OnClick', c), c.Name)} />
@@ -382,7 +404,7 @@ function MemoView({ c, p }: { c: TMemo; p: Common }) {
     <div {...p}>
       <textarea className="v-input" value={value} readOnly={ro} disabled={!c.Enabled} style={{ ...fontStyle(c), ...bgStyle(c), whiteSpace: (c as any).WordWrap === false ? 'pre' : undefined }}
         onChange={(e) => run(c.userInput(e.target.value), c.Name)}
-        onKeyDown={inputKeyHandler(c, () => value, (v) => run(c.userInput(v), c.Name))} {...focusHandlers(c)} />
+        onKeyDown={inputKeyHandler(c, () => value, (v) => run(c.userInput(v), c.Name))} onKeyUp={keyUpHandler(c)} {...focusHandlers(c)} />
     </div>
   );
 }
@@ -425,7 +447,7 @@ function ComboView({ c, p }: { c: TComboBox; p: Common }) {
           const i = items.indexOf(e.target.value);
           run(i >= 0 ? c.userSelect(i) : c.userText(e.target.value), c.Name);
         }}
-        onKeyDown={inputKeyHandler(c, () => c.Text, (v) => run(c.userText(v), c.Name))} {...focusHandlers(c)} />
+        onKeyDown={inputKeyHandler(c, () => c.Text, (v) => run(c.userText(v), c.Name))} onKeyUp={keyUpHandler(c)} {...focusHandlers(c)} />
       <datalist id={listId}>{items.map((s, i) => <option key={i} value={s} />)}</datalist>
     </div>
   );

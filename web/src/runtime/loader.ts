@@ -22,6 +22,7 @@ import './vcl/classes';
 import './vcl/controls';
 import './vcl/actions';
 import './vcl/dbcontrols';
+import './vcl/office';
 import './data/fields';
 import './data/dataset';
 import './data/datasource';

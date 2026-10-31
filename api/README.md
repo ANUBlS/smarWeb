@@ -52,6 +52,7 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | CreditManager — Balans / Kreditlər / Kreditlərin idarə olunması (new / edit contract via SBCM_Contract.Init / AddValue / NewContract / UpdateingContract; tranche, overdue, payment, prolongation, reserve; enable/disable calculation; percent converting; close contract(s) on the selected rows; SBCM shared units in Common) | ✅ ready |
 | ContractCorrection — Balans / Kreditlər / Kreditlərdə düzəlişlər (grid edit of SBCM_Contract_Correction by ROWID, CommitOnPost; Qəbul = commit, İmtina = rollback) | ✅ ready |
 | CreditsArchive — Balans / Kreditlər / Arxiv Kreditlər (grid edit of TYPE# with pick list, CommitOnPost; Qəbul / İmtina) | ✅ ready |
+| XImportService — Əlavə modullar / İdxal / İdxal xidməti (3 datasets; Excel import of sheet MESSAGES into XLS_TRANSACTIONS, read in the browser; XLS_PROCESSES.EmptyXLS_SalaryMessages / GetTransaction; F1 example file as .xlsx) | ✅ ready |
 | all others | gateway works; own Swagger section pending |
 
 The web client uses the gateway for **every** module already; the per-module sections document and

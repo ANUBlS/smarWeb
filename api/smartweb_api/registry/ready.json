@@ -11,5 +11,6 @@
   "PaymentDecree",
   "CreditManager",
   "ContractCorrection",
-  "CreditsArchive"
+  "CreditsArchive",
+  "XImportService"
 ]
