@@ -308,7 +308,7 @@ export class TCustomEdit extends TWinControl {
   get SelText() { return ''; }
   set SelText(v: string) { this.Text = this._text + str(v); }
   protected applyCase(s: string) {
-    return this.CharCase === 'ecuppercase' ? s.toLocaleUpperCase('az') : this.CharCase === 'eclowercase' ? s.toLocaleLowerCase('az') : s;
+    return this.CharCase === 'ecuppercase' ? s.toUpperCase() : this.CharCase === 'eclowercase' ? s.toLowerCase() : s;
   }
   Clear() { return this.setTextFromCode(''); }
   SelectAll() { (this.dom as HTMLInputElement | null)?.select?.(); }

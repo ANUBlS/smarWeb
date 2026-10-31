@@ -171,13 +171,13 @@ export default function define($) {
     } else {
       L0["bool_user_name"] = true;
     }
-    await $.stmt((await $.callv(L0["sfilter"], [L0["allfilterwares"], L0["filter_keeping_sec"], L0["bool_keeping_sec"]])));
-    await $.stmt((await $.callv(L0["sfilter"], [L0["allfilterwares"], L0["filter_wares_name"], L0["bool_wares_name"]])));
-    await $.stmt((await $.callv(L0["sfilter"], [L0["allfilterwares"], L0["filter_user_name"], L0["bool_user_name"]])));
+    await $.stmt((await $.callv(L0["sfilter"], [$.ref(async () => L0["allfilterwares"], async ($t16) => { L0["allfilterwares"] = $t16; }), L0["filter_keeping_sec"], L0["bool_keeping_sec"]])));
+    await $.stmt((await $.callv(L0["sfilter"], [$.ref(async () => L0["allfilterwares"], async ($t17) => { L0["allfilterwares"] = $t17; }), L0["filter_wares_name"], L0["bool_wares_name"]])));
+    await $.stmt((await $.callv(L0["sfilter"], [$.ref(async () => L0["allfilterwares"], async ($t18) => { L0["allfilterwares"] = $t18; }), L0["filter_user_name"], L0["bool_user_name"]])));
     {
-      const $t16 = (await $.v(C, "DataModWares"));
-      await $.stmt((await $.wcall([$t16], "FilteredDataSet", [(await $.wv([$t16], "ODSGroups", C, false)), (await $.wv([$t16], "AllFilterGroup", { get: async () => L0["allfiltergroup"], set: async (v) => { L0["allfiltergroup"] = v; }, local: true }, false))], C)));
-      await $.stmt((await $.wcall([$t16], "FilteredDataSet", [(await $.wv([$t16], "ODSWares", C, false)), (await $.wv([$t16], "AllFilterWares", { get: async () => L0["allfilterwares"], set: async (v) => { L0["allfilterwares"] = v; }, local: true }, false))], C)));
+      const $t19 = (await $.v(C, "DataModWares"));
+      await $.stmt((await $.wcall([$t19], "FilteredDataSet", [(await $.wv([$t19], "ODSGroups", C, false)), (await $.wv([$t19], "AllFilterGroup", { get: async () => L0["allfiltergroup"], set: async (v) => { L0["allfiltergroup"] = v; }, local: true }, false))], C)));
+      await $.stmt((await $.wcall([$t19], "FilteredDataSet", [(await $.wv([$t19], "ODSWares", C, false)), (await $.wv([$t19], "AllFilterWares", { get: async () => L0["allfilterwares"], set: async (v) => { L0["allfilterwares"] = v; }, local: true }, false))], C)));
     }
   } finally {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crDefault")));
@@ -212,11 +212,11 @@ export default function define($) {
   try {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
     {
-      const $t17 = (await $.v(C, "DataModWares"));
-      await $.stmt((await $.wcall([$t17], "FillListBox", [(await $.wv([$t17], "ODSFilterGroup", C, false)), "name", (await $.wv([$t17], "ChListBoxGr", C, false))], C)));
-      await $.stmt((await $.wcall([$t17], "FillListBox", [(await $.wv([$t17], "ODSFilterWares", C, false)), "keeping_sec", (await $.wv([$t17], "ChListBoxSektor", C, false))], C)));
-      await $.stmt((await $.wcall([$t17], "FillListBox", [(await $.wv([$t17], "ODSFilterWares", C, false)), "wares_name", (await $.wv([$t17], "ChListBoxWares", C, false))], C)));
-      await $.stmt((await $.wcall([$t17], "FillListBox", [(await $.wv([$t17], "ODSFilterWares", C, false)), "user_name", (await $.wv([$t17], "ChListBoxUser", C, false))], C)));
+      const $t20 = (await $.v(C, "DataModWares"));
+      await $.stmt((await $.wcall([$t20], "FillListBox", [(await $.wv([$t20], "ODSFilterGroup", C, false)), "name", (await $.wv([$t20], "ChListBoxGr", C, false))], C)));
+      await $.stmt((await $.wcall([$t20], "FillListBox", [(await $.wv([$t20], "ODSFilterWares", C, false)), "keeping_sec", (await $.wv([$t20], "ChListBoxSektor", C, false))], C)));
+      await $.stmt((await $.wcall([$t20], "FillListBox", [(await $.wv([$t20], "ODSFilterWares", C, false)), "wares_name", (await $.wv([$t20], "ChListBoxWares", C, false))], C)));
+      await $.stmt((await $.wcall([$t20], "FillListBox", [(await $.wv([$t20], "ODSFilterWares", C, false)), "user_name", (await $.wv([$t20], "ChListBoxUser", C, false))], C)));
     }
   } finally {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crDefault")));

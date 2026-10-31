@@ -9,7 +9,7 @@ export default function define($) {
   U.const("rtAll", 0);
   U.const("rtOne", 1);
   U.init(async () => {
-    U.const("Months", ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"]);
+    U.const("Months", $.lowArr(1, ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"]));
     U.const("Capt", "____N-li hesabın kreditindən %s N-li jurnal-order üzrə");
     U.const("Debt_sumCol", "Cəmi debet üzrə");
     U.const("Sum_kreditCol", "Kredit üzrə dövriyyə");
@@ -26,7 +26,7 @@ export default function define($) {
   });
   U.func("SearchArray", async function SearchArray(Self, p0, p1) {
   const C = $.chain(Self, U);
-  const L0 = {"arr": $.copyArg(p0), "value": $.copyArg(p1), result: 0, "i": 0};
+  const L0 = {"arr": $.openArr(p0), "value": $.copyArg(p1), result: 0, "i": 0};
   await $.fixArgs(L0, ["arr", "value"]);
   { const $t1 = (await $.lowHigh("high", "arr", async () => L0["arr"]));
     L0["i"] = (await $.lowHigh("low", "arr", async () => L0["arr"]));

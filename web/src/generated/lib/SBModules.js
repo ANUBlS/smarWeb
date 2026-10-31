@@ -9,7 +9,7 @@ export default function define($) {
   });
   U.func("Sb_CheckModuleAccess", async function Sb_CheckModuleAccess(Self, p0, p1) {
   const C = $.chain(Self, U);
-  const L0 = {"module": $.copyArg(p0), "accessarr": $.copyArg(p1), result: false};
+  const L0 = {"module": $.copyArg(p0), "accessarr": $.openArr(p1), result: false};
   await $.fixArgs(L0, ["module", "accessarr"]);
   return L0.result;
 }, {"params": ["Module", "AccessArr"], "kind": "function", "ptypes": ["String", null]});

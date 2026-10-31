@@ -177,7 +177,7 @@ export default function define($) {
   return L1.result;
 });
   L0["checkbynames"] = $.fn(async function CheckByNames(p0) {
-  const L1 = {"names": $.copyArg(p0), result: undefined, "index": 0};
+  const L1 = {"names": $.openArr(p0), result: undefined, "index": 0};
   await $.fixArgs(L1, ["names"]);
   { const $t15 = (await $.lowHigh("high", "Names", async () => L1["names"]));
     L1["index"] = (await $.lowHigh("low", "Names", async () => L1["names"]));

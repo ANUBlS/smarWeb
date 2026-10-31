@@ -776,7 +776,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           <thead>
             <tr>
               {ind ? <th className="ind" /> : null}
-              {cols.map((c, i) => <th key={i} title={c.DisplayName} onClick={() => run(g.userTitleClick(i), g.Name)} style={{ textAlign: c.Title.Alignment === 'tarightjustify' ? 'right' : c.Title.Alignment === 'tacenter' ? 'center' : undefined }}>{c.Title.Caption || c.Field?.DisplayLabel || c.FieldName}</th>)}
+              {cols.map((c, i) => <th key={i} title={c.DisplayName} onClick={() => run(g.userTitleClick(i), g.Name)} style={{ textAlign: c.Title.Alignment === 'tarightjustify' ? 'right' : c.Title.Alignment === 'tacenter' ? 'center' : undefined }}>{c.Title.Caption || c.Field?.DisplayLabel || c.FieldName}{c.Title.SortMarker === 'smdowneh' ? ' ▼' : c.Title.SortMarker === 'smupeh' ? ' ▲' : ''}</th>)}
               <th style={{ borderRight: 0 }} />
             </tr>
           </thead>

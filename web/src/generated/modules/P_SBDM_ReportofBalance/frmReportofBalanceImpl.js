@@ -34,11 +34,11 @@ export default function define($) {
   return L1.result;
 });
   L0["result"] = "";
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CURRENCY", (await $.mv((await $.v(C, "CheckBox1")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "BRANCHID", (await $.mv((await $.v(C, "CheckBox2")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "PERSONALTYPE", (await $.mv((await $.v(C, "CheckBox8")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh8")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CLIENTTYPE", (await $.mv((await $.v(C, "CheckBox7")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh7")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CONTRACTTYPE", (await $.mv((await $.v(C, "CheckBox10")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh9")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t1) => { L0["result"] = $t1; }), "CURRENCY", (await $.mv((await $.v(C, "CheckBox1")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t2) => { L0["result"] = $t2; }), "BRANCHID", (await $.mv((await $.v(C, "CheckBox2")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t3) => { L0["result"] = $t3; }), "PERSONALTYPE", (await $.mv((await $.v(C, "CheckBox8")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh8")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t4) => { L0["result"] = $t4; }), "CLIENTTYPE", (await $.mv((await $.v(C, "CheckBox7")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh7")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t5) => { L0["result"] = $t5; }), "CONTRACTTYPE", (await $.mv((await $.v(C, "CheckBox10")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh9")), "KeyValue"))])));
   return L0.result;
 }, {"params": [], "kind": "function", "ptypes": []});
   U.method("TfrmReport", "FormCreate", async function FormCreate(Self, p0) {
@@ -90,39 +90,39 @@ export default function define($) {
   L0["cs"] = " order by  balance ";
   L0["s"] = (await $.v(C, "BuildFilterString"));
   {
-    const $t1 = (await $.v(C, "query"));
-    if ($.truthy((await $.wv([$t1], "Active", C, false)))) {
-      await $.stmt($.wcall([$t1], "close", [], C));
+    const $t6 = (await $.v(C, "query"));
+    if ($.truthy((await $.wv([$t6], "Active", C, false)))) {
+      await $.stmt($.wcall([$t6], "close", [], C));
     }
-    if ($.truthy($.ne((await $.wv([$t1], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)), ""))) {
-      { const $t2 = await $.iset((await $.wv([$t1], "sql", C, false)), [1], $.add($.add(" where id# in (select id from sbcm_contracts where ", (await $.wv([$t1], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))), " and type# in (3,4) )")); if ($t2 !== undefined) { await $.wset([$t1], "sql", $t2, C); } }
+    if ($.truthy($.ne((await $.wv([$t6], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)), ""))) {
+      { const $t7 = await $.iset((await $.wv([$t6], "sql", C, false)), [1], $.add($.add(" where id# in (select id from sbcm_contracts where ", (await $.wv([$t6], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))), " and type# in (3,4) )")); if ($t7 !== undefined) { await $.wset([$t6], "sql", $t7, C); } }
     }
-    await $.stmt($.wcall([$t1], "open", [], C));
-    await $.wset([$t1], "sm", (await $.mv((await $.wcall([$t1], "fieldByName", ["SMR"], C)), "AsFloat")), { get: async () => L0["sm"], set: async (v) => { L0["sm"] = v; }, local: true });
-    if ($.truthy($.eq((await $.wv([$t1], "sm", { get: async () => L0["sm"], set: async (v) => { L0["sm"] = v; }, local: true }, false)), 0))) {
-      await $.wset([$t1], "sm", 1, { get: async () => L0["sm"], set: async (v) => { L0["sm"] = v; }, local: true });
+    await $.stmt($.wcall([$t6], "open", [], C));
+    await $.wset([$t6], "sm", (await $.mv((await $.wcall([$t6], "fieldByName", ["SMR"], C)), "AsFloat")), { get: async () => L0["sm"], set: async (v) => { L0["sm"] = v; }, local: true });
+    if ($.truthy($.eq((await $.wv([$t6], "sm", { get: async () => L0["sm"], set: async (v) => { L0["sm"] = v; }, local: true }, false)), 0))) {
+      await $.wset([$t6], "sm", 1, { get: async () => L0["sm"], set: async (v) => { L0["sm"] = v; }, local: true });
     }
   }
   {
-    const $t3 = (await $.v(C, "Results"));
-    if ($.truthy($.ne((await $.wv([$t3], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)), ""))) {
-      await $.wset([$t3], "s", $.add($.add($.add(" where  ", (await $.wv([$t3], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))), " and type# in (3,4) "), (await $.wv([$t3], "cs", { get: async () => L0["cs"], set: async (v) => { L0["cs"] = v; }, local: true }, false))), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
+    const $t8 = (await $.v(C, "Results"));
+    if ($.truthy($.ne((await $.wv([$t8], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)), ""))) {
+      await $.wset([$t8], "s", $.add($.add($.add(" where  ", (await $.wv([$t8], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))), " and type# in (3,4) "), (await $.wv([$t8], "cs", { get: async () => L0["cs"], set: async (v) => { L0["cs"] = v; }, local: true }, false))), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
     } else {
-      await $.wset([$t3], "s", $.add(" where  type# in (3,4) ", (await $.wv([$t3], "cs", { get: async () => L0["cs"], set: async (v) => { L0["cs"] = v; }, local: true }, false))), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
+      await $.wset([$t8], "s", $.add(" where  type# in (3,4) ", (await $.wv([$t8], "cs", { get: async () => L0["cs"], set: async (v) => { L0["cs"] = v; }, local: true }, false))), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
     }
-    { const $t4 = await $.iset((await $.wv([$t3], "SQL", C, false)), [13], (await $.wv([$t3], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))); if ($t4 !== undefined) { await $.wset([$t3], "SQL", $t4, C); } }
-    if ($.truthy((await $.wv([$t3], "Active", C, false)))) {
-      await $.stmt($.wcall([$t3], "CloseAll", [], C));
+    { const $t9 = await $.iset((await $.wv([$t8], "SQL", C, false)), [13], (await $.wv([$t8], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))); if ($t9 !== undefined) { await $.wset([$t8], "SQL", $t9, C); } }
+    if ($.truthy((await $.wv([$t8], "Active", C, false)))) {
+      await $.stmt($.wcall([$t8], "CloseAll", [], C));
     }
-    await $.stmt((await $.wcall([$t3], "SetVariable", ["bdat", (await $.wv([$t3], "StartDate", { get: async () => L0["startdate"], set: async (v) => { L0["startdate"] = v; }, local: true }, false))], C)));
-    await $.stmt((await $.wcall([$t3], "SetVariable", ["edat", (await $.wv([$t3], "FinDate", { get: async () => L0["findate"], set: async (v) => { L0["findate"] = v; }, local: true }, false))], C)));
-    await $.stmt((await $.wcall([$t3], "SetVariable", ["sm", (await $.wv([$t3], "sm", { get: async () => L0["sm"], set: async (v) => { L0["sm"] = v; }, local: true }, false))], C)));
-    await $.stmt($.wcall([$t3], "Open", [], C));
+    await $.stmt((await $.wcall([$t8], "SetVariable", ["bdat", (await $.wv([$t8], "StartDate", { get: async () => L0["startdate"], set: async (v) => { L0["startdate"] = v; }, local: true }, false))], C)));
+    await $.stmt((await $.wcall([$t8], "SetVariable", ["edat", (await $.wv([$t8], "FinDate", { get: async () => L0["findate"], set: async (v) => { L0["findate"] = v; }, local: true }, false))], C)));
+    await $.stmt((await $.wcall([$t8], "SetVariable", ["sm", (await $.wv([$t8], "sm", { get: async () => L0["sm"], set: async (v) => { L0["sm"] = v; }, local: true }, false))], C)));
+    await $.stmt($.wcall([$t8], "Open", [], C));
     {
-      const $t5 = (await $.wv([$t3], "ExcelExport", C, false));
-      await $.stmt($.wcall([$t3, $t5], "Connect", [], C));
-      await $.stmt((await $.wcall([$t3, $t5], "ExportDataset", [(await $.wv([$t3, $t5], "Results", C, false)), "Hesabat", (await $.wv([$t3, $t5], "True", C, false))], C)));
-      await $.stmt($.wcall([$t3, $t5], "Disconnect", [], C));
+      const $t10 = (await $.wv([$t8], "ExcelExport", C, false));
+      await $.stmt($.wcall([$t8, $t10], "Connect", [], C));
+      await $.stmt((await $.wcall([$t8, $t10], "ExportDataset", [(await $.wv([$t8, $t10], "Results", C, false)), "Hesabat", (await $.wv([$t8, $t10], "True", C, false))], C)));
+      await $.stmt($.wcall([$t8, $t10], "Disconnect", [], C));
     }
   }
   return L0.result;

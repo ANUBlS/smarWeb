@@ -1295,6 +1295,25 @@ class Gen:
             return '0'
         return 'null'
 
+    def low_wrap(self, tp, code):
+        """Typed constant of `array[1..9] of …`: tag the JS array with its Pascal lower bound."""
+        t, guard = tp, 0
+        while t and t.get('k') == 'named' and t['name'].lower() in ALIASES and guard < 8:
+            t = ALIASES[t['name'].lower()]
+            guard += 1
+        if not t or t.get('k') != 'array' or not t.get('bounds') or t['bounds'][1] is None:
+            return code
+        lo = t['bounds'][0]
+        n = None
+        if isinstance(lo, tuple) and lo and lo[0] == 'num' and isinstance(lo[1], int):
+            n = lo[1]
+        elif isinstance(lo, tuple) and lo and lo[0] == 'un' and lo[1] == '-' and lo[2][0] == 'num' and isinstance(lo[2][1], int):
+            n = -lo[2][1]
+        return '$.lowArr(%d, %s)' % (n, code) if n else code
+
+    def is_open_array(self, tp):
+        return bool(tp) and tp.get('k') == 'array' and not tp.get('bounds')
+
     # -- expression code; returns JS expression string (may contain await)
     def expr(self, e, sc, nocall=False):
         k = e[0]
@@ -1727,6 +1746,9 @@ class Gen:
             elif prm['default'] is not None:
                 init.append('%s: (%s === undefined ? %s : %s)' % (
                     js_str(prm['name'].lower()), pv, self.const_expr(prm['default']), pv))
+            elif self.is_open_array(prm['type']):
+                # open array parameter: indexed from 0 even when the argument is an array[1..n] constant
+                init.append('%s: $.openArr(%s)' % (js_str(prm['name'].lower()), pv))
             else:
                 init.append('%s: $.copyArg(%s)' % (js_str(prm['name'].lower()), pv))
         if is_func:
@@ -1747,7 +1769,7 @@ class Gen:
             val = self.const_expr(c[2]) if isinstance(c[2], tuple) and c[2] and c[2][0] in ('arraylit', 'recordlit') else self.expr(c[2], sc)
             if c[1] is not None:
                 key = '%s.%s.%s.%s' % (self.unit.get('name') or '', self.class_name or '', '.'.join(self.routine_path + [name]), c[0])
-                out.append('  await $.staticConst(%s, %s, %s, async () => %s);\n' % (lvar, js_str(c[0].lower()), js_str(key.lower()), val))
+                out.append('  await $.staticConst(%s, %s, %s, async () => %s);\n' % (lvar, js_str(c[0].lower()), js_str(key.lower()), self.low_wrap(c[1], val)))
             else:
                 out.append('  %s[%s] = %s;\n' % (lvar, js_str(c[0].lower()), val))
         # nested routines
@@ -1790,8 +1812,14 @@ def collect_sigs(unit, sigs):
             for x in vp:
                 if x not in cur:
                     cur.append(x)
+    def add_nested(r):
+        # local routines: `procedure ConcatFilter(var S: String; …)` called as ConcatFilter(Result, …)
+        for n in (r.get('local') or {}).get('nested', []):
+            add(n['sig']['name'], n['sig']['params'])
+            add_nested(n)
     for r in unit['routines']:
         add(r['sig']['name'], r['sig']['params'])
+        add_nested(r)
     for nm, lst in unit['decl_routines'].items():
         for params in lst:
             add(nm, params)
@@ -1854,7 +1882,7 @@ def gen_unit(unit, sigs, records):
                 js_str(next((k for k in [nm] if True), nm)), js_str(tp['name'])))
     for nm, tp, val in unit['consts']:
         try:
-            lines.append('    U.const(%s, %s);' % (js_str(nm), g.const_expr(val)))
+            lines.append('    U.const(%s, %s);' % (js_str(nm), g.low_wrap(tp, g.const_expr(val))))
         except PasError as e:
             lines.append('    // const %s failed: %s' % (nm, e))
     for nm, tp, init in unit['vars']:

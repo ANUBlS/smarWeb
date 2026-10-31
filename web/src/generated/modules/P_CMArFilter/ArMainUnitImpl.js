@@ -28,18 +28,18 @@ export default function define($) {
   return L1.result;
 });
   L0["result"] = "";
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CURRENCY", (await $.mv((await $.v(C, "CheckBox1")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "BRANCHID", (await $.mv((await $.v(C, "CheckBox2")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "USRGROUP", (await $.mv((await $.v(C, "CheckBox3")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "RESERVEID", (await $.mv((await $.v(C, "CheckBox4")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "AIM_ID", (await $.mv((await $.v(C, "CheckBox5")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "USID", (await $.mv((await $.v(C, "CheckBox6")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh6")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "PERSONALTYPE", (await $.mv((await $.v(C, "CheckBox7")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh7")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CUSTOMERTYPE", (await $.mv((await $.v(C, "CheckBox8")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh8")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CREDITTYPE", (await $.mv((await $.v(C, "CheckBox9")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh9")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "PLEDGEID", (await $.mv((await $.v(C, "CheckBox10")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh10")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "BOOROWERID", (await $.mv((await $.v(C, "CheckBox11")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh11")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "ID", (await $.mv((await $.v(C, "CheckBox12")), "Checked")), "select creditid from cm_payments where paydate=sbop.get_date"])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t1) => { L0["result"] = $t1; }), "CURRENCY", (await $.mv((await $.v(C, "CheckBox1")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t2) => { L0["result"] = $t2; }), "BRANCHID", (await $.mv((await $.v(C, "CheckBox2")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t3) => { L0["result"] = $t3; }), "USRGROUP", (await $.mv((await $.v(C, "CheckBox3")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t4) => { L0["result"] = $t4; }), "RESERVEID", (await $.mv((await $.v(C, "CheckBox4")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t5) => { L0["result"] = $t5; }), "AIM_ID", (await $.mv((await $.v(C, "CheckBox5")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t6) => { L0["result"] = $t6; }), "USID", (await $.mv((await $.v(C, "CheckBox6")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh6")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t7) => { L0["result"] = $t7; }), "PERSONALTYPE", (await $.mv((await $.v(C, "CheckBox7")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh7")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t8) => { L0["result"] = $t8; }), "CUSTOMERTYPE", (await $.mv((await $.v(C, "CheckBox8")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh8")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t9) => { L0["result"] = $t9; }), "CREDITTYPE", (await $.mv((await $.v(C, "CheckBox9")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh9")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t10) => { L0["result"] = $t10; }), "PLEDGEID", (await $.mv((await $.v(C, "CheckBox10")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh10")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t11) => { L0["result"] = $t11; }), "BOOROWERID", (await $.mv((await $.v(C, "CheckBox11")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh11")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t12) => { L0["result"] = $t12; }), "ID", (await $.mv((await $.v(C, "CheckBox12")), "Checked")), "select creditid from cm_payments where paydate=sbop.get_date"])));
   return L0.result;
 }, {"params": [], "kind": "function", "ptypes": []});
   U.method("TFilterMainForm", "FormCreate", async function FormCreate(Self, p0) {
@@ -48,9 +48,9 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   try {
     await $.set(C, "ArFilterDataModule", (await $.mcall((await $.v(C, "TArFilterDataModule")), "Create", [Self])));
-  } catch ($t1) {
-    $.rethrowControl($t1);
-    $.handled($t1);
+  } catch ($t13) {
+    $.rethrowControl($t13);
+    $.handled($t13);
     await $.set(C, "LoadingFailed", true);
   }
   await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
@@ -77,12 +77,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "CommonDBGrid"));
-    const $t3 = (await $.mv((await $.wv([$t2], "DataSource", C, false)), "DataSet"));
-    await $.wset([$t2, $t3], "Filter", (await $.wv([$t2, $t3], "BuildFilterString", C, false)), C);
-    await $.wset([$t2, $t3], "Filtered", (await $.wv([$t2, $t3], "False", C, false)), C);
-    await $.wset([$t2, $t3], "Filtered", (await $.wv([$t2, $t3], "True", C, false)), C);
-    await $.mcall((await $.wv([$t2, $t3], "SelectedRows", C, false)), "Clear", []);
+    const $t14 = (await $.v(C, "CommonDBGrid"));
+    const $t15 = (await $.mv((await $.wv([$t14], "DataSource", C, false)), "DataSet"));
+    await $.wset([$t14, $t15], "Filter", (await $.wv([$t14, $t15], "BuildFilterString", C, false)), C);
+    await $.wset([$t14, $t15], "Filtered", (await $.wv([$t14, $t15], "False", C, false)), C);
+    await $.wset([$t14, $t15], "Filtered", (await $.wv([$t14, $t15], "True", C, false)), C);
+    await $.mcall((await $.wv([$t14, $t15], "SelectedRows", C, false)), "Clear", []);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -91,11 +91,11 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "CommonDBGrid"));
-    const $t5 = (await $.mv((await $.wv([$t4], "DataSource", C, false)), "DataSet"));
-    await $.wset([$t4, $t5], "Filter", "", C);
-    await $.wset([$t4, $t5], "Filtered", (await $.wv([$t4, $t5], "False", C, false)), C);
-    await $.mcall((await $.wv([$t4, $t5], "SelectedRows", C, false)), "Clear", []);
+    const $t16 = (await $.v(C, "CommonDBGrid"));
+    const $t17 = (await $.mv((await $.wv([$t16], "DataSource", C, false)), "DataSet"));
+    await $.wset([$t16, $t17], "Filter", "", C);
+    await $.wset([$t16, $t17], "Filtered", (await $.wv([$t16, $t17], "False", C, false)), C);
+    await $.mcall((await $.wv([$t16, $t17], "SelectedRows", C, false)), "Clear", []);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});

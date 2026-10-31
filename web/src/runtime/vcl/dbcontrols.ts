@@ -328,6 +328,13 @@ export class TColumnTitle {
   Alignment = 'taleftjustify';
   Font = new TFont();
   Color: number = -2147483633;
+  /** EhLib (TColumnTitleEh): a clickable title (OnTitleBtnClick) and its sort arrow. */
+  TitleButton = false;
+  SortMarker = 'smnoneeh';
+  SortIndex = 0;
+  Hint = '';
+  EndEllipsis = false;
+  Orientation = 'tohorizontal';
 }
 export class TColumn extends TCollectionItem {
   FieldName = '';
@@ -500,11 +507,27 @@ export class TDBGrid extends TWinControl {
         }
       }
       invalidate();
-      await this.fire('OnCellClick', this, this.visibleColumns()[colIdx] ?? null);
+      // TDBGridClickEvent = procedure(Column: TColumn) — no Sender
+      await this.fire('OnCellClick', this.visibleColumns()[colIdx] ?? null);
     }, this.Name + '.Click');
   }
   async userDblClick() { await this.fire('OnDblClick', this); }
-  async userTitleClick(colIdx: number) { await this.fire('OnTitleClick', this, this.visibleColumns()[colIdx] ?? null); }
+  async userTitleClick(colIdx: number) {
+    const col = this.visibleColumns()[colIdx] ?? null;
+    // EhLib title buttons: dghAutoSortMarking cycles the sort arrow (none → down → up → down), then
+    // OnTitleBtnClick(Sender, ACol, Column)
+    if (col && col.Title.TitleButton) {
+      const eh: string[] = (this as unknown as { OptionsEh?: string[] }).OptionsEh ?? [];
+      if (eh.includes('dghautosortmarking')) {
+        const next = col.Title.SortMarker === 'smdowneh' ? 'smupeh' : 'smdowneh';
+        if (!eh.includes('dghmultisortmarking')) for (const c of this.visibleColumns()) if (c !== col) c.Title.SortMarker = 'smnoneeh';
+        col.Title.SortMarker = next;
+        invalidate();
+      }
+      await this.fire('OnTitleBtnClick', this, colIdx, col);
+    }
+    await this.fire('OnTitleClick', col);
+  }
 }
 function defaultWidth(f: TField) {
   switch (f.fieldType) {

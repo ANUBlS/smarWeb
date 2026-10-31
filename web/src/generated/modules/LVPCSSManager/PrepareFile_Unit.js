@@ -87,16 +87,16 @@ export default function define($) {
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), "<batch>"])));
     await $.stmt((await $.call(C, "Write", [(await $.v(C, "XMLFile")), "<body>"])));
     L0["messagebody"] = "";
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":20:", (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["TRANS_REF"])), "asstring"))), true])));
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":23:", (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["OPERCODE"])), "asstring"))), true])));
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":50K:/", (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["ACC_NO"])), "asstring"))), true])));
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["CLIENT_NAME"])), "asstring")), true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t5) => { L0["messagebody"] = $t5; }), $.add(":20:", (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["TRANS_REF"])), "asstring"))), true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t6) => { L0["messagebody"] = $t6; }), $.add(":23:", (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["OPERCODE"])), "asstring"))), true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t7) => { L0["messagebody"] = $t7; }), $.add(":50K:/", (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["ACC_NO"])), "asstring"))), true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t8) => { L0["messagebody"] = $t8; }), (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["CLIENT_NAME"])), "asstring")), true])));
     if ($.truthy($.eq((await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["CLIENT_CODE"])), "AsString")), ""))) {
       L0["stmessage"] = "";
     } else {
       L0["stmessage"] = (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["CLIENT_CODE"])), "AsString"));
     }
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add((await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["CLIENT_INN"])), "asstring")), "/"), true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t9) => { L0["messagebody"] = $t9; }), $.add((await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["CLIENT_INN"])), "asstring")), "/"), true])));
     L0["stmessage"] = "";
     await $.mcall((await $.v(C, "DataTemp")), "Close", []);
     await $.mcall((await $.mv((await $.v(C, "DataTemp")), "SQL")), "Clear", []);
@@ -111,14 +111,14 @@ export default function define($) {
     L0["tempstr"] = (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["KOD_B"])), "asstring"));
     L0["tempstr1"] = (await $.call(C, "SetStringLength", [(await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["KRNO"])), "asstring")), 13, "0"]));
     L0["tempstr2"] = (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["INN"])), "asstring"));
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add($.add(L0["tempstr"], "/"), L0["tempstr2"]), true])));
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["tempstr1"], true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t10) => { L0["messagebody"] = $t10; }), $.add($.add(L0["tempstr"], "/"), L0["tempstr2"]), true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t11) => { L0["messagebody"] = $t11; }), L0["tempstr1"], true])));
     await $.mcall((await $.v(C, "DataTemp")), "Close", []);
     await $.mcall((await $.mv((await $.v(C, "DataTemp")), "SQL")), "Clear", []);
     await $.stmt((await $.mcall((await $.mv((await $.v(C, "DataTemp")), "SQL")), "Add", ["Select account from xs_config"])));
     await $.mcall((await $.v(C, "DataTemp")), "Open", []);
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":52A:/D/", (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["ACCOUNT"])), "asstring"))), true])));
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t12) => { L0["messagebody"] = $t12; }), $.add(":52A:/D/", (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["ACCOUNT"])), "asstring"))), true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t13) => { L0["messagebody"] = $t13; }), L0["stmessage"], true])));
     L0["stmessage"] = "";
     L0["mess_count"] = 0;
     L0["sum_amount"] = 0;
@@ -131,67 +131,67 @@ export default function define($) {
       await $.mset((await $.v(C, "ProgressBar1")), "Max", $.idiv((await $.mv((await $.v(C, "Messages")), "RecordCount")), (await $.mv((await $.v(C, "xs_batchs")), "RecordCount"))));
       await $.mcall((await $.v(C, "Application")), "ProcessMessages", []);
       await $.mset((await $.v(C, "ProgressBar1")), "Position", $.add((await $.mv((await $.v(C, "ProgressBar1")), "Position")), 10));
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":21:", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["MESS_REFERENCE"])), "asstring"))), true])));
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add($.add(":32B:", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["VAL_NAME"])), "asstring"))), (await $.call(C, "ChangeDecimal", [(await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["AMOUNT"])), "asfloat"))]))), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t14) => { L0["messagebody"] = $t14; }), $.add(":21:", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["MESS_REFERENCE"])), "asstring"))), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t15) => { L0["messagebody"] = $t15; }), $.add($.add(":32B:", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["VAL_NAME"])), "asstring"))), (await $.call(C, "ChangeDecimal", [(await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["AMOUNT"])), "asfloat"))]))), true])));
       L0["tempstr1"] = (await $.call(C, "SetStringLength", [(await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["REC_BANK_SUB_ACC"])), "asstring")), 13, "0"]));
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":57A:/C/", L0["tempstr1"]), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t16) => { L0["messagebody"] = $t16; }), $.add(":57A:/C/", L0["tempstr1"]), true])));
       await $.mcall((await $.v(C, "DataTemp")), "Close", []);
       await $.mcall((await $.mv((await $.v(C, "DataTemp")), "SQL")), "Clear", []);
       await $.stmt((await $.mcall((await $.mv((await $.v(C, "DataTemp")), "SQL")), "Add", [$.add($.add("Select swift from bankm where id='", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["REC_BANK_ID"])), "AsString"))), "'")])));
       await $.mcall((await $.v(C, "DataTemp")), "Open", []);
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["SWIFT"])), "asstring")), true])));
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":59:/", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["CLIENT_ACC_NO"])), "asstring"))), true])));
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["CLIENT_NAME"])), "asstring")), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t17) => { L0["messagebody"] = $t17; }), (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["SWIFT"])), "asstring")), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t18) => { L0["messagebody"] = $t18; }), $.add(":59:/", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["CLIENT_ACC_NO"])), "asstring"))), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t19) => { L0["messagebody"] = $t19; }), (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["CLIENT_NAME"])), "asstring")), true])));
       if ($.truthy($.eq((await $.call(C, "trim", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["CLIENT_CODE"])), "AsString"))])), ""))) {
         L0["stmessage"] = "";
       } else {
         L0["stmessage"] = (await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["CLIENT_CODE"])), "AsString"));
       }
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add((await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["CLIENT_INN"])), "asstring")), "/"), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t20) => { L0["messagebody"] = $t20; }), $.add((await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["CLIENT_INN"])), "asstring")), "/"), true])));
       L0["stmessage"] = "";
       await $.mcall((await $.v(C, "DataTemp")), "Close", []);
       await $.mcall((await $.mv((await $.v(C, "DataTemp")), "SQL")), "Clear", []);
       await $.stmt((await $.mcall((await $.mv((await $.v(C, "DataTemp")), "SQL")), "Add", [$.add($.add("Select krno,inn,bankcode from bankm where id='", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["REC_BANK_ID"])), "AsString"))), "'")])));
       await $.mcall((await $.v(C, "DataTemp")), "Open", []);
       L0["tempstr"] = (await $.call(C, "SetStringLength", [(await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["KRNO"])), "asstring")), 13, "0"]));
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add($.add((await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["BANKCODE"])), "asstring")), "/"), (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["INN"])), "asstring"))), true])));
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["tempstr"], true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t21) => { L0["messagebody"] = $t21; }), $.add($.add((await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["BANKCODE"])), "asstring")), "/"), (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["INN"])), "asstring"))), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t22) => { L0["messagebody"] = $t22; }), L0["tempstr"], true])));
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["REMIT_INF"])), "AsString")), "|", 1]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":70:", L0["stmessage"]), true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t23) => { L0["messagebody"] = $t23; }), $.add(":70:", L0["stmessage"]), true])));
       }
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["REMIT_INF"])), "AsString")), "|", 2]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t24) => { L0["messagebody"] = $t24; }), L0["stmessage"], true])));
       }
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["REMIT_INF"])), "AsString")), "|", 3]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t25) => { L0["messagebody"] = $t25; }), L0["stmessage"], true])));
       }
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["REMIT_INF"])), "AsString")), "|", 4]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t26) => { L0["messagebody"] = $t26; }), L0["stmessage"], true])));
       }
-      await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":26T:", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["TRANS_COD"])), "asstring"))), true])));
+      await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t27) => { L0["messagebody"] = $t27; }), $.add(":26T:", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["TRANS_COD"])), "asstring"))), true])));
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["ADD_INF"])), "asstring")), "|", 1]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":77B:", L0["stmessage"]), true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t28) => { L0["messagebody"] = $t28; }), $.add(":77B:", L0["stmessage"]), true])));
       }
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["ADD_INF"])), "asstring")), "|", 2]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t29) => { L0["messagebody"] = $t29; }), L0["stmessage"], true])));
       }
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["ADD_INF"])), "asstring")), "|", 3]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t30) => { L0["messagebody"] = $t30; }), L0["stmessage"], true])));
       }
       L0["mess_count"] = $.add(L0["mess_count"], 1);
       L0["sum_amount"] = $.add(L0["sum_amount"], (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["AMOUNT"])), "AsFloat")));
       await $.mcall((await $.v(C, "Messages")), "Next", []);
       await $.tick();
     }
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add($.add($.add(":32A:", (await $.call(C, "formatdatetime", ["yymmdd", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["val_date"])), "AsDateTime"))]))), (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["VAL_NAME"])), "asstring"))), (await $.call(C, "ChangeDecimal", [L0["sum_amount"]]))), true])));
-    await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":72:/BNF/", (await $.call(C, "inttostr", [L0["mess_count"]]))), false])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t31) => { L0["messagebody"] = $t31; }), $.add($.add($.add(":32A:", (await $.call(C, "formatdatetime", ["yymmdd", (await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["val_date"])), "AsDateTime"))]))), (await $.mv((await $.mcall((await $.v(C, "xs_batchs")), "fieldbyname", ["VAL_NAME"])), "asstring"))), (await $.call(C, "ChangeDecimal", [L0["sum_amount"]]))), true])));
+    await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t32) => { L0["messagebody"] = $t32; }), $.add(":72:/BNF/", (await $.call(C, "inttostr", [L0["mess_count"]]))), false])));
     await $.stmt((await $.call(C, "Write", [(await $.v(C, "XMLFile")), L0["messagebody"]])));
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), "</body>"])));
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), $.add($.add("<sign>", (await $.call(C, "SetSign", ["", "", L0["messagebody"]]))), "</sign>")])));
@@ -208,7 +208,7 @@ export default function define($) {
   await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), $.add($.add("<msg_num_of_batches>", (await $.call(C, "inttostr", [(await $.mv((await $.v(C, "xs_batchs")), "recordcount"))]))), "</msg_num_of_batches>")])));
   await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), $.add($.add("<msg_amount>", (await $.call(C, "ChangeDecimal", [(await $.mv((await $.v(C, "CurrencyEdit1")), "Value"))]))), "</msg_amount>")])));
   await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), "</SWIFT_msg_fields>"])));
-  await $.stmt((await $.call(C, "CloseFile", [$.ref(async () => (await $.v(C, "XMLFile")), async ($t5) => { await $.set(C, "XMLFile", $t5); })])));
+  await $.stmt((await $.call(C, "CloseFile", [$.ref(async () => (await $.v(C, "XMLFile")), async ($t33) => { await $.set(C, "XMLFile", $t33); })])));
   return L0.result;
 }, {"params": [], "kind": "procedure", "ptypes": []});
   U.method("TPrepareFile_Form", "CreateBatchFile", async function CreateBatchFile(Self) {
@@ -247,8 +247,8 @@ export default function define($) {
     L0["batchnom"] = $.add(L0["batchnom"], 1);
     L0["filename"] = $.add($.add($.add($.add(L0["dir"], (await $.mv((await $.v(C, "Edit_reference")), "Text"))), "-"), (await $.call(C, "inttostr", [L0["batchnom"]]))), ".xml");
     await $.mcall((await $.v(C, "ProgressBar1")), "Show", []);
-    await $.stmt((await $.call(C, "AssignFile", [$.ref(async () => (await $.v(C, "XMLFile")), async ($t6) => { await $.set(C, "XMLFile", $t6); }), L0["filename"]])));
-    await $.stmt((await $.call(C, "Rewrite", [$.ref(async () => (await $.v(C, "XMLFile")), async ($t7) => { await $.set(C, "XMLFile", $t7); })])));
+    await $.stmt((await $.call(C, "AssignFile", [$.ref(async () => (await $.v(C, "XMLFile")), async ($t34) => { await $.set(C, "XMLFile", $t34); }), L0["filename"]])));
+    await $.stmt((await $.call(C, "Rewrite", [$.ref(async () => (await $.v(C, "XMLFile")), async ($t35) => { await $.set(C, "XMLFile", $t35); })])));
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), "<?xml version=\"1.0\" encoding=\"latin1\" ?>"])));
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), "<SWIFT_msg_fields>"])));
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), $.add($.add("<msg_sender>", (await $.mv((await $.v(C, "Edit_sender")), "text"))), "</msg_sender>")])));
@@ -337,19 +337,19 @@ export default function define($) {
       await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), $.add($.add($.add($.add((await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["BANKCODE"])), "asstring")), "/"), L0["tempstr"]), "/"), (await $.mv((await $.mcall((await $.v(C, "DataTemp")), "fieldbyname", ["INN"])), "asstring")))])));
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["REMIT_INF"])), "AsString")), "|", 1]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], $.add(":70:", L0["stmessage"]), true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t36) => { L0["messagebody"] = $t36; }), $.add(":70:", L0["stmessage"]), true])));
       }
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["REMIT_INF"])), "AsString")), "|", 2]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t37) => { L0["messagebody"] = $t37; }), L0["stmessage"], true])));
       }
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["REMIT_INF"])), "AsString")), "|", 3]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t38) => { L0["messagebody"] = $t38; }), L0["stmessage"], true])));
       }
       L0["stmessage"] = (await $.mcall((await $.v(C, "LVPCSSForm")), "StrPart", [(await $.mv((await $.mcall((await $.v(C, "Messages")), "fieldbyname", ["REMIT_INF"])), "AsString")), "|", 4]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
-        await $.stmt((await $.callv(L0["addstr"], [L0["messagebody"], L0["stmessage"], true])));
+        await $.stmt((await $.callv(L0["addstr"], [$.ref(async () => L0["messagebody"], async ($t39) => { L0["messagebody"] = $t39; }), L0["stmessage"], true])));
       }
       L0["stmessage"] = (await $.call(C, "copy", [(await $.mv((await $.mcall((await $.v(C, "messages")), "fieldbyname", ["REMIT_INF"])), "asstring")), 0, 35]));
       if ($.truthy($.ne((await $.call(C, "trim", [L0["stmessage"]])), ""))) {
@@ -395,7 +395,7 @@ export default function define($) {
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), "</batch>"])));
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), "</block4>"])));
     await $.stmt((await $.call(C, "Writeln", [(await $.v(C, "XMLFile")), "</SWIFT_msg_fields>"])));
-    await $.stmt((await $.call(C, "CloseFile", [$.ref(async () => (await $.v(C, "XMLFile")), async ($t8) => { await $.set(C, "XMLFile", $t8); })])));
+    await $.stmt((await $.call(C, "CloseFile", [$.ref(async () => (await $.v(C, "XMLFile")), async ($t40) => { await $.set(C, "XMLFile", $t40); })])));
     await $.mcall((await $.v(C, "xs_batchs")), "Next", []);
     await $.tick();
   }

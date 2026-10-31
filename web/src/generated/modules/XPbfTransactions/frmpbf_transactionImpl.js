@@ -51,11 +51,11 @@ export default function define($) {
 });
   L0["result"] = "";
   L0["fstatus"] = "";
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "val_acc", (await $.mv((await $.v(C, "CBCurrency")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "branchid", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "contracttype", (await $.mv((await $.v(C, "CBContractType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fstatus"]])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fopendat"]])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t1) => { L0["result"] = $t1; }), "val_acc", (await $.mv((await $.v(C, "CBCurrency")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t2) => { L0["result"] = $t2; }), "branchid", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t3) => { L0["result"] = $t3; }), "contracttype", (await $.mv((await $.v(C, "CBContractType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t4) => { L0["result"] = $t4; }), $.ref(async () => L0["fstatus"], async ($t5) => { L0["fstatus"] = $t5; })])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t6) => { L0["result"] = $t6; }), $.ref(async () => L0["fopendat"], async ($t7) => { L0["fopendat"] = $t7; })])));
   return L0.result;
 }, {"params": [], "kind": "function", "ptypes": []});
   U.method("Tfrmpbf_transaction", "DefinePropertyPages", async function DefinePropertyPages(Self, p0) {
@@ -444,36 +444,36 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "c": 0, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "dmpbf_transaction"));
-    const $t2 = (await $.wv([$t1], "PBFOperations", C, false));
-    if ($.truthy((await $.wv([$t1, $t2], "active", C, false)))) {
-      await $.stmt($.wcall([$t1, $t2], "CloseAll", [], C));
+    const $t8 = (await $.v(C, "dmpbf_transaction"));
+    const $t9 = (await $.wv([$t8], "PBFOperations", C, false));
+    if ($.truthy((await $.wv([$t8, $t9], "active", C, false)))) {
+      await $.stmt($.wcall([$t8, $t9], "CloseAll", [], C));
     }
-    await $.stmt((await $.wcall([$t1, $t2], "SetVariable", ["OID", (await $.mv((await $.mcall((await $.wv([$t1, $t2], "PBFTransactions", C, false)), "FieldByName", ["num"])), "AsInteger"))], C)));
-    await $.stmt($.wcall([$t1, $t2], "Open", [], C));
-    await $.stmt($.wcall([$t1, $t2], "EDIT", [], C));
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t1, $t2], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
-      await $.mcall((await $.wv([$t1, $t2], "frmAddEditTr", C, false)), "ShowModal", []);
+    await $.stmt((await $.wcall([$t8, $t9], "SetVariable", ["OID", (await $.mv((await $.mcall((await $.wv([$t8, $t9], "PBFTransactions", C, false)), "FieldByName", ["num"])), "AsInteger"))], C)));
+    await $.stmt($.wcall([$t8, $t9], "Open", [], C));
+    await $.stmt($.wcall([$t8, $t9], "EDIT", [], C));
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t8, $t9], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
+      await $.mcall((await $.wv([$t8, $t9], "frmAddEditTr", C, false)), "ShowModal", []);
     } else {
       {
-        const $t3 = (await $.wv([$t1, $t2], "frmOtherOperations", C, false));
-        { const $t4 = $.sub((await $.mv((await $.mv((await $.wv([$t1, $t2, $t3], "ComboBox1", C, false)), "Items")), "Count")), 1);
-          await $.wset([$t1, $t2, $t3], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
-          let $t5 = true;
+        const $t10 = (await $.wv([$t8, $t9], "frmOtherOperations", C, false));
+        { const $t11 = $.sub((await $.mv((await $.mv((await $.wv([$t8, $t9, $t10], "ComboBox1", C, false)), "Items")), "Count")), 1);
+          await $.wset([$t8, $t9, $t10], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
+          let $t12 = true;
           for (;;) {
-            if (!$t5) { await $.wset([$t1, $t2, $t3], "i", $.succ((await $.wv([$t1, $t2, $t3], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
-            $t5 = false;
-            if (!($.ord((await $.wv([$t1, $t2, $t3], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t4))) break;
-            if ($.truthy($.eq((await $.idx((await $.mv((await $.mv((await $.wv([$t1, $t2, $t3], "frmOtherOperations", C, false)), "ComboBox1")), "Items")), [(await $.wv([$t1, $t2, $t3], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))])), (await $.mv((await $.mcall((await $.wv([$t1, $t2, $t3], "PBFTransactions", C, false)), "fieldbyname", ["OPNAME"])), "AsString"))))) {
-              await $.mset((await $.mv((await $.wv([$t1, $t2, $t3], "frmOtherOperations", C, false)), "ComboBox1")), "ItemIndex", (await $.wv([$t1, $t2, $t3], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)));
+            if (!$t12) { await $.wset([$t8, $t9, $t10], "i", $.succ((await $.wv([$t8, $t9, $t10], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
+            $t12 = false;
+            if (!($.ord((await $.wv([$t8, $t9, $t10], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t11))) break;
+            if ($.truthy($.eq((await $.idx((await $.mv((await $.mv((await $.wv([$t8, $t9, $t10], "frmOtherOperations", C, false)), "ComboBox1")), "Items")), [(await $.wv([$t8, $t9, $t10], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))])), (await $.mv((await $.mcall((await $.wv([$t8, $t9, $t10], "PBFTransactions", C, false)), "fieldbyname", ["OPNAME"])), "AsString"))))) {
+              await $.mset((await $.mv((await $.wv([$t8, $t9, $t10], "frmOtherOperations", C, false)), "ComboBox1")), "ItemIndex", (await $.wv([$t8, $t9, $t10], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)));
             }
             await $.tick();
           }
         }
       }
-      await $.mcall((await $.wv([$t1, $t2], "frmOtherOperations", C, false)), "ShowModal", []);
+      await $.mcall((await $.wv([$t8, $t9], "frmOtherOperations", C, false)), "ShowModal", []);
     }
-    await $.stmt((await $.wcall([$t1, $t2], "RefreshPBFOPExecute", [(await $.wv([$t1, $t2], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)));
+    await $.stmt((await $.wcall([$t8, $t9], "RefreshPBFOPExecute", [(await $.wv([$t8, $t9], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -484,14 +484,14 @@ export default function define($) {
   await $.mcall((await $.mv((await $.v(C, "MainGridPBF")), "SelectedRows")), "Clear", []);
   L0["dat"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPCurrentDate")), "DateTime"))]))]));
   {
-    const $t6 = (await $.v(C, "dmpbf_transaction"));
-    const $t7 = (await $.wv([$t6], "PBFTransactions", C, false));
-    await $.wset([$t6, $t7], "SaveID", (await $.mv((await $.wcall([$t6, $t7], "FieldbyName", ["ID"], C)), "AsInteger")), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
-    await $.stmt($.wcall([$t6, $t7], "close", [], C));
-    await $.stmt((await $.wcall([$t6, $t7], "SetVariable", ["TransactionDate", (await $.wv([$t6, $t7], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false))], C)));
-    await $.stmt((await $.wcall([$t6, $t7], "SetVariable", ["orderfield", "id"], C)));
-    await $.stmt($.wcall([$t6, $t7], "open", [], C));
-    await $.stmt((await $.wcall([$t6, $t7], "Locate", ["ID", (await $.wv([$t6, $t7], "SaveID", { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true }, false)), []], C)));
+    const $t13 = (await $.v(C, "dmpbf_transaction"));
+    const $t14 = (await $.wv([$t13], "PBFTransactions", C, false));
+    await $.wset([$t13, $t14], "SaveID", (await $.mv((await $.wcall([$t13, $t14], "FieldbyName", ["ID"], C)), "AsInteger")), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
+    await $.stmt($.wcall([$t13, $t14], "close", [], C));
+    await $.stmt((await $.wcall([$t13, $t14], "SetVariable", ["TransactionDate", (await $.wv([$t13, $t14], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false))], C)));
+    await $.stmt((await $.wcall([$t13, $t14], "SetVariable", ["orderfield", "id"], C)));
+    await $.stmt($.wcall([$t13, $t14], "open", [], C));
+    await $.stmt((await $.wcall([$t13, $t14], "Locate", ["ID", (await $.wv([$t13, $t14], "SaveID", { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true }, false)), []], C)));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -503,11 +503,11 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t8 = (await $.v(C, "dmpbf_transaction"));
-    const $t9 = (await $.wv([$t8], "PBFTransaction", C, false));
-    const $t10 = (await $.wv([$t8, $t9], "PBFTransactions", C, false));
-    await $.stmt((await $.wcall([$t8, $t9, $t10], "CallProcedure", ["del_Operation", ["v_operid", (await $.mv((await $.wcall([$t8, $t9, $t10], "FieldByName", ["num"], C)), "AsInteger"))]], C)));
-    await $.stmt($.wcall([$t8, $t9, $t10], "Refresh", [], C));
+    const $t15 = (await $.v(C, "dmpbf_transaction"));
+    const $t16 = (await $.wv([$t15], "PBFTransaction", C, false));
+    const $t17 = (await $.wv([$t15, $t16], "PBFTransactions", C, false));
+    await $.stmt((await $.wcall([$t15, $t16, $t17], "CallProcedure", ["del_Operation", ["v_operid", (await $.mv((await $.wcall([$t15, $t16, $t17], "FieldByName", ["num"], C)), "AsInteger"))]], C)));
+    await $.stmt($.wcall([$t15, $t16, $t17], "Refresh", [], C));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -516,17 +516,17 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "dmpbf_transaction"));
-    const $t12 = (await $.wv([$t11], "PBFOperations", C, false));
-    await $.wset([$t11, $t12], "OperType", "KREDIT", C);
-    if ($.truthy((await $.wv([$t11, $t12], "active", C, false)))) {
-      await $.stmt($.wcall([$t11, $t12], "CloseAll", [], C));
+    const $t18 = (await $.v(C, "dmpbf_transaction"));
+    const $t19 = (await $.wv([$t18], "PBFOperations", C, false));
+    await $.wset([$t18, $t19], "OperType", "KREDIT", C);
+    if ($.truthy((await $.wv([$t18, $t19], "active", C, false)))) {
+      await $.stmt($.wcall([$t18, $t19], "CloseAll", [], C));
     }
-    await $.stmt((await $.wcall([$t11, $t12], "SetVariable", ["OID", 0], C)));
-    await $.stmt($.wcall([$t11, $t12], "Open", [], C));
-    await $.stmt($.wcall([$t11, $t12], "Insert", [], C));
-    await $.mcall((await $.wv([$t11, $t12], "frmAddEditTr", C, false)), "ShowModal", []);
-    await $.mcall((await $.wv([$t11, $t12], "PBFTransactions", C, false)), "Refresh", []);
+    await $.stmt((await $.wcall([$t18, $t19], "SetVariable", ["OID", 0], C)));
+    await $.stmt($.wcall([$t18, $t19], "Open", [], C));
+    await $.stmt($.wcall([$t18, $t19], "Insert", [], C));
+    await $.mcall((await $.wv([$t18, $t19], "frmAddEditTr", C, false)), "ShowModal", []);
+    await $.mcall((await $.wv([$t18, $t19], "PBFTransactions", C, false)), "Refresh", []);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -542,18 +542,18 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "dmpbf_transaction"));
-    const $t14 = (await $.wv([$t13], "PBFOperations", C, false));
-    await $.wset([$t13, $t14], "OperType", "OTHERS", C);
-    if ($.truthy((await $.wv([$t13, $t14], "active", C, false)))) {
-      await $.stmt($.wcall([$t13, $t14], "CloseAll", [], C));
+    const $t20 = (await $.v(C, "dmpbf_transaction"));
+    const $t21 = (await $.wv([$t20], "PBFOperations", C, false));
+    await $.wset([$t20, $t21], "OperType", "OTHERS", C);
+    if ($.truthy((await $.wv([$t20, $t21], "active", C, false)))) {
+      await $.stmt($.wcall([$t20, $t21], "CloseAll", [], C));
     }
-    await $.stmt((await $.wcall([$t13, $t14], "SetVariable", ["OID", 0], C)));
-    await $.stmt($.wcall([$t13, $t14], "Open", [], C));
-    await $.stmt($.wcall([$t13, $t14], "Insert", [], C));
-    await $.mset((await $.mv((await $.wv([$t13, $t14], "FrmOtherOperations", C, false)), "ComboBox1")), "ItemIndex", 0);
-    await $.mcall((await $.wv([$t13, $t14], "FrmOtherOperations", C, false)), "ShowModal", []);
-    await $.mcall((await $.wv([$t13, $t14], "PBFTransactions", C, false)), "Refresh", []);
+    await $.stmt((await $.wcall([$t20, $t21], "SetVariable", ["OID", 0], C)));
+    await $.stmt($.wcall([$t20, $t21], "Open", [], C));
+    await $.stmt($.wcall([$t20, $t21], "Insert", [], C));
+    await $.mset((await $.mv((await $.wv([$t20, $t21], "FrmOtherOperations", C, false)), "ComboBox1")), "ItemIndex", 0);
+    await $.mcall((await $.wv([$t20, $t21], "FrmOtherOperations", C, false)), "ShowModal", []);
+    await $.mcall((await $.wv([$t20, $t21], "PBFTransactions", C, false)), "Refresh", []);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -563,15 +563,15 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["searchoptions"] = [(await $.v(C, "srIgnoreCase")), (await $.v(C, "srPartialMatch"))];
   {
-    const $t15 = L0["sender"];
-    await $.wset([$t15], "SearchField", (await $.wcall([$t15], "copy", [(await $.wv([$t15], "Name", C, false)), 5, (await $.wcall([$t15], "length", [(await $.wv([$t15], "Name", C, false))], C))], C)), { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true });
-    await $.mcall((await $.mv((await $.wv([$t15], "MainGridPBF", C, false)), "SelectedRows")), "Clear", []);
+    const $t22 = L0["sender"];
+    await $.wset([$t22], "SearchField", (await $.wcall([$t22], "copy", [(await $.wv([$t22], "Name", C, false)), 5, (await $.wcall([$t22], "length", [(await $.wv([$t22], "Name", C, false))], C))], C)), { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true });
+    await $.mcall((await $.mv((await $.wv([$t22], "MainGridPBF", C, false)), "SelectedRows")), "Clear", []);
     {
-      const $t16 = (await $.wcall([$t15], "TOracleDataSet", [(await $.mv((await $.mv((await $.wv([$t15], "MainGridPBF", C, false)), "DataSource")), "DataSet"))], C));
-      if ($.truthy($.not((await $.wcall([$t15, $t16], "SearchRecord", [(await $.wv([$t15, $t16], "SearchField", { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true }, false)), (await $.wv([$t15, $t16], "Text", C, false)), $.add((await $.wv([$t15, $t16], "SearchOptions", { get: async () => L0["searchoptions"], set: async (v) => { L0["searchoptions"] = v; }, local: true }, false)), [(await $.wv([$t15, $t16], "srFromCurrent", C, false)), (await $.wv([$t15, $t16], "srForward", C, false))])], C))))) {
-        if ($.truthy($.eq((await $.wcall([$t15, $t16], "MessageDlg", [$.add($.add("Axtarış sona çatıb.", "\r"), "əvvəldən başlamaq istəyirsinizmi?"), (await $.wv([$t15, $t16], "mtInformation", C, false)), [(await $.wv([$t15, $t16], "mbNo", C, false)), (await $.wv([$t15, $t16], "mbYes", C, false))], 0], C)), (await $.wv([$t15, $t16], "mrYes", C, false))))) {
-          if ($.truthy($.not((await $.wcall([$t15, $t16], "SearchRecord", [(await $.wv([$t15, $t16], "SearchField", { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true }, false)), (await $.wv([$t15, $t16], "Text", C, false)), $.add((await $.wv([$t15, $t16], "SearchOptions", { get: async () => L0["searchoptions"], set: async (v) => { L0["searchoptions"] = v; }, local: true }, false)), [(await $.wv([$t15, $t16], "srFromBeginning", C, false))])], C))))) {
-            await $.stmt((await $.wcall([$t15, $t16], "MessageDlg", ["Yazı tapılmadı!", (await $.wv([$t15, $t16], "mtInformation", C, false)), [(await $.wv([$t15, $t16], "mbOK", C, false))], 0], C)));
+      const $t23 = (await $.wcall([$t22], "TOracleDataSet", [(await $.mv((await $.mv((await $.wv([$t22], "MainGridPBF", C, false)), "DataSource")), "DataSet"))], C));
+      if ($.truthy($.not((await $.wcall([$t22, $t23], "SearchRecord", [(await $.wv([$t22, $t23], "SearchField", { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true }, false)), (await $.wv([$t22, $t23], "Text", C, false)), $.add((await $.wv([$t22, $t23], "SearchOptions", { get: async () => L0["searchoptions"], set: async (v) => { L0["searchoptions"] = v; }, local: true }, false)), [(await $.wv([$t22, $t23], "srFromCurrent", C, false)), (await $.wv([$t22, $t23], "srForward", C, false))])], C))))) {
+        if ($.truthy($.eq((await $.wcall([$t22, $t23], "MessageDlg", [$.add($.add("Axtarış sona çatıb.", "\r"), "əvvəldən başlamaq istəyirsinizmi?"), (await $.wv([$t22, $t23], "mtInformation", C, false)), [(await $.wv([$t22, $t23], "mbNo", C, false)), (await $.wv([$t22, $t23], "mbYes", C, false))], 0], C)), (await $.wv([$t22, $t23], "mrYes", C, false))))) {
+          if ($.truthy($.not((await $.wcall([$t22, $t23], "SearchRecord", [(await $.wv([$t22, $t23], "SearchField", { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true }, false)), (await $.wv([$t22, $t23], "Text", C, false)), $.add((await $.wv([$t22, $t23], "SearchOptions", { get: async () => L0["searchoptions"], set: async (v) => { L0["searchoptions"] = v; }, local: true }, false)), [(await $.wv([$t22, $t23], "srFromBeginning", C, false))])], C))))) {
+            await $.stmt((await $.wcall([$t22, $t23], "MessageDlg", ["Yazı tapılmadı!", (await $.wv([$t22, $t23], "mtInformation", C, false)), [(await $.wv([$t22, $t23], "mbOK", C, false))], 0], C)));
           }
         }
       }
@@ -593,8 +593,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (L0["sender"]);
-    await $.wset([$t17], "Text", "", C);
+    const $t24 = (L0["sender"]);
+    await $.wset([$t24], "Text", "", C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -607,12 +607,12 @@ export default function define($) {
     L0["sortfield"] = $.add(L0["sortfield"], " DESC");
   }
   {
-    const $t18 = L0["sender"];
-    const $t19 = (await $.wcall([$t18], "TOracleDataSet", [(await $.mv((await $.wv([$t18], "DataSource", C, false)), "DataSet"))], C));
-    await $.mset((await $.wv([$t18, $t19], "Screen", C, false)), "Cursor", (await $.wv([$t18, $t19], "crSQLWait", C, false)));
-    await $.stmt((await $.wcall([$t18, $t19], "SetVariable", ["OrderField", (await $.wv([$t18, $t19], "SortField", { get: async () => L0["sortfield"], set: async (v) => { L0["sortfield"] = v; }, local: true }, false))], C)));
-    await $.stmt($.wcall([$t18, $t19], "RefResh", [], C));
-    await $.mset((await $.wv([$t18, $t19], "Screen", C, false)), "Cursor", (await $.wv([$t18, $t19], "crDefault", C, false)));
+    const $t25 = L0["sender"];
+    const $t26 = (await $.wcall([$t25], "TOracleDataSet", [(await $.mv((await $.wv([$t25], "DataSource", C, false)), "DataSet"))], C));
+    await $.mset((await $.wv([$t25, $t26], "Screen", C, false)), "Cursor", (await $.wv([$t25, $t26], "crSQLWait", C, false)));
+    await $.stmt((await $.wcall([$t25, $t26], "SetVariable", ["OrderField", (await $.wv([$t25, $t26], "SortField", { get: async () => L0["sortfield"], set: async (v) => { L0["sortfield"] = v; }, local: true }, false))], C)));
+    await $.stmt($.wcall([$t25, $t26], "RefResh", [], C));
+    await $.mset((await $.wv([$t25, $t26], "Screen", C, false)), "Cursor", (await $.wv([$t25, $t26], "crDefault", C, false)));
   }
   return L0.result;
 }, {"params": ["Sender", "ACol", "Column"], "kind": "procedure", "ptypes": ["TObject", "Integer", "TColumnEh"]});
@@ -621,10 +621,10 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t20 = (await $.v(C, "PBFExcelExport"));
-    await $.stmt($.wcall([$t20], "Connect", [], C));
-    await $.stmt((await $.wcall([$t20], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t20], "MainGridPBF", C, false)), "DataSource")), "DataSet")), "Operations", (await $.wv([$t20], "true", C, false))], C)));
-    await $.stmt($.wcall([$t20], "Disconnect", [], C));
+    const $t27 = (await $.v(C, "PBFExcelExport"));
+    await $.stmt($.wcall([$t27], "Connect", [], C));
+    await $.stmt((await $.wcall([$t27], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t27], "MainGridPBF", C, false)), "DataSource")), "DataSet")), "Operations", (await $.wv([$t27], "true", C, false))], C)));
+    await $.stmt($.wcall([$t27], "Disconnect", [], C));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -640,88 +640,88 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "atype": '', "atype1": '', "desc": '', "str": '', "str1": '', "str2": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t21 = (await $.v(C, "dmpbf_transaction"));
-    const $t22 = (await $.wv([$t21], "PBFReportDs", C, false));
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
-      await $.wset([$t21, $t22], "str1", "(select BANK as re_BANK,KOD_B as re_KOD_B,INN as re_inn,to_char(KRNO) as re_KRNO,SWIFT as re_SWIFT, ' ' as rc_inn", { get: async () => L0["str1"], set: async (v) => { L0["str1"] = v; }, local: true });
-      await $.wset([$t21, $t22], "str2", " ,PBF_TRANSACTION.get_rcname(:clientaccid) as rc_name,PBF_TRANSACTION.get_rcaccno(:clientaccid,:acctype) as rc_account  from filialinfo b where kod_fil = PBF_TRANSACTION.get_filialCode(:clientaccid,null) )b,", { get: async () => L0["str2"], set: async (v) => { L0["str2"] = v; }, local: true });
+    const $t28 = (await $.v(C, "dmpbf_transaction"));
+    const $t29 = (await $.wv([$t28], "PBFReportDs", C, false));
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
+      await $.wset([$t28, $t29], "str1", "(select BANK as re_BANK,KOD_B as re_KOD_B,INN as re_inn,to_char(KRNO) as re_KRNO,SWIFT as re_SWIFT, ' ' as rc_inn", { get: async () => L0["str1"], set: async (v) => { L0["str1"] = v; }, local: true });
+      await $.wset([$t28, $t29], "str2", " ,PBF_TRANSACTION.get_rcname(:clientaccid) as rc_name,PBF_TRANSACTION.get_rcaccno(:clientaccid,:acctype) as rc_account  from filialinfo b where kod_fil = PBF_TRANSACTION.get_filialCode(:clientaccid,null) )b,", { get: async () => L0["str2"], set: async (v) => { L0["str2"] = v; }, local: true });
     } else {
-      await $.wset([$t21, $t22], "str1", "(SELECT  a.re_bank, a.re_kod_b, a.re_inn, a.re_krno,a.re_swift, a.rc_name, decode(PBF_TRANSACTION.get_filialCode(null,:usr),0,a.rc_account1,a.rc_account) as rc_account, a.rc_inn  FROM ", { get: async () => L0["str1"], set: async (v) => { L0["str1"] = v; }, local: true });
-      await $.wset([$t21, $t22], "str2", $.add($.add($.add($.add(" pbf_beneficiars a where OPERTYPE = ", "'"), (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString"))), "'"), "),"), { get: async () => L0["str2"], set: async (v) => { L0["str2"] = v; }, local: true });
+      await $.wset([$t28, $t29], "str1", "(SELECT  a.re_bank, a.re_kod_b, a.re_inn, a.re_krno,a.re_swift, a.rc_name, decode(PBF_TRANSACTION.get_filialCode(null,:usr),0,a.rc_account1,a.rc_account) as rc_account, a.rc_inn  FROM ", { get: async () => L0["str1"], set: async (v) => { L0["str1"] = v; }, local: true });
+      await $.wset([$t28, $t29], "str2", $.add($.add($.add($.add(" pbf_beneficiars a where OPERTYPE = ", "'"), (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString"))), "'"), "),"), { get: async () => L0["str2"], set: async (v) => { L0["str2"] = v; }, local: true });
     }
-    await $.wset([$t21, $t22], "str", $.add((await $.wv([$t21, $t22], "str1", { get: async () => L0["str1"], set: async (v) => { L0["str1"] = v; }, local: true }, false)), (await $.wv([$t21, $t22], "str2", { get: async () => L0["str2"], set: async (v) => { L0["str2"] = v; }, local: true }, false))), { get: async () => L0["str"], set: async (v) => { L0["str"] = v; }, local: true });
-    if ($.truthy((await $.wv([$t21, $t22], "Active", C, false)))) {
-      await $.stmt($.wcall([$t21, $t22], "CloseAll", [], C));
+    await $.wset([$t28, $t29], "str", $.add((await $.wv([$t28, $t29], "str1", { get: async () => L0["str1"], set: async (v) => { L0["str1"] = v; }, local: true }, false)), (await $.wv([$t28, $t29], "str2", { get: async () => L0["str2"], set: async (v) => { L0["str2"] = v; }, local: true }, false))), { get: async () => L0["str"], set: async (v) => { L0["str"] = v; }, local: true });
+    if ($.truthy((await $.wv([$t28, $t29], "Active", C, false)))) {
+      await $.stmt($.wcall([$t28, $t29], "CloseAll", [], C));
     }
-    await $.stmt($.wcall([$t21, $t22], "DeleteVariables", [], C));
-    await $.stmt((await $.wcall([$t21, $t22], "DeclareVariable", ["clientaccid", (await $.wv([$t21, $t22], "otinteger", C, false))], C)));
-    await $.stmt((await $.wcall([$t21, $t22], "DeclareVariable", ["opid", (await $.wv([$t21, $t22], "otinteger", C, false))], C)));
-    await $.stmt((await $.wcall([$t21, $t22], "DeclareVariable", ["usr", (await $.wv([$t21, $t22], "otString", C, false))], C)));
-    await $.stmt((await $.wcall([$t21, $t22], "SetVariable", ["opid", (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["num"])), "AsInteger"))], C)));
-    await $.stmt((await $.wcall([$t21, $t22], "SetVariable", ["clientaccid", (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["clientaccid"])), "AsInteger"))], C)));
-    await $.stmt((await $.wcall([$t21, $t22], "SetVariable", ["usr", (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["username"])), "AsString"))], C)));
-    await $.wset([$t21, $t22], "AType", $.add($.add("45", (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString"))), "ACC"), { get: async () => L0["atype"], set: async (v) => { L0["atype"] = v; }, local: true });
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
-      await $.wset([$t21, $t22], "AType1", "45ACCOUNT", { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true });
+    await $.stmt($.wcall([$t28, $t29], "DeleteVariables", [], C));
+    await $.stmt((await $.wcall([$t28, $t29], "DeclareVariable", ["clientaccid", (await $.wv([$t28, $t29], "otinteger", C, false))], C)));
+    await $.stmt((await $.wcall([$t28, $t29], "DeclareVariable", ["opid", (await $.wv([$t28, $t29], "otinteger", C, false))], C)));
+    await $.stmt((await $.wcall([$t28, $t29], "DeclareVariable", ["usr", (await $.wv([$t28, $t29], "otString", C, false))], C)));
+    await $.stmt((await $.wcall([$t28, $t29], "SetVariable", ["opid", (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["num"])), "AsInteger"))], C)));
+    await $.stmt((await $.wcall([$t28, $t29], "SetVariable", ["clientaccid", (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["clientaccid"])), "AsInteger"))], C)));
+    await $.stmt((await $.wcall([$t28, $t29], "SetVariable", ["usr", (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["username"])), "AsString"))], C)));
+    await $.wset([$t28, $t29], "AType", $.add($.add("45", (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString"))), "ACC"), { get: async () => L0["atype"], set: async (v) => { L0["atype"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
+      await $.wset([$t28, $t29], "AType1", "45ACCOUNT", { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true });
     } else {
-      await $.wset([$t21, $t22], "atype1", (await $.wv([$t21, $t22], "AType", { get: async () => L0["atype"], set: async (v) => { L0["atype"] = v; }, local: true }, false)), { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true });
+      await $.wset([$t28, $t29], "atype1", (await $.wv([$t28, $t29], "AType", { get: async () => L0["atype"], set: async (v) => { L0["atype"] = v; }, local: true }, false)), { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true });
     }
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
-      await $.stmt((await $.wcall([$t21, $t22], "DeclareVariable", ["ACCTYPE", (await $.wv([$t21, $t22], "otString", C, false))], C)));
-      await $.stmt((await $.wcall([$t21, $t22], "SetVariable", ["ACCTYPE", (await $.wv([$t21, $t22], "AType", { get: async () => L0["atype"], set: async (v) => { L0["atype"] = v; }, local: true }, false))], C)));
-      await $.stmt((await $.wcall([$t21, $t22], "DeclareVariable", ["ACCTYPE1", (await $.wv([$t21, $t22], "otString", C, false))], C)));
-      await $.stmt((await $.wcall([$t21, $t22], "SetVariable", ["acctype1", (await $.wv([$t21, $t22], "AType1", { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true }, false))], C)));
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
+      await $.stmt((await $.wcall([$t28, $t29], "DeclareVariable", ["ACCTYPE", (await $.wv([$t28, $t29], "otString", C, false))], C)));
+      await $.stmt((await $.wcall([$t28, $t29], "SetVariable", ["ACCTYPE", (await $.wv([$t28, $t29], "AType", { get: async () => L0["atype"], set: async (v) => { L0["atype"] = v; }, local: true }, false))], C)));
+      await $.stmt((await $.wcall([$t28, $t29], "DeclareVariable", ["ACCTYPE1", (await $.wv([$t28, $t29], "otString", C, false))], C)));
+      await $.stmt((await $.wcall([$t28, $t29], "SetVariable", ["acctype1", (await $.wv([$t28, $t29], "AType1", { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true }, false))], C)));
     }
-    if ($.truthy($.ne((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
-      await $.stmt((await $.wcall([$t21, $t22], "DeclareVariable", ["ACCTYPE1", (await $.wv([$t21, $t22], "otString", C, false))], C)));
-      await $.stmt((await $.wcall([$t21, $t22], "SetVariable", ["acctype1", (await $.wv([$t21, $t22], "AType1", { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true }, false))], C)));
+    if ($.truthy($.ne((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
+      await $.stmt((await $.wcall([$t28, $t29], "DeclareVariable", ["ACCTYPE1", (await $.wv([$t28, $t29], "otString", C, false))], C)));
+      await $.stmt((await $.wcall([$t28, $t29], "SetVariable", ["acctype1", (await $.wv([$t28, $t29], "AType1", { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true }, false))], C)));
     }
-    { const $t23 = await $.iset((await $.wv([$t21, $t22], "sql", C, false)), [11], (await $.wv([$t21, $t22], "str", { get: async () => L0["str"], set: async (v) => { L0["str"] = v; }, local: true }, false))); if ($t23 !== undefined) { await $.wset([$t21, $t22], "sql", $t23, C); } }
-    await $.mset((await $.wv([$t21, $t22], "Memo1", C, false)), "text", (await $.mv((await $.wv([$t21, $t22], "sql", C, false)), "text")));
-    await $.mset((await $.wv([$t21, $t22], "memo2", C, false)), "text", $.add($.add($.add($.add($.add("AType1 = ", (await $.wv([$t21, $t22], "AType1", { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true }, false))), " clientaccid  = "), (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["clientaccid"])), "Asstring"))), " opid="), (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["num"])), "Asstring"))));
-    await $.stmt($.wcall([$t21, $t22], "open", [], C));
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
-      await $.wset([$t21, $t22], "Desc", "Kredit ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    { const $t30 = await $.iset((await $.wv([$t28, $t29], "sql", C, false)), [11], (await $.wv([$t28, $t29], "str", { get: async () => L0["str"], set: async (v) => { L0["str"] = v; }, local: true }, false))); if ($t30 !== undefined) { await $.wset([$t28, $t29], "sql", $t30, C); } }
+    await $.mset((await $.wv([$t28, $t29], "Memo1", C, false)), "text", (await $.mv((await $.wv([$t28, $t29], "sql", C, false)), "text")));
+    await $.mset((await $.wv([$t28, $t29], "memo2", C, false)), "text", $.add($.add($.add($.add($.add("AType1 = ", (await $.wv([$t28, $t29], "AType1", { get: async () => L0["atype1"], set: async (v) => { L0["atype1"] = v; }, local: true }, false))), " clientaccid  = "), (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["clientaccid"])), "Asstring"))), " opid="), (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["num"])), "Asstring"))));
+    await $.stmt($.wcall([$t28, $t29], "open", [], C));
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
+      await $.wset([$t28, $t29], "Desc", "Kredit ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "GAS"))) {
-      await $.wset([$t21, $t22], "desc", "Qaz ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "GAS"))) {
+      await $.wset([$t28, $t29], "desc", "Qaz ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "AZERCELL"))) {
-      await $.wset([$t21, $t22], "desc", "AZERCELL ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "AZERCELL"))) {
+      await $.wset([$t28, $t29], "desc", "AZERCELL ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "BAKCELL"))) {
-      await $.wset([$t21, $t22], "desc", "BAKCELL ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "BAKCELL"))) {
+      await $.wset([$t28, $t29], "desc", "BAKCELL ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "NAR"))) {
-      await $.wset([$t21, $t22], "desc", "NAR ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "NAR"))) {
+      await $.wset([$t28, $t29], "desc", "NAR ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "WATER"))) {
-      await $.wset([$t21, $t22], "desc", "Su ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "WATER"))) {
+      await $.wset([$t28, $t29], "desc", "Su ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "LIGHT"))) {
-      await $.wset([$t21, $t22], "desc", "Elektrik ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "LIGHT"))) {
+      await $.wset([$t28, $t29], "desc", "Elektrik ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "SUMLIGHT"))) {
-      await $.wset([$t21, $t22], "desc", "Sumqayıt elektrik ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "SUMLIGHT"))) {
+      await $.wset([$t28, $t29], "desc", "Sumqayıt elektrik ödənişi", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    await $.mcall((await $.wv([$t21, $t22], "PBFDesc", C, false)), "CloseAll", []);
-    await $.stmt((await $.mcall((await $.wv([$t21, $t22], "PBFDesc", C, false)), "SetVariable", ["n", (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString"))])));
-    await $.mcall((await $.wv([$t21, $t22], "PBFDesc", C, false)), "open", []);
-    await $.wset([$t21, $t22], "desc", (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFDesc", C, false)), "fieldbyname", ["description"])), "AsString")), { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
-    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
-      await $.wset([$t21, $t22], "desc", $.add($.add($.add($.add((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["TRANSACTIONDATE"])), "AsString")), " -tarixində "), (await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["FROMFILTOFIL"])), "AsString"))), " "), (await $.wv([$t21, $t22], "desc", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true }, false))), { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    await $.mcall((await $.wv([$t28, $t29], "PBFDesc", C, false)), "CloseAll", []);
+    await $.stmt((await $.mcall((await $.wv([$t28, $t29], "PBFDesc", C, false)), "SetVariable", ["n", (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString"))])));
+    await $.mcall((await $.wv([$t28, $t29], "PBFDesc", C, false)), "open", []);
+    await $.wset([$t28, $t29], "desc", (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFDesc", C, false)), "fieldbyname", ["description"])), "AsString")), { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
+      await $.wset([$t28, $t29], "desc", $.add($.add($.add($.add((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["TRANSACTIONDATE"])), "AsString")), " -tarixində "), (await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["FROMFILTOFIL"])), "AsString"))), " "), (await $.wv([$t28, $t29], "desc", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true }, false))), { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
-    if ($.truthy($.ne((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
-      await $.wset([$t21, $t22], "desc", $.add($.add((await $.mv((await $.mcall((await $.wv([$t21, $t22], "PBFTransactions", C, false)), "fieldbyname", ["TRANSACTIONDATE"])), "AsString")), " -tarixində "), (await $.wv([$t21, $t22], "desc", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true }, false))), { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
+    if ($.truthy($.ne((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
+      await $.wset([$t28, $t29], "desc", $.add($.add((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["TRANSACTIONDATE"])), "AsString")), " -tarixində "), (await $.wv([$t28, $t29], "desc", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true }, false))), { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true });
     }
     {
-      const $t24 = (await $.wv([$t21, $t22], "frmpbfReport", C, false));
-      await $.mset((await $.wv([$t21, $t22, $t24], "QRLabel1", C, false)), "caption", (await $.wv([$t21, $t22, $t24], "Desc", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true }, false)));
-      await $.mset((await $.wv([$t21, $t22, $t24], "QRAmmountW", C, false)), "Caption", (await $.wcall([$t21, $t22, $t24], "WithCoin", [(await $.mv((await $.mcall((await $.wv([$t21, $t22, $t24], "PBFTransactions", C, false)), "fieldbyname", ["DEBITAMOUNT"])), "AsString")), (await $.mv((await $.wcall([$t21, $t22, $t24], "fieldbyname", ["VALUTE"], C)), "asString"))], C)));
-      await $.mset((await $.wv([$t21, $t22, $t24], "QRAmmount", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t21, $t22, $t24], "PBFTransactions", C, false)), "fieldbyname", ["DEBITAMOUNT"])), "AsString")));
-      await $.mset((await $.wv([$t21, $t22, $t24], "QRDate", C, false)), "Caption", (await $.wcall([$t21, $t22, $t24], "FormatDateTime", ["dd-mmm-yyyy", (await $.mv((await $.wv([$t21, $t22, $t24], "DTPCurrentDate", C, false)), "DateTime"))], C)));
-      await $.mset((await $.wv([$t21, $t22, $t24], "QRLabel3", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t21, $t22, $t24], "PBFTransactions", C, false)), "fieldbyname", ["opname"])), "AsString")));
-      await $.stmt($.wcall([$t21, $t22, $t24], "Preview", [], C));
+      const $t31 = (await $.wv([$t28, $t29], "frmpbfReport", C, false));
+      await $.mset((await $.wv([$t28, $t29, $t31], "QRLabel1", C, false)), "caption", (await $.wv([$t28, $t29, $t31], "Desc", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true }, false)));
+      await $.mset((await $.wv([$t28, $t29, $t31], "QRAmmountW", C, false)), "Caption", (await $.wcall([$t28, $t29, $t31], "WithCoin", [(await $.mv((await $.mcall((await $.wv([$t28, $t29, $t31], "PBFTransactions", C, false)), "fieldbyname", ["DEBITAMOUNT"])), "AsString")), (await $.mv((await $.wcall([$t28, $t29, $t31], "fieldbyname", ["VALUTE"], C)), "asString"))], C)));
+      await $.mset((await $.wv([$t28, $t29, $t31], "QRAmmount", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t28, $t29, $t31], "PBFTransactions", C, false)), "fieldbyname", ["DEBITAMOUNT"])), "AsString")));
+      await $.mset((await $.wv([$t28, $t29, $t31], "QRDate", C, false)), "Caption", (await $.wcall([$t28, $t29, $t31], "FormatDateTime", ["dd-mmm-yyyy", (await $.mv((await $.wv([$t28, $t29, $t31], "DTPCurrentDate", C, false)), "DateTime"))], C)));
+      await $.mset((await $.wv([$t28, $t29, $t31], "QRLabel3", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t28, $t29, $t31], "PBFTransactions", C, false)), "fieldbyname", ["opname"])), "AsString")));
+      await $.stmt($.wcall([$t28, $t29, $t31], "Preview", [], C));
     }
   }
   return L0.result;
@@ -739,22 +739,22 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "rect", "datacol", "column", "state"]);
   L0["imageindex"] = (-(1));
   {
-    const $t25 = (L0["sender"]);
-    if ($.truthy($.ne((await $.mv((await $.mv((await $.wv([$t25], "DataSource", C, false)), "DataSet")), "RecordCount")), 0))) {
-      { const $t26 = (await $.mv((await $.mcall((await $.mv((await $.wv([$t25], "DataSource", C, false)), "DataSet")), "FieldByName", ["Status"])), "AsInteger"));
-        if ($.eq($t26, 1)) {
-          await $.wset([$t25], "ImageIndex", 0, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
+    const $t32 = (L0["sender"]);
+    if ($.truthy($.ne((await $.mv((await $.mv((await $.wv([$t32], "DataSource", C, false)), "DataSet")), "RecordCount")), 0))) {
+      { const $t33 = (await $.mv((await $.mcall((await $.mv((await $.wv([$t32], "DataSource", C, false)), "DataSet")), "FieldByName", ["Status"])), "AsInteger"));
+        if ($.eq($t33, 1)) {
+          await $.wset([$t32], "ImageIndex", 0, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
         }
-        else if ($.eq($t26, 0)) {
-          await $.wset([$t25], "ImageIndex", 1, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
+        else if ($.eq($t33, 0)) {
+          await $.wset([$t32], "ImageIndex", 1, { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
         }
         else {
         }
       }
-      if ($.truthy((await $.and_(($.eq((await $.wv([$t25], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 1)), async () => ($.ne((await $.wv([$t25], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (-(1)))))))) {
-        await $.stmt((await $.mcall((await $.wv([$t25], "ImageList1", C, false)), "Draw", [(await $.wv([$t25], "Canvas", C, false)), (await $.mv((await $.wv([$t25], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Left")), (await $.mv((await $.wv([$t25], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Top")), (await $.wv([$t25], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (await $.wv([$t25], "True", C, false))])));
+      if ($.truthy((await $.and_(($.eq((await $.wv([$t32], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 1)), async () => ($.ne((await $.wv([$t32], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (-(1)))))))) {
+        await $.stmt((await $.mcall((await $.wv([$t32], "ImageList1", C, false)), "Draw", [(await $.wv([$t32], "Canvas", C, false)), (await $.mv((await $.wv([$t32], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Left")), (await $.mv((await $.wv([$t32], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Top")), (await $.wv([$t32], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (await $.wv([$t32], "True", C, false))])));
       } else {
-        await $.stmt((await $.wcall([$t25], "DefaultDrawColumnCell", [(await $.wv([$t25], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t25], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t25], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t25], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
+        await $.stmt((await $.wcall([$t32], "DefaultDrawColumnCell", [(await $.wv([$t32], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t32], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t32], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t32], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
       }
     }
   }

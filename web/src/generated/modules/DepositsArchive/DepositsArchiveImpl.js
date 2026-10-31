@@ -460,18 +460,18 @@ export default function define($) {
   L0["fopendat1"] = "";
   L0["fopendat2"] = "";
   L0["fopendat"] = "";
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CURRENCY", (await $.mv((await $.v(C, "CBCurrency")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "branchid", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "contracttype", (await $.mv((await $.v(C, "CBContractType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "clienttype", (await $.mv((await $.v(C, "CBpersons")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "personaltype", (await $.mv((await $.v(C, "CBClientType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t9) => { L0["result"] = $t9; }), "CURRENCY", (await $.mv((await $.v(C, "CBCurrency")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t10) => { L0["result"] = $t10; }), "branchid", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t11) => { L0["result"] = $t11; }), "contracttype", (await $.mv((await $.v(C, "CBContractType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t12) => { L0["result"] = $t12; }), "clienttype", (await $.mv((await $.v(C, "CBpersons")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t13) => { L0["result"] = $t13; }), "personaltype", (await $.mv((await $.v(C, "CBClientType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue")), true])));
   if ($.truthy((await $.mv((await $.v(C, "CBOpendat")), "Checked")))) {
     L0["fopendat1"] = $.add($.add(" opendate >=  '", (await $.call(C, "FormatDateTime", ["dd/MM/yyyy", (await $.mv((await $.v(C, "DTPOpenDate")), "Date"))]))), "'");
     L0["fopendat2"] = $.add($.add(" opendate <=  '", (await $.call(C, "FormatDateTime", ["dd/MM/yyyy", (await $.mv((await $.v(C, "DTPCloseDate")), "Date"))]))), "'");
     L0["fopendat"] = $.add($.add($.add($.add($.add($.add($.add($.add("(", "("), L0["fopendat1"]), ")"), " and "), "("), L0["fopendat2"]), ")"), ")");
   }
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fstatus"]])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fopendat"]])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t14) => { L0["result"] = $t14; }), $.ref(async () => L0["fstatus"], async ($t15) => { L0["fstatus"] = $t15; })])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t16) => { L0["result"] = $t16; }), $.ref(async () => L0["fopendat"], async ($t17) => { L0["fopendat"] = $t17; })])));
   return L0.result;
 }, {"params": [], "kind": "function", "ptypes": []});
   U.method("TFrmDepositsArchive", "DBLookupComboboxEh1Change", async function DBLookupComboboxEh1Change(Self, p0) {
@@ -502,8 +502,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (L0["sender"]);
-    await $.wset([$t9], "Text", "", C);
+    const $t18 = (L0["sender"]);
+    await $.wset([$t18], "Text", "", C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -533,11 +533,11 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "EExport"));
-    await $.mcall((await $.mv((await $.mv((await $.wv([$t10], "MainGrid", C, false)), "DataSource")), "DataSet")), "Last", []);
-    await $.stmt($.wcall([$t10], "Connect", [], C));
-    await $.stmt((await $.wcall([$t10], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t10], "MainGrid", C, false)), "DataSource")), "DataSet")), "Arxiv Depozitlər", (await $.wv([$t10], "True", C, false)), (await $.wv([$t10], "false", C, false))], C)));
-    await $.stmt($.wcall([$t10], "Disconnect", [], C));
+    const $t19 = (await $.v(C, "EExport"));
+    await $.mcall((await $.mv((await $.mv((await $.wv([$t19], "MainGrid", C, false)), "DataSource")), "DataSet")), "Last", []);
+    await $.stmt($.wcall([$t19], "Connect", [], C));
+    await $.stmt((await $.wcall([$t19], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t19], "MainGrid", C, false)), "DataSource")), "DataSet")), "Arxiv Depozitlər", (await $.wv([$t19], "True", C, false)), (await $.wv([$t19], "false", C, false))], C)));
+    await $.stmt($.wcall([$t19], "Disconnect", [], C));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -552,12 +552,12 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t11 = (await $.v(C, "dmDepositsArchive"));
-    await $.mset((await $.wv([$t11], "DBLookupComboboxEh1", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t11], "Valutes", C, false)), "fieldByName", ["Valute"])), "AsInteger")));
-    await $.mset((await $.wv([$t11], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t11], "Filials", C, false)), "fieldByName", ["id"])), "AsInteger")));
-    await $.mset((await $.wv([$t11], "DBLookupComboboxEh3", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t11], "DepositTypes", C, false)), "fieldByName", ["id"])), "AsInteger")));
-    await $.mset((await $.wv([$t11], "DBLookupComboboxEh4", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t11], "Categories", C, false)), "fieldByName", ["id"])), "AsInteger")));
-    await $.mset((await $.wv([$t11], "DBLookupComboboxEh5", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t11], "persons", C, false)), "fieldByName", ["id"])), "AsInteger")));
+    const $t20 = (await $.v(C, "dmDepositsArchive"));
+    await $.mset((await $.wv([$t20], "DBLookupComboboxEh1", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t20], "Valutes", C, false)), "fieldByName", ["Valute"])), "AsInteger")));
+    await $.mset((await $.wv([$t20], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t20], "Filials", C, false)), "fieldByName", ["id"])), "AsInteger")));
+    await $.mset((await $.wv([$t20], "DBLookupComboboxEh3", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t20], "DepositTypes", C, false)), "fieldByName", ["id"])), "AsInteger")));
+    await $.mset((await $.wv([$t20], "DBLookupComboboxEh4", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t20], "Categories", C, false)), "fieldByName", ["id"])), "AsInteger")));
+    await $.mset((await $.wv([$t20], "DBLookupComboboxEh5", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t20], "persons", C, false)), "fieldByName", ["id"])), "AsInteger")));
   }
   return L0.result;
 }, {"params": [], "kind": "procedure", "ptypes": []});
@@ -569,18 +569,18 @@ export default function define($) {
   L0["contractno"] = (await $.mv((await $.mv((await $.v(C, "dmDepositsArchive")), "DepositsDataCONTRACTNO")), "AsString"));
   await $.mset((await $.v(C, "FormMoney")), "Caption", $.add(L0["contractno"], " nömrəli müqavilənin yatrımları"));
   {
-    const $t12 = (await $.v(C, "dmDepositsArchive"));
-    const $t13 = (await $.wv([$t12], "Tranches", C, false));
-    await $.stmt($.wcall([$t12, $t13], "Close", [], C));
-    await $.stmt((await $.wcall([$t12, $t13], "SetVariable", ["ContractID", (await $.wv([$t12, $t13], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))], C)));
-    await $.stmt($.wcall([$t12, $t13], "Open", [], C));
+    const $t21 = (await $.v(C, "dmDepositsArchive"));
+    const $t22 = (await $.wv([$t21], "Tranches", C, false));
+    await $.stmt($.wcall([$t21, $t22], "Close", [], C));
+    await $.stmt((await $.wcall([$t21, $t22], "SetVariable", ["ContractID", (await $.wv([$t21, $t22], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))], C)));
+    await $.stmt($.wcall([$t21, $t22], "Open", [], C));
   }
   {
-    const $t14 = (await $.v(C, "dmDepositsArchive"));
-    const $t15 = (await $.wv([$t14], "DepositInfo", C, false));
-    await $.stmt($.wcall([$t14, $t15], "Close", [], C));
-    await $.stmt((await $.wcall([$t14, $t15], "SetVariable", ["ContractID", (await $.wv([$t14, $t15], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))], C)));
-    await $.stmt($.wcall([$t14, $t15], "open", [], C));
+    const $t23 = (await $.v(C, "dmDepositsArchive"));
+    const $t24 = (await $.wv([$t23], "DepositInfo", C, false));
+    await $.stmt($.wcall([$t23, $t24], "Close", [], C));
+    await $.stmt((await $.wcall([$t23, $t24], "SetVariable", ["ContractID", (await $.wv([$t23, $t24], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))], C)));
+    await $.stmt($.wcall([$t23, $t24], "open", [], C));
   }
   await $.mcall((await $.v(C, "FormMoney")), "ShowModal", []);
   return L0.result;
@@ -593,18 +593,18 @@ export default function define($) {
   L0["contractno"] = (await $.mv((await $.mv((await $.v(C, "dmDepositsArchive")), "DepositsDataCONTRACTNO")), "AsString"));
   await $.mset((await $.v(C, "FormExtMoney")), "Caption", $.add(L0["contractno"], " nömrəli depozitin ödənişləri"));
   {
-    const $t16 = (await $.v(C, "dmDepositsArchive"));
-    const $t17 = (await $.wv([$t16], "Payments", C, false));
-    await $.stmt($.wcall([$t16, $t17], "Close", [], C));
-    await $.stmt((await $.wcall([$t16, $t17], "SetVariable", ["ContractID", (await $.wv([$t16, $t17], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))], C)));
-    await $.stmt($.wcall([$t16, $t17], "Open", [], C));
+    const $t25 = (await $.v(C, "dmDepositsArchive"));
+    const $t26 = (await $.wv([$t25], "Payments", C, false));
+    await $.stmt($.wcall([$t25, $t26], "Close", [], C));
+    await $.stmt((await $.wcall([$t25, $t26], "SetVariable", ["ContractID", (await $.wv([$t25, $t26], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))], C)));
+    await $.stmt($.wcall([$t25, $t26], "Open", [], C));
   }
   {
-    const $t18 = (await $.v(C, "dmDepositsArchive"));
-    const $t19 = (await $.wv([$t18], "DepositInfo", C, false));
-    await $.stmt($.wcall([$t18, $t19], "Close", [], C));
-    await $.stmt((await $.wcall([$t18, $t19], "SetVariable", ["ContractID", (await $.wv([$t18, $t19], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))], C)));
-    await $.stmt($.wcall([$t18, $t19], "open", [], C));
+    const $t27 = (await $.v(C, "dmDepositsArchive"));
+    const $t28 = (await $.wv([$t27], "DepositInfo", C, false));
+    await $.stmt($.wcall([$t27, $t28], "Close", [], C));
+    await $.stmt((await $.wcall([$t27, $t28], "SetVariable", ["ContractID", (await $.wv([$t27, $t28], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))], C)));
+    await $.stmt($.wcall([$t27, $t28], "open", [], C));
   }
   await $.mcall((await $.v(C, "FormExtMoney")), "ShowModal", []);
   return L0.result;

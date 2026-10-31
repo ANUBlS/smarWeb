@@ -395,8 +395,12 @@ fn('StrToBool', (s) => /^(true|1|-1|yes)$/i.test(str(s).trim()));
 fn('Trim', (s) => str(s).replace(/^[\s\x00-\x20]+|[\s\x00-\x20]+$/g, ''));
 fn('TrimLeft', (s) => str(s).replace(/^[\s\x00-\x20]+/, ''));
 fn('TrimRight', (s) => str(s).replace(/[\s\x00-\x20]+$/, ''));
-for (const n of ['UpperCase', 'AnsiUpperCase', 'WideUpperCase', 'AnsiUpperCaseFileName']) fn(n, (s) => str(s).toLocaleUpperCase('az'));
-for (const n of ['LowerCase', 'AnsiLowerCase', 'WideLowerCase']) fn(n, (s) => str(s).toLocaleLowerCase('az'));
+// SysUtils.UpperCase / LowerCase change only ASCII a..z (identifiers, field names: 'FacticalDebt' → 'FACTICALDEBT');
+// the Ansi/Wide versions use the Windows default casing ('ə' → 'Ə', 'i' → 'I', not the linguistic 'İ').
+fn('UpperCase', (s) => str(s).replace(/[a-z]+/g, (m) => m.toUpperCase()));
+fn('LowerCase', (s) => str(s).replace(/[A-Z]+/g, (m) => m.toLowerCase()));
+for (const n of ['AnsiUpperCase', 'WideUpperCase', 'AnsiUpperCaseFileName']) fn(n, (s) => str(s).toUpperCase());
+for (const n of ['AnsiLowerCase', 'WideLowerCase']) fn(n, (s) => str(s).toLowerCase());
 fn('UpCase', (c) => str(c).toUpperCase());
 fn('Copy', (s, i, n) => {
   if (Array.isArray(s)) return s.slice(num(i), num(i) + (n === undefined ? s.length : num(n)));
@@ -406,8 +410,17 @@ fn('Copy', (s, i, n) => {
 for (const n of ['Pos', 'AnsiPos']) fn(n, (sub, s) => str(s).indexOf(str(sub)) + 1);
 fn('PosEx', (sub, s, off) => str(s).indexOf(str(sub), (off === undefined ? 1 : num(off)) - 1) + 1);
 fn('Length', (s) => (Array.isArray(s) ? s.length : isPObj(s) && (s as any).Count !== undefined ? (s as any).Count : str(s).length));
-fn('Delete', async (r: Ref, i, n) => { const s = str(await r.get()); const st = num(i) - 1; await r.set(s.slice(0, st) + s.slice(st + num(n))); });
-fn('Insert', async (sub, r: Ref, i) => { const s = str(await r.get()); const st = num(i) - 1; await r.set(s.slice(0, st) + str(sub) + s.slice(st)); });
+// System.Delete: nothing happens when Index < 1, Index > Length(S) or Count <= 0 (Delete(S, Pos('x', S), 1) with no 'x')
+fn('Delete', async (r: Ref, i, n) => {
+  const s = str(await r.get()); const st = num(i) - 1; const cnt = num(n);
+  if (st < 0 || st >= s.length || cnt <= 0) return;
+  await r.set(s.slice(0, st) + s.slice(st + cnt));
+});
+// System.Insert: Index < 1 inserts at the start, Index > Length(S) appends
+fn('Insert', async (sub, r: Ref, i) => {
+  const s = str(await r.get()); const st = Math.min(Math.max(num(i) - 1, 0), s.length);
+  await r.set(s.slice(0, st) + str(sub) + s.slice(st));
+});
 fn('StringReplace', (s, a, b, flags) => {
   const fl = (Array.isArray(flags) ? flags : [flags]).map((x) => String(x).toLowerCase());
   const all = fl.includes('rfreplaceall');

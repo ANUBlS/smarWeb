@@ -6,12 +6,15 @@
  *                                        (Workbooks.Open reads a file picked with TOpenDialog).
  *   TCMExcelExport (VCL/CMExcelExport) — ExportDataset(DataSet, SheetName, Visible) downloads an
  *                                        .xlsx with the titles in row 1 and the records from row 2.
+ *   TExcelExporter (SBExcelExporter)   — Report: ExportList (or every field) of ExportSource's
+ *                                        DataSet, titles (DisplayLabel) when ShowTitles.
  */
 import { registerBuiltin } from '../env';
+import { PasException } from '../core';
 import { str } from '../pascal';
 import { TComponent } from './component';
 import { TFont, TStrings } from './classes';
-import { ExcelApp, exportDataSetToXlsx } from '../ole';
+import { ExcelApp, exportDataSetToXlsx, downloadFieldsXlsx } from '../ole';
 
 export class TExcelApplication extends TComponent {
   AutoConnect = false;
@@ -61,3 +64,29 @@ export class TCMExcelExport extends TComponent {
   ExecuteMacro() { return false; }
 }
 registerBuiltin('TCMExcelExport', TCMExcelExport);
+
+/** EExcelExporterExceptions descendants (shown to the user like in Delphi). */
+const exporterError = (cls: string, msg: string) => new PasException(cls, msg, ['eexcelexporterexceptions', 'exception']);
+
+export class TExcelExporter extends TComponent {
+  ExportSource: any = null;
+  ExportList = new TStrings();
+  SheetName = '';
+  ShowTitles = false;
+  ExportFileName = '';
+  Font = new TFont();
+  /** Report: the records as an .xlsx download (Excel itself is not needed in the browser). */
+  async Report() {
+    await this.fire('BeforeExport', this);
+    const ds = this.ExportSource?.DataSet;
+    if (!this.ExportSource) throw exporterError('EExportSourceError', 'DataSource not Assigned!');
+    if (!ds) throw exporterError('EExportSourceError', 'DataSource must have DataSet!');
+    if (!ds.Active) throw exporterError('EExportSourceError', 'Can not perform this operation for closed DataSet!');
+    const names = String(this.ExportList.Text).split('\r\n').filter((x: string) => x !== '');
+    const fields = names.length ? names.map((n: string) => ds.FindField(n)) : ds.fieldList();
+    if (fields.some((f: unknown) => !f)) throw exporterError('EInvalidField', 'Invalid Field Name ');
+    await downloadFieldsXlsx(ds, fields, this.SheetName, this.ShowTitles, this.ExportFileName || undefined);
+    await this.fire('AfterExport', this);
+  }
+}
+registerBuiltin('TExcelExporter', TExcelExporter);

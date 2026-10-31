@@ -70,7 +70,7 @@ export default function define($) {
   return L2.result;
 });
   L1["s"] = "";
-  await $.stmt((await $.callv(L1["getspecimensettings"], [L1["field"], L1["tagfirst"], L1["taglast"], L1["tagprefix"], L1["tagsuffix"], L1["fieldgroup"], L1["cancontainutf8"], L1["parentgroup"]])));
+  await $.stmt((await $.callv(L1["getspecimensettings"], [L1["field"], $.ref(async () => L1["tagfirst"], async ($t6) => { L1["tagfirst"] = $t6; }), $.ref(async () => L1["taglast"], async ($t7) => { L1["taglast"] = $t7; }), $.ref(async () => L1["tagprefix"], async ($t8) => { L1["tagprefix"] = $t8; }), $.ref(async () => L1["tagsuffix"], async ($t9) => { L1["tagsuffix"] = $t9; }), $.ref(async () => L1["fieldgroup"], async ($t10) => { L1["fieldgroup"] = $t10; }), $.ref(async () => L1["cancontainutf8"], async ($t11) => { L1["cancontainutf8"] = $t11; }), $.ref(async () => L1["parentgroup"], async ($t12) => { L1["parentgroup"] = $t12; })])));
   if ($.truthy((await $.or_(($.in_(L1["fieldgroup"], (await $.v(C, "UnusableGrops")))), async () => ($.in_(L1["parentgroup"], (await $.v(C, "UnusableGrops")))))))) {
     if ($.truthy((await $.and_(($.ne(L1["tagsuffix"], "")), async () => ($.not(($.in_(L1["parentgroup"], (await $.v(C, "UnusableGrops")))))))))) {
       await $.stmt((await $.callv(L0["writestring"], [L1["tagsuffix"]])));
@@ -119,21 +119,21 @@ export default function define($) {
   await $.stmt((await $.callv(L0["writestring"], ["<ROWCOUNT>"])));
   await $.stmt((await $.callv(L0["writestring"], [(await $.call(C, "inttostr", [L0["r"]]))])));
   await $.stmt((await $.callv(L0["writestring"], ["</ROWCOUNT>"])));
-  { const $t6 = L0["r"];
+  { const $t13 = L0["r"];
     L0["i"] = 1;
-    let $t7 = true;
+    let $t14 = true;
     for (;;) {
-      if (!$t7) { L0["i"] = $.succ(L0["i"], 1); }
-      $t7 = false;
-      if (!($.ord(L0["i"]) <= $.ord($t6))) break;
+      if (!$t14) { L0["i"] = $.succ(L0["i"], 1); }
+      $t14 = false;
+      if (!($.ord(L0["i"]) <= $.ord($t13))) break;
       await $.mcall((await $.mv((await $.v(C, "Adif_Data")), "KreditXmlstruct")), "First", []);
-      { const $t8 = $.sub(L0["sr"], 1);
+      { const $t15 = $.sub(L0["sr"], 1);
         L0["a"] = 0;
-        let $t9 = true;
+        let $t16 = true;
         for (;;) {
-          if (!$t9) { L0["a"] = $.succ(L0["a"], 1); }
-          $t9 = false;
-          if (!($.ord(L0["a"]) <= $.ord($t8))) break;
+          if (!$t16) { L0["a"] = $.succ(L0["a"], 1); }
+          $t16 = false;
+          if (!($.ord(L0["a"]) <= $.ord($t15))) break;
           L0["fname"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "Adif_Data")), "KreditXmlstruct")), "FieldByName", ["fieldname"])), "AsString"));
           if ($.truthy((await $.or_((await $.or_(($.eq(L0["fname"], "COLLETRALS1")), async () => ($.eq(L0["fname"], "KREDIT1")))), async () => ($.eq(L0["fname"], "KREDIT")))))) {
             L0["fvalue"] = "";
@@ -171,14 +171,14 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "SaveDlg"));
-    if ($.truthy((await $.wv([$t10], "Execute", C, false)))) {
-      await $.mset((await $.wv([$t10], "EditDest", C, false)), "Text", (await $.wv([$t10], "FileName", C, false)));
+    const $t17 = (await $.v(C, "SaveDlg"));
+    if ($.truthy((await $.wv([$t17], "Execute", C, false)))) {
+      await $.mset((await $.wv([$t17], "EditDest", C, false)), "Text", (await $.wv([$t17], "FileName", C, false)));
     }
   }
-  await $.stmt((await $.call(C, "AssignFile", [$.ref(async () => (await $.v(C, "f")), async ($t11) => { await $.set(C, "f", $t11); }), (await $.mv((await $.v(C, "EditDest")), "Text"))])));
-  await $.stmt((await $.call(C, "Rewrite", [$.ref(async () => (await $.v(C, "f")), async ($t12) => { await $.set(C, "f", $t12); })])));
-  await $.stmt((await $.call(C, "Closefile", [$.ref(async () => (await $.v(C, "f")), async ($t13) => { await $.set(C, "f", $t13); })])));
+  await $.stmt((await $.call(C, "AssignFile", [$.ref(async () => (await $.v(C, "f")), async ($t18) => { await $.set(C, "f", $t18); }), (await $.mv((await $.v(C, "EditDest")), "Text"))])));
+  await $.stmt((await $.call(C, "Rewrite", [$.ref(async () => (await $.v(C, "f")), async ($t19) => { await $.set(C, "f", $t19); })])));
+  await $.stmt((await $.call(C, "Closefile", [$.ref(async () => (await $.v(C, "f")), async ($t20) => { await $.set(C, "f", $t20); })])));
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   return U;

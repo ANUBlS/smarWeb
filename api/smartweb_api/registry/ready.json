@@ -12,5 +12,8 @@
   "CreditManager",
   "ContractCorrection",
   "CreditsArchive",
-  "XImportService"
+  "XImportService",
+  "DepositManager",
+  "DepositCorrection",
+  "DepositsArchive"
 ]

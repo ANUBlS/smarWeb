@@ -202,34 +202,42 @@ export function createOleObject(name: unknown): unknown {
   return new OleAny();
 }
 
-interface ExportField { FieldName: string; DisplayName: string; Visible: boolean; fieldType: string; key: string }
+interface ExportField { FieldName: string; DisplayName: string; DisplayLabel?: string; Visible: boolean; fieldType: string; key: string }
 interface ExportDataSet { Active: boolean; fieldList(): ExportField[]; view: number[]; rowValues(i: number): Record<string, unknown> | undefined }
 
-/** TCMExcelExport.ExportDataset(DataSet, SheetName, Visible): one .xlsx download with the records. */
-export async function exportDataSetToXlsx(ds: ExportDataSet, sheetName: unknown, visibleOnly: boolean) {
-  if (!ds?.Active) return;
+const EXPORTABLE = new Set(['string', 'integer', 'float', 'boolean', 'date', 'datetime', 'time']);
+
+/** One sheet with the records of `fields` (titles in the first row when asked) as an .xlsx download. */
+export async function downloadFieldsXlsx(ds: ExportDataSet, fields: ExportField[], sheetName: unknown, titles: boolean, fileName?: string) {
   const XLSX = await loadXlsx();
-  const exportable = new Set(['string', 'integer', 'float', 'boolean', 'date', 'datetime', 'time']);
-  const fields = ds.fieldList().filter((f) => exportable.has(f.fieldType) && (!visibleOnly || f.Visible));
-  const rows: unknown[][] = [fields.map((f) => f.DisplayName || f.FieldName)];
+  const rows: unknown[][] = titles ? [fields.map((f) => f.DisplayName || f.DisplayLabel || f.FieldName)] : [];
+  const first = rows.length;
   for (let i = 0; i < ds.view.length; i++) {
     const v = ds.rowValues(i) ?? {};
     rows.push(fields.map((f) => { const x = v[f.key]; return x === undefined ? null : x; }));
   }
-  const ws = XLSX.utils.aoa_to_sheet(rows);
+  const ws = XLSX.utils.aoa_to_sheet(rows.length ? rows : [[]]);
   // TDateTime serials are Excel serials: format the date columns
   fields.forEach((f, c) => {
     if (f.fieldType !== 'date' && f.fieldType !== 'datetime' && f.fieldType !== 'time') return;
     const z = f.fieldType === 'date' ? 'dd.mm.yyyy' : f.fieldType === 'time' ? 'hh:mm:ss' : 'dd.mm.yyyy hh:mm';
-    for (let r = 1; r < rows.length; r++) {
+    for (let r = first; r < rows.length; r++) {
       const cell = ws[XLSX.utils.encode_cell({ r, c })];
-      if (cell && cell.t === 'n') cell.z = z;
+      if (cell && cell.t === 'n') { cell.z = f.fieldType === 'datetime' && cell.v % 1 === 0 ? 'dd.mm.yyyy' : z; delete cell.w; }
     }
   });
   ws['!cols'] = fields.map(() => ({ wch: 20 }));
   const wb = XLSX.utils.book_new();
   const name = (text(sheetName) || 'Sheet1').replace(/[\\/?*[\]:]/g, ' ').slice(0, 31);
   XLSX.utils.book_append_sheet(wb, ws, name);
-  XLSX.writeFile(wb, `${name}.xlsx`, { compression: true });
-  toast(`"${name}" Excel faylı yükləndi`, 'info');
+  const file = (fileName ? fileName.split(/[\\/]/).pop()!.replace(/\.[^.]*$/, '') : name) + '.xlsx';
+  XLSX.writeFile(wb, file, { compression: true });
+  toast(`"${file}" Excel faylı yükləndi`, 'info');
+}
+
+/** TCMExcelExport.ExportDataset(DataSet, SheetName, Visible): titles (DisplayName) in row 1, records from row 2. */
+export async function exportDataSetToXlsx(ds: ExportDataSet, sheetName: unknown, visibleOnly: boolean) {
+  if (!ds?.Active) return;
+  const fields = ds.fieldList().filter((f) => EXPORTABLE.has(f.fieldType) && (!visibleOnly || f.Visible));
+  await downloadFieldsXlsx(ds, fields, sheetName, true);
 }
