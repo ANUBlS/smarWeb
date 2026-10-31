@@ -5,3 +5,7 @@ test-output
 dist-crawl
 dist-http
 logs
+
+# Python bytecode caches (tools/)
+__pycache__/
+*.pyc
