@@ -8,6 +8,9 @@ import type {
 } from './types';
 import { OracleError } from './types';
 
+/** Set when the API answered 401 for this session; error boxes are not shown any more until the next logon. */
+export const sessionExpired = { value: false };
+
 export class HttpOracleApi implements OracleApi {
   readonly name = 'http';
   private session: string | null = null;
@@ -20,6 +23,12 @@ export class HttpOracleApi implements OracleApi {
       body: body === undefined ? undefined : JSON.stringify(body),
     });
     const data = await res.json().catch(() => ({}));
+    if (res.status === 401 && this.session && path !== '/logon') {
+      // the API no longer knows this session (restarted, or idle past SB_SESSION_TIMEOUT): back to the logon
+      this.session = null;
+      sessionExpired.value = true;
+      window.dispatchEvent(new CustomEvent('sb-session-expired'));
+    }
     if (!res.ok) {
       // Server maps ORA-nnnnn errors to { errorCode, message } so EOracleError handlers keep working.
       throw new OracleError(Number(data.errorCode ?? res.status), String(data.message ?? res.statusText));
@@ -33,6 +42,7 @@ export class HttpOracleApi implements OracleApi {
   }
   async logon(r: LogonRequest): Promise<LogonResult> {
     const res = await this.post<LogonResult>('/logon', r);
+    sessionExpired.value = false;
     this.session = res.sessionId;
     return res;
   }

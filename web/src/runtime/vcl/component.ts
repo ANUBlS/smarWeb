@@ -1,4 +1,5 @@
 /* TComponent: ownership, names, events, DFM-linked references. */
+import { sessionExpired } from '../../api/http';
 import { TObject, NOTFOUND, Found, routine, isRoutine, PasException, AbortSignal, Routine } from '../core';
 import { registerBuiltin } from '../env';
 import { invalidate, beginHold, endHold } from '../ui';
@@ -268,6 +269,8 @@ export async function whileLoading<T>(fn: () => Promise<T>): Promise<T> {
 export function reportException(e: unknown, where: string) {
   const msg = e instanceof PasException ? e.message : (e as Error)?.message ?? String(e);
   const cls = e instanceof PasException ? e.className : 'Exception';
+  // after "session expired" every handler still running fails the same way: log only, the logon screen explains it
+  if (sessionExpired.value) { logger.warn(`${where}: ${cls}: ${msg}`); return; }
   if (loadingDepth > 0 && e instanceof PasException && cls !== 'EOracleError') {
     logger.warn(`${where} (while loading): ${cls}: ${msg}`);
     audit('error', `${where} (yüklənərkən): ${cls}: ${msg}`);

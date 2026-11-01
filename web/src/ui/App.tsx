@@ -46,7 +46,7 @@ const PRODUCT = 'SmartBank';
 
 /* ------------------------------------------------------------------ logon */
 
-function Logon({ onDone }: { onDone: (company: string) => void }) {
+function Logon({ onDone, notice }: { onDone: (company: string) => void; notice?: string }) {
   const [user, setUser] = useState(() => localStorage.getItem('sb:user') ?? '');
   const [pass, setPass] = useState('');
   const [dbs, setDbs] = useState<string[]>(api.name === 'http' ? [] : ['SB-CURRENT', 'SB-TEST', 'SB-ARCHIVE']);
@@ -59,7 +59,7 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
   const [step, setStep] = useState<'logon' | 'company'>('logon');
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
   const [company, setCompany] = useState(0);
-  const [err, setErr] = useState('');
+  const [err, setErr] = useState(notice ?? '');
   const [busy, setBusy] = useState(false);
 
   const logon = async (e: React.FormEvent) => {
@@ -465,8 +465,22 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
 
 export default function App() {
   const [company, setCompany] = useState<string | null>(null);
+  const [notice, setNotice] = useState('');
+  // the API lost the session (restarted, or idle past its timeout): close every window without running its
+  // handlers (they would only fail again) and log on anew
+  useEffect(() => {
+    const expired = () => {
+      for (const w of [...windows.list]) windows.remove(w.form);
+      oraSession.connected = false;
+      audit('logon', 'Sessiya bitib (API sessiyanı tanımır)', '');
+      setNotice('Sessiya bitib: server yenidən başladılıb və ya uzun müddət fəaliyyət olmayıb. Yenidən daxil olun.');
+      setCompany(null);
+    };
+    window.addEventListener('sb-session-expired', expired);
+    return () => window.removeEventListener('sb-session-expired', expired);
+  }, []);
   const content = useMemo(() => company === null
-    ? <><Logon onDone={(c) => setCompany(c)} /><DialogLayer /></>
-    : <MainFrame company={company} onLogoff={() => { audit('logon', 'Sistemdən çıxdı', ''); void flush(); oraSession.connected = false; setCompany(null); }} />, [company]);
+    ? <><Logon key={notice} notice={notice} onDone={(c) => { setNotice(''); setCompany(c); }} /><DialogLayer /></>
+    : <MainFrame company={company} onLogoff={() => { audit('logon', 'Sistemdən çıxdı', ''); void flush(); oraSession.connected = false; setCompany(null); }} />, [company, notice]);
   return content;
 }
