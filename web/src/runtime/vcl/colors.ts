@@ -58,3 +58,52 @@ export function isLight(c: number) {
   const r = c & 0xff, g = (c >> 8) & 0xff, b = (c >> 16) & 0xff;
   return (r * 299 + g * 587 + b * 114) / 1000 > 160;
 }
+
+/* ------------------------------------------------------------------ readable text
+ * Delphi forms were designed on light system colours. With the dark theme, an explicit light background
+ * (Column.Color, Canvas.Brush.Color in OnDrawColumnCell, a panel's Color) keeps the theme's light text, and an
+ * explicit dark font colour (clNavy, clMaroon …) sits on the dark theme surface. Text colour is therefore
+ * chosen against the background that is actually behind it. */
+
+/** An explicit RGB TColor; undefined for system colours (the theme decides those). */
+export function explicitRgb(c: unknown): number | undefined {
+  if (c === undefined || c === null) return undefined;
+  const n = colorValue(c);
+  return isSystemColor(n) ? undefined : n;
+}
+function channel(v: number) { const s = v / 255; return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; }
+function luminance(n: number) { return 0.2126 * channel(n & 0xff) + 0.7152 * channel((n >> 8) & 0xff) + 0.0722 * channel((n >> 16) & 0xff); }
+function contrast(a: number, b: number) { const x = luminance(a), y = luminance(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+function mix(a: number, b: number, t: number) {
+  const m = (sh: number) => Math.round(((a >> sh) & 0xff) * (1 - t) + ((b >> sh) & 0xff) * t);
+  return m(0) | (m(8) << 8) | (m(16) << 16);
+}
+function css(n: number) { return `rgb(${n & 0xff}, ${(n >> 8) & 0xff}, ${(n >> 16) & 0xff})`; }
+
+export function themeIsDark(): boolean {
+  try {
+    const t = document.documentElement.dataset.theme;
+    return t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  } catch { return false; }
+}
+// --surface of theme.css as TColor ($BBGGRR)
+const SURFACE_DARK = 0x2b231c, SURFACE_LIGHT = 0xffffff;
+
+/**
+ * CSS text colour for an (optional) explicit font colour on an (optional) explicit background; undefined = theme text.
+ * An explicit font colour keeps its hue and is only lightened / darkened until it is readable.
+ */
+export function readableText(fg: number | undefined, bg: number | undefined): string | undefined {
+  if (fg === undefined) {
+    if (bg === undefined) return undefined;
+    return luminance(bg) > 0.179 ? 'rgb(17, 17, 17)' : 'rgb(242, 242, 242)';
+  }
+  const base = bg ?? (themeIsDark() ? SURFACE_DARK : SURFACE_LIGHT);
+  if (contrast(fg, base) >= 3) return css(fg);
+  const toward = luminance(base) > 0.179 ? 0x000000 : 0xffffff;
+  for (let t = 0.15; t < 1; t += 0.15) {
+    const m = mix(fg, toward, t);
+    if (contrast(m, base) >= 3.5) return css(m);
+  }
+  return css(toward);
+}

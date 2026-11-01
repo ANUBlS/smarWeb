@@ -4,7 +4,7 @@ import { ChevronDown, ChevronRight, Play, Circle } from 'lucide-react';
 import { useTick } from '../runtime/ui';
 import { layoutChildren, type Rect } from './layout';
 import { iconFor } from './icons';
-import { toCss } from '../runtime/vcl/colors';
+import { toCss, explicitRgb, readableText } from '../runtime/vcl/colors';
 import { ValueRef } from '../runtime/core';
 import { runGuarded } from '../runtime/vcl/component';
 import type { TControl, TWinControl } from '../runtime/vcl/controls';
@@ -25,12 +25,32 @@ import { formatDateTime, fromDelphi, toDelphi, settings } from '../runtime/datet
 
 const run = (p: Promise<unknown> | unknown, where: string) => { void runGuarded(async () => { await p; }, where); };
 
+/* Controls that paint their own background (the theme's input / button surface) rather than their parent's. */
+const OPAQUE = new Set(['edit', 'dbedit', 'currency', 'spin', 'memo', 'dbmemo', 'combo', 'lookup', 'viewcombo', 'button', 'datetime',
+  'dbdate', 'listbox', 'checklist', 'listview', 'treeview', 'stringgrid', 'dbgrid']);
+/** The explicit RGB colour behind a control: its own Color, or for transparent controls (labels, check boxes …) the
+ *  nearest parent's; undefined when the theme surface shows through. */
+function backgroundOf(c: TControl): number | undefined {
+  // VCL buttons paint the button face whatever their Color says
+  if (c.kind === 'button' || c.kind === 'speedbutton' || c.kind === 'toolbutton') return undefined;
+  if (!c.ParentColor) {
+    const own = explicitRgb((c as any)._color);
+    if (own !== undefined || OPAQUE.has(c.kind)) return own;
+  } else if (OPAQUE.has(c.kind)) return undefined;
+  for (let x: TControl | null = c.Parent; x; x = x.Parent) {
+    if ((x as any).isRootContainer) return explicitRgb((x as any)._color ?? (x as any).Color);
+    if (!x.ParentColor) return explicitRgb((x as any)._color);
+  }
+  return undefined;
+}
 function fontStyle(c: TControl): CSSProperties {
   const s: CSSProperties = {};
   const f = c.Font;
+  // clBlack (0) is how older DFMs store the default text colour: treated like clWindowText (theme text)
+  const fg = f && !c.ParentFont && f.Color !== 0 ? explicitRgb(f.Color) : undefined;
+  const color = readableText(fg, backgroundOf(c));
+  if (color) s.color = color;
   if (!f || c.ParentFont) return s;
-  const fg = toCss(f.Color);
-  if (fg && f.Color !== 0) s.color = fg;
   const st = (f.Style ?? []).map((x) => String(x).toLowerCase());
   if (st.includes('fsbold')) s.fontWeight = 600;
   if (st.includes('fsitalic')) s.fontStyle = 'italic';
@@ -404,7 +424,7 @@ function EditView({ c, p }: { c: TCustomEdit; p: Common }) {
     <div {...p}>
       <input className={`v-input${right ? ' num' : ''}`} value={value} readOnly={ro} disabled={!c.Enabled}
         type={c.PasswordChar && c.PasswordChar !== '#0' && c.PasswordChar !== '\0' ? 'password' : 'text'}
-        maxLength={c.MaxLength || undefined} style={fontStyle(c)} spellCheck={false}
+        maxLength={c.MaxLength || undefined} style={{ ...bgStyle(c), ...fontStyle(c) }} spellCheck={false}
         onChange={(e) => { if (db && field && field.fieldType !== 'string') setDraft(e.target.value); else commit(e.target.value); }}
         onKeyDown={inputKeyHandler(c, () => value, (v) => commit(v))} onKeyUp={keyUpHandler(c)}
         onFocus={(e) => { focusHandlers(c).onFocus(); if (c.AutoSelect) e.currentTarget.select(); }}
@@ -448,7 +468,7 @@ function ComboView({ c, p }: { c: TComboBox; p: Common }) {
   if (dropList) {
     return (
       <div {...p}>
-        <select className="v-input" value={idx} disabled={!c.Enabled} style={fontStyle(c)}
+        <select className="v-input" value={idx} disabled={!c.Enabled} style={{ ...bgStyle(c), ...fontStyle(c) }}
           onChange={(e) => run(c.userSelect(Number(e.target.value)), c.Name)} {...focusHandlers(c)}>
           {idx < 0 ? <option value={-1} /> : null}
           {items.map((s, i) => <option key={i} value={i}>{s}</option>)}
@@ -459,7 +479,7 @@ function ComboView({ c, p }: { c: TComboBox; p: Common }) {
   const listId = `dl-${c.Name}-${(c as any).__uid ??= Math.random().toString(36).slice(2)}`;
   return (
     <div {...p}>
-      <input className="v-input" list={listId} value={c.Text} disabled={!c.Enabled} style={fontStyle(c)}
+      <input className="v-input" list={listId} value={c.Text} disabled={!c.Enabled} style={{ ...bgStyle(c), ...fontStyle(c) }}
         onChange={(e) => {
           const i = items.indexOf(e.target.value);
           run(i >= 0 ? c.userSelect(i) : c.userText(e.target.value), c.Name);
@@ -476,7 +496,7 @@ function LookupView({ c, p }: { c: TDBLookupComboBox; p: Common }) {
   const cur = opts.findIndex((o) => String(o.key) === String(key));
   return (
     <div {...p}>
-      <select className="v-input" value={cur} disabled={!c.Enabled || c.ReadOnly} style={fontStyle(c)}
+      <select className="v-input" value={cur} disabled={!c.Enabled || c.ReadOnly} style={{ ...bgStyle(c), ...fontStyle(c) }}
         onChange={(e) => { const o = opts[Number(e.target.value)]; if (o) run(c.userSelect(o.key), c.Name); }} {...focusHandlers(c)}>
         {cur < 0 ? <option value={-1}>{key !== null && key !== undefined && key !== '' ? String(key) : ''}</option> : null}
         {opts.map((o, i) => <option key={i} value={i}>{o.cols.join('   ')}</option>)}
@@ -744,10 +764,13 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           const st = styles?.get(ci);
           const isNum = f ? f.fieldType === 'float' || f.fieldType === 'integer' : typeof v === 'number';
           const align = col.Alignment ? (col.Alignment === 'tarightjustify' ? 'right' : col.Alignment === 'tacenter' ? 'center' : 'left') : undefined;
-          const colBg = col.Color !== -2147483643 ? toCss(col.Color) : undefined;
+          const colBgN = explicitRgb(col.Color);
+          const cellBg = isCur ? undefined : st?.bg !== undefined ? explicitRgb(st.bg) : colBgN;
+          // text readable on the cell's background (light Delphi colours under the dark theme and vice versa)
+          const cellFg = isCur ? undefined : readableText(st?.fg !== undefined && st.fg !== 0 ? explicitRgb(st.fg) : undefined, cellBg);
           return (
             <td key={ci} className={`${isNum && !align ? 'num' : ''}${isCur && ci === g.SelectedIndex ? ' cell-sel' : ''}`}
-              style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : !isCur ? colBg : undefined, color: !isCur && st?.fg !== undefined ? toCss(st.fg) : undefined, fontWeight: st?.bold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
+              style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : cellBg !== undefined ? toCss(cellBg) : undefined, color: cellFg, fontWeight: st?.bold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
               onMouseDown={(e) => {
                 if (ed && isCur && ci === ed.col) return;
                 // VCL TDBGrid: only the left button moves the record / changes the selection (right = popup)

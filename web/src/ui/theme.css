@@ -215,7 +215,9 @@ select.v-input { padding: 0 2px; }
 .v-grid tr.cur td { background: var(--accent-soft); }
 .v-grid tr.cur td.cell-sel { box-shadow: inset 0 0 0 1px var(--accent); }
 .v-grid tr.rowsel td { background: var(--accent); color: var(--accent-fg); }
-.v-grid tr.msel td { background: #0d6b6633; }
+/* VCL: selected rows of a dgMultiSelect grid are painted clHighlight / clHighlightText */
+.v-grid tr.msel td { background: var(--accent); color: var(--accent-fg); }
+.v-grid tr.cur.msel:not(.rowsel) td { background: var(--accent); }
 .v-grid tr.editing td { background: var(--edit-soft); }
 .v-grid .empty { padding: 18px; color: var(--muted); text-align: center; }
 
