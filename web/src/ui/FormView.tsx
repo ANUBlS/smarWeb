@@ -11,7 +11,7 @@ import type { TControl, TWinControl } from '../runtime/vcl/controls';
 import {
   TPageControl, TTabSheet, TToolButton, TToolBar, TCustomEdit, TCheckBox, TRadioButton, TComboBox, TListBox,
   TCheckListBox, TRadioGroup, TDateTimePicker, TTabControl, TStatusBar, TTreeView, TTreeNode, TListView, TStringGrid,
-  TSplitter, TSpeedButton, TButtonControl, TMemo, THeaderControl,
+  TSplitter, TSpeedButton, TButtonControl, TMemo, THeaderControl, GEN_BASE,
 } from '../runtime/vcl/controls';
 import {
   TDBGrid, TColumn, TDBLookupComboBox, TDBViewComboBox, TDBNavigator, TDBText, TDBDateTimeEditEh, TDBEdit,
@@ -271,7 +271,8 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
         <div {...p}>
           <button className={`v-btn${b.Flat ? ' flat' : ''}${b.Down ? ' down' : ''}`} style={{ width: '100%', height: '100%', padding: 0, ...fontStyle(c) }} disabled={dis}
             onClick={() => run(b.Click(), b.Name)} aria-pressed={b.GroupIndex ? b.Down : undefined} onMouseDown={noFocus} tabIndex={-1}>
-            {b.Caption ? b.Caption.replace(/&(?!&)/g, '') : Ic ? <Ic size={14} /> : null}
+            {b.GlyphSprite ? <Glyph c={b} disabled={dis} /> : null}
+            {b.Caption ? b.Caption.replace(/&(?!&)/g, '') : b.GlyphSprite ? null : Ic ? <Ic size={14} /> : null}
           </button>
         </div>
       );
@@ -451,6 +452,14 @@ function MemoView({ c, p }: { c: TMemo; p: Common }) {
   );
 }
 
+/** A button's DFM glyph (TSpeedButton / TBitBtn Glyph.Data, converted at build time). */
+function Glyph({ c, disabled }: { c: TControl; disabled: boolean }) {
+  const g = c as unknown as { GlyphSprite?: string; GlyphWidth?: number; GlyphHeight?: number };
+  if (!g.GlyphSprite) return null;
+  return <img src={GEN_BASE + g.GlyphSprite} width={g.GlyphWidth || 16} height={g.GlyphHeight || 16} alt="" draggable={false}
+    style={{ flex: 'none', opacity: disabled ? 0.4 : 1, filter: disabled ? 'grayscale(1)' : undefined }} />;
+}
+
 function ButtonView({ c, p }: { c: TButtonControl; p: Common }) {
   const Ic = iconFor((c as any).Kind === 'bkok' ? 'ok' : (c as any).Kind === 'bkcancel' ? 'cancel' : (c as any).Kind === 'bkclose' ? 'close' : '', c.Caption, c.Name);
   const cap = c.Caption.replace(/&(?!&)/g, '');
@@ -460,7 +469,7 @@ function ButtonView({ c, p }: { c: TButtonControl; p: Common }) {
     <div {...p}>
       <button className={`v-btn${c.Default ? ' default' : ''}`} style={{ width: '100%', height: '100%', ...fontStyle(c) }} disabled={!c.Enabled}
         onClick={() => run(c.Click(), c.Name)} {...focusHandlers(c)}>
-        {Ic && p.style.width as number > 60 ? <Ic size={14} /> : null}{caption}
+        {(c as any).GlyphSprite ? <Glyph c={c} disabled={!c.Enabled} /> : Ic && p.style.width as number > 60 ? <Ic size={14} /> : null}{caption}
       </button>
     </div>
   );

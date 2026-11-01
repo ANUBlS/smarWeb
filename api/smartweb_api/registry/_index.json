@@ -25,7 +25,7 @@
  },
  {
   "name": "Accounts",
-  "caption": "Balans / Əməliyyat günü / Hesablar",
+  "caption": "",
   "plugin": false,
   "datasets": 15,
   "packages": 1,

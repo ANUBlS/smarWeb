@@ -15,12 +15,6 @@
      },
      "children": [
       {
-       "caption": "Hesablar",
-       "action": 2,
-       "params": {},
-       "children": []
-      },
-      {
        "caption": "Yeni hesablar",
        "action": 64,
        "params": {},

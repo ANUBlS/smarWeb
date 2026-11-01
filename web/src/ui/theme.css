@@ -141,7 +141,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .v-panel { overflow: hidden; overflow: clip; }
 .v-panel.raised { background: var(--surface); }
 .v-panel.bordered { border: 1px solid var(--rule); }
-.v-panel .pcap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--ink-2); pointer-events: none; padding: 0 6px; }
+.v-panel .pcap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--ink-2); pointer-events: none; padding: 0 6px; white-space: pre; } /* VCL keeps leading spaces (room for a button on the panel) */
 .v-panel .pcap.left { justify-content: flex-start; }
 .v-panel .pcap.right { justify-content: flex-end; }
 .v-group { border: 1px solid var(--rule); border-radius: var(--radius); }

@@ -129,6 +129,7 @@ FIRST_ACTION = 1000
 # SmartBank.ini menu nodes removed from the web menu (caption path); the module itself stays available
 INI_MENU_HIDDEN = {
     ('Balans', 'Əməliyyat günü', 'Əməliyyatlar'),  # Transactions: replaced by Günün sənədləri (TransactionManager)
+    ('Balans', 'Əməliyyat günü', 'Hesablar'),  # Accounts: not needed, Yeni hesablar (Account) is used (01.11.2026)
 }
 
 MENU_HIDDEN = {

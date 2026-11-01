@@ -123,3 +123,41 @@ def dfm_imagelists(dfm_text: str):
         except ValueError:
             pass
     return out
+
+
+def glyph_png(data: bytes, num_glyphs: int = 1):
+    """TBitBtn / TSpeedButton Glyph.Data (TBitmap stream: 4-byte size + BMP) -> (png, width, height) of the first
+    glyph; NumGlyphs > 1 is a strip (up, disabled, clicked, down). As TBitmap with TransparentMode = tmAuto, the
+    colour of the bottom-left pixel is transparent (32-bit bitmaps keep their own alpha)."""
+    off = 4 if data[4:6] == b'BM' else 0
+    if data[off:off + 2] != b'BM':
+        return None
+    w, h, img, _end = _bmp(data, off)
+    if w <= 0 or h <= 0:
+        return None
+    n = max(1, num_glyphs or 1)
+    gw = w // n if n > 1 and w % n == 0 else w
+    alpha = any(px[3] for row in img for px in row) and not all(px[3] == 255 for row in img for px in row)
+    key = img[h - 1][0][:3]
+    rows = []
+    for y in range(h):
+        out = []
+        for x in range(gw):
+            r, g, b, a = img[y][x]
+            if not alpha:
+                a = 0 if (r, g, b) == key else 255
+            out.append((r, g, b, a))
+        rows.append(out)
+    return _png(gw, h, rows), gw, h
+
+
+def dfm_glyphs(dfm_text: str):
+    """{object name: bytes} for every component with its own Glyph.Data in a text DFM."""
+    out = {}
+    for m in re.finditer(r'object\s+(\w+)\s*:\s*T\w+\b((?:(?!\n\s*(?:object|inherited|inline)\s).)*?)\n\s*Glyph\.Data\s*=\s*\{([0-9A-Fa-f\s]+)\}',
+                         dfm_text, re.S):
+        try:
+            out[m.group(1)] = bytes.fromhex(re.sub(r'\s+', '', m.group(3)))
+        except ValueError:
+            pass
+    return out

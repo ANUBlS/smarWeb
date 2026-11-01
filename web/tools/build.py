@@ -141,6 +141,38 @@ def attach_imagelists(dfm_path, tree, outdir, base):
                               'Bitmap.Count': count, 'Bitmap.Cx': cx, 'Bitmap.Cy': cy})
 
 
+def attach_glyphs(dfm_path, tree, outdir, base):
+    """Button glyphs (Glyph.Data of TSpeedButton, TBitBtn, TXFBitBtn …) -> <Unit>.<Button>.glyph.png; the node gets
+    `GlyphSprite` (path under generated/), `GlyphWidth`, `GlyphHeight`."""
+    from imagelist import dfm_glyphs, glyph_png
+    try:
+        text = open(dfm_path, 'rb').read().decode('cp1251', 'replace')
+    except OSError:
+        return
+    if 'Glyph.Data' not in text:
+        return
+    glyphs = dfm_glyphs(text)
+    stack = [tree]
+    while stack:
+        node = stack.pop()
+        stack.extend(node['children'])
+        data = glyphs.get(node.get('name'))
+        if data is None:
+            continue
+        try:
+            r = glyph_png(data, int(node['props'].get('NumGlyphs', 1) or 1))
+        except Exception:  # noqa: BLE001 — an unreadable glyph leaves the button without picture
+            r = None
+        if not r:
+            continue
+        png, w, h = r
+        fname = f'{base}.{node["name"]}.glyph.png'
+        with open(os.path.join(outdir, fname), 'wb') as fh:
+            fh.write(png)
+        node['props'].update({'GlyphSprite': os.path.relpath(os.path.join(outdir, fname), OUT).replace(os.sep, '/'),
+                              'GlyphWidth': w, 'GlyphHeight': h})
+
+
 def strip_binary(node):
     p = node['props']
     for k in list(p.keys()):
@@ -390,6 +422,7 @@ def main():
             try:
                 tree = strip_binary(parse_dfm(fixed_path(dfm, REPO)))
                 attach_imagelists(dfm, tree, outdir, base)
+                attach_glyphs(dfm, tree, outdir, base)
                 with open(os.path.join(outdir, base + '.dfm.json'), 'w', encoding='utf-8') as fh:
                     json.dump(tree, fh, ensure_ascii=False, separators=(',', ':'))
                 form = tree['class']

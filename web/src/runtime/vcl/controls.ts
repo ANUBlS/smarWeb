@@ -565,6 +565,10 @@ export class TBitBtn extends TButton {
   NumGlyphs = 1;
   Spacing = 4;
   Margin = -1;
+  /** The DFM Glyph as a PNG made at build time (tools/imagelist.py glyph_png). */
+  GlyphSprite = '';
+  GlyphWidth = 0;
+  GlyphHeight = 0;
   get kind() { return 'button'; }
 }
 registerBuiltin('TBitBtn', TBitBtn);
@@ -575,6 +579,9 @@ export class TSpeedButton extends TGraphicControl {
   Flat = false;
   Glyph = null;
   NumGlyphs = 1;
+  GlyphSprite = '';
+  GlyphWidth = 0;
+  GlyphHeight = 0;
   protected _down = false;
   get kind() { return 'speedbutton'; }
   get Down() { return this._down; }
@@ -1232,7 +1239,7 @@ registerBuiltin('TTimer', TTimer);
 
 /** TImageList: the DFM bitmap is converted to a PNG sprite at build time (tools/imagelist.py);
  *  GetIcon / GetBitmap copy one image into a graphic (ImageList.GetIcon(1, Img.Picture.Icon)). */
-const GEN_BASE = (import.meta as any).env?.DEV ? '/src/generated/' : `${(import.meta as any).env?.BASE_URL ?? '/'}generated/`;
+export const GEN_BASE = (import.meta as any).env?.DEV ? '/src/generated/' : `${(import.meta as any).env?.BASE_URL ?? '/'}generated/`;
 const spriteCache = new Map<string, Promise<ImageBitmap | null>>();
 export class TImageList extends TComponent {
   Width = 16; Height = 16;
