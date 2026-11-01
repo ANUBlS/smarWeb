@@ -70,11 +70,23 @@ deploy\start-smartweb.bat
 To keep it running as a service use NSSM (`nssm install SmartWeb "C:\Program Files\nodejs\node.exe" server.mjs`,
 startup directory `C:\smartweb\web`, environment `PORT=8086`) or `npx pm2 start server.mjs --name smartweb`.
 
-### Docker
+### Docker (web app + Oracle API together) — recommended
+
+From the repository root, with Docker and the Compose plugin installed:
 
 ```bash
-cd web && docker build -t smartweb . && docker run -d --name smartweb --restart=always -p 8086:8086 smartweb
+cp api/.env.example api/.env        # once: SB_DATABASES={"PDBNBC": "<oracle-host>:1521/PDBNBC"}
+docker compose up -d --build        # first start, and again after every git pull
+docker compose logs -f              # logs of both containers
+docker compose down                 # stop
 ```
+
+Open **http://192.168.2.93:8086** and log on with an Oracle user; Swagger is at `/api/docs`. Only port 8086 is
+published — the browser reaches the API through the web container's `/api` proxy. Log files live in the
+`web-logs` / `api-logs` volumes (the application log is also readable in İdarəetmə / Jurnal ayarları).
+The build needs internet access (Docker Hub and npm) once; the running containers do not.
+
+Web app alone with sample data: `cd web && docker build -t smartweb . && docker run -d -p 8086:8086 smartweb`.
 
 ### Quick check without installing a service
 
