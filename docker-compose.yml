@@ -1,0 +1,38 @@
+# SmartWeb: web app + Oracle API in one command.
+#
+#   cp api/.env.example api/.env     # once: set SB_DATABASES to your Oracle server
+#   docker compose up -d --build     # start (or update after git pull)
+#   docker compose logs -f           # logs
+#   docker compose down              # stop
+#
+# Open http://<server>:8086 and log on with an Oracle user. Only the web app is published; the API is
+# reached by the web app inside the compose network (and at http://<server>:8086/api/docs for Swagger).
+services:
+  api:
+    build: ./api
+    env_file: ./api/.env
+    restart: unless-stopped
+    volumes:
+      - api-logs:/app/logs            # unknown-sql.log (SB_ALLOWLIST=audit)
+    # Oracle 11g or older needs Oracle Instant Client: see api/README.md (SB_ORACLE_CLIENT_LIB)
+
+  web:
+    build:
+      context: ./web
+      args:
+        VITE_API_MODE: http
+        VITE_API_URL: /api
+    environment:
+      API_TARGET: http://api:8000
+    ports:
+      - "8086:8086"
+    restart: unless-stopped
+    volumes:
+      - web-logs:/app/logs            # smartweb-YYYY-MM-DD.log and log settings (also viewable in İdarəetmə / Jurnal ayarları)
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  api-logs:
+  web-logs:

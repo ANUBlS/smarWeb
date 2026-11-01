@@ -105,7 +105,12 @@ cp .env.example .env              # set SB_DATABASES
 
 Run **one worker process**: sessions (Oracle connections) live in the process.
 
-### On 192.168.2.93 together with the web app (port 8086)
+### With Docker (simplest)
+
+`docker compose up -d --build` in the repository root starts this API and the web app together
+(see `docker-compose.yml`; settings come from `api/.env`). Oracle 11g needs Instant Client in the image.
+
+### On 192.168.2.93 together with the web app (port 8086), without Docker
 
 ```bash
 cd /opt/smartweb && git pull
