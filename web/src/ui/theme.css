@@ -151,7 +151,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .v-input[readonly] { background: var(--sunken); }
 .v-input:disabled { background: var(--sunken); color: var(--muted); }
 .v-input.num { text-align: right; }
-.v-input.db-edit { background: var(--edit-soft); border-color: var(--edit); }
 textarea.v-input { resize: none; padding: 3px 5px; }
 select.v-input { padding: 0 2px; }
 .v-btn { border: 1px solid var(--rule-strong); border-radius: var(--radius); background: var(--surface); display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 0 8px; white-space: nowrap; overflow: hidden; }

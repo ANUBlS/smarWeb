@@ -46,12 +46,30 @@ class QueryRequest(BaseModel):
     sql: str = Field(examples=['select * from avalute where valute = :VAL'])
     variables: list[BindValue] = []
     maxRows: int | None = None
+    fetch: int | None = Field(None, description='DOA QueryAllRecords = False: return only this many rows first; '
+                              'the rest is read with /api/fetch (cursorId)')
     fieldHints: list[ColumnDef] | None = Field(None, description='Ignored by the server (mock mode only)')
 
 
 class QueryResult(BaseModel):
     columns: list[ColumnDef]
     rows: list[list[Any]]
+    cursorId: str | None = Field(None, description='set when more rows are waiting (query with fetch)')
+    more: bool = False
+
+
+class FetchRequest(BaseModel):
+    cursorId: str
+    count: int = Field(0, description='rows to read; 0 = all remaining')
+
+
+class FetchResult(BaseModel):
+    rows: list[list[Any]]
+    more: bool = False
+
+
+class CursorRequest(BaseModel):
+    cursorId: str
 
 
 class ExecuteRequest(BaseModel):

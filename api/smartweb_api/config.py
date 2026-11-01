@@ -11,6 +11,8 @@
   SB_ALLOWLIST          off | audit | enforce  — statements not found in the module registry are
                         allowed (off), allowed and written to SB_AUDIT_FILE (audit, default), or refused
   SB_AUDIT_FILE         default: api/logs/unknown-sql.log
+  SB_SLOW_MS            statements slower than this (milliseconds) are written to SB_SLOW_FILE (default 2000, 0 = off)
+  SB_SLOW_FILE          default: api/logs/slow-sql.log
   SB_CORS_ORIGINS       comma-separated origins allowed to call the API directly (default: none;
                         the web app normally reaches the API through its own server's /api proxy)
 """
@@ -46,6 +48,8 @@ class Settings:
     allowlist: str = 'audit'
     audit_file: Path = API_DIR / 'logs' / 'unknown-sql.log'
     cors_origins: list[str] = field(default_factory=list)
+    slow_ms: int = 2000
+    slow_file: Path = API_DIR / 'logs' / 'slow-sql.log'
     # ALTER SESSION at logon (the desktop clients got these from NLS_* in the Windows registry)
     nls_date_format: str = 'DD.MM.YYYY'
     nls_numeric_characters: str = ''
@@ -63,6 +67,8 @@ class Settings:
             max_rows=int(os.environ.get('SB_MAX_ROWS', '100000')),
             allowlist=os.environ.get('SB_ALLOWLIST', 'audit').lower(),
             audit_file=Path(os.environ.get('SB_AUDIT_FILE', str(API_DIR / 'logs' / 'unknown-sql.log'))),
+            slow_ms=int(os.environ.get('SB_SLOW_MS', '2000')),
+            slow_file=Path(os.environ.get('SB_SLOW_FILE', str(API_DIR / 'logs' / 'slow-sql.log'))),
             cors_origins=[o.strip() for o in os.environ.get('SB_CORS_ORIGINS', '').split(',') if o.strip()],
             nls_date_format=os.environ.get('SB_NLS_DATE_FORMAT', 'DD.MM.YYYY'),
             nls_numeric_characters=os.environ.get('SB_NLS_NUMERIC_CHARACTERS', ''),

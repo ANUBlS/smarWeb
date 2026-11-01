@@ -38,6 +38,8 @@ export class HttpOracleApi implements OracleApi {
   }
   async logoff() { await this.post('/logoff'); this.session = null; }
   query(r: QueryRequest) { return this.post<QueryResult>('/query', { ...r, fieldHints: undefined }); }
+  fetchRows(cursorId: string, count: number) { return this.post<{ rows: unknown[][]; more: boolean }>('/fetch', { cursorId, count }); }
+  async closeCursor(cursorId: string) { await this.post('/close-cursor', { cursorId }); }
   execute(r: ExecuteRequest) { return this.post<ExecuteResult>('/execute', r); }
   callPackage(r: PackageCallRequest) { return this.post<PackageCallResult>('/package', r); }
   applyRecord(r: ApplyRecordRequest) { return this.post<ApplyRecordResult>('/apply-record', r); }

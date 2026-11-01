@@ -42,11 +42,16 @@ export interface QueryRequest {
   /** Mock mode only: field definitions from the DFM help synthesise realistic rows. */
   fieldHints?: ColumnDef[];
   maxRows?: number;
+  /** DOA QueryAllRecords = False: only this many rows first; the rest with fetchRows(cursorId). */
+  fetch?: number;
 }
 export interface QueryResult {
   columns: ColumnDef[];
   /** Row values in column order; dates as ISO strings. ROWID, if selected, is a normal column. */
   rows: unknown[][];
+  /** Query with `fetch`: more rows are waiting on the server under this cursor id. */
+  cursorId?: string | null;
+  more?: boolean;
 }
 
 export interface ExecuteRequest { source: string; sql: string; variables: BindValue[] }
@@ -98,6 +103,10 @@ export interface OracleApi {
   logon(r: LogonRequest): Promise<LogonResult>;
   logoff(): Promise<void>;
   query(r: QueryRequest): Promise<QueryResult>;
+  /** Next rows of a query opened with `fetch` (count 0 = all remaining). */
+  fetchRows?(cursorId: string, count: number): Promise<{ rows: unknown[][]; more: boolean }>;
+  /** A cursor that is not fetched to the end (dataset closed or refreshed). */
+  closeCursor?(cursorId: string): Promise<void>;
   execute(r: ExecuteRequest): Promise<ExecuteResult>;
   callPackage(r: PackageCallRequest): Promise<PackageCallResult>;
   applyRecord(r: ApplyRecordRequest): Promise<ApplyRecordResult>;

@@ -11,6 +11,10 @@ rules stay in the existing PL/SQL packages.
 from __future__ import annotations
 
 import re
+import secrets
+import threading
+import time
+from datetime import datetime
 from typing import Any
 
 import oracledb
@@ -67,65 +71,220 @@ def _rows(cur, limit: int | None = None) -> list[list]:
     return out
 
 
+# --------------------------------------------------------------------------- partitions
+
+# `FROM ACCOUNT PARTITION (ACTIVACC)` (DebitAccData, CreditAccData, …) works only where ACCOUNT is the partitioned
+# table. Where the login user's ACCOUNT is a view, Oracle answers ORA-14109; the partition is then replaced by its
+# definition (SQL_credit/all_smart_t.sql). NULL partition keys belong to the MAXVALUE partition.
+PARTITIONS = {
+    ('ACCOUNT', 'ACTIVACC'): "close_dat is null or close_dat >= date '2100-01-01'",
+    ('ACCOUNT', 'CLOSEACC'): "close_dat < date '2100-01-01'",
+    ('OUT_ACCOUNT', 'ACTIVACC'): "close_dat is null or close_dat >= date '2100-01-01'",
+    ('OUT_ACCOUNT', 'CLOSEACC'): "close_dat < date '2100-01-01'",
+    ('OPERKURS', 'ARCHIVALDAY'): 'shifr < 1',
+    ('OPERKURS', 'RESERVE'): 'shifr >= 1 and shifr < 2',
+    ('OPERKURS', 'YESTERDAY'): 'shifr >= 2 and shifr < 3',
+    ('OPERKURS', 'TODAY'): 'shifr >= 3 and shifr < 4',
+}
+_NOT_ALIAS = ('where|order|group|having|union|minus|intersect|connect|start|for|join|inner|left|right|full|cross|'
+              'natural|on|using|fetch|offset|model|pivot|unpivot|partition|sample|as')
+_PARTITION = re.compile(
+    r'(?<![\w$#."])("?[A-Za-z][\w$#]*"?(?:\."?[A-Za-z][\w$#]*"?)?)\s+partition\s*\(\s*"?([A-Za-z][\w$#]*)"?\s*\)'
+    rf'(\s+(?!(?:{_NOT_ALIAS})\b)[A-Za-z][\w$#]*)?', re.I)
+
+
+def rewrite_partitions(sql: str) -> str | None:
+    """The statement with partition-extended names replaced by filtered inline views; None when a partition is unknown."""
+    unknown = False
+
+    def rep(m: re.Match) -> str:
+        nonlocal unknown
+        table = m.group(1).replace('"', '')
+        base = table.split('.')[-1].upper()
+        cond = PARTITIONS.get((base, m.group(2).upper()))
+        if cond is None:
+            unknown = True
+            return m.group(0)
+        alias = (m.group(3) or '').strip() or base
+        return f'(select * from {table} where {cond}) {alias}'
+
+    out = _PARTITION.sub(rep, sql)
+    return None if unknown else out
+
+
+def _with_partitions(s: Session, sql: str, run):
+    if s.no_partitions:
+        sql = rewrite_partitions(sql) or sql
+        return run(sql)
+    try:
+        return run(sql)
+    except oracledb.DatabaseError as e:
+        if oracle_error(e).code != 14109:
+            raise
+        fixed = rewrite_partitions(sql)
+        if not fixed or fixed == sql:
+            raise
+        s.no_partitions = True
+        return run(fixed)
+
+
+# --------------------------------------------------------------------------- slow statements
+
+_slow_lock = threading.Lock()
+
+
+def _log_slow(s: Session, kind: str, source: str, sql: str, started: float, rows: int | None, error: str = '') -> None:
+    ms = int((time.monotonic() - started) * 1000)
+    if not settings.slow_ms or ms < settings.slow_ms:
+        return
+    try:
+        settings.slow_file.parent.mkdir(parents=True, exist_ok=True)
+        line = '\t'.join([datetime.now().isoformat(timespec='seconds'), s.username, kind, source or '-', f'{ms} ms',
+                          f'{rows} rows' if rows is not None else '-', error[:200], ' '.join(sql.split())[:1000]])
+        with _slow_lock, settings.slow_file.open('a', encoding='utf-8') as fh:
+            fh.write(line + '\n')
+    except OSError:
+        pass
+
+
 # --------------------------------------------------------------------------- query / execute
 
-def query(s: Session, sql: str, variables: list[dict], max_rows: int | None = None) -> dict:
-    with s.lock:
-        try:
-            cur = s.conn.cursor()
-            cur.arraysize = 500
-            names = _bind_names(cur, sql)
-            given = _bind_map(variables)
-            cursors = [n for n in names if (given.get(n) or {}).get('type') == 'cursor']
-            if cursors:
-                # DOA dataset over a PL/SQL block returning a REF CURSOR:
-                #   begin pkg_report.get_customers(p_result => :p_result); end;
-                binds: dict[str, Any] = {}
-                for n in names:
-                    if n in cursors:
-                        binds[n] = cur.var(oracledb.DB_TYPE_CURSOR)
-                    else:
-                        binds[n] = convert.to_db(given[n].get('value'), given[n].get('type')) if n in given else None
-                cur.execute(None, binds)
-                rc = binds[cursors[0]].getvalue()
-                if rc is None or rc.description is None:  # the routine did not open the cursor
-                    return {'columns': [], 'rows': []}
-                rc.arraysize = 500
-                return {'columns': convert.columns_of(rc.description), 'rows': _rows(rc, max_rows)}
-            binds = {n: convert.to_db(given[n].get('value'), given[n].get('type')) if n in given else None for n in names}
-            cur.execute(None, binds)
-            cols = convert.columns_of(cur.description)
-            return {'columns': cols, 'rows': _rows(cur, max_rows)}
-        except oracledb.DatabaseError as e:
-            raise oracle_error(e) from e
+MAX_CURSORS = 30
 
 
-def execute(s: Session, sql: str, variables: list[dict]) -> dict:
-    """DOA TOracleQuery: every declared variable is IN OUT; their values come back after execution."""
+def _page(s: Session, cur, cols: list, max_rows: int | None, fetch: int | None) -> dict:
+    """All rows, or with `fetch` (DOA QueryAllRecords = False) the first rows; the cursor stays open for /api/fetch."""
+    if not fetch:
+        return {'columns': cols, 'rows': _rows(cur, max_rows)}
+    fetch = max(1, min(fetch, settings.max_rows))
+    rows = [[convert.to_json(x) for x in r] for r in cur.fetchmany(fetch + 1)]
+    if len(rows) <= fetch:
+        cur.close()
+        return {'columns': cols, 'rows': rows}
+    pending = [rows.pop()]
+    while len(s.cursors) >= MAX_CURSORS:  # a client that never fetched to the end or closed
+        close_cursor(s, next(iter(s.cursors)))
+    cid = secrets.token_urlsafe(12)
+    s.cursors[cid] = {'cur': cur, 'pending': pending, 'sent': len(rows)}
+    return {'columns': cols, 'rows': rows, 'cursorId': cid, 'more': True}
+
+
+def query(s: Session, sql: str, variables: list[dict], max_rows: int | None = None, fetch: int | None = None,
+          source: str = '') -> dict:
     with s.lock:
+        started, res, err = time.monotonic(), None, ''
         try:
-            cur = s.conn.cursor()
-            names = _bind_names(cur, sql)
-            given = _bind_map(variables)
-            binds: dict[str, Any] = {}
-            for n in names:
-                v = given.get(n, {})
-                t = v.get('type') or _guess_type(v.get('value'))
-                var = cur.var(convert.DB_TYPE_OF.get(t, oracledb.DB_TYPE_VARCHAR),
-                              size=32767 if t in ('string', None) else 0)
-                if t != 'cursor':
-                    var.setvalue(0, convert.to_db(v.get('value'), t))
-                binds[n] = var
-            cur.execute(None, binds)
-            res: dict[str, Any] = {'rowsProcessed': cur.rowcount if cur.rowcount is not None else 0,
-                                   'variables': {n: convert.to_json(b.getvalue()) for n, b in binds.items()}}
-            if cur.description:
-                res['columns'] = convert.columns_of(cur.description)
-                res['rows'] = _rows(cur)
-                res['rowsProcessed'] = len(res['rows'])
+            res = _with_partitions(s, sql, lambda q: _query(s, q, variables, max_rows, fetch))
             return res
         except oracledb.DatabaseError as e:
+            ge = oracle_error(e)
+            err = ge.message
+            raise ge from e
+        finally:
+            _log_slow(s, 'query', source, sql, started, len(res['rows']) if res else None, err)
+
+
+def _query(s: Session, sql: str, variables: list[dict], max_rows: int | None, fetch: int | None) -> dict:
+    cur = s.conn.cursor()
+    cur.arraysize = max(500, (fetch or 0) + 1)
+    names = _bind_names(cur, sql)
+    given = _bind_map(variables)
+    cursors = [n for n in names if (given.get(n) or {}).get('type') == 'cursor']
+    if cursors:
+        # DOA dataset over a PL/SQL block returning a REF CURSOR:
+        #   begin pkg_report.get_customers(p_result => :p_result); end;
+        binds: dict[str, Any] = {}
+        for n in names:
+            if n in cursors:
+                binds[n] = cur.var(oracledb.DB_TYPE_CURSOR)
+            else:
+                binds[n] = convert.to_db(given[n].get('value'), given[n].get('type')) if n in given else None
+        cur.execute(None, binds)
+        rc = binds[cursors[0]].getvalue()
+        if rc is None or rc.description is None:  # the routine did not open the cursor
+            return {'columns': [], 'rows': []}
+        rc.arraysize = max(500, (fetch or 0) + 1)
+        return _page(s, rc, convert.columns_of(rc.description), max_rows, fetch)
+    binds = {n: convert.to_db(given[n].get('value'), given[n].get('type')) if n in given else None for n in names}
+    cur.execute(None, binds)
+    return _page(s, cur, convert.columns_of(cur.description), max_rows, fetch)
+
+
+def fetch_rows(s: Session, cursor_id: str, count: int) -> dict:
+    """Next rows of a dataset opened with `fetch` (scrolling the grid, Next past the last fetched record, Last, Locate).
+    count <= 0: all remaining rows (up to SB_MAX_ROWS in total)."""
+    with s.lock:
+        c = s.cursors.get(cursor_id)
+        if not c:
+            return {'rows': [], 'more': False}
+        room = settings.max_rows - c['sent']
+        limit = room if count <= 0 else min(count, room)
+        rows, c['pending'] = c['pending'], []
+        try:
+            while len(rows) < limit + 1:
+                batch = c['cur'].fetchmany(min(1000, limit + 1 - len(rows)))
+                if not batch:
+                    break
+                rows.extend([convert.to_json(x) for x in r] for r in batch)
+        except oracledb.DatabaseError as e:
+            close_cursor(s, cursor_id)
             raise oracle_error(e) from e
+        more = len(rows) > limit
+        if more:
+            c['pending'] = rows[limit:]
+            rows = rows[:limit]
+        c['sent'] += len(rows)
+        if not more or c['sent'] >= settings.max_rows:
+            close_cursor(s, cursor_id)
+            more = False
+        return {'rows': rows, 'more': more}
+
+
+def close_cursor(s: Session, cursor_id: str) -> None:
+    with s.lock:
+        c = s.cursors.pop(cursor_id, None)
+        if c:
+            try:
+                c['cur'].close()
+            except Exception:  # noqa: BLE001 - connection may be gone
+                pass
+
+
+def execute(s: Session, sql: str, variables: list[dict], source: str = '') -> dict:
+    """DOA TOracleQuery: every declared variable is IN OUT; their values come back after execution."""
+    with s.lock:
+        started, err = time.monotonic(), ''
+        try:
+            return _with_partitions(s, sql, lambda q: _execute(s, q, variables))
+        except oracledb.DatabaseError as e:
+            ge = oracle_error(e)
+            err = ge.message
+            raise ge from e
+        finally:
+            _log_slow(s, 'execute', source, sql, started, None, err)
+
+
+def _execute(s: Session, sql: str, variables: list[dict]) -> dict:
+    cur = s.conn.cursor()
+    names = _bind_names(cur, sql)
+    given = _bind_map(variables)
+    binds: dict[str, Any] = {}
+    for n in names:
+        v = given.get(n, {})
+        t = v.get('type') or _guess_type(v.get('value'))
+        var = cur.var(convert.DB_TYPE_OF.get(t, oracledb.DB_TYPE_VARCHAR),
+                      size=32767 if t in ('string', None) else 0)
+        if t != 'cursor':
+            var.setvalue(0, convert.to_db(v.get('value'), t))
+        binds[n] = var
+    cur.execute(None, binds)
+    res: dict[str, Any] = {'rowsProcessed': cur.rowcount if cur.rowcount is not None else 0,
+                           'variables': {n: convert.to_json(b.getvalue()) for n, b in binds.items()}}
+    if cur.description:
+        res['columns'] = convert.columns_of(cur.description)
+        res['rows'] = _rows(cur)
+        res['rowsProcessed'] = len(res['rows'])
+    return res
 
 
 def _guess_type(v: Any) -> str:

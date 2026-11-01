@@ -9,6 +9,7 @@ DML reports one processed row; PL/SQL leaves variables unchanged. Every statemen
 from __future__ import annotations
 
 import datetime as dt
+import os
 import re
 
 import oracledb
@@ -16,6 +17,9 @@ from pathlib import Path
 import sys
 
 from tests.fake_oracle import FakeConnection, FakeCursor
+
+# rows per SELECT (SB_SYNTH_ROWS=500 to try incremental fetching of big grids)
+SYNTH_ROWS = int(os.environ.get('SB_SYNTH_ROWS', '3'))
 
 
 def split_top(s: str, sep=',') -> list[str]:
@@ -204,7 +208,7 @@ class SyntheticCursor(FakeCursor):
             one = bool(re.search(r'\bfrom\s+dual\b', sql, re.I)) or re.search(r'\b(count|sum|max|min)\s*\(', sql, re.I)
             # -1 is the code's "nothing" key (MedioCrity = :AccountSide with -1 …): real tables have no such rows
             vals = [getattr(v, 'value', v) for v in dict(binds or {}, **kw).values()]
-            n = 0 if any(v == -1 for v in vals) else 1 if one else 3
+            n = 0 if any(v == -1 for v in vals) else 1 if one else SYNTH_ROWS
             self._set(cols, [tuple(value(n_, t, i) for n_, t in zip(names, types)) for i in range(n)])
             self.rowcount = len(self._rows)
             return

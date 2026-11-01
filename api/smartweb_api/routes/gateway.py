@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, Header
 
 from .. import gateway, registry
 from ..config import settings
-from ..schemas import (ApplyRecordRequest, ApplyRecordResult, ErrorBody, ExecuteRequest, ExecuteResult, LogonRequest,
+from ..schemas import (ApplyRecordRequest, ApplyRecordResult, CursorRequest, ErrorBody, ExecuteRequest, ExecuteResult, FetchRequest, FetchResult, LogonRequest,
                        LogonResult, OkResult, PackageCallRequest, PackageCallResult, QueryRequest, QueryResult,
                        SavepointRequest)
 from ..sessions import Session, store
@@ -49,13 +49,24 @@ def logoff(s: Session = Depends(current)):
 @router.post('/query', response_model=QueryResult, summary='Open a dataset (TOracleDataSet.Open)')
 def query(r: QueryRequest, s: Session = Depends(current)):
     _check(r.sql, r.source, s)
-    return gateway.query(s, r.sql, [v.model_dump() for v in r.variables], r.maxRows)
+    return gateway.query(s, r.sql, [v.model_dump() for v in r.variables], r.maxRows, r.fetch, r.source)
+
+
+@router.post('/fetch', response_model=FetchResult, summary='Fetch more rows of an open dataset (QueryAllRecords = False)')
+def fetch(r: FetchRequest, s: Session = Depends(current)):
+    return gateway.fetch_rows(s, r.cursorId, r.count)
+
+
+@router.post('/close-cursor', response_model=OkResult, summary='Close a dataset cursor that was not fetched to the end')
+def close_cursor(r: CursorRequest, s: Session = Depends(current)):
+    gateway.close_cursor(s, r.cursorId)
+    return OkResult()
 
 
 @router.post('/execute', response_model=ExecuteResult, summary='Execute SQL / PL/SQL (TOracleQuery.Execute)')
 def execute(r: ExecuteRequest, s: Session = Depends(current)):
     _check(r.sql, r.source, s)
-    return gateway.execute(s, r.sql, [v.model_dump() for v in r.variables])
+    return gateway.execute(s, r.sql, [v.model_dump() for v in r.variables], r.source)
 
 
 @router.post('/package', response_model=PackageCallResult, summary='Call a package routine (TOraclePackage.Call…)')

@@ -10,7 +10,8 @@ packages — the API contains no banking logic.
 | Endpoint | Delphi / DOA | What it does |
 |---|---|---|
 | `POST /api/logon` | `TOracleLogon` / `Session.LogOn` | Oracle connection with the user's own credentials → `sessionId` |
-| `POST /api/query` | `TOracleDataSet.Open` | SELECT with bind variables |
+| `POST /api/query` | `TOracleDataSet.Open` | SELECT with bind variables; with `fetch` (datasets with `QueryAllRecords = False`) only the first rows and a `cursorId` |
+| `POST /api/fetch`, `/close-cursor` | DOA incremental fetching | next rows of such a dataset (grid scrolled to the end, `Next` past the fetched rows, `Last`, `Locate`) |
 | `POST /api/execute` | `TOracleQuery.Execute`, PL/SQL blocks | DML / blocks; variables are IN OUT |
 | `POST /api/package` | `TOraclePackage.CallProcedure / Call…Function` | positional or named parameters; argument types read from `ALL_ARGUMENTS` (Delphi `TDateTime` → `DATE`, PL/SQL `BOOLEAN`); an empty `package` calls a schema-level procedure/function (TOraclePackage without PackageName) |
 | `POST /api/apply-record` | dataset `Post` / `Delete` | insert/update/delete/lock on the updating table by `ROWID`, only changed columns |
@@ -83,6 +84,17 @@ DOA `otSubst` variables (`order by :Title`, `and cust_type :Cond`) are spliced i
 bound — as in the desktop application. On the module endpoints their value may contain column names,
 numbers, operators, lists and quoted literals, but no statement keywords, comments or `;`. An empty value
 drops a preceding `ORDER BY` / `GROUP BY` (the first open of a grid before any sort is chosen).
+
+### Partitions on views
+
+Some Delphi SQL names a partition: `FROM ACCOUNT PARTITION ( ACTIVACC )`. Where the login user's ACCOUNT is a view,
+Oracle answers ORA-14109; the API then replaces the partition by its definition (`ACTIVACC` = `CLOSE_DAT` empty or
+≥ 01.01.2100, `CLOSEACC`, OPERKURS `TODAY` …, see `gateway.PARTITIONS`) and does so for the rest of the session.
+
+### Slow statements
+
+Statements slower than `SB_SLOW_MS` (default 2000 ms) go to `logs/slow-sql.log` with user, component, time and rows.
+With Docker: `docker compose exec api tail -n 50 /app/logs/slow-sql.log`.
 
 ### Statement allow-list
 

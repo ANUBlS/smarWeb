@@ -395,7 +395,6 @@ function EditView({ c, p }: { c: TCustomEdit; p: Common }) {
   const isNum = c.kind === 'currency' || c.kind === 'spin';
   const db = c instanceof TDBEdit;
   const field = db ? (c as TDBEdit).Field : null;
-  const editingDs = !!field?.DataSet?.isEditing();
   const [draft, setDraft] = useState<string | null>(null);
   const value = draft ?? c.Text;
   const ro = c.ReadOnly || (db && (!!field?.ReadOnly || !field));
@@ -403,7 +402,7 @@ function EditView({ c, p }: { c: TCustomEdit; p: Common }) {
   const right = isNum || (field && (field.fieldType === 'float' || field.fieldType === 'integer'));
   return (
     <div {...p}>
-      <input className={`v-input${right ? ' num' : ''}${editingDs && !ro ? ' db-edit' : ''}`} value={value} readOnly={ro} disabled={!c.Enabled}
+      <input className={`v-input${right ? ' num' : ''}`} value={value} readOnly={ro} disabled={!c.Enabled}
         type={c.PasswordChar && c.PasswordChar !== '#0' && c.PasswordChar !== '\0' ? 'password' : 'text'}
         maxLength={c.MaxLength || undefined} style={fontStyle(c)} spellCheck={false}
         onChange={(e) => { if (db && field && field.fieldType !== 'string') setDraft(e.target.value); else commit(e.target.value); }}
@@ -680,6 +679,10 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
   useEffect(() => { if (ed && (ed.row !== editRow || ed.col !== g.SelectedIndex)) setEd(null); }, [editRow, g.SelectedIndex]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { g.markStylesDirty(); }, [rowsKey, count, g]);
   useEffect(() => { if (active) void g.computeStyles(); });
+  // QueryAllRecords = False: fetch the next rows when the end of the fetched ones scrolls into view
+  useEffect(() => {
+    if (active && ds!.moreRows && last >= count - 5) void runGuarded(() => ds!.fetchMore(ds!.readBuffer), g.Name);
+  }, [active, last, count, ds, g]);
   // keep current row visible
   useEffect(() => {
     const el = box.current;
@@ -696,7 +699,13 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
     const ch = pressChar(e);
     if (ch && hasKeyHandlers(g, true)) void runGuarded(() => keyEvents(g, { key: ch, keyCode: e.keyCode, shift }, 'press'), g.Name);
     const page = Math.max(1, Math.floor(viewH / ROW_H) - 1);
-    const go = (i: number) => { e.preventDefault(); run(ds.gotoIndex(Math.max(0, Math.min(count - 1, i))), g.Name); };
+    const go = (i: number) => {
+      e.preventDefault();
+      run((async () => {
+        if (i > count - 1 && ds.moreRows) await ds.fetchMore(Math.max(ds.readBuffer, i - count + 1));
+        await ds.gotoIndex(Math.max(0, Math.min(ds.view.length - 1, i)));
+      })(), g.Name);
+    };
     if ((e.key === 'F2' || e.key === 'Enter') && openEd()) { e.preventDefault(); return; }
     if (ch && !e.ctrlKey && !e.altKey && !e.metaKey && openEd(ch)) { e.preventDefault(); return; }
     switch (e.key) {
@@ -705,7 +714,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
       case 'PageDown': go(cur + page); break;
       case 'PageUp': go(cur - page); break;
       case 'Home': if (e.ctrlKey) go(0); break;
-      case 'End': if (e.ctrlKey) go(count - 1); break;
+      case 'End': if (e.ctrlKey) { e.preventDefault(); run(ds.Last(), g.Name); } break;
       case 'ArrowLeft': e.preventDefault(); g.SelectedIndex = Math.max(0, g.SelectedIndex - 1); break;
       case 'ArrowRight': e.preventDefault(); g.SelectedIndex = Math.min(cols.length - 1, g.SelectedIndex + 1); break;
       case 'Escape': if (ds.isEditing()) { e.preventDefault(); run(ds.Cancel(), g.Name); } break;
