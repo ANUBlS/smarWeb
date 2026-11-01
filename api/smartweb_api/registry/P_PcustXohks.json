@@ -1,0 +1,560 @@
+{
+ "name": "P_PcustXohks",
+ "caption": "",
+ "dir": "Packages/PCustService/PCUST_Xohks",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cu_conclusion.bpl": "P_CU_Conclusion",
+  "cu_payment.bpl": "P_CU_Payment",
+  "cu_schedule.bpl": "P_CU_Schedule",
+  "cu_statement.bpl": "P_cu_Statement",
+  "cu_wreport.bpl": "P_cu_WReport",
+  "pcustxohks.bpl": "P_PcustXohks",
+  "sb_general.bpl": "P_Sb_General",
+  "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
+  "sbdm_contract.bpl": "P_SBDM_Contract",
+  "sbdm_extractmoney.bpl": "P_SBDM_ExtractMoney",
+  "sbdm_wreport.bpl": "P_SBDM_WReport",
+  "transinfopack.bpl": "P_TransInfoPack"
+ },
+ "lib": [
+  "AccounFlagsLmpl",
+  "Account_edit_Unit",
+  "BProc_Trans",
+  "CULogoutputImpl",
+  "CommonDecls",
+  "CommonDeclsImpl",
+  "Creditİmpl",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "Cust_contactUnit",
+  "CustomersImpl",
+  "DataCustNomImpl",
+  "DepozLmpl",
+  "Form1_BalCnImpl",
+  "FormBalCnImpl",
+  "FormCustNomImpl",
+  "FormCustNom_GridImpl",
+  "FormOperationShow1Lmpl",
+  "FormOperationShowLmpl",
+  "FormOperationbplLmpl",
+  "FormTransaction1Lmpl",
+  "FormTransaction2Lmpl",
+  "FormTransaction3Lmpl",
+  "Form_AccountsImpl",
+  "Form_BalCnImpl",
+  "Form_Statmentlmpl",
+  "LogoutputImpl",
+  "OpenAccdataImpl",
+  "OpenAccountImpl",
+  "OraVariables",
+  "Payment_DataModul",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SMSUnit",
+  "TemporaryTransactionsFormImpl",
+  "TemporaryTransactionsViewFormImpl",
+  "Transaction_DataModuleUnit",
+  "Transaction_DestinationImpl",
+  "Transaction_PropertiesImpl",
+  "UnitChangePasswordForm",
+  "UnitDataBussProc",
+  "UnitNote",
+  "UnitPayment_order",
+  "UnitProc_type",
+  "UnitSBOraLogOn",
+  "UnitTransaction",
+  "Unit_Archive",
+  "Unit_Rekvezit",
+  "Unit_Report",
+  "Unit_ReportR",
+  "Unit_TransView",
+  "UnitbussProc",
+  "UntIntervalRpt",
+  "UntMain_Report",
+  "UntSecond_Report",
+  "accserch",
+  "addcombobox1",
+  "cap_UntMainReport",
+  "cap_UntSecondReport",
+  "cuCommonDecls",
+  "cuTemporaryTransactionsViewFormImpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DataCheck",
+   "source": "TDataModXhoks.DataCheck",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "DataAccount",
+   "source": "TDataModXhoks.DataAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select\na.id,a.acc_no,a.name,a.val_acc,a.filial,c.inn\nfrom\naccount a,customers c\nwhere\n(a.kli_ID=c.id)and\n(a.close_dat is null) and a.kli_id=:acc_id and a.val_acc=0\norder by a.acc_no",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "DataBankInfo",
+   "source": "TDataModXhoks.DataBankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankinfo",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "XS_BATCHS",
+   "source": "TDataModXhoks.XS_BATCHS",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  x.*, x.rowid, \n  a.acc_no,\n  a.name,\n  v.val_name, \n  f.name filial_name\nfrom\n  XS_BATCHS x ,\n  account a, \n  avalute v,\n  filial_t f\nwhere\n   x.acc_id = a.id and\n   v.valute=a.val_acc and\n   x.filial=f.id and\n  (x.transdate>=:BeginDate and x.transdate<=:EndDate) and\n   a.kli_id=:custid\n order by :Title\n\n\n\n\n \n\n \n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    },
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "DataSetFilial",
+   "source": "TDataModXhoks.DataSetFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Filial where id =:filialID",
+   "variables": [
+    {
+     "name": "FILIALID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "XS_CONFIG",
+   "source": "TDataModXhoks.XS_CONFIG",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    *\nfrom\n    XS_CONFIG\n ",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "DataValute",
+   "source": "TDataModXhoks.DataValute",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   * \nfrom \n  Avalute",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "DataBankM",
+   "source": "TDataModXhoks.DataBankM",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankm",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "XS_BENEFICIARY",
+   "source": "TDataModXhoks.XS_BENEFICIARY",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    x.rowid,\n    x.*,\n    v.val_name,\n    b.name as BankName\nfrom\n    XS_BENEFICIARY X,\n    avalute v,\n    BankM b\nwhere\n   (x.batchID=:id)and\n   (x.val_cod=v.valute)\n  and (x.rec_bank_id=b.id)",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "string"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "TransTypeCode",
+   "source": "TDataModXhoks.TransTypeCode",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   *\nFrom\n  xs_transtype_code x\nwhere \n  x.nameID=:ID\n ",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "string"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "TransTypeName",
+   "source": "TDataModXhoks.TransTypeName",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   *\nfrom\n    XS_transtype_name\n order by id",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "XS_IncomingView",
+   "source": "TDataModXhoks.XS_IncomingView",
+   "kind": "TOracleDataSet",
+   "sql": "select * from xs_incomingview x,account a\nwhere x.rec_client_acc_id=a.id\n\norder by :title\n\n\n\n\n\n\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "ODS_CODE",
+   "source": "TDataModXhoks.ODS_CODE",
+   "kind": "TOracleDataSet",
+   "sql": "select CODE from xs_transtype_code where NAMEID in(1,5)\ngroup by CODE \norder by code",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "XS_BatchsArchive",
+   "source": "TDataModXhoks.XS_BatchsArchive",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  x.*, x.rowid,\n  a.acc_no,\n  a.name,\n  v.val_name,\n  f.name filial_name\nfrom\n  XS_BATCHS_Archive x ,\n  account a, \n  avalute v,\n  filial_t f\nwhere\n  x.acc_id = a.id and\n  v.valute=a.val_acc and\n  f.id=x.filial and\n  (x.transdate>=:BeginDate and x.transdate<=:EndDate) and \n  a.kli_id=:acc_id and \n  a.val_acc=0\n  \n\n\n\n\n \n\n \n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "XS_BeneficiaryArchive",
+   "source": "TDataModXhoks.XS_BeneficiaryArchive",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    x.rowid,\n    x.*,\n    v.val_name,\n    b.name as BankName\nfrom\n    XS_BENEFICIARY_Archive X,\n    avalute v,\n    BankM b\nwhere\n   (x.batchID=:id)and\n   (x.val_cod=v.valute)\n  and (x.rec_bank_id=b.id)",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "string"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "Data_Code",
+   "source": "TDataModXhoks.Data_Code",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as code from Dual\nUnion All\nselect CODE from xs_transtype_code where NAMEID in(1,5)\ngroup by CODE  \norder by code",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "XS_INCOMING",
+   "source": "TDataModXhoks.XS_INCOMING",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   *\nfrom\n   XS_INCOMINGVIEWALL x,account a\nwhere  (x.trans_date>=:BeginDate and x.trans_date<=:EndDate) \n    and\n      (x.rec_client_acc_id=a.id)  \n\n",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "ODS_shablon",
+   "source": "TDataModXhoks.ODS_shablon",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT mebleg, odenish_kod, bankin_kodu, hesab_no, adi, kodu, voen,\n       od_tey1, od_tey2, od_tey3, od_tey4, elave_mel1, elave_mel2,\n       elave_mel3, shablonun_adi, bankin_adi, odenish\n  FROM xs_beneficiary_shablon\norder by odenish",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "ODS_Institution",
+   "source": "TDataModXhoks.ODS_Institution",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.*\n  FROM xs_institution a",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "ODS_BudgetLevel",
+   "source": "TDataModXhoks.ODS_BudgetLevel",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT b.rowid,b.*\n  FROM xs_budgetlevel b",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "ODS_Destination",
+   "source": "TDataModXhoks.ODS_Destination",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT c.rowid,c.*\n  FROM xs_destination c",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "ODS_Report",
+   "source": "TDataModXhoks.ODS_Report",
+   "kind": "TOracleDataSet",
+   "sql": "select * from xs_beneficiary",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "ODS_Report_Temp",
+   "source": "TDataModXhoks.ODS_Report_Temp",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "ODS_CODEID",
+   "source": "TDataModXhoks.ODS_CODEID",
+   "kind": "TOracleDataSet",
+   "sql": "select * from xs_transtype_code\nwhere code=:t_code",
+   "variables": [
+    {
+     "name": "T_CODE",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "DataSum",
+   "source": "TDataModXhoks.DataSum",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(amount) as Sumammount from xs_incoming\nwhere trans_date=:t_date and typecode=:t_code and REFERENCE=:T_REFERENCE and filial=:t_filial\n\n\n\n",
+   "variables": [
+    {
+     "name": "T_DATE",
+     "type": "date"
+    },
+    {
+     "name": "T_CODE",
+     "type": "integer"
+    },
+    {
+     "name": "T_REFERENCE",
+     "type": "string"
+    },
+    {
+     "name": "T_FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "Data_Admin_in",
+   "source": "TDataModXhoks.Data_Admin_in",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as filial_id, 'Bütün filiallar' as filial_name from Dual\nUnion All\nselect filial_id,filial_name from xs_admin_in \nwhere USER_ID=uid",
+   "variables": [],
+   "unit": "DataXohks"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFormWitch.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  x.*, x.rowid,\n  a.acc_no,\n  a.name,\n  v.val_name\nfrom\n  XS_BATCHS x ,\n  account a, \n  avalute v\nwhere\n  x.acc_id = a.id and\n  v.valute=a.val_acc and\n  (x.transdate>=:BeginDate and x.transdate<=:EndDate)\n",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "Witch"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFormWitch.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    x.rowid,\n    x.*,\n    v.val_name,\n    b.name as BankName\nfrom\n    XS_BENEFICIARY X,\n    avalute v,\n    BankM b\nwhere\n   (x.batchID=:id)and\n   (x.val_cod=v.valute)\n  and (x.rec_bank_id=b.id)",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "string"
+    }
+   ],
+   "unit": "Witch"
+  }
+ ],
+ "packages": [
+  {
+   "component": "Del",
+   "package": "XS_CONTROL",
+   "mode": "positional",
+   "source": "TDataModXhoks.Del",
+   "routines": [
+    {
+     "name": "xs_batchs_delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "xs_beneficiary_delete",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "GetReference",
+   "package": "XS_CONTROL",
+   "mode": "positional",
+   "source": "TDataModXhoks.GetReference",
+   "routines": []
+  },
+  {
+   "component": "GetSysDate",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TDataModXhoks.GetSysDate",
+   "routines": [
+    {
+     "name": "GET_DATE",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "Get_Date",
+     "call": "CallDateFunction"
+    }
+   ]
+  },
+  {
+   "component": "Ins",
+   "package": "XS_CONTROL",
+   "mode": "positional",
+   "source": "TDataModXhoks.Ins",
+   "routines": [
+    {
+     "name": "GetNewBeneficiaryReference",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "SetBatchsTransaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "set_incomingSum",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "set_incomingSumCod",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "xs_Batchs_ChangeStatus",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "xs_Batchs_update",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "xs_Incoming_update",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "PackTemp",
+   "package": "XS_CONTROL",
+   "mode": "positional",
+   "source": "TDataModXhoks.PackTemp",
+   "routines": [
+    {
+     "name": "UpdateBatchReference",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "xs_Batchs_ChangeStatus",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TDataModXhoks.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "SELECT mebleg, odenish_kod, bankin_kodu, hesab_no, adi, kodu, voen,",
+  "SELECT nb_swift FROM xs_config",
+  "Select * from Avalute",
+  "Select * from BankInfo",
+  "Select * from BankM",
+  "Select * from BankM order by name",
+  "Select SWIFT from bankinfo",
+  "Select account from xs_config",
+  "Select kod_b,krno,inn,swift from bankinfo",
+  "Select swift from bankinfo",
+  "Select valute,val_name,valu_name from Avalute order by valute",
+  "select * from XS_BENEFICIARY_ARCHIVE where ID=",
+  "select * from xs_beneficiary where id=",
+  "select * from xs_incomingview where id=",
+  "select * from xs_incomingviewall where id="
+ ]
+}

@@ -1232,12 +1232,12 @@ export default function define($) {
     await $.mcall((await $.v(C, "ods_hms")), "First", []);
     while ($.truthy($.not((await $.mv((await $.v(C, "ods_hms")), "Eof"))))) {
       await $.stmt($.callv(L0["applyfont"], []));
-      await $.stmt((await $.callv(L0["drawtextwrappedwithcolorfixedheight"], [20, L0["y"], 500, (await $.mv((await $.mcall((await $.v(C, "ods_hms")), "FieldByName", ["fullname"])), "AsString")), (await $.callv(L0["rowcolor"], [(await $.mv((await $.mcall((await $.v(C, "ods_hms")), "FieldByName", ["main_status"])), "AsString"))])), L0["rowheight"]])));
+      await $.stmt((await $.callv(L0["drawtextwrappedwithcolorfixedheight"], [20, L0["y"], 500, (await $.mv((await $.mcall((await $.v(C, "ods_hms")), "FieldByName", ["fullname"])), "AsString")), (await $.callv(L0["rowcolor"], [(await $.mv((await $.mcall((await $.v(C, "ods_hms")), "FieldByName", ["main_status"])), "AsString"))])), $.ref(async () => L0["rowheight"], async ($t68) => { L0["rowheight"] = $t68; })])));
       await $.mset((await $.mv((await $.mv(L0["pdf"], "VCLCanvas")), "Brush")), "Color", (await $.callv(L0["rowcolor"], [(await $.mv((await $.mcall((await $.v(C, "ods_hms")), "FieldByName", ["main_status"])), "AsString"))])));
       await $.stmt((await $.mcall((await $.mv(L0["pdf"], "VCLCanvas")), "FillRect", [(await $.call(C, "Rect", [$.sub(520, 5), L0["y"], 780, $.add(L0["y"], L0["rowheight"])]))])));
       await $.stmt((await $.mcall((await $.mv(L0["pdf"], "VCLCanvas")), "TextOut", [520, L0["y"], (await $.mv((await $.mcall((await $.v(C, "ods_hms")), "FieldByName", ["birthdate"])), "AsString"))])));
       await $.stmt((await $.mcall((await $.mv(L0["pdf"], "VCLCanvas")), "TextOut", [640, L0["y"], (await $.mv((await $.mcall((await $.v(C, "ods_hms")), "FieldByName", ["end_status"])), "AsString"))])));
-      await $.stmt((await $.call(C, "Inc", [$.ref(async () => L0["y"], async ($t68) => { L0["y"] = $t68; }), $.add(L0["rowheight"], 5)])));
+      await $.stmt((await $.call(C, "Inc", [$.ref(async () => L0["y"], async ($t69) => { L0["y"] = $t69; }), $.add(L0["rowheight"], 5)])));
       if ($.truthy($.gt(L0["y"], 1350))) {
         await $.mcall(L0["pdf"], "AddPage", []);
         await $.stmt($.callv(L0["applyfont"], []));
@@ -1297,7 +1297,7 @@ export default function define($) {
         await $.mcall((await $.mv((await $.v(C, "DmBlack")), "ods_blecxml")), "Open", []);
       }
     } finally {
-      await $.stmt((await $.call(C, "FreeAndNil", [$.ref(async () => (await $.v(C, "XmlFile")), async ($t69) => { await $.set(C, "XmlFile", $t69); })])));
+      await $.stmt((await $.call(C, "FreeAndNil", [$.ref(async () => (await $.v(C, "XmlFile")), async ($t70) => { await $.set(C, "XmlFile", $t70); })])));
     }
   }
   return L0.result;
@@ -1307,12 +1307,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t70 = (await $.v(C, "DmBlack"));
-    const $t71 = (await $.wv([$t70], "ods_search", C, false));
-    if ($.truthy($.not((await $.wv([$t70, $t71], "Active", C, false))))) {
-      await $.stmt($.wcall([$t70, $t71], "Open", [], C));
+    const $t71 = (await $.v(C, "DmBlack"));
+    const $t72 = (await $.wv([$t71], "ods_search", C, false));
+    if ($.truthy($.not((await $.wv([$t71, $t72], "Active", C, false))))) {
+      await $.stmt($.wcall([$t71, $t72], "Open", [], C));
     } else {
-      await $.stmt($.wcall([$t70, $t71], "Refresh", [], C));
+      await $.stmt($.wcall([$t71, $t72], "Refresh", [], C));
     }
   }
   if ($.truthy($.eq((await $.mv((await $.mv((await $.v(C, "DmBlack")), "ods_search")), "RecordCount")), 0))) {
@@ -1326,7 +1326,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "DmBlack")), "ods_blecxml")), "Close", []);
-  { const $t72 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "ods_blecxml")), "SQL")), [4], ""); if ($t72 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "ods_blecxml")), "SQL", $t72); } }
+  { const $t73 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "ods_blecxml")), "SQL")), [4], ""); if ($t73 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "ods_blecxml")), "SQL", $t73); } }
   await $.mcall((await $.mv((await $.v(C, "DmBlack")), "ods_blecxml")), "Open", []);
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -1338,11 +1338,11 @@ export default function define($) {
   L0["p_date1"] = (await $.mv((await $.v(C, "DateTi_samelydate1")), "Value"));
   L0["p_date2"] = (await $.mv((await $.v(C, "DateTi_samelydate2")), "Value"));
   {
-    const $t73 = (await $.v(C, "OracleDataSet3"));
-    await $.stmt($.wcall([$t73], "close", [], C));
-    await $.stmt((await $.wcall([$t73], "SetVariable", ["dat1", (await $.wv([$t73], "p_date1", { get: async () => L0["p_date1"], set: async (v) => { L0["p_date1"] = v; }, local: true }, false))], C)));
-    await $.stmt((await $.wcall([$t73], "SetVariable", ["dat2", (await $.wv([$t73], "p_date2", { get: async () => L0["p_date2"], set: async (v) => { L0["p_date2"] = v; }, local: true }, false))], C)));
-    await $.stmt($.wcall([$t73], "open", [], C));
+    const $t74 = (await $.v(C, "OracleDataSet3"));
+    await $.stmt($.wcall([$t74], "close", [], C));
+    await $.stmt((await $.wcall([$t74], "SetVariable", ["dat1", (await $.wv([$t74], "p_date1", { get: async () => L0["p_date1"], set: async (v) => { L0["p_date1"] = v; }, local: true }, false))], C)));
+    await $.stmt((await $.wcall([$t74], "SetVariable", ["dat2", (await $.wv([$t74], "p_date2", { get: async () => L0["p_date2"], set: async (v) => { L0["p_date2"] = v; }, local: true }, false))], C)));
+    await $.stmt($.wcall([$t74], "open", [], C));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -1361,26 +1361,26 @@ export default function define($) {
           L0["url"] = $.add($.add($.add($.add((await $.mv((await $.v(C, "ods_bankinfoTAX_REGCODE")), "AsString")), "name="), (await $.mcall((await $.v(C, "TIdURI")), "ParamsEncode", [(await $.mv((await $.mcall((await $.v(C, "OracleDataSet2")), "FieldByName", ["E_NAME"])), "AsString"))]))), "&surname="), (await $.mcall((await $.v(C, "TIdURI")), "ParamsEncode", [(await $.mv((await $.mcall((await $.v(C, "OracleDataSet2")), "FieldByName", ["E_LASTNAME"])), "AsString"))])));
           try {
             L0["responsetext"] = (await $.mcall(L0["http"], "Get", [L0["url"]]));
-          } catch ($t75) {
-            $.rethrowControl($t75);
-            if ($.excIs($t75, "Exception")) {
-              L0["e"] = $.exc($t75);
+          } catch ($t76) {
+            $.rethrowControl($t76);
+            if ($.excIs($t76, "Exception")) {
+              L0["e"] = $.exc($t76);
               await $.stmt((await $.call(C, "OutputDebugString", [(await $.call(C, "PChar", [$.add("Xətalı URL: ", L0["url"])]))])));
               await $.stmt((await $.call(C, "OutputDebugString", [(await $.call(C, "PChar", [$.add("HTTP Xətası (Sətir buraxıldı): ", (await $.mv(L0["e"], "Message")))]))])));
             }
-            else { throw $t75; }
+            else { throw $t76; }
           }
           await $.mcall((await $.v(C, "OracleDataSet2")), "Next", []);
           await $.tick();
         }
         await $.stmt((await $.call(C, "ShowMessage", ["Yüklənmə tamamlandı."])));
-      } catch ($t74) {
-        $.rethrowControl($t74);
-        if ($.excIs($t74, "Exception")) {
-          L0["e"] = $.exc($t74);
+      } catch ($t75) {
+        $.rethrowControl($t75);
+        if ($.excIs($t75, "Exception")) {
+          L0["e"] = $.exc($t75);
           await $.stmt((await $.call(C, "ShowMessage", [$.add("Kritik Dövr Xətası: ", (await $.mv(L0["e"], "Message")))])));
         }
-        else { throw $t74; }
+        else { throw $t75; }
       }
     } finally {
       await $.mcall(L0["http"], "Free", []);
@@ -1414,13 +1414,13 @@ export default function define($) {
   await $.set(C, "f18", "");
   await $.set(C, "f19", "");
   await $.set(C, "f20", "");
-  { const $t76 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), "Count")), 1);
+  { const $t77 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), "Count")), 1);
     await $.set(C, "i", 0);
-    let $t77 = true;
+    let $t78 = true;
     for (;;) {
-      if (!$t77) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
-      $t77 = false;
-      if (!($.ord((await $.v(C, "i"))) <= $.ord($t76))) break;
+      if (!$t78) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
+      $t78 = false;
+      if (!($.ord((await $.v(C, "i"))) <= $.ord($t77))) break;
       await $.set(C, "CustomerNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])));
       await $.set(C, "f1", 1);
       L0["d_xml_type"] = 1;
@@ -1439,13 +1439,13 @@ export default function define($) {
       await $.set(C, "f14", (await $.call(C, "Trim", [(await $.call(C, "Copy", [(await $.v(C, "f12")), 801, 800]))])));
       await $.set(C, "f15", (await $.call(C, "Trim", [(await $.call(C, "Copy", [(await $.v(C, "f12")), 1602, 800]))])));
       await $.set(C, "f16", (await $.call(C, "Trim", [(await $.call(C, "Copy", [(await $.v(C, "f12")), 2403, 800]))])));
-      { const $t78 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), "Count")), 1);
+      { const $t79 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), "Count")), 1);
         await $.set(C, "j", 0);
-        let $t79 = true;
+        let $t80 = true;
         for (;;) {
-          if (!$t79) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
-          $t79 = false;
-          if (!($.ord((await $.v(C, "j"))) <= $.ord($t78))) break;
+          if (!$t80) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
+          $t80 = false;
+          if (!($.ord((await $.v(C, "j"))) <= $.ord($t79))) break;
           if ($.truthy($.eq((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), [(await $.v(C, "j"))])), "NodeName")), "NATIONALITY"))) {
             await $.set(C, "CustomerNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), [(await $.v(C, "j"))])));
             await $.set(C, "f17", (await $.mv((await $.idx((await $.mv((await $.v(C, "CustomerNode")), "ChildNodes")), ["VALUE"])), "Text")));
@@ -1465,21 +1465,21 @@ export default function define($) {
       await $.tick();
     }
   }
-  { const $t80 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), "Count")), 1);
+  { const $t81 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), "Count")), 1);
     await $.set(C, "i", 0);
-    let $t81 = true;
+    let $t82 = true;
     for (;;) {
-      if (!$t81) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
-      $t81 = false;
-      if (!($.ord((await $.v(C, "i"))) <= $.ord($t80))) break;
+      if (!$t82) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
+      $t82 = false;
+      if (!($.ord((await $.v(C, "i"))) <= $.ord($t81))) break;
       await $.set(C, "CustomerNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])));
-      { const $t82 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), "Count")), 1);
+      { const $t83 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), "Count")), 1);
         await $.set(C, "j", 0);
-        let $t83 = true;
+        let $t84 = true;
         for (;;) {
-          if (!$t83) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
-          $t83 = false;
-          if (!($.ord((await $.v(C, "j"))) <= $.ord($t82))) break;
+          if (!$t84) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
+          $t84 = false;
+          if (!($.ord((await $.v(C, "j"))) <= $.ord($t83))) break;
           if ($.truthy($.eq((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), [(await $.v(C, "j"))])), "NodeName")), "INDIVIDUAL_ALIAS"))) {
             await $.set(C, "xmlNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["INDIVIDUALS"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), [(await $.v(C, "j"))])));
             await $.set(C, "f1", (await $.mv((await $.idx((await $.mv((await $.v(C, "CustomerNode")), "ChildNodes")), ["DATAID"])), "Text")));
@@ -1510,13 +1510,13 @@ export default function define($) {
   await $.set(C, "f10", "");
   await $.set(C, "f11", "");
   await $.set(C, "f12", "");
-  { const $t84 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), "Count")), 1);
+  { const $t85 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), "Count")), 1);
     await $.set(C, "i", 0);
-    let $t85 = true;
+    let $t86 = true;
     for (;;) {
-      if (!$t85) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
-      $t85 = false;
-      if (!($.ord((await $.v(C, "i"))) <= $.ord($t84))) break;
+      if (!$t86) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
+      $t86 = false;
+      if (!($.ord((await $.v(C, "i"))) <= $.ord($t85))) break;
       await $.set(C, "CustomerNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), [(await $.v(C, "i"))])));
       await $.set(C, "f1", 0);
       L0["d_xml_type"] = 1;
@@ -1541,21 +1541,21 @@ export default function define($) {
   await $.set(C, "f1", "");
   await $.set(C, "f2", "");
   await $.set(C, "f3", "");
-  { const $t86 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), "Count")), 1);
+  { const $t87 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), "Count")), 1);
     await $.set(C, "i", 0);
-    let $t87 = true;
+    let $t88 = true;
     for (;;) {
-      if (!$t87) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
-      $t87 = false;
-      if (!($.ord((await $.v(C, "i"))) <= $.ord($t86))) break;
+      if (!$t88) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
+      $t88 = false;
+      if (!($.ord((await $.v(C, "i"))) <= $.ord($t87))) break;
       await $.set(C, "CustomerNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), [(await $.v(C, "i"))])));
-      { const $t88 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), "Count")), 1);
+      { const $t89 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), "Count")), 1);
         await $.set(C, "j", 0);
-        let $t89 = true;
+        let $t90 = true;
         for (;;) {
-          if (!$t89) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
-          $t89 = false;
-          if (!($.ord((await $.v(C, "j"))) <= $.ord($t88))) break;
+          if (!$t90) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
+          $t90 = false;
+          if (!($.ord((await $.v(C, "j"))) <= $.ord($t89))) break;
           if ($.truthy($.eq((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), [(await $.v(C, "j"))])), "NodeName")), "ENTITY_ALIAS"))) {
             await $.set(C, "xmlNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), ["ENTITIES"])), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), [(await $.v(C, "j"))])));
             await $.set(C, "f1", (await $.mv((await $.idx((await $.mv((await $.v(C, "CustomerNode")), "ChildNodes")), ["DATAID"])), "Text")));
@@ -1582,13 +1582,13 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "d_xml_type": 0, "z": 0, "x": 0};
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "panle_Gauge")), "Visible", true);
-  { const $t90 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "XmlFile")), "ChildNodes")), "Nodes")), ["sdnList"])), "ChildNodes")), "Count")), 1);
+  { const $t91 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "XmlFile")), "ChildNodes")), "Nodes")), ["sdnList"])), "ChildNodes")), "Count")), 1);
     await $.set(C, "i", 0);
-    let $t91 = true;
+    let $t92 = true;
     for (;;) {
-      if (!$t91) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
-      $t91 = false;
-      if (!($.ord((await $.v(C, "i"))) <= $.ord($t90))) break;
+      if (!$t92) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
+      $t92 = false;
+      if (!($.ord((await $.v(C, "i"))) <= $.ord($t91))) break;
       await $.set(C, "CustomerNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "XmlFile")), "ChildNodes")), "Nodes")), ["sdnList"])), "ChildNodes")), [(await $.v(C, "i"))])));
       L0["d_xml_type"] = 2;
       if ($.truthy($.eq((await $.mv((await $.v(C, "CustomerNode")), "NodeName")), "sdnEntry"))) {
@@ -1602,13 +1602,13 @@ export default function define($) {
           await $.set(C, "f2", "");
           await $.set(C, "f3", "");
           await $.set(C, "f4", "");
-          { const $t92 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), "Nodes")), [(await $.v(C, "i"))])), "ChildNodes")), ["akaList"])), "ChildNodes")), "Count")), 1);
+          { const $t93 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), "Nodes")), [(await $.v(C, "i"))])), "ChildNodes")), ["akaList"])), "ChildNodes")), "Count")), 1);
             await $.set(C, "j", 0);
-            let $t93 = true;
+            let $t94 = true;
             for (;;) {
-              if (!$t93) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
-              $t93 = false;
-              if (!($.ord((await $.v(C, "j"))) <= $.ord($t92))) break;
+              if (!$t94) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
+              $t94 = false;
+              if (!($.ord((await $.v(C, "j"))) <= $.ord($t93))) break;
               await $.set(C, "CustomerNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), ["akaList"])), "ChildNodes")), [(await $.v(C, "j"))])));
               if ($.truthy($.eq((await $.mv((await $.v(C, "CustomerNode")), "NodeName")), "aka"))) {
                 await $.set(C, "f2", (await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "CustomerNode")), "ChildNodes")), "Nodes")), ["firstName"])), "text")));
@@ -1627,13 +1627,13 @@ export default function define($) {
         await $.set(C, "f4", (await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "CustomerNode")), "ChildNodes")), "Nodes")), ["sdnType"])), "text")));
         await $.stmt((await $.mcall((await $.mv((await $.v(C, "DmBlack")), "OraclePackage1")), "CallProcedure", ["add_cust_blackXML", ["p_dataid", (await $.v(C, "f1")), "p_FIRST_NAME", (await $.v(C, "f2")), "p_xml_type", L0["d_xml_type"]]])));
         await $.mcall((await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), "Nodes")), [(await $.v(C, "i"))])), "ChildNodes")), ["programList"])), "ChildNodes")), ["program"])), "text", []);
-        { const $t94 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), "Nodes")), [(await $.v(C, "i"))])), "ChildNodes")), ["akaList"])), "ChildNodes")), "Count")), 1);
+        { const $t95 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), "Nodes")), [(await $.v(C, "i"))])), "ChildNodes")), ["akaList"])), "ChildNodes")), "Count")), 1);
           await $.set(C, "j", 0);
-          let $t95 = true;
+          let $t96 = true;
           for (;;) {
-            if (!$t95) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
-            $t95 = false;
-            if (!($.ord((await $.v(C, "j"))) <= $.ord($t94))) break;
+            if (!$t96) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
+            $t96 = false;
+            if (!($.ord((await $.v(C, "j"))) <= $.ord($t95))) break;
             await $.set(C, "CustomerNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.idx((await $.mv((await $.v(C, "MainNode")), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), ["akaList"])), "ChildNodes")), [(await $.v(C, "j"))])));
             if ($.truthy($.eq((await $.mv((await $.v(C, "CustomerNode")), "NodeName")), "aka"))) {
               await $.set(C, "f2", (await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "CustomerNode")), "ChildNodes")), "Nodes")), ["lastName"])), "text")));
@@ -1659,23 +1659,23 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "z": 0, "a": 0, "d_xml_type": 0};
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "panle_Gauge")), "Visible", true);
-  { const $t96 = $.sub((await $.mv((await $.mv((await $.mv((await $.v(C, "XmlFile")), "DocumentElement")), "ChildNodes")), "Count")), 1);
+  { const $t97 = $.sub((await $.mv((await $.mv((await $.mv((await $.v(C, "XmlFile")), "DocumentElement")), "ChildNodes")), "Count")), 1);
     await $.set(C, "i", 0);
-    let $t97 = true;
+    let $t98 = true;
     for (;;) {
-      if (!$t97) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
-      $t97 = false;
-      if (!($.ord((await $.v(C, "i"))) <= $.ord($t96))) break;
+      if (!$t98) { await $.set(C, "i", $.succ((await $.v(C, "i")), 1)); }
+      $t98 = false;
+      if (!($.ord((await $.v(C, "i"))) <= $.ord($t97))) break;
       L0["a"] = $.add((await $.v(C, "i")), 1);
       await $.set(C, "f1", L0["a"]);
       L0["d_xml_type"] = 3;
-      { const $t98 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "XmlFile")), "DocumentElement")), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), "Count")), 1);
+      { const $t99 = $.sub((await $.mv((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "XmlFile")), "DocumentElement")), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), "Count")), 1);
         await $.set(C, "j", 0);
-        let $t99 = true;
+        let $t100 = true;
         for (;;) {
-          if (!$t99) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
-          $t99 = false;
-          if (!($.ord((await $.v(C, "j"))) <= $.ord($t98))) break;
+          if (!$t100) { await $.set(C, "j", $.succ((await $.v(C, "j")), 1)); }
+          $t100 = false;
+          if (!($.ord((await $.v(C, "j"))) <= $.ord($t99))) break;
           await $.set(C, "MainNode", (await $.idx((await $.mv((await $.idx((await $.mv((await $.mv((await $.v(C, "XmlFile")), "DocumentElement")), "ChildNodes")), [(await $.v(C, "i"))])), "ChildNodes")), [(await $.v(C, "j"))])));
           if ($.truthy($.eq((await $.mv((await $.v(C, "MainNode")), "NodeName")), "nameAlias"))) {
             await $.set(C, "f2", (await $.idx((await $.mv((await $.v(C, "MainNode")), "Attributes")), ["firstName"])));
@@ -1728,13 +1728,13 @@ export default function define($) {
   L0["p1"] = 0;
   L0["k1"] = 0;
   L0["c"] = 0;
-  { const $t100 = $.sub((await $.mv((await $.mv((await $.v(C, "RichEdit1")), "Lines")), "Count")), 1);
+  { const $t101 = $.sub((await $.mv((await $.mv((await $.v(C, "RichEdit1")), "Lines")), "Count")), 1);
     L0["i"] = 0;
-    let $t101 = true;
+    let $t102 = true;
     for (;;) {
-      if (!$t101) { L0["i"] = $.succ(L0["i"], 1); }
-      $t101 = false;
-      if (!($.ord(L0["i"]) <= $.ord($t100))) break;
+      if (!$t102) { L0["i"] = $.succ(L0["i"], 1); }
+      $t102 = false;
+      if (!($.ord(L0["i"]) <= $.ord($t101))) break;
       L0["findtext"] = (await $.idx((await $.mv((await $.mv((await $.v(C, "RichEdit1")), "Lines")), "Strings")), [L0["i"]]));
       if ($.truthy($.gt((await $.call(C, "AnsiPos", [L0["sbegin"], L0["findtext"]])), 0))) {
         L0["p"] = L0["i"];
@@ -1747,26 +1747,26 @@ export default function define($) {
         await $.mcall((await $.v(C, "OracleDataSet1")), "close", []);
         await $.mcall((await $.v(C, "OracleDataSet1")), "open", []);
         await $.mcall((await $.v(C, "OracleDataSet1")), "first", []);
-        { const $t102 = $.sub((await $.mv((await $.v(C, "OracleDataSet1")), "RecordCount")), 1);
+        { const $t103 = $.sub((await $.mv((await $.v(C, "OracleDataSet1")), "RecordCount")), 1);
           L0["s"] = 0;
-          let $t103 = true;
+          let $t104 = true;
           for (;;) {
-            if (!$t103) { L0["s"] = $.succ(L0["s"], 1); }
-            $t103 = false;
-            if (!($.ord(L0["s"]) <= $.ord($t102))) break;
+            if (!$t104) { L0["s"] = $.succ(L0["s"], 1); }
+            $t104 = false;
+            if (!($.ord(L0["s"]) <= $.ord($t103))) break;
             await $.stmt((await $.call(C, "showmessage", [(await $.mv((await $.v(C, "OracleDataSet1FILD")), "AsString"))])));
             await $.stmt((await $.mcall((await $.mv((await $.v(C, "DmBlack")), "OraclePackage1")), "CallProcedure", ["report_tax", ["v_id", L0["c"], "tx", (await $.mv((await $.v(C, "OracleDataSet1FILD")), "AsString"))]])));
             await $.mcall((await $.v(C, "OracleDataSet1")), "Next", []);
             await $.tick();
           }
         }
-        { const $t104 = L0["k"];
+        { const $t105 = L0["k"];
           L0["j"] = L0["p"];
-          let $t105 = true;
+          let $t106 = true;
           for (;;) {
-            if (!$t105) { L0["j"] = $.succ(L0["j"], 1); }
-            $t105 = false;
-            if (!($.ord(L0["j"]) <= $.ord($t104))) break;
+            if (!$t106) { L0["j"] = $.succ(L0["j"], 1); }
+            $t106 = false;
+            if (!($.ord(L0["j"]) <= $.ord($t105))) break;
             L0["findtext"] = (await $.idx((await $.mv((await $.mv((await $.v(C, "RichEdit1")), "Lines")), "Strings")), [L0["j"]]));
             await $.stmt((await $.call(C, "ShowMessage", [(await $.call(C, "inttostr", [L0["c"]]))])));
             await $.stmt((await $.mcall((await $.mv((await $.v(C, "RichEdit2")), "Lines")), "Add", [L0["findtext"]])));
@@ -1788,20 +1788,20 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "x", 1);
   {
-    const $t106 = (await $.v(C, "InsForm"));
-    await $.mset((await $.wv([$t106], "edit1", C, false)), "text", "");
-    await $.mset((await $.wv([$t106], "edit2", C, false)), "text", "");
-    await $.mset((await $.wv([$t106], "edit3", C, false)), "text", "");
-    await $.mset((await $.wv([$t106], "edit4", C, false)), "text", "");
-    await $.mset((await $.wv([$t106], "edit5", C, false)), "text", "");
-    await $.mset((await $.wv([$t106], "edit6", C, false)), "text", "");
-    await $.mset((await $.wv([$t106], "edit7", C, false)), "text", "");
-    await $.mset((await $.wv([$t106], "edit8", C, false)), "text", "");
-    await $.mset((await $.wv([$t106], "DBLookupComboBox3", C, false)), "KeyValue", "");
-    await $.mset((await $.wv([$t106], "DBLookupComboBox2", C, false)), "KeyValue", "");
-    await $.mset((await $.wv([$t106], "DBLookupComboBox1", C, false)), "KeyValue", 1);
-    await $.mset((await $.wv([$t106], "DBLookupComboBox4", C, false)), "KeyValue", "");
-    await $.mset((await $.wv([$t106], "DBEdit1", C, false)), "Text", "");
+    const $t107 = (await $.v(C, "InsForm"));
+    await $.mset((await $.wv([$t107], "edit1", C, false)), "text", "");
+    await $.mset((await $.wv([$t107], "edit2", C, false)), "text", "");
+    await $.mset((await $.wv([$t107], "edit3", C, false)), "text", "");
+    await $.mset((await $.wv([$t107], "edit4", C, false)), "text", "");
+    await $.mset((await $.wv([$t107], "edit5", C, false)), "text", "");
+    await $.mset((await $.wv([$t107], "edit6", C, false)), "text", "");
+    await $.mset((await $.wv([$t107], "edit7", C, false)), "text", "");
+    await $.mset((await $.wv([$t107], "edit8", C, false)), "text", "");
+    await $.mset((await $.wv([$t107], "DBLookupComboBox3", C, false)), "KeyValue", "");
+    await $.mset((await $.wv([$t107], "DBLookupComboBox2", C, false)), "KeyValue", "");
+    await $.mset((await $.wv([$t107], "DBLookupComboBox1", C, false)), "KeyValue", 1);
+    await $.mset((await $.wv([$t107], "DBLookupComboBox4", C, false)), "KeyValue", "");
+    await $.mset((await $.wv([$t107], "DBEdit1", C, false)), "Text", "");
   }
   await $.mcall((await $.v(C, "InsForm")), "ShowModal", []);
   return L0.result;
@@ -1898,24 +1898,24 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.ne((await $.call(C, "Length", [(await $.mv((await $.v(C, "EditSearch")), "Text"))])), 0))) {
     await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "Close", []);
-    { const $t107 = (await $.mv((await $.v(C, "CBSearch")), "ItemIndex"));
-      if ($.eq($t107, 0)) {
-        { const $t108 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], $.add($.add("and lower(name) like '", (await $.call(C, "LowerCase", [(await $.mv((await $.v(C, "EditSearch")), "Text"))]))), "%'")); if ($t108 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t108); } }
+    { const $t108 = (await $.mv((await $.v(C, "CBSearch")), "ItemIndex"));
+      if ($.eq($t108, 0)) {
+        { const $t109 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], $.add($.add("and lower(name) like '", (await $.call(C, "LowerCase", [(await $.mv((await $.v(C, "EditSearch")), "Text"))]))), "%'")); if ($t109 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t109); } }
       }
-      else if ($.eq($t107, 1)) {
-        { const $t109 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], $.add($.add("and lower(lastname) like '", (await $.call(C, "LowerCase", [(await $.mv((await $.v(C, "EditSearch")), "Text"))]))), "%'")); if ($t109 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t109); } }
+      else if ($.eq($t108, 1)) {
+        { const $t110 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], $.add($.add("and lower(lastname) like '", (await $.call(C, "LowerCase", [(await $.mv((await $.v(C, "EditSearch")), "Text"))]))), "%'")); if ($t110 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t110); } }
       }
-      else if ($.eq($t107, 2)) {
-        { const $t110 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], $.add($.add("and lower(middlename) like '", (await $.call(C, "LowerCase", [(await $.mv((await $.v(C, "EditSearch")), "Text"))]))), "%'")); if ($t110 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t110); } }
+      else if ($.eq($t108, 2)) {
+        { const $t111 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], $.add($.add("and lower(middlename) like '", (await $.call(C, "LowerCase", [(await $.mv((await $.v(C, "EditSearch")), "Text"))]))), "%'")); if ($t111 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t111); } }
       }
-      else if ($.eq($t107, 3)) {
-        { const $t111 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], $.add($.add("and lower(fullname) like '", (await $.call(C, "LowerCase", [(await $.mv((await $.v(C, "EditSearch")), "Text"))]))), "%'")); if ($t111 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t111); } }
+      else if ($.eq($t108, 3)) {
+        { const $t112 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], $.add($.add("and lower(fullname) like '", (await $.call(C, "LowerCase", [(await $.mv((await $.v(C, "EditSearch")), "Text"))]))), "%'")); if ($t112 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t112); } }
       }
     }
     await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "Open", []);
   } else {
     await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "Close", []);
-    { const $t112 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], ""); if ($t112 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t112); } }
+    { const $t113 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [7], ""); if ($t113 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t113); } }
     await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "Open", []);
   }
   return L0.result;
@@ -1944,7 +1944,7 @@ export default function define($) {
     await $.set(C, "ADDITIONALPARAMS", "");
   }
   await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "Close", []);
-  { const $t113 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [8], (await $.v(C, "ADDITIONALPARAMS"))); if ($t113 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t113); } }
+  { const $t114 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [8], (await $.v(C, "ADDITIONALPARAMS"))); if ($t114 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t114); } }
   await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "open", []);
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -1959,7 +1959,7 @@ export default function define($) {
     L0["additionalparams"] = " and a.adrs_state=0";
   }
   await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "Close", []);
-  { const $t114 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [8], L0["additionalparams"]); if ($t114 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t114); } }
+  { const $t115 = await $.iset((await $.mv((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL")), [8], L0["additionalparams"]); if ($t115 !== undefined) { await $.mset((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "SQL", $t115); } }
   await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "open", []);
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -1969,20 +1969,20 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "x", 1);
   {
-    const $t115 = (await $.v(C, "InsForm"));
-    await $.mset((await $.wv([$t115], "edit1", C, false)), "text", "");
-    await $.mset((await $.wv([$t115], "edit2", C, false)), "text", "");
-    await $.mset((await $.wv([$t115], "edit3", C, false)), "text", "");
-    await $.mset((await $.wv([$t115], "edit4", C, false)), "text", "");
-    await $.mset((await $.wv([$t115], "edit5", C, false)), "text", "");
-    await $.mset((await $.wv([$t115], "edit6", C, false)), "text", "");
-    await $.mset((await $.wv([$t115], "edit7", C, false)), "text", "");
-    await $.mset((await $.wv([$t115], "edit8", C, false)), "text", "");
-    await $.mset((await $.wv([$t115], "DBLookupComboBox3", C, false)), "KeyValue", "");
-    await $.mset((await $.wv([$t115], "DBLookupComboBox2", C, false)), "KeyValue", "");
-    await $.mset((await $.wv([$t115], "DBLookupComboBox1", C, false)), "KeyValue", 1);
-    await $.mset((await $.wv([$t115], "DBLookupComboBox4", C, false)), "KeyValue", "");
-    await $.mset((await $.wv([$t115], "DBEdit1", C, false)), "Text", "");
+    const $t116 = (await $.v(C, "InsForm"));
+    await $.mset((await $.wv([$t116], "edit1", C, false)), "text", "");
+    await $.mset((await $.wv([$t116], "edit2", C, false)), "text", "");
+    await $.mset((await $.wv([$t116], "edit3", C, false)), "text", "");
+    await $.mset((await $.wv([$t116], "edit4", C, false)), "text", "");
+    await $.mset((await $.wv([$t116], "edit5", C, false)), "text", "");
+    await $.mset((await $.wv([$t116], "edit6", C, false)), "text", "");
+    await $.mset((await $.wv([$t116], "edit7", C, false)), "text", "");
+    await $.mset((await $.wv([$t116], "edit8", C, false)), "text", "");
+    await $.mset((await $.wv([$t116], "DBLookupComboBox3", C, false)), "KeyValue", "");
+    await $.mset((await $.wv([$t116], "DBLookupComboBox2", C, false)), "KeyValue", "");
+    await $.mset((await $.wv([$t116], "DBLookupComboBox1", C, false)), "KeyValue", 1);
+    await $.mset((await $.wv([$t116], "DBLookupComboBox4", C, false)), "KeyValue", "");
+    await $.mset((await $.wv([$t116], "DBEdit1", C, false)), "Text", "");
   }
   await $.mcall((await $.v(C, "InsForm")), "ShowModal", []);
   return L0.result;

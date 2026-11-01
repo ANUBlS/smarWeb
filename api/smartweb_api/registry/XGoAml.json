@@ -1,0 +1,771 @@
+{
+ "name": "XGoAml",
+ "caption": "Əlavə modullar / Müştərilər və uyğunluq / GoAML xidməti",
+ "dir": "Packages/PCUST_Servic",
+ "mainForm": "TGoAml_ServiceForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODS_Rep",
+   "source": "TDM_goAml.ODS_Rep",
+   "kind": "TOracleDataSet",
+   "sql": "select transmode_code, report_code,custid,b.name,sum(lammount) lammount,dk  from (\nselect ti.transmode_code,ti.report_code,l.kcustid as custid,sum(l.lamount) lammount, 1 as dk  from mmx_transactions l,mmx_transinfo ti \nwhere l.id=ti.transid and (l.debitbalance in (select bal_cn from bal_spr1 where goaml=1) and l.debitbalance in ('1001','1011','1003'/*turanBank*/,'2509','2801','2811'))\nand l.transactiondate=:V_DAT and ti.report_code='CTR'\ngroup by ti.transmode_code,ti.report_code,l.kcustid \nunion all\nselect ti.transmode_code,ti.report_code,l.dcustid as custid  , sum(l.lamount) lammount,2 as dk from mmx_transactions l,mmx_transinfo ti \nwhere l.id=ti.transid and (l.creditbalance in (select bal_cn from bal_spr1 where goaml=1) and l.creditbalance in ('1001','1011','1003'/*,'2509','2801','2811'*/))\nand l.transactiondate=:V_DAT and ti.report_code='CTR'\ngroup by ti.transmode_code,ti.report_code,l.dcustid) a, customers b where a.lammount>=20000 and a.custid=b.id\n\ngroup by transmode_code, report_code,custid ,name,dk \norder by transmode_code\n\n\n\n/*select transmode_code, report_code,custid, ccustid,b.name,sum(lammount) lammount from (\nselect ti.transmode_code,ti.report_code,l.dcustid as custid,l.kcustid as ccustid,sum(l.lamount) lammount from mmx_transactions l,mmx_transinfo ti \nwhere l.id=ti.transid and (l.debitbalance in (select bal_cn from bal_spr1 where goaml=1) and l.debitbalance in ('1001','1011','1003'))\nand l.transactiondate=:V_DAT and ti.report_code='CTR'\ngroup by ti.transmode_code,ti.report_code,l.dcustid,l.kcustid \nunion all\nselect ti.transmode_code,ti.report_code,l.kcustid as ccustid ,l.dcustid as custid , sum(l.lamount) lammount from mmx_transactions l,mmx_transinfo ti \nwhere l.id=ti.transid and (l.creditbalance in (select bal_cn from bal_spr1 where goaml=1) and l.creditbalance in ('1001','1011','1013'))\nand l.transactiondate=:V_DAT and ti.report_code='CTR'\ngroup by ti.transmode_code,ti.report_code,l.kcustid,l.dcustid) a, customers b where a.lammount>=20000 and a.custid=b.id\n\ngroup by transmode_code, report_code,custid,ccustid ,name*/\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "V_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_SYSDAT",
+   "source": "TDM_goAml.ODS_SYSDAT",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat,trunc(ADD_MONTHS(tek_dat,-1))tek_dat1 from sysdat",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_MainReport",
+   "source": "TDM_goAml.ODS_MainReport",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_xmlrep_umumi where id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_FilesPath",
+   "source": "TDM_goAml.ODS_FilesPath",
+   "kind": "TOracleDataSet",
+   "sql": "select description from settings where name='GoAmlFilesPath'",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_TPERSON",
+   "source": "TDM_goAml.ODS_TPERSON",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_userinfo where userid=uid",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_LOCATION",
+   "source": "TDM_goAml.ODS_LOCATION",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_LOCATION",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_TACCOUNT",
+   "source": "TDM_goAml.ODS_TACCOUNT",
+   "kind": "TOracleDataSet",
+   "sql": "select a.* from mmx_account a where a.id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_CustRelAccOwer",
+   "source": "TDM_goAml.ODS_CustRelAccOwer",
+   "kind": "TOracleDataSet",
+   "sql": "select a.* from customers_relations a where a.work_post =15 and  a.accowner=1 and custid=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_CustRelSignatory",
+   "source": "TDM_goAml.ODS_CustRelSignatory",
+   "kind": "TOracleDataSet",
+   "sql": "select a.* from customers_relations a where  a.work_post =1 and  a.signatory=1 and custid =:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_ENTITY",
+   "source": "TDM_goAml.ODS_ENTITY",
+   "kind": "TOracleDataSet",
+   "sql": "select a.* from mmx_entity a where a.id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_MAIN201",
+   "source": "TDM_goAml.ODS_MAIN201",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_rep_Dt\nwhere transmode_code=:v_transmcode and (DCUSTID=:v_dcustid and KCUSTID=:v_kCUSTID)\nand transactiondate = :v_dat and report_code=:v_report_code\norder by  transactionnumber ",
+   "variables": [
+    {
+     "name": "V_DCUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "V_KCUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "V_DAT",
+     "type": "date"
+    },
+    {
+     "name": "V_REPORT_CODE",
+     "type": "string"
+    },
+    {
+     "name": "V_TRANSMCODE",
+     "type": "string"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_REP201",
+   "source": "TDM_goAml.ODS_REP201",
+   "kind": "TOracleDataSet",
+   "sql": "select i.transmode_code,i.report_code,sum(t.lamount) lammount,i.dcustid as custid,(select name from customers where id=i.dcustid) as DNmae,i.ccustid as ccustid,\n(select name from customers where id=i.ccustid) as KName\nfrom mmx_transinfo  i,mmx_transactions t\nwhere i.transid=t.id and transactiondate=:v_dat and SUBSTR(report_code,0,4) not in('CTR' ,'YOX','TPR1','TPR2','TPR3') and SUBSTR(report_code,0,3) not in('CTR' ,'YOX') and report_code is not null\n group by i.transmode_code,i.report_code,i.dcustid ,i.ccustid \n order by  i.transmode_code",
+   "variables": [
+    {
+     "name": "V_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "exch_",
+   "source": "TDM_goAml.exch_",
+   "kind": "TOracleDataSet",
+   "sql": "select i.transmode_code,i.report_code,sum(t.lamount) lammount,i.dcustid as custid,(select name from customers where id=i.dcustid) as DNmae,i.ccustid as ccustid,\n(select name from customers where id=i.ccustid) as KName\nfrom mmx_transinfo  i,mmx_transactions t\nwhere i.transid=t.id and transactiondate='26-mar-2015'and report_code='QHT' \n group by i.transmode_code,i.report_code,i.dcustid ,i.ccustid \n",
+   "variables": [
+    {
+     "name": "V_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "Mexch_",
+   "source": "TDM_goAml.Mexch_",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_repExch\nwhere transmode_code=:v_transmcode and (DCUSTID=:v_dcustid or CCUSTID=:v_kCUSTID)\nand transactiondate = :v_dat\norder by  transactionnumber ",
+   "variables": [
+    {
+     "name": "V_TRANSMCODE",
+     "type": "string"
+    },
+    {
+     "name": "V_DCUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "V_KCUSTID",
+     "type": "integer"
+    },
+    {
+     "name": "V_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDM_goAml.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from mmx_transinfo where transid=:v_transid",
+   "variables": [
+    {
+     "name": "V_TRANSID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDM_goAml.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(c.cust_type,0)as cust_type from customers c, custinfo i where c.id=i.idcust and c.id=:v_cuid",
+   "variables": [
+    {
+     "name": "V_CUID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "Ods_main",
+   "source": "TDM_goAml.Ods_main",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_rep_car_credt\nwhere transmode_code=:v_transmcode\nand transactiondate = :v_dat and report_code=:v_report_code\n\n\n\n\n\n\n\n\n\n\norder by  transactionnumber ",
+   "variables": [
+    {
+     "name": "V_TRANSMCODE",
+     "type": "string"
+    },
+    {
+     "name": "V_DAT",
+     "type": "date"
+    },
+    {
+     "name": "V_REPORT_CODE",
+     "type": "string"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "Ods_maindbt",
+   "source": "TDM_goAml.Ods_maindbt",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_rep_car_dbt\nwhere transmode_code=:v_transmcode\nand transactiondate = :v_dat and report_code=:v_report_code\n\n\n\n\n\n\n\n\n\n\norder by  transactionnumber ",
+   "variables": [
+    {
+     "name": "V_TRANSMCODE",
+     "type": "string"
+    },
+    {
+     "name": "V_DAT",
+     "type": "date"
+    },
+    {
+     "name": "V_REPORT_CODE",
+     "type": "string"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_incoming",
+   "source": "TDM_goAml.ods_incoming",
+   "kind": "TOracleDataSet",
+   "sql": "select*from transfers where trid=:v_trid\n ",
+   "variables": [
+    {
+     "name": "V_TRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_monex",
+   "source": "TDM_goAml.ods_monex",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cust_monex where id=:v_id\n ",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_cust",
+   "source": "TDM_goAml.ods_cust",
+   "kind": "TOracleDataSet",
+   "sql": "select id,cust_type ,inn,sfera_deycod,(select substr(name,0,100) from sferadey_cod where kod=sfera_deycod) comments,compani from customers where id=:c_id",
+   "variables": [
+    {
+     "name": "C_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "odsa_grid",
+   "source": "TDM_goAml.odsa_grid",
+   "kind": "TOracleDataSet",
+   "sql": "select '' from dual",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "odscust4509",
+   "source": "TDM_goAml.odscust4509",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,cust_type from customers where id=:vcustid",
+   "variables": [
+    {
+     "name": "VCUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_CustConductur",
+   "source": "TDM_goAml.ODS_CustConductur",
+   "kind": "TOracleDataSet",
+   "sql": "select a.* from customers_relations a where a.work_post =15 and  a.accowner=1 and custid=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub1",
+   "source": "TDM_goAml.ods_sub1",
+   "kind": "TOracleDataSet",
+   "sql": " select aa.id custid ,aa.name cust_name,aa.ammount,'1' type,('10000 USD Limit ay erzinde') as description from (\n select c.id,c.name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id \n and a.id=p.debt \n and exists (select id from account where id=p.debt and bal_cn1 like'38%')\n and exists (select id from account where id=p.kredit and bal_cn1 in('2801','2811','2509','2519','4509','4519'))\n and nvl(p.vid_op,0) not in(1,3)\n and c.cust_type=1 \n and p.dat between :v_dat1 and :v_dat2\n and p.val_acc<>0\n group by c.id,c.name \n order by c.id) aa \n where aa.ammount>=17000",
+   "variables": [
+    {
+     "name": "V_DAT1",
+     "type": "date"
+    },
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "Ods_subheli",
+   "source": "TDM_goAml.Ods_subheli",
+   "kind": "TOracleDataSet",
+   "sql": "select*from mmx_subheli",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub7",
+   "source": "TDM_goAml.ods_sub7",
+   "kind": "TOracleDataSet",
+   "sql": "select  bb.id custid ,bb.name cust_name,bb.ammount,'7' type,('18000-19999 AZN den az 10 dan cox') as description  from (\n\n select count(*)cnt , c.id,c.name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id \n and a.id=p.kredit \n and exists (select id from account where p.kredit=id and bal_cn1 like'38%')\n and c.cust_type in(0,1)\n and nvl(p.vid_op,0) not in(1,3,86)\n and p.dat between :v_dat1 and  :v_dat2\n and p.lammount>=18000 and p.lammount<=19999\n group by c.id,c.name ) bb where cnt>=10",
+   "variables": [
+    {
+     "name": "V_DAT1",
+     "type": "date"
+    },
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub2",
+   "source": "TDM_goAml.ods_sub2",
+   "kind": "TOracleDataSet",
+   "sql": "select  bb.id custid ,bb.name cust_name,bb.ammount,'2' type,('SWIFT 1000 AZN den az 10 dan cox') as description  from (\n\n select count(*)cnt , c.id,c.name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id \n and a.id=p.debt \n and exists (select id from account where id=p.debt and bal_cn1 like'38%')\n and c.cust_type in(0,1)\n and p.vid_op=21 \n and nvl(p.vid_op,0) not in(1,3)\n and p.dat=:v_dat2\n and  p.lammount between  10 and 999.99\n group by c.id,c.name ) bb where cnt>=10",
+   "variables": [
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub8",
+   "source": "TDM_goAml.ods_sub8",
+   "kind": "TOracleDataSet",
+   "sql": " select  custid,cust_name, ammount,'8' type,('BLR qara siyahi olkeleri') as description from (\n select  c.id custid,c.name cust_name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id and\n a.id=p.debt \n and \n   exists (select a.id from account  a ,customers c,black_countries b,custinfo i where  p.debt=a.id and a.kli_id =c.id and i.idcust=c.id and b.contid=i.citizenship  and a.bal_cn1 like'38%') \n   and nvl(p.vid_op,0) not in(1,3)   and p.dat =:v_dat2\n\n group by c.id,c.name ) bb\n \n union all\n select  custid,cust_name,ammount,'8' type,('BLR qara siyahi olkeleri') as description from (\n select  c.id custid,c.name cust_name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id and\n a.id=p.kredit \n and \n   exists (select a.id from account  a ,customers c,black_countries b,custinfo i where p.kredit=a.id and a.kli_id =c.id and i.idcust=c.id and b.contid=i.citizenship  and a.bal_cn1 like'38%') \n    \n  and nvl(p.vid_op,0) not in(1,3) and p.dat =:v_dat2\n\n group by c.id,c.name ) bb\n \n union all\n  select  custid,cust_name, ammount,'8' type,('BLR qara siyahi olkeleri') as description from (\n select   c.id custid,c.name cust_name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id and\n ((a.id=p.debt and a.bal_cn1 like'38%') or( a.id=p.kredit  and  a.bal_cn1 like'38%')) and  \n  exists (select contid from black_countries where p.countrid=contid)  \n  and nvl(p.vid_op,0) not in(1,3) and p.dat =:v_dat2\n\n group by c.id,c.name ) bb",
+   "variables": [
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub3",
+   "source": "TDM_goAml.ods_sub3",
+   "kind": "TOracleDataSet",
+   "sql": "select custid,cust_name, ammount,'3' type,('Fiziki sexe 300000 daxil olma') as description from (\n select c.id custid,c.name cust_name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id \n and a.id=p.kredit\n and a.bal_cn1 like'38%'\n  \nand  exists(select id from account where id=p.kredit and bal_cn1 like'38%')\n and c.cust_type in(1)\n and nvl(p.vid_op,0) not in(1,3,86)\n and p.dat between :v_dat1 and :v_dat2\n ---and p.lammount>=300000\n group by c.id,c.name ) bb where ammount>=300000",
+   "variables": [
+    {
+     "name": "V_DAT1",
+     "type": "date"
+    },
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub5",
+   "source": "TDM_goAml.ods_sub5",
+   "kind": "TOracleDataSet",
+   "sql": "select ar.acc_id, c.id custid,c.name cust_name,'0' ammount ,'5'type,'180 gun emmeliyat mecaric' as description ,ar.datdate-ar.lastopdate as days\n,ar.datdate,ar.lastopdate ,pok_obr_d,pok_obr_k\n from archost ar, account ac, customers c \nwhere ar.acc_id = ac.id and ac.kli_id = c.id and :v_dat2-1-lastopdate>180 and datdate=to_date(:v_dat2)-1\nand ac.bal_cn1 like'38%'\nand c.cust_type in(0,1)\nand  exists (select debt from  provarch where debt=acc_id and nvl(vid_op,0) not in(1,3) and lammount>0  and dat=:v_dat2)",
+   "variables": [
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub6",
+   "source": "TDM_goAml.ods_sub6",
+   "kind": "TOracleDataSet",
+   "sql": "select ar.acc_id, c.id custid,c.name cust_name,'0' ammount,'6' type,'180 gun emmeliyat medaxil' as description,ar.datdate-ar.lastopdate as days\n,ar.datdate,ar.lastopdate ,pok_obr_d,pok_obr_k\n from archost ar, account ac, customers c \nwhere ar.acc_id = ac.id and ac.kli_id = c.id and to_date(:v_dat2)-1-lastopdate>180 and datdate= to_date(:v_dat2)-1\nand ac.bal_cn1 like'38%'\nand c.cust_type in(0,1)\n--and acc_id=597799\nand  exists (select kredit from  provarch where acc_id=kredit  and  nvl(vid_op,0) not in(1,3) and lammount>0 and dat=:v_dat2)",
+   "variables": [
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub9",
+   "source": "TDM_goAml.ods_sub9",
+   "kind": "TOracleDataSet",
+   "sql": " select  custid,cust_name, ammount,'9' type,('O fsor zona') as description from (\n select  c.id custid,c.name cust_name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id and\n a.id=p.debt \n and \n   exists (select a.id from account  a ,customers c,mmx_ofshor b,custinfo i where  p.debt=a.id and  a.kli_id =c.id and i.idcust=c.id and b.contid=i.citizenship  and a.bal_cn1 like'38%') \n   and nvl(p.vid_op,0) not in(1,3)  and p.dat =:v_dat2\n\n group by c.id,c.name ) bb\n \n union all\n select  custid,cust_name,ammount,'9' type,('O fsor zona') as description from (\n select c.id custid,c.name cust_name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id and\n a.id=p.kredit \n and \n   exists (select a.id from account  a ,customers c,mmx_ofshor b,custinfo i where p.kredit =a.id and a.kli_id =c.id and i.idcust=c.id and b.contid=i.citizenship  and a.bal_cn1 like'38%') \n    \n and nvl(p.vid_op,0) not in(1,3) and p.dat =:v_dat2\n\n group by c.id,c.name ) bb\n \n union all\n  select  custid,cust_name, ammount,'9' type,('O fsor zona') as description from (\n select c.id custid,c.name cust_name,sum(p.lammount)as ammount from customers c,account a, provarch p where\n c.id=a.kli_id and\n ((a.id=p.debt and a.bal_cn1 like'38%') or( a.id=p.kredit  and  a.bal_cn1 like'38%')) and  \n  exists (select contid from mmx_ofshor where p.countrid=contid)  \n   and nvl(p.vid_op,0) not in(1,3) and p.dat =:v_dat2\n\n group by c.id,c.name ) bb",
+   "variables": [
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub4",
+   "source": "TDM_goAml.ods_sub4",
+   "kind": "TOracleDataSet",
+   "sql": " select custid,cust_name, ammount,'4' type,('Fiziki sexe 10000 daxil olma') as description from (\n select c.id custid,c.name cust_name,sum(p.lammount)as ammount from customers c,customers c1,account a,account b, provarch p where\n c.id=a.kli_id \n  and a.id=p.kredit\n  and c.cust_type in(1,3)\n  and a.bal_cn1 like '38%'\n  and b.id=p.debt\n  and c1.id=b.kli_id\n  and c1.cust_type in (0,2,3)\n  and c1.inn<>'1300016391' and b.bal_cn1 not in('4404','4414','4434','4444')\n --and exists  (select a.id from account  a ,customers c where p.kredit =a.id and a.kli_id =c.id and c.cust_type in(1,3) and a.bal_cn1 like'38%')\n-- and exists  (select a.id from account  a,customers  c where p.debt=a.id and a.kli_id=c.id and c.cust_type in(0,2,3) and c.inn<>'1300016391')\n and nvl(p.vid_op,0) not in(1,3,86)\n and (select kli_id from account where id=p.debt)<>(select kli_id from account where id=p.kredit)\n and p.dat =:v_dat2\n \n and p.lammount>=10000\n group by c.id,c.name ) bb",
+   "variables": [
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_subtrans",
+   "source": "TDM_goAml.ods_subtrans",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.dat,m.report_code,m.transmode_code,p.lammount,(select acc_no from account where id =p.debt )debt_accno,(select acc_no from account where id =p.kredit )kredit_accno,\np.name,m.dcustid,m.ccustid,m.nomdcustid from provarch p,mmx_transinfo m where p.id=m.transid(+)\nand p.dat between '04-mar-2018'and '05-may-2018'\nand p.debt in(select id from account where bal_cn1 like'38%' and kli_id=28145)\nand p.kredit in(select id from account where bal_cn1 in('2509','2519','4509','4519'))",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "odsc_custSube",
+   "source": "TDM_goAml.odsc_custSube",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(c.cust_type,0) as cust_type,c.name h_name,c.dat_nal,c.inn,i.name,i.lastname,i.soname,i.birthday,\n(select cntr_name from countries where id= i.citizenship) as cntr  from customers c,custinfo i where c.id=i.idcust and c.id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "string"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_MMX_TRANSMODE",
+   "source": "TDM_goAml.ODS_MMX_TRANSMODE",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_transmode",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "Ods_mmx_reportcode",
+   "source": "TDM_goAml.Ods_mmx_reportcode",
+   "kind": "TOracleDataSet",
+   "sql": "select*from mmx_reportcode  where name in('BLR','STR')\norder by id\n ",
+   "variables": [],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "Templates",
+   "source": "TDM_goAml.Templates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.RowID , T.*\n  FROM mmx_WR_TEMPLATES T where CUSTTYPE =:v_custtype",
+   "variables": [
+    {
+     "name": "V_CUSTTYPE",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ReplaceCustDataSet",
+   "source": "TDM_goAml.ReplaceCustDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   mmx_WR_BOOKMARKS B\n , mmx_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub10",
+   "source": "TDM_goAml.ods_sub10",
+   "kind": "TOracleDataSet",
+   "sql": " select custid,cust_name, ammount,'11' type,('Crypto valyuta Mədaxil') as description from (\nselect  cu.id custid,cu.name cust_name,sum(p.lammount)as ammount from provarch p,mmx_exp_card c,customers cu ,account a  where  p.vid_op in (16,20,1122)\nand cu.id=a.kli_id and p.debt=a.id and a.bal_cn1 like'38%'\nand replace(lower(p.name),' ') =replace(lower(c.name ),' ')and p.dat between :v_dat1 and :v_dat2\ngroup by cu.id,cu.name) bb",
+   "variables": [
+    {
+     "name": "V_DAT1",
+     "type": "date"
+    },
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ods_sub11",
+   "source": "TDM_goAml.ods_sub11",
+   "kind": "TOracleDataSet",
+   "sql": " select custid,cust_name, ammount,'10' type,('Crypto valyuta Məxaric') as description from (\nselect  cu.id custid,cu.name cust_name,sum(p.lammount)as ammount from provarch p,mmx_exp_card c,customers cu ,account a  where  p.vid_op in (16,20)\nand cu.id=a.kli_id and p.kredit=a.id and a.bal_cn1 like'3%'\nand replace(lower(p.name),' ') =replace(lower(c.name ),' ')and p.dat between :v_dat1 and :v_dat2\ngroup by cu.id,cu.name) bb",
+   "variables": [
+    {
+     "name": "V_DAT1",
+     "type": "date"
+    },
+    {
+     "name": "V_DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "DatUnit"
+  },
+  {
+   "name": "ODS_MMX_TRANSMODE",
+   "source": "TFormEdit.ODS_MMX_TRANSMODE",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_transmode",
+   "variables": [],
+   "unit": "ForumEditUnit"
+  },
+  {
+   "name": "Ods_mmx_reportcode",
+   "source": "TFormEdit.Ods_mmx_reportcode",
+   "kind": "TOracleDataSet",
+   "sql": "select*from mmx_reportcode order by id",
+   "variables": [],
+   "unit": "ForumEditUnit"
+  },
+  {
+   "name": "ods_trinf",
+   "source": "TFormEdit.ods_trinf",
+   "kind": "TOracleDataSet",
+   "sql": "select transid , transmode_code, report_code,monex_id,dcustid,ccustid from mmx_transinfo  where transid=:v_trid",
+   "variables": [
+    {
+     "name": "V_TRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ForumEditUnit"
+  },
+  {
+   "name": "ods_monex",
+   "source": "TFormEdit.ods_monex",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cust_monex\n order by id desc",
+   "variables": [],
+   "unit": "ForumEditUnit"
+  },
+  {
+   "name": "ods_custdb",
+   "source": "TFormEdit.ods_custdb",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id , decode(c.name,null,i.name||i.lastname||i.soname,c.name)as name from customers c,custinfo i where c.id=i.idcust and c.id=:v_custid\n ",
+   "variables": [
+    {
+     "name": "V_CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ForumEditUnit"
+  },
+  {
+   "name": "ods_custcr",
+   "source": "TFormEdit.ods_custcr",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id , decode(c.name,null,i.name||i.lastname||i.soname,c.name)as name from customers c,custinfo i where c.id=i.idcust and c.id=:v_custid\n ",
+   "variables": [
+    {
+     "name": "V_CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ForumEditUnit"
+  },
+  {
+   "name": "odsmon",
+   "source": "TFormEdit.odsmon",
+   "kind": "TOracleDataSet",
+   "sql": "select id||'-'||name||'-'||last_name as full from cust_monex where id=:v_id\n\n",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ForumEditUnit"
+  },
+  {
+   "name": "ods_bankinfo",
+   "source": "TFormEdit.ods_bankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select swift from bankinfo",
+   "variables": [],
+   "unit": "ForumEditUnit"
+  },
+  {
+   "name": "ods_mmx",
+   "source": "TFormMMX.ods_mmx",
+   "kind": "TOracleDataSet",
+   "sql": "select report_code,transmode_code,transid,dcustid,ccustid from mmx_transinfo where transid=:v_trid",
+   "variables": [
+    {
+     "name": "V_TRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitMXX"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OP_MMX",
+   "package": "MMX",
+   "mode": "positional",
+   "source": "TDM_goAml.OP_MMX",
+   "routines": [
+    {
+     "name": "up_mmx_transinfo",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OP_MMXX",
+   "package": "MMX",
+   "mode": "positional",
+   "source": "TFormEdit.OP_MMXX",
+   "routines": [
+    {
+     "name": "add_transfers_trinfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_mmxtransinfo",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "PG_PCustService",
+   "package": "PG_PCustService",
+   "mode": "positional",
+   "source": "TDM_goAml.PG_PCustService",
+   "routines": [
+    {
+     "name": "add_cust_monxs",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_subheli",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TDM_goAml.SB_ACA",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "select * from mmx_signatory where custid=",
+  "select * from mmx_userinfo where userid=uid",
+  "select p.id,p.dat,m.report_code,m.transmode_code,p.lammount,(select acc_no from account where id =p.debt )debt_accno,(select acc_no from account where id =p.kredit )kredit_accno,",
+  "select ti.transmode_code,ti.report_code,l.dcustid as custid , sum(l.lamount) lammount,2 as dk from mmx_transactions l,mmx_transinfo ti",
+  "select ti.transmode_code,ti.report_code,l.kcustid as custid , sum(l.lamount) lammount,1 as dk from mmx_transactions l,mmx_transinfo ti",
+  "select ti.transmode_code,ti.report_code,l.kcustid as custid,sum(l.lamount) lammount, 1 as dk from mmx_transactions l,mmx_transinfo ti"
+ ]
+}

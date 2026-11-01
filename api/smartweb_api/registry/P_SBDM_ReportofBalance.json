@@ -1,0 +1,112 @@
+{
+ "name": "P_SBDM_ReportofBalance",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_ReportofBalance",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Valutes",
+   "source": "TfrmReport.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute_t",
+   "variables": [],
+   "unit": "frmReportofBalanceImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TfrmReport.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "frmReportofBalanceImpl"
+  },
+  {
+   "name": "CustomerTypes",
+   "source": "TfrmReport.CustomerTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,CATEGORY from sbcm_categories",
+   "variables": [],
+   "unit": "frmReportofBalanceImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TfrmReport.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sbcm_persons",
+   "variables": [],
+   "unit": "frmReportofBalanceImpl"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TfrmReport.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, type\n  FROM sbcm_deposit_types",
+   "variables": [],
+   "unit": "frmReportofBalanceImpl"
+  },
+  {
+   "name": "Results",
+   "source": "TfrmReport.Results",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   p.contractno,\n   p.opendate,\n   p.closedate,\n   SBCM_REPORT.get_depositbalance(p.id) as balance,\n   SBCM_REPORT.get_depositInterest(p.id) as intrate,\n   SBCM_REPORT.get_period(p.id,:bdat ) as period,\n   SBCM_REPORT.get_DepositCurrency(p.currency) as valute,\n   SBCM_REPORT.get_depositrest(p.id,:bdat) as BRest,\n   SBCM_REPORT.get_deposittranche(p.id,:bdat,:edat) as TrAmt,\n   SBCM_REPORT.get_depositpayment(p.id,:bdat,:edat) as PayAmt,\n   SBCM_REPORT.get_depositrest(p.id,:edat) as ERest,round((SBCM_REPORT.get_depositInterest(p.id)*SBCM_REPORT.get_depositrest(p.id,:edat)/:sm)*100,2) as roundint\n from sbcm_contracts p \n ",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    },
+    {
+     "name": "SM",
+     "type": "float"
+    }
+   ],
+   "unit": "frmReportofBalanceImpl"
+  },
+  {
+   "name": "query",
+   "source": "TfrmReport.query",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(FACTICALDEBT) as smr from sbcm_contract_state\n",
+   "variables": [],
+   "unit": "frmReportofBalanceImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

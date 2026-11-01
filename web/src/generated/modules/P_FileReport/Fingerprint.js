@@ -75,9 +75,9 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "res": 0, "bmp": '', "bmpsize": 0};
   await $.fixArgs(L0, ["sender"]);
-  L0["pimageset"] = null;
-  L0["pimageprocessor"] = null;
-  L0["ptemp"] = null;
+  await $.staticConst(L0, "pimageset", "fingerprint.tfinger.takesamplebuttonclick.pimageset", async () => null);
+  await $.staticConst(L0, "pimageprocessor", "fingerprint.tfinger.takesamplebuttonclick.pimageprocessor", async () => null);
+  await $.staticConst(L0, "ptemp", "fingerprint.tfinger.takesamplebuttonclick.ptemp", async () => null);
   await $.stmt((await $.call(C, "LogMessage", ["Acquiring fingerprint..."])));
   await $.set(C, "pLastScannedImpression", (await $.call(C, "ScanImage", [(await $.v(C, "pScanner"))])));
   await $.stmt((await $.call(C, "GetMem", [L0["bmp"], $.mul(500, 500)])));

@@ -1,16 +1,48 @@
 /* Visual controls (Controls.pas, StdCtrls.pas, ExtCtrls.pas, ComCtrls.pas, Buttons.pas …). */
+import { auditClick } from '../audit';
 import { TObject, Ref, ValueRef, NOTFOUND, GAP, PasException } from '../core';
 import { toast } from '../toast';
 import { logger } from '../log';
 import { registerBuiltin, getBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate, beginHold, endHold } from '../ui';
-import { TComponent } from './component';
+import { TComponent, isStreaming } from './component';
 import { TStrings, TFont, TCanvas, TPicture, Indexed, TCollection, TCollectionItem } from './classes';
 import { colorValue } from './colors';
 import { todayDelphi, nowDelphi } from '../datetime';
 
 const LINKABLE = ['caption', 'enabled', 'checked', 'visible', 'imageindex', 'hint'] as const;
+
+/** VCL constructor sizes: a control created in code (TCheckBox.Create(Self)) has them until it is resized;
+ *  forms streamed from a DFM always store their own Width/Height. */
+const DEFAULT_SIZE: Record<string, [number, number]> = {
+  TButton: [75, 25], TBitBtn: [75, 25], TSpeedButton: [23, 22], TCheckBox: [97, 17], TRadioButton: [113, 17],
+  TEdit: [121, 21], TMaskEdit: [121, 21], TComboBox: [145, 21], TMemo: [185, 89], TRichEdit: [185, 89],
+  TListBox: [121, 97], TCheckListBox: [121, 97], TPanel: [185, 41], TGroupBox: [185, 105], TRadioGroup: [185, 105],
+  TImage: [105, 105], TShape: [65, 65], TBevel: [50, 50], TLabel: [32, 13], TStaticText: [32, 17],
+  TProgressBar: [150, 16], TTrackBar: [150, 45], TDateTimePicker: [186, 21], TScrollBox: [185, 41],
+  TStringGrid: [320, 120], TDBGrid: [320, 120], TTreeView: [121, 97], TListView: [250, 150], TPageControl: [289, 193],
+};
+function defaultSize(ctor: unknown): [number, number] | undefined {
+  for (let c = ctor as any; c && c !== Object; c = Object.getPrototypeOf(c)) {
+    if (Object.prototype.hasOwnProperty.call(c, 'pascalName') && DEFAULT_SIZE[c.pascalName]) return DEFAULT_SIZE[c.pascalName];
+  }
+  return undefined;
+}
+let measureCtx: CanvasRenderingContext2D | null = null;
+/** Text extent of a label caption (AutoSize labels created in code: their Width is read to lay out others). */
+export function measureCaption(text: string, font: { Size?: number; Name?: string; Style?: unknown }) {
+  const px = Math.max(8, Math.round(((font?.Size || 8) * 96) / 72));
+  try {
+    measureCtx ??= document.createElement('canvas').getContext('2d');
+    if (measureCtx) {
+      const bold = String(font?.Style ?? '').includes('fsbold') ? 'bold ' : '';
+      measureCtx.font = `${bold}${px}px ${font?.Name ? `"${font.Name}", ` : ''}sans-serif`;
+      return { w: Math.ceil(measureCtx.measureText(text.replace(/&(?!&)/g, '')).width), h: px + 3 };
+    }
+  } catch { /* no canvas (tests) */ }
+  return { w: Math.ceil(text.length * px * 0.55), h: px + 3 };
+}
 
 export class TControl extends TComponent {
   Left = 0;
@@ -27,6 +59,11 @@ export class TControl extends TComponent {
   TabStop = false;
   AutoSize = false;
   Transparent = false;
+  constructor() {
+    super();
+    const d = defaultSize(this.constructor);
+    if (d) { this.Width = d[0]; this.Height = d[1]; }
+  }
   Alignment = 'taleftjustify';
   Layout = 'tltop';
   WordWrap = false;
@@ -67,7 +104,9 @@ export class TControl extends TComponent {
   get Action() { return this._action; }
   set Action(a: TBasicAction | null) {
     this._action = a;
-    if (a) for (const p of LINKABLE) if (!(p in this.dfmLower())) this.linked.add(p);
+    // VCL ActionChange: while the form is streamed only properties the DFM left at their defaults follow the
+    // action (CheckDefaults); assigned at run time the action's Caption, Enabled, Hint … all replace the control's
+    if (a) for (const p of LINKABLE) if (!isStreaming() || !(p in this.dfmLower())) this.linked.add(p);
     invalidate();
   }
   protected linkedVal(p: string, own: unknown) {
@@ -120,7 +159,8 @@ export class TControl extends TComponent {
   focusDom() {
     const el = this.dom?.matches('input,textarea,select,button,[tabindex]') ? this.dom
       : this.dom?.querySelector<HTMLElement>('input,textarea,select,button,[tabindex]');
-    el?.focus();
+    // VCL never scrolls a parent on focus; a browser would scroll clipped panels to the control
+    el?.focus({ preventScroll: true });
   }
   CanFocus() { return this.Visible && this.Enabled; }
   BringToFront() { if (this.Parent) { this.Parent.children = [...this.Parent.children.filter((c) => c !== this), this]; invalidate(); } }
@@ -156,6 +196,7 @@ export class TControl extends TComponent {
   /** User-initiated click: actions first, then OnClick. */
   async Click() {
     if (!this.Enabled) return;
+    if (this._action || this.hasHandler('OnClick')) auditClick(this as any);
     if (this._action && !this.hasHandler('OnClick')) {
       await (this._action as TBasicAction).execFrom(this);
       return;
@@ -217,6 +258,8 @@ registerBuiltin('TCustomControl', TWinControl);
 /* ------------------------------------------------------------------ containers */
 
 export class TPanel extends TWinControl {
+  /** VCL TCustomPanel: captions are centred unless the DFM says otherwise (taCenter is not stored). */
+  override Alignment = 'tacenter';
   BevelInner = 'bvnone';
   BevelOuter = 'bvraised';
   BevelWidth = 1;
@@ -226,6 +269,36 @@ export class TPanel extends TWinControl {
   get kind() { return 'panel'; }
 }
 registerBuiltin('TPanel', TPanel);
+
+/** SBCommon50 HintBox.pas: a panel that shows a message (ShowMessage) and hides itself after Timeout ms. */
+export class THintBox extends TPanel {
+  HintStyle = 'hsinfo';
+  Timeout = 0;
+  BeepOnMessage = false;
+  Control: TWinControl | null = null;
+  private hideTimer: ReturnType<typeof setTimeout> | null = null;
+  get HintLabel() { return this; }
+  async ShowMessage(msg: unknown, timeout?: unknown) {
+    const text = str(msg);
+    this.Caption = text;
+    const alert = this.HintStyle === 'hsalert' || this.HintStyle === 'hserror';
+    this.Color = alert ? 0xc8c8ff : 0xe1ffff; // light red / info yellow (BGR)
+    this.Font.Color = alert ? 0x000080 : 0;
+    if (this.AutoSize) this.Width = Math.max(this.Width, Math.min(640, 16 + text.length * 7));
+    this.Visible = true;
+    await this.fire('AfterShow', this);
+    const ms = timeout === undefined ? this.Timeout : num(timeout);
+    if (this.hideTimer) clearTimeout(this.hideTimer);
+    if (ms > 0) this.hideTimer = setTimeout(() => { void this.Hide(); }, ms);
+  }
+  override async Hide() {
+    if (this.hideTimer) { clearTimeout(this.hideTimer); this.hideTimer = null; }
+    if (!this.Visible) return;
+    this.Visible = false;
+    await this.fire('AfterHide', this);
+  }
+}
+registerBuiltin('THintBox', THintBox);
 registerBuiltin('TXFPanel', class TXFPanel extends TPanel {});
 registerBuiltin('TGridPanel', class TGridPanel extends TPanel {});
 registerBuiltin('TFlowPanel', class TFlowPanel extends TPanel {});
@@ -273,7 +346,18 @@ export class TLabel extends TGraphicControl {
   override AutoSize = true;
   FocusControl: TControl | null = null;
   ShowAccelChar = true;
+  WordWrap = false;
   get kind() { return 'label'; }
+  override get Caption() { return super.Caption; }
+  override set Caption(v: string) {
+    super.Caption = v;
+    // AutoSize: a label created in code takes the size of its text (code then reads Label.Width);
+    // streamed labels keep the size saved in the DFM
+    if (this.AutoSize && !this.WordWrap && !Object.keys(this.dfm ?? {}).length) {
+      const m = measureCaption(str(v), this.Font as any);
+      this.Width = m.w; this.Height = m.h;
+    }
+  }
 }
 registerBuiltin('TLabel', TLabel);
 registerBuiltin('TXFLabel', class TXFLabel extends TLabel {});
@@ -305,7 +389,7 @@ export class TCustomEdit extends TWinControl {
   get SelText() { return ''; }
   set SelText(v: string) { this.Text = this._text + str(v); }
   protected applyCase(s: string) {
-    return this.CharCase === 'ecuppercase' ? s.toLocaleUpperCase('az') : this.CharCase === 'eclowercase' ? s.toLocaleLowerCase('az') : s;
+    return this.CharCase === 'ecuppercase' ? s.toUpperCase() : this.CharCase === 'eclowercase' ? s.toLowerCase() : s;
   }
   Clear() { return this.setTextFromCode(''); }
   SelectAll() { (this.dom as HTMLInputElement | null)?.select?.(); }
@@ -464,11 +548,12 @@ export class TButtonControl extends TWinControl {
   get kind() { return 'button'; }
   override async Click() {
     if (!this.Enabled) return;
-    await super.Click();
+    // VCL TButton.Click: Form.ModalResult := ModalResult, then OnClick (which may still change it)
     if (this.ModalResult) {
       const f = this.ParentForm as any;
       if (f && 'ModalResult' in f) f.ModalResult = this.ModalResult;
     }
+    await super.Click();
   }
 }
 export class TButton extends TButtonControl {}
@@ -864,6 +949,7 @@ registerBuiltin('TTrackBar', class TTrackBar extends TUpDown {});
 
 export class THeaderSection extends TCollectionItem { Text = ''; Width = 50; Alignment = 'taleftjustify'; MinWidth = 0; MaxWidth = 10000; }
 export class THeaderControl extends TWinControl {
+  override Align = 'altop'; // VCL default (not stored in the DFM)
   Sections = new TCollection(() => new THeaderSection());
   get kind() { return 'header'; }
 }
@@ -1110,13 +1196,48 @@ export class TTimer extends TComponent {
 }
 registerBuiltin('TTimer', TTimer);
 
+/** TImageList: the DFM bitmap is converted to a PNG sprite at build time (tools/imagelist.py);
+ *  GetIcon / GetBitmap copy one image into a graphic (ImageList.GetIcon(1, Img.Picture.Icon)). */
+const GEN_BASE = (import.meta as any).env?.DEV ? '/src/generated/' : `${(import.meta as any).env?.BASE_URL ?? '/'}generated/`;
+const spriteCache = new Map<string, Promise<ImageBitmap | null>>();
 export class TImageList extends TComponent {
-  Width = 16; Height = 16; Count = 0;
-  GetBitmap() { return false; }
-  GetIcon() { return false; }
-  Draw() { /* */ }
-  Add() { return this.Count++; }
-  Clear() { this.Count = 0; }
+  Width = 16; Height = 16;
+  Bitmap = { Sprite: '', Count: 0, Cx: 16, Cy: 16 };
+  BkColor = 0x1fffffff; BlendColor = 0x1fffffff; DrawingStyle = 'dsnormal'; ImageType = 'itimage'; Masked = true;
+  private added = 0;
+  get Count() { return (this.Bitmap.Count || 0) + this.added; }
+  set Count(_v: number) { /* read-only in VCL */ }
+  private sprite(): Promise<ImageBitmap | null> {
+    const src = this.Bitmap.Sprite;
+    if (!src || typeof createImageBitmap !== 'function') return Promise.resolve(null);
+    let p = spriteCache.get(src);
+    if (!p) {
+      p = fetch(GEN_BASE + src).then((r) => (r.ok ? r.blob() : null)).then((b) => (b ? createImageBitmap(b) : null)).catch(() => null);
+      spriteCache.set(src, p);
+    }
+    return p;
+  }
+  /** One image as a PNG blob (null when the index is out of range or the list has no pictures). */
+  async imageBlob(index: unknown): Promise<Blob | null> {
+    const i = num(index);
+    const bm = await this.sprite();
+    if (!bm || i < 0 || i >= (this.Bitmap.Count || 0)) return null;
+    const cx = this.Bitmap.Cx || this.Width, cy = this.Bitmap.Cy || this.Height;
+    const cv = document.createElement('canvas');
+    cv.width = cx; cv.height = cy;
+    cv.getContext('2d')!.drawImage(bm, i * cx, 0, cx, cy, 0, 0, cx, cy);
+    return await new Promise<Blob | null>((res) => cv.toBlob((b) => res(b), 'image/png'));
+  }
+  async GetBitmap(index: unknown, target: unknown) {
+    const b = await this.imageBlob(index);
+    if (b && target && typeof (target as any).loadBlob === 'function') await (target as any).loadBlob(b);
+    return !!b;
+  }
+  async GetIcon(index: unknown, target: unknown) { return this.GetBitmap(index, target); }
+  Draw() { /* canvas drawing is not emulated */ }
+  Add() { this.added++; return this.Count - 1; }
+  AddIcon() { this.added++; return this.Count - 1; }
+  Clear() { this.added = 0; this.Bitmap = { ...this.Bitmap, Count: 0 }; }
 }
 registerBuiltin('TImageList', TImageList);
 
@@ -1135,6 +1256,17 @@ export class TCommonDialog extends TComponent {
       if (!this.FileName) this.FileName = 'export' + (this.DefaultExt ? '.' + this.DefaultExt.replace(/^\./, '') : '.xls');
       return true;
     }
+    // Open dialogs: the browser's file picker; the chosen file is readable by its name (runtime/files)
+    if (this.__className === 'TOpenDialog' || this.__className === 'TOpenPictureDialog') {
+      const { pickFiles, acceptFromFilter } = await import('../files');
+      const accept = acceptFromFilter(this.Filter) || (this.__className === 'TOpenPictureDialog' ? 'image/*' : '');
+      const files = await pickFiles(accept, this.Options.includes('ofallowmultiselect'));
+      if (!files.length) return false;
+      this.FileName = files[0].name;
+      this.Files.Clear();
+      for (const f of files) this.Files.Add(f.name);
+      return true;
+    }
     return false;
   }
 }
@@ -1147,13 +1279,13 @@ for (const n of ['TOpenDialog', 'TSaveDialog', 'TOpenPictureDialog', 'TSavePictu
 
 /* Inert components: exist in forms but have no browser behaviour. */
 for (const n of ['TNLSLocalizer', 'TEvanescence', 'THintBoxHelper', 'TApplicationEvents', 'TXPManifest',
-  'TOleContainer', 'TExcelApplication', 'TExcelWorkbook', 'TExcelWorksheet', 'TWordApplication', 'TWordDocument',
+  'TOleContainer', 'TExcelWorkbook', 'TExcelWorksheet', 'TWordApplication', 'TWordDocument',
   'TIdSSLIOHandlerSocketOpenSSL', 'THTTPRIO', 'TXMLDocument', 'TQuickRep', 'TQRBand', 'TQRDBText',
   'TQRExpr', 'TQRShape', 'TQRSubDetail', 'TQRImage', 'TQRDBImage', 'TQRSysData', 'TQRMemo', 'TQRRichText',
   'TQRPDFFilter', 'TQRExcelFilter', 'TQRTextFilter', 'TQRCSVFilter', 'TQRHTMLFilter', 'TQRCompositeReport',
   'TQRGroup', 'TQRChildBand', 'TQRStringsBand', 'TQRPreview', 'TOracleEvent', 'TOracleLogon', 'TOracleNavigator',
   'TOracleScript', 'TOracleDirectPathLoader', 'TOracleQueue', 'TPrintDialogEx', 'TFormInterval', 'TJvFormStorage',
-  'TFormStorage', 'TPropStorageEh', 'TIniPropStorageManEh', 'TdxSkinController', 'TCMExcelExport']) {
+  'TFormStorage', 'TPropStorageEh', 'TIniPropStorageManEh', 'TdxSkinController']) {
   const isReport = /^TQR|^TQuickRep/.test(n);
   const C = class extends TComponent {
     // QuickReport layouts are not rendered in this phase; a report's DataSet is an inert stand-in

@@ -1,0 +1,100 @@
+{
+ "name": "P_Ins_ReinsR_contract",
+ "caption": "",
+ "dir": "Insurance/Ins_ReinsR_contract",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ds_ins_reinsr_contract",
+   "source": "Tdmins_reinsr_contract.ds_ins_reinsr_contract",
+   "kind": "TOracleDataSet",
+   "sql": "select ii.id,ii.name from ins_insurances ii\nwhere\n ii.obeykt_type is not null\norder by id",
+   "variables": [],
+   "unit": "dmins_reinsr_contractimpl"
+  },
+  {
+   "name": "DSins_dict_companie",
+   "source": "Tdmins_reinsr_contract.DSins_dict_companie",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.name\n  FROM ins_dict_companie a",
+   "variables": [],
+   "unit": "dmins_reinsr_contractimpl"
+  },
+  {
+   "name": "ds_contracts",
+   "source": "Tdmins_reinsr_contract.ds_contracts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.id, a.type_id, a.begin_date, a.end_date,\n        a.ammount,  a.policy_num, a.inssumm, a.franshiz,  a.reins,a.filial\n  FROM   ins_contracts a\n  where a.id=:PID\n ",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "float"
+    }
+   ],
+   "unit": "dmins_reinsr_contractimpl"
+  },
+  {
+   "name": "DSsysdat",
+   "source": "Tdmins_reinsr_contract.DSsysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "dmins_reinsr_contractimpl"
+  },
+  {
+   "name": "dsins_rein_other_info",
+   "source": "Tdmins_reinsr_contract.dsins_rein_other_info",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT b.rowid, b.*\n  FROM ins_rein_other_info b\nwhere b.cid=:PID",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmins_reinsr_contractimpl"
+  },
+  {
+   "name": "dsreins",
+   "source": "Tdmins_reinsr_contract.dsreins",
+   "kind": "TOracleDataSet",
+   "sql": "select id , name from customers\nwhere cust_type=0\nand group_klie=70 \nand close_dat is  NULL\norder by id",
+   "variables": [],
+   "unit": "dmins_reinsr_contractimpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

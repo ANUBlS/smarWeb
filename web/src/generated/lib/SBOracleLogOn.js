@@ -5,9 +5,11 @@
 export default function define($) {
   const U = $.unit("SBOracleLogOn", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Db", "OraVariables", "Registry", "UnitChangePasswordForm", "Oracle", "DesignIntf", "DesignEditors", "UnitSBOraLogOn"]);
   const C = [U];
+  U.enumType("toraconnectas", 3);
   U.const("caNormal", 0);
   U.const("caSYSDBA", 1);
   U.const("caSYSOPER", 2);
+  U.enumType("taskresult", 3);
   U.const("arSuccess", 0);
   U.const("arError", 1);
   U.const("arCancel", 2);

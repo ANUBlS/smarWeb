@@ -344,17 +344,17 @@ export default function define($) {
   L0["fopendat1"] = "";
   L0["fopendat2"] = "";
   L0["fopendat"] = "";
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CURRENCY", (await $.mv((await $.v(C, "CBCurrency")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "branchid", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "contracttype", (await $.mv((await $.v(C, "CBContractType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "clienttype", (await $.mv((await $.v(C, "CBpersons")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "personaltype", (await $.mv((await $.v(C, "CBClientType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t5) => { L0["result"] = $t5; }), "CURRENCY", (await $.mv((await $.v(C, "CBCurrency")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t6) => { L0["result"] = $t6; }), "branchid", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t7) => { L0["result"] = $t7; }), "contracttype", (await $.mv((await $.v(C, "CBContractType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t8) => { L0["result"] = $t8; }), "clienttype", (await $.mv((await $.v(C, "CBpersons")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t9) => { L0["result"] = $t9; }), "personaltype", (await $.mv((await $.v(C, "CBClientType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue")), true])));
   if ($.truthy((await $.mv((await $.v(C, "CBStatus")), "Checked")))) {
-    { const $t5 = (await $.mv((await $.v(C, "LCBStatus")), "ItemIndex"));
-      if ($.eq($t5, 0)) {
+    { const $t10 = (await $.mv((await $.v(C, "LCBStatus")), "ItemIndex"));
+      if ($.eq($t10, 0)) {
         L0["fstatus"] = "(status = 1)";
       }
-      else if ($.eq($t5, 1)) {
+      else if ($.eq($t10, 1)) {
         L0["fstatus"] = "(Status = 0)";
       }
     }
@@ -364,8 +364,8 @@ export default function define($) {
     L0["fopendat2"] = $.add($.add(" opendate <=  '", (await $.call(C, "FormatDateTime", ["dd/MM/yyyy", (await $.mv((await $.v(C, "DTPCloseDate")), "Date"))]))), "'");
     L0["fopendat"] = $.add($.add($.add($.add($.add($.add($.add($.add("(", "("), L0["fopendat1"]), ")"), " and "), "("), L0["fopendat2"]), ")"), ")");
   }
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fstatus"]])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fopendat"]])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t11) => { L0["result"] = $t11; }), $.ref(async () => L0["fstatus"], async ($t12) => { L0["fstatus"] = $t12; })])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t13) => { L0["result"] = $t13; }), $.ref(async () => L0["fopendat"], async ($t14) => { L0["fopendat"] = $t14; })])));
   return L0.result;
 }, {"params": [], "kind": "function", "ptypes": []});
   U.method("TNewDepositsManagerArchiveFormImpl", "ActiveFormCreate", async function ActiveFormCreate(Self, p0) {
@@ -378,9 +378,9 @@ export default function define($) {
   await $.set(C, "CommonApplication", (await $.v(C, "Application")));
   await $.set(C, "CommonGrid", (await $.v(C, "MainGrid")));
   {
-    const $t6 = (await $.v(C, "NewDepositDataModule"));
-    await $.wset([$t6], "Get_FilialID", (await $.mv((await $.mcall((await $.wv([$t6], "FilialID", C, false)), "FieldByname", ["kod_fil"])), "AsInteger")), C);
-    await $.wset([$t6], "Get_BankDate", (await $.mv((await $.mcall((await $.wv([$t6], "BankDate", C, false)), "FieldByname", ["Tek_Dat"])), "AsDateTime")), C);
+    const $t15 = (await $.v(C, "NewDepositDataModule"));
+    await $.wset([$t15], "Get_FilialID", (await $.mv((await $.mcall((await $.wv([$t15], "FilialID", C, false)), "FieldByname", ["kod_fil"])), "AsInteger")), C);
+    await $.wset([$t15], "Get_BankDate", (await $.mv((await $.mcall((await $.wv([$t15], "BankDate", C, false)), "FieldByname", ["Tek_Dat"])), "AsDateTime")), C);
   }
   await $.mset((await $.v(C, "DTPOpenDate")), "DateTime", (await $.v(C, "Get_BankDate")));
   await $.mset((await $.v(C, "DTPCloseDate")), "DateTime", (await $.v(C, "Get_BankDate")));
@@ -399,18 +399,18 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "MainGrid"));
-    const $t8 = (await $.wv([$t7], "SelectedRows", C, false));
-    await $.stmt($.wcall([$t7, $t8], "Clear", [], C));
+    const $t16 = (await $.v(C, "MainGrid"));
+    const $t17 = (await $.wv([$t16], "SelectedRows", C, false));
+    await $.stmt($.wcall([$t16, $t17], "Clear", [], C));
   }
   {
-    const $t9 = (await $.v(C, "MainGrid"));
-    const $t10 = (await $.mv((await $.wv([$t9], "DataSource", C, false)), "DataSet"));
-    await $.wset([$t9, $t10], "Cursor", (await $.wv([$t9, $t10], "crSqlWait", C, false)), C);
-    await $.wset([$t9, $t10], "Filtered", (await $.wv([$t9, $t10], "False", C, false)), C);
-    await $.wset([$t9, $t10], "Filter", (await $.wv([$t9, $t10], "BuildFilterString", C, false)), C);
-    await $.wset([$t9, $t10], "Filtered", (await $.wv([$t9, $t10], "true", C, false)), C);
-    await $.wset([$t9, $t10], "Cursor", (await $.wv([$t9, $t10], "crDefault", C, false)), C);
+    const $t18 = (await $.v(C, "MainGrid"));
+    const $t19 = (await $.mv((await $.wv([$t18], "DataSource", C, false)), "DataSet"));
+    await $.wset([$t18, $t19], "Cursor", (await $.wv([$t18, $t19], "crSqlWait", C, false)), C);
+    await $.wset([$t18, $t19], "Filtered", (await $.wv([$t18, $t19], "False", C, false)), C);
+    await $.wset([$t18, $t19], "Filter", (await $.wv([$t18, $t19], "BuildFilterString", C, false)), C);
+    await $.wset([$t18, $t19], "Filtered", (await $.wv([$t18, $t19], "true", C, false)), C);
+    await $.wset([$t18, $t19], "Cursor", (await $.wv([$t18, $t19], "crDefault", C, false)), C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -729,8 +729,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "NewDepositDataModule"));
-    await $.mcall((await $.wv([$t11], "DmDataSetArchive", C, false)), "Refresh", []);
+    const $t20 = (await $.v(C, "NewDepositDataModule"));
+    await $.mcall((await $.wv([$t20], "DmDataSetArchive", C, false)), "Refresh", []);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});

@@ -15,9 +15,9 @@ export default function define($) {
   L0["s100"] = "yüz";
   L0["s001"] = "qəpik";
   L0["currencyname"] = "manat";
-  L0["digits1"] = ["bir", "iki", "üç", "dörd", "beş", "altı", "yeddi", "səkkiz", "doqquz"];
-  L0["digits2"] = ["on", "iyirmi", "ottuz", "qırx", "əlli", "altmış", "yetmiş", "səksən", "doxsan"];
-  L0["digits3"] = ["", "min", "milyon", "milliard", "billiard", "trillion", "trilliard"];
+  await $.staticConst(L0, "digits1", "currencytohr_azeri_impl..currencytohr_azeri.digits1", async () => $.lowArr(1, ["bir", "iki", "üç", "dörd", "beş", "altı", "yeddi", "səkkiz", "doqquz"]));
+  await $.staticConst(L0, "digits2", "currencytohr_azeri_impl..currencytohr_azeri.digits2", async () => $.lowArr(1, ["on", "iyirmi", "ottuz", "qırx", "əlli", "altmış", "yetmiş", "səksən", "doxsan"]));
+  await $.staticConst(L0, "digits3", "currencytohr_azeri_impl..currencytohr_azeri.digits3", async () => ["", "min", "milyon", "milliard", "billiard", "trillion", "trilliard"]);
   L0["convertpart"] = $.fn(async function ConvertPart(p0) {
   const L1 = {"value": $.copyArg(p0), result: '', "index": 0};
   await $.fixArgs(L1, ["value"]);
@@ -28,7 +28,7 @@ export default function define($) {
   return L2.result;
 });
   L1["merge"] = $.fn(async function Merge(p0, p1, p2) {
-  const L2 = {"digits": $.copyArg(p0), "s": $.asRef(p1), "index": $.copyArg(p2), result: ''};
+  const L2 = {"digits": $.openArr(p0), "s": $.asRef(p1), "index": $.copyArg(p2), result: ''};
   await $.fixArgs(L2, ["digits", "index"]);
   if ($.truthy($.ne(L2["index"], 0))) {
     await L2["s"].set($.add($.add((await L2["s"].get()), " "), (await $.idx(L2["digits"], [$.sub(L2["index"], 1)]))));
@@ -44,9 +44,9 @@ export default function define($) {
     L1["result"] = $.add(L1["result"], L0["s100"]);
   }
   L1["value"] = (await $.callv(L1["wrap"], [L1["value"], 100]));
-  await $.stmt((await $.callv(L1["merge"], [L0["digits2"], L1["result"], (await $.call(C, "Trunc", [$.fdiv(L1["value"], 10)]))])));
+  await $.stmt((await $.callv(L1["merge"], [L0["digits2"], $.ref(async () => L1["result"], async ($t1) => { L1["result"] = $t1; }), (await $.call(C, "Trunc", [$.fdiv(L1["value"], 10)]))])));
   L1["value"] = (await $.callv(L1["wrap"], [L1["value"], 10]));
-  await $.stmt((await $.callv(L1["merge"], [L0["digits1"], L1["result"], L1["value"]])));
+  await $.stmt((await $.callv(L1["merge"], [L0["digits1"], $.ref(async () => L1["result"], async ($t2) => { L1["result"] = $t2; }), L1["value"]])));
   L1["result"] = (await $.call(C, "Trim", [L1["result"]]));
   return L1.result;
 });
@@ -61,7 +61,7 @@ export default function define($) {
   }
   L1["counter"] = 0;
   while ($.truthy($.ne(L1["int"], 0))) {
-    if ($.truthy($.gt(L1["counter"], (await $.call(C, "High", [L0["digits3"]]))))) {
+    if ($.truthy($.gt(L1["counter"], (await $.lowHigh("high", "Digits3", async () => L0["digits3"]))))) {
       throw $.raise((await $.mcall((await $.v(C, "EInvalidOp")), "Create", ["Too big integer to convert"])));
     }
     L1["part"] = (await $.call(C, "Round", [$.mul((await $.mcall((await $.v(C, "System")), "Frac", [$.fdiv(L1["int"], 1000)])), 1000)]));
@@ -69,7 +69,7 @@ export default function define($) {
     if ($.truthy($.ne(L1["part"], 0))) {
       L1["result"] = $.add($.add($.add($.add((await $.callv(L0["convertpart"], [L1["part"]])), " "), (await $.idx(L0["digits3"], [L1["counter"]]))), " "), L1["result"]);
     }
-    await $.stmt((await $.call(C, "Inc", [$.ref(async () => L1["counter"], async ($t1) => { L1["counter"] = $t1; })])));
+    await $.stmt((await $.call(C, "Inc", [$.ref(async () => L1["counter"], async ($t3) => { L1["counter"] = $t3; })])));
     await $.tick();
   }
   L1["result"] = (await $.call(C, "Trim", [$.add(L1["sign"], L1["result"])]));

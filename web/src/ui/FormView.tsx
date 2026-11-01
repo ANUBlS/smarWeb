@@ -98,6 +98,7 @@ function hasKeyHandlers(c: TControl, press: boolean) {
 function inputKeyHandler(c: TControl, getValue: () => string, setValue: (v: string) => void) {
   return (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const el = e.currentTarget;
+    stopBrowserFnKey(c, e);
     const down = hasKeyHandlers(c, false);
     const ch = pressChar(e);
     const press = ch !== null && hasKeyHandlers(c, true);
@@ -123,6 +124,27 @@ function inputKeyHandler(c: TControl, getValue: () => string, setValue: (v: stri
     }, `${c.Name}.OnKeyPress`);
   };
 }
+/** OnKeyUp (with Form.KeyPreview). */
+function keyUpHandler(c: TControl) {
+  return (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const f = rootForm(c);
+    const preview = !!f?.KeyPreview && f !== c && f.hasHandler('OnKeyUp');
+    if (!c.hasHandler('OnKeyUp') && !preview) return;
+    const keyCode = e.keyCode, shift = shiftOf(e);
+    void runGuarded(async () => {
+      const ref = new ValueRef(keyCode);
+      if (preview) await f!.fire('OnKeyUp', f, ref, shift);
+      if (ref.value !== 0) await c.fire('OnKeyUp', c, ref, shift);
+    }, `${c.Name}.OnKeyUp`);
+  };
+}
+/** Function keys handled by the form's code must not trigger the browser's own (F1 help, F3 find, F5 reload …). */
+function stopBrowserFnKey(c: TControl, e: KeyboardEvent) {
+  if (!/^F\d{1,2}$/.test(e.key)) return;
+  const f = rootForm(c);
+  const handled = ['OnKeyDown', 'OnKeyUp', 'OnKeyPress'].some((ev) => c.hasHandler(ev) || (!!f?.KeyPreview && f.hasHandler(ev)));
+  if (handled) e.preventDefault();
+}
 function focusHandlers(c: TControl) {
   return {
     onFocus: () => { const f = rootForm(c); if (f) f.ActiveControl = c; run(c.fire('OnEnter', c), c.Name); },
@@ -132,12 +154,26 @@ function focusHandlers(c: TControl) {
 
 /* ------------------------------------------------------------------ containers */
 
+const ORIGIN_AT_CORNER = new Set(['groupbox', 'radiogroup', 'panel']);
+/** TToolButton / TSpeedButton are graphic controls in VCL: clicking them never moves the focus
+ *  (actions checking Grid.Focused keep working). */
+const noFocus = (e: React.MouseEvent) => e.preventDefault();
+
 export function Children({ parent, width, height }: { parent: TControl; width: number; height: number }) {
   const ins = insets(parent);
   const w = Math.max(0, width - ins.l - ins.r);
   const h = Math.max(0, height - ins.t - ins.b);
   const kids = parent.children;
   const rects = layoutChildren(kids, w, h);
+  // VCL: aligned children fill the adjusted client rect (below a group box caption, inside bevels), but
+  // free children of panels / group boxes keep Left/Top relative to the control's own corner
+  if (ORIGIN_AT_CORNER.has(parent.kind) && (ins.l || ins.t)) {
+    for (const k of kids) {
+      const a = k.Align || 'alnone';
+      const r = rects.get(k);
+      if (r && (a === 'alnone' || a === 'alcustom')) rects.set(k, { ...r, left: r.left - ins.l, top: r.top - ins.t });
+    }
+  }
   return (
     <div style={{ position: 'absolute', left: ins.l, top: ins.t, width: w, height: h }}>
       {kids.map((k) => {
@@ -184,7 +220,7 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
         <div {...p} className={`vc v-panel${bordered ? ' bordered' : ''}`} style={{ ...p.style, ...bgStyle(c), ...fontStyle(c) }}
           onClick={(e) => { if (e.target === e.currentTarget && c.hasHandler('OnClick')) run(c.Click(), c.Name); }}
           onDoubleClick={(e) => { if (e.target === e.currentTarget) run(c.fire('OnDblClick', c), c.Name); }}>
-          {c.Caption && !placeholder ? <div className={`pcap${pnl.Alignment === 'taleftjustify' ? ' left' : ''}`}>{c.Caption}</div> : null}
+          {c.Caption && !placeholder ? <div className={`pcap${pnl.Alignment === 'taleftjustify' ? ' left' : pnl.Alignment === 'tarightjustify' ? ' right' : ''}`}>{c.Caption}</div> : null}
           {placeholder && !c.children.length ? <div className="v-placeholder" style={{ position: 'absolute', inset: 0 }}>{placeholder}</div> : null}
           <Children parent={c} width={r.width} height={r.height} />
         </div>
@@ -214,7 +250,7 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
       return (
         <div {...p}>
           <button className={`v-btn${b.Flat ? ' flat' : ''}${b.Down ? ' down' : ''}`} style={{ width: '100%', height: '100%', padding: 0, ...fontStyle(c) }} disabled={dis}
-            onClick={() => run(b.Click(), b.Name)} aria-pressed={b.GroupIndex ? b.Down : undefined}>
+            onClick={() => run(b.Click(), b.Name)} aria-pressed={b.GroupIndex ? b.Down : undefined} onMouseDown={noFocus} tabIndex={-1}>
             {b.Caption ? b.Caption.replace(/&(?!&)/g, '') : Ic ? <Ic size={14} /> : null}
           </button>
         </div>
@@ -223,9 +259,11 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
     case 'checkbox': case 'radio': {
       const cb = c as TCheckBox;
       const isRadio = c.kind === 'radio';
+      // a box-only check (Width 13 in the DFM / code) must not clip the browser's slightly larger box
+      const boxOnly = c.Width > 0 && c.Width < 18;
       return (
-        <div {...p}>
-          <label className={`v-check${dis ? ' disabled' : ''}`} style={{ height: '100%', ...fontStyle(c), flexDirection: (cb as any).Alignment === 'taleftjustify' ? 'row-reverse' : undefined, justifyContent: (cb as any).Alignment === 'taleftjustify' ? 'flex-end' : undefined }}>
+        <div {...p} style={boxOnly ? { ...p.style, overflow: 'visible', minWidth: 16 } : p.style}>
+          <label className={`v-check${dis ? ' disabled' : ''}`} style={{ height: '100%', ...(boxOnly ? { overflow: 'visible' } : {}), ...fontStyle(c), flexDirection: (cb as any).Alignment === 'taleftjustify' ? 'row-reverse' : undefined, justifyContent: (cb as any).Alignment === 'taleftjustify' ? 'flex-end' : undefined }}>
             <input type={isRadio ? 'radio' : 'checkbox'} checked={cb.Checked} disabled={dis} onChange={() => run(cb.userToggle(), cb.Name)} {...focusHandlers(c)} />
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{cb.Caption.replace(/&(?!&)/g, '')}</span>
           </label>
@@ -291,7 +329,23 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
       return <div {...p} style={{ ...p.style, background: toCss(s.Brush?.Color) ?? 'transparent', border: `1px solid ${toCss(s.Pen?.Color) ?? 'var(--rule)'}`, borderRadius: String(s.Shape).includes('circle') || String(s.Shape).includes('ellipse') ? '50%' : String(s.Shape).includes('round') ? 6 : 0 }} />;
     }
     case 'splitter': return <SplitterView c={c as TSplitter} p={p} r={r} />;
-    case 'image': return <div {...p} style={{ ...p.style, pointerEvents: c.hasHandler('OnClick') ? undefined : 'none' }} onClick={() => run(c.Click(), c.Name)} />;
+    case 'image': {
+      // TImage / TDBImage: the picture's data (picked file, BLOB field …); Stretch / Proportional / Center
+      const im = c as any;
+      const url: string | null = im.Picture?.url ?? null;
+      const fit = im.Stretch ? (im.Proportional ? 'contain' : 'fill') : im.Proportional ? 'contain' : 'none';
+      const active = c.hasHandler('OnClick') || c.hasHandler('OnDblClick');
+      const g = im.Picture?.Graphic;
+      const auto = im.AutoSize && url && g?.Width ? { width: g.Width, height: g.Height } : null;
+      return (
+        <div {...p} style={{ ...p.style, ...(auto ?? {}), pointerEvents: active ? undefined : 'none', overflow: 'hidden', display: 'flex',
+          alignItems: im.Center === false ? 'flex-start' : 'center', justifyContent: im.Center === false ? 'flex-start' : 'center',
+          border: im.kindDb ? '1px solid var(--rule)' : undefined }}
+          onClick={() => run(c.Click(), c.Name)} onDoubleClick={() => run(c.fire('OnDblClick', c), c.Name)}>
+          {url ? <img src={url} alt="" draggable={false} style={{ width: fit === 'none' ? undefined : '100%', height: fit === 'none' ? undefined : '100%', objectFit: fit as any }} /> : null}
+        </div>
+      );
+    }
     case 'dbgrid': return <GridView g={c as TDBGrid} p={p} r={r} />;
     case 'stringgrid': return <StringGridView g={c as TStringGrid} p={p} />;
     case 'treeview': return <TreeViewView t={c as TTreeView} p={p} />;
@@ -353,7 +407,7 @@ function EditView({ c, p }: { c: TCustomEdit; p: Common }) {
         type={c.PasswordChar && c.PasswordChar !== '#0' && c.PasswordChar !== '\0' ? 'password' : 'text'}
         maxLength={c.MaxLength || undefined} style={fontStyle(c)} spellCheck={false}
         onChange={(e) => { if (db && field && field.fieldType !== 'string') setDraft(e.target.value); else commit(e.target.value); }}
-        onKeyDown={inputKeyHandler(c, () => value, (v) => commit(v))}
+        onKeyDown={inputKeyHandler(c, () => value, (v) => commit(v))} onKeyUp={keyUpHandler(c)}
         onFocus={(e) => { focusHandlers(c).onFocus(); if (c.AutoSelect) e.currentTarget.select(); }}
         onBlur={() => { if (draft !== null) commit(draft); focusHandlers(c).onBlur(); }}
         onDoubleClick={() => run(c.fire('OnDblClick', c), c.Name)} onClick={() => run(c.fire('OnClick', c), c.Name)} />
@@ -368,7 +422,7 @@ function MemoView({ c, p }: { c: TMemo; p: Common }) {
     <div {...p}>
       <textarea className="v-input" value={value} readOnly={ro} disabled={!c.Enabled} style={{ ...fontStyle(c), ...bgStyle(c), whiteSpace: (c as any).WordWrap === false ? 'pre' : undefined }}
         onChange={(e) => run(c.userInput(e.target.value), c.Name)}
-        onKeyDown={inputKeyHandler(c, () => value, (v) => run(c.userInput(v), c.Name))} {...focusHandlers(c)} />
+        onKeyDown={inputKeyHandler(c, () => value, (v) => run(c.userInput(v), c.Name))} onKeyUp={keyUpHandler(c)} {...focusHandlers(c)} />
     </div>
   );
 }
@@ -411,7 +465,7 @@ function ComboView({ c, p }: { c: TComboBox; p: Common }) {
           const i = items.indexOf(e.target.value);
           run(i >= 0 ? c.userSelect(i) : c.userText(e.target.value), c.Name);
         }}
-        onKeyDown={inputKeyHandler(c, () => c.Text, (v) => run(c.userText(v), c.Name))} {...focusHandlers(c)} />
+        onKeyDown={inputKeyHandler(c, () => c.Text, (v) => run(c.userText(v), c.Name))} onKeyUp={keyUpHandler(c)} {...focusHandlers(c)} />
       <datalist id={listId}>{items.map((s, i) => <option key={i} value={s} />)}</datalist>
     </div>
   );
@@ -567,7 +621,8 @@ function ToolButtonView({ b, bar, style }: { b: TToolButton; bar?: TToolBar; sty
   return (
     <span style={{ display: 'inline-flex', ...style }}>
       <button ref={ref} className={`tb-btn${capBelow ? ' cap-below' : ''}${b.Down ? ' down' : ''}`} disabled={!b.Enabled} title={b.Hint || b.Caption}
-        aria-pressed={st === 'tbscheck' ? b.Down : undefined} onClick={click} style={{ minWidth: bar && !showCap ? bar.ButtonWidth : undefined, ...fontStyle(b) }}>
+        aria-pressed={st === 'tbscheck' ? b.Down : undefined} onClick={click} style={{ minWidth: bar && !showCap ? bar.ButtonWidth : undefined, ...fontStyle(b) }}
+        onMouseDown={noFocus} tabIndex={-1}>
         {Ic ? <span className="ic"><Ic size={capBelow ? 16 : 14} /></span> : null}
         {showCap && b.Caption ? <span>{b.Caption.replace(/&(?!&)/g, '')}</span> : null}
       </button>
@@ -600,6 +655,29 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
   const first = Math.max(0, Math.floor(scroll / ROW_H) - 5);
   const last = Math.min(total, first + Math.ceil(viewH / ROW_H) + 12);
   const rowsKey = active ? ds!.rows : null;
+  // in-place cell editor (dgEditing), as TDBGrid's InplaceEditor
+  const [ed, setEd] = useState<{ row: number; col: number; text: string } | null>(null);
+  const editRow = insertAt >= 0 ? insertAt : cur;
+  const canEdit = (ci: number) => {
+    const col = cols[ci]; const f = col?.Field;
+    return !!f && !!g.DataSource && g.Options.includes('dgediting') && !rowSelect && !g.ReadOnly && !(col as any).ReadOnly
+      && !f.ReadOnly && f.FieldKind === 'fkdata' && f.fieldType !== 'boolean' && !(ds as any)?.ReadOnly;
+  };
+  const openEd = (initial?: string) => {
+    const ci = g.SelectedIndex;
+    if (!active || editRow < 0 || !canEdit(ci)) return false;
+    setEd({ row: editRow, col: ci, text: initial ?? cols[ci].Field!.Text });
+    return true;
+  };
+  const commitEd = async (text: string) => {
+    const e = ed; setEd(null);
+    box.current?.focus({ preventScroll: true });
+    if (!e) return;
+    const f = cols[e.col]?.Field;
+    if (!f || text === f.Text) return;
+    await g.DataSource!.editField(f, f.fieldType === 'string' ? text : f.fromString(text));
+  };
+  useEffect(() => { if (ed && (ed.row !== editRow || ed.col !== g.SelectedIndex)) setEd(null); }, [editRow, g.SelectedIndex]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { g.markStylesDirty(); }, [rowsKey, count, g]);
   useEffect(() => { if (active) void g.computeStyles(); });
   // keep current row visible
@@ -619,6 +697,8 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
     if (ch && hasKeyHandlers(g, true)) void runGuarded(() => keyEvents(g, { key: ch, keyCode: e.keyCode, shift }, 'press'), g.Name);
     const page = Math.max(1, Math.floor(viewH / ROW_H) - 1);
     const go = (i: number) => { e.preventDefault(); run(ds.gotoIndex(Math.max(0, Math.min(count - 1, i))), g.Name); };
+    if ((e.key === 'F2' || e.key === 'Enter') && openEd()) { e.preventDefault(); return; }
+    if (ch && !e.ctrlKey && !e.altKey && !e.metaKey && openEd(ch)) { e.preventDefault(); return; }
     switch (e.key) {
       case 'ArrowDown': go(cur + 1); break;
       case 'ArrowUp': go(cur - 1); break;
@@ -646,7 +726,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
     const cls = [isCur ? (rowSelect ? 'rowsel' : 'cur') : '', msel ? 'msel' : '', isCur && ds!.isEditing() ? 'editing' : ''].join(' ');
     rows.push(
       <tr key={isInsertRow ? 'ins' : viewIdx} className={cls} style={{ height: ROW_H }}
-        onDoubleClick={() => run(g.userDblClick(), g.Name)}>
+        onDoubleClick={() => { if (!g.hasHandler('OnDblClick') && openEd()) return; run(g.userDblClick(), g.Name); }}>
         {ind ? <td className="ind">{isCur ? (ds!.isEditing() ? (isInsertRow ? '*' : '✎') : <Play size={9} fill="currentColor" />) : msel ? '•' : ''}</td> : null}
         {cols.map((col, ci) => {
           const f = col.Field;
@@ -659,8 +739,39 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           return (
             <td key={ci} className={`${isNum && !align ? 'num' : ''}${isCur && ci === g.SelectedIndex ? ' cell-sel' : ''}`}
               style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : !isCur ? colBg : undefined, color: !isCur && st?.fg !== undefined ? toCss(st.fg) : undefined, fontWeight: st?.bold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
-              onMouseDown={(e) => { if (!isInsertRow) run(g.userClickCell(viewIdx, ci, { ctrl: e.ctrlKey || e.metaKey, shift: e.shiftKey }), g.Name); }}>
-              {f?.fieldType === 'boolean' ? (v ? '✓' : '') : text}
+              onMouseDown={(e) => {
+                if (ed && isCur && ci === ed.col) return;
+                // VCL TDBGrid: only the left button moves the record / changes the selection (right = popup)
+                if (e.button !== 0) return;
+                const again = isCur && ci === g.SelectedIndex && !e.ctrlKey && !e.shiftKey;
+                if (!isInsertRow) run(g.userClickCell(viewIdx, ci, { ctrl: e.ctrlKey || e.metaKey, shift: e.shiftKey }), g.Name);
+                if (again) { e.preventDefault(); openEd(); }
+              }}>
+              {ed && isCur && ci === ed.col ? (
+                <>{(col as any).PickList?.Count ? (
+                  <datalist id={`pl-${g.Name}-${ci}`}>{String((col as any).PickList.Text).split('\r\n').filter((x: string) => x !== '').map((x: string) => <option key={x} value={x} />)}</datalist>
+                ) : null}
+                <input className="cell-ed" autoFocus value={ed.text} spellCheck={false} style={{ textAlign: align ?? (isNum ? 'right' : 'left') }}
+                  list={(col as any).PickList?.Count ? `pl-${g.Name}-${ci}` : undefined}
+                  maxLength={f?.fieldType === 'string' && f.Size ? f.Size : undefined}
+                  onChange={(ev) => setEd({ ...ed, text: ev.target.value })}
+                  onFocus={(ev) => ev.currentTarget.select()}
+                  onBlur={() => run(commitEd(ed.text), g.Name)}
+                  onKeyDown={(ev) => {
+                    ev.stopPropagation();
+                    if (ev.key === 'Enter') { ev.preventDefault(); run(commitEd(ed.text), g.Name); }
+                    else if (ev.key === 'Escape') { ev.preventDefault(); setEd(null); box.current?.focus({ preventScroll: true }); }
+                    else if (ev.key === 'Tab') {
+                      ev.preventDefault();
+                      const next = Math.max(0, Math.min(cols.length - 1, g.SelectedIndex + (ev.shiftKey ? -1 : 1)));
+                      run(commitEd(ed.text).then(() => { g.SelectedIndex = next; }), g.Name);
+                    } else if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') {
+                      ev.preventDefault();
+                      const to = Math.max(0, Math.min(count - 1, cur + (ev.key === 'ArrowUp' ? -1 : 1)));
+                      run(commitEd(ed.text).then(() => ds!.gotoIndex(to)), g.Name);
+                    }
+                  }} /></>
+              ) : f?.fieldType === 'boolean' ? (v ? '✓' : '') : text}
             </td>
           );
         })}
@@ -683,7 +794,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           <thead>
             <tr>
               {ind ? <th className="ind" /> : null}
-              {cols.map((c, i) => <th key={i} title={c.DisplayName} onClick={() => run(g.userTitleClick(i), g.Name)} style={{ textAlign: c.Title.Alignment === 'tarightjustify' ? 'right' : c.Title.Alignment === 'tacenter' ? 'center' : undefined }}>{c.Title.Caption || c.Field?.DisplayLabel || c.FieldName}</th>)}
+              {cols.map((c, i) => <th key={i} title={c.DisplayName} onClick={() => run(g.userTitleClick(i), g.Name)} style={{ textAlign: c.Title.Alignment === 'tarightjustify' ? 'right' : c.Title.Alignment === 'tacenter' ? 'center' : undefined }}>{c.Title.Caption || c.Field?.DisplayLabel || c.FieldName}{c.Title.SortMarker === 'smdowneh' ? ' ▼' : c.Title.SortMarker === 'smupeh' ? ' ▲' : ''}</th>)}
               <th style={{ borderRight: 0 }} />
             </tr>
           </thead>

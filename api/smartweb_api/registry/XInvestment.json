@@ -1,0 +1,105 @@
+{
+ "name": "XInvestment",
+ "caption": "Əlavə modullar / Depozitlər / İnvestisiyalar",
+ "dir": "Packages/PK_Investisiya",
+ "mainForm": "TFrm_Investisiya",
+ "plugin": false,
+ "plugins": {
+  "investisiya_contracts.bpl": "P_Investisiya_Contracts",
+  "investisiya_settings.bpl": "P_Investisiya_settings",
+  "investment_payment.bpl": "P_Investment_payment",
+  "investment_transaction.bpl": "P_Investment_Transaction",
+  "investmentpercentconverting.bpl": "P_InvestmentPercentConverting"
+ },
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DsValute",
+   "source": "TDm_Pk_investisiya.DsValute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name from avalute",
+   "variables": [],
+   "unit": "Dm_Pk_investisiyaimpl"
+  },
+  {
+   "name": "Ds_Cust",
+   "source": "TDm_Pk_investisiya.Ds_Cust",
+   "kind": "TOracleDataSet",
+   "sql": "select id , name from customers\nwhere cust_type=0\n--and group_klie=70 \nand close_dat is  NULL\norder by id",
+   "variables": [],
+   "unit": "Dm_Pk_investisiyaimpl"
+  },
+  {
+   "name": "dsinvest_type",
+   "source": "TDm_Pk_investisiya.dsinvest_type",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_investment_type",
+   "variables": [],
+   "unit": "Dm_Pk_investisiyaimpl"
+  },
+  {
+   "name": "DsMain_Contracts",
+   "source": "TDm_Pk_investisiya.DsMain_Contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.id, iit.name contr_type, a.begin_date, a.end_date, (a.ammount+nvl((select sum(ammount) from ins_invest_payment where cid=a.id),0)) as ammount,a.percent,\n(select name from filial where id=a.filial)as filial,\n(select acc_no from account where id=a.main_acc_id) as main_acc_id,\n(select acc_no from account where id=a.per_acc_id)  as per_acc_id,a.per_ammount,round((a.per_ammount/360),2) as Calc_day_per,\nround((a.per_ammount/360)*10/100,2) as omv,(round((a.per_ammount/360),2)-round((a.per_ammount/360)*10/100,2)) as remainder_per_ammount,\ncust.name as musteri, a.contract_name,ii.name as muddetli,av.val_name,a.status,a.close_prefix,(select abs(ostat) from tenostat where acc_id=a.main_acc_id) as esas_qaliq,\n(select ostat from tenostat where acc_id=a.per_acc_id) as faiz_qaliq\nfrom ins_investment_contracts a,ins_investment_type iit,ins_investment_time ii,customers cust,avalute av\nwhere a.invest_type_id=iit.id and a.kli_id=cust.id and a.invest_time=ii.id and a.valute_id=av.valute\n\n\n",
+   "variables": [],
+   "unit": "Dm_Pk_investisiyaimpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "pk_ins_Investment",
+   "package": "ins_Investment",
+   "mode": "positional",
+   "source": "TDm_Pk_investisiya.pk_ins_Investment",
+   "routines": [
+    {
+     "name": "close_Investment_contracts",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "commit_Investment_contracts",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "del_invest_contracts",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "open_Investment_contracts",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

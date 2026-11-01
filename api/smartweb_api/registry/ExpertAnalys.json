@@ -1,0 +1,220 @@
+{
+ "name": "ExpertAnalys",
+ "caption": "Balans / Analiz / Ekspres Analiz",
+ "dir": "Packages/ExpertAnalys",
+ "mainForm": "TExpertAnalysX",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Operations",
+   "source": "TExpertDataModul.Operations",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  op.rowID,op.*\nfrom\n  operations op\nwhere\n  schemaid = :schemaid\norder by\n  id\n ",
+   "variables": [
+    {
+     "name": "SCHEMAID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Operations_balance",
+   "source": "TExpertDataModul.Operations_balance",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   opb.rowid,opb.*\n  ---,decode(typeid,1,'A',2,'P',3,'A-P','Unknown') as type\nfrom\n  operation_balances opb\n\nwhere\n  opb.operationid = :operationid\norder by\n   opb.balance\n  ,opb.accno\n  ,opb.accgroup\n  ,opb.class\n \n ",
+   "variables": [
+    {
+     "name": "OPERATIONID",
+     "type": "float"
+    }
+   ],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Currency",
+   "source": "TExpertDataModul.Currency",
+   "kind": "TOracleDataSet",
+   "sql": "Select Valute,Valu_Name from avalute",
+   "variables": [],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Report",
+   "source": "TExpertDataModul.Report",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  distinct\n   op.schemaID\n  ,opb.operationid\n  ,bs.bal_cn\n  ,decode(typeid,1,'A',2,'P',3,'A-P','Unknown') as type\n  ,ar.acc_id\n  ,ar.ostat as LastRest\n  ,ar.pok_ostat as LastLRest\n  ,ac.acc_no\n  ,ac.val_acc\n  ,ac.name \n  ,av.val_name\n  ,op.operation\nfrom\n    archost ar\n   ,operation_balances opb\n   ,account ac\n   ,operations op\n   ,avalute av\n   ,bal_spr1 bs\nwhere\n  ar.acc_id =  ac.id\n   and ((ac.acc_no = opb.accno) or (bs.bal_cn = opb.balance) or (bs.accgroup = opb.accgroup) or (bs.part = opb.class))\n   and ac.bal_cn1 = bs.bal_cn\n   and op.id = opb.operationID\n   and ac.val_acc = av.valute\n   and ac.close_dat is null\n   and (Sb_expertanalyse.checktipacc(opb.tipacc,ac.tipacc)=1)\n   --line 29 + Branch Filter. Modified by TNariman '2-aug-2004'\n   and ar.datdate =:OperationDate\n\norder by\n  opb.operationid ,bs.bal_cn,ac.acc_no\n\n \n\n\n \n \n \n \n \n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "OPERATIONDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Sysdat",
+   "source": "TExpertDataModul.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from Sysdat",
+   "variables": [],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Traffics",
+   "source": "TExpertDataModul.Traffics",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  LastRemainder.bal_cn,\n  LastRemainder.type,\n  LastRemainder.acc_no,\n  LastRemainder.val_acc,\n  LastRemainder.name,\n  LastRemainder.val_name,\n  BeginRemainder.BeginRest,\n  BeginRemainder.BeginLRest,\n  TurnOvers.DebtTurnOver,\n  TurnOvers.DebtPokTurnOver,\n  TurnOvers.CreditTurnOver,\n  TurnOvers.CreditPokTurnOver,\n  LastRemainder.LastRest,\n  LastRemainder.LastLRest\nfrom\n\n(select\n  distinct\n   opb.operationid\n  ,ar.acc_id\n  ,op.operation\n  ,bs.bal_cn\n  ,ac.acc_no\n  ,ac.val_acc\n  ,av.val_name\n  ,decode(Sign(ar.ostat),-1,'A',1,'P',0,Decode(bs.typeid,1,'A',2,'P')) as type\n  ,abs(ar.ostat) as BeginRest\n  ,abs(ar.pok_ostat) as BeginLRest\n  ,ac.name, opb.tipacc as btipacc, ac.tipacc as atipacc\nfrom\n    archost ar\n   ,operation_balances opb\n   ,account ac\n   ,operations op\n   ,avalute av\n   ,bal_spr1 bs\nwhere\n  ar.acc_id =  ac.id\n   and ((ac.acc_no = opb.accno) or (bs.bal_cn = opb.balance) or (bs.accgroup = opb.accgroup) or (bs.part = opb.class))\n   and ac.bal_cn1 = bs.bal_cn\n   and op.id = opb.operationID\n   and ac.val_acc = av.valute\n   and ac.close_dat is null\n   and (op.ID =:operationID or opb.ID =:BalanceID)\n   --line 45 + Branch Filter. Modified by TNariman '18-feb-2005'\n   --and (Sb_expertanalyse.checktipacc(opb.tipacc,ac.tipacc)=1)\n   and ar.datdate =:BeginPeriod\n) BeginRemainder,\n\n(select\n  distinct\n   ar.acc_id\n  ,Sum(ar.obr_d) as DebtTurnOver\n  ,Sum(ar.pok_obr_d) as DebtPokTurnOver\n  ,Sum(ar.obr_k) as CreditTurnOver\n  ,Sum(ar.pok_obr_k) as CreditPokTurnOver\nfrom\n    archost ar\n   ,operation_balances opb\n   ,account ac\n   ,operations op\n   ,avalute av\n   ,bal_spr1 bs\nwhere\n  ar.acc_id =  ac.id\n   and ((ac.acc_no = opb.accno) or (bs.bal_cn = opb.balance) or (bs.accgroup = opb.accgroup) or (bs.part = opb.class))\n   and ac.bal_cn1 = bs.bal_cn\n   and op.id = opb.operationID\n   and ac.val_acc = av.valute\n   and ac.close_dat is null\n   and (op.ID =:operationID or opb.ID =:BalanceID)\n   --line 72 + Branch Filter. Modified by TNariman '18-feb-2005'\n   --and (Sb_expertanalyse.checktipacc(opb.tipacc,ac.tipacc)=1)\n   and ar.datdate between :BeginDate and :LastDate\ngroup by\n   ar.acc_id\n) TurnOvers,\n\n(select\n  distinct\n   opb.operationid\n  ,ar.acc_id\n  ,op.operation\n  ,bs.bal_cn\n  ,ac.acc_no\n  ,ac.val_acc\n  ,av.val_name\n  ,decode(Sign(ar.ostat),-1,'A',1,'P',0,Decode(bs.typeid,1,'A',2,'P')) as type\n  ,abs(ar.ostat) as LastRest\n  ,abs(ar.pok_ostat) as LastLRest\n  ,ac.name, opb.tipacc as btipacc, ac.tipacc as atipacc\nfrom\n    archost ar\n   ,operation_balances opb\n   ,account ac\n   ,operations op\n   ,avalute av\n   ,bal_spr1 bs\nwhere\n  ar.acc_id =  ac.id\n   and ((ac.acc_no = opb.accno) or (bs.bal_cn = opb.balance) or (bs.accgroup = opb.accgroup) or (bs.part = opb.class))\n   and ac.bal_cn1 = bs.bal_cn\n   and op.id = opb.operationID\n   and ac.val_acc = av.valute\n   and ac.close_dat is null\n   and (op.ID =:operationID or opb.ID =:BalanceID)\n   --line 107 + Branch Filter. Modified by TNariman '18-feb-2005'\n   --and (Sb_expertanalyse.checktipacc(opb.tipacc,ac.tipacc)=1)\n   and ar.datdate =:LastDate\n) LastRemainder\n\nwhere\n  BeginRemainder.Acc_ID (+) = LastRemainder.Acc_ID\n  and\n  LastRemainder.Acc_ID = TurnOvers.Acc_ID\n  and\n  (Sb_expertanalyse.checktipacc(LastRemainder.btipacc, LastRemainder.atipacc)=1)\norder by\n  LastRemainder.acc_no\n\n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "OPERATIONID",
+     "type": "integer"
+    },
+    {
+     "name": "BALANCEID",
+     "type": "integer"
+    },
+    {
+     "name": "BEGINPERIOD",
+     "type": "date"
+    },
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "LASTDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Accounts",
+   "source": "TExpertDataModul.Accounts",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   acc_no \nfrom \n   Account \nwhere \n   close_dat is null\n\norder by\n   acc_no",
+   "variables": [],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Balances",
+   "source": "TExpertDataModul.Balances",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   bal_cn\n  ,accgroup\n  ,part\nfrom\n   bal_spr1\norder by bal_cn",
+   "variables": [],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Schemas",
+   "source": "TExpertDataModul.Schemas",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   op.RowID\n  ,op.*\nfrom \n   operation_schema op",
+   "variables": [],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "TotalTraffics",
+   "source": "TExpertDataModul.TotalTraffics",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  ac.bal_cn1\n ,decode(bs.typeid,1,'A',2,'P',3,'A-P','Unknown')  as type\n ,abs(sum(ar.ostat)) as ostat\n ,abs(sum(ar.pok_ostat)) as pok_ostat\n ,sum(ar.obr_d) as DebtTurnOver\n ,sum(ar.pok_obr_d) as DebtPokTurnOver\n ,sum(ar.obr_k) as CreditTurnOver\n ,sum(ar.pok_obr_k) as CreditPokTurnOver\n ,max(bs.balname) as balname\nfrom\n  archost ar\n ,account ac\n ,bal_spr1 bs\n ,operations op\n ,operation_balances opb\nwhere\n  ar.acc_id = ac.ID\n   and ac.bal_cn1 = bs.bal_cn\n   and ((ac.acc_no = opb.accno) or (bs.bal_cn = opb.balance) or (bs.accgroup = opb.accgroup) or (bs.part = opb.class))\n   and op.ID = operationID\n   and ((op.ID =:operationID or opb.ID =:BalanceID or op.schemaID =:schemaID))\n   and ar.datdate=:operationDate\n   and ac.val_acc=%d\n   and abs(ar.ostat)>=%f\n   --line 26 + Branch Filter. Modified by TNariman '2-aug-2004'\n   and (Sb_expertanalyse.checktipacc(opb.tipacc,ac.tipacc)=1)\ngroup by\n  ac.bal_cn1\n ,decode(bs.typeid,1,'A',2,'P',3,'A-P','Unknown') \norder by\n  ac.bal_cn1\n\n\n\n \n \n \n \n\n \n \n \n \n \n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "OPERATIONID",
+     "type": "integer"
+    },
+    {
+     "name": "BALANCEID",
+     "type": "integer"
+    },
+    {
+     "name": "OPERATIONDATE",
+     "type": "date"
+    },
+    {
+     "name": "SCHEMAID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "SchemaTraffics",
+   "source": "TExpertDataModul.SchemaTraffics",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  op.id\n ,abs(sum(ar.ostat)) as ostat\n ,abs(sum(ar.pok_ostat)) as pok_ostat\n ,sum(ar.obr_d) as DebtTurnOver\n ,sum(ar.pok_obr_d) as DebtPokTurnOver\n ,sum(ar.obr_k) as CreditTurnOver\n ,sum(ar.pok_obr_k) as CreditPokTurnOver\n ,max(op.operation) as operation\nfrom\n  archost ar\n ,account ac\n ,bal_spr1 bs\n ,operations op\n ,operation_balances opb\nwhere\n  ar.acc_id = ac.ID\n   and ac.bal_cn1 = bs.bal_cn\n   and ((ac.acc_no = opb.accno) or (bs.bal_cn = opb.balance) or (bs.accgroup = opb.accgroup) or (bs.part = opb.class))\n   and op.ID = operationID\n   and op.schemaID =:schemaID\n   and ar.datdate =:operationDate\n   and ac.val_acc=%d\n   and abs(ar.ostat)>=%f\n   --line 25 + Branch Filter. Modified by TNariman '2-aug-2004'\n   and (Sb_expertanalyse.checktipacc(opb.tipacc,ac.tipacc)=1)\n\ngroup by\n  op.id\n\norder by\n  op.id\n\n\n\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "SCHEMAID",
+     "type": "integer"
+    },
+    {
+     "name": "OPERATIONDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "Branch",
+   "source": "TExpertDataModul.Branch",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as ID, 'Bütün filiallar' as name  from dual\nUnion\nselect ID, name  from filial \norder by ID",
+   "variables": [],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "PeriodData",
+   "source": "TExpertDataModul.PeriodData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  Max(dat) as BeginPeriod\nfrom \n  Operkurs\nwhere \n  dat<:BeginDate",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "ExpertDataModule"
+  },
+  {
+   "name": "AccFlags",
+   "source": "TExpertDataModul.AccFlags",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n   symbol,\n   name,\n   description\nFROM \n   account_flags",
+   "variables": [],
+   "unit": "ExpertDataModule"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

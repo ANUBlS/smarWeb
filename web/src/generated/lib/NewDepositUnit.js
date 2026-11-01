@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("NewDepositUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "StdCtrls", "DBViewComboBox", "SearchEdit", "ComCtrls", "DB", "DataModNewDepositUnit", "StoredProgramsUnit", "DepositDataModuleUnit"]);
   const C = [U];
+  U.enumType("toperationmode", 2);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.defClass("ELoadContractError", "Exception", {}, {});

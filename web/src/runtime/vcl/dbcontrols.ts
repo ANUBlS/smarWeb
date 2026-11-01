@@ -3,7 +3,8 @@ import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
 import { TWinControl, TCustomEdit, TCheckBox, TComboBox, TRadioGroup, TControl } from './controls';
-import { TCollection, TCollectionItem, TFont, TCanvas, TStrings, Indexed } from './classes';
+import { TCollection, TCollectionItem, TFont, TCanvas, TStrings, Indexed, TPicture } from './classes';
+import { base64ToBlob, blobToBase64 } from '../files';
 import { colorValue } from './colors';
 import type { TDataSource } from '../data/datasource';
 import type { TDataSet, Row } from '../data/dataset';
@@ -40,7 +41,11 @@ export class TDBEdit extends TCustomEdit {
   set Text(v: string) { this._text = str(v); }
   override async setTextFromCode(v: string) {
     const f = this.Field;
-    if (f && this.DataSource) await this.DataSource.editField(f, f.fromString(str(v)));
+    // VCL: Text := X only reaches the field when the dataset is already editing (UpdateRecord on post);
+    // in browse mode it never puts the dataset into edit (the text is replaced on the next record change).
+    const st = f?.DataSet?.State;
+    if (f && this.DataSource && (st === 'dsedit' || st === 'dsinsert')) await this.DataSource.editField(f, f.fromString(str(v)));
+    else if (f) { this._text = str(v); invalidate(); }
     else await super.setTextFromCode(v);
   }
   override async userInput(v: string) {
@@ -324,6 +329,13 @@ export class TColumnTitle {
   Alignment = 'taleftjustify';
   Font = new TFont();
   Color: number = -2147483633;
+  /** EhLib (TColumnTitleEh): a clickable title (OnTitleBtnClick) and its sort arrow. */
+  TitleButton = false;
+  SortMarker = 'smnoneeh';
+  SortIndex = 0;
+  Hint = '';
+  EndEllipsis = false;
+  Orientation = 'tohorizontal';
 }
 export class TColumn extends TCollectionItem {
   FieldName = '';
@@ -491,15 +503,32 @@ export class TDBGrid extends TWinControl {
         const r = this.curRow();
         if (r) {
           if (e?.ctrl) { if (this.SelectedRows.set.has(r)) this.SelectedRows.set.delete(r); else this.SelectedRows.set.add(r); }
-          else if (!e?.shift) { this.SelectedRows.set.clear(); }
+          // VCL TCustomDBGrid.MouseDown: a plain click selects just the clicked row
+          else if (!e?.shift) { this.SelectedRows.set.clear(); this.SelectedRows.set.add(r); }
         }
       }
       invalidate();
-      await this.fire('OnCellClick', this, this.visibleColumns()[colIdx] ?? null);
+      // TDBGridClickEvent = procedure(Column: TColumn) — no Sender
+      await this.fire('OnCellClick', this.visibleColumns()[colIdx] ?? null);
     }, this.Name + '.Click');
   }
   async userDblClick() { await this.fire('OnDblClick', this); }
-  async userTitleClick(colIdx: number) { await this.fire('OnTitleClick', this, this.visibleColumns()[colIdx] ?? null); }
+  async userTitleClick(colIdx: number) {
+    const col = this.visibleColumns()[colIdx] ?? null;
+    // EhLib title buttons: dghAutoSortMarking cycles the sort arrow (none → down → up → down), then
+    // OnTitleBtnClick(Sender, ACol, Column)
+    if (col && col.Title.TitleButton) {
+      const eh: string[] = (this as unknown as { OptionsEh?: string[] }).OptionsEh ?? [];
+      if (eh.includes('dghautosortmarking')) {
+        const next = col.Title.SortMarker === 'smdowneh' ? 'smupeh' : 'smdowneh';
+        if (!eh.includes('dghmultisortmarking')) for (const c of this.visibleColumns()) if (c !== col) c.Title.SortMarker = 'smnoneeh';
+        col.Title.SortMarker = next;
+        invalidate();
+      }
+      await this.fire('OnTitleBtnClick', this, colIdx, col);
+    }
+    await this.fire('OnTitleClick', col);
+  }
 }
 function defaultWidth(f: TField) {
   switch (f.fieldType) {
@@ -525,13 +554,47 @@ registerBuiltin('TDBGridEh', TDBGridEh);
 registerBuiltin('TXDBGrid', TDBGrid);
 registerBuiltin('TDBCtrlGrid', TDBGrid);
 
+/** TDBImage: the picture of a BLOB field (base64 in the field); changing the picture while the record is
+ * being edited writes it to the field (VCL: TDBImage.UpdateData assigns the picture on post). */
 export class TDBImage extends TControl {
   DataSource: TDataSource | null = null;
   DataField = '';
   Stretch = false;
+  Center = true;
+  Proportional = false;
+  AutoDisplay = true;
+  ReadOnly = false;
+  QuickDraw = true;
+  private pic = new TPicture();
+  private syncedFrom: unknown = undefined;
+  constructor() {
+    super();
+    this.pic.onChange = () => { void this.pictureChanged(); };
+  }
   get kind() { return 'image'; }
-  get Picture() { return { Graphic: null, LoadFromFile: () => undefined, SaveToFile: () => undefined, Assign: () => undefined }; }
-  LoadPicture() { /* */ }
+  get kindDb() { return true; }
+  get Field() { return TDBControlBase.field(this.DataSource, this.DataField); }
+  private sync() {
+    const v = this.Field?.Value;
+    if (v === this.syncedFrom) return;
+    this.syncedFrom = v;
+    const ch = this.pic.onChange; this.pic.onChange = null;
+    this.pic.setBlob(typeof v === 'string' && v ? base64ToBlob(v) : null);
+    this.pic.onChange = ch;
+  }
+  get Picture() { this.sync(); return this.pic; }
+  private async pictureChanged() {
+    const f = this.Field;
+    const st = f?.DataSet?.State;
+    if (!f || this.ReadOnly || (st !== 'dsedit' && st !== 'dsinsert')) return;
+    const data = this.pic.Graphic ? await this.pic.Graphic.encoded() : null;
+    const v = data ? await blobToBase64(data) : null;
+    this.syncedFrom = v;
+    await f.setValue(v);
+  }
+  LoadPicture() { this.sync(); invalidate(); }
+  CopyToClipboard() { /* */ }
+  PasteFromClipboard() { /* */ }
 }
 registerBuiltin('TDBImage', TDBImage);
 

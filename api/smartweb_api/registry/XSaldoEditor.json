@@ -1,0 +1,49 @@
+{
+ "name": "XSaldoEditor",
+ "caption": "Əlavə modullar / Mühasibat və balans / Saldo redaktoru",
+ "dir": "Packages/SaldoEditor",
+ "mainForm": "TSaldoEditorForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Accs",
+   "source": "TSaldoEditorForm.Accs",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  a.acc_no as AccountNo,\n  c.val_name as CurrencySName,\n  a.Name as AccountName,\n  t.datdate as LastOperationDate,\n  t.Ostat as Amount,\n  t.Pok_Ostat as LAmount,\n  t.Obr_d as DebitTurnover,\n  t.pok_obr_d as DebitLTurnover,\n  t.obr_k as CreditTurnover,\n  t.pok_obr_k as CreditLTurnover\nfrom\n  account a,\n  tenostat t,\n  avalute c\nwhere\n  (a.close_dat is null)\n  and (t.acc_id = a.id)\n  and (c.valute = a.val_acc)\norder by AccountNo ",
+   "variables": [],
+   "unit": "SaldoEditorFormImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

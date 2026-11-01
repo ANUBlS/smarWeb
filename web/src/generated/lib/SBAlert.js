@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("SBAlert", ["sboapiDataModuleImpl"]);
   const C = [U];
+  U.enumType("talertraisestatus", 2);
   U.const("arsRaised", 0);
   U.const("arsTimeout", 1);
   U.init(async () => {

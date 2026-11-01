@@ -1,0 +1,67 @@
+{
+ "name": "XTranslator",
+ "caption": "Əlavə modullar / İdarəetmə / Tərcüməçi",
+ "dir": "Packages/Translator",
+ "mainForm": "TFormTranslator",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OS_SL_Translates",
+   "source": "TFormTranslator.OS_SL_Translates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT SL.RowID, SL.ID, SL.wrd_AZE, SL.wrd_ENG\n  FROM SL_Translates SL\nwhere 1=1 :Filt",
+   "variables": [
+    {
+     "name": "FILT",
+     "type": "subst"
+    }
+   ],
+   "unit": "UnitTranslatorImpl1"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPack_SL",
+   "package": "SL_CONTROL",
+   "mode": "positional",
+   "source": "TFormTranslator.OPack_SL",
+   "routines": [
+    {
+     "name": "DeleteUnwishedValues",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

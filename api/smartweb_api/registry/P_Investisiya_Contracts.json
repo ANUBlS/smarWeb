@@ -1,0 +1,156 @@
+{
+ "name": "P_Investisiya_Contracts",
+ "caption": "",
+ "dir": "Packages/Investisiya_Contracts",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Dsinvest_type",
+   "source": "TDm_Contracts_Investisiya.Dsinvest_type",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_investment_type\norder by id asc",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "ODSAvalute",
+   "source": "TDm_Contracts_Investisiya.ODSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute\norder by valute",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "Dscust",
+   "source": "TDm_Contracts_Investisiya.Dscust",
+   "kind": "TOracleDataSet",
+   "sql": "select id , name from customers\nwhere cust_type=0 and close_dat is  NULL\norder by id",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "DsSysdat",
+   "source": "TDm_Contracts_Investisiya.DsSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "Ds_invest_time",
+   "source": "TDm_Contracts_Investisiya.Ds_invest_time",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_investment_time",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "Ds_invest_contracts",
+   "source": "TDm_Contracts_Investisiya.Ds_invest_contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from ins_investment_contracts c\nwhere c.id=:cid",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "DSFilial",
+   "source": "TDm_Contracts_Investisiya.DSFilial",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial\nwhere id=0",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "Ds_Main_Account",
+   "source": "TDm_Contracts_Investisiya.Ds_Main_Account",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.kli_id,a.acc_no,a.bal_cn1,a.name from account a,ins_investment_acc_bal_cn iibc\nwhere a.bal_cn1=iibc.bal_cn and iibc.dict_id=5\n\n/*select id,kli_id,acc_no,name from account\nwhere id in (41719,41720,41721,41722,41723,42938,43097,51867,56325)\nselect id,kli_id,acc_no,name from account\nwhere acc_no like '%3801'*/",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "Ds_per_account",
+   "source": "TDm_Contracts_Investisiya.Ds_per_account",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.kli_id,a.acc_no,a.bal_cn1,a.name from account a,ins_investment_acc_bal_cn iibc\nwhere a.bal_cn1=iibc.bal_cn and iibc.dict_id=1\n\n\n/*select id,kli_id,acc_no,name from account\nwhere acc_no like '%3804'*/",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "ds_ostat",
+   "source": "TDm_Contracts_Investisiya.ds_ostat",
+   "kind": "TOracleDataSet",
+   "sql": "select ostat from tenostat\nwhere acc_id=:p_acc_id",
+   "variables": [
+    {
+     "name": "P_ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "Ds_cur_account",
+   "source": "TDm_Contracts_Investisiya.Ds_cur_account",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.kli_id,a.acc_no,a.bal_cn1,a.name from account a,ins_investment_acc_bal_cn iibc\nwhere a.bal_cn1=iibc.bal_cn and iibc.dict_id=2\n\n/*select id,kli_id,acc_no,name from account\nwhere acc_no like '%3804'*/",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "Ds_expense_account",
+   "source": "TDm_Contracts_Investisiya.Ds_expense_account",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.kli_id,a.acc_no,a.bal_cn1,a.name from account a,ins_investment_acc_bal_cn iibc\nwhere a.bal_cn1=iibc.bal_cn and iibc.dict_id=6\n\n/*select id,kli_id,acc_no,name from account\nwhere acc_no like '%3804'*/",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  },
+  {
+   "name": "Ds_gelir",
+   "source": "TDm_Contracts_Investisiya.Ds_gelir",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.kli_id,a.acc_no,a.bal_cn1,a.name from account a,ins_investment_acc_bal_cn iibc\nwhere a.bal_cn1=iibc.bal_cn and iibc.dict_id=3\n\n/*select id,kli_id,acc_no,name from account\nwhere acc_no like '%3804'*/",
+   "variables": [],
+   "unit": "Dm_Contracts_Investisiyaimpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

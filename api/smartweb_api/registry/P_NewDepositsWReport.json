@@ -1,0 +1,120 @@
+{
+ "name": "P_NewDepositsWReport",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsWReport",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "TemplatesDataSet",
+   "source": "TNewDepositsDMWReport.TemplatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,path,name from\ndm_wr_templates where id=:id \norder by name",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMWReportImpl"
+  },
+  {
+   "name": "DepositInfoDataSet",
+   "source": "TNewDepositsDMWReport.DepositInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM dm_wr_depositinfo\nwhere id# = :ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMWReportImpl"
+  },
+  {
+   "name": "BookmarksDataSet",
+   "source": "TNewDepositsDMWReport.BookmarksDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select  fieldid, bookmarkname\nfrom dm_wr_bookmarks\nwhere templateid=:templid\n",
+   "variables": [
+    {
+     "name": "TEMPLID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMWReportImpl"
+  },
+  {
+   "name": "FieldsDataSet",
+   "source": "TNewDepositsDMWReport.FieldsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,fieldname,description\nfrom dm_wr_fields\n",
+   "variables": [],
+   "unit": "NewDepositsDMWReportImpl"
+  },
+  {
+   "name": "ReplaceDataSet",
+   "source": "TNewDepositsDMWReport.ReplaceDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   DM_WR_BOOKMARKS B\n , DM_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "NewDepositsDMWReportImpl"
+  },
+  {
+   "name": "DMGroups",
+   "source": "TNewDepositsDMWReport.DMGroups",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_wr_groups\nwhere dtypeid=:dtypeid",
+   "variables": [
+    {
+     "name": "DTYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMWReportImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

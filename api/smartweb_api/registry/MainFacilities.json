@@ -1,0 +1,455 @@
+{
+ "name": "MainFacilities",
+ "caption": "Balans / Əsas vəsaitlər / Əsas vəsaitlərin idarə olunması",
+ "dir": "Packages/MainFacilities",
+ "mainForm": "TMainFacilities",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "UntMainTransactions",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ViewGroup",
+   "source": "TMainFDataModule.ViewGroup",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   id,\n   name,\n   amort,\n   taxamort, \n   main_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(main_account) as MainAccNo,\n   exp_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(exp_account) as DebtAccNo,\n   amort_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(amort_account) as CreditAccNo,\n   sale_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(sale_account) as SaleAccNo\nFrom\n   Groups\n \n \n \n ",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ViewWares",
+   "source": "TMainFDataModule.ViewWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select  \n         W.*\nFrom  \n         Wares W\nWhere  \n        (W.GroupsID = :GroupsID)\n     \nOrder by :Title   \n  ",
+   "variables": [
+    {
+     "name": "GROUPSID",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ExcelPreviewCurrent",
+   "source": "TMainFDataModule.ExcelPreviewCurrent",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n       id,\n       inventar_date,\n       inventar,\n       name,\n       in_date,\n       in_num,\n       first_price,\n       producer_plane,\n       amort,\n       amort_date,\n       allamort\n     --balance_price\nFrom\n   Wares\n\n\nOrder by\n    GroupsID\n       ,ID\n      ,first_price  \n \n \n \n \n ",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSWaresID",
+   "source": "TMainFDataModule.ODSWaresID",
+   "kind": "TOracleDataSet",
+   "sql": "Select  \n   ID, \n   Name, \n   Inventar\nFrom\n   Wares\nWhere\n    ID=(Select \n              max(ID) \n          From  \n              Wares)",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSDepartments",
+   "source": "TMainFDataModule.ODSDepartments",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   ID,\n   department\nFrom\n   Departments",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSTakeDepartmentID",
+   "source": "TMainFDataModule.ODSTakeDepartmentID",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   ID\nFrom\n   Departments\nWhere\n   department=:Dname",
+   "variables": [
+    {
+     "name": "DNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSTakeGroupID",
+   "source": "TMainFDataModule.ODSTakeGroupID",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n    ID,\n    Amort\nFrom\n    Groups\nWhere\n    name=:Gname",
+   "variables": [
+    {
+     "name": "GNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSMODERN",
+   "source": "TMainFDataModule.ODSMODERN",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n     *\nFrom  \n     MODERNED_WARES\nWhere (id=:WID) and modern_date=\n(select max(modern_date) from moderned_wares where id=:WID)  ",
+   "variables": [
+    {
+     "name": "WID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSREPAIR",
+   "source": "TMainFDataModule.ODSREPAIR",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n     *\nFrom  \n     REPAIRED_WARES\nWhere (id=:WID) and repair_date=\n (\nSelect  \n   max(repair_date) \nFrom  \n   REPAIRED_WARES\nwhere id=:WID\n )  \n",
+   "variables": [
+    {
+     "name": "WID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ExcelPreviewCopyOff",
+   "source": "TMainFDataModule.ExcelPreviewCopyOff",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n       ID,\n       inventar_date,\n       inventar,\n       name,\n       in_date,\n       in_num,\n       first_price,\n       producer_plane,\n       amort,\n       amort_date,\n       allamort,\n    --balance_price,\n       modern_date,\n       modern_num,\n       modern_summa,\n       repair_date,\n       repair_num,\n       repair_summa,\n       out_date,\n       out_num,\n       cause_out\nFrom\n   Archive_wares1\n\n\n ",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "M1",
+   "source": "TMainFDataModule.M1",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n     ID,\n     modern_num,\n     modern_summa,\n     modern_date\nFrom \n     Moderned_wares\nTESt",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "R1",
+   "source": "TMainFDataModule.R1",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n     ID,\n     repair_num,\n     repair_summa,\n     repair_date\nFrom \n     Repaired_wares\nTest",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ExcelPreviewGroups",
+   "source": "TMainFDataModule.ExcelPreviewGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  G.ID,\n  Max (G.name),\n  Max (G.amort),\n  Sum (W.first_price),\n  Sum (W.balance_price),\n  Sum(W.allamort)\nFROM\n   Wares W,\n   Groups G\n   WHERE G.ID = W.GroupsID\nGROUP BY G.ID\nORDER BY G.ID\n",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSTransaction",
+   "source": "TMainFDataModule.ODSTransaction",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  G.ID,\n   max(G.name) as Name,\n     max(G.main_account) as Main_account ,   \n     max(G.exp_account) as Exp_account ,\n     max(G.amort_account) as Amort_account,\n     max(G.Sale_account) as Sale_account,\n      sum(W.remainder) as Rest\nFrom\n   Wares W,\n     Groups G\nWhere\n   G.ID=W.GroupsID and W.close_format <>2\n\nGroup by G.ID\n ",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSTaxPercents",
+   "source": "TMainFDataModule.ODSTaxPercents",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n       id,\n       inventar_date,\n       inventar,\n       name,\n       in_date,\n       in_num,\n       first_price,\n       producer_plane,\n       amort,\n       allamort,\n       taxpercentprice,\n       remainder, \n       tax,\n       taxamort,\n       alltaxamort \nFrom \n   Wares\n\nOrder by \n    ID,\n    balance_price\n ",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSTraffics",
+   "source": "TMainFDataModule.ODSTraffics",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   *\nFrom\n    MFTraffics\nwhere\n   ID =:WaresID \n\nOrder by \n   amort_date",
+   "variables": [
+    {
+     "name": "WARESID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSDepartmentsPrint",
+   "source": "TMainFDataModule.ODSDepartmentsPrint",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n    *\nFrom\n   Wares  \n\nOrder by\n     GroupsID,Inventar_date",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSBankInfo",
+   "source": "TMainFDataModule.ODSBankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   AZ_NAME  FullBankName\nFrom \n   BankInfo",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSGroupFilter",
+   "source": "TMainFDataModule.ODSGroupFilter",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n    *\nFrom\n   Groups\nOrder by\n   ID",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSSumModWares",
+   "source": "TMainFDataModule.ODSSumModWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n     GroupsID,\n     sum(modern_summa) as modern_summa     \nFrom\n      Moderned_wares\nwhere (groupsid = :groupsid) \nGroup by GroupsID\n ",
+   "variables": [
+    {
+     "name": "GROUPSID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSSumRepair",
+   "source": "TMainFDataModule.ODSSumRepair",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n     GroupsID,\n     sum(repair_summa) as repair_summa\nFrom\n      Repaired_wares\nwhere (groupsid = :groupsid) \nGroup by GroupsID\n ",
+   "variables": [
+    {
+     "name": "GROUPSID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSSumWares",
+   "source": "TMainFDataModule.ODSSumWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n     GroupsID,\n     sum(First_price) FPrice,\n     sum(Balance_price) BPrice,\n     sum(AllAmort) AllAmort,\n     sum(Remainder) Remainder \nFrom\n      Wares \nwhere (groupsid = :groupsid) \n           \nGroup by GroupsID\n ",
+   "variables": [
+    {
+     "name": "GROUPSID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSWClose",
+   "source": "TMainFDataModule.ODSWClose",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   *\nFrom\n     Wares",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSDifferenceReport",
+   "source": "TMainFDataModule.ODSDifferenceReport",
+   "kind": "TOracleDataSet",
+   "sql": "begin\n  SB_Main_Facilities.OpenCursor(:ACursor,:AStrParam);\nend;\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "ACURSOR",
+     "type": "cursor"
+    },
+    {
+     "name": "ASTRPARAM",
+     "type": "string"
+    }
+   ],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSGetErroneousWares",
+   "source": "TMainFDataModule.ODSGetErroneousWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n    *\nFrom\n   Wares\nWhere \n    close_format = 2\n\nOrder by GroupsID",
+   "variables": [],
+   "unit": "MFDataModule"
+  },
+  {
+   "name": "ODSAccounts",
+   "source": "TMainFDataModule.ODSAccounts",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   id,   \n   acc_no\nFrom  \n  Account\nWhere \n   val_acc=0 and close_dat is Null\n\nOrder by\n    bal_cn1,acc_no",
+   "variables": [],
+   "unit": "MFDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPTranzaction",
+   "package": "SB_TRANSACTION",
+   "mode": "positional",
+   "source": "TMainFDataModule.OPTranzaction",
+   "routines": []
+  },
+  {
+   "component": "OPViewWares",
+   "package": "SB_MAIN_FACILITIES",
+   "mode": "positional",
+   "source": "TMainFDataModule.OPViewWares",
+   "routines": [
+    {
+     "name": "CalculateNewWares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CalculateOldWares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CheckForTakeOff",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "DifferenceReport",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GetAccountID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "GetAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GetCurrentYear",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "GetDepartmentName",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GetLastCalculateDate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "GetPresentDate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "SetNewSettings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SetTransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "StopCalculate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SumGroupDetails",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SumGroupDetailsForTax",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SumModernedWares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SumRepairedWares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "TempTaxUpdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_archive_wares1",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_close_month",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_departments",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_groups",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_interchange",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_moderned_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_repaired_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_MainGroup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_moderned_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_repaired_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_groups",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_wares",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "Select * From Wares Order by Balance_price",
+  "Select * From Wares Order by ID,Balance_price"
+ ]
+}

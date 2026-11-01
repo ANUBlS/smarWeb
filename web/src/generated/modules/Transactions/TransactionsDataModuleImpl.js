@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("TransactionsDataModuleImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Db", "OracleData", "Oracle", "TransactionsMainFormImpl", "SBTransaction", "SBSrvIntf", "TransactionPropertiesForm_Unit", "SBMessage"]);
   const C = [U];
+  U.enumType("taccountside", 3);
   U.const("asUnknown", 0);
   U.const("asDebit", 1);
   U.const("asCredit", 2);
@@ -204,7 +205,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"dataset": $.copyArg(p0), result: undefined, "s": ''};
   await $.fixArgs(L0, ["dataset"]);
-  L0["inprogress"] = false;
+  await $.staticConst(L0, "inprogress", "transactionsdatamoduleimpl.ttransactionsdatamodule.creditaccdataafterscroll.inprogress", async () => false);
   if ($.truthy($.not(L0["inprogress"]))) {
     L0["inprogress"] = true;
     try {

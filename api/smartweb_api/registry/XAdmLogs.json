@@ -1,0 +1,210 @@
+{
+ "name": "XAdmLogs",
+ "caption": "Əlavə modullar / İdarəetmə / İnzibati jurnallar",
+ "dir": "Packages/AdmLogs",
+ "mainForm": "TAdmLogs",
+ "plugin": false,
+ "plugins": {
+  "filereport.bpl": "P_FileReport"
+ },
+ "lib": [
+  "AzipsSett",
+  "Azipsn",
+  "CC_ACCInUnit",
+  "CC_AccInForm_Unit",
+  "CC_AccOutForm_Unit",
+  "CC_AccState_Unit",
+  "CC_AccTransact_Unit",
+  "CC_AccTransaction_Unit",
+  "CC_Commision_Trans_Unit",
+  "CC_Country_Unit",
+  "CC_FormInterval_Unit",
+  "CC_Repairing_Unit",
+  "CC_Settings_Unit",
+  "CMHintBox",
+  "Checkacc",
+  "Contractimpl",
+  "DatModConstimpl",
+  "DataMGuarantee",
+  "Data_Unit",
+  "Editmt103Show",
+  "FlatsMgrIMPL",
+  "MTsett",
+  "OUT_MT",
+  "OraVariables",
+  "PaymentsImpl1",
+  "RepContImpl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SWIFT_MAINImpl1",
+  "StatementFrmImpl",
+  "TaxsUnit",
+  "Tranzit_account",
+  "UFX71",
+  "Uninfo",
+  "Unit1",
+  "Unit16",
+  "Unit19",
+  "Unit2",
+  "Unit3",
+  "Unit4",
+  "Unit7",
+  "Unit8",
+  "UnitAccBuyers",
+  "UnitAddBuyers",
+  "UnitChangePasswordForm",
+  "UnitData",
+  "UnitHesab",
+  "UnitPaymentsProperties",
+  "UnitRep",
+  "UnitReport",
+  "UnitReportR",
+  "UnitSBOraLogOn",
+  "UnitTransView",
+  "UnitUpdBuyers",
+  "Unthsd",
+  "ZamirImpl1",
+  "archivout",
+  "cc_BuyersImpl",
+  "ceskin",
+  "createmess",
+  "editmt103",
+  "formmt103",
+  "insett",
+  "qrp1",
+  "qrp5",
+  "sboapiDataModuleImpl",
+  "yoxp"
+ ],
+ "datasets": [
+  {
+   "name": "ODSLogs",
+   "source": "TDataModAL.ODSLogs",
+   "kind": "TOracleDataSet",
+   "sql": "select id, logtype, decode(logtype, 1, 'User Grants', 2, 'Modules', 3, 'Objects', 4, 'Group Man') logtp, usname, modtime, moduser, modul, cins, cupd, cdel,\n       oper, decode(oper, 1,'Insert', 2,'Before Update', 3,'Delete', 4,'After Update') operat, description, trvdesc, advanced_grants, otype, ofullname,\n       ophone, oclassid, ofilialid, oadvtype, osysuserid\n from sba_adm_logs\n\norder by id desc",
+   "variables": [],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "ODSModuleLogs",
+   "source": "TDataModAL.ODSModuleLogs",
+   "kind": "TOracleDataSet",
+   "sql": "select id, logtype, decode(logtype, 1, 'User Grants', 2, 'Modules', 3, 'Objects', 4, 'Group Man') logtp, usname, modtime,  modul, decode(cins,0,'-',1,'+') cins, decode(cupd,0,'-',1,'+') cupd, decode(cdel,0,'-',1,'+') cdel,\n       oper, decode(oper, 1,'Insert', 2,'Before Update', 3,'Delete', 4,'After Update') operat, description, trvdesc, advanced_grants from sba_adm_logs\nwhere logtype=2\n\n\n\norder by id desc\n ",
+   "variables": [],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "ODSUsersLogs",
+   "source": "TDataModAL.ODSUsersLogs",
+   "kind": "TOracleDataSet",
+   "sql": "select l.id, logtype, decode(logtype, 1, 'User Grants', 2, 'Modules', 3, 'Objects', 4, 'Group Man') logtp,\nusname, modtime, moduser,       oper, decode(oper, 1,'Insert', 2,'Before Update', 3,'Delete', 4,'After Update') operat, \nl.description, otype, ofullname,\n       ophone, nvl(o.obj,'Yox') oclassid, f.name ofilialid, oadvtype, osysuserid\n from sba_adm_logs l, filial_t f, sba_objinf o\nwhere logtype=3 and otype='U' and f.id=ofilialid and o.id(+)=oclassid\n         \n\n\norder by id desc\n\n ",
+   "variables": [],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "ODSClassesLogs",
+   "source": "TDataModAL.ODSClassesLogs",
+   "kind": "TOracleDataSet",
+   "sql": "select id, logtype, decode(logtype, 1, 'User Grants', 2, 'Modules', 3, 'Objects', 4, 'Group Man') logtp, usname, modtime, moduser,\n       oper, decode(oper, 1,'Insert', 2,'Before Update', 3,'Delete', 4,'After Update') operat, otype\n from sba_adm_logs\nwhere logtype=3 and otype='C'\n\n\norder by id desc\n ",
+   "variables": [],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "OdsGroupsLogs",
+   "source": "TDataModAL.OdsGroupsLogs",
+   "kind": "TOracleDataSet",
+   "sql": "select l.id, logtype, decode(logtype, 1, 'User Grants', 2, 'Modules', 3, 'Objects', 4, 'Group Man') logtp, usname, modtime, moduser,\n       oper, decode(oper, 1,'Insert', 2,'Before Update', 3,'Delete', 4,'After Update') operat, description, otype, descr oadvtype\n from sba_adm_logs l, sba_grouptypes g\nwhere logtype=3 and otype='G' and oadvtype=g.id\n\n\norder by id desc\n\n ",
+   "variables": [],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "ODSUserGrantsLogs",
+   "source": "TDataModAL.ODSUserGrantsLogs",
+   "kind": "TOracleDataSet",
+   "sql": "select id, logtype, decode(logtype, 1, 'User Grants', 2, 'Modules', 3, 'Objects', 4, 'Group Man') logtp, usname, modtime, moduser, modul, decode(cins,0,'-',1,'+') cins, decode(cupd,0,'-',1,'+') cupd, decode(cdel,0,'-',1,'+') cdel,\n       oper, decode(oper, 1,'Insert', 2,'Before Update', 3,'Delete', 4,'After Update') operat\n from sba_adm_logs\nwhere logtype=1\n\norder by id desc\n ",
+   "variables": [],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "ODSGroupManLogs",
+   "source": "TDataModAL.ODSGroupManLogs",
+   "kind": "TOracleDataSet",
+   "sql": "select   l.id, logtype,\n         decode (logtype,\n                 1, 'User Grants',\n                 2, 'Modules',\n                 3, 'Objects',\n                 4, 'Group Man'\n                ) logtp,\n         usname, modtime, moduser, oper,\n         decode (oper,\n                 1, 'Insert',\n                 2, 'Before Update',\n                 3, 'Delete',\n                 4, 'After Update'\n                ) operat,\n         advanced_grants, o.obj oclassid, decode(oadvtype,1,'Baş',2, 'Tabe',3, 'Neytral') oadvtype, oclassid grid\n    from sba_adm_logs l, sba_objinf o\n   where l.oclassid = o.id and logtype = 4\n\n\n\n\n\n\n\n\norder by id desc\n\n ",
+   "variables": [],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "ODSLockedUsers",
+   "source": "TDataModAL.ODSLockedUsers",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect u.id, u.name from user$ u, sba_objinf o where name=obj and sb_adm.islocked_num(name)=1 order by u.name\n\n\n\n",
+   "variables": [],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "ODSSLLogs",
+   "source": "TDataModAL.ODSSLLogs",
+   "kind": "TOracleDataSet",
+   "sql": "select id, logtype, decode(logtype, 1, 'Hüquqlar', 2, 'Modules', 3, 'Истифадячиляр', 4, 'Qruplar') logtp, usname, modtime, moduser,\n        decode(oper, 1,'Insert', 2,'Before Update', 3,'Delete', 4,'After Update') operat from sba_adm_logs\nwhere moduser=:moduser\n\n\n\norder by id desc\n ",
+   "variables": [
+    {
+     "name": "MODUSER",
+     "type": "string"
+    }
+   ],
+   "unit": "ALDataMod"
+  },
+  {
+   "name": "ODSClasNames",
+   "source": "TDataModAL.ODSClasNames",
+   "kind": "TOracleDataSet",
+   "sql": "select id, obj from sba_objinf where type='C'\norder by 2",
+   "variables": [],
+   "unit": "ALDataMod"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SB_ADM",
+   "package": "SB_ADM",
+   "mode": "positional",
+   "source": "TDataModAL.SB_ADM",
+   "routines": [
+    {
+     "name": "dellog",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "lockunlockuser",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "unlockclass",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

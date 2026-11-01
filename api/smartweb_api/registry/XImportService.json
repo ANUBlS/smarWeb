@@ -1,0 +1,82 @@
+{
+ "name": "XImportService",
+ "caption": "Əlavə modullar / İdxal / İdxal xidməti",
+ "dir": "Packages/ImportService",
+ "mainForm": "TFormImportService",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OrDSXLS_OperationTypes",
+   "source": "TFormImportService.OrDSXLS_OperationTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select XLS.RowID, XLS.* from XLS_OPERATIONTYPES XLS",
+   "variables": [],
+   "unit": "ImportServiceImpl1"
+  },
+  {
+   "name": "OrDSXLS_Transactions",
+   "source": "TFormImportService.OrDSXLS_Transactions",
+   "kind": "TOracleDataSet",
+   "sql": "select XLS.RowID, XLS.* from XLS_TRANSACTIONS XLS",
+   "variables": [],
+   "unit": "ImportServiceImpl1"
+  },
+  {
+   "name": "OrDSXLS_Example_File",
+   "source": "TFormImportService.OrDSXLS_Example_File",
+   "kind": "TOracleDataSet",
+   "sql": "select Debit, Credit, Amount \nfrom XLS_Example_File\norder by RowNo",
+   "variables": [],
+   "unit": "ImportServiceImpl1"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OrPackXLS_PROCESSES",
+   "package": "XLS_PROCESSES",
+   "mode": "positional",
+   "source": "TFormImportService.OrPackXLS_PROCESSES",
+   "routines": [
+    {
+     "name": "EmptyXLS_SalaryMessages",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "GetTransaction",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

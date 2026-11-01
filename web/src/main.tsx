@@ -16,5 +16,6 @@ createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictM
 import { logger } from './runtime/log';
 (window as any).__sbLog = () => logger.entries().map((e) => ({ level: e.level, msg: e.msg }));
 (window as any).__sbLogClear = () => logger.clear();
-import { windows } from './runtime/vcl/forms';
+import { windows, Application } from './runtime/vcl/forms';
 (window as any).__sbWindows = windows;
+(window as any).__sbApp = Application;

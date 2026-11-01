@@ -1,0 +1,70 @@
+{
+ "name": "TuningAccZones",
+ "caption": "Balans / Məlumatlar / Balans bolgüləri",
+ "dir": "Packages/TuningAcc_Zones",
+ "mainForm": "TTuningAcc_ZonesForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Account_Zones",
+   "source": "TTuningAcc_ZonesForm.Account_Zones",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Account_Zones\n",
+   "variables": [],
+   "unit": "TuningAcc_ZonesImpl"
+  },
+  {
+   "name": "Account_Zones_Info",
+   "source": "TTuningAcc_ZonesForm.Account_Zones_Info",
+   "kind": "TOracleDataSet",
+   "sql": "select AZI.RowID , AZI.* from\nAccount_Zones_Info AZI\nwhere ZoneID=:ZoneID",
+   "variables": [
+    {
+     "name": "ZONEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "TuningAcc_ZonesImpl"
+  },
+  {
+   "name": "Accounts",
+   "source": "TTuningAcc_ZonesForm.Accounts",
+   "kind": "TOracleDataSet",
+   "sql": "select bal_cn from bal_spr1\norder by bal_cn",
+   "variables": [],
+   "unit": "TuningAcc_ZonesImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

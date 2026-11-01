@@ -1,0 +1,107 @@
+{
+ "name": "XEmanatViews",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Emanat ödənişlərinə baxış",
+ "dir": "Packages/EmanatViews",
+ "mainForm": "TEmwanat_view",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Ods_wspaymentemant",
+   "source": "TDataEmanat.Ods_wspaymentemant",
+   "kind": "TOracleDataSet",
+   "sql": "select*from ws_paymentemanat\n\n\n\n\n\norder by status asc",
+   "variables": [],
+   "unit": "dataEmantUnit"
+  },
+  {
+   "name": "Ods_wssysdate",
+   "source": "TDataEmanat.Ods_wssysdate",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT TO_CHAR(sysdate, 'HH24:MI') AS saat, sysdate\nFROM dual",
+   "variables": [],
+   "unit": "dataEmantUnit"
+  },
+  {
+   "name": "ods_settings_emanat",
+   "source": "TDataEmanat.ods_settings_emanat",
+   "kind": "TOracleDataSet",
+   "sql": "select*from ws_settings_emanat",
+   "variables": [],
+   "unit": "dataEmantUnit"
+  },
+  {
+   "name": "ods_wsinfo",
+   "source": "TDataEmanat.ods_wsinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select w.id as temid, a.kli_id,a.id as acc_id, a.acc_no,w.amount,a.filial,a.val_acc\nfrom ws_temppayment_emanat w,account a where w.account=a.acc_no \nand w.id=:w_id",
+   "variables": [
+    {
+     "name": "W_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dataEmantUnit"
+  },
+  {
+   "name": "ods_arxipayment",
+   "source": "TDataEmanat.ods_arxipayment",
+   "kind": "TOracleDataSet",
+   "sql": "select p.* from ws_payment_emanat p where trunc(sys_date)=:v_dat\n\norder by sys_date desc",
+   "variables": [
+    {
+     "name": "V_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "dataEmantUnit"
+  },
+  {
+   "name": "Ods_sum",
+   "source": "TDataEmanat.Ods_sum",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(amount)as amount from ws_paymentemanat\n\n\n\n\n\norder by status asc",
+   "variables": [],
+   "unit": "dataEmantUnit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "pg_wspayment",
+   "package": "pg_wspayment",
+   "mode": "positional",
+   "source": "TDataEmanat.pg_wspayment",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

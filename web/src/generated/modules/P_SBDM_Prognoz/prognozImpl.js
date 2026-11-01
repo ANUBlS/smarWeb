@@ -46,8 +46,8 @@ export default function define($) {
   return L1.result;
 });
   L0["result"] = "";
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.CURRENCY", (await $.mv((await $.v(C, "CBaValute")), "Checked")), (await $.mv((await $.v(C, "LCBValutes")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.BRANCHID", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "LCBFilials")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t1) => { L0["result"] = $t1; }), "cont.CURRENCY", (await $.mv((await $.v(C, "CBaValute")), "Checked")), (await $.mv((await $.v(C, "LCBValutes")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t2) => { L0["result"] = $t2; }), "cont.BRANCHID", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "LCBFilials")), "KeyValue"))])));
   return L0.result;
 }, {"params": [], "kind": "function", "ptypes": []});
   U.method("TPrognoz", "FormDestroy", async function FormDestroy(Self, p0) {
@@ -84,19 +84,19 @@ export default function define($) {
   await $.mset((await $.v(C, "Animate1")), "Visible", true);
   await $.mset((await $.v(C, "Animate1")), "Active", true);
   {
-    const $t1 = (await $.v(C, "prognoz"));
-    if ($.truthy((await $.wv([$t1], "Active", C, false)))) {
-      await $.stmt($.wcall([$t1], "CloseAll", [], C));
+    const $t3 = (await $.v(C, "prognoz"));
+    if ($.truthy((await $.wv([$t3], "Active", C, false)))) {
+      await $.stmt($.wcall([$t3], "CloseAll", [], C));
     }
-    { const $t2 = await $.iset((await $.wv([$t1], "SQL", C, false)), [14], (await $.wv([$t1], "BuildFilterString", C, false))); if ($t2 !== undefined) { await $.wset([$t1], "SQL", $t2, C); } }
-    await $.stmt((await $.wcall([$t1], "SetVariable", ["dat", (await $.wv([$t1], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false))], C)));
-    await $.stmt($.wcall([$t1], "open", [], C));
+    { const $t4 = await $.iset((await $.wv([$t3], "SQL", C, false)), [14], (await $.wv([$t3], "BuildFilterString", C, false))); if ($t4 !== undefined) { await $.wset([$t3], "SQL", $t4, C); } }
+    await $.stmt((await $.wcall([$t3], "SetVariable", ["dat", (await $.wv([$t3], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false))], C)));
+    await $.stmt($.wcall([$t3], "open", [], C));
   }
   {
-    const $t3 = (await $.v(C, "ExcelExport"));
-    await $.stmt($.wcall([$t3], "Connect", [], C));
-    await $.stmt((await $.wcall([$t3], "ExportDataset", [(await $.wv([$t3], "prognoz", C, false)), "Report", (await $.wv([$t3], "true", C, false))], C)));
-    await $.stmt($.wcall([$t3], "Disconnect", [], C));
+    const $t5 = (await $.v(C, "ExcelExport"));
+    await $.stmt($.wcall([$t5], "Connect", [], C));
+    await $.stmt((await $.wcall([$t5], "ExportDataset", [(await $.wv([$t5], "prognoz", C, false)), "Report", (await $.wv([$t5], "true", C, false))], C)));
+    await $.stmt($.wcall([$t5], "Disconnect", [], C));
   }
   await $.mset((await $.v(C, "Animate1")), "Visible", false);
   await $.mset((await $.v(C, "Animate1")), "Active", false);

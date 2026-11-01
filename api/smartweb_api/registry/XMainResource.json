@@ -1,0 +1,754 @@
+{
+ "name": "XMainResource",
+ "caption": "Əlavə modullar / Mühasibat və balans / Əsas vəsaitlər və resurslar",
+ "dir": "Packages/MainResource",
+ "mainForm": "TMainResource",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CC_ACCInUnit",
+  "CC_AccInForm_Unit",
+  "CC_AccOutForm_Unit",
+  "CC_AccState_Unit",
+  "CC_AccTransact_Unit",
+  "CC_AccTransaction_Unit",
+  "CC_Commision_Trans_Unit",
+  "CC_Country_Unit",
+  "CC_FormInterval_Unit",
+  "CC_Repairing_Unit",
+  "CC_Settings_Unit",
+  "CMHintBox",
+  "Contractimpl",
+  "DBSumLst",
+  "DatModConstimpl",
+  "FlatsMgrIMPL",
+  "MainResourceImpl",
+  "OraVariables",
+  "PaymentsImpl1",
+  "RepContImpl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TaxsUnit",
+  "Uninfo",
+  "Unit1",
+  "Unit10",
+  "Unit2",
+  "Unit22",
+  "Unit3",
+  "Unit4",
+  "UnitAccBuyers",
+  "UnitAddBuyers",
+  "UnitAddGroups",
+  "UnitArWaresSRep",
+  "UnitArchiveWares",
+  "UnitCalcWares",
+  "UnitChangePasswordForm",
+  "UnitChoice",
+  "UnitCurrentRep",
+  "UnitCurrentRepNL",
+  "UnitDat",
+  "UnitData",
+  "UnitExcel",
+  "UnitGroupDat",
+  "UnitImpXLS",
+  "UnitInsWares",
+  "UnitInsert_t",
+  "UnitPaymentsProperties",
+  "UnitPreview",
+  "UnitRepGroupNB",
+  "UnitRepGroupNL",
+  "UnitSBOraLogOn",
+  "UnitShowTrans",
+  "UnitTraffics",
+  "UnitTrafficsNL",
+  "UnitTransOut",
+  "UnitUpdBuyers",
+  "UnitUpdGroups",
+  "UnitUpdTrans",
+  "UnitViewTurn",
+  "UnitWares",
+  "UnitWaresArSent",
+  "Uniybuysellwares",
+  "Unthsd",
+  "ZamirImpl1",
+  "cc_BuyersImpl",
+  "quickrep",
+  "sboapiDataModuleImpl",
+  "unitfilter"
+ ],
+ "datasets": [
+  {
+   "name": "ODSGroups",
+   "source": "TDataModWares.ODSGroups",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   rownum,\n   id,\n   name,\n   amort,\n   taxamort, \n   main_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(main_account) as MainAccNo,\n   exp_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(exp_account) as DebtAccNo,\n   amort_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(amort_account) as CreditAccNo,\n   sale_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(sale_account) as SaleAccNo\nFrom\n   Groups",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSWares",
+   "source": "TDataModWares.ODSWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select  \n         w.rowid,\n         rownum,W.*\nFrom  \n         Wares_All W\n\n\nWhere W.groups_id = :groups_id and VISIBLE=0 \n\n\nOrder by :Title",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "float"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSCalcWares",
+   "source": "TDataModWares.ODSCalcWares",
+   "kind": "TOracleDataSet",
+   "sql": "select\nW.*,\nSB_MAIN_RESOURCE.GetAccountNumber(W.debt_acc) as DebtAccNo ,\nSB_MAIN_RESOURCE.GetAccountNumber(W.cred_acc) as CredAccNo \nfrom \nwares_all_trans\nW",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSReport",
+   "source": "TDataModWares.ODSReport",
+   "kind": "TOracleDataSet",
+   "sql": "select g.name,g.id,rownum,w.* from groups g,wares_all w where g.id=w.groups_id  and VISIBLE=0\norder by g.id",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSTraffics",
+   "source": "TDataModWares.ODSTraffics",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   *\nFrom\n    wares_last\nwhere\n   wares_ID =:WaresID \n and\n   close_format<>0\n\nOrder by \n   amort_date",
+   "variables": [
+    {
+     "name": "WARESID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSTrans",
+   "source": "TDataModWares.ODSTrans",
+   "kind": "TOracleDataSet",
+   "sql": "select\nW.*,\nSB_MAIN_RESOURCE.GetAccountNumber(W.debt_acc) as DebtAccNo ,\nSB_MAIN_RESOURCE.GetAccountNumber(W.cred_acc) as CredAccNo \nfrom \nwares_all_trans_out\nW",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSViewGr1",
+   "source": "TDataModWares.ODSViewGr1",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account where bal_cn1=:a\n/*union\nselect id,acc_no from account@sf where bal_cn1=:a\n*/",
+   "variables": [
+    {
+     "name": "A",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSSumWares",
+   "source": "TDataModWares.ODSSumWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n     Groups_ID,  \n     sum(First_Price) First_Price,\n     sum(Remainder) Remainder,\n     sum(All_Amort) All_Amort,\n     sum(Amort) Amort, \n     sum(Tax_First_Price) Tax_First_Price,\n     sum(Tax_Remainder) Tax_Remainder,\n     sum(Tax_All_Amort) Tax_All_Amort,\n     sum(Tax_Amort) Tax_Amort\n \n\n\nFrom\n      Wares_All \nwhere groups_id = :groups_id and VISIBLE=0\n\ngroup by groups_id",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSGroupXLS",
+   "source": "TDataModWares.ODSGroupXLS",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   rownum,\n   id,\n   name,\n   amort,\n   taxamort, \n   main_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(main_account) as MainAccNo,\n   exp_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(exp_account) as DebtAccNo,\n   amort_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(amort_account) as CreditAccNo,\n   sale_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(sale_account) as SaleAccNo\nFrom\n   Groups\n ",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSWaresXLS",
+   "source": "TDataModWares.ODSWaresXLS",
+   "kind": "TOracleDataSet",
+   "sql": "\n",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSViewWares",
+   "source": "TDataModWares.ODSViewWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select  \n         *\nFrom  \n         Wares_Last\n\n\nWhere  \n          ( groups_id =:groups_id )\n       and\n          ( amort_date =:v_amort_date )\n\n",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "integer"
+    },
+    {
+     "name": "V_AMORT_DATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSViewGroups",
+   "source": "TDataModWares.ODSViewGroups",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   rownum,\n   id,\n   name,\n   amort,\n   taxamort, \n   main_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(main_account) as MainAccNo,\n   exp_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(exp_account) as DebtAccNo,\n   amort_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(amort_account) as CreditAccNo,\n   sale_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(sale_account) as SaleAccNo\nFrom\n   Groups",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSSumViewWares",
+   "source": "TDataModWares.ODSSumViewWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n     Amort_Date, \n     Groups_ID,\n     sum(First_Price) First_Price,\n     sum(Remainder) Remainder,\n     sum(All_Amort) All_Amort,\n     sum(Amort) Amort, \n     sum(Tax_First_Price) Tax_First_Price,\n     sum(Tax_Remainder) Tax_Remainder,\n     sum(Tax_All_Amort) Tax_All_Amort,\n     sum(Tax_Amort) Tax_Amort \n\nFrom\n      Wares_Last \nwhere \ngroups_id = :groups_id\n\nand\n\namort_date=:amort_date\n\ngroup by groups_id,amort_date",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "float"
+    },
+    {
+     "name": "AMORT_DATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSRepGroupAllNB",
+   "source": "TDataModWares.ODSRepGroupAllNB",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  \ng.id,\ng.name,\ng.amort as percent,\ng.taxamort as tax_percent,\nw.groups_id,\nw.amort_date,\nsum(w.first_price) as first_price,\nsum(w.remainder) as remainder,\nsum(w.all_amort) as all_amort,\nsum(w.amort) as amort,\nsum(w.tax_first_price) as tax_first_price,\nsum(w.tax_remainder) as tax_remainder,\nsum(w.tax_all_amort) as tax_all_amort,\nsum(w.tax_amort) as tax_amort\n\nFROM \n       wares_last w,groups g\n\nWHERE \n        g.id=w.groups_id\n      and\n        amort_date between :v_amort_date and :end_date\n\nGROUP BY \n        g.id,\n        g.name,\n        g.amort,\n        g.taxamort,\n        w.groups_id,\n        w.amort_date \nORDER BY\n         name,amort_date,first_price",
+   "variables": [
+    {
+     "name": "V_AMORT_DATE",
+     "type": "date"
+    },
+    {
+     "name": "END_DATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSWaresXLSALL",
+   "source": "TDataModWares.ODSWaresXLSALL",
+   "kind": "TOracleDataSet",
+   "sql": "Select  \n         rownum,W.*\nFrom  \n         Wares_ALL W\n\n\nwhere groups_id = :groups_id and VISIBLE=0\n\norder by W.wares_name, W.amort_date",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSFilterGroup",
+   "source": "TDataModWares.ODSFilterGroup",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   id,\n   name\nFrom\n   Groups",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSFilterWares",
+   "source": "TDataModWares.ODSFilterWares",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct keeping_sec,wares_name,user_name from wares_all where user_id=uid and keeping_sec is not null",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSet_WExp",
+   "source": "TDataModWares.ODSet_WExp",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,parentid,name,description,value,valuelist,\n       display_value_list\n  FROM settings where name='WARES_MinPer'",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSetArWares",
+   "source": "TDataModWares.ODSetArWares",
+   "kind": "TOracleDataSet",
+   "sql": "Select  \n         rownum,W.*\nFrom  \n         Wares_All W\n\n\nwhere groups_id = :groups_id and visible=2\nand amort_date>=:B_DATE and amort_date<=:E_DATE",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "float"
+    },
+    {
+     "name": "B_DATE",
+     "type": "date"
+    },
+    {
+     "name": "E_DATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSGroupsAr",
+   "source": "TDataModWares.ODSGroupsAr",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   rownum,\n   id,\n   name,\n   amort,\n   taxamort, \n   main_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(main_account) as MainAccNo,\n   exp_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(exp_account) as DebtAccNo,\n   amort_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(amort_account) as CreditAccNo,\n   sale_account,SB_COMPLEX_TRANSACTIONS.GetAccountNumber(sale_account) as SaleAccNo\nFrom\n   Groups\nOrder by rownum\n ",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSBankInfo",
+   "source": "TDataModWares.ODSBankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   AZ_NAME  FullBankName\nFrom \n   BankInfo",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSSumWaresAr",
+   "source": "TDataModWares.ODSSumWaresAr",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n     Groups_ID,  \n     sum(First_Price) First_Price,\n     sum(Remainder) Remainder,\n     sum(All_Amort) All_Amort,\n     sum(Amort) Amort, \n     sum(Tax_First_Price) Tax_First_Price,\n     sum(Tax_Remainder) Tax_Remainder,\n     sum(Tax_All_Amort) Tax_All_Amort,\n     sum(Tax_Amort) Tax_Amort \n\nFrom\n      Wares_All \nwhere groups_id = :groups_id and VISIBLE=2\nand amort_date>=:B_DATE and amort_date<=:E_DATE\ngroup by groups_id",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "float"
+    },
+    {
+     "name": "B_DATE",
+     "type": "date"
+    },
+    {
+     "name": "E_DATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSArWaresS",
+   "source": "TDataModWares.ODSArWaresS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ROWNUM, w.*\n  FROM wares_all w\n WHERE close_format = 2\n   AND ((tax_remainder <= first_price * 5 / 100) OR (tax_first_price < 100))\n   AND groups_id = :groups_id\n\n",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSArWaresReport",
+   "source": "TDataModWares.ODSArWaresReport",
+   "kind": "TOracleDataSet",
+   "sql": "select g.name,g.id,rownum,w.* from groups g,wares_all w where g.id=w.groups_id\nand w.close_format = 2\n   AND ((w.remainder <= w.first_price * 5 / 100) OR (w.tax_first_price < 100))\norder by g.id",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDataModWares.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from wares_usr_upd order by edit_date",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDataModWares.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select  c.ACC_NO,c.BAL_CN1,a.WARES_NAME,a.INVENTAR_DATE,a.FIRST_PRICE,a.REMAINDER,\n                 a.ALL_AMORT,a.AMORT,a.PERCENT,\n                a. AMORT_DATE ,a.USER_NAME,d.fxm\nfrom wares_last  a ,GROUPS b ,ACCOUNT c,wares_all d  where a.CLOSE_FORMAT=1\nand b.MAIN_ACCOUNT=c.ID  and a.GROUPS_ID=b.id  and d.WARES_ID=a.WARES_ID and a.AMORT_DATE  between :BDATE AND :EDATE\n\n \n ",
+   "variables": [
+    {
+     "name": "BDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TDataModWares.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select c.ACC_NO, c.BAL_CN1,a.WARES_NAME,a.INVENTAR_DATE,a.TAX_FIRST_PRICE,a.REMAINDER,a.TAX_ALL_AMORT,a.TAX_AMORT,\n                  a.TAX_PERCENT,a. AMORT_DATE,a.USER_NAME ,d. FXM\n                    from wares_last  a,GROUPS b, ACCOUNT c,wares_all d\nwhere  a.TAX_CLOSE_FORMAT=1  and  b.MAIN_ACCOUNT=c.ID and a.GROUPS_ID=b.id and d.WARES_ID=a.WARES_ID and a.AMORT_DATE  between :BDATE AND :EDATE\n ",
+   "variables": [
+    {
+     "name": "BDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "SysdatSet",
+   "source": "TDataModWares.SysdatSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TDataModWares.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select * from groups order by name",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TDataModWares.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "select * from wares_archive\n where groups_id=:GID and INVENTAR_DATE<=:ENT and (DEL_DATE>:ENT or DEL_DATE is null) and amort_date=:ENT",
+   "variables": [
+    {
+     "name": "ENT",
+     "type": "date"
+    },
+    {
+     "name": "GID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet7",
+   "source": "TDataModWares.OracleDataSet7",
+   "kind": "TOracleDataSet",
+   "sql": "select * from groups order by name",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet8",
+   "source": "TDataModWares.OracleDataSet8",
+   "kind": "TOracleDataSet",
+   "sql": "select * from wares_archive where groups_id=:GID and  DEL_DATE<=:ENT ",
+   "variables": [
+    {
+     "name": "GID",
+     "type": "integer"
+    },
+    {
+     "name": "ENT",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TDataModWares.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "Select    \n     sum(First_Price) First_Price,\n     sum(Remainder) Remainder,\n     sum(All_Amort) All_Amort,\n     sum(Amort) Amort, \n     sum(Tax_First_Price) Tax_First_Price,\n     sum(Tax_Remainder) Tax_Remainder,\n     sum(Tax_All_Amort) Tax_All_Amort,\n     sum(Tax_Amort) Tax_Amort \n\nFrom  \n         Wares_All \n\n\nWhere groups_id = :groups_id and VISIBLE=0 \n\n\nOrder by :Title",
+   "variables": [
+    {
+     "name": "GROUPS_ID",
+     "type": "float"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet9",
+   "source": "TDataModWares.OracleDataSet9",
+   "kind": "TOracleDataSet",
+   "sql": "select wa_user.rowid,wa_user.* from wa_user",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet10",
+   "source": "TDataModWares.OracleDataSet10",
+   "kind": "TOracleDataSet",
+   "sql": "select wa_user1.rowid,wa_user1.* from wa_user1",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSViewGr",
+   "source": "TDataModWares.ODSViewGr",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account order by acc_no",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSViewGr2",
+   "source": "TDataModWares.ODSViewGr2",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account order by acc_no",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "ODSViewGr3",
+   "source": "TDataModWares.ODSViewGr3",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account order by acc_no",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "lazy",
+   "source": "TDataModWares.lazy",
+   "kind": "TOracleDataSet",
+   "sql": "select * from wares",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDatabuy",
+   "source": "TDataModWares.OracleDatabuy",
+   "kind": "TOracleDataSet",
+   "sql": "select * from wares_buy_sells e ,wares_all er where er.wares_id=e.wares_id\nand e.buy_or_sell =-1",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSetsell",
+   "source": "TDataModWares.OracleDataSetsell",
+   "kind": "TOracleDataSet",
+   "sql": "select * from wares_buy_sells e ,wares_all er where er.wares_id=e.wares_id\nand e.buy_or_sell=0",
+   "variables": [],
+   "unit": "UnitData"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TTurnoverForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT c.id, c.name,ac.acc_no, ac.name, ar.pok_obr_d, ar.pok_obr_k\n  FROM customers c, ACCOUNT ac, archost ar\n WHERE c.ID = ac.kli_id\n   AND ac.ID = ar.acc_id\n   AND ar.obr_d = 0\n   AND ar.obr_k = 0\n   AND ar.datdate > '16-jun-2006'\n   AND ar.datdate < '20-jun-2006'\n   ",
+   "variables": [],
+   "unit": "UnitDovriyye"
+  }
+ ],
+ "packages": [
+  {
+   "component": "?",
+   "package": "",
+   "mode": "positional",
+   "source": "*.?",
+   "routines": [
+    {
+     "name": "WA_DEL",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "WA_DEL1",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "WA_INS",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "WA_INS1",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TDataModWares.OraclePackage1",
+   "routines": []
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TDataModWares.SB_ACA",
+   "routines": []
+  },
+  {
+   "component": "SB_MAIN_RESOURCE",
+   "package": "SB_MAIN_RESOURCE",
+   "mode": "positional",
+   "source": "TDataModWares.SB_MAIN_RESOURCE",
+   "routines": [
+    {
+     "name": "Calculate_Wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Calculate_Wares_For_Day",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Delete_Groups",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Delete_Wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Enable_Delete_Groups",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "GetAccountID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "Stop_Calculate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Sum_For_Group_Params",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Update_Wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_groups",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_wares",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "archive_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "first_amort_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "get_view_turn_sql",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "last_amort_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "last_calc_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "repair_wares",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "restore_calculate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "set_transaction_new",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "settransaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "settransaction_buy_sell",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_groups",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_wares_ar_per",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_wares_trans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "usr_upd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "wares_all_transaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "wares_all_transaction2",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "SELECT c.id, c.name,ac.acc_no, ac.name, ar.pok_obr_d, ar.pok_obr_k",
+  "delete from wares_all_trans",
+  "select g.name,g.id,w.* from groups g,wares_all w where g.id=w.groups_id order by g.id"
+ ]
+}

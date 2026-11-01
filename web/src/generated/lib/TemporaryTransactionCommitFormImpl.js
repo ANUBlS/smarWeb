@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("TemporaryTransactionCommitFormImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Grids", "DBGrids", "ExtCtrls", "Db", "OracleData", "StdCtrls", "ComCtrls", "Mask", "DBCtrls", "SBSystem", "sboapiDataModuleImpl", "SBTransaction"]);
   const C = [U];
+  U.enumType("ttemptransactionfilter", 10);
   U.const("tfDebitAccNo", 0);
   U.const("tfDebitAccName", 1);
   U.const("tfCReditAccNo", 2);

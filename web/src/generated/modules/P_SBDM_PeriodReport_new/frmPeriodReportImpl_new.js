@@ -167,15 +167,15 @@ export default function define($) {
   L0["ftype"] = "";
   L0["fstatus"] = "";
   L0["result"] = "";
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.CURRENCY", (await $.mv((await $.v(C, "CBAvalute")), "Checked")), (await $.mv((await $.v(C, "LCBValutes")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.BRANCHID", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "LCBFilials")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.contracttype", (await $.mv((await $.v(C, "CBDepositTypes")), "Checked")), (await $.mv((await $.v(C, "LCBDepositTypes")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.customerid", (await $.mv((await $.v(C, "CBCustomer")), "Checked")), (await $.mv((await $.v(C, "LCBCustomer")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.customerid", (await $.mv((await $.v(C, "CBCodCust")), "Checked")), (await $.mv((await $.v(C, "LCBCodCust")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.id", (await $.mv((await $.v(C, "CBAccno")), "Checked")), (await $.mv((await $.v(C, "LCBAccno")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.personaltye", (await $.mv((await $.v(C, "CBPersons")), "Checked")), (await $.mv((await $.v(C, "LCBPersons")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.clienttype", (await $.mv((await $.v(C, "CBCategories")), "Checked")), (await $.mv((await $.v(C, "LCBCategories")), "KeyValue"))])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "cont.contractno", (await $.mv((await $.v(C, "CBContractno")), "Checked")), (await $.mv((await $.v(C, "LCBContractno")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t10) => { L0["result"] = $t10; }), "cont.CURRENCY", (await $.mv((await $.v(C, "CBAvalute")), "Checked")), (await $.mv((await $.v(C, "LCBValutes")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t11) => { L0["result"] = $t11; }), "cont.BRANCHID", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "LCBFilials")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t12) => { L0["result"] = $t12; }), "cont.contracttype", (await $.mv((await $.v(C, "CBDepositTypes")), "Checked")), (await $.mv((await $.v(C, "LCBDepositTypes")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t13) => { L0["result"] = $t13; }), "cont.customerid", (await $.mv((await $.v(C, "CBCustomer")), "Checked")), (await $.mv((await $.v(C, "LCBCustomer")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t14) => { L0["result"] = $t14; }), "cont.customerid", (await $.mv((await $.v(C, "CBCodCust")), "Checked")), (await $.mv((await $.v(C, "LCBCodCust")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t15) => { L0["result"] = $t15; }), "cont.id", (await $.mv((await $.v(C, "CBAccno")), "Checked")), (await $.mv((await $.v(C, "LCBAccno")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t16) => { L0["result"] = $t16; }), "cont.personaltye", (await $.mv((await $.v(C, "CBPersons")), "Checked")), (await $.mv((await $.v(C, "LCBPersons")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t17) => { L0["result"] = $t17; }), "cont.clienttype", (await $.mv((await $.v(C, "CBCategories")), "Checked")), (await $.mv((await $.v(C, "LCBCategories")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t18) => { L0["result"] = $t18; }), "cont.contractno", (await $.mv((await $.v(C, "CBContractno")), "Checked")), (await $.mv((await $.v(C, "LCBContractno")), "KeyValue"))])));
   if ($.truthy((await $.mv((await $.v(C, "CBOpenedDep")), "Checked")))) {
     L0["fopendates"] = $.add($.add($.add($.add($.add("(cont.opendate between  '", (await $.call(C, "FormatDateTime", ["dd-MMM-yyyy", (await $.mv((await $.v(C, "DTPOpenDate")), "Date"))]))), "' and '"), (await $.call(C, "FormatDateTime", ["dd-MMM-yyyy", (await $.mv((await $.v(C, "DTPCloseDate")), "Date"))]))), "'"), ")");
   } else {
@@ -192,32 +192,32 @@ export default function define($) {
     L0["fdepositamt"] = "";
   }
   {
-    const $t10 = (await $.v(C, "RGTypes"));
-    { const $t11 = (await $.wv([$t10], "ItemIndex", C, false));
-      if ($.eq($t11, 0)) {
-        await $.wset([$t10], "FType", "(cont.type# = 3)", { get: async () => L0["ftype"], set: async (v) => { L0["ftype"] = v; }, local: true });
+    const $t19 = (await $.v(C, "RGTypes"));
+    { const $t20 = (await $.wv([$t19], "ItemIndex", C, false));
+      if ($.eq($t20, 0)) {
+        await $.wset([$t19], "FType", "(cont.type# = 3)", { get: async () => L0["ftype"], set: async (v) => { L0["ftype"] = v; }, local: true });
       }
-      else if ($.eq($t11, 1)) {
-        await $.wset([$t10], "FType", "", { get: async () => L0["ftype"], set: async (v) => { L0["ftype"] = v; }, local: true });
+      else if ($.eq($t20, 1)) {
+        await $.wset([$t19], "FType", "", { get: async () => L0["ftype"], set: async (v) => { L0["ftype"] = v; }, local: true });
       }
     }
   }
   {
-    const $t12 = (await $.v(C, "RGStatus"));
-    { const $t13 = (await $.wv([$t12], "ItemIndex", C, false));
-      if ($.eq($t13, 0)) {
-        await $.wset([$t12], "FStatus", "( CALCULATIONENABLED = 1)", { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true });
+    const $t21 = (await $.v(C, "RGStatus"));
+    { const $t22 = (await $.wv([$t21], "ItemIndex", C, false));
+      if ($.eq($t22, 0)) {
+        await $.wset([$t21], "FStatus", "( CALCULATIONENABLED = 1)", { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true });
       }
-      else if ($.eq($t13, 1)) {
-        await $.wset([$t12], "FStatus", "", { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true });
+      else if ($.eq($t22, 1)) {
+        await $.wset([$t21], "FStatus", "", { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true });
       }
     }
   }
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fopendates"]])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [(await L0["outs"].get()), L0["fsuminterestrest"]])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fdepositamt"]])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["ftype"]])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [(await L0["outs"].get()), L0["fstatus"]])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t23) => { L0["result"] = $t23; }), $.ref(async () => L0["fopendates"], async ($t24) => { L0["fopendates"] = $t24; })])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => (await L0["outs"].get()), async ($t25) => { await L0["outs"].set($t25); }), $.ref(async () => L0["fsuminterestrest"], async ($t26) => { L0["fsuminterestrest"] = $t26; })])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t27) => { L0["result"] = $t27; }), $.ref(async () => L0["fdepositamt"], async ($t28) => { L0["fdepositamt"] = $t28; })])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t29) => { L0["result"] = $t29; }), $.ref(async () => L0["ftype"], async ($t30) => { L0["ftype"] = $t30; })])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => (await L0["outs"].get()), async ($t31) => { await L0["outs"].set($t31); }), $.ref(async () => L0["fstatus"], async ($t32) => { L0["fstatus"] = $t32; })])));
   return L0.result;
 }, {"params": ["outS"], "kind": "function", "ptypes": ["String"]});
   U.setInitialization(async function __initialization(Self) {

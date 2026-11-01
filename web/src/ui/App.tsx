@@ -1,4 +1,6 @@
 /* SmartBank web shell: logon → company → main frame (menu tree, MDI workspace, task bar, output log). */
+import { audit, auditClick, setAuditUser, loadLogSettings, flush } from '../runtime/audit';
+import { LogSettingsPanel } from './LogSettings';
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import {
   ChevronDown, ChevronRight, Folder, FolderOpen, FileText, LayoutGrid, Search, X, Loader2,
@@ -17,9 +19,28 @@ import { formatDateTime, todayDelphi } from '../runtime/datetime';
 import { MenuBar, type MenuSpec } from './MenuView';
 import { Workspace, ModalLayer, DialogLayer, PopupLayer, ToastLayer, useWindows } from './Windows';
 
-interface MenuNode { caption: string; action: number | null; params: Record<string, string>; children: MenuNode[] }
+interface MenuNode { caption: string; action: number | null; params: Record<string, string>; children: MenuNode[]; builtin?: string }
 const TREE = (menuData as { tree: MenuNode[] }).tree;
 const ACTIONS = (menuData as { actions: Record<string, string> }).actions;
+// built-in page: Balans / İdarəetmə / Jurnal ayarları (application log settings and files)
+{
+  const admin = TREE.find((r) => r.caption === 'Balans')?.children.find((c) => c.caption === 'İdarəetmə');
+  if (admin && !admin.children.some((c) => c.builtin === 'logs'))
+    admin.children.push({ caption: 'Jurnal ayarları', action: null, params: {}, children: [], builtin: 'logs' });
+}
+/** Modules for the log settings: every menu leaf that opens one, with its menu path. */
+const MODULE_CHOICES = (() => {
+  const out = new Map<string, string>();
+  const walk = (nodes: MenuNode[], trail: string[]) => {
+    for (const n of nodes) {
+      const mod = n.action !== null ? ACTIONS[String(n.action)] : undefined;
+      if (mod && !out.has(mod)) out.set(mod, [...trail, n.caption].join(' / '));
+      walk(n.children, [...trail, n.caption]);
+    }
+  };
+  walk(TREE, []);
+  return [...out].map(([name, caption]) => ({ name, caption })).sort((a, b) => a.caption.localeCompare(b.caption, 'az'));
+})();
 const REPORTS = new Set((menuData as { reportActions: number[] }).reportActions);
 const PRODUCT = 'SmartBank';
 
@@ -28,7 +49,13 @@ const PRODUCT = 'SmartBank';
 function Logon({ onDone }: { onDone: (company: string) => void }) {
   const [user, setUser] = useState(() => localStorage.getItem('sb:user') ?? '');
   const [pass, setPass] = useState('');
-  const [db, setDb] = useState('SB-CURRENT');
+  const [dbs, setDbs] = useState<string[]>(api.name === 'http' ? [] : ['SB-CURRENT', 'SB-TEST', 'SB-ARCHIVE']);
+  const [db, setDb] = useState(api.name === 'http' ? '' : 'SB-CURRENT');
+  // with the real API the database aliases come from its configuration (SB_DATABASES)
+  useEffect(() => {
+    if (!api.databases) return;
+    void api.databases().then((list) => { setDbs(list); setDb((d) => d || list[0] || ''); }).catch(() => undefined);
+  }, []);
   const [step, setStep] = useState<'logon' | 'company'>('logon');
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
   const [company, setCompany] = useState(0);
@@ -42,11 +69,17 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
     try {
       const r = await api.logon({ username: user, password: pass, database: db });
       Object.assign(oraSession, { connected: true, username: r.username, password: pass, database: r.database, sid: r.sid, serverDate: r.serverDate });
+      setAuditUser(r.username, r.database);
+      await loadLogSettings();
+      audit('logon', `Sistemə daxil oldu (SID ${r.sid})`, '');
       localStorage.setItem('sb:user', user);
       // same statement as sbMainForm.company_list
       const q = await api.query({ source: 'TsbMainForm.company_list', sql: 'select * from companies order by company_name', variables: [],
         fieldHints: [{ name: 'ID', type: 'integer' }, { name: 'COMPANY_NAME', type: 'string', size: 100 }] });
-      const list = q.rows.map((row) => ({ id: Number(row[0]), name: String(row[1]) }));
+      // by column name: the column order of `select *` is the table's
+      const ci = (n: string, d: number) => { const i = q.columns.findIndex((c) => c.name.toUpperCase() === n); return i >= 0 ? i : d; };
+      const iId = ci('ID', 0), iName = ci('COMPANY_NAME', 1);
+      const list = q.rows.map((row) => ({ id: Number(row[iId]), name: String(row[iName]) }));
       void warmLib();
       if (list.length > 1) { setCompanies(list); setCompany(list[0].id); setStep('company'); }
       else onDone(list[0]?.name ?? '');
@@ -60,6 +93,7 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
     const c = companies.find((x) => x.id === company)!;
     try {
       await api.execute({ source: 'TsbMainForm.SetCompany', sql: 'begin sb_adm.set_company(:COMP_ID); end;', variables: [{ name: 'COMP_ID', type: 'integer', value: c.id }] });
+      audit('logon', `Şirkət seçildi: ${c.name}`, '');
       onDone(c.name);
     } catch (ex) { setErr((ex as Error).message); } finally { setBusy(false); }
   };
@@ -86,7 +120,7 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
             <label>Şifrə<input type="password" value={pass} onChange={(e) => setPass(e.target.value)} autoComplete="current-password" /></label>
             <label>Baza
               <select value={db} onChange={(e) => setDb(e.target.value)}>
-                <option>SB-CURRENT</option><option>SB-TEST</option><option>SB-ARCHIVE</option>
+                {dbs.map((d) => <option key={d}>{d}</option>)}
               </select>
             </label>
             {err ? <div className="err" role="alert">{err}</div> : null}
@@ -213,6 +247,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
   const [showTree, setShowTree] = useState(true);
   const [showTaskbar, setShowTaskbar] = useState(true);
   const [showLog, setShowLog] = useState(false);
+  const [showLogSet, setShowLogSet] = useState(false);
   const [sel, setSel] = useState('');
   const [selNode, setSelNode] = useState<{ node: MenuNode; trail: string[] } | null>(null);
   const [open, setOpen] = useState<Set<string>>(new Set(['0', '0.0']));
@@ -260,6 +295,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
       const act = top.form.owned.find((c) => (c instanceof TAction || c instanceof TMenuItem) && (c as any).ShortCut === code && (c as any).Enabled);
       if (act) {
         e.preventDefault();
+        auditClick(act as any, 'Qısa yol');
         void runGuarded(async () => { if (act instanceof TAction) await act.execFrom(null); else await (act as TMenuItem).Click(); }, act.Name);
       }
     };
@@ -269,6 +305,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
 
   const select = async (n: MenuNode, k: string, trail: string[]) => {
     setSel(k);
+    if (n.builtin === 'logs') { setShowLogSet(true); audit('form', 'Jurnal ayarları açıldı', 'İdarəetmə'); return; }
     if (n.action === null || n.action === 0 || REPORTS.has(n.action) || !ACTIONS[String(n.action)]) {
       setSelNode({ node: n, trail });
       windows.activeId = 0;
@@ -300,7 +337,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
     void select(n, k, trailOf(path).slice(0, -1));
   };
 
-  const mdi = list.filter((w) => w.kind !== 'modal');
+  const mdi = list.filter((w) => w.kind !== 'modal' && !w.hidden);
   const closeAll = async () => { for (const w of [...mdi]) await runGuarded(() => w.form.Close(), w.form.Name); };
   const arrange = (mode: 'v' | 'h' | 'c') => {
     const ws = mdi.filter((w) => !w.minimized);
@@ -407,6 +444,7 @@ function MainFrame({ company, onLogoff }: { company: string; onLogoff: () => voi
         <button style={{ border: 0, background: 'none', color: 'inherit', padding: 0 }} onClick={() => setShowLog((s) => !s)}>Çıxışlar</button>
       </div>
       <ModalLayer />
+      {showLogSet ? <LogSettingsPanel modules={MODULE_CHOICES} onClose={() => setShowLogSet(false)} /> : null}
       <PopupLayer />
       <DialogLayer />
       <ToastLayer />
@@ -418,6 +456,6 @@ export default function App() {
   const [company, setCompany] = useState<string | null>(null);
   const content = useMemo(() => company === null
     ? <><Logon onDone={(c) => setCompany(c)} /><DialogLayer /></>
-    : <MainFrame company={company} onLogoff={() => { oraSession.connected = false; setCompany(null); }} />, [company]);
+    : <MainFrame company={company} onLogoff={() => { audit('logon', 'Sistemdən çıxdı', ''); void flush(); oraSession.connected = false; setCompany(null); }} />, [company]);
   return content;
 }

@@ -1,0 +1,158 @@
+{
+ "name": "P_NewDepositsApplyMoney",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsApplyMoney",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "sbdm_transactionviewer.bpl": "P_SBDM_TransactionViewer"
+ },
+ "lib": [
+  "CMCurrencyEdit",
+  "NewCommonDeclsImpl",
+  "NewDepositsDMApplyMoneyImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Tranches",
+   "source": "TNewDepositsDMApplyMoney.Tranches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, hdate, total, trid,description\n  FROM dm_tranches\n  where id# = :ContractID\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMApplyMoneyImpl"
+  },
+  {
+   "name": "DebitAccs",
+   "source": "TNewDepositsDMApplyMoney.DebitAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no,\n       name\nfrom \n  account \nwhere \n   close_dat is null\n   and  id=:custid\n\n\n\n",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "string"
+    }
+   ],
+   "unit": "NewDepositsDMApplyMoneyImpl"
+  },
+  {
+   "name": "DepositInfo",
+   "source": "TNewDepositsDMApplyMoney.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\n     cust.name,\n     cont.contractno,\n     cont.interest,\n     cont.amount,\n     cont.currency,\n     cont.customerid,\n     trunc(sysdate) as opdate \nfrom customers cust,\n     dm_contracts cont\nwhere\n   cont.id = :ContractID and \n   cust.id = cont.customerid\n  ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMApplyMoneyImpl"
+  },
+  {
+   "name": "CustAcc",
+   "source": "TNewDepositsDMApplyMoney.CustAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select clientaccid from dm_contract_accounts\nwhere id# = :Contractid",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMApplyMoneyImpl"
+  },
+  {
+   "name": "ClientAccs",
+   "source": "TNewDepositsDMApplyMoney.ClientAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       -1 as id,\n       'Seçilməyib' as acc_no\nfrom \n  account \n\nunion\n\nselect \n       id,\n       acc_no\nfrom \n  account \nwhere \n    close_dat is null and  \n    kli_id=:custid and\n    sim_otcet in('0','100','300','331','333','334','336','337','338','339') and \n    bal_cn1 in(3801,3811,3812,3709,3707)",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMApplyMoneyImpl"
+  },
+  {
+   "name": "AccNoOstat",
+   "source": "TNewDepositsDMApplyMoney.AccNoOstat",
+   "kind": "TOracleDataSet",
+   "sql": "select ostat from tenostat where acc_id=:accid",
+   "variables": [
+    {
+     "name": "ACCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMApplyMoneyImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_tranches",
+   "package": "dm_credit_tranches",
+   "mode": "named",
+   "source": "TNewDepositsDMApplyMoney.dm_tranches",
+   "routines": [
+    {
+     "name": "CommitDepositMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteDepositMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "depositmoney",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TNewDepositsDMApplyMoney.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

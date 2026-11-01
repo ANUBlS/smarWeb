@@ -1,0 +1,104 @@
+{
+ "name": "XPlatformSif",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / SİF platforması",
+ "dir": "Packages/PlatformSIF",
+ "mainForm": "TSif",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TDataMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sif_settings",
+   "variables": [],
+   "unit": "Datamoduls"
+  },
+  {
+   "name": "jsondoc",
+   "source": "TDataMod.jsondoc",
+   "kind": "TOracleDataSet",
+   "sql": "select \nregexp_substr(a.data.applications.id,'[^][,]+', 1, level) id,\nregexp_substr(a.data.applications.amount,'[^][,]+', 1, level) amount,\nregexp_substr(a.data.applications.duration,'[^][,]+', 1, level) duration,\nregexp_substr(a.data.applications.purpose,'[^][,]+', 1, level) purpose,\nregexp_substr(a.data.applications.loanType,'[^][,]+', 1, level) loantype,\nregexp_substr(a.data.applications.status,'[^][,]+', 1, level) status,\nregexp_substr(a.data.applications.offerDate,'[^][,]+', 1, level) offerdate,\nregexp_substr(a.data.applications.interestRate,'[^][,]+', 1, level) interestRate,\nregexp_substr(a.data.applications.commission,'[^][,]+', 1, level) commission,\nregexp_substr(a.data.applications.offerAmount,'[^][,]+', 1, level) offerAmount,\nregexp_substr(a.data.applications.offerDuration,'[^][,]+', 1, level)  offerDuration,\nregexp_substr(a.data.applications.offerGracePeriod,'[^][,]+', 1, level) offerGracePeriod,\nregexp_substr(a.data.applications.taxesStatus,'[^][,]+', 1, level) taxesStatus,\nregexp_substr(a.data.applications.bankStatus,'[^][,]+', 1, level) bankStatus,\nregexp_substr(a.data.applications.edfStatus,'[^][,]+', 1, level) edfStatus,\nregexp_substr(a.data.applications.submittedDate,'[^][,]+', 1, level) submittedDate,\nregexp_substr(a.data.applications.gracePeriod,'[^][,]+', 1, level) gracePeriod,\nregexp_substr(a.data.applications.company.id,'[^][,]+', 1, level) company_id,\nregexp_substr(a.data.applications.company.tin,'[^][,]+', 1, level) company_tin,\nregexp_substr(a.data.applications.company.companyName,'[^][,]+', 1, level) company_companyName,\nregexp_substr(a.data.applications.company.registrationForm,'[^][,]+', 1, level) company_registrationForm,\nregexp_substr(a.data.applications.company.serialNumber,'[^][,]+', 1, level) company_serialNumber,\nregexp_substr(a.data.applications.company.pin,'[^][,]+', 1, level) company_pin,\nregexp_substr(a.data.applications.company.incorporationDate,'[^][,]+', 1, level) company_incorporationDate,\nregexp_substr(a.data.applications.company.legalAddress,'[^][,]+', 1, level) company_legalAddress,\nregexp_substr(a.data.applications.company.actualAddress,'[^][,]+', 1, level) company_actualAddress,\nregexp_substr(a.data.applications.stakeholders.id,'[^][,]+', 1, level) stakeholders_id,\nregexp_substr(a.data.applications.stakeholders.tin,'[^][,]+', 1, level)stakeholders_tin,\nregexp_substr(a.data.applications.stakeholders.fullName,'[^][,]+', 1, level) stakeholders_fullName,\nregexp_substr(a.data.applications.stakeholders.contactNumber,'[^][,]+', 1, level) stakeholders_contactNumber,\nregexp_substr(a.data.applications.stakeholders.email,'[^][,]+', 1, level) stakeholders_email,\nregexp_substr(a.data.applications.document.id,'[^][,]+', 1, level)document_id,\nregexp_substr(a.data.applications.document.fileName,'[^][,]+', 1, level) document_filename,\na.data.lastPageNumber lastPageNumber from json_documents a \nconnect by regexp_substr(a.data.applications.id, '[^,]+', 1, level) is not null\n",
+   "variables": [],
+   "unit": "Datamoduls"
+  },
+  {
+   "name": "insquerymain",
+   "source": "TDataMod.insquerymain",
+   "kind": "TOracleDataSet",
+   "sql": "declare\nB clob;\nbegin\n  b:=:clb;\n\n -- DBMS_OUTPUT.PUT_LINElength= '|| DBMS_LOB.GETLENGTH(b));\n  insert into json_documents (id,data)\n  values('01',b);\nend;  ",
+   "variables": [
+    {
+     "name": "CLB",
+     "type": "string"
+    }
+   ],
+   "unit": "Datamoduls"
+  },
+  {
+   "name": "deljsondoc",
+   "source": "TDataMod.deljsondoc",
+   "kind": "TOracleDataSet",
+   "sql": "truncate table json_documents",
+   "variables": [],
+   "unit": "Datamoduls"
+  },
+  {
+   "name": "insqueryapprove",
+   "source": "TDataMod.insqueryapprove",
+   "kind": "TOracleDataSet",
+   "sql": "declare\nB clob;\nbegin\n  b:=:clb;\n\n -- DBMS_OUTPUT.PUT_LINElength= '|| DBMS_LOB.GETLENGTH(b));\n  insert into json_doc_approved(id,data)\n  values('01',b);\nend;  ",
+   "variables": [
+    {
+     "name": "CLB",
+     "type": "string"
+    }
+   ],
+   "unit": "Datamoduls"
+  },
+  {
+   "name": "insqueryreject",
+   "source": "TDataMod.insqueryreject",
+   "kind": "TOracleDataSet",
+   "sql": "declare\nB clob;\nbegin\n  b:=:clb;\n\n -- DBMS_OUTPUT.PUT_LINElength= '|| DBMS_LOB.GETLENGTH(b));\n  insert into json_doc_rejected(id,data)\n  values('01',b);\nend;  ",
+   "variables": [
+    {
+     "name": "CLB",
+     "type": "string"
+    }
+   ],
+   "unit": "Datamoduls"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

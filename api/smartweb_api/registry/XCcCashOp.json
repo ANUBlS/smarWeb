@@ -1,0 +1,160 @@
+{
+ "name": "XCcCashOp",
+ "caption": "Əlavə modullar / Tikinti və kommunal / Kassa əməliyyatları",
+ "dir": "Packages/CC_CashOp",
+ "mainForm": "TCC_CashOperation",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Payments",
+   "source": "TFrmOrder.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id, 'ozzun' ddd, p.paydate, p.id#, p.payamt,d.name\n  FROM cc_payments  p, CC_DESCRIPTION d\n\nwhere id#=:CrdID and p.descode=d.code\norder by p.paydate desc\n--order by :Title",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "OrderImpl"
+  },
+  {
+   "name": "cc_buyer_flats",
+   "source": "TFrmOrder.cc_buyer_flats",
+   "kind": "TOracleDataSet",
+   "sql": "select a.comp_name ||' '|| a.bld_name ||' mənzil '||a.flatnumber as address,a.bld_name,p.id,a.flatcode\nfrom cc_buyer_flats a , cc_contracts c, cc_payments p\nwhere a.buyer=c.buyer and c.id=p.\"ID#\" and p.id=:PayID",
+   "variables": [
+    {
+     "name": "PAYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderImpl"
+  },
+  {
+   "name": "ReportPayOrderData",
+   "source": "TFrmOrder.ReportPayOrderData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id, p.paydate, \n       p.payamt,a.CONTAMOUNT,\n       CC_GENERAL.get_contractaccount(a.accid) as LoanAccno,  \n       CC_GENERAL.get_contractaccount(a.buyer) as ClientAccno,\n       b.firstname||' '||b.lastname||' '||middlename as name,\n       a.opendate,\n       a.contnum as ccontractno,\n       av.val_name,a.DUEINTERESTRATE,\n TRUNC (MONTHS_BETWEEN (A.OPENDATE,A.EXPDATE)) as period\n  FROM cc_payments p,\n       cc_contracts a,\n       cc_buyers b,\n       avalute av\nwhere a.id =p.id#\nand   a.buyer = b.id\nand   av.valute = a.contcur\nand   p.id = :PayID         \n",
+   "variables": [
+    {
+     "name": "PAYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderImpl"
+  },
+  {
+   "name": "AboutBank",
+   "source": "TFrmOrder.AboutBank",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  bank as FullBankName,\n  Logo ,\n  INN,\n  MANAGERTITLE\nfrom BANKINFO\n",
+   "variables": [],
+   "unit": "OrderImpl"
+  },
+  {
+   "name": "SysDat",
+   "source": "TPay.SysDat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "PayForm"
+  },
+  {
+   "name": "Cash",
+   "source": "TPay.Cash",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no,name from\naccount where (bal_cn1 in (SELECT cashbalancenational\n  FROM cash_settings))\nor( bal_cn1 in (SELECT cashbalanceenglish\n  FROM cash_settings)\n)\n\nand close_dat is null",
+   "variables": [],
+   "unit": "PayForm"
+  },
+  {
+   "name": "Transactions",
+   "source": "TTransactionviewForm.Transactions",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    DEBITACCNO,\n    DEBITCURRENCY,\n    CREDITACCNO,\n    CREDITCURRENCY,\n    TRDATE,\n   INBALANCECHAR,\n    FLAGS,\n    DEBITAMOUNT,\n    CREDITAMOUNT,\n    NATAMOUNT,\n    TRDESCRIPTION,\n    CANPROCESS\n  from SBCM_DELAYED_TRANSACTIONS\n \n ",
+   "variables": [],
+   "unit": "TransactionviewFormImpl"
+  },
+  {
+   "name": "cc_contracts",
+   "source": "TDataMod_CCCashOper.cc_contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum,cont.code,cont.id as id,cont.contnum,cont.FIRSTNAME,cont.lastname,cont.MIDDLENAME,cont.acc_no,\n       av.val_name,cont.contamount as creditamount, cont.bld_name, cont.FLATNUMBER,cont.rest, cont.comp_name,\n       cont.entrance, cont.ffloor, cont.area  from  cc_activecontracts cont , avalute av\nwhere av.valute = cont.contcur \n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "cc_DataMod_CashOper"
+  },
+  {
+   "name": "main",
+   "source": "TDataMod_CCCashOper.main",
+   "kind": "TOracleDataSet",
+   "sql": " select p.id,p.monthpay ,i.suminterest,nvl(cc_general.gecikme(p.id),0) gecmeb,cc_general.gecgun(p.id)gun from cc_contracts p,cc_int_currstate i\n \n where p.id=i.countid\nand  p.id=:cid\n ",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "cc_DataMod_CashOper"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sbcm_construction",
+   "package": "CC_GENERAL",
+   "mode": "named",
+   "source": "TPay.sbcm_construction",
+   "routines": [
+    {
+     "name": "PaymentTracttransactions2",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "commitdelayedtransactions",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deletePayment",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

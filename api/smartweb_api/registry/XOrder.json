@@ -1,0 +1,106 @@
+{
+ "name": "XOrder",
+ "caption": "Əlavə modullar / Mühasibat və balans / Sərəncam",
+ "dir": "Packages/Order",
+ "mainForm": "TOrderForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "SYSDAT",
+   "source": "TDataModOrder.SYSDAT",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  TEK_DAT\nfrom \n  SYSDAT",
+   "variables": [],
+   "unit": "OrderDataModuleUnit"
+  },
+  {
+   "name": "CurrencyData",
+   "source": "TDataModOrder.CurrencyData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  Valute ,\n  Val_Name ,\n  Valu_Name ,\n  Valu_Bala\nfrom \n  AVALUTE",
+   "variables": [],
+   "unit": "OrderDataModuleUnit"
+  },
+  {
+   "name": "ContractAccs",
+   "source": "TDataModOrder.ContractAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  Val_Acc ,\n  Acc_No ,\n  KLI_ID ,\n  Name\nfrom\n  Account\nwhere\n  Val_acc = :Val_Acc\norder by\n  Acc_No    ",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderDataModuleUnit"
+  },
+  {
+   "name": "ClientAccs",
+   "source": "TDataModOrder.ClientAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  Val_Acc ,\n  KLI_ID ,\n  Acc_No ,\n  Name\nfrom\n  Account\nwhere\n  Val_acc = :Val_Acc\n\norder by\n  Acc_No    \n \n ",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderDataModuleUnit"
+  },
+  {
+   "name": "ReserveAccs",
+   "source": "TDataModOrder.ReserveAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  Val_Acc ,\nKLI_ID ,\n  Acc_No ,\n  Name\nfrom\n  Account  ac ,\n  archost ar\nwhere\n  Val_acc = :Val_Acc and\n       ar.datdate =(select TEK_DAT from sysdat)\n    and ar.acc_id = ac.id\n    and ar.pok_ostat>0\n    and\n  (BAL_CN1 in\n    (select ACCGROUP from SBCM_ACC_ZONE_INFO\n    where zoneid = (select zoneid from sbcm_acc_zones where name = 'Reserv')))\n\norder by\n  Acc_No    \n \n \n ",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "OrderDataModuleUnit"
+  },
+  {
+   "name": "BankInfoData",
+   "source": "TDataModOrder.BankInfoData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  Bank \nfrom BankInfo",
+   "variables": [],
+   "unit": "OrderDataModuleUnit"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("NewCommonDeclsImpl", ["SysUtils", "Classes", "Controls", "DBGridEh", "Forms", "Messages", "DB", "Windows", "NewTemporaryTransactionsFormImpl", "XDBGrids"]);
   const C = [U];
+  U.enumType("trefreshmode", 4);
   U.const("rmLocateAfterRefresh", 0);
   U.const("rmGoBookmarkAfterRefresh", 1);
   U.const("rmMoveRecNoAfterRefresh", 2);

@@ -5,13 +5,16 @@
 export default function define($) {
   const U = $.unit("SBTransaction", ["SysUtils", "SBSrvIntf", "Variants", "sboapiDataModuleImpl", "SBCore", "Oracle"]);
   const C = [U];
+  U.enumType("taddtransactionflag", 5);
   U.const("tfNoAdd", 0);
   U.const("tfNoAddChild", 1);
   U.const("tfNoControl", 2);
   U.const("tfCommitImmediate", 3);
   U.const("tfNoAddName", 4);
+  U.enumType("tdeletetransactionflag", 2);
   U.const("dfNoControl", 0);
   U.const("dfNoChild", 1);
+  U.enumType("ttransactionstatus", 3);
   U.const("tsDelayed", 0);
   U.const("tsCommited", 1);
   U.const("tsRejected", 2);
@@ -50,8 +53,8 @@ export default function define($) {
   const L0 = {"flags": $.copyArg(p0), result: 0, "flag": null};
   await $.fixArgs(L0, ["flags"]);
   L0["result"] = 0;
-  { const $t2 = (await $.call(C, "High", [L0["flag"]]));
-    L0["flag"] = (await $.call(C, "Low", [L0["flag"]]));
+  { const $t2 = (await $.lowHigh("high", "TAddTransactionFlag", async () => L0["flag"]));
+    L0["flag"] = (await $.lowHigh("low", "TAddTransactionFlag", async () => L0["flag"]));
     let $t3 = true;
     for (;;) {
       if (!$t3) { L0["flag"] = $.succ(L0["flag"], 1); }

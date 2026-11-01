@@ -111,59 +111,21 @@ EXTRA = [
     ('XTranslator', 'Packages/Translator', 'İdarəetmə', 'Tərcüməçi'),
     ('XTickets', 'Packages/TicketsMan', 'İdarəetmə', 'Biletlər'),
     ('XPutyovka', 'Packages/Putyovka', 'İdarəetmə', 'Putyovkalar'),
-    # --- Sığorta
-    ('XInsCustomers', 'Packages/Insurance/InsCustomers', 'Sığorta', 'Sığorta müştəriləri'),
-    ('XInsurances', 'Packages/Insurance/Insurances', 'Sığorta', 'Sığortalar'),
-    ('XInsPayments', 'Packages/Insurance/InsPayments', 'Sığorta', 'Sığorta ödənişləri'),
-    ('XInsAccountDoc', 'Packages/Insurance/AccountDoc', 'Sığorta', 'Hesab sənədləri'),
-    ('XInsAccountState', 'Packages/Insurance/AccountState', 'Sığorta', 'Hesabların vəziyyəti'),
-    ('XInsAutoDict', 'Packages/Insurance/AutoDict', 'Sığorta', 'Avtomobil soraqçası'),
-    ('XInsDictChilde', 'Packages/Insurance/DictChilde', 'Sığorta', 'Soraqçalar'),
-    ('XInsAuto', 'Insurance/Auto', 'Sığorta', 'Avtomobil sığortası'),
-    ('XInsBlankMain', 'Insurance/BlankMain', 'Sığorta', 'Blanklar'),
-    ('XInsReinsReceive', 'Insurance/Ins_ReinsReceive', 'Sığorta', 'Təkrarsığorta qəbulu'),
-    ('XInsRights', 'Insurance/Ins_Rights', 'Sığorta', 'Hüquqlar'),
-    ('XInsResponsibility', 'Insurance/MainResponsibility', 'Sığorta', 'Məsuliyyət sığortası'),
-    ('XInsTravel', 'Insurance/MainTravel', 'Sığorta', 'Səyahət sığortası'),
-    ('XInsCargo', 'Insurance/Maincargo', 'Sığorta', 'Yük sığortası'),
-    ('XInsMyAccident', 'Insurance/My_Personal_Accident', 'Sığorta', 'Fərdi qəza sığortası'),
-    ('XInsPersonalAccMain', 'Packages/Insurance/PersonalAccMain', 'Sığorta', 'Qəza sığortası'),
-    ('XInsPersonalAccident', 'Packages/Insurance/PersonalAccident', 'Sığorta', 'Qrup fərdi qəza sığortası'),
-    ('XInsPersonalAccPolicy', 'Packages/Insurance/PersonalAccPolicy', 'Sığorta', 'Qəza sığortası — şəhadətnamə'),
-    ('XInsPersonalAccSuggest', 'Packages/Insurance/PersonalAccSuggestion', 'Sığorta', 'Qəza sığortası — təklifnamə'),
-    ('XInsMedical', 'Packages/Insurance/InsMedical', 'Sığorta', 'Tibbi sığorta'),
-    ('XInsMedBlank', 'Packages/Insurance/MEDBlank', 'Sığorta', 'Tibbi sığorta — anket'),
-    ('XInsMedPolicy', 'Packages/Insurance/MEDPolicy', 'Sığorta', 'Tibbi sığorta — şəhadətnamə'),
-    ('XInsMedSuggestion', 'Packages/Insurance/MEDSuggestion', 'Sığorta', 'Tibbi sığorta — təklifnamə'),
-    ('XInsMotorKasko', 'Packages/Insurance/MotorKasko', 'Sığorta', 'Avto KASKO'),
-    ('XInsMotorKascoIns', 'Packages/Insurance/InsMotorKasco', 'Sığorta', 'Avto KASKO sığortası'),
-    ('XInsFullMotor', 'Packages/Insurance/FullMotor', 'Sığorta', 'Tam avto sığorta'),
-    ('XInsFullMotorCasco', 'Packages/Insurance/InsFullMotorCasco', 'Sığorta', 'Tam avto KASKO'),
-    ('XInsMkBlank', 'Packages/Insurance/MKBlank', 'Sığorta', 'KASKO — anket'),
-    ('XInsMkCorporate', 'Packages/Insurance/MKKorporativBlank', 'Sığorta', 'Korporativ KASKO'),
-    ('XInsMkPolicy', 'Packages/Insurance/MKPolicy', 'Sığorta', 'KASKO — şəhadətnamə'),
-    ('XInsMkSuggestion', 'Packages/Insurance/MKSuggestion', 'Sığorta', 'KASKO — təklifnamə'),
-    ('XInsMfBlank', 'Packages/Insurance/MFBlank', 'Sığorta', 'Əmlak sığortası — anket'),
-    ('XInsMfPolicy', 'Packages/Insurance/MFPolicy', 'Sığorta', 'Əmlak sığortası — şəhadətnamə'),
-    ('XInsMfSuggestion', 'Packages/Insurance/MFSuggestion', 'Sığorta', 'Əmlak sığortası — təklifnamə'),
-    ('XInsCPropMain', 'Packages/Insurance/CommercialPropertyMain', 'Sığorta', 'Kommersiya əmlakı'),
-    ('XInsCPropBlank', 'Packages/Insurance/CommercialPropertyBlank', 'Sığorta', 'Kommersiya əmlakı — anket'),
-    ('XInsCPropPolicy', 'Packages/Insurance/CommercialPropertyPolicy', 'Sığorta', 'Kommersiya əmlakı — şəhadətnamə'),
-    ('XInsCPropSuggest', 'Packages/Insurance/CommercialPropertySuggest', 'Sığorta', 'Kommersiya əmlakı — təklifnamə'),
-    ('XInsConstructionMain', 'Packages/Insurance/ConstructionMain', 'Sığorta', 'Tikinti sığortası'),
-    ('XInsConstructionBlank', 'Packages/Insurance/ConstractionBlank', 'Sığorta', 'Tikinti sığortası — anket'),
-    ('XInsConstructionPolicy', 'Packages/Insurance/ConstructionPolicy', 'Sığorta', 'Tikinti sığortası — şəhadətnamə'),
-    ('XInsConstructionSuggest', 'Packages/Insurance/ConstructionSuggest', 'Sığorta', 'Tikinti sığortası — təklifnamə'),
+    # --- Sığorta: removed (not used; 30.10.2026)
 ]
 
 CATEGORY_ORDER = ['Kreditlər', 'Depozitlər', 'Ödənişlər və köçürmələr', 'Kartlar', 'Müştərilər və uyğunluq',
-                  'Mühasibat və balans', 'Tikinti və kommunal', 'İdxal', 'İdarəetmə', 'Sığorta']
+                  'Mühasibat və balans', 'Tikinti və kommunal', 'İdxal', 'İdarəetmə']
 
 # synthetic menu action numbers for the extra modules (the INI uses < 100)
 FIRST_ACTION = 1000
 
 # Generated (reachable from other modules by GUID) but not listed: they only work with the menu
 # parameters of an installation-specific INI that is not in the repository.
+# SmartBank.ini menu nodes removed from the web menu (caption path); the module itself stays available
+INI_MENU_HIDDEN = {
+    ('Balans', 'Əməliyyat günü', 'Əməliyyatlar'),  # Transactions: replaced by Günün sənədləri (TransactionManager)
+}
+
 MENU_HIDDEN = {
-    'XInsDictChilde',  # generic dictionary editor: MainTable/MainField/MasterField come from menu params
 }

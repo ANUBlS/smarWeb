@@ -1,0 +1,198 @@
+{
+ "name": "XBusinessProcesses",
+ "caption": "Əlavə modullar / İdarəetmə / Biznes proseslərin quraşdırılması",
+ "dir": "Packages/BusinessProcesses/BusProcSet",
+ "mainForm": "TBusinessProcessSetup",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "Unit6",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "datamod1",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODS_SB_BUSINESS_PROC_TARIFS",
+   "source": "TDMBusProcSet.ODS_SB_BUSINESS_PROC_TARIFS",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid,a.name,t.* from SB_BUSINESS_PROC_TARIFS t,qrp_klie_viwe a\n\nwhere bpchildid = :bpchildid and t.groupid=a.id\n\n\n\n\norder by groupid,minamt",
+   "variables": [
+    {
+     "name": "BPCHILDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_sb_business_proc_childs",
+   "source": "TDMBusProcSet.ODS_sb_business_proc_childs",
+   "kind": "TOracleDataSet",
+   "sql": "select   c.rowid, c.* , ad.acc_no debtacc, ac.acc_no kredacc, r.name reportdesc, p.name country,ca.fullpath as kassa_z_name,t.name as vid_op_name,k.cntr_name as cntr_name \n --(select  from convert_assignments where shortname=) as kassa_z_name\n    from sb_business_proc_childs c,\n         sb_bproc_acc ad,\n         sb_bproc_acc ac,\n         provcountries p,\n         reportdescs r,\n         vid_op t,\n         countries k,\n         convert_assignments ca\n   where parentid = :parentid and c.debt = ad.id and kredit = ac.id(+) and \n   countrid = p.id(+) and reportid = r.id(+) and c.kassa_z = ca.shortname(+) and c.vid_op=t.id(+) and c.countrid=k.id(+)\norder by operid",
+   "variables": [
+    {
+     "name": "PARENTID",
+     "type": "integer"
+    },
+    {
+     "name": "SORT",
+     "type": "subst"
+    }
+   ],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_SB_BUSINESS_PROCESSES",
+   "source": "TDMBusProcSet.ODS_SB_BUSINESS_PROCESSES",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, b.* from SB_BUSINESS_PROCESSES b order by :sort",
+   "variables": [
+    {
+     "name": "SORT",
+     "type": "subst"
+    }
+   ],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_vid_op",
+   "source": "TDMBusProcSet.ODS_vid_op",
+   "kind": "TOracleDataSet",
+   "sql": "select * from vid_op",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ClientGrpData",
+   "source": "TDMBusProcSet.ClientGrpData",
+   "kind": "TOracleDataSet",
+   "sql": "select -2 as ID,'Umumi' as name from dual\nunion\nselect -1 as ID,'Default' as name from dual\nunion\nselect * from QRP_KLIE",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_convert_assignments",
+   "source": "TDMBusProcSet.ODS_convert_assignments",
+   "kind": "TOracleDataSet",
+   "sql": "select * from convert_assignments",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_kassa_b",
+   "source": "TDMBusProcSet.ODS_kassa_b",
+   "kind": "TOracleDataSet",
+   "sql": "select * from kassa_b\n\n\n\n",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_trdestination",
+   "source": "TDMBusProcSet.ODS_trdestination",
+   "kind": "TOracleDataSet",
+   "sql": "select * from trdestination",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_provcountries",
+   "source": "TDMBusProcSet.ODS_provcountries",
+   "kind": "TOracleDataSet",
+   "sql": "select * from provcountries\norder by 1",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_reportdescs",
+   "source": "TDMBusProcSet.ODS_reportdescs",
+   "kind": "TOracleDataSet",
+   "sql": "select * from reportdescs\norder by 1",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "Ods_sb_bproc_acc",
+   "source": "TDMBusProcSet.Ods_sb_bproc_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_bproc_acc",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_Report",
+   "source": "TDMBusProcSet.ODS_Report",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM reportdescs \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_Transaction",
+   "source": "TDMBusProcSet.ODS_Transaction",
+   "kind": "TOracleDataSet",
+   "sql": "select * from vid_op\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_countries",
+   "source": "TDMBusProcSet.ODS_countries",
+   "kind": "TOracleDataSet",
+   "sql": "select * from countries\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "DMBusProcSetimpl"
+  },
+  {
+   "name": "ODS_avalute_t",
+   "source": "TForm6.ODS_avalute_t",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 valute,'Bütün valyutalar' val_name from dual\nunion\nselect valute,val_name from avalute_t",
+   "variables": [],
+   "unit": "Unit6"
+  },
+  {
+   "name": "ODS_sb_bproc_acc",
+   "source": "TForm6.ODS_sb_bproc_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select sb.*,a.kli_id,a.bal_cn1,a.val_acc from sb_bproc_acc sb,account a where a.id(+)=sb.id\n\n \n\n\n",
+   "variables": [],
+   "unit": "Unit6"
+  },
+  {
+   "name": "OracleDataSet9",
+   "source": "Tkonvert1.OracleDataSet9",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.shortname,a.fullpath,a.different,a.extra from convert_assignments a \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "konvert"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

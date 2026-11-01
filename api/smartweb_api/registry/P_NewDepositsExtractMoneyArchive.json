@@ -1,0 +1,126 @@
+{
+ "name": "P_NewDepositsExtractMoneyArchive",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsExtractMoneyArchive",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "sbdm_transactionviewer.bpl": "P_SBDM_TransactionViewer"
+ },
+ "lib": [
+  "CMCurrencyEdit",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Payments",
+   "source": "TDMArchiveExtractMoney.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  hdate, facticaldebt, interestdebt,clientdebt,trid, inttrid,tranchesid,description\n  FROM dm_payments\n  where id# = :ContractID\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMArchiveExtractMoneyImpl"
+  },
+  {
+   "name": "CreditAccs",
+   "source": "TDMArchiveExtractMoney.CreditAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no,\n       name\nfrom account \nwhere close_dat is null\nand  bal_cn1 in ( select accgroup from \ndm_acc_zone_info where zoneid = (select zoneid from dm_acc_zones\nwhere name = 'Account'))\norder by acc_no\n\n\n",
+   "variables": [],
+   "unit": "DMArchiveExtractMoneyImpl"
+  },
+  {
+   "name": "DepositInfo",
+   "source": "TDMArchiveExtractMoney.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\n     cust.name,\n     cont.amount,\n     cont.currency,\n     cont.customerid,\n     cs.facticaldebt,\n     cs.facticalinterestdebt,\n    (select ostat from tenostat where acc_id=ca.clientaccid) ostat\nfrom customers cust,\n     dm_history_currstate cs,\n     dm_contracts cont,\n     dm_contract_accounts ca\nwhere\n   cont.id = :ContractID \n  and \n   cust.id = cont.customerid\n  and \n   cs.id# = :ContractID \n  and\n   ca.id# = :ContractID ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMArchiveExtractMoneyImpl"
+  },
+  {
+   "name": "CustAcc",
+   "source": "TDMArchiveExtractMoney.CustAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select clientaccid \n       ,dm_stored_programs.GetContractAccount(ContractAccID) as ContractAccNo\n       ,dm_stored_programs.GetContractAccount(InterestAccID) as InterestAccNo\n       ,dm_stored_programs.GetContractAccount(ClientAccID)   as ClientAccNo\nfrom dm_contract_accounts\nwhere id# = :Contractid",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMArchiveExtractMoneyImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_payment",
+   "package": "dm_payment",
+   "mode": "named",
+   "source": "TDMArchiveExtractMoney.dm_payment",
+   "routines": [
+    {
+     "name": "CommitWithDrawMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteWithDrawMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "WithDrawMoney",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMArchiveExtractMoney.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

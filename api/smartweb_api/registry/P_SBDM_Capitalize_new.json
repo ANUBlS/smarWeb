@@ -1,0 +1,103 @@
+{
+ "name": "P_SBDM_Capitalize_new",
+ "caption": "",
+ "dir": "Packages/SBDM_Capitalize_new",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Capitals",
+   "source": "TfrmCapitalize_new.Capitals",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT ID,  hdate, total, trid\n  FROM sbcm_capitalization_new\n  where ID# = :ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmCapitalizeImpl_new"
+  },
+  {
+   "name": "DepositInfo",
+   "source": "TfrmCapitalize_new.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select cont.contractno,\n       cust.name,\n       cstate.facticaldebt,\n       cstate.facticalinterestdebt,\n       sbcm_stored_programs.Get_ContractAccount(acc.ContractAccID) as ContractAccNo,\n      sbcm_stored_programs.Get_ContractAccount(acc.InterestAccID) as InterestAccNo\nfrom sbcm_contracts_new cont,\n     customers cust,\n     sbcm_contract_accounts_new acc,\n     sbcm_contract_state_new cstate\nwhere\n    cont.id = :ContractID and\n    cust.id = cont.customerID and\n    acc.id# = :ContractID and\n    cstate.id# = :ContractID ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmCapitalizeImpl_new"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TfrmCapitalize_new.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sbcm_payment",
+   "package": "sbcm_payment_new",
+   "mode": "named",
+   "source": "TfrmCapitalize_new.sbcm_payment",
+   "routines": [
+    {
+     "name": "Capitalization",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CommitWithDrawMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteCapitalization",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,118 @@
+{
+ "name": "P_NewDepositsWRSetup",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsWRSetup",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "SBWRTemplatesDSet",
+   "source": "TNewDepositsSBWRSetupDataMod.SBWRTemplatesDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.RowID , T.*\n  FROM DM_WR_TEMPLATES T",
+   "variables": [],
+   "unit": "NewDepositsSBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBWRBookmarksDSet",
+   "source": "TNewDepositsSBWRSetupDataMod.SBWRBookmarksDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,ID, TEMPLATEID, FIELDID, BOOKMARKNAME\n  FROM DM_WR_BOOKMARKS\nwhere templateid = :templateid",
+   "variables": [
+    {
+     "name": "TEMPLATEID",
+     "type": "float"
+    }
+   ],
+   "unit": "NewDepositsSBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBWRFieldsDSet",
+   "source": "TNewDepositsSBWRSetupDataMod.SBWRFieldsDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, FIELDNAME, DESCRIPTION\n  FROM DM_WR_FIELDS",
+   "variables": [],
+   "unit": "NewDepositsSBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBOracleDSetTamplates",
+   "source": "TNewDepositsSBWRSetupDataMod.SBOracleDSetTamplates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.*\n  FROM DM_WR_TEMPLATES T",
+   "variables": [],
+   "unit": "NewDepositsSBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBDMInfoDataSet",
+   "source": "TNewDepositsSBWRSetupDataMod.SBDMInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM dm_contracts \n where id = :conid",
+   "variables": [
+    {
+     "name": "CONID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsSBWRSetupDataModImpl"
+  },
+  {
+   "name": "SBReplaceDataSet",
+   "source": "TNewDepositsSBWRSetupDataMod.SBReplaceDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   SMART.DM_WR_BOOKMARKS B\n , SMART.DM_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "NewDepositsSBWRSetupDataModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "SBCM_WR_TOOLS",
+   "package": "SBCM_WR_TOOLS_new",
+   "mode": "positional",
+   "source": "TNewDepositsSBWRSetupDataMod.SBCM_WR_TOOLS",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

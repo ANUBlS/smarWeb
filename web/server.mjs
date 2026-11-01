@@ -4,7 +4,9 @@
  *
  *   node server.mjs                       # http://0.0.0.0:8086
  *   HOST=192.168.2.93 PORT=8086 node server.mjs
- *   API_TARGET=http://127.0.0.1:3000 node server.mjs   # forward /api/* to the Oracle gateway (later)
+ *   API_TARGET=http://127.0.0.1:8000 node server.mjs   # forward /api/* to the SmartWeb API (api/)
+ *   DIST_DIR=dist-http node server.mjs                 # serve another build folder
+ *   SB_LOG_DIR=/var/log/smartweb node server.mjs       # application log files (default ./logs)
  *
  * Serves the built app from ./dist with long-term caching for hashed assets,
  * falls back to index.html for client routes, and proxies /api when API_TARGET is set.
@@ -14,8 +16,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import { handleAppLog, LOG_DIR } from './applog.mjs';
 
-const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), process.env.DIST_DIR || 'dist');
 const HOST = process.env.HOST || '0.0.0.0';
 const PORT = Number(process.env.PORT || 8086);
 const API_TARGET = process.env.API_TARGET ? new URL(process.env.API_TARGET) : null;
@@ -56,6 +59,7 @@ function proxy(req, res, start) {
 const server = http.createServer((req, res) => {
   const start = Date.now();
   if (API_TARGET && req.url.startsWith('/api/')) return proxy(req, res, start);
+  if (req.url.startsWith('/applog') && handleAppLog(req, res)) return log(req, 0, start);
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     res.writeHead(405); res.end(); return log(req, 405, start);
   }
@@ -80,5 +84,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`SmartWeb listening on http://${HOST}:${PORT}${API_TARGET ? ` (API → ${API_TARGET.origin})` : ' (mock API)'}`);
+  console.log(`SmartWeb listening on http://${HOST}:${PORT}${API_TARGET ? ` (API → ${API_TARGET.origin})` : ' (mock API)'}; logs: ${LOG_DIR}`);
 });

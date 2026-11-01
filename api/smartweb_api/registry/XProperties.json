@@ -1,0 +1,349 @@
+{
+ "name": "XProperties",
+ "caption": "Əlavə modullar / Mühasibat və balans / Əmlak",
+ "dir": "Packages/properties",
+ "mainForm": "TPropertiesFrm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "DMprop",
+  "OraVariables",
+  "ReportImpl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DataSetCredit",
+   "source": "TDMproperties.DataSetCredit",
+   "kind": "TOracleDataSet",
+   "sql": "select id, numberofcredit\n  FROM cm_active_credits\nwhere numberofcredit not in ( select numberofcredit from properties_credit)\n\n\n\n\n\n\n\n\n\n--select id, numberofcredit\n -- FROM cm_active_credits\n--where \n--/*numberofcredit not in ( select numberofcredit from properties_credit)\n--and*/ id  in(\n --select creditid\n-- from cm_curr_state where /*STOPCALCDATE is not null\n --and*/ (DUEREST<>0 or dUEINTERESTREST<>0))\n\n/* [10] axtarish*/\n \norder by numberofcredit\n\n\n\n\n",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "ClientAccs",
+   "source": "TDMproperties.ClientAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n --   kli_id = :CustID and\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM pr_acc_zones g\n                                            WHERE g.name = 'emlak'))\n\n         )\nand close_dat is null\nORDER BY kli_id,accno\n\n",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "Filals",
+   "source": "TDMproperties.Filals",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial order by name",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "DataSetPropIns",
+   "source": "TDMproperties.DataSetPropIns",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid, a.*\n FROM vw_properties a  where id is not null\n\n\n\n\n\n\n\norder by :OrderField",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDMproperties.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "DSet_Prop_Kredit",
+   "source": "TDMproperties.DSet_Prop_Kredit",
+   "kind": "TOracleDataSet",
+   "sql": "select propid, numberofcredit\n from properties_credit\nwhere propid=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "dataset_taypcal",
+   "source": "TDMproperties.dataset_taypcal",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, typical\n  FROM proptypical \norder by id",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "acc_zones",
+   "source": "TDMproperties.acc_zones",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT zoneid ,description\n  FROM pr_acc_zones\n  order by zoneid",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "acc_zone_info",
+   "source": "TDMproperties.acc_zone_info",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,zoneid, accgroup\n  FROM sbcm_acc_zone_info\n\nwhere zoneid = :zoneid",
+   "variables": [
+    {
+     "name": "ZONEID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "CreditAccs",
+   "source": "TDMproperties.CreditAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM pr_acc_zones g\n                                            WHERE g.name = 'Reserve'))\n         )\nand close_dat is null\nORDER BY kli_id,accno\n",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "DataSetProp_take",
+   "source": "TDMproperties.DataSetProp_take",
+   "kind": "TOracleDataSet",
+   "sql": "select * from properties_take\nwhere\nprop_id=:propid",
+   "variables": [
+    {
+     "name": "PROPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "ReportDataSet",
+   "source": "TDMproperties.ReportDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT rownum sira, a.id, a.filialid, a.regionid, a.villageid, a.name, a.value,a.satishdeyeri,\n       a.generalarea, a.livingarea, a.buildingsoilarea, a.soilarea,\n       a.aktnum, a.aktdate, a.constructdate, a.usepersonname,a.aktnum||'-'||a.aktdate as sss,\n       a.buycontractdate, a.endcontactdate,  a.description,\n       a.contractnum, a.bdate, a.prop_count, a.accno, a.clientaccid,\n       a.branchid, a.tipid, a.type#, a.previousname,f.name as f_name,p.maindebt,p.intdebt,\n    cu.name as cus_name, (select acc_no from account where id=clientaccid) claccno, (select acc_no from account where id=RESERVEACCID) ehaccno,\n    PG_PROPERTIES.get_sell_name(a.id) as sell_name,p.CREDITREST,\n(select percent||' %'|| description  as d from reserve_types where id=a.reserveid) ehserece,\n  (a.value- PG_PROPERTIES.get_sell_value(a.id) ) as qaliq , vl.name rayon, p.maindebt*rs.percent/100 eh\n FROM properties a ,filial f,properties_take p,reserve_types rs,\n cm_active_credits cr,\n /*cm_usergroups u,*/customers cu,\n agro_region vl\nwhere  \na.branchid=f.id(+) and rs.id(+)=a.reserveid and\np.prop_id(+)=a.id and\ncr.numberofcredit(+)=p.numberofcredit and\n/*u.id=cr.usrgroup and*/\ncu.id(+)=cr.boorowerid and a.REGIONID=vl.id(+) \n\n\n\n\n\n\n\n\n\n\norder by  a.branchid\n\n",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "DataSetproperties_payments",
+   "source": "TDMproperties.DataSetproperties_payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM properties_payments \nwhere\nprop_id=:propid\n",
+   "variables": [
+    {
+     "name": "PROPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "DataSetTake",
+   "source": "TDMproperties.DataSetTake",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(maindebt+INTDEBT)as maind from properties_take\n                     where\nprop_id=:propid",
+   "variables": [
+    {
+     "name": "PROPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "CashSymbols",
+   "source": "TDMproperties.CashSymbols",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n  symbol,\n  name,\n  mediocrity\nFROM\n  kassa_b\norder by symbol ",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "DistrictsDataSet",
+   "source": "TDMproperties.DistrictsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, name_eng\n  FROM agro_region",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "VillagesDataSet",
+   "source": "TDMproperties.VillagesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, depend_id\n  FROM agro_village\n\nwhere depend_id = :depend_id",
+   "variables": [
+    {
+     "name": "DEPEND_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "rezerveDataSet",
+   "source": "TDMproperties.rezerveDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id, code, percent, description ,percent||' %'|| description  as d\n from reserve_types",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "LinksDSet",
+   "source": "TDMproperties.LinksDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from pr_links_value a\nwhere a.brachid=:brachid",
+   "variables": [
+    {
+     "name": "BRACHID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "EhtiyatDSet",
+   "source": "TDMproperties.EhtiyatDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n --   kli_id = :CustID and\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM pr_acc_zones g\n                                            WHERE g.name = 'ehtiyat'))\n\n         )\nand close_dat is null\nORDER BY kli_id,accno",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "ElaveDataSet",
+   "source": "TDMproperties.ElaveDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n --   kli_id = :CustID and\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM pr_acc_zones g\n                                            WHERE g.name = 'elave'))\n\n         )\nand close_dat is null\nORDER BY kli_id,accno\n",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "InfoDataSet",
+   "source": "TDMproperties.InfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE\n --   kli_id = :CustID and\n   (ac.bal_cn1 IN (SELECT accgroup\n                           FROM sbcm_acc_zone_info\n                          WHERE zoneid = (SELECT g.zoneid\n                                             FROM pr_acc_zones g\n                                            WHERE g.name = 'diger'))\n\n         )\nand close_dat is null\nORDER BY kli_id,accno\n",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "GDataSet",
+   "source": "TDMproperties.GDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid, a.* from pr_gelirhes a\n\nwhere name='gelir'\n\n",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "XDataSet",
+   "source": "TDMproperties.XDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid, a.* from pr_gelirhes a\n\nwhere name='xerc'\n\n",
+   "variables": [],
+   "unit": "DMprop"
+  },
+  {
+   "name": "Info",
+   "source": "TDMproperties.Info",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from PROPERIES_INFO a\n\nwhere prid=:prid",
+   "variables": [
+    {
+     "name": "PRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMprop"
+  },
+  {
+   "name": "Transactions",
+   "source": "TTransactionsViewForm.Transactions",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    DEBITACCNO,\n    DEBITCURRENCY,\n    CREDITACCNO,\n    CREDITCURRENCY,\n    TRDATE,\n    INBALANCECHAR,\n    FLAGS,\n    DEBITAMOUNT,\n    CREDITAMOUNT,\n    NATAMOUNT,\n    TRDESCRIPTION,\n    CANPROCESS\n  from CM_DELAYED_TRANSACTIONS",
+   "variables": [],
+   "unit": "TransactionsViewFormImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "PG_PROPERTIES",
+   "mode": "positional",
+   "source": "TDMproperties.OraclePackage1",
+   "routines": []
+  },
+  {
+   "component": "OraclePackage2",
+   "package": "PG_PROPERTIES",
+   "mode": "named",
+   "source": "TDMproperties.OraclePackage2",
+   "routines": [
+    {
+     "name": "AddPayment",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "AddTranche",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Close_emlak",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CommitTranche",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CommitTranchePay",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Del_prop_credit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteTranche",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteTranche_pay",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_prop_credit",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

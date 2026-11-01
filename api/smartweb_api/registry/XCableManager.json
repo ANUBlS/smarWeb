@@ -1,0 +1,204 @@
+{
+ "name": "XCableManager",
+ "caption": "Əlavə modullar / Tikinti və kommunal / Kabel TV menecer",
+ "dir": "Packages/CableManager",
+ "mainForm": "TCableMan",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "odsAbonents",
+   "source": "TDataModCable.odsAbonents",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id, a.name, to_date(a.reg_time) reg_time, d.name doc_type, a.doc_num, a.address,\n       a.phone, a.phone_wk, decode(a.access_roof,0,'VAR',1,'YOX') access_roof,  decode(a.signalling,0,'VAR',1,'YOX')signalling, a.receiver_num,\n       a.eng_time, e.name engineer, a.done_time,  decode(vat,0,'HƏ',1,'YOX')vat, s.name status,\n       a.doc_type doc_id, a.eng_id, s.id stat_id, phone_mob, decode(a.foreigner,0,'VAR',1,'YOX')foreigner, a.usname\n  from bb_abonents a, bb_engineers e, doc_types d, bb_statuses s\n where ((a.doc_type = d.id) and (a.eng_id = e.id)) and s.id=status\n\n \n \n \n ",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsEngineers",
+   "source": "TDataModCable.odsEngineers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bb_engineers\n\norder by 2",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsStatuses",
+   "source": "TDataModCable.odsStatuses",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bb_statuses\n\norder by 2",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsDocTypes",
+   "source": "TDataModCable.odsDocTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from doc_types\norder by 2",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsContacts",
+   "source": "TDataModCable.odsContacts",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id, contract_num, card_num, sign_date, abn_id, inst_date,\n       decode (inst_place, 0, 'Balkon', 1, 'Dam', 'Digər') instplace, serie,\n       works_num, c.receiver_num, cable_length, amount, amount_eqv, curr_code,\n       discount, c.eng_id, pack_num, a.name abonent, e.name engineer,\n       p.name packname, inst_place, acc_id, rest, round(rest,2) rest_r,\n       lastcalcdate, decode(calcag,0,'Hə',1,'Yox' )calcags, calcag, acc_no, discount_desc,\n       c.usname, c.updusname, c.upddate, exp_date, p.symb\n  from bb_contracts c, bb_abonents a, bb_engineers e, bb_packages p, account t\n where a.id = c.abn_id and c.eng_id = e.id and pack_num = p.id and t.id=c.acc_id and abn_id = :abn_id\n \n ",
+   "variables": [
+    {
+     "name": "ABN_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsServs",
+   "source": "TDataModCable.odsServs",
+   "kind": "TOracleDataSet",
+   "sql": "select s.id, contract_id, reg_time, srv_id, s.amount, s.amount_eqv, s.curr_code,\n       status, done_time, c.name servicename, s.usname, s.updusname, s.upddate, paymethod, s.frm_contrct\n  from bb_abn_services s, bb_services c, bb_contracts r\n where s.srv_id = c.id and contract_id = r.id and contract_id = :contract_id",
+   "variables": [
+    {
+     "name": "CONTRACT_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsValutes",
+   "source": "TDataModCable.odsValutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute id, val_name name from avalute\norder by 2",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsPacks",
+   "source": "TDataModCable.odsPacks",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name, inst_price, price, deposit from bb_packages\norder by 2",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsServices",
+   "source": "TDataModCable.odsServices",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name, price from bb_services\norder by 2",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "odsAccs",
+   "source": "TDataModCable.odsAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no name from account where close_dat is null\norder by 2",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  },
+  {
+   "name": "OrDS_fullContracts",
+   "source": "TDataModCable.OrDS_fullContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bb_contracts",
+   "variables": [],
+   "unit": "CableManDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CABLE",
+   "package": "CABLE_MANAGER",
+   "mode": "positional",
+   "source": "TDataModCable.CABLE",
+   "routines": [
+    {
+     "name": "ContractAdditional",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "GetAbonIdByWorksNum",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "abnservadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "abnservcommit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "abnservdel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "abnservupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "abonentadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "abonentdel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "abonentupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "contractadd",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "contractdel",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "contractsetlastdate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "contractupd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "open_account",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

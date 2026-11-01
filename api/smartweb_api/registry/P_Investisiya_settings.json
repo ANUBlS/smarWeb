@@ -1,0 +1,79 @@
+{
+ "name": "P_Investisiya_settings",
+ "caption": "",
+ "dir": "Packages/Investisiya_settings",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DsInvestType",
+   "source": "Tdmsettings.DsInvestType",
+   "kind": "TOracleDataSet",
+   "sql": "select m.rowid, m.* from ins_investment_type m",
+   "variables": [],
+   "unit": "dmsettingsimpl"
+  },
+  {
+   "name": "Ds_İnvest_time",
+   "source": "Tdmsettings.Ds_İnvest_time",
+   "kind": "TOracleDataSet",
+   "sql": "select m.rowid, m.* from ins_investment_time m",
+   "variables": [],
+   "unit": "dmsettingsimpl"
+  },
+  {
+   "name": "DSins_acc_typesB",
+   "source": "Tdmsettings.DSins_acc_typesB",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM ins_investment_acc_types a",
+   "variables": [],
+   "unit": "dmsettingsimpl"
+  },
+  {
+   "name": "DSins_acc_bal_cn",
+   "source": "Tdmsettings.DSins_acc_bal_cn",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.dict_id, a.bal_cn\n  FROM ins_investment_acc_bal_cn a\n\nwhere dict_id = :dict_id",
+   "variables": [
+    {
+     "name": "DICT_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "dmsettingsimpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

@@ -310,7 +310,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"column": $.copyArg(p0), result: undefined, "titlename": '', "sortposition": 0};
   await $.fixArgs(L0, ["column"]);
-  L0["sort"] = true;
+  await $.staticConst(L0, "sort", "viewpayments.tpaymentviewer.dbgrid1titleclick.sort", async () => true);
   if ($.truthy((await $.mv((await $.mv(L0["column"], "Field")), "Calculated")))) {
     return L0.result;
   }

@@ -1,0 +1,91 @@
+{
+ "name": "P_SBDM_Capitalize",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_Capitalize",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Capitals",
+   "source": "TfrmCapitalize.Capitals",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT ID,  hdate, total, trid\n  FROM sbcm_capitalization\n  where ID# = :ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmCapitalizeImpl"
+  },
+  {
+   "name": "DepositInfo",
+   "source": "TfrmCapitalize.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select cont.contractno,\n       cust.name,\n       cstate.facticaldebt,\n       cstate.facticalinterestdebt,\n       sbcm_stored_programs.Get_ContractAccount(acc.ContractAccID) as ContractAccNo,\n      sbcm_stored_programs.Get_ContractAccount(acc.InterestAccID) as InterestAccNo\nfrom sbcm_contracts cont,\n     customers cust,\n     sbcm_contract_accounts acc,\n     sbcm_contract_state cstate\nwhere\n    cont.id = :ContractID and\n    cust.id = cont.customerID and\n    acc.id# = :ContractID and\n    cstate.id# = :ContractID ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "frmCapitalizeImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sbcm_payment",
+   "package": "sbcm_payment",
+   "mode": "named",
+   "source": "TfrmCapitalize.sbcm_payment",
+   "routines": [
+    {
+     "name": "Capitalization",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CommitWithDrawMoney",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteCapitalization",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

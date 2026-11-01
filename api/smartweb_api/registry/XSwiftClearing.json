@@ -1,0 +1,422 @@
+{
+ "name": "XSwiftClearing",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Western Union / kliring",
+ "dir": "Packages/Swift_Clearing",
+ "mainForm": "TSwift_Form",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "Data_Unit",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Account_data",
+   "source": "TDataMod.Account_data",
+   "kind": "TOracleDataSet",
+   "sql": "select\na.id,a.acc_no,a.name,a.val_acc,c.inn,ac.pok_ostat,ac.ostat\nfrom\naccount a,customers c,archost ac\nwhere\n(a.kli_ID=c.id)and(a.id=ac.acc_id)and(ac.datdate=sbop.get_date)\n ",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "DataSet_View",
+   "source": "TDataMod.DataSet_View",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "BankInfo",
+   "source": "TDataMod.BankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankinfo",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "BankM",
+   "source": "TDataMod.BankM",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bankm",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "AValute",
+   "source": "TDataMod.AValute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Avalute",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "TransTypeCode",
+   "source": "TDataMod.TransTypeCode",
+   "kind": "TOracleDataSet",
+   "sql": "select * from hoxtranstype_code",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "Hox102_out",
+   "source": "TDataMod.Hox102_out",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  h.*,a.acc_no,a.name,v.val_name,h.amount/k.ostat as lamount\nfrom\n  hox102_out h,account a,avalute v,operkurs k\nwhere\n  h.acc_id = a.id and\n  v.valute=a.val_acc and\n (transdate>=:BeginDate and\n  transdate<=:EndDate)AND\n ((a.val_acc=k.val_kod)and(k.dat=h.transdate)) \n order by\n  h.id,h.status desc\n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "ForCHECK",
+   "source": "TDataMod.ForCHECK",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "HoxMessages_out",
+   "source": "TDataMod.HoxMessages_out",
+   "kind": "TOracleDataSet",
+   "sql": "select m.*, v.val_name\n                           from \nhoxMessage_out m, avalute v\n                         where \n           (m.mt102_id=:id)and\n           (m.val_cod=v.valute)",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "string"
+    }
+   ],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "HoxSw_Proper",
+   "source": "TDataMod.HoxSw_Proper",
+   "kind": "TOracleDataSet",
+   "sql": "select * from hoxSw_proper",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "ForAll",
+   "source": "TDataMod.ForAll",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "HoxMessages_IN",
+   "source": "TDataMod.HoxMessages_IN",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   hoxmessage_in.*,hoxmessage_in.rowid\nfrom\n   HoxMessage_in\n ",
+   "variables": [],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "HoxMessages_IN_view",
+   "source": "TDataMod.HoxMessages_IN_view",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   h.*,v.val_name,b.name\nfrom\n   HoxMessage_in h,avalute v,bankm b\nwhere\n   (h.val_cod=v.valute)and(h.sen_bank_id=b.id) and\n   (trans_date>=:BeginDate and trans_date<=:EndDate)\norder by h.id\n\n\n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "Data_Unit"
+  },
+  {
+   "name": "Mt150",
+   "source": "TSendFileForm.Mt150",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    *\n from \n    hox150_out\nwhere\n    create_date>=:BeginDate  and create_date<=:EndDate\n\norder by id",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "FileSend_Unit"
+  },
+  {
+   "name": "ForCheck",
+   "source": "TSendFileForm.ForCheck",
+   "kind": "TOracleDataSet",
+   "sql": "select hox_out_dir from hoxsw_proper",
+   "variables": [],
+   "unit": "FileSend_Unit"
+  },
+  {
+   "name": "ToSend",
+   "source": "TPrepareFile_Form.ToSend",
+   "kind": "TOracleDataSet",
+   "sql": "select\n                   h.*,\n                   a.acc_no,\n                   v.val_name              \nfrom\n\t   hox102_out h,\n\t   account a,\n\t   avalute v\nwhere\n                   h.acc_id = a.id and\n                   v.valute=h.val_acc and\n                  (transdate>=:BeginDate and\n                   transdate<=:EndDate)and\n                   (h.send=1)and\n                  (h.status=1)",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "PrepareFile_Unit"
+  },
+  {
+   "name": "NoSend",
+   "source": "TPrepareFile_Form.NoSend",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect\n                   h.*,\n                   a.acc_no,\n                   v.val_name\nfrom\n\t           hox102_out h,\n                   account a,\n           \t   avalute v\nwhere\n                   h.acc_id = a.id and\n                   v.valute=h.val_acc and\n                  (transdate>=:BeginDate and\n                   transdate<=:EndDate)and\n                   ((h.send is null)or(h.send=0))and\n                  (h.status=1)and (hoxpack.CheckForFile(h.id,1) =1)\n\n \n \n\n \n \n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "PrepareFile_Unit"
+  },
+  {
+   "name": "MT102",
+   "source": "TPrepareFile_Form.MT102",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect\n                   h.*,\n                   a.acc_no,\n                   v.val_name\nfrom\n\t           hox102_out h,\n                   account a,\n           \t   avalute v\nwhere\n                   h.acc_id = a.id and\n                   v.valute=h.val_acc and\n                   ((h.send is null)or(h.send=0))and\n                  (h.status=1)and (hoxpack.CheckForFile(h.id,1) =1)\n\n \n \n\n ",
+   "variables": [],
+   "unit": "PrepareFile_Unit"
+  },
+  {
+   "name": "Messages",
+   "source": "TPrepareFile_Form.Messages",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect\n                   h.*,\n                   a.acc_no,\n                   v.val_name\nfrom\n\t           hox102_out h,\n                   account a,\n           \t   avalute v\nwhere\n                   h.acc_id = a.id and\n                   v.valute=h.val_acc and\n                   ((h.send is null)or(h.send=0))and\n                  (h.status=1)and (hoxpack.CheckForFile(h.id,1) =1)\n\n \n \n\n ",
+   "variables": [],
+   "unit": "PrepareFile_Unit"
+  },
+  {
+   "name": "ForAll",
+   "source": "TPrepareFile_Form.ForAll",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect\n                   h.*,\n                   a.acc_no,\n                   v.val_name\nfrom\n\t           hox102_out h,\n                   account a,\n           \t   avalute v\nwhere\n                   h.acc_id = a.id and\n                   v.valute=h.val_acc and\n                   ((h.send is null)or(h.send=0))and\n                  (h.status=1)and (hoxpack.CheckForFile(h.id,1) =1)\n\n \n \n\n ",
+   "variables": [],
+   "unit": "PrepareFile_Unit"
+  },
+  {
+   "name": "HOXAccount",
+   "source": "TPropertiesForm.HOXAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    v.val_name,a.acc_no as hox\nfrom\n    hoxsw_account h,avalute v, account a \nwhere\n    (h.valute=v.valute) and(h.hox_id=a.id)\n\n\n\n \n \n ",
+   "variables": [],
+   "unit": "Properties_Unit"
+  },
+  {
+   "name": "ForAll",
+   "source": "TPropertiesForm.ForAll",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Properties_Unit"
+  },
+  {
+   "name": "SWAccount",
+   "source": "TPropertiesForm.SWAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    v.val_name,a.acc_no as sw\nfrom\n    hoxsw_account h,avalute v, account a \nwhere\n    (h.valute=v.valute) and(h.swift_id=a.id)",
+   "variables": [],
+   "unit": "Properties_Unit"
+  },
+  {
+   "name": "Commision",
+   "source": "TPropertiesForm.Commision",
+   "kind": "TOracleDataSet",
+   "sql": "select * from commision_trans",
+   "variables": [],
+   "unit": "Properties_Unit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CHECK_Pack",
+   "package": "HOXPACK",
+   "mode": "positional",
+   "source": "TDataMod.CHECK_Pack",
+   "routines": []
+  },
+  {
+   "component": "Convert_pack",
+   "package": "HOXPACK",
+   "mode": "positional",
+   "source": "TPrepareFile_Form.Convert_pack",
+   "routines": [
+    {
+     "name": "ConvertTonoSend",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "INS_MT150",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SumofAmount",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "ToandNo_send",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "DEL",
+   "package": "HOXPACK",
+   "mode": "positional",
+   "source": "TDataMod.DEL",
+   "routines": [
+    {
+     "name": "DEL_MESS_IN",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DEL_MESS_OUT",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DEL_MT102_OUT",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "GetSysDate",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TDataMod.GetSysDate",
+   "routines": [
+    {
+     "name": "GET_DATE",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "Get_date",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "get_date",
+     "call": "CallDateFunction"
+    }
+   ]
+  },
+  {
+   "component": "Ins",
+   "package": "HOXPACK",
+   "mode": "positional",
+   "source": "TDataMod.Ins",
+   "routines": [
+    {
+     "name": "UPD_HOX102_OUT",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UPD_HOXMESSAGE_IN",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "Proper_pack",
+   "package": "HOXPACK",
+   "mode": "positional",
+   "source": "TPropertiesForm.Proper_pack",
+   "routines": [
+    {
+     "name": "DEL_TRANSTYPE_CODE",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "INS_UPD_TRANSCODE",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UPD_TransType",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UPD_proper",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UPD_proper_dir",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addto_hoxswaccount",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "Reference",
+   "package": "HOXPACK",
+   "mode": "positional",
+   "source": "TDataMod.Reference",
+   "routines": []
+  }
+ ],
+ "sql": [
+  "Select * from Avalute",
+  "Select * from BankInfo",
+  "Select * from BankM",
+  "Select * from hoxsw_proper",
+  "Select * from hoxtranstype_code",
+  "Select hox_in_dir from hoxsw_proper",
+  "Select hox_out_dir from hoxsw_proper",
+  "Select hoxaccount from hoxsw_proper",
+  "Select kod_b,krno,inn,swift from bankinfo",
+  "select h.*,a.acc_no,v.val_name from hox102_out h,account a,avalute v where h.acc_id = a.id and v.valute=h.val_acc and(h.send=1)and(h.status=1)"
+ ]
+}

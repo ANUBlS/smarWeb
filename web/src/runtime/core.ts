@@ -251,6 +251,28 @@ export class Ref<T = any> {
   constructor(public get: () => Promise<T>, public set: (v: T) => Promise<void>) {}
 }
 
+/*
+ * Pointers kept in integers (Tag := Integer(@List); TStringList(Pointer(Tag)^)): Integer(obj) gives a
+ * stable handle, Pointer(handle) / TFoo(handle) give the object back (a variable reference is read).
+ */
+const HANDLE_BASE = 0x40000000;
+const handleOf = new WeakMap<object, number>();
+const handles = new Map<number, object>();
+export function pointerHandle(v: object): number {
+  let h = handleOf.get(v);
+  if (h === undefined) { h = HANDLE_BASE + handles.size + 1; handleOf.set(v, h); handles.set(h, v); }
+  return h;
+}
+export function fromHandle(v: unknown): object | undefined {
+  return typeof v === 'number' && v > HANDLE_BASE ? handles.get(v) : undefined;
+}
+/** Pointer(x)^ / TFoo(x): the object a handle stands for, a referenced variable's value. */
+export async function derefPointer(v: unknown): Promise<unknown> {
+  const o = fromHandle(v);
+  if (o === undefined) return v;
+  return o instanceof Ref ? await o.get() : o;
+}
+
 export class ValueRef<T = any> extends Ref<T> {
   value: T;
   constructor(v: T) {

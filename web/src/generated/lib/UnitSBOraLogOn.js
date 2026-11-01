@@ -176,9 +176,9 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "q": 0, "z": 0, "res": 0, "bmp": '', "bmpsize": 0, "srec": null, "expire": '', "expire1": ''};
   await $.fixArgs(L0, ["sender"]);
-  L0["pimageset"] = null;
-  L0["pimageprocessor"] = null;
-  L0["ptemp"] = null;
+  await $.staticConst(L0, "pimageset", "unitsboralogon.tfmorasblogon.btokclick.pimageset", async () => null);
+  await $.staticConst(L0, "pimageprocessor", "unitsboralogon.tfmorasblogon.btokclick.pimageprocessor", async () => null);
+  await $.staticConst(L0, "ptemp", "unitsboralogon.tfmorasblogon.btokclick.ptemp", async () => null);
   L0["expire"] = "ORA-28001";
   await $.set(C, "fmPassChange", (await $.mcall((await $.v(C, "TfmPassChange")), "Create", [Self])));
   if ($.truthy($.ne((await $.mv((await $.mv((await $.v(C, "fmPassChange")), "edNewPass")), "Text")), ""))) {

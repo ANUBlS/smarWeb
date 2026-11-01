@@ -1,0 +1,143 @@
+{
+ "name": "DepositsArchive",
+ "caption": "Balans / Depozitlər / Arxiv Depozitlər",
+ "dir": "Packages/SBDM_DepositsArchive",
+ "mainForm": "TFrmDepositsArchive",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DepositsData",
+   "source": "TdmDepositsArchive.DepositsData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       cont.id,\n       cont.contractno,\n       sbcm_stored_programs.Get_ContractAccount(acc.contractaccid) as ContractAccNO,\n       sbcm_stored_programs.Get_ContractAccount(acc.interestaccid) as InterestAccNO,\n       av.val_name,\n       sbcm_stored_programs.Get_ContractAccountName(acc.contractaccid) as CustomerName,\n\n       --sbcm_stored_programs.get_CustomerNameByID(cont.customerid) as CustomerName,\n       --sbcm_stored_programs.get_customername(acc.contractaccid) as CustomerName,\n       cont.opendate,\n       cont.closedate,\n       cont.amount,\n       cont.amount*tmp.ostat as ekamount,\n       intr.interest,         \n       cstate.facticaldebt,\n       cstate.facticaldebt*tmp.ostat as ekfacticaldebt,\n       cstate.facticalinterestdebt,\n       cstate.facticalinterestdebt*tmp.ostat as ekfacticalinterestdebt,\n       cstate.stopcalculationdate,\n       --SBCM_Stored_Programs.CheckContractState(cont.ID) as  Status,\n       cont.currency,\n       cont.personaltype,\n       cont.clienttype,\n       cont.branchid,\n       cont.contracttype,\n       cstate.calculationenabled as status,\n       cont.customerid,\n       cont.sid# as usid\nfrom sbcm_contracts cont,\n     sbcm_contract_accounts acc,\n     sbcm_interests intr,\n     sbcm_contract_state cstate,\n     avalute av,\n     temprate tmp\nwhere acc.id# = cont.id and\n      intr.id# = cont.id and\n      cstate.id# = cont.id and\n      cont.currency = av.valute and\n      cont.currency = tmp.val_kod and \n      cont.type# = 4 --Archive deposits\n order by :OrderField     ",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "Valutes",
+   "source": "TdmDepositsArchive.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name \nfrom avalute",
+   "variables": [],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TdmDepositsArchive.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from \nfilial\norder by id ",
+   "variables": [],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TdmDepositsArchive.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type\nfrom sbcm_deposit_Types",
+   "variables": [],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TdmDepositsArchive.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,Category from sbcm_categories",
+   "variables": [],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "persons",
+   "source": "TdmDepositsArchive.persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sbcm_persons",
+   "variables": [],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "BankDate",
+   "source": "TdmDepositsArchive.BankDate",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "Tranches",
+   "source": "TdmDepositsArchive.Tranches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, hdate, total, trid\n  FROM sbcm_tranches\n  where id# = :ContractID\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "DepositInfo",
+   "source": "TdmDepositsArchive.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\n     cust.name,\n     intr.interest,\n     cont.amount,\n     cont.currency,\n     cont.customerid\nfrom customers cust,\n     sbcm_interests intr,\n     sbcm_contracts cont\nwhere\ncont.id = :ContractID and \ncust.id = cont.customerid\nand intr.id# = :ContractID ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositsArchiveImpl"
+  },
+  {
+   "name": "Payments",
+   "source": "TdmDepositsArchive.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  hdate, facticaldebt, interestdebt,bankdebt,bankinterestdebt,overduedebt,overdueinterestdebt,trid, inttrid,befointtrid\n  FROM sbcm_payments\n  where id# = :ContractID\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "dmDepositsArchiveImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

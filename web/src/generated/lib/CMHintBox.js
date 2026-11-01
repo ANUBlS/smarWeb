@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("CMHintBox", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "StdCtrls"]);
   const C = [U];
+  U.enumType("thintstyle", 7);
   U.const("hsAlert", 0);
   U.const("hsWarning", 1);
   U.const("hsError", 2);

@@ -1,0 +1,251 @@
+{
+ "name": "P_NewDepositsContract_2",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsContract",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ClientTypes",
+   "source": "TNewDataModDepositsContract.ClientTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id,category,custategory,rezcategory,valcategory\n  FROM dm_categories where custategory=:custcategory and rezcategory=:rezcategory and valcategory=:valcategory\n",
+   "variables": [
+    {
+     "name": "CUSTCATEGORY",
+     "type": "integer"
+    },
+    {
+     "name": "REZCATEGORY",
+     "type": "integer"
+    },
+    {
+     "name": "VALCATEGORY",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "Filals",
+   "source": "TNewDataModDepositsContract.Filals",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "persons",
+   "source": "TNewDataModDepositsContract.persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM dm_persons",
+   "variables": [],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "valutes",
+   "source": "TNewDataModDepositsContract.valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TNewDataModDepositsContract.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id,name,nerezident,cust_type, case when\nnvl(cust_type,0)=0 then ' Hüquqi ' else   ' Fiziki ' end custtype_name from customers where id=:custid and close_dat is  null and cust_type<>4",
+   "variables": [
+    {
+     "name": "CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TNewDataModDepositsContract.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, type,status\n  FROM dm_types \n",
+   "variables": [],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "DepCapperiod",
+   "source": "TNewDataModDepositsContract.DepCapperiod",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   id,\n   period,\n   description||'('||(select withdrtypedesc from dm_addtypes where withdrtype=type#)||')' as description,\n   periodid \nfrom \n  dm_depcapitalperiods\nwhere \n   periodid = :periodid\norder by period",
+   "variables": [
+    {
+     "name": "PERIODID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "DepPeriods",
+   "source": "TNewDataModDepositsContract.DepPeriods",
+   "kind": "TOracleDataSet",
+   "sql": "select id,period,description,depid,period_type from dm_depperiods\n\nwhere depid = :depid\norder by period ",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "float"
+    }
+   ],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "usrs",
+   "source": "TNewDataModDepositsContract.usrs",
+   "kind": "TOracleDataSet",
+   "sql": "select id,lower(name) as name from smart.user$",
+   "variables": [],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "ODSAccno",
+   "source": "TNewDataModDepositsContract.ODSAccno",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_accno_columname",
+   "variables": [],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "DmDepositPerSettings",
+   "source": "TNewDataModDepositsContract.DmDepositPerSettings",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from dm_depositpersettings c where c.depid=:depid and c.periodid=:periodid and c.capitalid=:capitalid and c.currencyid=:currencyid\nand firstamount<=:amount and lastamount>=:amount",
+   "variables": [
+    {
+     "name": "DEPID",
+     "type": "integer"
+    },
+    {
+     "name": "PERIODID",
+     "type": "integer"
+    },
+    {
+     "name": "CAPITALID",
+     "type": "integer"
+    },
+    {
+     "name": "CURRENCYID",
+     "type": "integer"
+    },
+    {
+     "name": "AMOUNT",
+     "type": "float"
+    }
+   ],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "DmProlanqasiya",
+   "source": "TNewDataModDepositsContract.DmProlanqasiya",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 id,'Olunmasın' name from dual\nunion\nselect 1 id,'Olunsun' name from dual",
+   "variables": [],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "DepositPorps",
+   "source": "TNewDataModDepositsContract.DepositPorps",
+   "kind": "TOracleDataSet",
+   "sql": "select cont.rowid,\n       cont.id,\n       cont.opendate, \n       cont.closedate, \n       cont.amount, \n       cont.contractno, \n       cont.contracttype,\n       cont.clienttype,\n       cont.sid#, \n       cont.branchid,\n       cont.currency, \n       cont.personaltype,\n       cont.customerid,\n       cont.capitalperid,\n       cont.periodid,\n       cont.interest,\n       cont.overdueinterest,\n       cont.dueinterest,\n       cont.firstinterestpaydat,\n       cont.prolanid,\n       cont.tocard,\n       cont.agentid,\n       cont.personsid,\n       cont.prizeid,\n       cont.deppersetid,\n       cont.bonusstatus\n     \nfrom   \n   dm_contracts cont\n  \nwhere \n      cont.id = :ContractID \n       ",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "CreditContractno",
+   "source": "TNewDataModDepositsContract.CreditContractno",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   creditid,\n   numberofcredit,\n   boorowerid,\n   dateofconclusion,\n   duedatefirstcontract,\n   creditlineamount,\n   annualyinterestrate,\n   rest,\n   interestrest,\n   branchid\nfrom \n  cm_portfolio p,\n  cm_curr_state s \nwhere \n   p.id=s.creditid\n and\n   instr(p.depozitids,:contractid)>0",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsContractImpl"
+  },
+  {
+   "name": "DmContractType",
+   "source": "TNewDataModDepositsContract.DmContractType",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_contract_type\norder by topid",
+   "variables": [],
+   "unit": "NewDepositsContractImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_contract",
+   "package": "dm_contract",
+   "mode": "named",
+   "source": "TNewDataModDepositsContract.dm_contract",
+   "routines": [
+    {
+     "name": "dmaddcontract",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "dmgenerateaccountnumber",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "dmupdatecontract",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "getaddaccount",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "getcontractno",
+     "call": "CallStringFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

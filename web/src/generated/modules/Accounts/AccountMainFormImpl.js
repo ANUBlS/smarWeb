@@ -451,10 +451,10 @@ export default function define($) {
 }, {"params": ["Sender", "Action"], "kind": "procedure", "ptypes": ["TObject", "TAction"]});
   U.method("TAccountMainForm", "RefreshActions", async function RefreshActions(Self, p0, p1) {
   const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), "actions": $.copyArg(p1), result: undefined, "index": 0};
+  const L0 = {"sender": $.copyArg(p0), "actions": $.openArr(p1), result: undefined, "index": 0};
   await $.fixArgs(L0, ["sender", "actions"]);
-  { const $t8 = (await $.call(C, "High", [L0["actions"]]));
-    L0["index"] = (await $.call(C, "Low", [L0["actions"]]));
+  { const $t8 = (await $.lowHigh("high", "Actions", async () => L0["actions"]));
+    L0["index"] = (await $.lowHigh("low", "Actions", async () => L0["actions"]));
     let $t9 = true;
     for (;;) {
       if (!$t9) { L0["index"] = $.succ(L0["index"], 1); }

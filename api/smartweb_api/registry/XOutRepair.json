@@ -1,0 +1,207 @@
+{
+ "name": "XOutRepair",
+ "caption": "Əlavə modullar / Mühasibat və balans / Günə düzəliş (balansdankənar)",
+ "dir": "Packages/out_repair",
+ "mainForm": "TOut_RepairFrm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "TransactionData",
+   "source": "TRepDataModule.TransactionData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  p.rowid,\n  p.ID,\n  p.OP_ID as OperatorID,\n  p.dat as TransactionDate,\n  p.DEBT as DebitID,\n  ad.ACC_NO as DebitAccNo,\n  ad.filial as DebFil,\n  p.VAL_ACC as DebitCurrencyID,\n  dc.val_name as DebitCurrencySName,\n  p.KREDIT as CreditID,\n  ac.ACC_NO as CreditAccNo,\n  ac.filial as CredFil,\n  p.CurrencyID_C as CreditCurrencyID,\n  cc.val_name as CreditCurrencySName,\n  p.ammount as DebitAmount,\n  p.Ammount_C as CreditAmount,\n  p.LAmmount as LAmount,\n  p.Rate_D as DebitRate,\n  p.Rate_C as CreditRate,\n  p.Bank_D as DebitBank,\n  p.Bank_K as CreditBank,\n  p.NO_PACK as PackageNumber,\n  p.SHIFR as CYPHERCODE,\n  p.VID_OP as OPERATIONCODE,\n  p.Kassa_B as INBALANCECHAR,\n  p.Kassa_Z as OUTBALANCECHAR,\n  p.NO_FILIAL as FilialID,\n  ad.bal_cn1 as DebitBalance, \n  p.Name,\n  p.Vid_op as OperationType\nFROM\n out_provarch p,\n out_account ad,\n out_account ac,\n avalute dc,\n avalute cc\nwhere\n p.dat between :DAT and :DAT2\n and (ad.ID = p.DEBT)\n and (ac.ID = p.KREDIT)\n and (ad.val_acc = p.val_acc)\n and (ac.val_acc = p.CurrencyID_C)\n and (dc.VALUTE = p.val_acc) \n and (cc.VALUTE = p.CurrencyID_C)\n  ORDER BY :Title\n\n ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "integer"
+    }
+   ],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "DebetRateData",
+   "source": "TRepDataModule.DebetRateData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  currency.valute as id,\n  currency.val_name as Name,\n  currency.valu_name as Description,\n  rates.OSTAT as Rate\nfrom\n  avalute currency,\n  OperKurs rates\nwhere\n currency.VALUTE=rates.VAL_KOD\n and dat=:Dat\norder by ID",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "CreditRateData",
+   "source": "TRepDataModule.CreditRateData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  currency.valute as ID,\n  currency.val_name as Name,\n  currency.valu_name as Description,\n  rates.OSTAT as Rate\nfrom\n  avalute currency,\n  OperKurs rates\nwhere\n currency.VALUTE=rates.VAL_KOD\n and dat=:Dat\norder by ID",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "CurDebetData",
+   "source": "TRepDataModule.CurDebetData",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name,valu_name\nfrom avalute",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "CurKreditData",
+   "source": "TRepDataModule.CurKreditData",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name,valu_name\nfrom avalute",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "DebetAccData",
+   "source": "TRepDataModule.DebetAccData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  a.id,\n  a.kli_id,\n  a.acc_no,\n  a.val_acc,\n  a.name,\n  a.open_dat,\n  a.bal_cn1,\n  a.bal_cn2,\n  a.bal_cn3,\n  a.bal_cn4,\n  b.CashIncoming as IsCacheAccount\n from  \nout_account a , \n  Out_Bal_SPR1 b\nwhere \nval_acc = :val_acc and\n (A.CLOSE_DAT is null)\n and (b.bal_cn = a.bal_cn1)\nORDER BY ACC_NO",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "CreditAccData",
+   "source": "TRepDataModule.CreditAccData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  a.id,\n  a.kli_id,\n  a.acc_no,\n  a.val_acc,\n  a.name,\n  a.open_dat,\n  a.bal_cn1,\n  a.bal_cn2,\n  a.bal_cn3,\n  a.bal_cn4,\n  b.CashIncoming as IsCacheAccount\n from  \nout_account a , \n  out_Bal_SPR1 b\nwhere\n val_acc = :val_acc and\n (A.CLOSE_DAT is null)\n  and (b.bal_cn = a.bal_cn1)\nORDER BY ACC_NO",
+   "variables": [
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "TrDescriptionData",
+   "source": "TRepDataModule.TrDescriptionData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from out_trdestination",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "OutBalanceCharData",
+   "source": "TRepDataModule.OutBalanceCharData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CONVERT_ASSIGNMENTS\norder by ID",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "InBalanceCharData",
+   "source": "TRepDataModule.InBalanceCharData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from KASSA_B\norder by symbol",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "UsersData",
+   "source": "TRepDataModule.UsersData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from user$",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "Valutes",
+   "source": "TRepDataModule.Valutes",
+   "kind": "TOracleQuery",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "VidOp",
+   "source": "TRepDataModule.VidOp",
+   "kind": "TOracleQuery",
+   "sql": "select id,name from vid_op\norder by id",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "FilialDebetData",
+   "source": "TRepDataModule.FilialDebetData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  },
+  {
+   "name": "FilialCreditData",
+   "source": "TRepDataModule.FilialCreditData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "RepairNewDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "pcCorrect",
+   "package": "Out_Correct",
+   "mode": "named",
+   "source": "TRepDataModule.pcCorrect",
+   "routines": [
+    {
+     "name": "Main",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

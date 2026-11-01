@@ -1,0 +1,82 @@
+{
+ "name": "P_SBDM_ContractReport_new",
+ "caption": "",
+ "dir": "Packages/SBDM_ContractReport_new",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSDepozitMoney",
+   "source": "TfrmContractReport_new.ODSDepozitMoney",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n    C.ID\n   ,C.ContractNo\n   ,C.OpenDate\n   ,C.CloseDate\n   ,C.Amount\n   ,i.interest\n   ,oi.overdueinterest as overdueinterest\n   ,SBCM_Stored_Programs_new.SBCMGetAccNoFromID(CA.ContractAccID) as ContractAccNo\n   ,SBCM_Stored_Programs_new.SBCMGetAccNoFromID(CA.ClientAccID) as ClientAccNo\n   ,SBCM_Stored_Programs_new.SBCMGetAccNoFromID(CA.InterestAccID) as InterestAccNo\n   ,SBCM_Stored_Programs_new.SBCMGetAccName(CA.ContractAccID) as ContractAccName\n   ,SBCM_Stored_Programs_new.SBCMGetCurrencyShortName(CA.ContractAccID)as ContractCurrency\n   ,SBCM_Stored_Programs_new.SBCMGetAccName(CA.ClientAccID) as ClientAccName\n   ,t.*\n  From\n   SBCM_Contracts_new C\n  ,SBCM_Contract_Accounts_new CA\n  ,sbcm_interests_new i\n  ,sbcm_tranches_new t\n  ,sbcm_overdueinterests_new oi\n  Where\n    C.Type# = (\n       Select ID from\n              SBCM_CONTRACT_TYPES_new\n              Where upper(Name) = 'DEPOSIT'\n               )\n           And C.ID = CA.ID#\n           And i.id# = C.ID\n           and oi.id#=c.id\n           and C.ID=t.id#\n           and C.ID=:ContID\n",
+   "variables": [
+    {
+     "name": "CONTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitContractReport_new"
+  },
+  {
+   "name": "ODSDepozitWithDraw",
+   "source": "TfrmContractReport_new.ODSDepozitWithDraw",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n    C.ID\n   ,C.ContractNo\n   ,C.OpenDate\n   ,C.CloseDate\n   ,C.Amount\n   ,i.interest\n   ,oi.overdueinterest as overdueinterest\n   ,SBCM_Stored_Programs_new.SBCMGetAccNoFromID(CA.ContractAccID) as ContractAccNo\n   ,SBCM_Stored_Programs_new.SBCMGetAccNoFromID(CA.ClientAccID) as ClientAccNo\n   ,SBCM_Stored_Programs_new.SBCMGetAccNoFromID(CA.InterestAccID) as InterestAccNo\n   ,SBCM_Stored_Programs_new.SBCMGetAccName(CA.ContractAccID) as ContractAccName\n   ,SBCM_Stored_Programs_new.SBCMGetCurrencyShortName(CA.ContractAccID)as ContractCurrency\n   ,SBCM_Stored_Programs_new.SBCMGetAccName(CA.ClientAccID) as ClientAccName\n   ,p.*\n  From\n   SBCM_Contracts_new C\n  ,SBCM_Contract_Accounts_new CA\n  ,sbcm_interests_new i\n  ,sbcm_payments_new p\n  ,sbcm_overdueinterests_new oi\n  Where\n    C.Type# = (\n       Select ID from\n              SBCM_CONTRACT_TYPES_new\n              Where upper(Name) = 'DEPOSIT'\n               )\n           And C.ID = CA.ID#\n           And i.id# = C.ID\n           and oi.id#=c.id\n           and C.ID=p.id#\n           and C.ID=:ContID",
+   "variables": [
+    {
+     "name": "CONTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitContractReport_new"
+  },
+  {
+   "name": "ODSContarcts",
+   "source": "TfrmContractReport_new.ODSContarcts",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT per.NAME, cat.CATEGORY, dt.TYPE\n  FROM sbcm_persons_new per,\n       sbcm_categories_new cat,\n       sbcm_deposit_types_new dt,\n       sbcm_contracts_new c\n WHERE per.ID = c.personaltype\n   AND cat.ID = c.clienttype\n   AND dt.ID = c.contracttype\n   AND c.ID =:ContID",
+   "variables": [
+    {
+     "name": "CONTID",
+     "type": "string"
+    }
+   ],
+   "unit": "UnitContractReport_new"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

@@ -1,8 +1,9 @@
 /* ActnList.pas / Menus.pas emulation. */
+import { auditClick } from '../audit';
 import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
-import { TComponent } from './component';
+import { TComponent, isStreaming } from './component';
 import { logger } from '../log';
 import { Indexed } from './classes';
 
@@ -128,7 +129,7 @@ export class TMenuItem extends TComponent {
   set Action(a: TAction | null) {
     this._action = a;
     const d = Object.keys(this.dfm).map((k) => k.toLowerCase());
-    if (a) for (const p of ['caption', 'checked', 'enabled', 'visible', 'hint', 'imageindex']) if (!d.includes(p)) this.linked.add(p);
+    if (a) for (const p of ['caption', 'checked', 'enabled', 'visible', 'hint', 'imageindex']) if (!isStreaming() || !d.includes(p)) this.linked.add(p);
     invalidate();
   }
   private lv(p: string, own: unknown) {
@@ -158,6 +159,7 @@ export class TMenuItem extends TComponent {
   GetParentMenu() { let p: TMenuItem | null = this; while (p?.Parent) p = p.Parent; return (p as any)?.menu ?? null; }
   async Click() {
     if (!this.Enabled) return;
+    if (this._action || this.hasHandler('OnClick')) auditClick(this as any, 'Menyu');
     if (this.AutoCheck) this.Checked = !this.Checked;
     if (this._action && !this.hasHandler('OnClick')) { await this._action.execFrom(this); return; }
     await this.fire('OnClick', this);

@@ -1,0 +1,113 @@
+{
+ "name": "XCallBack",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Geri çağırılan əməliyyatlar",
+ "dir": "Packages/CallBackTransactions",
+ "mainForm": "TCallBackTransactionsForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBStoredProc",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OperationType",
+   "source": "TCallBackTransactionsForm.OperationType",
+   "kind": "TOracleQuery",
+   "sql": "select  \n   ID, Name \nfrom \n   Vid_op \nwhere\n   Internal = 1\norder by ID\n",
+   "variables": [],
+   "unit": "CallBackTransactionsImpl"
+  },
+  {
+   "name": "DebetSide",
+   "source": "TCallBackTransactionsForm.DebetSide",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   ID, acc_no, filial\nFrom \n   Account\nwhere filial = :filial\nOrder by\n   acc_no\n ",
+   "variables": [
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "CallBackTransactionsImpl"
+  },
+  {
+   "name": "CreditSide",
+   "source": "TCallBackTransactionsForm.CreditSide",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   ID, acc_no, filial\nFrom \n   Account\n\nwhere filial = :filial\nOrder by\n   acc_no",
+   "variables": [
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "CallBackTransactionsImpl"
+  },
+  {
+   "name": "DebetBranch",
+   "source": "TCallBackTransactionsForm.DebetBranch",
+   "kind": "TOracleDataSet",
+   "sql": "select  \n   ID, Name \nfrom \n   Filial\norder by ID\n\n",
+   "variables": [],
+   "unit": "CallBackTransactionsImpl"
+  },
+  {
+   "name": "CreditBranch",
+   "source": "TCallBackTransactionsForm.CreditBranch",
+   "kind": "TOracleDataSet",
+   "sql": "select  \n   ID, Name \nfrom \n   Filial\norder by ID\n\n",
+   "variables": [],
+   "unit": "CallBackTransactionsImpl"
+  },
+  {
+   "name": "Operations",
+   "source": "TCallBackTransactionsForm.Operations",
+   "kind": "TOracleDataSet",
+   "sql": "select  \n   ID, Name \nfrom \n   Vid_op \nwhere\n   Internal = 1\norder by ID\n\n",
+   "variables": [],
+   "unit": "CallBackTransactionsImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCallBack",
+   "package": "SB_CALLBACK_TRANSACTIONS",
+   "mode": "positional",
+   "source": "TCallBackTransactionsForm.OPCallBack",
+   "routines": [
+    {
+     "name": "SetTransactions",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

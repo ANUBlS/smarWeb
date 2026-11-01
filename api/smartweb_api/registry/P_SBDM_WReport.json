@@ -1,0 +1,102 @@
+{
+ "name": "P_SBDM_WReport",
+ "caption": "",
+ "dir": "DepositTeze/SBDM_WReport",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDeclsImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "TemplatesDataSet",
+   "source": "TDMWReport.TemplatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,path,name from\nsbcm_wr_templates\norder by name",
+   "variables": [],
+   "unit": "DMWReportImpl"
+  },
+  {
+   "name": "DepositInfoDataSet",
+   "source": "TDMWReport.DepositInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM sbcm_wr_depositinfo\nwhere id# = :ContractID",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMWReportImpl"
+  },
+  {
+   "name": "BookmarksDataSet",
+   "source": "TDMWReport.BookmarksDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select  fieldid, bookmarkname\nfrom sbcm_wr_bookmarks\nwhere templateid=:templid\n",
+   "variables": [
+    {
+     "name": "TEMPLID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMWReportImpl"
+  },
+  {
+   "name": "FieldsDataSet",
+   "source": "TDMWReport.FieldsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,fieldname,description\nfrom sbcm_wr_fields\n",
+   "variables": [],
+   "unit": "DMWReportImpl"
+  },
+  {
+   "name": "ReplaceDataSet",
+   "source": "TDMWReport.ReplaceDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   sbCM_WR_BOOKMARKS B\n , sbCM_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "DMWReportImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

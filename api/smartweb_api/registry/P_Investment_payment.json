@@ -1,0 +1,138 @@
+{
+ "name": "P_Investment_payment",
+ "caption": "",
+ "dir": "Packages/Investment_payment",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DsSysdat",
+   "source": "TDmPayment1.DsSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "DmPayment1impl"
+  },
+  {
+   "name": "Dscontracts",
+   "source": "TDmPayment1.Dscontracts",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.id, iit.name contr_type, a.begin_date, a.end_date, (a.ammount+nvl((select sum(ammount) from ins_invest_payment where cid=a.id),0)) as ammount,a.percent,\n(select name from filial where id=a.filial)as filial,\n(select acc_no from account where id=a.main_acc_id) as main_acc_id,(select acc_no from account where id=a.income_acc_id) as income_acc_no,\n(select acc_no from account where id=a.exp_acc_id) as exp_acc_no,a.income_acc_id,a.exp_acc_id,\n(select acc_no from account where id=a.per_acc_id)  as per_acc_id,a.per_ammount,round((a.per_ammount/360),2) as Calc_day_per,\nround((a.per_ammount/360)*10/100,2) as omv,(round((a.per_ammount/360),2)-round((a.per_ammount/360)*10/100,2)) as remainder_per_ammount,\ncust.name as musteri, a.contract_name,ii.name as muddetli,av.val_name,a.status,(select abs(ostat) from tenostat where acc_id=a.main_acc_id) as esas_qaliq,\n(select ostat from tenostat where acc_id=a.per_acc_id) as faiz_qaliq\nfrom ins_investment_contracts a,ins_investment_type iit,ins_investment_time ii,customers cust,avalute av\nwhere a.invest_type_id=iit.id and a.kli_id=cust.id and a.invest_time=ii.id and a.valute_id=av.valute and a.id=:cid\n\n\n",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmPayment1impl"
+  },
+  {
+   "name": "DsMain",
+   "source": "TDmPayment1.DsMain",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.cid,a.ammount,a.dat,ic.contract_name from ins_invest_trans a,ins_investment_contracts ic \nwhere a.cid=ic.id \nand a.cid=:pcid\norder by a.id desc",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmPayment1impl"
+  },
+  {
+   "name": "ds_kassa",
+   "source": "TDmPayment1.ds_kassa",
+   "kind": "TOracleDataSet",
+   "sql": "select a.acc_no,a.id from ins_investment_acc_bal_cn ib,account a\nwhere dict_id=4 and a.bal_cn1=ib.bal_cn and a.acc_no is not null",
+   "variables": [],
+   "unit": "DmPayment1impl"
+  },
+  {
+   "name": "ds_gelir_acc",
+   "source": "TDmPayment1.ds_gelir_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select a.acc_no,a.id from ins_investment_acc_bal_cn ib,account a\nwhere dict_id=3 and a.bal_cn1=ib.bal_cn and a.acc_no is not null",
+   "variables": [],
+   "unit": "DmPayment1impl"
+  },
+  {
+   "name": "ds_xerc_acc",
+   "source": "TDmPayment1.ds_xerc_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select a.acc_no,a.id from ins_investment_acc_bal_cn ib,account a\nwhere dict_id=6 and a.bal_cn1=ib.bal_cn and a.acc_no is not null",
+   "variables": [],
+   "unit": "DmPayment1impl"
+  },
+  {
+   "name": "DsInvest",
+   "source": "TDmPayment1.DsInvest",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from ins_invest_trans c\nwhere c.id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DmPayment1impl"
+  },
+  {
+   "name": "ds_kassa1",
+   "source": "TDmPayment1.ds_kassa1",
+   "kind": "TOracleDataSet",
+   "sql": "select a.acc_no,a.id from ins_investment_acc_bal_cn ib,account a\nwhere dict_id=4 and a.bal_cn1=ib.bal_cn and a.acc_no is not null",
+   "variables": [],
+   "unit": "DmPayment1impl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "pk_ins_investment",
+   "package": "ins_investment",
+   "mode": "positional",
+   "source": "TDmPayment1.pk_ins_investment",
+   "routines": [
+    {
+     "name": "del_invest_transaction1",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "ins_invest_payment_transaction",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

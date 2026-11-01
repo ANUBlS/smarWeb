@@ -1,0 +1,95 @@
+{
+ "name": "XSimCorp",
+ "caption": "Əlavə modullar / İdxal / SimCorp",
+ "dir": "Packages/SimCorp",
+ "mainForm": "TSimCorp",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TEditForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account",
+   "variables": [],
+   "unit": "EditFormImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TSimCorp.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,case when INSTR(credit_accno,'AZN')>0 then credit_ammount  when INSTR(debit_accno,'AZN')>0 then debit_ammount end as lammount from simcop_view a where id is not null\n\n:pSearch\n\nOrder by :Title desc\n\n\n\n",
+   "variables": [
+    {
+     "name": "PSEARCH",
+     "type": "subst"
+    },
+    {
+     "name": "PFILTER",
+     "type": "subst"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "SimCorpImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "pg_simcorp",
+   "mode": "named",
+   "source": "TSimCorp.OraclePackage1",
+   "routines": [
+    {
+     "name": "Simcop_Adi",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Simcop_Faiz",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_arxive",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_arxive",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

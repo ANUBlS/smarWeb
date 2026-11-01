@@ -1,0 +1,142 @@
+{
+ "name": "P_SBDM_PartialPayment_new",
+ "caption": "",
+ "dir": "Packages/SBDM_PartialPayment_new",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Payments",
+   "source": "TDataModPartialPayment_new.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,a.*\nFROM sbcm_tranches_new a\nwhere id# = :ContractID\norder by hdate",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModPartialPaymentImpl_new"
+  },
+  {
+   "name": "DepositInfo",
+   "source": "TDataModPartialPayment_new.DepositInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\n     cust.name,\n     cont.amount,\n     cont.currency,\n     cont.customerid\nfrom customers cust,\n     sbcm_contracts_new cont\nwhere\ncont.id = :ContractID and \ncust.id = cont.customerid\n",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModPartialPaymentImpl_new"
+  },
+  {
+   "name": "Sysdat",
+   "source": "TDataModPartialPayment_new.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "DataModPartialPaymentImpl_new"
+  },
+  {
+   "name": "DebitAccs",
+   "source": "TDataModPartialPayment_new.DebitAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no,\n       name\nfrom account \nwhere close_dat is null\nand  bal_cn1 in ( select accgroup from sbcm_acc_zone_info\nwhere zoneid = (select zoneid from sbcm_acc_zones_new\nwhere name = 'Deposit'))\nand id in(select CONTRACTACCID from sbcm_contract_accounts_new where id#=:contractid)\n",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModPartialPaymentImpl_new"
+  },
+  {
+   "name": "CreditAccs",
+   "source": "TDataModPartialPayment_new.CreditAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no,\n       name\nfrom account \nwhere close_dat is null\nand  bal_cn1 in ( select accgroup from sbcm_acc_zone_info \nwhere zoneid = (select zoneid from sbcm_acc_zones_new\nwhere name = 'Account'))\nand id in(select CLIENTACCID from sbcm_contract_accounts_new where id#=:contractid)\n",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModPartialPaymentImpl_new"
+  },
+  {
+   "name": "PercentAccs",
+   "source": "TDataModPartialPayment_new.PercentAccs",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       id,\n       acc_no,\n       name\nfrom account \nwhere close_dat is null\nand  bal_cn1 in ( select accgroup from sbcm_acc_zone_info \nwhere zoneid = (select zoneid from sbcm_acc_zones_new\nwhere name = 'Percent'))\nand id in(select INTERESTACCID from sbcm_contract_accounts_new where id#=:contractid)\n",
+   "variables": [
+    {
+     "name": "CONTRACTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModPartialPaymentImpl_new"
+  }
+ ],
+ "packages": [
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDataModPartialPayment_new.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sbcm_payment",
+   "package": "sbcm_payment_new",
+   "mode": "named",
+   "source": "TDataModPartialPayment_new.sbcm_payment",
+   "routines": [
+    {
+     "name": "SetPaymentPecentAmount",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

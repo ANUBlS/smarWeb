@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("SBOInitPkg", ["sboapiDataModuleImpl", "SBLogin", "Dialogs", "Oracle"]);
   const C = [U];
+  U.enumType("taskforlogonoption", 2);
   U.const("aflShowDatabase", 0);
   U.const("aflShowDatabaseList", 1);
   $.defRecord("tsbodata", {"username": () => '', "password": () => '', "database": () => '', "sessionid": () => 0});

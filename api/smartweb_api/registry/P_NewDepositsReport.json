@@ -1,0 +1,120 @@
+{
+ "name": "P_NewDepositsReport",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsReport",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "valutes",
+   "source": "TNewDepositsDmReport.valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "NewDepositsDmReportImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TNewDepositsDmReport.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "NewDepositsDmReportImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TNewDepositsDmReport.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,\n       name,\n      to_char(id)||'-'||name as KOD from customers\nwhere id in (select customerid from dm_contracts)\norder by id",
+   "variables": [],
+   "unit": "NewDepositsDmReportImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TNewDepositsDmReport.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from dm_categories",
+   "variables": [],
+   "unit": "NewDepositsDmReportImpl"
+  },
+  {
+   "name": "persons",
+   "source": "TNewDepositsDmReport.persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from dm_persons",
+   "variables": [],
+   "unit": "NewDepositsDmReportImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TNewDepositsDmReport.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type from dm_types",
+   "variables": [],
+   "unit": "NewDepositsDmReportImpl"
+  },
+  {
+   "name": "Deps",
+   "source": "TNewDepositsDmReport.Deps",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   cont.id,\n   cont.contractno,\n   dm_stored_programs.GetContractAccount(Acc.Contractaccid) as ContractAccNO\nfrom dm_contracts cont,\n     dm_contract_accounts acc\nwhere cont.id = acc.id#",
+   "variables": [],
+   "unit": "NewDepositsDmReportImpl"
+  },
+  {
+   "name": "ReportData",
+   "source": "TNewDepositsDmReport.ReportData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT cont.contractno,\n       cont.opendate, \n       cont.closedate, \n       cont.amount,\n       cont.customerid as custID,\n       round(cont.amount* o.ostat,2) as eamount,  \n       cont.interest,\n       cont.overdueinterest, \n       cont.dueinterest,\n       av.val_name,\n       dm_stored_programs.GetContractAccountName(acc.contractaccid) AS custname,\n       dm_stored_programs.GetContractBalNo(Cont.ID) as Balans,\n       dm_stored_programs.GetContractAccount (acc.contractaccid) AS contractaccno,\n       dm_stored_programs.GetContractaccount (acc.interestaccid) AS interestaccno,\n       dm_stored_programs.GetContractAccount (acc.clientaccid) AS clientaccno,\n       dm_stored_programs.GetContractAccount(acc.bonusaccid) AS agentaccno,\n       dm_stored_programs.GetCustomerName(cont.agentid) as agentname,\n       h.facticaldebt,\n       round(h.facticaldebt * o.ostat,2) AS efacticaldebt, \n       h.facticalinterestdebt,\n       round(h.facticalinterestdebt * o.ostat,2) AS efacticalinterestdebt,\n       cat.CATEGORY, \n       per.NAME as pername, \n       dt.TYPE, \n       fil.NAME as filname,\n       h.facticaldebt+h.facticalinterestdebt as Payamt,\n       round(h.facticaldebt* o.ostat,2) +round(h.facticalinterestdebt* o.ostat,2)  as EPayamt,\n       dm_stored_programs.GetFirstClosedat(cont.id) as firstopdate,\n       (select name from user$ where id=cont.sid#) username,\n       (select description||'('||(select withdrtypedesc from dm_addtypes where withdrtype=depcap.type#)||')' from dm_depcapitalperiods depcap where depcap.id=cont.capitalperid) capitalperiodname,\n       (select  depper.description  from dm_depperiods depper where depper.id=cont.periodid) periodname,\n       (select passer||paspnum from custinfo where idcust=cont.customerid)passport,\n       (select passpin from custinfo where idcust=cont.customerid)passpin,\n       (select birthday from custinfo where idcust=cont.customerid)birthday,\n       decode(cont.prizeid,0,'Verilməsin',1,'Verilsin(müddətin əvvəlində)',2,'Verilsin(müddətin sonunda)')prizename             \n   FROM dm_contracts cont,\n       dm_contract_accounts acc,\n       dm_contract_history h,\n       operkurs o,\n       dm_categories cat,\n       filial fil,\n       dm_types dt,\n       dm_persons per,\n       avalute av\n WHERE h.hdate = :dat\n   AND o.dat = :dat\n   AND cont.ID = acc.id#\n   AND cont.ID = h.id#\n   AND cont.currency = o.val_kod\n   AND cont.currency = av.valute\n   AND cont.clienttype = cat.ID\n   AND cont.branchid = fil.ID\n   AND cont.contracttype = dt.ID\n\n   AND cont.personaltype = per.custtype_id and cont.type# in (3,4)\n   AND per.rez_qrez_id=cat.rezcategory\n   AND cont.opendate<=:dat\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "NewDepositsDmReportImpl"
+  },
+  {
+   "name": "Contracts",
+   "source": "TNewDepositsDmReport.Contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select contractaccid,    \n      dm_stored_programs.GetContractAccountName(contractaccid) as Name\n from dm_contract_accounts ",
+   "variables": [],
+   "unit": "NewDepositsDmReportImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

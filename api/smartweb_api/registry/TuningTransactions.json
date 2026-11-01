@@ -1,0 +1,124 @@
+{
+ "name": "TuningTransactions",
+ "caption": "Balans / Məlumatlar / Komissiya əməliyyatları",
+ "dir": "Packages/TuningTransactions",
+ "mainForm": "TTuningTransaction",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSSettings",
+   "source": "TTuningDataModule.ODSSettings",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    commision_trans.Rowid\n   ,id\n   ,name\n   ,debt\n   ,sb_complex_transactions.getaccountnumber(debt) as DebitAccount\n   ,sb_complex_transactions.GetAccountCurrency(debt) as DebitCurrency\n   ,credit\n   ,sb_complex_transactions.getaccountnumber(credit) as CreditAccount\n   ,sb_complex_transactions.GetAccountCurrency(credit) as CreditCurrency\n   ,additionalDebt\n   ,additionalCredit\n   ,sb_complex_transactions.getaccountnumber(additionalDebt) as ADebt\n   ,sb_complex_transactions.GetAccountCurrency(additionalDebt) as ADebitCurrency\n   ,sb_complex_transactions.getaccountnumber(additionalCredit) as ACredit\n   ,sb_complex_transactions.GetAccountCurrency(additionalCredit) as ACreditCurrency\n   ,assignment\n   ,commisionassignment\n   ,UserID   \nfrom\n    commision_trans\nwhere\n   UserID = 0 or\n    UserID = (SBLogin.UserID)\norder by\n    commision_trans.ID\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n \n ",
+   "variables": [],
+   "unit": "DataModuleImpl"
+  },
+  {
+   "name": "ODSCustomerGroups",
+   "source": "TTuningDataModule.ODSCustomerGroups",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   q.rowID\n  ,q.*\nFrom\n  qrp_klie q\nOrder by ID",
+   "variables": [],
+   "unit": "DataModuleImpl"
+  },
+  {
+   "name": "ODSDebtAccount",
+   "source": "TTuningDataModule.ODSDebtAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*, SUBSTR(a.ACC_no,:src_pos,30) as AccNoSearch \nfrom\n  Account a\nwhere \n   a.close_dat is null\nOrder by\n    a.acc_no ",
+   "variables": [
+    {
+     "name": "SRC_POS",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModuleImpl"
+  },
+  {
+   "name": "ODSTariffScale",
+   "source": "TTuningDataModule.ODSTariffScale",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   T.RowID\n    ,T.*\nFrom\n   TariffScale T\nWhere\n   T.groupid = :groupid and\n      T.commisionID =:commisionID ",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    },
+    {
+     "name": "COMMISIONID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModuleImpl"
+  },
+  {
+   "name": "ODSCurrency",
+   "source": "TTuningDataModule.ODSCurrency",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   *\n from\n     Avalute",
+   "variables": [],
+   "unit": "DataModuleImpl"
+  },
+  {
+   "name": "Settings",
+   "source": "TTuningDataModule.Settings",
+   "kind": "TOracleDataSet",
+   "sql": "select value from settings where name='AccNoSearchPos'",
+   "variables": [],
+   "unit": "DataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPMainSettings",
+   "package": "sb_complex_transactions",
+   "mode": "positional",
+   "source": "TTuningDataModule.OPMainSettings",
+   "routines": [
+    {
+     "name": "Delete_Commision_Trans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Insert_Commision_Trans",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_commision_trans",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

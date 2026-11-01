@@ -1,0 +1,373 @@
+{
+ "name": "Account",
+ "caption": "Balans / Əməliyyat günü / Yeni hesablar",
+ "dir": "Packages/Account",
+ "mainForm": "TAccountForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "AccountDataModuleImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Branches",
+   "source": "TAccDataModule.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, name from filial \norder by ID",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Users",
+   "source": "TAccDataModule.Users",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, Name from user$\nOrder by name\n",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Currency",
+   "source": "TAccDataModule.Currency",
+   "kind": "TOracleDataSet",
+   "sql": "select Valute, Valu_Name from Avalute\nOrder by valute",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "AccFlags",
+   "source": "TAccDataModule.AccFlags",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT symbol, symbol||'     '||description as name\n  FROM account_flags\norder by symbol",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "BalAcc",
+   "source": "TAccDataModule.BalAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char(bal_cn) as bal_cn, BalName from bal_spr1\norder by bal_cn",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Account",
+   "source": "TAccDataModule.Account",
+   "kind": "TOracleDataSet",
+   "sql": "select * from (SELECT   \n   ACCOUNT.RowID, ID, kli_id, op_id,acc_no,val_acc, currencyname, NAME, open_dat, close_dat, DECODE (close_dat, NULL, 1, 2) AS statu1, bal_cn1, bal_cn2, bal_cn3,(select name from cm_expert where id=tempid) expert,\n   bal_cn4, filial,kli_id2, sim_otcet, tipacc,tempid, LIMIT, old_acc_no, pair_acc, name/*translate(name, 'IiİiIı', '``````')*/ as name1,procuration_dat, insider,userinsert FROM ACCOUNT )\n\n\n\n\n:pSearch \nORDER BY\n   :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    },
+    {
+     "name": "PSEARCH",
+     "type": "subst"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Tenostat",
+   "source": "TAccDataModule.Tenostat",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  acc_id, ostat, pok_ostat \nfrom \n  tenostat \nwhere acc_id=:acc_id",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Lazyrest",
+   "source": "TAccDataModule.Lazyrest",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  acc_id, ostat, pok_ostat \nfrom \n  lazyrest \nwhere acc_id=:acc_id",
+   "variables": [
+    {
+     "name": "ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "ReportSymbol",
+   "source": "TAccDataModule.ReportSymbol",
+   "kind": "TOracleDataSet",
+   "sql": "select * from REPORT_SYMBOL\norder by ID",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "PairAccount",
+   "source": "TAccDataModule.PairAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  ID,\n  acc_no,\n  DECODE (close_dat, NULL, 1, 2) AS status\nfrom\n  Account\norder by acc_no\n ",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Sysdat",
+   "source": "TAccDataModule.Sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "--Select tek_dat from sysdat\nselect sbop.get_date as tek_dat from dual",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "ODS_balspr2",
+   "source": "TAccDataModule.ODS_balspr2",
+   "kind": "TOracleDataSet",
+   "sql": "select to_char(bal_cn) as bal_cn, BalName from bal_spr2\norder by bal_cn",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "DSsettings",
+   "source": "TAccDataModule.DSsettings",
+   "kind": "TOracleDataSet",
+   "sql": "select * from settings\nwhere name='AccNo_Edit'",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "user_Branches",
+   "source": "TAccDataModule.user_Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, name from filial order by id --where id in(select filialid from sba_objinf where obj=user)",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Account_Old",
+   "source": "TAccDataModule.Account_Old",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   \n   ACCOUNT.RowID, ID, kli_id, op_id,CASE WHEN :AccSrchPos =0 THEN substr(acc_no,1,:AccSrchPos)||''||substr(acc_no,:AccSrchPos+1,30)   WHEN :AccSrchPos <> 0 THEN substr(acc_no,1,:AccSrchPos)||'   '||substr(acc_no,:AccSrchPos+1,30)  END  acc_no, (select substr(acc_no,:AccSrchPos,30)from dual )as Acc_no1,val_acc, currencyname, NAME, open_dat, close_dat,\n   DECODE (close_dat, NULL, 1, 2) AS statu1, bal_cn1, bal_cn2, bal_cn3,\n   bal_cn4, filial, sim_otcet, tipacc, LIMIT, old_acc_no, pair_acc, translate(name, 'IiİiIı', '``````') as name1,\n   insider,substr(acc_no,:AccSrchPos+1,30)as acc_no_search ,userinsert\nFROM ACCOUNT\n\nORDER BY\n   :title",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    },
+    {
+     "name": "ACCSRCHPOS",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TAccDataModule.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "begin\npkg_report.get_customers(p_result=>:p_result);\nend;",
+   "variables": [
+    {
+     "name": "P_RESULT",
+     "type": "cursor"
+    }
+   ],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "ODS_AccNoLength",
+   "source": "TAccDataModule.ODS_AccNoLength",
+   "kind": "TOracleDataSet",
+   "sql": "select * from settings\nwhere name='AccNoLength'",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "OracleQuery1",
+   "source": "TAccDataModule.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "AccountDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TAccountPropertiesForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,name from customers where  close_dat is null and cust_type in(0,2)",
+   "variables": [],
+   "unit": "AccountPropertiesImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TAccountPropertiesForm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*, (a.code||'  '||a.name) as ko_na from cm_expert a",
+   "variables": [],
+   "unit": "AccountPropertiesImpl"
+  },
+  {
+   "name": "AccStateData",
+   "source": "TFormAccountState.AccStateData",
+   "kind": "TOracleDataSet",
+   "sql": "begin\npkg_report.get_account_turnover(p_accid =>:accid,p_result=>:result);\nend;",
+   "variables": [
+    {
+     "name": "ACCID",
+     "type": "integer"
+    },
+    {
+     "name": "RESULT",
+     "type": "cursor"
+    }
+   ],
+   "unit": "AccountRestState"
+  },
+  {
+   "name": "DebetTransactionsData",
+   "source": "TFormAccountTransactions.DebetTransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  p.ID,\n  p.debt as DebitAccID,\n  p.dat as OperationDate,\n  p.ammount as DebitAmount,\n  p.ammount_c as CreditAmount,\n  p.lammount as LAmount,\n  ac.acc_no as CreditAccNo,\n  ac.name as CreditAccName,\n  p.NAME as Destination\n \nfrom\n  SMART.provarch p,\n  SMART.account ac\nwhere\n  (p.dat between :StartDate and :EndDate)\n  and (p.debt = :AccountID)\n  and (ac.id = p.kredit)\norder by p.dat\n ",
+   "variables": [
+    {
+     "name": "STARTDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "ACCOUNTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountTransactionsImpl"
+  },
+  {
+   "name": "CreditTransactionsData",
+   "source": "TFormAccountTransactions.CreditTransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  p.ID,\n  p.kredit as CreditAccID,\n  p.dat as OperationDate,\n  p.ammount as DebitAmount,\n  p.ammount_c as CreditAmount,\n  p.lammount as LAmount,\n  ad.acc_no as DebitAccNo,\n  ad.name as DebitAccName,\n  p.NAME as Destination\n  \nfrom\n  SMART.provarch p,\n  SMART.account ad\nwhere\n  (p.kredit = :AccountID)\n  and (p.dat between :StartDate and :EndDate)\n  and (ad.id = p.debt)\norder by p.dat",
+   "variables": [
+    {
+     "name": "STARTDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "ACCOUNTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccountTransactionsImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "PG_PCustService",
+   "package": "PG_PCustService",
+   "mode": "positional",
+   "source": "TAccDataModule.PG_PCustService",
+   "routines": [
+    {
+     "name": "get_Modle_comp",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "named",
+   "source": "TAccDataModule.SB_ACA",
+   "routines": []
+  },
+  {
+   "component": "SB_ACA11",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TAccDataModule.SB_ACA11",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "SBACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TAccDataModule.SBACA",
+   "routines": []
+  },
+  {
+   "component": "SBOP",
+   "package": "SBOP",
+   "mode": "named",
+   "source": "TAccDataModule.SBOP",
+   "routines": [
+    {
+     "name": "GenerateAccountNumber",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "GenerateID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "add_account",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "close_account",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_account",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SBUTIL",
+   "package": "SBUTIL",
+   "mode": "named",
+   "source": "TAccDataModule.SBUTIL",
+   "routines": [
+    {
+     "name": "FlagExsist",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,127 @@
+{
+ "name": "XCustAnalysis",
+ "caption": "Əlavə modullar / Müştərilər və uyğunluq / Müştəri analizi",
+ "dir": "Packages/Cust_Analiz",
+ "mainForm": "TCustAnalyz",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Ods_cust",
+   "source": "TDataModCustAnalyz.Ods_cust",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id as ID,cust_name as Tam_Adi ,lastname as Soyadi  ,firstname as Adi,patronymic  as Ata_Adi ,cust_type as Musteri_tipi from pcust_view p  where id in (select boorowerid from cm_portfolio)\n\n\n\n\n\n\n\n\n\norder by id\n",
+   "variables": [],
+   "unit": "DataAnalyz"
+  },
+  {
+   "name": "Ods_Custinfo",
+   "source": "TDataModCustAnalyz.Ods_Custinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select fakt_adress,passport,passp_number,passpin,inn,phone_mob\nfrom pcust_view where id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataAnalyz"
+  },
+  {
+   "name": "Ods_zamin",
+   "source": "TDataModCustAnalyz.Ods_zamin",
+   "kind": "TOracleDataSet",
+   "sql": "select  guarantorname,zaminadres1,zmpaspyer1,cardid,pincode,guarantorid  from cm_guarantor where \n\ncreditid=:v_creditid\n",
+   "variables": [
+    {
+     "name": "V_CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataAnalyz"
+  },
+  {
+   "name": "Ods_girov",
+   "source": "TDataModCustAnalyz.Ods_girov",
+   "kind": "TOracleDataSet",
+   "sql": "select g.pledgename,g.pledgeprice,anyinfotodisting,cardid,\n(select description from cm_pledges where g. pledgeid=id) as pledges_name ,\n(select name from cm_pledgsorts where g. pledgsorts=id) as pledgsorts_name  from cm_guarantee_credit g where \ng.creditid=:v_creditid",
+   "variables": [
+    {
+     "name": "V_CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataAnalyz"
+  },
+  {
+   "name": "Ods_sedule",
+   "source": "TDataModCustAnalyz.Ods_sedule",
+   "kind": "TOracleDataSet",
+   "sql": "select Rownum as NO,p.*,(p.PRINCIPAL+p.INTEREST) as TOTALPAY from cm_payment_schedule p where creditid=:v_creditid",
+   "variables": [
+    {
+     "name": "V_CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataAnalyz"
+  },
+  {
+   "name": "Ods_portfol",
+   "source": "TDataModCustAnalyz.Ods_portfol",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.dateofconclusion,p.numberofcredit,p.duedatefirstcontract,p.initialamount,p.annualyinterestrate,p.periodcontracts,\ne.name as mutexsis,u.description as  maliye,a.name as verilme_meqsed,\nh.rest,h.interestrest,h.duerest,h.dueinterestrest,h.penaltyrest,p.closedate,h.stopcalcdate,\npay.payedamt,pay.payedintamt,pay.payeddueamt,pay.payeddueintamt,pay.payedpenaltyamt,\npayshed.principal,payshed.interest,(payshed.principal+payshed.interest)as ayod_cem,\ncm_utils.Get_Gecgun(p.id,(sbop.get_date))as gec_gun\n from cm_portfolio p,cm_curr_state h,  cm_expert e, cm_usergroups u ,cm_aim_cred a,\n (select creditid,sum(payedamt) payedamt,sum(payedintamt) payedintamt,sum(payeddueamt)payeddueamt,sum(payeddueintamt)payeddueintamt,sum(payedpenaltyamt)payedpenaltyamt from cm_payments\ngroup by creditid) pay,\n(select creditid,sum(principal) principal,sum(interest) interest from cm_payment_schedule where paymentdate BETWEEN TRUNC(sbop.get_date, 'MONTH') and LAST_DAY(sbop.get_date)\ngroup by creditid) payshed\n where p.id=h.creditid(+) \n  and p.expertid=e.id(+)\n  and p.usrgroup=u.id(+)\n  and p.id=pay.creditid(+)\n  and p.id=payshed.creditid(+)\n  and p.aim_id=a.id(+)\n and boorowerid=:v_boorowerid ",
+   "variables": [
+    {
+     "name": "V_BOOROWERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataAnalyz"
+  },
+  {
+   "name": "Ods_payments",
+   "source": "TDataModCustAnalyz.Ods_payments",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cm_payments p where creditid=:v_creditid\nORDER BY PayDate DESC",
+   "variables": [
+    {
+     "name": "V_CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataAnalyz"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

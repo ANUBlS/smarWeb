@@ -1,0 +1,236 @@
+{
+ "name": "P_InsContracterminated",
+ "caption": "",
+ "dir": "Insurance/Contracterminated",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "paymenterminateimpl.bpl": "P_PaymenTerminateimpl"
+ },
+ "lib": [
+  "CMCurrencyEdit",
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DSContract",
+   "source": "TDMTerminated.DSContract",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_contracts\nwhere close_prefix=0\nand state in (6,8)\nand id=:p_id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSPayment",
+   "source": "TDMTerminated.DSPayment",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(sum(lammount),0)as sigortahaqqi from ins_payments pm,provarch p,sb_business_opers bp\nwhere p.vid_op=30\nand p.id=bp.parentid\nand pm.traid=p.id\nand bp.busproc=:pbusproc\nand pm.ins_id=:p_cid",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    },
+    {
+     "name": "PBUSPROC",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSins_c_terminated",
+   "source": "TDMTerminated.DSins_c_terminated",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from ins_contract_terminated a\nwhere a.cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSSysdat",
+   "source": "TDMTerminated.DSSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSTerminateAmount",
+   "source": "TDMTerminated.DSTerminateAmount",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from ins_contract_terminated_detal a\nwhere a.ter_id=:pter_id",
+   "variables": [
+    {
+     "name": "PTER_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSPayment1",
+   "source": "TDMTerminated.DSPayment1",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(sum(lammount),0)as sigortahaqqi from ins_payments pm,provarch p,sb_business_opers bp\nwhere p.vid_op=30\nand p.id=bp.parentid\nand pm.traid=p.id\nand bp.busproc=:pbusproc\nand pm.ins_id=:p_cid",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    },
+    {
+     "name": "PBUSPROC",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSPayment2",
+   "source": "TDMTerminated.DSPayment2",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(sum(lammount),0)as sigortahaqqi from ins_payments pm,provarch p,sb_business_opers bp\nwhere p.vid_op=30\nand p.id=bp.parentid\nand pm.traid=p.id\nand bp.busproc=:pbusproc\nand pm.ins_id=:p_cid",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "integer"
+    },
+    {
+     "name": "PBUSPROC",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSBarderoSay",
+   "source": "TDMTerminated.DSBarderoSay",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_terminated_bardero\nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSBarderoInfo",
+   "source": "TDMTerminated.DSBarderoInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_terminated_bardero\nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "DSpaytercount",
+   "source": "TDMTerminated.DSpaytercount",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_terminate_payment\nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "Ds_debt_acc",
+   "source": "TDMTerminated.Ds_debt_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account\nwhere bal_cn1=702",
+   "variables": [],
+   "unit": "DMTerminatedImpl"
+  },
+  {
+   "name": "Ds_cont_state",
+   "source": "TDMTerminated.Ds_cont_state",
+   "kind": "TOracleDataSet",
+   "sql": "select ic.rowid,ic.* from ins_contracts ic\nwhere ic.id=:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMTerminatedImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "ins_common",
+   "package": "ins_common",
+   "mode": "positional",
+   "source": "TDMTerminated.ins_common",
+   "routines": [
+    {
+     "name": "calcterminateammount",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "cancelcontract_terminate",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "committerminate",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMTerminated.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

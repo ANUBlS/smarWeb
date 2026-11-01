@@ -1,0 +1,57 @@
+{
+ "name": "QueryExporter",
+ "caption": "Balans / Sistem servisi / Sorğular",
+ "dir": "Packages/QueryExporter",
+ "mainForm": "TQueryExporterForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Queries",
+   "source": "TQueryExporterForm.Queries",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  RowID\n ,Description\n ,Query\nFrom \n  SB_Queries\n order by Description",
+   "variables": [],
+   "unit": "QueryExporterImpl"
+  },
+  {
+   "name": "ResultQuery",
+   "source": "TResultForm.ResultQuery",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "QueryResultViewer"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

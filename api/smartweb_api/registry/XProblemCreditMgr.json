@@ -1,0 +1,70 @@
+{
+ "name": "XProblemCreditMgr",
+ "caption": "Əlavə modullar / Kreditlər / Problemli kreditlərin idarə olunması",
+ "dir": "Packages/ProblemCreditsManager",
+ "mainForm": "TProblemCreditManager",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "IntCache",
+   "source": "TDataMPrCredit.IntCache",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.numberofcredit,VAL_NAME,b.name,REST,DUEREST, INTERESTREST,creditlineamount,dateofconclusion,duedatefirstcontract,\n case when nvl(fl.status ,0)=1then\n0 else q.id end as\n TRPROCESSED,(select count(*) from cm_folderplace_info where creditid=p.id) qeydsayi,cr.description crtype,\nb.phonenumber,gr.anyinfotodisting,gr.pledgeprice,(select name from cm_mehkeme s where s.id=fl.mehid)meh,fl.mehid,\nDUEINTERESTREST,REST+DUEREST+INTERESTREST+DUEINTERESTREST fullrest, \ndueday,q.id qovid,q.name qovluq,f.name filial,nvl(fl.status ,0)status,p.currency,p.BRANCHID,p.credittype from \ncm_active_credits p,cm_credittypes cr,\ncm_curr_state h,cm_guarantee gr,\ncm_boorowerinfo b,\ncm_qovluq q,\nfilial_t f,\navalute_t v,\n(select * from  cm_folderplace s where  senddate= (select max(senddate) from cm_folderplace where creditid=s.creditid)) fl\n \nwhere p.id=h.creditid and\np.id=b.creditid and\np.qovid=q.id and\np.id=gr.creditid(+)  and h.rest+h.duerest+h.interestrest+h.interestrest>0 and\np.BRANCHID=f.id and\n(p.id=fl.creditid(+)) and\n--fl.status=1 and \n-- (fl.senddate= (select max(senddate) from cm_folderplace where creditid=p.id))) and \np.currency=v.valute  and p.credittype=cr.id --and p.id=43112\n\n\n\n\n\n  ",
+   "variables": [],
+   "unit": "DataMPrCrImpl"
+  },
+  {
+   "name": "CreditInfoDSet",
+   "source": "TDataMPrCredit.CreditInfoDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_problem_credit_info where id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataMPrCrImpl"
+  },
+  {
+   "name": "PrViewDSet",
+   "source": "TDataMPrCredit.PrViewDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dba_col_comments\nwhere table_name=upper('cm_problem_credit_info')\nand comments is not null\norder by rownum asc",
+   "variables": [],
+   "unit": "DataMPrCrImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

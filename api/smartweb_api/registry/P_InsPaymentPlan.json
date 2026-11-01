@@ -1,0 +1,184 @@
+{
+ "name": "P_InsPaymentPlan",
+ "caption": "",
+ "dir": "Insurance/InsPaymentPlan",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSPayPlan",
+   "source": "TDMPaymentPlan.ODSPayPlan",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,to_number(rownum) as No, a.*\n  FROM ins_payment_plan a\nwhere a.ins_id = :insid\norder by pay_date ",
+   "variables": [
+    {
+     "name": "INSID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMPaymentPlanImpl"
+  },
+  {
+   "name": "DSplancontract",
+   "source": "TDMPaymentPlan.DSplancontract",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid ,a.id, a.type_id, a.ins_date, a.begin_date, a.end_date,\n       a.valute_id,  ins_report.get_S_haqq(a.id) AMMOUNT ,a.close_prefix, a.kli_id, a.loanacc_id,\n       a.curracc_id, a.policy_num, a.inssumm, a.franshiz, a.tariff,\n       a.state, a.agent_id, a.pnum, a.ben_id, a.beneficiary,\n       a.conditions, a.sugnum, a.blank_id, a.op_id, a.reins, a.chkasko,\n       a.chm, a.chfq, a.commitop_id, a.commit_date, a.cancelopid,\n       a.canceldate, a.filial, a.bnf_type, a.userinsert, a.insured,\n       a.comission from ins_contracts a\nwhere a.id=:p_id",
+   "variables": [
+    {
+     "name": "P_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentPlanImpl"
+  },
+  {
+   "name": "DSPaymentsetting",
+   "source": "TDMPaymentPlan.DSPaymentsetting",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from ins_payment_plan_setting a\nwhere a.cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentPlanImpl"
+  },
+  {
+   "name": "DSPaymentInfo",
+   "source": "TDMPaymentPlan.DSPaymentInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_payment_plan\nwhere ins_id=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentPlanImpl"
+  },
+  {
+   "name": "DSPaymentSettingInfo",
+   "source": "TDMPaymentPlan.DSPaymentSettingInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select count(*) as say from ins_payment_plan_setting \nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentPlanImpl"
+  },
+  {
+   "name": "DSmesuliyyetShaqqi",
+   "source": "TDMPaymentPlan.DSmesuliyyetShaqqi",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(resp_premium,0) as SighaqqiM from ins_contract_responsibility\nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentPlanImpl"
+  },
+  {
+   "name": "DSFerdiqezaShaqqi",
+   "source": "TDMPaymentPlan.DSFerdiqezaShaqqi",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(ins_premium,0) SighaqqiF from ins_contr_per_acc_motor\nwhere cid=:pcid",
+   "variables": [
+    {
+     "name": "PCID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentPlanImpl"
+  },
+  {
+   "name": "ODSContracts",
+   "source": "TDMPaymentPlan.ODSContracts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from ins_contracts ic\nwhere ic.id=:cid\n/*SELECT ic.rowid, ic.ID , ic.kli_id, ic.loanacc_id, ic.curracc_id, \n                 ii.NAME, ii.mainformguid, ii.changeguid,ic.commitop_id,ic.commit_date,ic.cancelopid,ic.canceldate,\n                 ii.suggestionguid, ii.policyguid, ii.mainformname AS tablename, ic.policy_num,\n                 trunc(ic.ins_date) as ins_date, ic.ammount+nvl(r.RESP_PREMIUM,0)+nvl(INS_PREMIUM,0) as ammount, ic.begin_date, ic.end_date, av.val_name,\n                  ic.inssumm+nvl(RESP_AMMOUNT,0)+nvl((PERSONAL_COUNT*(nvl(ONE_ACCIDENT_AMOUNT,0)+nvl(ONE_MAX_MED_EXPENSES,0))),0) as inssumm, ic.tariff, ic.franshiz, ic.state, ic.type_id ,ic.close_prefix \n                 FROM ins_contracts ic, ins_insurances ii, avalute av,ins_contract_responsibility r,ins_contr_per_acc_motor p\n                 WHERE ii.ID = ic.type_id and r.cid(+)=ic.id and p.cid(+)=ic.id\n               \n                 and ic.close_prefix=0\n                 and ic.valute_id = av.valute(+)*/",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPaymentPlanImpl"
+  },
+  {
+   "name": "DSins_dict_initial_payment",
+   "source": "TDMPaymentPlan.DSins_dict_initial_payment",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid,a.percent\n  FROM ins_dict_initial_payment a",
+   "variables": [],
+   "unit": "DMPaymentPlanImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPCOMMON",
+   "package": "INS_COMMON",
+   "mode": "positional",
+   "source": "TDMPaymentPlan.OPCOMMON",
+   "routines": [
+    {
+     "name": "clearplan",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "makeplan",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMPaymentPlan.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

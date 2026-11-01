@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("SBAccount", ["SBSecurity", "sboapiDataModuleImpl", "SBCore", "SBSrvIntf"]);
   const C = [U];
+  U.enumType("taccerror", 6);
   U.const("aeBalance", 0);
   U.const("aeAccBalance", 1);
   U.const("aeDebitTurnover", 2);

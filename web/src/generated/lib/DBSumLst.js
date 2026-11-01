@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("QDBSumLst", ["SysUtils", "Classes", "DB", "TypInfo", "Variants"]);
   const C = [U];
+  U.enumType("tgroupoperation", 3);
   U.const("goSum", 0);
   U.const("goAvg", 1);
   U.const("goCount", 2);

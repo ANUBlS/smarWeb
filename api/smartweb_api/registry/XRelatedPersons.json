@@ -1,0 +1,159 @@
+{
+ "name": "XRelatedPersons",
+ "caption": "Əlavə modullar / Müştərilər və uyğunluq / Banka aidiyyəti olan şəxslər",
+ "dir": "Packages/RelatedPersons",
+ "mainForm": "TFormRelatedPersons",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "krdt",
+   "source": "TFormRelatedPersons.krdt",
+   "kind": "TOracleDataSet",
+   "sql": "select cu.name ,pri.name,p.dateofconclusion,p.duedatefirstcontract,p.creditlineamount,h.rest,p.annualyinterestrate||'%',r.percent||'%',h.duerest,h.pledgeprice from\ncustomers cu,prinad pri,\nCM_active_credits p,\nCM_history h,\nCM_RESERVE_TYPES r\nwhere\np.boorowerid=cu.id and cu.prinad_kod=pri.id and\np.id=h.creditid   and\nh.hdate=:dd  and\nh.reserveid=r.id\norder by pri.name\n\n\n\n\n\n\n\n\n\n\n\n\n \n \n \n \n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "DD",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitRelatedPersons"
+  },
+  {
+   "name": "emdt",
+   "source": "TFormRelatedPersons.emdt",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT distinct\n a1.bal_cn1 dbal_cn ,a1.acc_no\n,a2.bal_cn1 kbal_cn,a2.acc_no\n,pr.dat ,pr.ID\n,pr.NAME, SB_EXPERTANALYSE.GetUserName(pr.op_id) as UserName\n,sb_memorial.getcurrencyshortname(pr.val_acc) val_acc, pr.val_acc as DCurrency\n,sb_memorial.getcurrencyshortname(pr.currencyid_c) currencyid_c, pr.currencyid_c as KCurrency\n,pr.ammount\n,pr.ammount_c\n,pr.lammount\n,pr.op_id as Operator, sb_expertanalyse.getoperationtype(pr.vid_op, pr.val_acc, pr.currencyID_c) as OperationType\n,a1.acc_no debitor, a1.filial as DebetFilial\n,a1.NAME dname\n,a2.acc_no kreditor, a2.filial as CreditFilial\n,a2.NAME kname\n,pr.debt\n,pr.kredit\n,con.CNTR_NAME\n,pri.name\nFROM  provarch pr, Account A1, Account A2, customers cu,Prinad pri\n/*,(select * from Account where kli_id in(select id from Customers where prinad_kod<>0)) A1\n,(select * from Account where kli_id in(select id from Customers where prinad_kod<>0)) A2*/\n     ,countries con\n    WHERE\n       (pr.debt=a1.ID)AND(pr.kredit=a2.ID)\n       AND(pr.Dat between :d1 and :d2) and (nvl(pr.COUNTRID,0)=con.id)\nand A1.kli_id=cu.id\nand A2.kli_id=cu.id\nand Cu.prinad_kod=pri.id\nand cu.prinad_kod <>0\nORDER BY  pri.name,pr.dat\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitRelatedPersons"
+  },
+  {
+   "name": "out_emdt",
+   "source": "TFormRelatedPersons.out_emdt",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT distinct\n a1.bal_cn1 dbal_cn ,a1.acc_no\n,a2.bal_cn1 kbal_cn,a2.acc_no\n,pr.dat ,pr.ID\n,pr.NAME, SB_EXPERTANALYSE.GetUserName(pr.op_id) as UserName\n,sb_memorial.getcurrencyshortname(pr.val_acc) val_acc, pr.val_acc as DCurrency\n,sb_memorial.getcurrencyshortname(pr.currencyid_c) currencyid_c, pr.currencyid_c as KCurrency\n,pr.ammount\n,pr.ammount_c\n,pr.lammount\n,pr.op_id as Operator, sb_expertanalyse.getoperationtype(pr.vid_op, pr.val_acc, pr.currencyID_c) as OperationType\n,a1.acc_no debitor, a1.filial as DebetFilial\n,a1.NAME dname\n,a2.acc_no kreditor, a2.filial as CreditFilial\n,a2.NAME kname\n,pr.debt\n,pr.kredit\n,pri.name\nFROM  out_provarch pr, out_Account A1, out_Account A2, customers cu,prinad pri\n/*,(select * from Account where kli_id in(select id from Customers where prinad_kod<>0)) A1\n,(select * from Account where kli_id in(select id from Customers where prinad_kod<>0)) A2*/\n     \n    WHERE\n       (pr.debt=a1.ID)AND(pr.kredit=a2.ID)\n       AND(pr.Dat between :d1 and :d2) \nand A1.kli_id=cu.id\nand A2.kli_id=cu.id\nand cu.prinad_kod=pri.id\nand cu.prinad_kod <>0\nORDER BY  pr.Dat\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n \n \n \n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitRelatedPersons"
+  },
+  {
+   "name": "qal",
+   "source": "TFormRelatedPersons.qal",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  RestForLastPeriod.AccountID ,RestForLastPeriod.name_1 as name_1,\n  RestForLastPeriod.AccNo , RestForLastPeriod.AccName as ACC_NAME ,\n  RestForLastPeriod.CurrencyID ,\n  RestForLastPeriod.BranchID ,\n  RestForLastPeriod.BalanceNo ,\n  RestForFirstPeriod.Active as BeginActive ,\n  RestForFirstPeriod.Passive as BeginPassive ,\n  RestForFirstPeriod.LActive as LBeginActive ,\n  RestForFirstPeriod.LPassive as LBeginPassive ,\n  TurnOvers.DTurnOver ,\n  TurnOvers.CTurnOver ,\n  TurnOvers.LDTurnOver ,\n  TurnOvers.LCTurnOver ,\n  RestForLastPeriod.Active as EndActive ,\n  RestForLastPeriod.Passive as EndPassive ,\n  RestForLastPeriod.LActive as LEndActive ,\n  RestForLastPeriod.LPassive as LEndPassive\nfrom\n\n(select\n  ac.ID as AccountID ,\n  ac.acc_no as AccNo ,\n  b.bal_cn  as BalanceNo ,\n\n  sb_mtoutview.active (\n    ar.ostat,\n    b.typeid,\n    b.additionaltypeid\n  ) as Active ,\n\n  sb_mtoutview.passiv (\n     ar.ostat,\n     b.typeid,\n     b.additionaltypeid\n  ) as Passive ,\n\n  sb_mtoutview.active (\n    ar.pok_ostat,\n    b.typeid,\n    b.additionaltypeid\n  ) as LActive ,\n\n  sb_mtoutview.passiv (\n     ar.pok_ostat,\n     b.typeid,\n     b.additionaltypeid\n  ) as LPassive\n\nfrom\n  account ac ,\n  archost ar ,\n  bal_spr1  b  /*52*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn1 = b.bal_cn and     /*55*/\n  ar.DatDate = :BeginPeriod  and\n  ((ac.Close_Dat is null)or(ac.Close_Dat > :BeginPeriod))\n) RestForFirstPeriod ,\n\n(select\n  ac.ID as AccountID , sb_mtoutview.prinadof(ac.id) as name_1,\n  ac.acc_no as AccNo , ac.name as AccName ,\n  ac.val_acc as CurrencyID ,\n  ac.filial as BranchID ,\n  b.bal_cn  as BalanceNo ,\n\n  sb_mtoutview.active (\n    ar.ostat,\n    b.typeid,\n    b.additionaltypeid\n  ) as Active ,\n\n  sb_mtoutview.passiv (\n     ar.ostat,\n     b.typeid,\n     b.additionaltypeid\n  ) as Passive ,\n\n  sb_mtoutview.active (\n    ar.pok_ostat,\n    b.typeid,\n    b.additionaltypeid\n  ) as LActive ,\n\n  sb_mtoutview.passiv (\n     ar.pok_ostat,\n     b.typeid,\n     b.additionaltypeid\n  ) as LPassive\n\nfrom\n  account ac ,\n  archost ar ,\n  bal_spr1   b  /*94*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn1 = b.bal_cn  and  /*97*/\n  ar.DatDate = :EndDate  and\n ((ac.Close_Dat is null)or(ac.Close_Dat > :BeginPeriod))\n) RestForLastPeriod ,\n\n(select\n  ac.ID as AccountID ,\n  min(ac.acc_no) as AccNo,\n  min(b.bal_cn)  as BalanceNo ,\n  sum(ar.Obr_D) as DTurnOver ,\n  sum(ar.Obr_K) as CTurnOver ,\n  sum(ar.Pok_Obr_D) as LDTurnOver ,\n  sum(ar.Pok_Obr_K) as LCTurnOver\n\nfrom\n  account ac ,\n  archost ar ,\n  bal_spr1   b  /*114*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn1 = b.bal_cn  and /*117*/\n  ar.DatDate between :BeginDate and :EndDate\ngroup by\n  ac.ID\n) TurnOvers\n\nwhere\n   RestForLastPeriod.AccountID = RestForFirstPeriod.AccountID  (+) and\n   RestForLastPeriod.AccountID = TurnOvers.AccountID\n\norder by\n  RestForLastPeriod.name_1,RestForLastPeriod.AccName\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "BEGINPERIOD",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitRelatedPersons"
+  },
+  {
+   "name": "PeriodPrefixData",
+   "source": "TFormRelatedPersons.PeriodPrefixData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  MAX(DAT) as PeriodPrefix\nfrom \n  Operkurs\nwhere \n  DAT<:ADATE",
+   "variables": [
+    {
+     "name": "ADATE",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitRelatedPersons"
+  },
+  {
+   "name": "qal_out",
+   "source": "TFormRelatedPersons.qal_out",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  RestForLastPeriod.AccountID , RestForLastPeriod.name_1 as name_1,\n  RestForLastPeriod.AccNo , RestForLastPeriod.AccName as ACC_NAME ,\n  RestForLastPeriod.CurrencyID ,\n  RestForLastPeriod.BranchID ,\n  RestForLastPeriod.BalanceNo ,\n  RestForFirstPeriod.Active as BeginActive ,\n  RestForFirstPeriod.Passive as BeginPassive ,\n  RestForFirstPeriod.LActive as LBeginActive ,\n  RestForFirstPeriod.LPassive as LBeginPassive ,\n  TurnOvers.DTurnOver ,\n  TurnOvers.CTurnOver ,\n  TurnOvers.LDTurnOver ,\n  TurnOvers.LCTurnOver ,\n  RestForLastPeriod.Active as EndActive ,\n  RestForLastPeriod.Passive as EndPassive ,\n  RestForLastPeriod.LActive as LEndActive ,\n  RestForLastPeriod.LPassive as LEndPassive\nfrom\n\n(select\n  ac.ID as AccountID ,\n  ac.acc_no as AccNo ,\n  b.bal_cn  as BalanceNo ,\n\n  sb_mtoutview.active (\n    ar.ostat,\n    b.typeid,\n    b.additionaltypeid\n  ) as Active ,\n\n  sb_mtoutview.passiv (\n     ar.ostat,\n     b.typeid,\n     b.additionaltypeid\n  ) as Passive ,\n\n  sb_mtoutview.active (\n    ar.pok_ostat,\n    b.typeid,\n    b.additionaltypeid\n  ) as LActive ,\n\n  sb_mtoutview.passiv (\n     ar.pok_ostat,\n     b.typeid,\n     b.additionaltypeid\n  ) as LPassive\n\nfrom\n  out_account ac ,\n  out_archost ar ,\n  out_bal_spr1 b  /*52*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn1 = b.bal_cn and     /*55*/\n  ar.DatDate = :BeginPeriod  and\n  ((ac.Close_Dat is null)or(ac.Close_Dat > :BeginPeriod))\n) RestForFirstPeriod ,\n\n(select\n  ac.ID as AccountID , sb_mtoutview.prinadof(ac.id) as name_1,\n  ac.acc_no as AccNo , ac.name as AccName ,\n  ac.val_acc as CurrencyID ,\n  ac.filial as BranchID ,\n  b.bal_cn  as BalanceNo ,\n\n  sb_mtoutview.active (\n    ar.ostat,\n    b.typeid,\n    b.additionaltypeid\n  ) as Active ,\n\n  sb_mtoutview.passiv (\n     ar.ostat,\n     b.typeid,\n     b.additionaltypeid\n  ) as Passive ,\n\n  sb_mtoutview.active (\n    ar.pok_ostat,\n    b.typeid,\n    b.additionaltypeid\n  ) as LActive ,\n\n  sb_mtoutview.passiv (\n     ar.pok_ostat,\n     b.typeid,\n     b.additionaltypeid\n  ) as LPassive\n\nfrom\n  out_account ac ,\n  out_archost ar ,\n  out_bal_spr1  b  /*94*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn1 = b.bal_cn  and  /*97*/\n  ar.DatDate = :EndDate  and\n ((ac.Close_Dat is null)or(ac.Close_Dat > :BeginPeriod))\n) RestForLastPeriod ,\n\n(select\n  ac.ID as AccountID ,\n  min(ac.acc_no) as AccNo,\n  min(b.bal_cn)  as BalanceNo ,\n  sum(ar.Obr_D) as DTurnOver ,\n  sum(ar.Obr_K) as CTurnOver ,\n  sum(ar.Pok_Obr_D) as LDTurnOver ,\n  sum(ar.Pok_Obr_K) as LCTurnOver\n\nfrom\n  out_account ac ,                  \n  out_archost ar ,\n  out_bal_spr1  b  /*114*/\nwhere\n  ar.acc_id = ac.id and\n  ac.bal_cn1 = b.bal_cn  and /*117*/\n  ar.DatDate between :BeginDate and :EndDate\ngroup by\n  ac.ID\n) TurnOvers\n\nwhere\n   RestForLastPeriod.AccountID = RestForFirstPeriod.AccountID  (+) and\n   RestForLastPeriod.AccountID = TurnOvers.AccountID\n\norder by\n  RestForLastPeriod.name_1 , RestForLastPeriod.AccName\n\n\n\n\n\n\n\n \n \n \n \n \n \n \n \n \n \n \n \n ",
+   "variables": [
+    {
+     "name": "BEGINDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "BEGINPERIOD",
+     "type": "date"
+    }
+   ],
+   "unit": "UnitRelatedPersons"
+  },
+  {
+   "name": "prinad",
+   "source": "TFormRelatedPersons.prinad",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from prinad where id<>0 order by id",
+   "variables": [],
+   "unit": "UnitRelatedPersons"
+  },
+  {
+   "name": "sysdat",
+   "source": "TFormRelatedPersons.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "UnitRelatedPersons"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

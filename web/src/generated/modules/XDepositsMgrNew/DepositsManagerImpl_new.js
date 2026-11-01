@@ -324,17 +324,17 @@ export default function define($) {
   L0["fopendat1"] = "";
   L0["fopendat2"] = "";
   L0["fopendat"] = "";
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "CURRENCY", (await $.mv((await $.v(C, "CBCurrency")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "branchid", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "contracttype", (await $.mv((await $.v(C, "CBContractType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "clienttype", (await $.mv((await $.v(C, "CBpersons")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue")), true])));
-  await $.stmt((await $.callv(L0["concatfilter"], [L0["result"], "personaltype", (await $.mv((await $.v(C, "CBClientType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t3) => { L0["result"] = $t3; }), "CURRENCY", (await $.mv((await $.v(C, "CBCurrency")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t4) => { L0["result"] = $t4; }), "branchid", (await $.mv((await $.v(C, "CBFilial")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t5) => { L0["result"] = $t5; }), "contracttype", (await $.mv((await $.v(C, "CBContractType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t6) => { L0["result"] = $t6; }), "clienttype", (await $.mv((await $.v(C, "CBpersons")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue")), true])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t7) => { L0["result"] = $t7; }), "personaltype", (await $.mv((await $.v(C, "CBClientType")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue")), true])));
   if ($.truthy((await $.mv((await $.v(C, "CBStatus")), "Checked")))) {
-    { const $t3 = (await $.mv((await $.v(C, "LCBStatus")), "ItemIndex"));
-      if ($.eq($t3, 0)) {
+    { const $t8 = (await $.mv((await $.v(C, "LCBStatus")), "ItemIndex"));
+      if ($.eq($t8, 0)) {
         L0["fstatus"] = "(status = 1)";
       }
-      else if ($.eq($t3, 1)) {
+      else if ($.eq($t8, 1)) {
         L0["fstatus"] = "(Status = 0)";
       }
     }
@@ -344,21 +344,21 @@ export default function define($) {
     L0["fopendat2"] = $.add($.add(" opendate <=  '", (await $.call(C, "FormatDateTime", ["dd/MM/yyyy", (await $.mv((await $.v(C, "DTPCloseDate")), "Date"))]))), "'");
     L0["fopendat"] = $.add($.add($.add($.add($.add($.add($.add($.add("(", "("), L0["fopendat1"]), ")"), " and "), "("), L0["fopendat2"]), ")"), ")");
   }
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fstatus"]])));
-  await $.stmt((await $.callv(L0["concatfilter1"], [L0["result"], L0["fopendat"]])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t9) => { L0["result"] = $t9; }), $.ref(async () => L0["fstatus"], async ($t10) => { L0["fstatus"] = $t10; })])));
+  await $.stmt((await $.callv(L0["concatfilter1"], [$.ref(async () => L0["result"], async ($t11) => { L0["result"] = $t11; }), $.ref(async () => L0["fopendat"], async ($t12) => { L0["fopendat"] = $t12; })])));
   return L0.result;
 }, {"params": [], "kind": "function", "ptypes": []});
   U.method("TDepositsManager_new", "PrepareFilter", async function PrepareFilter(Self) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t4 = (await $.v(C, "DMDepositsManager_new"));
-    await $.mset((await $.wv([$t4], "DBLookupComboboxEh1", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t4], "Valutes", C, false)), "fieldByName", ["Valute"])), "AsInteger")));
-    await $.mset((await $.wv([$t4], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t4], "Filials", C, false)), "fieldByName", ["id"])), "AsInteger")));
-    await $.mset((await $.wv([$t4], "DBLookupComboboxEh3", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t4], "DepositTypes", C, false)), "fieldByName", ["id"])), "AsInteger")));
-    await $.mset((await $.wv([$t4], "DBLookupComboboxEh4", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t4], "Categories", C, false)), "fieldByName", ["id"])), "AsInteger")));
-    await $.mset((await $.wv([$t4], "DBLookupComboboxEh5", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t4], "persons", C, false)), "fieldByName", ["id"])), "AsInteger")));
-    await $.mset((await $.wv([$t4], "LCBStatus", C, false)), "ItemIndex", 0);
+    const $t13 = (await $.v(C, "DMDepositsManager_new"));
+    await $.mset((await $.wv([$t13], "DBLookupComboboxEh1", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t13], "Valutes", C, false)), "fieldByName", ["Valute"])), "AsInteger")));
+    await $.mset((await $.wv([$t13], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t13], "Filials", C, false)), "fieldByName", ["id"])), "AsInteger")));
+    await $.mset((await $.wv([$t13], "DBLookupComboboxEh3", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t13], "DepositTypes", C, false)), "fieldByName", ["id"])), "AsInteger")));
+    await $.mset((await $.wv([$t13], "DBLookupComboboxEh4", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t13], "Categories", C, false)), "fieldByName", ["id"])), "AsInteger")));
+    await $.mset((await $.wv([$t13], "DBLookupComboboxEh5", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t13], "persons", C, false)), "fieldByName", ["id"])), "AsInteger")));
+    await $.mset((await $.wv([$t13], "LCBStatus", C, false)), "ItemIndex", 0);
   }
   return L0.result;
 }, {"params": [], "kind": "procedure", "ptypes": []});
@@ -372,9 +372,9 @@ export default function define($) {
   await $.set(C, "CommonApplication", (await $.v(C, "Application")));
   await $.set(C, "CommonGrid", (await $.v(C, "MainGrid")));
   {
-    const $t5 = (await $.v(C, "DMDepositsManager_new"));
-    await $.wset([$t5], "Get_FilialID", (await $.mv((await $.mcall((await $.wv([$t5], "FilialID", C, false)), "FieldByname", ["kod_fil"])), "AsInteger")), C);
-    await $.wset([$t5], "Get_BankDate", (await $.mv((await $.mcall((await $.wv([$t5], "BankDate", C, false)), "FieldByname", ["Tek_Dat"])), "AsDateTime")), C);
+    const $t14 = (await $.v(C, "DMDepositsManager_new"));
+    await $.wset([$t14], "Get_FilialID", (await $.mv((await $.mcall((await $.wv([$t14], "FilialID", C, false)), "FieldByname", ["kod_fil"])), "AsInteger")), C);
+    await $.wset([$t14], "Get_BankDate", (await $.mv((await $.mcall((await $.wv([$t14], "BankDate", C, false)), "FieldByname", ["Tek_Dat"])), "AsDateTime")), C);
   }
   await $.mset((await $.v(C, "DTPOpenDate")), "DateTime", (await $.v(C, "Get_BankDate")));
   await $.mset((await $.v(C, "DTPCloseDate")), "DateTime", (await $.v(C, "Get_BankDate")));
@@ -393,18 +393,18 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "MainGrid"));
-    const $t7 = (await $.wv([$t6], "SelectedRows", C, false));
-    await $.stmt($.wcall([$t6, $t7], "Clear", [], C));
+    const $t15 = (await $.v(C, "MainGrid"));
+    const $t16 = (await $.wv([$t15], "SelectedRows", C, false));
+    await $.stmt($.wcall([$t15, $t16], "Clear", [], C));
   }
   {
-    const $t8 = (await $.v(C, "MainGrid"));
-    const $t9 = (await $.mv((await $.wv([$t8], "DataSource", C, false)), "DataSet"));
-    await $.wset([$t8, $t9], "Cursor", (await $.wv([$t8, $t9], "crSqlWait", C, false)), C);
-    await $.wset([$t8, $t9], "Filtered", (await $.wv([$t8, $t9], "False", C, false)), C);
-    await $.wset([$t8, $t9], "Filter", (await $.wv([$t8, $t9], "BuildFilterString", C, false)), C);
-    await $.wset([$t8, $t9], "Filtered", (await $.wv([$t8, $t9], "true", C, false)), C);
-    await $.wset([$t8, $t9], "Cursor", (await $.wv([$t8, $t9], "crDefault", C, false)), C);
+    const $t17 = (await $.v(C, "MainGrid"));
+    const $t18 = (await $.mv((await $.wv([$t17], "DataSource", C, false)), "DataSet"));
+    await $.wset([$t17, $t18], "Cursor", (await $.wv([$t17, $t18], "crSqlWait", C, false)), C);
+    await $.wset([$t17, $t18], "Filtered", (await $.wv([$t17, $t18], "False", C, false)), C);
+    await $.wset([$t17, $t18], "Filter", (await $.wv([$t17, $t18], "BuildFilterString", C, false)), C);
+    await $.wset([$t17, $t18], "Filtered", (await $.wv([$t17, $t18], "true", C, false)), C);
+    await $.wset([$t17, $t18], "Cursor", (await $.wv([$t17, $t18], "crDefault", C, false)), C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -414,11 +414,11 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "MainGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t10 = (await $.v(C, "DMDepositsManager_new"));
-    const $t11 = (await $.wv([$t10], "DepositsData", C, false));
-    await $.wset([$t10, $t11], "SaveID", (await $.wv([$t10, $t11], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
-    await $.stmt($.wcall([$t10, $t11], "Refresh", [], C));
-    await $.stmt((await $.wcall([$t10, $t11], "Locate", ["ID", (await $.wv([$t10, $t11], "SaveID", { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true }, false)), []], C)));
+    const $t19 = (await $.v(C, "DMDepositsManager_new"));
+    const $t20 = (await $.wv([$t19], "DepositsData", C, false));
+    await $.wset([$t19, $t20], "SaveID", (await $.wv([$t19, $t20], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
+    await $.stmt($.wcall([$t19, $t20], "Refresh", [], C));
+    await $.stmt((await $.wcall([$t19, $t20], "Locate", ["ID", (await $.wv([$t19, $t20], "SaveID", { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true }, false)), []], C)));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -428,15 +428,15 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["searchoptions"] = [(await $.v(C, "srIgnoreCase")), (await $.v(C, "srPartialMatch"))];
   {
-    const $t12 = L0["sender"];
-    await $.wset([$t12], "SearchField", (await $.wcall([$t12], "copy", [(await $.wv([$t12], "Name", C, false)), 5, (await $.wcall([$t12], "length", [(await $.wv([$t12], "Name", C, false))], C))], C)), { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true });
-    await $.mcall((await $.mv((await $.wv([$t12], "MainGrid", C, false)), "SelectedRows")), "Clear", []);
+    const $t21 = L0["sender"];
+    await $.wset([$t21], "SearchField", (await $.wcall([$t21], "copy", [(await $.wv([$t21], "Name", C, false)), 5, (await $.wcall([$t21], "length", [(await $.wv([$t21], "Name", C, false))], C))], C)), { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true });
+    await $.mcall((await $.mv((await $.wv([$t21], "MainGrid", C, false)), "SelectedRows")), "Clear", []);
     {
-      const $t13 = (await $.wcall([$t12], "TOracleDataSet", [(await $.mv((await $.mv((await $.wv([$t12], "MainGrid", C, false)), "DataSource")), "DataSet"))], C));
-      if ($.truthy($.not((await $.wcall([$t12, $t13], "SearchRecord", [(await $.wv([$t12, $t13], "SearchField", { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true }, false)), (await $.wv([$t12, $t13], "Text", C, false)), $.add((await $.wv([$t12, $t13], "SearchOptions", { get: async () => L0["searchoptions"], set: async (v) => { L0["searchoptions"] = v; }, local: true }, false)), [(await $.wv([$t12, $t13], "srFromCurrent", C, false)), (await $.wv([$t12, $t13], "srForward", C, false))])], C))))) {
-        if ($.truthy($.eq((await $.wcall([$t12, $t13], "MessageDlg", [$.add($.add("Axtarış sona çatıb.", "\r"), "əvvəldən başlamaq istəyirsinizmi?"), (await $.wv([$t12, $t13], "mtInformation", C, false)), [(await $.wv([$t12, $t13], "mbNo", C, false)), (await $.wv([$t12, $t13], "mbYes", C, false))], 0], C)), (await $.wv([$t12, $t13], "mrYes", C, false))))) {
-          if ($.truthy($.not((await $.wcall([$t12, $t13], "SearchRecord", [(await $.wv([$t12, $t13], "SearchField", { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true }, false)), (await $.wv([$t12, $t13], "Text", C, false)), $.add((await $.wv([$t12, $t13], "SearchOptions", { get: async () => L0["searchoptions"], set: async (v) => { L0["searchoptions"] = v; }, local: true }, false)), [(await $.wv([$t12, $t13], "srFromBeginning", C, false))])], C))))) {
-            await $.stmt((await $.wcall([$t12, $t13], "MessageDlg", ["Yazı tapılmadı!", (await $.wv([$t12, $t13], "mtInformation", C, false)), [(await $.wv([$t12, $t13], "mbOK", C, false))], 0], C)));
+      const $t22 = (await $.wcall([$t21], "TOracleDataSet", [(await $.mv((await $.mv((await $.wv([$t21], "MainGrid", C, false)), "DataSource")), "DataSet"))], C));
+      if ($.truthy($.not((await $.wcall([$t21, $t22], "SearchRecord", [(await $.wv([$t21, $t22], "SearchField", { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true }, false)), (await $.wv([$t21, $t22], "Text", C, false)), $.add((await $.wv([$t21, $t22], "SearchOptions", { get: async () => L0["searchoptions"], set: async (v) => { L0["searchoptions"] = v; }, local: true }, false)), [(await $.wv([$t21, $t22], "srFromCurrent", C, false)), (await $.wv([$t21, $t22], "srForward", C, false))])], C))))) {
+        if ($.truthy($.eq((await $.wcall([$t21, $t22], "MessageDlg", [$.add($.add("Axtarış sona çatıb.", "\r"), "əvvəldən başlamaq istəyirsinizmi?"), (await $.wv([$t21, $t22], "mtInformation", C, false)), [(await $.wv([$t21, $t22], "mbNo", C, false)), (await $.wv([$t21, $t22], "mbYes", C, false))], 0], C)), (await $.wv([$t21, $t22], "mrYes", C, false))))) {
+          if ($.truthy($.not((await $.wcall([$t21, $t22], "SearchRecord", [(await $.wv([$t21, $t22], "SearchField", { get: async () => L0["searchfield"], set: async (v) => { L0["searchfield"] = v; }, local: true }, false)), (await $.wv([$t21, $t22], "Text", C, false)), $.add((await $.wv([$t21, $t22], "SearchOptions", { get: async () => L0["searchoptions"], set: async (v) => { L0["searchoptions"] = v; }, local: true }, false)), [(await $.wv([$t21, $t22], "srFromBeginning", C, false))])], C))))) {
+            await $.stmt((await $.wcall([$t21, $t22], "MessageDlg", ["Yazı tapılmadı!", (await $.wv([$t21, $t22], "mtInformation", C, false)), [(await $.wv([$t21, $t22], "mbOK", C, false))], 0], C)));
           }
         }
       }
@@ -512,9 +512,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "DMDepositsManager_new"));
-    const $t15 = (await $.wv([$t14], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t14, $t15], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_CAPITALIZATION"]], C)));
+    const $t23 = (await $.v(C, "DMDepositsManager_new"));
+    const $t24 = (await $.wv([$t23], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t23, $t24], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_CAPITALIZATION"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Capitalize_new.bpl", ""])));
   return L0.result;
@@ -524,9 +524,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "DMDepositsManager_new"));
-    const $t17 = (await $.wv([$t16], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t16, $t17], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_TRANSH"]], C)));
+    const $t25 = (await $.v(C, "DMDepositsManager_new"));
+    const $t26 = (await $.wv([$t25], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t25, $t26], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_TRANSH"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_ApplyMoney_new.bpl", ""])));
   return L0.result;
@@ -536,9 +536,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t18 = (await $.v(C, "DMDepositsManager_new"));
-    const $t19 = (await $.wv([$t18], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t18, $t19], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_UNTIMELY"]], C)));
+    const $t27 = (await $.v(C, "DMDepositsManager_new"));
+    const $t28 = (await $.wv([$t27], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t27, $t28], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_UNTIMELY"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_UntimelyEtMoney_new.bpl", ""])));
   return L0.result;
@@ -548,9 +548,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t20 = (await $.v(C, "DMDepositsManager_new"));
-    const $t21 = (await $.wv([$t20], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t20, $t21], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_PEYMENT"]], C)));
+    const $t29 = (await $.v(C, "DMDepositsManager_new"));
+    const $t30 = (await $.wv([$t29], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t29, $t30], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_PEYMENT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_ExtractMoney_new.bpl", ""])));
   return L0.result;
@@ -585,9 +585,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t22 = (await $.v(C, "DMDepositsManager_new"));
-    const $t23 = (await $.wv([$t22], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t22, $t23], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_CALC_PERCENT"]], C)));
+    const $t31 = (await $.v(C, "DMDepositsManager_new"));
+    const $t32 = (await $.wv([$t31], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t31, $t32], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_CALC_PERCENT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_PercentConverting_new.bpl", ""])));
   return L0.result;
@@ -604,9 +604,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t24 = (await $.v(C, "DMDepositsManager_new"));
-    const $t25 = (await $.wv([$t24], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t24, $t25], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_PARTIAL_PEYMENT"]], C)));
+    const $t33 = (await $.v(C, "DMDepositsManager_new"));
+    const $t34 = (await $.wv([$t33], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t33, $t34], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_PARTIAL_PEYMENT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_PartialPayment_new.bpl", ""])));
   return L0.result;
@@ -618,39 +618,39 @@ export default function define($) {
   L0["cfmsg"] = "Müqavilə bağlanır, əminsinizmi?";
   L0["cfselmsg"] = "Seçilmiş müqavilələr bağlanır, əminsinizmi?";
   {
-    const $t26 = (await $.v(C, "DMDepositsManager_new"));
-    const $t27 = (await $.wv([$t26], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t26, $t27], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_CLOSE_CONTRACT"]], C)));
+    const $t35 = (await $.v(C, "DMDepositsManager_new"));
+    const $t36 = (await $.wv([$t35], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t35, $t36], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_CLOSE_CONTRACT"]], C)));
   }
   {
-    const $t28 = (await $.v(C, "MainGrid"));
-    const $t29 = (await $.wv([$t28], "SelectedRows", C, false));
-    if ($.truthy($.gt((await $.wv([$t28, $t29], "Count", C, false)), 1))) {
-      await $.wset([$t28, $t29], "Cf", (await $.wv([$t28, $t29], "CfSelMsg", { get: async () => L0["cfselmsg"], set: async (v) => { L0["cfselmsg"] = v; }, local: true }, false)), { get: async () => L0["cf"], set: async (v) => { L0["cf"] = v; }, local: true });
+    const $t37 = (await $.v(C, "MainGrid"));
+    const $t38 = (await $.wv([$t37], "SelectedRows", C, false));
+    if ($.truthy($.gt((await $.wv([$t37, $t38], "Count", C, false)), 1))) {
+      await $.wset([$t37, $t38], "Cf", (await $.wv([$t37, $t38], "CfSelMsg", { get: async () => L0["cfselmsg"], set: async (v) => { L0["cfselmsg"] = v; }, local: true }, false)), { get: async () => L0["cf"], set: async (v) => { L0["cf"] = v; }, local: true });
     } else {
-      await $.wset([$t28, $t29], "Cf", (await $.wv([$t28, $t29], "CfMsg", { get: async () => L0["cfmsg"], set: async (v) => { L0["cfmsg"] = v; }, local: true }, false)), { get: async () => L0["cf"], set: async (v) => { L0["cf"] = v; }, local: true });
+      await $.wset([$t37, $t38], "Cf", (await $.wv([$t37, $t38], "CfMsg", { get: async () => L0["cfmsg"], set: async (v) => { L0["cfmsg"] = v; }, local: true }, false)), { get: async () => L0["cf"], set: async (v) => { L0["cf"] = v; }, local: true });
     }
   }
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [L0["cf"], (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrNo"))))) {
     return L0.result;
   }
   {
-    const $t30 = (await $.v(C, "MainGrid"));
-    const $t31 = (await $.wv([$t30], "SelectedRows", C, false));
-    const $t32 = (await $.mv((await $.wv([$t30, $t31], "DataSource", C, false)), "DataSet"));
-    { const $t33 = $.sub((await $.wv([$t30, $t31, $t32], "Count", C, false)), 1);
-      await $.wset([$t30, $t31, $t32], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
-      let $t34 = true;
+    const $t39 = (await $.v(C, "MainGrid"));
+    const $t40 = (await $.wv([$t39], "SelectedRows", C, false));
+    const $t41 = (await $.mv((await $.wv([$t39, $t40], "DataSource", C, false)), "DataSet"));
+    { const $t42 = $.sub((await $.wv([$t39, $t40, $t41], "Count", C, false)), 1);
+      await $.wset([$t39, $t40, $t41], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
+      let $t43 = true;
       for (;;) {
-        if (!$t34) { await $.wset([$t30, $t31, $t32], "i", $.succ((await $.wv([$t30, $t31, $t32], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
-        $t34 = false;
-        if (!($.ord((await $.wv([$t30, $t31, $t32], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t33))) break;
-        await $.stmt((await $.wcall([$t30, $t31, $t32], "GotoBookmark", [(await $.wcall([$t30, $t31, $t32], "Pointer", [(await $.idx((await $.wv([$t30, $t31, $t32], "Items", C, false)), [(await $.wv([$t30, $t31, $t32], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))]))], C))], C)));
-        await $.stmt((await $.mcall((await $.mv((await $.wv([$t30, $t31, $t32], "DMDepositsManager_new", C, false)), "Stored_Programs")), "CallProcedure", ["CloseDeposit", ["ContractID", (await $.mv((await $.wcall([$t30, $t31, $t32], "FieldByName", ["ID"], C)), "AsInteger"))]])));
+        if (!$t43) { await $.wset([$t39, $t40, $t41], "i", $.succ((await $.wv([$t39, $t40, $t41], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }); }
+        $t43 = false;
+        if (!($.ord((await $.wv([$t39, $t40, $t41], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))) <= $.ord($t42))) break;
+        await $.stmt((await $.wcall([$t39, $t40, $t41], "GotoBookmark", [(await $.wcall([$t39, $t40, $t41], "Pointer", [(await $.idx((await $.wv([$t39, $t40, $t41], "Items", C, false)), [(await $.wv([$t39, $t40, $t41], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false))]))], C))], C)));
+        await $.stmt((await $.mcall((await $.mv((await $.wv([$t39, $t40, $t41], "DMDepositsManager_new", C, false)), "Stored_Programs")), "CallProcedure", ["CloseDeposit", ["ContractID", (await $.mv((await $.wcall([$t39, $t40, $t41], "FieldByName", ["ID"], C)), "AsInteger"))]])));
         await $.tick();
       }
     }
-    await $.stmt($.wcall([$t30, $t31, $t32], "Refresh", [], C));
+    await $.stmt($.wcall([$t39, $t40, $t41], "Refresh", [], C));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -659,14 +659,14 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "calculationenabled": false, "confmsg": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t35 = (await $.v(C, "DMDepositsManager_new"));
-    const $t36 = (await $.wv([$t35], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t35, $t36], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_STOP_START_CALCPERCENT"]], C)));
+    const $t44 = (await $.v(C, "DMDepositsManager_new"));
+    const $t45 = (await $.wv([$t44], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t44, $t45], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_STOP_START_CALCPERCENT"]], C)));
   }
   {
-    const $t37 = (await $.v(C, "DMDepositsManager_new"));
-    const $t38 = (await $.wv([$t37], "Stored_Programs", C, false));
-    await $.wset([$t37, $t38], "CalculationEnabled", (await $.wcall([$t37, $t38], "CallBooleanFunction", ["IsCalculationEnabled", ["ContractID", (await $.wv([$t37, $t38], "get_SelectedContID", C, false))]], C)), { get: async () => L0["calculationenabled"], set: async (v) => { L0["calculationenabled"] = v; }, local: true });
+    const $t46 = (await $.v(C, "DMDepositsManager_new"));
+    const $t47 = (await $.wv([$t46], "Stored_Programs", C, false));
+    await $.wset([$t46, $t47], "CalculationEnabled", (await $.wcall([$t46, $t47], "CallBooleanFunction", ["IsCalculationEnabled", ["ContractID", (await $.wv([$t46, $t47], "get_SelectedContID", C, false))]], C)), { get: async () => L0["calculationenabled"], set: async (v) => { L0["calculationenabled"] = v; }, local: true });
   }
   if ($.truthy(L0["calculationenabled"])) {
     L0["confmsg"] = "Faizlərin hesablanması dayandırılır əminsinizmi?";
@@ -675,12 +675,12 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [L0["confmsg"], (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t39 = (await $.v(C, "DMDepositsManager_new"));
-      const $t40 = (await $.wv([$t39], "Stored_Programs", C, false));
-      if ($.truthy((await $.wv([$t39, $t40], "CalculationEnabled", { get: async () => L0["calculationenabled"], set: async (v) => { L0["calculationenabled"] = v; }, local: true }, false)))) {
-        await $.stmt((await $.wcall([$t39, $t40], "CallProcedure", ["DisableCalculation", ["ContractID", (await $.wv([$t39, $t40], "get_SelectedContID", C, false))]], C)));
+      const $t48 = (await $.v(C, "DMDepositsManager_new"));
+      const $t49 = (await $.wv([$t48], "Stored_Programs", C, false));
+      if ($.truthy((await $.wv([$t48, $t49], "CalculationEnabled", { get: async () => L0["calculationenabled"], set: async (v) => { L0["calculationenabled"] = v; }, local: true }, false)))) {
+        await $.stmt((await $.wcall([$t48, $t49], "CallProcedure", ["DisableCalculation", ["ContractID", (await $.wv([$t48, $t49], "get_SelectedContID", C, false))]], C)));
       } else {
-        await $.stmt((await $.wcall([$t39, $t40], "CallProcedure", ["EnableCalculation", ["ContractID", (await $.wv([$t39, $t40], "get_SelectedContID", C, false))]], C)));
+        await $.stmt((await $.wcall([$t48, $t49], "CallProcedure", ["EnableCalculation", ["ContractID", (await $.wv([$t48, $t49], "get_SelectedContID", C, false))]], C)));
       }
     }
   }
@@ -698,9 +698,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t41 = (await $.v(C, "DMDepositsManager_new"));
-    const $t42 = (await $.wv([$t41], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t41, $t42], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PRINT_APPLYMONEY"]], C)));
+    const $t50 = (await $.v(C, "DMDepositsManager_new"));
+    const $t51 = (await $.wv([$t50], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t50, $t51], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PRINT_APPLYMONEY"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_ContractReport_new.bpl", ""])));
   return L0.result;
@@ -710,9 +710,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t43 = (await $.v(C, "DMDepositsManager_new"));
-    const $t44 = (await $.wv([$t43], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t43, $t44], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PRINT_CONTRACT1"]], C)));
+    const $t52 = (await $.v(C, "DMDepositsManager_new"));
+    const $t53 = (await $.wv([$t52], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t52, $t53], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PRINT_CONTRACT1"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_WReport_new.bpl", ""])));
   return L0.result;
@@ -729,9 +729,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t45 = (await $.v(C, "DMDepositsManager_new"));
-    const $t46 = (await $.wv([$t45], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t45, $t46], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_PROLONGATION"]], C)));
+    const $t54 = (await $.v(C, "DMDepositsManager_new"));
+    const $t55 = (await $.wv([$t54], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t54, $t55], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_PROLONGATION"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Prolongation_new.bpl", ""])));
   return L0.result;
@@ -928,9 +928,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t47 = (await $.v(C, "DMDepositsManager_new"));
-    const $t48 = (await $.wv([$t47], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t47, $t48], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_CONTRACT"]], C)));
+    const $t56 = (await $.v(C, "DMDepositsManager_new"));
+    const $t57 = (await $.wv([$t56], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t56, $t57], "CallProcedure", ["checkadvancedobjectaccess", ["NEW_SBCM_CONTRACT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Contract_new.bpl", "InsertContract"])));
   return L0.result;
@@ -940,9 +940,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t49 = (await $.v(C, "DMDepositsManager_new"));
-    const $t50 = (await $.wv([$t49], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t49, $t50], "CallProcedure", ["checkadvancedobjectaccess", ["EDIT_SBCM_CONTRACT"]], C)));
+    const $t58 = (await $.v(C, "DMDepositsManager_new"));
+    const $t59 = (await $.wv([$t58], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t58, $t59], "CallProcedure", ["checkadvancedobjectaccess", ["EDIT_SBCM_CONTRACT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Contract_new.bpl", "EditContract"])));
   return L0.result;
@@ -953,11 +953,11 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "MainGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t51 = (await $.v(C, "DMDepositsManager_new"));
-    const $t52 = (await $.wv([$t51], "DepositsData", C, false));
-    await $.wset([$t51, $t52], "SaveID", (await $.wv([$t51, $t52], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
-    await $.stmt($.wcall([$t51, $t52], "Refresh", [], C));
-    await $.stmt((await $.wcall([$t51, $t52], "Locate", ["ID", (await $.wv([$t51, $t52], "SaveID", { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true }, false)), []], C)));
+    const $t60 = (await $.v(C, "DMDepositsManager_new"));
+    const $t61 = (await $.wv([$t60], "DepositsData", C, false));
+    await $.wset([$t60, $t61], "SaveID", (await $.wv([$t60, $t61], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
+    await $.stmt($.wcall([$t60, $t61], "Refresh", [], C));
+    await $.stmt((await $.wcall([$t60, $t61], "Locate", ["ID", (await $.wv([$t60, $t61], "SaveID", { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true }, false)), []], C)));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -967,11 +967,11 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "MainGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t53 = (await $.v(C, "DMDepositsManager_new"));
-    const $t54 = (await $.wv([$t53], "DepositsData", C, false));
-    await $.wset([$t53, $t54], "SaveID", (await $.wv([$t53, $t54], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
-    await $.stmt($.wcall([$t53, $t54], "Refresh", [], C));
-    await $.stmt((await $.wcall([$t53, $t54], "Locate", ["ID", (await $.wv([$t53, $t54], "SaveID", { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true }, false)), []], C)));
+    const $t62 = (await $.v(C, "DMDepositsManager_new"));
+    const $t63 = (await $.wv([$t62], "DepositsData", C, false));
+    await $.wset([$t62, $t63], "SaveID", (await $.wv([$t62, $t63], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
+    await $.stmt($.wcall([$t62, $t63], "Refresh", [], C));
+    await $.stmt((await $.wcall([$t62, $t63], "Locate", ["ID", (await $.wv([$t62, $t63], "SaveID", { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true }, false)), []], C)));
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -980,9 +980,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t55 = (await $.v(C, "DMDepositsManager_new"));
-    const $t56 = (await $.wv([$t55], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t55, $t56], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_ACCOUNT_GROUP"]], C)));
+    const $t64 = (await $.v(C, "DMDepositsManager_new"));
+    const $t65 = (await $.wv([$t64], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t64, $t65], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_ACCOUNT_GROUP"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Settings_new.bpl", "showcccgroups"])));
   return L0.result;
@@ -992,9 +992,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t57 = (await $.v(C, "DMDepositsManager_new"));
-    const $t58 = (await $.wv([$t57], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t57, $t58], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PERIOD_REPORT"]], C)));
+    const $t66 = (await $.v(C, "DMDepositsManager_new"));
+    const $t67 = (await $.wv([$t66], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t66, $t67], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PERIOD_REPORT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_PeriodReport_new.bpl", ""])));
   return L0.result;
@@ -1004,9 +1004,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t59 = (await $.v(C, "DMDepositsManager_new"));
-    const $t60 = (await $.wv([$t59], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t59, $t60], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_MIS_REPORT"]], C)));
+    const $t68 = (await $.v(C, "DMDepositsManager_new"));
+    const $t69 = (await $.wv([$t68], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t68, $t69], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_MIS_REPORT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Report_new.bpl", ""])));
   return L0.result;
@@ -1016,9 +1016,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t61 = (await $.v(C, "DMDepositsManager_new"));
-    const $t62 = (await $.wv([$t61], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t61, $t62], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_OF_BALANCE_REPORT"]], C)));
+    const $t70 = (await $.v(C, "DMDepositsManager_new"));
+    const $t71 = (await $.wv([$t70], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t70, $t71], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_OF_BALANCE_REPORT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_ReportofBalance_new.bpl", ""])));
   return L0.result;
@@ -1035,9 +1035,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t63 = (await $.v(C, "DMDepositsManager_new"));
-    const $t64 = (await $.wv([$t63], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t63, $t64], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_CUSTOMERS_TYPE"]], C)));
+    const $t72 = (await $.v(C, "DMDepositsManager_new"));
+    const $t73 = (await $.wv([$t72], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t72, $t73], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_CUSTOMERS_TYPE"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Settings_new.bpl", "showcategories"])));
   return L0.result;
@@ -1047,9 +1047,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t65 = (await $.v(C, "DMDepositsManager_new"));
-    const $t66 = (await $.wv([$t65], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t65, $t66], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_DEPOSIT_TYPE"]], C)));
+    const $t74 = (await $.v(C, "DMDepositsManager_new"));
+    const $t75 = (await $.wv([$t74], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t74, $t75], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_DEPOSIT_TYPE"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Settings_new.bpl", "showdeposittypes"])));
   return L0.result;
@@ -1059,9 +1059,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t67 = (await $.v(C, "DMDepositsManager_new"));
-    const $t68 = (await $.wv([$t67], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t67, $t68], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_LOSS_INCOME_ADJUSTMENT_ACC"]], C)));
+    const $t76 = (await $.v(C, "DMDepositsManager_new"));
+    const $t77 = (await $.wv([$t76], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t76, $t77], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_LOSS_INCOME_ADJUSTMENT_ACC"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_Settings_new.bpl", "showaccountturning"])));
   return L0.result;
@@ -1071,9 +1071,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t69 = (await $.v(C, "DMDepositsManager_new"));
-    const $t70 = (await $.wv([$t69], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t69, $t70], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PRINT_CONTRACT"]], C)));
+    const $t78 = (await $.v(C, "DMDepositsManager_new"));
+    const $t79 = (await $.wv([$t78], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t78, $t79], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PRINT_CONTRACT"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_WRSetup_new.bpl", "showSBWRBookmarkSetup"])));
   return L0.result;
@@ -1083,9 +1083,9 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t71 = (await $.v(C, "DMDepositsManager_new"));
-    const $t72 = (await $.wv([$t71], "sb_aca", C, false));
-    await $.stmt((await $.wcall([$t71, $t72], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PERCENT_SETTING"]], C)));
+    const $t80 = (await $.v(C, "DMDepositsManager_new"));
+    const $t81 = (await $.wv([$t80], "sb_aca", C, false));
+    await $.stmt((await $.wcall([$t80, $t81], "CallProcedure", ["checkadvancedobjectaccess", ["SBCM_PERCENT_SETTING"]], C)));
   }
   await $.stmt((await $.call(C, "LoadPlugin", ["SBDM_PercentSettings_new.bpl", ""])));
   return L0.result;

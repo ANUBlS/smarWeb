@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("ArLogoutputImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ComCtrls", "ImgList", "StdCtrls", "Menus"]);
   const C = [U];
+  U.enumType("tlogmessage", 3);
   U.const("lmWarning", 0);
   U.const("lmError", 1);
   U.const("lmInformation", 2);

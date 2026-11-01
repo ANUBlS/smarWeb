@@ -220,6 +220,9 @@ export function defaultForType(type: string | null | undefined): unknown {
 
 interface Sym { kind: 'const' | 'var' | 'func' | 'class' | 'enum'; value: unknown; type?: string | null }
 
+/** Enumerated types of all units: lower-case name -> member count. */
+export const ENUM_TYPES = new Map<string, number>();
+
 export class UnitObj extends TObject {
   readonly lname: string;
   symbols = new Map<string, Sym>();
@@ -237,17 +240,30 @@ export class UnitObj extends TObject {
   var_(name: string, value: unknown, type?: string | null) {
     this.symbols.set(name.toLowerCase(), { kind: 'var', value, type });
   }
+  /** Enumerated type: member count (Low = 0, High = count - 1). */
+  enumType(name: string, count: number) { ENUM_TYPES.set(name.toLowerCase(), count); }
   func(name: string, fn: CompiledFn, meta: RoutineMeta) {
     const l = name.toLowerCase();
     // global routines are compiled with a leading Self parameter (always undefined)
-    const r = routine((...args: any[]) => fn(undefined, ...args), name, meta);
+    const r = routine((...args: any[]) => {
+      if (!(globalThis as any).__sbTrace) return fn(undefined, ...args);
+      console.debug('>', name);
+      return Promise.resolve(fn(undefined, ...args)).finally(() => console.debug('<', name));
+    }, name, meta);
     const s = this.symbols.get(l);
     if (s?.kind === 'func') (s.value as Routine[]).push(r);
     else this.symbols.set(l, { kind: 'func', value: [r] });
   }
   method(cls: string, name: string, fn: CompiledFn, meta: RoutineMeta) {
     const def = this.env.findClass(cls) ?? this.defClass(cls, null, {}, {});
-    def.addMethod(name, fn, meta);
+    // window.__sbTrace = true logs method entry/exit to the console (debugging hangs)
+    const traced = ((...a: unknown[]) => {
+      if (!(globalThis as any).__sbTrace) return (fn as any)(...a);
+      const id = `${cls}.${name}`;
+      console.debug('>', id);
+      return Promise.resolve((fn as any)(...a)).finally(() => console.debug('<', id));
+    }) as unknown as CompiledFn;
+    def.addMethod(name, traced, meta);
   }
   defClass(name: string, parent: string | null, fields: Record<string, FieldInfo>, props: Record<string, PropInfo>) {
     const def = new ClassDef(name, parent, this);

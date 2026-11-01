@@ -1,6 +1,6 @@
 /*
- * HTTP implementation of the Oracle gateway — used once the Node/Express API
- * exists.  Enable with VITE_API_MODE=http and VITE_API_URL=https://host/api.
+ * HTTP implementation of the Oracle gateway — the SmartWeb API (api/, FastAPI).
+ * Enable with VITE_API_MODE=http and VITE_API_URL=/api (server.mjs proxies /api to API_TARGET).
  */
 import type {
   OracleApi, LogonRequest, LogonResult, QueryRequest, QueryResult, ExecuteRequest, ExecuteResult,
@@ -27,6 +27,10 @@ export class HttpOracleApi implements OracleApi {
     return data as T;
   }
 
+  async databases(): Promise<string[]> {
+    const res = await fetch(this.base.replace(/\/$/, '') + '/databases');
+    return res.ok ? ((await res.json()) as string[]) : [];
+  }
   async logon(r: LogonRequest): Promise<LogonResult> {
     const res = await this.post<LogonResult>('/logon', r);
     this.session = res.sessionId;

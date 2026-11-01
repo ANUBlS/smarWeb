@@ -1,0 +1,96 @@
+{
+ "name": "LastRates",
+ "caption": "Balans / Məlumatlar / Valyuta Məzənnələri",
+ "dir": "Packages/LastRates",
+ "mainForm": "TFrmOldCourses",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSCourses",
+   "source": "TFrmOldCourses.ODSCourses",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n    O.val_kod,\n    O.ostat,\n    O.dat,\n    A.val_name \nFrom \n   Operkurs O,\n   Avalute A\nWhere O.val_kod=A.valute and o.dat between :beg_dat and :end_dat\nOrder by :Title_Order",
+   "variables": [
+    {
+     "name": "TITLE_ORDER",
+     "type": "subst"
+    },
+    {
+     "name": "BEG_DAT",
+     "type": "date"
+    },
+    {
+     "name": "END_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "OldRatesFormImpl"
+  },
+  {
+   "name": "ODSFiltr",
+   "source": "TFrmOldCourses.ODSFiltr",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n    O.val_kod,\n    O.ostat,\n    O.dat,\n    A.val_name \nFrom \n   Operkurs O,\n   Avalute A\nWhere O.val_kod=A.valute and O.dat=:VDate\nOrder by O.ostat\n ",
+   "variables": [
+    {
+     "name": "VDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "OldRatesFormImpl"
+  },
+  {
+   "name": "ODSValute",
+   "source": "TFrmOldCourses.ODSValute",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n     *\nFrom\n   Avalute ",
+   "variables": [],
+   "unit": "OldRatesFormImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage",
+   "package": "SBOP",
+   "mode": "positional",
+   "source": "TFrmOldCourses.OraclePackage",
+   "routines": [
+    {
+     "name": "Get_Date",
+     "call": "CallDateFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

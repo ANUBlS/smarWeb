@@ -1,0 +1,85 @@
+{
+ "name": "XGuaranty",
+ "caption": "Əlavə modullar / Kreditlər / Zəmanətlər",
+ "dir": "Packages/Cr_Credit/Guaranty",
+ "mainForm": "TGuaranty",
+ "plugin": false,
+ "plugins": {
+  "cr_conclusion.bpl": "P_CR_Conclusion"
+ },
+ "lib": [
+  "OraVariables",
+  "PluginMenu",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "crCommonDecls",
+  "crLogoutputImpl",
+  "crTemporaryTransactionsViewFormImpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CR_ACTIVE",
+   "source": "TGrDataModule.CR_ACTIVE",
+   "kind": "TOracleDataSet",
+   "sql": "select *\n  from\n  cr_active\nwhere nvl(partitionkey,0) =0 and closedate is null\n\n\n\norder by :OrderField    \n ",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "GrDmImpl"
+  },
+  {
+   "name": "VisibleFieldsData",
+   "source": "TGrDataModule.VisibleFieldsData",
+   "kind": "TOracleDataSet",
+   "sql": "select seqno, fieldname, frozen, visible,fielddesc\nfrom cr_fields_list\n order by seqno",
+   "variables": [],
+   "unit": "GrDmImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CR_ADMIN",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TGrDataModule.CR_ADMIN",
+   "routines": [
+    {
+     "name": "getpluginid",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "pluginaccess",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

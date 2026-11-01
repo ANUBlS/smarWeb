@@ -1,0 +1,49 @@
+{
+ "name": "XAccBalanceCheck",
+ "caption": "Əlavə modullar / Mühasibat və balans / Hesab qalıqlarının yoxlanması",
+ "dir": "Packages/AccBalanceCheck",
+ "mainForm": "TAccBalanceCheckForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Accs",
+   "source": "TAccBalanceCheckForm.Accs",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  acc.ID, acc.ACC_NO as AccountNo, acc.Name as AccName,\n  t.ostat as Amount, t.pok_ostat as LAmount, t.obr_d as DebitTurnover,\n  t.pok_obr_d as DebitLTurnover, t.obr_k as CreditTurnover, t.pok_obr_k as CreditLTurnover\nfrom\n  account acc,\n  tenostat t\nwhere\n  t.acc_id = acc.ID",
+   "variables": [],
+   "unit": "AccBalanceCheckFormImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

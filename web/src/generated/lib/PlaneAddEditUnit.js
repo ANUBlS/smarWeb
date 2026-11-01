@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("PlaneAddEditUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ComCtrls", "StdCtrls", "CurrencyEdit", "PaymentsPlaneDataModuleUnit"]);
   const C = [U];
+  U.enumType("tplanegridstate", 2);
   U.const("pgsInsert", 0);
   U.const("pgsEdit", 1);
   U.defClass("TPlaneAddEditForm", "TForm", {"dtppaymentdate": {"name": "DTPPaymentDate", "type": "TDateTimePicker"}, "maindebtedit": {"name": "MainDebtEdit", "type": "TCurrencyEdit"}, "percentedit": {"name": "PercentEdit", "type": "TCurrencyEdit"}, "statictext1": {"name": "StaticText1", "type": "TStaticText"}, "statictext2": {"name": "StaticText2", "type": "TStaticText"}, "statictext3": {"name": "StaticText3", "type": "TStaticText"}, "applybtn": {"name": "ApplyBtn", "type": "TButton"}, "cancelbtn": {"name": "CancelBtn", "type": "TButton"}, "cbpayed": {"name": "CBPayed", "type": "TCheckBox"}, "planegridstate": {"name": "PlaneGridState", "type": "TPlaneGridState"}, "contractid": {"name": "ContractID", "type": "Integer"}}, {});

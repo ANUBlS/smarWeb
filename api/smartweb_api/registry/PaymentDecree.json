@@ -1,0 +1,323 @@
+{
+ "name": "PaymentDecree",
+ "caption": "Balans / Əməliyyat günü / Ödəmə tapşırığı",
+ "dir": "Packages/PaymentDecree",
+ "mainForm": "TPaymentDecree",
+ "plugin": false,
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cu_conclusion.bpl": "P_CU_Conclusion",
+  "cu_payment.bpl": "P_CU_Payment",
+  "cu_schedule.bpl": "P_CU_Schedule",
+  "cu_statement.bpl": "P_cu_Statement",
+  "cu_wreport.bpl": "P_cu_WReport",
+  "sb_general.bpl": "P_Sb_General",
+  "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
+  "sbdm_contract.bpl": "P_SBDM_Contract",
+  "sbdm_extractmoney.bpl": "P_SBDM_ExtractMoney",
+  "sbdm_wreport.bpl": "P_SBDM_WReport",
+  "transinfopack.bpl": "P_TransInfoPack"
+ },
+ "lib": [
+  "AccounFlagsLmpl",
+  "Account_edit_Unit",
+  "BProc_Trans",
+  "CULogoutputImpl",
+  "CommanParametrs",
+  "CommonDeclsImpl",
+  "Creditİmpl",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "Cust_contactUnit",
+  "CustomersImpl",
+  "DataCustNomImpl",
+  "DepozLmpl",
+  "Form1_BalCnImpl",
+  "FormBalCnImpl",
+  "FormCustNomImpl",
+  "FormCustNom_GridImpl",
+  "FormOperationShow1Lmpl",
+  "FormOperationShowLmpl",
+  "FormOperationbplLmpl",
+  "FormTransaction1Lmpl",
+  "FormTransaction2Lmpl",
+  "FormTransaction3Lmpl",
+  "Form_AccountsImpl",
+  "Form_BalCnImpl",
+  "Form_Statmentlmpl",
+  "OpenAccdataImpl",
+  "OpenAccountImpl",
+  "OraVariables",
+  "Payment_DataModul",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SMSUnit",
+  "TemporaryTransactionsFormImpl",
+  "Transaction_DataModuleUnit",
+  "Transaction_DestinationImpl",
+  "Transaction_PropertiesImpl",
+  "UnitChangePasswordForm",
+  "UnitDataBussProc",
+  "UnitNote",
+  "UnitPayment_order",
+  "UnitProc_type",
+  "UnitSBOraLogOn",
+  "UnitTransaction",
+  "Unit_Archive",
+  "Unit_Rekvezit",
+  "Unit_Report",
+  "Unit_ReportR",
+  "Unit_TransView",
+  "UnitbussProc",
+  "UntIntervalRpt",
+  "UntMain_Report",
+  "UntSecond_Report",
+  "accserch",
+  "addcombobox1",
+  "cap_UntMainReport",
+  "cap_UntSecondReport",
+  "cuCommonDecls",
+  "cuTemporaryTransactionsViewFormImpl",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSAccounts",
+   "source": "TPaymentDataMod.ODSAccounts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  A.ID,\n  A.ACC_NO,\n  SUBSTR(acc_no,(select value from settings where name='AccNoSearchPos'),30) as ACC_No_Search,\n  A.VAL_ACC,\n  A.NAME\n \nFROM\n  ACCOUNT A\n\nWHERE\n \n \n  A.CLOSE_DAT IS NULL\n \nORDER BY ACC_NO_SEARCH",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ODSBankInfo",
+   "source": "TPaymentDataMod.ODSBankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   *\nFrom\n    bankM_ours/*\n\nwhere bankcode is not null\nand ours=1\n\n*/\nOrder by bankcode",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ODSBankM",
+   "source": "TPaymentDataMod.ODSBankM",
+   "kind": "TOracleDataSet",
+   "sql": "/*Select\n    *\nFrom\n  BankM\n\nOrder by Name\n*/\n\nselect null as id, null as krno, null as name, null as inn, null as swift,null as bankcode,null as subkrno,\n       null as bank_kod,null as license_date,null as tax_regcode,null as ours,null as val_code from dual\n       \n    union all\n\nSelect* From   BankM a",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ODSArchive",
+   "source": "TPaymentDataMod.ODSArchive",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n  id\n ,pdate\n ,pnum\n ,dbname\n ,dbcod\n ,dbinn\n ,dbcoracc\n ,dbswift\n ,dacc_no\n ,daccname\n ,daccinn\n ,kbname\n ,kbcod\n ,kbinn\n ,kbcoracc\n ,kbswift\n ,kacc_no\n ,kaccname\n ,kaccinn\n ,to_char(ammount) ammount\n ,assignment\n ,extra\n,MOD_BANK\n,budgetclass\n,budgetlevel\n,VAL_NAME\n\n\nFrom\n PaymentDecree\nwhere PDate between :begdat and :enddat\n\nOrder by\n  :Title\n ",
+   "variables": [
+    {
+     "name": "TITLE",
+     "type": "subst"
+    },
+    {
+     "name": "BEGDAT",
+     "type": "date"
+    },
+    {
+     "name": "ENDDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "rezerv",
+   "source": "TPaymentDataMod.rezerv",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  A.ID,\n  A.ACC_NO,\n  SUBSTR(acc_no,(select value from settings where name='AccNoSearchPos'),30) as ACC_No_Search,\n  A.VAL_ACC,\n  A.NAME\n \nFROM\n  ACCOUNT A\n\nWHERE\n \n \n  A.CLOSE_DAT IS NULL\n \nORDER BY ACC_NO_SEARCH",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "Ods_Acc_Vall",
+   "source": "TPaymentDataMod.Ods_Acc_Vall",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id ,a.val_acc,v.val_name, v.valu_short,v.valu_bala from account a, avalute v where a.val_acc=v.valute and a.acc_no=:acc_no",
+   "variables": [
+    {
+     "name": "ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ODS_Acc_symbol",
+   "source": "TPaymentDataMod.ODS_Acc_symbol",
+   "kind": "TOracleDataSet",
+   "sql": "select a.acc_no,a.old_acc_no as old, s.symbol,s.old_acc_no from account a,account_symbols s where a.symb=s.symbol\n and s.old_acc_no=1\n and a.acc_no=:acc_no",
+   "variables": [
+    {
+     "name": "ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "Ds_valute",
+   "source": "TPaymentDataMod.Ds_valute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name,valu_short,valu_bala from avalute",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "Ds_Acoount",
+   "source": "TPaymentDataMod.Ds_Acoount",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account a , customers c\nwhere a.close_dat is null and a.kli_id=c.id",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ODSTransferaccount",
+   "source": "TPaymentDataMod.ODSTransferaccount",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  A.ID,\n  A.ACC_NO,\n  SUBSTR(acc_no,(select value from settings where name='AccNoSearchPos'),30) as ACC_No_Search,\n  A.VAL_ACC,A.NAME\n \nFROM\n  rv_banks A\n\n \nORDER BY ACC_NO_SEARCH\n",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ODSbank",
+   "source": "TPaymentDataMod.ODSbank",
+   "kind": "TOracleDataSet",
+   "sql": "select kod_b,bank,az_name,krno,inn,swift\n from bankinfo",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "Ds_Inv_child",
+   "source": "TPaymentDataMod.Ds_Inv_child",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from invoices_child a\nwhere inv_id = :INV_ID order by id",
+   "variables": [
+    {
+     "name": "INV_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "Ds_Inv_Archive",
+   "source": "TPaymentDataMod.Ds_Inv_Archive",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect a.rowid,a.id,a.pdate,a.dbname,a.dbcod,a.dbinn,a.dbswift,a.dacc_no,a.kbname,a.kbinn,a.kacc_no,a.num,\na.prescription,a.col1,a.col2,a.col3,a.col4,a.col5,a.sumamount from invoices a order by id desc",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ds",
+   "source": "TPaymentDataMod.ds",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect a.rowid,a.id,a.pdate,a.dbname,a.dbcod,a.dbinn,a.dbswift,a.dacc_no,a.kbname,a.kbinn,\n(select acc_no from account where id=a.kacc_no)as kacc_no,a.num,a.prescription,a.col1,a.col2,\na.col3,a.col4,a.col5,a.sumamount from invoices a where a.id=:pid order by id desc",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ds2",
+   "source": "TPaymentDataMod.ds2",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(col2)as cemi_col2,(sum(col2)*0.18) as EDV_col2,(sum(col2) +(sum(col2)*0.18)) as yekun_col2,\nsum(col3)as cemi_col3,(sum(col3)*0.18) as EDV_col3,(sum(col3) +(sum(col3)*0.18)) as yekun_col3,\nsum(col4)as cemi_col4,(sum(col4)*0.18) as EDV_col4,(sum(col4) +(sum(col4)*0.18)) as yekun_col4,\n((sum(col2) +(sum(col2)*0.18))+ (sum(col3) +(sum(col3)*0.18))+(sum(col4) +(sum(col4)*0.18))) as sum_all_yekun \nfrom invoices_child where inv_id =:pid",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "PaymentDataModul"
+  },
+  {
+   "name": "ODS_PNUM",
+   "source": "TPaymentDataMod.ODS_PNUM",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(max(pnum)+1,1) as pnum from paymentdecree_t\nwhere to_char(pdate, 'YYYY')=(select to_char(sysdate, 'YYYY') from dual)",
+   "variables": [],
+   "unit": "PaymentDataModul"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPPayment",
+   "package": "sb_PaymentDecree",
+   "mode": "positional",
+   "source": "TPaymentDataMod.OPPayment",
+   "routines": [
+    {
+     "name": "GetCurrentDate",
+     "call": "CallDateFunction"
+    },
+    {
+     "name": "SetNewDetails",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_invoices",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_payment",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_invoices",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_payment",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "isAccountDetails",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "update_invoices",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "update_payment",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "Select * From BankM order by name",
+  "Select * From Bankm_ours",
+  "Select * From bankm_ours Where bankcode="
+ ]
+}

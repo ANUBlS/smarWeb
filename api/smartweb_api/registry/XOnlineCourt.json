@@ -1,0 +1,208 @@
+{
+ "name": "XOnlineCourt",
+ "caption": "Əlavə modullar / Kreditlər / Onlayn məhkəmə idarəetməsi",
+ "dir": "Packages/Online_mehkeme_idareolunmasi",
+ "mainForm": "TOnline_court_conturolImpl",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ods_court",
+   "source": "TOnline_court_conturolImpl.ods_court",
+   "kind": "TOracleDataSet",
+   "sql": "select \njson_object('id' value o.servc_id) Checked,c.id ,person,persontype,c.name ,o.servc_id,o.checked_id from court_online o,customers c  where persontype=0 and o.person=c.inn--person in('4401346432','1403586421')\nunion all\nselect \njson_object('id' value o.servc_id)  Checked,-1 as id ,person,persontype,'' as name ,o.servc_id,-1 as checked_id from court_online o  where persontype=0 and  not EXISTS (select * from customers where inn=o.person)\n\nunion all\n\n\nselect \njson_object('id' value o.servc_id) Checked,c.idcust id ,person,persontype,c.lastname||' '||c.name||' '||c.soname as name,o.servc_id,o.checked_id from\n court_online o,custinfo c  where persontype=1 and o.person=c.passpin--person in('4401346432','1403586421')\nunion all\nselect \njson_object('id' value o.servc_id)  Checked,-1 as id ,person,persontype,'' as name ,o.servc_id,-1 as checked_id from \ncourt_online o  where persontype=1 and  not EXISTS (select * from custinfo where passpin=o.person)",
+   "variables": [],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_accountpasspin",
+   "source": "TOnline_court_conturolImpl.ods_accountpasspin",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id, a.servc_id,a.passpin,\njson_object( 'CheckedId' value checked_id ,\n    'AccountNumber'value a.acc_no,'AccountType' value a.tipacc,'Balance' value a.pok_ostat,'Currency'value \n    a.currencyname ,'OpenDate'value opendat,'CloseDate'value closedat, 'Status' value a.status)\ntext\n from (\nselect i.idcust id,o.servc_id,i.passpin,o.checked_id,\n     a.acc_no,a.name as tipacc,a.currencyname ,\n      to_char(a.open_dat, 'yyyy-mm-dd\"T\"hh24:mi:ss') as opendat,\n      to_char(a.close_dat,'yyyy-mm-dd\"T\"hh24:mi:ss') as closedat,\n      case when a.close_dat is null then 'OPEN'else 'CLOSE' end Status,\n      (select abs(pok_ostat) from tenostat where acc_id=a.id)as pok_ostat\n     \n     from account a,custinfo i ,court_online o where \n    i.idcust=a.kli_id and  i.passpin=o.person ) a where nvl(passpin,0)=:v_passpin ",
+   "variables": [
+    {
+     "name": "V_PASSPIN",
+     "type": "string"
+    }
+   ],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_accountInn",
+   "source": "TOnline_court_conturolImpl.ods_accountInn",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id, a.servc_id,a.inn,pass_inn,\njson_object( 'CheckedId' value checked_id ,\n    'AccountNumber'value a.acc_no,'AccountType' value a.tipacc,'Balance' value a.pok_ostat,'Currency'value \n    a.currencyname ,'OpenDate'value opendat,'CloseDate'value closedat, 'Status' value a.status)\ntext\n from (\nselect i.id,o.servc_id,i.inn,o.checked_id,\n     a.acc_no,a.name as tipacc,a.currencyname ,\n      to_char(a.open_dat, 'yyyy-mm-dd\"T\"hh24:mi:ss') as opendat,\n      to_char(a.close_dat,'yyyy-mm-dd\"T\"hh24:mi:ss') as closedat,\n      case when a.close_dat is null then 'OPEN'else 'CLOSE' end Status,\n      case when length(o.person)=7 then 1 else 2 end pass_inn,\n     (select abs(pok_ostat) from tenostat where acc_id=a.id)as pok_ostat\n     \n     from account a,customers i ,court_online o where \n    i.id=a.kli_id and  i.inn=o.person ) a where nvl(inn,0)=:v_inn ",
+   "variables": [
+    {
+     "name": "V_INN",
+     "type": "string"
+    }
+   ],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_girovpasspin",
+   "source": "TOnline_court_conturolImpl.ods_girovpasspin",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_girovinn",
+   "source": "TOnline_court_conturolImpl.ods_girovinn",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_compespasspin",
+   "source": "TOnline_court_conturolImpl.ods_compespasspin",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_compesinn",
+   "source": "TOnline_court_conturolImpl.ods_compesinn",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_custpasspin",
+   "source": "TOnline_court_conturolImpl.ods_custpasspin",
+   "kind": "TOracleDataSet",
+   "sql": "select \no.servc_id, \njson_object('id' value o.servc_id) Checked,\njson_object('CheckedId'value o.checked_id,\n'CustomerName'value replace(c.lastname||' '||c.name ||' '||c.soname,'ü','u'),\n'CustomerNo'value c.idcust,\n'DocumentNo' value c.passer||' '||c.paspnum,\n'Pin' value c.passpin,\n'Position' value 'sss'\n)\ntext\n\nfrom custinfo c,court_online o  where c.passpin=o.person and c.passpin =:v_passpin\norder by o.servc_id ",
+   "variables": [
+    {
+     "name": "V_PASSPIN",
+     "type": "string"
+    }
+   ],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_custinn",
+   "source": "TOnline_court_conturolImpl.ods_custinn",
+   "kind": "TOracleDataSet",
+   "sql": "select \no.servc_id, \njson_object('id' value o.servc_id) Checked,\njson_object('CheckedId'value o.checked_id,\n'CustomerName'value replace(c.name,'ü','u'),\n'CustomerNo'value c.id,\n'voen' value c.inn,\n'Position' value 'sss'\n)\ntext\n\nfrom customers c,court_online o  where c.inn=o.person and c.inn =:v_inn\norder by o.servc_id ",
+   "variables": [
+    {
+     "name": "V_INN",
+     "type": "string"
+    }
+   ],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_depositinn",
+   "source": "TOnline_court_conturolImpl.ods_depositinn",
+   "kind": "TOracleDataSet",
+   "sql": "select json_object(\n'CheckedId' value 'a.checked_id',\n'Amount'    value a.Amount,\n'ContractNumber' value a.ContractNumber,\n'Currency'    value a.Currency,\n'DepositRate' value   a.DepositRate,\n'DepositType'    value a.DepositType,\n'MaturityDate'    value a.MaturityDate,\n'StartDate'    value a.StartDate,\n'Description'   value a.Description,\n'AccountNumber'    value a.AccountNumber,\n'CalculatedInterestAmount'  value a.CalculatedInterestAmount,\n'Status'  value  a.Status\n)text\n from  (\n\nSELECT \n    c.customerid                                                  Customerid,\n    c.amount                                                      Amount, \n    c.contractno                                                  ContractNumber, \n    (select val_name from avalute where valute=c.currency)        Currency,\n    (select interest from sbcm_interests where id#=c.id)          DepositRate,\n    (select  type from sbcm_deposit_types where id=c.contracttype)DepositType,\n    c.closedate                                                   MaturityDate,    \n    c.opendate                                                    StartDate,\n    'Default'                                                     Description,\n    (select acc_no from account where id=a.contractaccid)         AccountNumber,\n    h.facticalinterestdebt                                        CalculatedInterestAmount,\n    c.type#                                                       Status,\n    cu.inn\n    \n  FROM sbcm_contracts c, sbcm_contract_accounts a, sbcm_contract_history h,customers cu,court_online o\n WHERE c.id = a.id# AND a.id# = h.id# and h.hdate=sbop.get_date and c.customerid=cu.id and cu.inn=o.person) a \n where inn=:v_inn",
+   "variables": [
+    {
+     "name": "V_INN",
+     "type": "string"
+    }
+   ],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "OracleQuery1",
+   "source": "TOnline_court_conturolImpl.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "query_inn",
+   "source": "TOnline_court_conturolImpl.query_inn",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_courtarxiv",
+   "source": "TOnline_court_conturolImpl.ods_courtarxiv",
+   "kind": "TOracleDataSet",
+   "sql": "select \njson_object('id' value o.servc_id) Checked,c.id ,person,c.name ,o.servc_id,o.checked_id from court_online_arxive o,customers c\n  where persontype=0 and o.person=c.inn and o.sys_dat=:v_dat\n  \n union all\n \n select \njson_object('id' value o.servc_id) Checked,c.idcust as id ,person,c.lastname||' '|| c.name||' '||c.soname ,o.servc_id,o.checked_id from court_online_arxive o,custinfo c\n  where persontype=1 and o.person=c.passpin and o.sys_dat=:v_dat",
+   "variables": [
+    {
+     "name": "V_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "Online_court_conturolUnit"
+  },
+  {
+   "name": "ods_depositpasspin",
+   "source": "TOnline_court_conturolImpl.ods_depositpasspin",
+   "kind": "TOracleDataSet",
+   "sql": "select json_object(\n'CheckedId' value 'a.checked_id',\n'Amount'    value a.Amount,\n'ContractNumber' value a.ContractNumber,\n'Currency'    value a.Currency,\n'DepositRate' value   a.DepositRate,\n'DepositType'    value a.DepositType,\n'MaturityDate'    value a.MaturityDate,\n'StartDate'    value a.StartDate,\n'Description'   value a.Description,\n'AccountNumber'    value a.AccountNumber,\n'CalculatedInterestAmount'  value a.CalculatedInterestAmount,\n'Status'  value  a.Status\n)text\n from  (\n\nSELECT \n    c.customerid                                                  Customerid,\n    c.amount                                                      Amount, \n    c.contractno                                                  ContractNumber, \n    (select val_name from avalute where valute=c.currency)        Currency,\n    (select interest from sbcm_interests where id#=c.id)          DepositRate,\n    (select  type from sbcm_deposit_types where id=c.contracttype)DepositType,\n    c.closedate                                                   MaturityDate,    \n    c.opendate                                                    StartDate,\n    'Default'                                                     Description,\n    (select acc_no from account where id=a.contractaccid)         AccountNumber,\n    h.facticalinterestdebt                                        CalculatedInterestAmount,\n    c.type#                                                       Status,\n    cu.passpin\n    \n  FROM sbcm_contracts c, sbcm_contract_accounts a, sbcm_contract_history h,custinfo cu,court_online o\n WHERE c.id = a.id# AND a.id# = h.id# and h.hdate=sbop.get_date and c.customerid=cu.id and cu.passpin=o.person) a \n where passpin=:v_passpin",
+   "variables": [
+    {
+     "name": "V_PASSPIN",
+     "type": "string"
+    }
+   ],
+   "unit": "Online_court_conturolUnit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "pg_court",
+   "package": "pg_court",
+   "mode": "positional",
+   "source": "TOnline_court_conturolImpl.pg_court",
+   "routines": [
+    {
+     "name": "add_court",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "update_court",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "insert into court_online_arxive select*from court_online where servc_id=",
+  "truncate table court_online"
+ ]
+}

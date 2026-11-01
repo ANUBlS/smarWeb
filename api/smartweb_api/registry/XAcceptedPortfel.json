@@ -1,0 +1,414 @@
+{
+ "name": "XAcceptedPortfel",
+ "caption": "Əlavə modullar / Kreditlər / Qəbul edilmiş portfel",
+ "dir": "Packages/AcceptedPortfell",
+ "mainForm": "TAcceptedportfell",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "maincrprt",
+   "source": "TDataMod.maincrprt",
+   "kind": "TOracleDataSet",
+   "sql": "select  rownum,ac.*,inf.*,grp.*,\nbrt.*,cred.*,act.*,flt.*,cour.*,(select sum(abs(pok_ostat)) from tenostat a where a.acc_id in (select id from account where kli_id=ac.cust_id and bal_cn1 in ('2501','2511')))as az_borc  from accepted_cr_portfels ac,accepted_cr_info inf,accepted_prtf_debts_grp grp,accepted_borrow_types brt,\naccepted_cr_types cred,accepted_cr_actives act,filial flt,accepted_cr_court cour\nwhere ac.info_id=inf.id and grp.id=inf.debt_grp and ac.credtp_id=cred.id and ac.active_id=act.id \nand brt.id=ac.borrow_type and  flt.id=ac.branch and ac.court_id= cour.id\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by ac.prtid",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "custms",
+   "source": "TDataMod.custms",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers --where prinad_kod=41 \n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "Valute",
+   "source": "TDataMod.Valute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "reducttypes",
+   "source": "TDataMod.reducttypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from loan_reduct_type",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDataMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDataMod.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TDataMod.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "mainloanacc",
+   "source": "TDataMod.mainloanacc",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,acc_no||' qaliq='||(select abs(ostat) from tenostat\nwhere acc_id=a.id) qaliq ,a.name from account   a\nwhere kli_id=:v_id\nand (bal_cn1 like '25%'\nor bal_cn1 in (2404,2434,2444,4506,4516,4801,4813))",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "filials",
+   "source": "TDataMod.filials",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "percentacc",
+   "source": "TDataMod.percentacc",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,a.acc_no||' qaliq='||(select abs(ostat) from tenostat\nwhere acc_id=a.id) qaliq,a.name from account a\nwhere kli_id=:v_id and (bal_cn1 like '25%'\nor bal_cn1 in (2404,2434,2444,4506,4516,4801,4813))",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "debtgrps",
+   "source": "TDataMod.debtgrps",
+   "kind": "TOracleDataSet",
+   "sql": "select * from accepted_prtf_debts_grp",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "Descrpts",
+   "source": "TDataMod.Descrpts",
+   "kind": "TOracleDataSet",
+   "sql": "select * from \n\n accepted_portfel_settings",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "borrowtype",
+   "source": "TDataMod.borrowtype",
+   "kind": "TOracleDataSet",
+   "sql": "select * from \n\n accepted_portfel_settings",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "Amountpays",
+   "source": "TDataMod.Amountpays",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.prtids,b.borrower_name,a.datdate,a.amount_main,a.amount_perc,s.val_name,c.descp,\ncm_ak_reports.get_usernamebyid(a.userid)  usern,userid from\n\naccepted_cr_payments a ,accepted_cr_portfels b ,accepted_portfel_settings c ,avalute s ,filial flt\nwhere a.prtids=b.prtid and a.descpid=c.id and a.valute=s.valute and b.branch=flt.id\nand trunc(a.datdate) between :dat1 and :dat2\nunion\nselect v.id,v.prtidsorcust,'',v.datdate,v.amount_main,v.amount_perc,'',v.info,'',v.userid from\naccepted_cr_paymenterrors  v where trunc(v.datdate) between :dat1 and :dat2",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "tranzit_acc",
+   "source": "TDataMod.tranzit_acc",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where filial=:vfil and val_acc=:vval\nand bal_cn1 like '45%'",
+   "variables": [
+    {
+     "name": "VFIL",
+     "type": "integer"
+    },
+    {
+     "name": "VVAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "configs",
+   "source": "TDataMod.configs",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from accepted_portfel_config a",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "Main_pay",
+   "source": "TDataMod.Main_pay",
+   "kind": "TOracleDataSet",
+   "sql": "select  rownum,ac.*,inf.*,\nbrt.*,pay.*,flt.*,pyt.*,val.val_name,cou.manages  from accepted_cr_portfels ac,accepted_cr_info inf,accepted_borrow_types brt,filial flt,\naccepted_cr_paytypes pyt,accepted_cr_payments pay,avalute val,accepted_cr_court cou\nwhere ac.info_id=inf.id and  pyt.id=pay.paytypes and pay.prtids=ac.prtid\nand brt.id=ac.borrow_type and  flt.id=ac.branch  and pay.valute=val.valute and cou.id=ac.prtid\nand \n\ntrunc(datdate) between :dat1 and :dat2\nand\n\nac.borrower_name =:brname\n\n\n\n\n\n\n\n\n\n\n\n\norder by ac.prtid",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    },
+    {
+     "name": "BRNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "main_pay2",
+   "source": "TDataMod.main_pay2",
+   "kind": "TOracleDataSet",
+   "sql": "select  rownum,ac.*,inf.*,\nbrt.*,pay.*,flt.*,pyt.*,val.val_name,cou.manages  from accepted_cr_portfels ac,accepted_cr_info inf,accepted_borrow_types brt,filial flt,\naccepted_cr_paytypes pyt,accepted_cr_payments pay,avalute val,accepted_cr_court cou\nwhere ac.info_id=inf.id and  pyt.id=pay.paytypes and pay.prtids=ac.prtid\nand brt.id=ac.borrow_type and  flt.id=ac.branch  and pay.valute=val.valute and cou.id=ac.prtid\nand \n\ntrunc(datdate) between :dat1 and :dat2\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by ac.prtid",
+   "variables": [
+    {
+     "name": "DAT1",
+     "type": "date"
+    },
+    {
+     "name": "DAT2",
+     "type": "date"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "Court_property",
+   "source": "TDataMod.Court_property",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "Maincrpt_one",
+   "source": "TDataMod.Maincrpt_one",
+   "kind": "TOracleDataSet",
+   "sql": "select  crts.rowid,crts.* from accepted_cr_courts crts\nwhere crts.id=:prts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "PRTS",
+     "type": "float"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "cashorsubkrno",
+   "source": "TDataMod.cashorsubkrno",
+   "kind": "TOracleDataSet",
+   "sql": "select * from account where bal_cn1 in (:v_csb) and val_acc=:val\n\n\nand filial= (SELECT filialid FROM sba_objinf WHERE obj = (SELECT USER FROM DUAL))\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "V_CSB",
+     "type": "subst"
+    },
+    {
+     "name": "VAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "Main_court",
+   "source": "TDataMod.Main_court",
+   "kind": "TOracleDataSet",
+   "sql": "select  rownum,ac.*,cour.*,flt.name filname  from accepted_cr_portfels ac,accepted_cr_courts cour,filial flt\nwhere  ac.court_id= cour.id\nand\n flt.id=ac.branch --and (cour.property is not null or cour.prop_desc is not null or cour.prop_address is not null or cour.porp_passport is not null  or cour.prop_price is not null or cour.prop_info is not null )\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "borrowtip",
+   "source": "TDataMod.borrowtip",
+   "kind": "TOracleDataSet",
+   "sql": "select *from accepted_borrow_types",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TDataMod.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TDataMod.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TDataMod.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "main_araryis",
+   "source": "TDataMod.main_araryis",
+   "kind": "TOracleDataSet",
+   "sql": "select prtid,borrower_name,(select types from accepted_borrow_types where id=v.borrow_type   ) nov,akt1,akt1_date,akt2,akt2_date,\ncase when restrukesas<>0 then\n(select sum(restrukesas)+sum(aznesas) from accepted_cr_portfels where borrower_name=v.borrower_name )\n\nelse\n(select sum(aznesas)+sum(restrukesas) from accepted_cr_portfels where borrower_name=v.borrower_name )\nend as aznesascem,\n\n\ncase when aznesas=0 then\n restrukesas\nelse\naznesas\nend as aznesas,\n\n\ncase when aznfaiz=0 then\n restrukfaiz\nelse\naznfaiz\nend as aznfaiz\n ,\n case when restrukfaiz<>0 then\n(select sum(restrukfaiz)+sum(aznfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name )\nelse\n(select sum(aznfaiz)+sum(restrukfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name )\nend as aznfaizcem  ,\nusdesas, (select sum(usdesas) from accepted_cr_portfels where borrower_name=v.borrower_name ) usdesascem,\nusdfaiz, (select sum(usdfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) usdfaizcem,\neuresas ,(select sum(euresas) from accepted_cr_portfels where borrower_name=v.borrower_name ) euresascem,\neurfaiz,(select sum(eurfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) eurfaizcem,\nruresas,(select sum(ruresas) from accepted_cr_portfels where borrower_name=v.borrower_name ) ruresascem,\nrurfaiz, (select sum(rurfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) rurfaizcem,\ngelesas ,(select sum(gelesas) from accepted_cr_portfels where borrower_name=v.borrower_name ) gelesascem,\ngelfaiz,(select sum(gelfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) gelfaizcem,\ngbpesas ,(select sum(gbpesas) from accepted_cr_portfels where borrower_name=v.borrower_name ) gbpesascem,\ngbpfaiz,(select sum(gbpfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) gbpfaizcem,\nodenisesas,(select sum(odenisesas) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=0) odenisesasazncem,\nodenisfaiz, (select sum(odenisfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=0) odenisfaizazncem,\n(select sum(odenisesas) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=1) odenisesasusdcem,\n (select sum(odenisfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=1) odenisfaizusdcem,\n (select sum(odenisesas) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=45) odenisesaseurcem,\n (select sum(odenisfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=5) odenisfaizeurcem,\n(select sum(odenisesas) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=48) odenisesasrurcem,\n (select sum(odenisfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=48) odenisfaizrurcem,\n(select sum(odenisesas) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=475) odenisesasgelcem,\n (select sum(odenisfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=475) odenisfaizgelcem,\n(select sum(odenisesas) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=3) odenisesasdbpcem,\n (select sum(odenisfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name and accepted_valute=3) odenisfaizdbpcem,\n\n round ((select ostat from operkurs where dat=sbop.get_date and val_kod=1)* \n (select sum(usdfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name )\n  +    \n (select ostat from operkurs where dat=sbop.get_date and val_kod=45)* \n (select sum(eurfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n  (select ostat from operkurs where dat=sbop.get_date and val_kod=48)* \n (select sum(rurfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n  (select ostat from operkurs where dat=sbop.get_date and val_kod=475)* \n (select sum(gelfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n  (select ostat from operkurs where dat=sbop.get_date and val_kod=3)* \n (select sum(gbpfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n  (select ostat from operkurs where dat=sbop.get_date and val_kod=45)* \n (select sum(eurfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n \n  (select sum(aznfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name),2) aznfaizekv,\n  \n round ((select ostat from operkurs where dat=sbop.get_date and val_kod=1)* \n (select sum(usdesas) from accepted_cr_portfels where borrower_name=v.borrower_name )\n  +    \n (select ostat from operkurs where dat=sbop.get_date and val_kod=45)* \n (select sum(euresas) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n  (select ostat from operkurs where dat=sbop.get_date and val_kod=48)* \n (select sum(ruresas) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n  (select ostat from operkurs where dat=sbop.get_date and val_kod=475)* \n (select sum(gelesas) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n  (select ostat from operkurs where dat=sbop.get_date and val_kod=3)* \n (select sum(gbpesas) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n  (select ostat from operkurs where dat=sbop.get_date and val_kod=45)* \n (select sum(euresas) from accepted_cr_portfels where borrower_name=v.borrower_name )\n +\n \n  (select sum(aznesas) from accepted_cr_portfels where borrower_name=v.borrower_name ),2) aznesasekv,\naccepted_valute ,\n\nazalmemlakesas,azalmasehmesas,azalmguzestesas,azalmqarantesas,\n\nazalmasehmfaiz,azalmemlakfaiz,azalmqarantfaiz,azalmguzestfaiz,\n(select sum(azalmemlakesas) from accepted_cr_portfels where borrower_name=v.borrower_name ) azalmemlakesascem,\n(select sum(azalmasehmesas) from accepted_cr_portfels where borrower_name=v.borrower_name ) azalmasehmesascem,\n(select sum(azalmguzestesas) from accepted_cr_portfels where borrower_name=v.borrower_name ) azalmguzestesascem,\n(select sum(azalmqarantesas) from accepted_cr_portfels where borrower_name=v.borrower_name) azalmqarantesascem,\n(select sum(azalmasehmfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) azalmasehmfaizcem,\n(select sum(azalmemlakfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) azalmemlakfaizscem,\n(select sum(azalmqarantfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) azalmqarantfaizcem,\n(select sum(azalmguzestfaiz) from accepted_cr_portfels where borrower_name=v.borrower_name ) azalmguzestfaizcem\n\n from accepted_cr_portfels v\nwhere \ncust_id=:vid\n\norder by accepted_valute \n",
+   "variables": [
+    {
+     "name": "VID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "arayislist_agg",
+   "source": "TDataMod.arayislist_agg",
+   "kind": "TOracleDataSet",
+   "sql": "select LISTAGG(akt1||' nömrəli '||akt1_date||' tarixli,', ' ') \n         WITHIN GROUP (ORDER BY accepted_valute ) akts,borrower_name borrowname from accepted_cr_portfels\n         where cust_id=:vid and akt1 is not null and akt1_date is not null\n group by borrower_name",
+   "variables": [
+    {
+     "name": "VID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "xidmetacc",
+   "source": "TDataMod.xidmetacc",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,a.acc_no||' qaliq='||(select abs(ostat) from tenostat\nwhere acc_id=a.id) qaliq,a.name from account a\nwhere kli_id=:v_id and (bal_cn1 like '24%'\nor bal_cn1 in (2404,2434,2444))",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "pay_settings_desc",
+   "source": "TDataMod.pay_settings_desc",
+   "kind": "TOracleDataSet",
+   "sql": "select id, descp from \n\nsmart.accepted_pay_sett\n",
+   "variables": [],
+   "unit": "Datamodunit"
+  },
+  {
+   "name": "sysdat",
+   "source": "TDataMod.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "Datamodunit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "accepted_portfel",
+   "mode": "positional",
+   "source": "TDataMod.OraclePackage1",
+   "routines": [
+    {
+     "name": "Insert_prtf",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_transaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_transaction_arch",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_transaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updprt",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDataMod.sb_aca",
+   "routines": [
+    {
+     "name": "CheckAdvancedObjectAccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkadvancedobjectaccess_func",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

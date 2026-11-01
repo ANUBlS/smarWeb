@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("AdministrationModEdit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Mask", "DBCtrls", "Buttons", "ExtCtrls", "HintBox", "ComObj", "ComCtrls", "Grids", "DBGrids", "SearchEdit", "OracleData", "AdministrationDataModule", "AdministrationMainForm"]);
   const C = [U];
+  U.enumType("tmodaction", 4);
   U.const("maNone", 0);
   U.const("maInsert", 1);
   U.const("maDelete", 2);

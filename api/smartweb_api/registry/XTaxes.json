@@ -1,0 +1,123 @@
+{
+ "name": "XTaxes",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Vergi ödənişləri",
+ "dir": "Packages/TAXSMGR",
+ "mainForm": "TTAXS",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TaxsUnit",
+  "Unit1",
+  "Unit3",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ods_in",
+   "source": "TTAXS.ods_in",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id as cust_id,a.id as acc_id,c.name as cust_name, a.acc_no,a.name acc_name,t.fleg,t.sys_date,t.sys_datetim,t.block_text,t.ammount,\ncase when t.fleg='D'then a.limit\n    when t.fleg='A'then t.ammount end limit,\ncase  when t.fleg ='A' then 'Vergi Alinmali'\n      when t.fleg ='D' then 'Vergi Dondurulmali'\n      when t.fleg ='AI' then 'İşsizlik Alinmali'\n      when t.fleg ='DI' then 'İşsizlik Dondurulmali'\n      when t.fleg ='AS' then 'Sosiyal Alinmali'\n      when t.fleg ='DS' then 'Sosiyal Dondurulmali'\n      when t.fleg ='GA' then 'Vergi Alınma Geri çağrlmalı'\n      when t.fleg ='GD' then 'Vergi Dondurulma Geri çağrlmalı'\n      when t.fleg ='GAI' then 'İşsizlik Alınma Geri çağrlmalı'\n      when t.fleg ='GDI' then 'İşsizlik Dondurulma Geri çağrlmalı'\n      when t.fleg ='GAS' then 'Sosiyal Alınma Geri çağrlmalı'\n      when t.fleg ='GDS' then 'Sosiyal Dondurulma Geri çağrlmalı'\nend fleg_txt,\n    t.coll_num,t.bank_text,t.limit_tesxt,coll_date\n from  taxs_accept t,account a,customers c where t.accno=a.acc_no and a.kli_id=c.id\nand sys_date between :begin_dat and :end_dat\n\n\n\n\n\n\n\norder by c.id asc\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "BEGIN_DAT",
+     "type": "string"
+    },
+    {
+     "name": "END_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "TaxsUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TTAXS.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select coll_num,text ,replace(replace(field,'/',null),'-','_') as colum from taxs_fild_temporary",
+   "variables": [],
+   "unit": "TaxsUnit"
+  },
+  {
+   "name": "ods_sys",
+   "source": "TTAXS.ods_sys",
+   "kind": "TOracleDataSet",
+   "sql": "select trunc(sysdate) dat from dual",
+   "variables": [],
+   "unit": "TaxsUnit"
+  },
+  {
+   "name": "ods_a",
+   "source": "Trep.ods_a",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT\n    coll_num,\n    inscountid,\n    MAX(DECODE(inforid, '0', text)) AS bname,\n    MAX(DECODE(inforid, '1', text)) AS code,\n    MAX(DECODE(inforid, '2', text)) AS counts,\n    MAX(DECODE(inforid, '3', text)) AS amount\n   \n  FROM\n    taxs_report_temporary\nGROUP BY inscountid,coll_num\nORDER BY inscountid",
+   "variables": [],
+   "unit": "Unit1"
+  },
+  {
+   "name": "ODS_tex",
+   "source": "Trep.ODS_tex",
+   "kind": "TOracleDataSet",
+   "sql": "select*from taxs_accept where coll_num=:v_coll_num\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "V_COLL_NUM",
+     "type": "string"
+    }
+   ],
+   "unit": "Unit1"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "pg_pcustservice",
+   "mode": "positional",
+   "source": "TTAXS.OraclePackage1",
+   "routines": [
+    {
+     "name": "get_vergul_tax",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage2",
+   "package": "sb_taxs",
+   "mode": "positional",
+   "source": "TTAXS.OraclePackage2",
+   "routines": [
+    {
+     "name": "report_tax",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

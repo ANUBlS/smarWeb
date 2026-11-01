@@ -1,0 +1,143 @@
+{
+ "name": "P_ResponsibilityBlank",
+ "caption": "",
+ "dir": "Insurance/ResponsibilityBlank",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "reinsurance.bpl": "P_Reinsurance"
+ },
+ "lib": [
+  "CommanParametrs",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Customers",
+   "source": "TDMResponsibilityBlank.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.id,trim(c.name||' '||c.surname||' '||c.fathername) as name,c.address,c.mobilephone,c.fax,c.contactperson from ins_customers c",
+   "variables": [],
+   "unit": "DMResponsibilityBlankImpl"
+  },
+  {
+   "name": "ODSBeneficiary",
+   "source": "TDMResponsibilityBlank.ODSBeneficiary",
+   "kind": "TOracleDataSet",
+   "sql": "select ib.rowid,ib.* from ins_beneficiary ib",
+   "variables": [],
+   "unit": "DMResponsibilityBlankImpl"
+  },
+  {
+   "name": "ODSAgents",
+   "source": "TDMResponsibilityBlank.ODSAgents",
+   "kind": "TOracleDataSet",
+   "sql": "select a.id,a.name||' '||a.surname||' '||a.fathername as name from ins_agents a",
+   "variables": [],
+   "unit": "DMResponsibilityBlankImpl"
+  },
+  {
+   "name": "DsSysdat",
+   "source": "TDMResponsibilityBlank.DsSysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "DMResponsibilityBlankImpl"
+  },
+  {
+   "name": "ODSAvalute",
+   "source": "TDMResponsibilityBlank.ODSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute, val_name, valu_name, valu_short from avalute\norder by valute",
+   "variables": [],
+   "unit": "DMResponsibilityBlankImpl"
+  },
+  {
+   "name": "DSins_contracts",
+   "source": "TDMResponsibilityBlank.DSins_contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select c.rowid,c.* from ins_contracts c\nwhere c.id=:cid",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMResponsibilityBlankImpl"
+  },
+  {
+   "name": "DSins_contract_responsibility",
+   "source": "TDMResponsibilityBlank.DSins_contract_responsibility",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,a.*\n  FROM ins_contract_responsibility a\nwhere a.cid=:p_cid",
+   "variables": [
+    {
+     "name": "P_CID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMResponsibilityBlankImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "ins_common",
+   "package": "ins_common",
+   "mode": "positional",
+   "source": "TDMResponsibilityBlank.ins_common",
+   "routines": [
+    {
+     "name": "account_open",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_acc_balanc_hesab",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_acc_id",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "sb_aca",
+   "package": "sb_aca",
+   "mode": "positional",
+   "source": "TDMResponsibilityBlank.sb_aca",
+   "routines": [
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

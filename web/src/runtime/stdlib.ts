@@ -2,7 +2,7 @@
  * Root globals: Delphi RTL / VCL functions, constants and exception types
  * that transpiled code reaches when an identifier is not declared in any unit.
  */
-import { NOTFOUND, Found, routine, Ref, PasException, AbortSignal, PType, TObject, isPObj } from './core';
+import { NOTFOUND, Found, routine, Ref, PasException, AbortSignal, PType, TObject, isPObj, pointerHandle, derefPointer } from './core';
 import { getBuiltin } from './env';
 import { num, str, rangeOf } from './pascal';
 import {
@@ -175,7 +175,14 @@ def('Win32Platform', 2);
 /** SBTranslateProc (UI language switching) — its source is empty in the repository; calls are no-ops. */
 def('SBTranslateProc', new Proxy({}, { get: (_t, k) => (k === 'pget' ? () => routine(() => undefined) : k === 'pset' ? () => true : undefined) }));
 fn('TranslateAllCompForms', () => undefined);
-fn('FileSize', () => 0);
+// typed files (`F: File of Byte`) over the in-memory files (runtime/files): AssignFile / Reset / FileSize
+fn('FileSize', async (f) => {
+  const v = f instanceof Ref ? await f.get() : f;
+  const name = (v as { __file?: string } | null)?.__file;
+  if (!name) return 0;
+  const { readFile } = await import('./files');
+  return readFile(name)?.size ?? 0;
+});
 fn('GetPropInfo', () => null);
 fn('SetPropValue', () => undefined);
 fn('GetPropValue', () => null);
@@ -395,8 +402,12 @@ fn('StrToBool', (s) => /^(true|1|-1|yes)$/i.test(str(s).trim()));
 fn('Trim', (s) => str(s).replace(/^[\s\x00-\x20]+|[\s\x00-\x20]+$/g, ''));
 fn('TrimLeft', (s) => str(s).replace(/^[\s\x00-\x20]+/, ''));
 fn('TrimRight', (s) => str(s).replace(/[\s\x00-\x20]+$/, ''));
-for (const n of ['UpperCase', 'AnsiUpperCase', 'WideUpperCase', 'AnsiUpperCaseFileName']) fn(n, (s) => str(s).toLocaleUpperCase('az'));
-for (const n of ['LowerCase', 'AnsiLowerCase', 'WideLowerCase']) fn(n, (s) => str(s).toLocaleLowerCase('az'));
+// SysUtils.UpperCase / LowerCase change only ASCII a..z (identifiers, field names: 'FacticalDebt' → 'FACTICALDEBT');
+// the Ansi/Wide versions use the Windows default casing ('ə' → 'Ə', 'i' → 'I', not the linguistic 'İ').
+fn('UpperCase', (s) => str(s).replace(/[a-z]+/g, (m) => m.toUpperCase()));
+fn('LowerCase', (s) => str(s).replace(/[A-Z]+/g, (m) => m.toLowerCase()));
+for (const n of ['AnsiUpperCase', 'WideUpperCase', 'AnsiUpperCaseFileName']) fn(n, (s) => str(s).toUpperCase());
+for (const n of ['AnsiLowerCase', 'WideLowerCase']) fn(n, (s) => str(s).toLowerCase());
 fn('UpCase', (c) => str(c).toUpperCase());
 fn('Copy', (s, i, n) => {
   if (Array.isArray(s)) return s.slice(num(i), num(i) + (n === undefined ? s.length : num(n)));
@@ -406,8 +417,17 @@ fn('Copy', (s, i, n) => {
 for (const n of ['Pos', 'AnsiPos']) fn(n, (sub, s) => str(s).indexOf(str(sub)) + 1);
 fn('PosEx', (sub, s, off) => str(s).indexOf(str(sub), (off === undefined ? 1 : num(off)) - 1) + 1);
 fn('Length', (s) => (Array.isArray(s) ? s.length : isPObj(s) && (s as any).Count !== undefined ? (s as any).Count : str(s).length));
-fn('Delete', async (r: Ref, i, n) => { const s = str(await r.get()); const st = num(i) - 1; await r.set(s.slice(0, st) + s.slice(st + num(n))); });
-fn('Insert', async (sub, r: Ref, i) => { const s = str(await r.get()); const st = num(i) - 1; await r.set(s.slice(0, st) + str(sub) + s.slice(st)); });
+// System.Delete: nothing happens when Index < 1, Index > Length(S) or Count <= 0 (Delete(S, Pos('x', S), 1) with no 'x')
+fn('Delete', async (r: Ref, i, n) => {
+  const s = str(await r.get()); const st = num(i) - 1; const cnt = num(n);
+  if (st < 0 || st >= s.length || cnt <= 0) return;
+  await r.set(s.slice(0, st) + s.slice(st + cnt));
+});
+// System.Insert: Index < 1 inserts at the start, Index > Length(S) appends
+fn('Insert', async (sub, r: Ref, i) => {
+  const s = str(await r.get()); const st = Math.min(Math.max(num(i) - 1, 0), s.length);
+  await r.set(s.slice(0, st) + str(sub) + s.slice(st));
+});
 fn('StringReplace', (s, a, b, flags) => {
   const fl = (Array.isArray(flags) ? flags : [flags]).map((x) => String(x).toLowerCase());
   const all = fl.includes('rfreplaceall');
@@ -508,7 +528,8 @@ fn('EnsureRange', (v, a, b) => Math.min(Math.max(num(v), num(a)), num(b)));
 fn('DivMod', async (a, b, q: Ref, r: Ref) => { await q.set(Math.trunc(num(a) / num(b))); await r.set(num(a) % num(b)); });
 fn('Hi', (v) => (num(v) >> 8) & 0xff);
 fn('Lo', (v) => num(v) & 0xff);
-fn('High', (v) => (Array.isArray(v) ? v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647));
+// nil = empty dynamic array: High = -1 (for i := 0 to High(arr) does nothing)
+fn('High', (v) => (v === null || v === undefined ? -1 : Array.isArray(v) ? v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647));
 fn('Low', (v) => (Array.isArray(v) ? 0 : typeof v === 'string' ? 1 : 0));
 fn('SetLength', async (r: Ref, n) => {
   const v = await r.get();
@@ -543,7 +564,8 @@ fn('SysErrorMessage', () => '');
 fn('RaiseLastOSError', () => undefined);
 fn('RaiseLastWin32Error', () => undefined);
 fn('OutputDebugString', (s) => logger.debug(str(s)));
-fn('Integer', (v) => (typeof v === 'boolean' ? (v ? 1 : 0) : typeof v === 'string' ? (v.charCodeAt(0) || 0) : Math.trunc(num(v))));
+fn('Integer', (v) => (typeof v === 'boolean' ? (v ? 1 : 0) : typeof v === 'string' ? (v.charCodeAt(0) || 0)
+  : v !== null && (typeof v === 'object' || typeof v === 'function') ? pointerHandle(v as object) : Math.trunc(num(v))));
 for (const n of ['LongInt', 'Cardinal', 'Word', 'Byte', 'SmallInt', 'ShortInt', 'Int64', 'LongWord', 'DWORD']) G.set(n.toLowerCase(), G.get('integer'));
 fn('Boolean', (v) => !!v && v !== 0);
 fn('Double', (v) => num(v));
@@ -561,7 +583,7 @@ fn('AnsiChar', (v) => (typeof v === 'number' ? String.fromCharCode(v) : str(v).c
 fn('WideChar', (v) => (typeof v === 'number' ? String.fromCharCode(v) : str(v).charAt(0)));
 fn('Variant', (v) => v);
 fn('OleVariant', (v) => v);
-fn('Pointer', (v) => v);
+fn('Pointer', (v) => derefPointer(v));
 fn('TObject', (v) => v);
 fn('TDateTime', (v) => toDateValue(v));
 fn('TDate', (v) => toDateValue(v));
@@ -705,7 +727,7 @@ fn('ChangeFileExt', (s, e) => str(s).replace(/\.[^.\\/]*$/, '') + str(e));
 fn('IncludeTrailingPathDelimiter', (s) => (str(s).endsWith('\\') ? str(s) : str(s) + '\\'));
 fn('IncludeTrailingBackslash', (s) => (str(s).endsWith('\\') ? str(s) : str(s) + '\\'));
 fn('ExcludeTrailingPathDelimiter', (s) => str(s).replace(/[\\/]$/, ''));
-fn('FileExists', () => false);
+fn('FileExists', async (n) => (await import('./files')).fileExists(n));
 fn('DirectoryExists', () => false);
 fn('ForceDirectories', () => true);
 fn('CreateDir', () => true);
@@ -718,7 +740,17 @@ fn('ParamStr', (i) => (num(i) === 0 ? 'C:\\SmartBank\\Bin\\SmartBank.exe' : ''))
 fn('ParamCount', () => 0);
 fn('FindCmdLineSwitch', () => false);
 fn('GetEnvironmentVariable', () => '');
-fn('ShellExecute', () => 0);
+// ShellExecute(0, 'open', target, …): web pages open in a new tab; local programs (.bat, .exe, exp …) cannot run
+// in the browser — say so instead of silently doing nothing (the desktop code ignores the result)
+fn('ShellExecute', async (_h, _op, target) => {
+  const t = str(target).trim();
+  if (/^(https?:|mailto:)/i.test(t)) { window.open(t, '_blank', 'noopener'); return 42; }
+  if (t) {
+    const { toast } = await import('./toast');
+    toast(`Bu əməliyyat kompüterdə proqram işə salır (${t.split(/[\\/]/).pop()}) və brauzerdə mümkün deyil.`, 'warn');
+  }
+  return 2; // ERROR_FILE_NOT_FOUND
+});
 fn('WinExec', () => 33);
 fn('ShellExecuteA', () => 0);
 fn('ShellExecuteW', () => 0);
@@ -739,13 +771,14 @@ Object.entries({ SW_HIDE: 0, SW_SHOWNORMAL: 1, SW_NORMAL: 1, SW_SHOWMINIMIZED: 2
   SW_SHOWDEFAULT: 10, SHGFP_TYPE_CURRENT: 0, SHGFP_TYPE_DEFAULT: 1 }).forEach(([k, v]) => def(k, v));
 fn('WinExec', () => 0);
 fn('GetComputerName', () => true);
-fn('AssignFile', () => undefined);
+fn('AssignFile', async (f, name) => { if (f instanceof Ref) await f.set({ __file: str(name) }); });
 fn('Rewrite', () => undefined);
 fn('Reset', () => undefined);
 fn('Append', () => undefined);
 fn('CloseFile', () => undefined);
 fn('Eof', () => true);
-fn('Writeln', (...a) => logger.debug('Writeln: ' + a.slice(1).map(str).join('')));
+// Writeln to a file: there is no file system; the text is not logged (it may hold credentials, e.g. a backup command line)
+fn('Writeln', () => undefined);
 fn('Write', () => undefined);
 fn('Readln', () => undefined);
 fn('IOResult', () => 0);

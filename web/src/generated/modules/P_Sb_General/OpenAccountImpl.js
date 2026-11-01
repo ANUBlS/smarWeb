@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("OpenAccountImpl", ["Windows", "Messages", "SysUtils", "Variants", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Buttons", "StdCtrls", "DBCtrlsEh", "DBLookupEh", "XFSCtrls", "DBCtrls", "Mask", "ComCtrls", "ExtCtrls", "Db", "DBGridEh", "Oracle", "OpenAccdataImpl", "AccounFlagsLmpl", "Form_BalCnImpl", "FormCustNomImpl", "Transaction_PropertiesImpl", "Transaction_DataModuleUnit", "FormOperationbplLmpl", "Form1_BalCnImpl", "Unit_Rekvezit", "UnitPayment_order", "Account_edit_Unit", "SBTranslateProc", "sboapiDataModuleImpl", "SMSUnit", "UnitNote", "UnitbussProc", "UnitDataBussProc", "Form_Statmentlmpl", "Cust_contactUnit"]);
   const C = [U];
+  U.enumType("toperationmode", 3);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.const("omCommission", 2);

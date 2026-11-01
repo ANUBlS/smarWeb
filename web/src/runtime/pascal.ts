@@ -6,9 +6,9 @@
  */
 import {
   NOTFOUND, Found, Routine, routine, isRoutine, isType, PType, isPObj, PasException, AbortSignal, Ref, ValueRef,
-  TObject, inheritsFrom, reflectGet, GAP,
+  TObject, inheritsFrom, reflectGet, GAP, derefPointer,
 } from './core';
-import { Env, UnitObj, getBuiltin, pickOverload } from './env';
+import { Env, UnitObj, getBuiltin, pickOverload, ENUM_TYPES } from './env';
 import { logger } from './log';
 
 type Chain = unknown[];
@@ -85,12 +85,14 @@ function accessViolation(name: string) {
 
 export async function callValue(f: unknown, args: unknown[]): Promise<unknown> {
   if (isRoutine(f) || typeof f === 'function') return await (f as Routine)(...args);
-  if (isType(f)) return args[0]; // typecast  TFoo(x)
+  if (isType(f)) return derefPointer(args[0]); // typecast  TFoo(x); TFoo(Tag) with a pointer handle
   if (args.length === 0) return f;
   // Variant arrays / indexed default property used with () syntax
   if (isPObj(f) && typeof (f as any).pindex === 'function') return (f as any).pindex(args);
   throw new PasException('EInvalidOp', `Value is not callable`, ['exception']);
 }
+
+const STATICS = new Map<string, unknown>();
 
 async function autoCall(v: unknown): Promise<unknown> {
   // A routine that needs parameters cannot be called without arguments in Pascal:
@@ -246,7 +248,7 @@ export function makeDollar(env: Env) {
       }
       if (obj == null) throw accessViolation('[]');
       if (isPObj(obj) && typeof (obj as any).pindex === 'function') return await (obj as any).pindex(idx);
-      if (Array.isArray(obj)) return obj[num(idx[0])];
+      if (Array.isArray(obj)) return obj[num(idx[0]) - arrLow(obj)];
       if (typeof obj === 'object') return (obj as Record<string, unknown>)[String(idx[0])];
       return undefined;
     },
@@ -263,7 +265,7 @@ export function makeDollar(env: Env) {
         await (obj as any).pindexSet(idx, v);
         return undefined;
       }
-      if (Array.isArray(obj)) { obj[num(idx[0])] = v; return undefined; }
+      if (Array.isArray(obj)) { obj[num(idx[0]) - arrLow(obj)] = v; return undefined; }
       (obj as Record<string, unknown>)[String(idx[0])] = v;
       return undefined;
     },
@@ -278,7 +280,8 @@ export function makeDollar(env: Env) {
         if (r !== NOTFOUND) return nocall ? r : autoCall(r);
       }
       if (Array.isArray(fb)) return nocall ? $.ref_(fb, name) : $.v(fb, name);
-      return fb.get();
+      // a parameterless nested function used as a value inside `with` is called (Text := BuildQuery)
+      return nocall ? fb.get() : autoCall(await fb.get());
     },
 
     async wset(W: unknown[], name: string, v: unknown, fb: Accessor | Chain) {
@@ -452,8 +455,35 @@ export function makeDollar(env: Env) {
     },
     defRecord(name: string, fields: Record<string, () => unknown>) { records.set(name.toLowerCase(), fields); },
     sarr() { return {} as Record<string, unknown>; },
+    /** Typed constant `array[1..9] of …` = (…): a JS array whose first element has Pascal index `lo`. */
+    lowArr(lo: unknown, arr: unknown) {
+      if (Array.isArray(arr) && num(lo) !== 0) Object.defineProperty(arr, '__low', { value: num(lo), enumerable: false, configurable: true });
+      return arr;
+    },
+    /** An open-array parameter (`const A: array of T`) is indexed from 0 whatever the bounds of the argument. */
+    openArr(v: unknown) { return Array.isArray(v) && arrLow(v) !== 0 ? v.slice() : v; },
 
     fn(f: (...a: any[]) => Promise<unknown>) { return routine(f); },
+    /** Low/High: from the declared enum/ordinal type when known, otherwise from the value. */
+    async lowHigh(which: 'low' | 'high', typeName: string, value: () => Promise<unknown>) {
+      const t = typeName.toLowerCase();
+      const n = ENUM_TYPES.get(t);
+      if (n !== undefined) return which === 'low' ? 0 : n - 1;
+      const ORD: Record<string, [number, number]> = { boolean: [0, 1], byte: [0, 255], char: [0, 255], ansichar: [0, 255],
+        shortint: [-128, 127], smallint: [-32768, 32767], word: [0, 65535], integer: [-2147483648, 2147483647],
+        longint: [-2147483648, 2147483647], cardinal: [0, 4294967295], longword: [0, 4294967295] };
+      if (ORD[t]) return which === 'low' ? ORD[t][0] : ORD[t][1];
+      let v: unknown;
+      try { v = await value(); } catch { v = null; }
+      if (which === 'low') return Array.isArray(v) ? arrLow(v) : typeof v === 'string' ? 1 : 0;
+      if (v === null || v === undefined) return -1; // nil = empty dynamic array
+      return Array.isArray(v) ? arrLow(v) + v.length - 1 : typeof v === 'string' ? v.length : isPObj(v) ? ((v as any).Count ?? 0) - 1 : 2147483647;
+    },
+    /** Typed constant of a routine: one value shared by all calls (Delphi writable typed const). */
+    async staticConst(L: Record<string, unknown>, name: string, key: string, init: () => Promise<unknown>) {
+      if (!STATICS.has(key)) STATICS.set(key, await init());
+      Object.defineProperty(L, name, { get: () => STATICS.get(key), set: (v) => { STATICS.set(key, v); }, enumerable: true, configurable: true });
+    },
 
     async inherited(Self: any, clsName: string, method: string, args: unknown[] | null, argsObj: IArguments) {
       const callArgs = args ?? Array.prototype.slice.call(argsObj, 1);
@@ -502,6 +532,9 @@ function missingMember(obj: unknown, name: string, call = false): unknown {
   }
   return GAP;
 }
+
+/** Lower bound of a static array constant (see $.lowArr); 0 for dynamic and open arrays. */
+export function arrLow(a: unknown[]): number { return ((a as unknown as { __low?: number }).__low) ?? 0; }
 
 export function str(v: unknown): string {
   if (isNullish(v)) return '';

@@ -1,0 +1,49 @@
+{
+ "name": "XSwiftIntl",
+ "caption": "Əlavə modullar / Ödənişlər və köçürmələr / Beynəlxalq SWIFT",
+ "dir": "Packages/SWIFT_INTERNATIONAL",
+ "mainForm": "TINTERNATIONAL_SWIFT",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "dt103",
+   "source": "TDATAMODUL.dt103",
+   "kind": "TOracleDataSet",
+   "sql": "select * from int_swfiles103",
+   "variables": [],
+   "unit": "INTdatamod"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

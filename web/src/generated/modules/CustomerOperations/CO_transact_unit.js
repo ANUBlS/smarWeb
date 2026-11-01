@@ -5,9 +5,11 @@
 export default function define($) {
   const U = $.unit("CO_transact_unit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "ActnList", "Oracledata", "Oracle", "ComCtrls", "CurrencyEdit", "DB", "Mask", "DBCtrls", "SearchEdit", "ExtCtrls", "sboapidatamoduleimpl", "TransactionDataModuleUnit"]);
   const C = [U];
+  U.enumType("ttransactionside", 3);
   U.const("tsDebet", 0);
   U.const("tsCredit", 1);
   U.const("tsUnknown", 2);
+  U.enumType("toperationmode", 3);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.const("omCommission", 2);

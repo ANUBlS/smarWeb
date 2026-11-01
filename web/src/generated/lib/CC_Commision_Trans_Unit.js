@@ -5,6 +5,7 @@
 export default function define($) {
   const U = $.unit("CC_Commision_Trans_Unit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "NLSDialogs", "StdCtrls", "SearchEdit", "DBCtrls", "Mask", "ExtCtrls", "ActnList", "Db", "OracleData", "Oracle", "Buttons", "Grids", "DBGrids", "NLSLocalizer", "sboapiDataModuleImpl", "UnitData"]);
   const C = [U];
+  U.enumType("toperationmode", 2);
   U.const("omInsert", 0);
   U.const("omUpdate", 1);
   U.defClass("TCC_Country_ins", "TForm", {"dbgrid1": {"name": "DBGrid1", "type": "TDBGrid"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "editcountry": {"name": "EditCountry", "type": "TEdit"}, "speedbutton1": {"name": "SpeedButton1", "type": "TSpeedButton"}, "speedbutton2": {"name": "SpeedButton2", "type": "TSpeedButton"}, "groupbox2": {"name": "GroupBox2", "type": "TGroupBox"}, "editcities": {"name": "Editcities", "type": "TEdit"}, "speedbutton3": {"name": "SpeedButton3", "type": "TSpeedButton"}, "dbedit1": {"name": "DBEdit1", "type": "TDBEdit"}, "speedbutton4": {"name": "SpeedButton4", "type": "TSpeedButton"}, "dbgrid2": {"name": "DBGrid2", "type": "TDBGrid"}, "operationmode": {"name": "OperationMode", "type": "TOperationMode"}}, {});

@@ -1,0 +1,84 @@
+{
+ "name": "P_NewDepositsLogs",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsLogs",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "filials",
+   "source": "TNewDepositsFrmLogs.filials",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as id,'Bütün filiallar' as name from dual\nunion\nselect id,name from filial\n",
+   "variables": [],
+   "unit": "NewDepositsFrmLogsImpl"
+  },
+  {
+   "name": "sysdat",
+   "source": "TNewDepositsFrmLogs.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "NewDepositsFrmLogsImpl"
+  },
+  {
+   "name": "ResultControl",
+   "source": "TNewDepositsFrmLogs.ResultControl",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n   trunc(timestamp) timestamp, who, tname, \n  (select  desciption from dm_contracts_columname where name=trim(cname)) cname, old, new, rid,depid,\n  (select contractno from dm_contracts where id=depid) contractno, \n  (select name from filial where id in(select branchid from dm_contracts where id=depid)) filial\nFROM \n   dm_audit \n  WHERE\n     trunc(timestamp) between :bdat and :edat\n    \n     \n  order by trunc(timestamp)",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "NewDepositsFrmLogsImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "dm_control",
+   "package": "dm_control",
+   "mode": "positional",
+   "source": "TNewDepositsFrmLogs.dm_control",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

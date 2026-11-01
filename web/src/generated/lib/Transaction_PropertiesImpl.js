@@ -5,9 +5,11 @@
 export default function define($) {
   const U = $.unit("Transaction_PropertiesImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ComCtrls", "StdCtrls", "ImgList", "ExtCtrls", "CurrencyEdit", "DBCtrls", "Mask", "DBViewComboBox", "Db", "SearchEdit", "ActnList", "Variants", "Buttons", "Transaction_DataModuleUnit", "sboapidatamoduleimpl", "Transaction_DestinationImpl", "BProc_Trans", "SBTranslateProc", "FormBalCnImpl", "Form_AccountsImpl", "OpenAccountImpl"]);
   const C = [U];
+  U.enumType("ttransactionside", 3);
   U.const("tsDebet", 0);
   U.const("tsCredit", 1);
   U.const("tsUnknown", 2);
+  U.enumType("toperationmode", 3);
   U.const("omInsert", 0);
   U.const("omEdit", 1);
   U.const("omCommission", 2);

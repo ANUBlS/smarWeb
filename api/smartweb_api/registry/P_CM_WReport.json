@@ -1,0 +1,181 @@
+{
+ "name": "P_CM_WReport",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_WReport",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDataModuleImpl",
+  "CommonDecls",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "TemplatesDataSet",
+   "source": "TAgreeDataModule.TemplatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from\ncm_wr_templates where mehid=:v_mehid and activities_id=:v_activ\norder by name",
+   "variables": [
+    {
+     "name": "V_MEHID",
+     "type": "integer"
+    },
+    {
+     "name": "V_ACTIV",
+     "type": "integer"
+    }
+   ],
+   "unit": "AgreeDataModImplUnit"
+  },
+  {
+   "name": "CreditInfoDataSet",
+   "source": "TAgreeDataModule.CreditInfoDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.* ,:man as manat ,:dat as data,:gir as GIROW,:fa as FAIZ,:kfaiz as KFAIZ,:cfaiz as CFAIZ\n  FROM cm_wr_creditinfo a\n where a.creditid = :crid",
+   "variables": [
+    {
+     "name": "CRID",
+     "type": "integer"
+    },
+    {
+     "name": "MAN",
+     "type": "string"
+    },
+    {
+     "name": "DAT",
+     "type": "string"
+    },
+    {
+     "name": "GIR",
+     "type": "string"
+    },
+    {
+     "name": "FA",
+     "type": "string"
+    },
+    {
+     "name": "KFAIZ",
+     "type": "string"
+    },
+    {
+     "name": "CFAIZ",
+     "type": "string"
+    }
+   ],
+   "unit": "AgreeDataModImplUnit"
+  },
+  {
+   "name": "BookmarksDataSet",
+   "source": "TAgreeDataModule.BookmarksDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select  fieldid, bookmarkname\nfrom cm_wr_bookmarks\nwhere templateid=:templid\n",
+   "variables": [
+    {
+     "name": "TEMPLID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AgreeDataModImplUnit"
+  },
+  {
+   "name": "FieldsDataSet",
+   "source": "TAgreeDataModule.FieldsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,fieldname,description\nfrom cm_wr_fields\n",
+   "variables": [],
+   "unit": "AgreeDataModImplUnit"
+  },
+  {
+   "name": "ReplaceDataSet",
+   "source": "TAgreeDataModule.ReplaceDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   B.TEMPLATEID , B.BOOKMARKNAME , A.FIELDNAME\nFROM\n   CM_WR_BOOKMARKS B\n , CM_WR_FIELDS A\nWHERE\n     (B.FIELDID = A.ID)\n   AND templateid = :tid\n   AND bookmarkname = :bname",
+   "variables": [
+    {
+     "name": "TID",
+     "type": "integer"
+    },
+    {
+     "name": "BNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "AgreeDataModImplUnit"
+  },
+  {
+   "name": "yazi",
+   "source": "TAgreeDataModule.yazi",
+   "kind": "TOracleDataSet",
+   "sql": "select p.CREDITLINEAMOUNT,v.VALU_NAME ,round(months_between(p.duedatefirstcontract, p.dateofconclusion)) per, h.pledgeprice,p.annualyinterestrate,p.annualbankrate,p.annualypenaltyrate\nfrom cm_active_credits p,avalute v,cm_guarantee h\nwhere p.id=:id \nand p.currency=v.VALUTE and p.id=h.creditid(+)\n",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AgreeDataModImplUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TAgreeDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id,path,name from\ncm_wr_templates\n\n\n\n\n\norder by name",
+   "variables": [],
+   "unit": "AgreeDataModImplUnit"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TAgreeDataModule.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select id,path,name from\ncm_wr_templates\n\n\n\n\n\norder by name",
+   "variables": [],
+   "unit": "AgreeDataModImplUnit"
+  },
+  {
+   "name": "ods_portfolio",
+   "source": "TAgreeDataModule.ods_portfolio",
+   "kind": "TOracleDataSet",
+   "sql": "select credittype,activities,mehsulid from cm_portfolio where id=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AgreeDataModImplUnit"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

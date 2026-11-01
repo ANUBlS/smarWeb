@@ -1,0 +1,120 @@
+{
+ "name": "P_SBDM_Report_new",
+ "caption": "",
+ "dir": "Packages/SBDM_Report_new",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "valutes",
+   "source": "TdmReport_new.valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "dmReportImpl_new"
+  },
+  {
+   "name": "Filials",
+   "source": "TdmReport_new.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "dmReportImpl_new"
+  },
+  {
+   "name": "Customers",
+   "source": "TdmReport_new.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,\n       name,\n      to_char(id)||'-'||name as KOD from customers\nwhere id in (select customerid from sbcm_contracts_new)\norder by id",
+   "variables": [],
+   "unit": "dmReportImpl_new"
+  },
+  {
+   "name": "Categories",
+   "source": "TdmReport_new.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select id,category from sbcm_categories_new",
+   "variables": [],
+   "unit": "dmReportImpl_new"
+  },
+  {
+   "name": "persons",
+   "source": "TdmReport_new.persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sbcm_persons_new",
+   "variables": [],
+   "unit": "dmReportImpl_new"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TdmReport_new.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,type from sbcm_deposit_types_new",
+   "variables": [],
+   "unit": "dmReportImpl_new"
+  },
+  {
+   "name": "Deps",
+   "source": "TdmReport_new.Deps",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   cont.id,\n   cont.contractno,\n   sbcm_stored_programs_new.Get_ContractAccount(Acc.Contractaccid) as ContractAccNO\nfrom sbcm_contracts_new cont,\n     sbcm_contract_accounts_new acc\nwhere cont.id = acc.id#",
+   "variables": [],
+   "unit": "dmReportImpl_new"
+  },
+  {
+   "name": "ReportData",
+   "source": "TdmReport_new.ReportData",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT cont.contractno, av.val_name,\n       --sbcm_stored_programs_new.get_customernamebyid (cont.customerid)\n       sbcm_stored_programs_new.Get_ContractAccountName(acc.contractaccid)\n                                                                  AS custname,\n       cont.customerid as custID,\n       sbcm_stored_programs_new.get_contract_BalNo(Cont.ID) as Balans,\n       sbcm_stored_programs_new.get_contractaccount (acc.contractaccid\n                                                ) AS contractaccno,\n       sbcm_stored_programs_new.get_contractaccount (acc.interestaccid\n                                                ) AS interestaccno,\n       sbcm_stored_programs_new.get_contractaccount (acc.clientaccid\n                                                ) AS clientaccno,\n       cont.opendate, cont.closedate, cont.amount,cont.amount* o.ostat as eamount,   intr.interest,\n       dueintr.overdueinterest, dueintr.dueinterest, h.facticaldebt,\n       h.facticaldebt * o.ostat AS efacticaldebt, h.facticalinterestdebt,\n       h.facticalinterestdebt * o.ostat AS efacticalinterestdebt,\n       cat.CATEGORY, per.NAME as pername, dt.TYPE, fil.NAME as filname,\n       h.facticaldebt+h.facticalinterestdebt as Payamt,\n       h.facticaldebt* o.ostat +h.facticalinterestdebt* o.ostat  as EPayamt,\n       sbcm_stored_programs_new.get_firstclosedat(cont.id) as firstopdate\n  FROM sbcm_contracts_new cont,\n       sbcm_contract_accounts_new acc,\n       sbcm_contract_history_new h,\n       sbcm_interests_new intr,\n       sbcm_overdueinterests_new dueintr,\n       operkurs o,\n       sbcm_categories_new cat,\n       filial fil,\n       sbcm_deposit_types_new dt,\n       sbcm_persons_new per,\n       avalute av\n WHERE h.hdate = :dat\n   AND o.dat = :dat\n   AND cont.ID = acc.id#\n   AND cont.ID = h.id#\n   AND cont.ID = intr.id#\n   AND cont.ID = dueintr.id#\n   AND cont.currency = o.val_kod\n   AND cont.currency = av.valute\n   AND cont.clienttype = cat.ID\n   AND cont.branchid = fil.ID\n   AND cont.contracttype = dt.ID\n   AND cont.personaltype = per.ID and cont.type# in (3,4)\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "dmReportImpl_new"
+  },
+  {
+   "name": "Contracts",
+   "source": "TdmReport_new.Contracts",
+   "kind": "TOracleDataSet",
+   "sql": "select contractaccid,    \n      sbcm_stored_programs.Get_ContractAccountName(contractaccid) as Name\n from sbcm_contract_accounts ",
+   "variables": [],
+   "unit": "dmReportImpl_new"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

@@ -1,0 +1,148 @@
+{
+ "name": "CustomersInformations",
+ "caption": "Balans / Analiz / Müştəri hesablarının Analizi",
+ "dir": "Packages/CustomersInformations",
+ "mainForm": "TCustomersInformations",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OrDSCustomers",
+   "source": "TCustomersInformations.OrDSCustomers",
+   "kind": "TOracleDataSet",
+   "sql": "select c.ID, c.Name, c.INN, c.Open_Dat, c.Close_Dat, c.Cust_TYPE, c.op_id,\n       \n       decode(c.nerezident,0,'Q/Rezident',1,'Rezident','') as nerezident, \n       (select name from prinad where id=c.prinad_kod) as prinad, \n       c.short_name,\n       (SELECT name FROM qrp_klie where id=c.group_klie) as group_klie,\n       (SELECT name FROM vid_sob where id=c.vid_sob) as vid_sob,\n       (SELECT name FROM org_prav where id=c.org_sob) as org_sob,\n       (SELECT name FROM sferadey where id=c.sfera_dey) as sfera_dey,\n       (SELECT name FROM otrasli where id=c.otrasl) as otrasl,\n       (SELECT name FROM nalog where id=c.nalog_kod) as nalog_kod,\n       (select cntr_name from countries where id=ci.citizenship)as cntr_name,\n       c.kod_okpro,\n       c.dat_nal, c.dat_ustav, c.bik, c.otv_lico, c.otv_passport,\n       c.otv_issued, c.otv_isdate, c.old_inn,\n       (SELECT name FROM categories where id= c.category) as category,\n       c.incorporation_number, c.tph_contact_type,\n       c.tph_communication_type, c.tph_number, c.address_type,\n       c.address, c.city, c.country_code, c.director_id, c.email, c.url,\n       c.incorporation_state, c.incorporation_cntr, c.tph_extension,\n       c.tph_zip, c.tph_country_prefix, c.tph_state, c.risk_categ,\n       ci.soname, \n       ci.name as ci_name,  -- name\n       ci.lastname, ci.birthday,\n       ci.birthplace, ci.passer, ci.paspnum, ci.paspdate, ci.paspplace,\n       ci.city as ci_city, -- city\n       ci.address as ci_address,  --address\n       ci.workplace, ci.phone_w, ci.phone_h, ci.phone_m,\n       ci.e_mail, \n       ci.url as ci_url,   --url\n       ci.recomendation, ci.garanted,\n       ci.otv_passport as ci_otv_passport, --otv_passport\n       ci.otv_issued as ci_otv_issued, --otv_issued\n       ci.otv_isdate as ci_otv_isdate, --otv_isdate\n       ci.note, ci.work, ci.test, ci.fam_status,\n       ci.sex, ci.adrs_state, ci.birth_state, ci.fakt_adress, ci.child_info,\n       ci.doc_type, ci.passpin, ci.passexpire, ci.reg_zip,\n       ci.doc_country, ci.citizenship2, ci.citizenship3, ci.fakt_country,\n       ci.fakt_city, ci.fakt_zip, ci.work_place, ci.work_post,\n       ci.work_adress, ci.work_phone, \n       ci.tph_contact_type as ci_tph_contact_type, --tph_contact_type\n       ci.tph_country,\n       ci.tph_country_code, ci.tph_city, \n       ci.tph_state as ci_tph_state,  -- tph_state\n       ci.tph_zip as ci_tph_zip, --tph_zip\n       ci.tph_country_prefix as ci_tph_country_prefix, --tph_country_prefix\n       ci.tph_adress, \n       ci.tph_communication_type as ci_tph_communication_type, --tph_communication_type\n       ci.tph_number as ci_tph_number, --tph_number\n       ci.tph_extension as ci_tph_extension, --tph_extension\n       ci.contact_type, ci.cuinfaml,\n       ci.risk_categ as ci_risk_categ , --risk_categ\n       ci.work_adrs_spec, ci.work_strnumb, ci.work_city,\n       ci.work_state, ci.work_zip, ci.work_cntr, ci.work_phone_spec,\n       ci.work_phconttype, ci.work_phoppref, ci.work_phext, ci.work_phcode,ci.birthday,ci.passer,ci.paspnum,ci.passpin,\n\n(select name from user$ where id=c.op_id) as USER_NAME,\n  (select filialid from sba_objinf where obj=(select name from user$ where id=c.op_id)) filial_id,\n  (select name from filial_t where id=(select filialid from sba_objinf where obj=(select name from user$ where id=c.op_id))) filial_name\n  \nfrom Customers c, custinfo ci\nwhere c.id=ci.idcust\nand c.ID in (select KLI_ID from Account where Filial =0) and\nc.close_dat is null and (c.open_dat between (:BegDate) and (:EndDate))\nand (c.name like:pName) and (nvl(c.cust_type,0) in (:P_CUSTTYPE))\norder by c.ID",
+   "variables": [
+    {
+     "name": "BEGDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "PNAME",
+     "type": "string"
+    },
+    {
+     "name": "P_CUSTTYPE",
+     "type": "subst"
+    }
+   ],
+   "unit": "CustomersInformationsImpl"
+  },
+  {
+   "name": "OrDSDates",
+   "source": "TCustomersInformations.OrDSDates",
+   "kind": "TOracleDataSet",
+   "sql": "Select min(C.open_dat) as CMinDate,max(C.open_dat) as CMaxDate,\n          min(A.open_dat) as AMinDate,max(A.open_dat) as AMaxDate\nFrom Customers C, Account A",
+   "variables": [],
+   "unit": "CustomersInformationsImpl"
+  },
+  {
+   "name": "OrDSAccount",
+   "source": "TCustomersInformations.OrDSAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select ac.id,ac.ACC_NO,ac.Name,val.Val_Name,ac.Open_Dat,ac.Close_Dat,\n       ac.Kli_ID,abs(ten.Ostat),abs(ten.Pok_Ostat), ten.datdate as Tarix,\n       ac.tipacc as symbol, f.Name as Filial, cu.name as cust_name,ac.bal_cn1,cu.inn as cust_voen,ct.name as cust_type\nfrom Account ac, Avalute val, ArchOst ten, Filial f, customers cu, cust_types ct\nwhere-- ac.kli_ID=1 and \n(ac.open_dat between :BegDate and :EndDate) and ten.datdate=:BalDate\n and (ac.name like:pName) and f.id=ac.filial and cu.id=ac.kli_id and ct.id=cu.cust_type\n\n ",
+   "variables": [
+    {
+     "name": "BEGDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    },
+    {
+     "name": "BALDATE",
+     "type": "date"
+    },
+    {
+     "name": "PNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "CustomersInformationsImpl"
+  },
+  {
+   "name": "OrDSSysDat",
+   "source": "TCustomersInformations.OrDSSysDat",
+   "kind": "TOracleDataSet",
+   "sql": "select Tek_Dat from SysDat",
+   "variables": [],
+   "unit": "CustomersInformationsImpl"
+  },
+  {
+   "name": "OrDSFilials",
+   "source": "TCustomersInformations.OrDSFilials",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 ID, 'Ümumi' Name from dual\nunion\nselect ID, NAME from Filial",
+   "variables": [],
+   "unit": "CustomersInformationsImpl"
+  },
+  {
+   "name": "OrDSAvalute",
+   "source": "TCustomersInformations.OrDSAvalute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from Avalute",
+   "variables": [],
+   "unit": "CustomersInformationsImpl"
+  },
+  {
+   "name": "OrDSDocs",
+   "source": "TCustomersInformations.OrDSDocs",
+   "kind": "TOracleDataSet",
+   "sql": "select \n p.dat,a1.acc_no as Debit,a1.Name as DName,a2.acc_no as Credit,a2.Name as CName,\n p.ammount,p.lammount,p.ammount_c,p.name, a1.tipacc as d_symbol,a2.tipacc as c_symbol \nfrom provarch p, account a1, account a2\nwhere \n    (dat between (:BegDate) and (:EndDate))\n        and (p.debt in (select id from account where acc_no=:Acc_NO)\n      or p.kredit in (select id from account where acc_no=:Acc_NO))\n  and (p.debt=a1.id and p.kredit=a2.id)",
+   "variables": [
+    {
+     "name": "BEGDATE",
+     "type": "date"
+    },
+    {
+     "name": "ENDDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "CustomersInformationsImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TCustomersInformations.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select c.ID, c.Name, c.INN,\nc.Open_Dat, c.Close_Dat,\nc.Cust_TYPE, c.op_id,\ndecode(c.nerezident,0,'Q/Rezident',1,'Rezident','') as nerezident,\n('0') as prinad,\nc.short_name,\n('0') as group_klie,\n('0') as vid_sob,\n('0') as org_sob,\n ('0') as sfera_dey,\n('0') as otrasl,\n('0') as nalog_kod,\n('0')as cntr_name,\n c.kod_okpro,\nc.dat_nal, c.dat_ustav, c.bik,\nc.otv_lico, c.otv_passport,\nc.otv_issued, c.otv_isdate,\nc.old_inn,\n('0') as category,\nc.incorporation_number,\nc.tph_contact_type,\nc.tph_communication_type,\nc.tph_number, c.address_type,\nc.address, c.city, c.country_code,\nc.director_id,\nc.email, c.url,c.incorporation_state,\nc.incorporation_cntr,\nc.tph_extension, c.tph_zip,\nc.tph_country_prefix, c.tph_state,\nc.risk_categ,\nci.soname, ci.name as ci_name,\nci.lastname, ci.birthday,\nci.birthplace, ci.passer,\nci.paspnum,\nci.paspdate,\nci.paspplace, ci.city as ci_city,\nci.address as ci_address,\nci.workplace, ci.phone_w,\nci.phone_h, ci.phone_m,\nci.e_mail, ci.url as ci_url,\nci.recomendation, ci.garanted,\nci.otv_passport as\nci_otv_passport, ci.otv_issued as\nci_otv_issued,\nci.otv_isdate as ci_otv_isdate,\nci.note, ci.work, ci.test,\nci.fam_status, ci.sex, ci.adrs_state,\nci.birth_state, ci.fakt_adress,\nci.child_info, ci.doc_type,\nci.passpin, \nci.passexpire,\nci.reg_zip, ci.doc_country,\nci.citizenship2, ci.citizenship3,\nci.fakt_country,\nci.fakt_city, ci.fakt_zip,\nci.work_place, ci.work_post,\nci.work_adress,\nci.work_phone,\nci.tph_contact_type\nas ci_tph_contact_type,\nci.tph_country,\nci.tph_country_code, ci.tph_city,\nci.tph_state as ci_tph_state,\nci.tph_zip as ci_tph_zip,\nci.tph_country_prefix as\nci_tph_country_prefix,\nci.tph_adress,\nci.tph_communication_type as\nci_tph_communication_type,\nci.tph_number as ci_tph_number,\nci.tph_extension as\nci_tph_extension,\nci.contact_type, ci.cuinfaml,\nci.risk_categ as ci_risk_categ ,\nci.work_adrs_spec,\nci.work_strnumb, ci.work_city,\nci.work_state, ci.work_zip,\nci.work_cntr, ci.work_phone_spec,\nci.work_phconttype,\nci.work_phoppref, ci.work_phext,\nci.work_phcode,\n\n('0') as USER_NAME,\n  ('0') filial_id,\n  ('0') filial_name\n\nfrom Customers c, custinfo ci\nwhere c.id=ci.idcust",
+   "variables": [],
+   "unit": "CustomersInformationsImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

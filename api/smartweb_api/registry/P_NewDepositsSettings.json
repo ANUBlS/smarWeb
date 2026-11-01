@@ -1,0 +1,216 @@
+{
+ "name": "P_NewDepositsSettings",
+ "caption": "",
+ "dir": "NewDepositsManager/NewDepositsSettings",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "NewCommonDeclsImpl",
+  "NewTemporaryTransactionsFormImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "TVSubItems",
+   "source": "TNewDepositsDataModReferences.TVSubItems",
+   "kind": "TOracleDataSet",
+   "sql": "Select\n   *\n  From\n     SBCM_References_new\n   Where\n    ParentID =:ParentID",
+   "variables": [
+    {
+     "name": "PARENTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsDMReferences"
+  },
+  {
+   "name": "ReferLink",
+   "source": "TNewDepositsDataModReferences.ReferLink",
+   "kind": "TOracleDataSet",
+   "sql": "Select * From  SBCM_References_new",
+   "variables": [],
+   "unit": "NewDepositsDMReferences"
+  },
+  {
+   "name": "Accounts",
+   "source": "TNewDepositsFormAccName.Accounts",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   id,\n   acc_no,\n   name,\n   val_acc,\n   Filial Filialid,\n   (select val_name from avalute where valute=val_acc)valname,\n   (select name from filial where id=filial)Filial\nfrom \n   account \nwhere \n   close_dat is null and (val_acc<=:val_acc)\n  and  \n   bal_cn1 in ( select accgroup from \n   dm_acc_zone_info where zoneid = (select zoneid from dm_acc_zones\n   where name = 'IncomeLossAccs'))   \n\n:psearch\norder by acc_no",
+   "variables": [
+    {
+     "name": "PSEARCH",
+     "type": "subst"
+    },
+    {
+     "name": "VAL_ACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsFormAccNameImpl"
+  },
+  {
+   "name": "acc_zone_info",
+   "source": "TNewDepositsFrmAccGroups.acc_zone_info",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,zoneid, accgroup\n  FROM dm_acc_zone_info\n\nwhere zoneid = :zoneid",
+   "variables": [
+    {
+     "name": "ZONEID",
+     "type": "float"
+    }
+   ],
+   "unit": "NewDepositsFrmAccGroupsImpl"
+  },
+  {
+   "name": "acc_zones",
+   "source": "TNewDepositsFrmAccGroups.acc_zones",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT zoneid ,description\n  FROM dm_acc_zones\n  order by zoneid",
+   "variables": [],
+   "unit": "NewDepositsFrmAccGroupsImpl"
+  },
+  {
+   "name": "settings",
+   "source": "TNewDepositsFrmAccountTurning.settings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n   rowid,\n   id, \n   parentid, \n   currencyid, \n   accid, \n   branchid,\n  (select category from dm_categories where id in(select typeid from dm_movie_names where id=parentid))category,\n  (select val_name from avalute       where valute=currencyid) valname,\n  (select acc_no   from account       where id=accid) accno,\n  (select name     from filial        where id=branchid) filial\nFROM \n  dm_settings\n",
+   "variables": [],
+   "unit": "NewDepositsFrmAccountTurningImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TNewDepositsFrmAddEditAccTurning.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_categories",
+   "variables": [],
+   "unit": "NewDepositsFrmAddEditAccTurningImpl"
+  },
+  {
+   "name": "MoveNames",
+   "source": "TNewDepositsFrmAddEditAccTurning.MoveNames",
+   "kind": "TOracleDataSet",
+   "sql": "select * from dm_movie_names\nwhere typeid=:typeid",
+   "variables": [
+    {
+     "name": "TYPEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "NewDepositsFrmAddEditAccTurningImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TNewDepositsFrmCategories.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "/* Formatted on 2007/08/31 13:02 (Formatter Plus v4.7.0) */\nSELECT ROWID, ID, CATEGORY\n  FROM dm_categories",
+   "variables": [],
+   "unit": "NewDepositsFrmCategoriesImpl"
+  },
+  {
+   "name": "AddTypesForColl",
+   "source": "TNewDepositsFrmDepositTypes.AddTypesForColl",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, withdrtype, withdrtypedesc\n  FROM dm_addtypes where withdrtype<>'Inadvance' \norder by id",
+   "variables": [],
+   "unit": "NewDepositsFrmDepositTypesImpl"
+  },
+  {
+   "name": "AddTypesForWith",
+   "source": "TNewDepositsFrmDepositTypes.AddTypesForWith",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, withdrtype, withdrtypedesc\n  FROM dm_addtypes where withdrtype<>'Inadvance'  order by id",
+   "variables": [],
+   "unit": "NewDepositsFrmDepositTypesImpl"
+  },
+  {
+   "name": "DepositTypes",
+   "source": "TNewDepositsFrmDepositTypes.DepositTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, type\n  FROM dm_types where status=0\norder by id ",
+   "variables": [],
+   "unit": "NewDepositsFrmDepositTypesImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "DM_RPDEPOSITORY",
+   "package": "DM_RPDEPOSITORY",
+   "mode": "positional",
+   "source": "TNewDepositsFrmAccountTurning.DM_RPDEPOSITORY",
+   "routines": [
+    {
+     "name": "DelSettings",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "InsSettings",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "dm_stored_programs",
+   "package": "dm_stored_programs",
+   "mode": "positional",
+   "source": "TNewDepositsFrmDepositTypes.dm_stored_programs",
+   "routines": [
+    {
+     "name": "AddDepositTypes",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CloseDepositTypes",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DelDepositTypes",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UpdDepositTypes",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "ReferPackage",
+   "package": "sbcm_rpdepository_new",
+   "mode": "positional",
+   "source": "TNewDepositsDataModReferences.ReferPackage",
+   "routines": [
+    {
+     "name": "UPD_SBCM_REFERENCES",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

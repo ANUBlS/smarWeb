@@ -8,11 +8,21 @@
  * when the workbook is shown (Visible := True) or saved (SaveAs), downloads them as a CSV file
  * that Excel opens. Members it does not know (fonts, borders, number formats …) are absorbed.
  * Other automation servers (Word …) return an inert object.
+ *
+ * Reading: Workbooks.Open(FileName) opens a file the user picked with TOpenDialog (runtime/files)
+ * and parses it with SheetJS (.xls / .xlsx / .csv), so  Sheet.Cells[r, c]  and  .Text  read it.
+ *
+ * TCMExcelExport (VCL/CMExcelExport.pas) ExportDataset → an .xlsx download: titles (DisplayName)
+ * in row 1, the records from row 2, on a sheet with the given name.
  */
 import { TObject, GAP, routine } from './core';
 import { logger } from './log';
 import { toast } from './toast';
 import { downloadText } from './vcl/classes';
+import { pickedFile } from './files';
+
+type XLSXLib = typeof import('@e965/xlsx');
+const loadXlsx = (): Promise<XLSXLib> => import('@e965/xlsx');
 
 const num = (v: unknown) => Number(v ?? 0) || 0;
 const text = (v: unknown) => (v === null || v === undefined || v === GAP ? '' : String(v));
@@ -27,12 +37,17 @@ class OleAny extends TObject {
 
 class Sheet extends OleAny {
   cells = new Map<string, unknown>();
+  /** Formatted cell text of a workbook read from a file (Range.Text). */
+  shown = new Map<string, string>();
   maxR = 0; maxC = 0;
   Name = '';
+  /** Written by the code (a read-only opened file is not offered as a download). */
+  dirty = false;
   constructor(name: string) { super(); this.Name = name; }
-  put(r: number, c: number, v: unknown) {
+  put(r: number, c: number, v: unknown, fromFile = false) {
     if (r < 1 || c < 1) return;
     this.cells.set(`${r},${c}`, v);
+    if (!fromFile) { this.dirty = true; this.shown.delete(`${r},${c}`); }
     this.maxR = Math.max(this.maxR, r); this.maxC = Math.max(this.maxC, c);
   }
   csv() {
@@ -58,10 +73,15 @@ class Sheet extends OleAny {
 
 class Cell extends OleAny {
   constructor(private s: Sheet, private r: number, private c: number) { super(); }
+  private get raw() { return this.s.cells.get(`${this.r},${this.c}`) ?? ''; }
   override pget(l: string): unknown {
-    if (l === 'value' || l === 'formula' || l === 'text' || l === 'value2') return this.s.cells.get(`${this.r},${this.c}`) ?? '';
+    if (l === 'text') return this.s.shown.get(`${this.r},${this.c}`) ?? text(this.raw);
+    if (l === 'value' || l === 'formula' || l === 'value2') return this.raw;
     return new OleAny();
   }
+  /** A cell used as a value is its Value (the Variant default property). */
+  override toString() { return text(this.raw); }
+  valueOf() { return this.raw; }
   override pset(l: string, v: unknown) {
     if (l === 'value' || l === 'formula' || l === 'value2') this.s.put(this.r, this.c, v);
     return true;
@@ -90,6 +110,12 @@ class Workbook extends OleAny {
 class SheetList extends OleAny {
   constructor(private wb: Workbook) { super(); }
   override pindex(idx?: unknown[]) {
+    if (typeof idx?.[0] === 'string') {
+      const n = idx[0].toLowerCase();
+      const found = this.wb.sheets.find((x) => x.Name.toLowerCase() === n);
+      if (found) return found;
+      throw new Error(`Excel: '${idx[0]}' adlı vərəq tapılmadı`);
+    }
     const i = num(idx?.[0]);
     while (this.wb.sheets.length < i) this.wb.sheets.push(new Sheet(`Sheet${this.wb.sheets.length + 1}`));
     return this.wb.sheets[Math.max(0, i - 1)];
@@ -105,7 +131,8 @@ class SheetList extends OleAny {
 class Workbooks extends OleAny {
   constructor(private app: ExcelApp) { super(); }
   override pget(l: string): unknown {
-    if (l === 'add' || l === 'open') return routine(() => this.app.addBook(), 'Add');
+    if (l === 'add') return routine(() => this.app.addBook(), 'Add');
+    if (l === 'open') return routine((name: unknown) => this.app.openBook(name), 'Open');
     if (l === 'count') return this.app.books.length;
     return GAP;
   }
@@ -116,10 +143,36 @@ export class ExcelApp extends OleAny {
   books: Workbook[] = [];
   private done = false;
   addBook() { const b = new Workbook(this); this.books.push(b); return b; }
+  /** Workbooks.Open(FileName): the file the user picked in an open dialog. */
+  async openBook(name: unknown) {
+    const f = pickedFile(name);
+    if (!f) throw new Error(`Excel: '${text(name)}' faylı açıla bilmədi (faylı yenidən seçin)`);
+    const XLSX = await loadXlsx();
+    const wb = XLSX.read(await f.arrayBuffer(), { cellNF: true, cellText: true, dense: false });
+    const b = new Workbook(this);
+    b.sheets = wb.SheetNames.map((n) => {
+      const sh = new Sheet(n);
+      const ws = wb.Sheets[n] as Record<string, any>;
+      for (const addr of Object.keys(ws)) {
+        if (addr.startsWith('!')) continue;
+        const cell = ws[addr];
+        const { r, c } = XLSX.utils.decode_cell(addr);
+        const isDate = cell.t === 'n' && cell.z && XLSX.SSF.is_date(cell.z);
+        // dates read as their text (as Delphi's VarToStr of a date Variant), the rest as values
+        const v = cell.t === 'e' ? '' : isDate ? (cell.w ?? cell.v) : cell.v;
+        sh.put(r + 1, c + 1, v, true);
+        if (cell.w !== undefined) sh.shown.set(`${r + 1},${c + 1}`, String(cell.w));
+      }
+      return sh;
+    });
+    if (!b.sheets.length) b.sheets = [new Sheet('Sheet1')];
+    this.books.push(b);
+    return b;
+  }
   private book() { return this.books[this.books.length - 1] ?? this.addBook(); }
   download() {
     if (this.done) return;
-    const sheets = this.books.flatMap((b) => b.sheets).filter((s) => s.maxR > 0);
+    const sheets = this.books.flatMap((b) => b.sheets).filter((s) => s.maxR > 0 && s.dirty);
     if (!sheets.length) return;
     this.done = true;
     const body = sheets.map((s) => (sheets.length > 1 ? `${s.Name}\r\n` : '') + s.csv()).join('\r\n\r\n');
@@ -133,6 +186,7 @@ export class ExcelApp extends OleAny {
     if (l === 'cells') return new Cells(this.book().sheets[0]);
     if (l === 'worksheets' || l === 'sheets') return new SheetList(this.book());
     if (l === 'quit') return routine(() => this.download(), 'Quit');
+    if (l === 'application') return this;
     return GAP;
   }
   override pset(l: string, v: unknown) {
@@ -146,4 +200,44 @@ export function createOleObject(name: unknown): unknown {
   if (n.startsWith('excel.')) return new ExcelApp();
   logger.info(`OLE automation '${text(name)}' is not available in the browser`);
   return new OleAny();
+}
+
+interface ExportField { FieldName: string; DisplayName: string; DisplayLabel?: string; Visible: boolean; fieldType: string; key: string }
+interface ExportDataSet { Active: boolean; fieldList(): ExportField[]; view: number[]; rowValues(i: number): Record<string, unknown> | undefined }
+
+const EXPORTABLE = new Set(['string', 'integer', 'float', 'boolean', 'date', 'datetime', 'time']);
+
+/** One sheet with the records of `fields` (titles in the first row when asked) as an .xlsx download. */
+export async function downloadFieldsXlsx(ds: ExportDataSet, fields: ExportField[], sheetName: unknown, titles: boolean, fileName?: string) {
+  const XLSX = await loadXlsx();
+  const rows: unknown[][] = titles ? [fields.map((f) => f.DisplayName || f.DisplayLabel || f.FieldName)] : [];
+  const first = rows.length;
+  for (let i = 0; i < ds.view.length; i++) {
+    const v = ds.rowValues(i) ?? {};
+    rows.push(fields.map((f) => { const x = v[f.key]; return x === undefined ? null : x; }));
+  }
+  const ws = XLSX.utils.aoa_to_sheet(rows.length ? rows : [[]]);
+  // TDateTime serials are Excel serials: format the date columns
+  fields.forEach((f, c) => {
+    if (f.fieldType !== 'date' && f.fieldType !== 'datetime' && f.fieldType !== 'time') return;
+    const z = f.fieldType === 'date' ? 'dd.mm.yyyy' : f.fieldType === 'time' ? 'hh:mm:ss' : 'dd.mm.yyyy hh:mm';
+    for (let r = first; r < rows.length; r++) {
+      const cell = ws[XLSX.utils.encode_cell({ r, c })];
+      if (cell && cell.t === 'n') { cell.z = f.fieldType === 'datetime' && cell.v % 1 === 0 ? 'dd.mm.yyyy' : z; delete cell.w; }
+    }
+  });
+  ws['!cols'] = fields.map(() => ({ wch: 20 }));
+  const wb = XLSX.utils.book_new();
+  const name = (text(sheetName) || 'Sheet1').replace(/[\\/?*[\]:]/g, ' ').slice(0, 31);
+  XLSX.utils.book_append_sheet(wb, ws, name);
+  const file = (fileName ? fileName.split(/[\\/]/).pop()!.replace(/\.[^.]*$/, '') : name) + '.xlsx';
+  XLSX.writeFile(wb, file, { compression: true });
+  toast(`"${file}" Excel faylı yükləndi`, 'info');
+}
+
+/** TCMExcelExport.ExportDataset(DataSet, SheetName, Visible): titles (DisplayName) in row 1, records from row 2. */
+export async function exportDataSetToXlsx(ds: ExportDataSet, sheetName: unknown, visibleOnly: boolean) {
+  if (!ds?.Active) return;
+  const fields = ds.fieldList().filter((f) => EXPORTABLE.has(f.fieldType) && (!visibleOnly || f.Visible));
+  await downloadFieldsXlsx(ds, fields, sheetName, true);
 }

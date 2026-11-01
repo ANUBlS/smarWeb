@@ -1,0 +1,101 @@
+{
+ "name": "XUniversalSettings",
+ "caption": "Əlavə modullar / İdarəetmə / Universal parametrlər",
+ "dir": "Packages/UniversalSettings",
+ "mainForm": "TSBUniversalSettings",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSTables",
+   "source": "TSBUniversalSettings.ODSTables",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM sb_settings_tables\norder by ID",
+   "variables": [],
+   "unit": "SBUniversalSettingsImpl"
+  },
+  {
+   "name": "ODSCont1",
+   "source": "TSBUniversalSettings.ODSCont1",
+   "kind": "TOracleDataSet",
+   "sql": "select r.rowid, r.id, r.name, r.KOD_FILIAL\n from filial r",
+   "variables": [],
+   "unit": "SBUniversalSettingsImpl"
+  },
+  {
+   "name": "ODSColumnTitlles",
+   "source": "TSBUniversalSettings.ODSColumnTitlles",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  columnid, columntitle, columnwidth\n  FROM sb_settings_columns\nwhere tableid=:tableid",
+   "variables": [
+    {
+     "name": "TABLEID",
+     "type": "integer"
+    }
+   ],
+   "unit": "SBUniversalSettingsImpl"
+  },
+  {
+   "name": "ODSCont",
+   "source": "TSBUniversalSettings.ODSCont",
+   "kind": "TOracleDataSet",
+   "sql": "select r.rowid, r.id, r.name, r.KOD_FILIAL\n from filial r",
+   "variables": [],
+   "unit": "SBUniversalSettingsImpl"
+  },
+  {
+   "name": "uTables",
+   "source": "TfrmNewUS.uTables",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, id, name, queryst, descrt, ordercol\n  from sb_settings_tables",
+   "variables": [],
+   "unit": "uNewUSImpl"
+  },
+  {
+   "name": "uColumns",
+   "source": "TfrmNewUS.uColumns",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, tableid, columnid, columntitle, columnwidth\n  from sb_settings_columns\nwhere tableid = :tableid",
+   "variables": [
+    {
+     "name": "TABLEID",
+     "type": "float"
+    }
+   ],
+   "unit": "uNewUSImpl"
+  }
+ ],
+ "packages": [],
+ "sql": [
+  "select r.rowid, %s from %s r where %s order by %s"
+ ]
+}

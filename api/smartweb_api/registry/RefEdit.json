@@ -1,0 +1,51 @@
+{
+ "name": "RefEdit",
+ "caption": "Balans / Məlumatlar / Müştərilərin mənsübiyyəti",
+ "dir": "Packages/RefEdit",
+ "mainForm": "TRefEditForm",
+ "plugin": false,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "RefData",
+   "source": "TRefEditForm.RefData",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "RefEditFormImpl"
+  }
+ ],
+ "packages": [],
+ "sql": [
+  "select r.*, r.rowid from REF_%s r order by ID"
+ ]
+}

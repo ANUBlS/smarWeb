@@ -32,8 +32,8 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "index": 0};
   await $.fixArgs(L0, ["sender"]);
-  { const $t1 = (await $.call(C, "High", [(await $.v(C, "QueryArray"))]));
-    L0["index"] = (await $.call(C, "Low", [(await $.v(C, "QueryArray"))]));
+  { const $t1 = (await $.lowHigh("high", "QueryArray", async () => (await $.v(C, "QueryArray"))));
+    L0["index"] = (await $.lowHigh("low", "QueryArray", async () => (await $.v(C, "QueryArray"))));
     let $t2 = true;
     for (;;) {
       if (!$t2) { L0["index"] = $.succ(L0["index"], 1); }
