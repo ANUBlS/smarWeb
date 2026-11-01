@@ -56,7 +56,7 @@ class QueryResult(BaseModel):
 
 class ExecuteRequest(BaseModel):
     source: str = ''
-    sql: str = Field(examples=['begin sb_adm.set_company(:COMP_ID); end;'])
+    sql: str = Field(examples=["begin DBMS_SESSION.SET_CONTEXT('CLIENTCONTEXT', 'user_company', :COMP_ID); end;"])
     variables: list[BindValue] = []
 
 

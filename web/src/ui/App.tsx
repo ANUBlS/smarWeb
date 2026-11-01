@@ -73,29 +73,40 @@ function Logon({ onDone }: { onDone: (company: string) => void }) {
       await loadLogSettings();
       audit('logon', `Sistemə daxil oldu (SID ${r.sid})`, '');
       localStorage.setItem('sb:user', user);
-      // same statement as sbMainForm.company_list
-      const q = await api.query({ source: 'TsbMainForm.company_list', sql: 'select * from companies order by company_name', variables: [],
-        fieldHints: [{ name: 'ID', type: 'integer' }, { name: 'COMPANY_NAME', type: 'string', size: 100 }] });
-      // by column name: the column order of `select *` is the table's
-      const ci = (n: string, d: number) => { const i = q.columns.findIndex((c) => c.name.toUpperCase() === n); return i >= 0 ? i : d; };
-      const iId = ci('ID', 0), iName = ci('COMPANY_NAME', 1);
-      const list = q.rows.map((row) => ({ id: Number(row[iId]), name: String(row[iName]) }));
       void warmLib();
-      if (list.length > 1) { setCompanies(list); setCompany(list[0].id); setStep('company'); }
-      else onDone(list[0]?.name ?? '');
+      // same statement as sbMainForm.company_list; a database without it still logs on
+      let list: { id: number; name: string }[] = [];
+      try {
+        const q = await api.query({ source: 'TsbMainForm.company_list', sql: 'select * from companies order by company_name', variables: [],
+          fieldHints: [{ name: 'ID', type: 'integer' }, { name: 'COMPANY_NAME', type: 'string', size: 100 }] });
+        // by column name: the column order of `select *` is the table's
+        const ci = (n: string, d: number) => { const i = q.columns.findIndex((c) => c.name.toUpperCase() === n); return i >= 0 ? i : d; };
+        const iId = ci('ID', 0), iName = ci('COMPANY_NAME', 1);
+        list = q.rows.map((row) => ({ id: Number(row[iId]), name: String(row[iName]) }));
+      } catch (ex) { audit('logon', `Şirkətlər oxunmadı: ${(ex as Error).message}`, ''); }
+      // company 1 is used automatically; the choice is shown only when there is no company 1
+      const first = list.find((c) => c.id === 1);
+      if (first || list.length <= 1) await useCompany(first ?? list[0] ?? { id: 1, name: '' });
+      else { setCompanies(list); setCompany(list[0].id); setStep('company'); }
     } catch (ex) {
       setErr((ex as Error).message);
     } finally { setBusy(false); }
   };
+  // TCompanyForm.RadioGroupClick: SetCompany sets CLIENTCONTEXT.user_company. Never blocks the logon:
+  // a failure is written to the log and the main window opens anyway.
+  const useCompany = async (c: { id: number; name: string }) => {
+    try {
+      await api.execute({ source: 'TsbMainForm.SetCompany',
+        sql: "declare\nbegin\n\n DBMS_SESSION.SET_CONTEXT('CLIENTCONTEXT','user_company',:COMP_id);\nend;",
+        variables: [{ name: 'COMP_ID', type: 'integer', value: c.id }] });
+      audit('logon', `Şirkət seçildi: ${c.name || c.id}`, '');
+    } catch (ex) { audit('logon', `Şirkət təyin olunmadı (${c.id}): ${(ex as Error).message}`, ''); }
+    onDone(c.name);
+  };
   const chooseCompany = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
-    const c = companies.find((x) => x.id === company)!;
-    try {
-      await api.execute({ source: 'TsbMainForm.SetCompany', sql: 'begin sb_adm.set_company(:COMP_ID); end;', variables: [{ name: 'COMP_ID', type: 'integer', value: c.id }] });
-      audit('logon', `Şirkət seçildi: ${c.name}`, '');
-      onDone(c.name);
-    } catch (ex) { setErr((ex as Error).message); } finally { setBusy(false); }
+    try { await useCompany(companies.find((x) => x.id === company) ?? companies[0]); } finally { setBusy(false); }
   };
   const today = formatDateTime('dd.mm.yyyy', todayDelphi());
   return (
