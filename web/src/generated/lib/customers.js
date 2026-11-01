@@ -284,7 +284,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\u0001"))) {
     {
-      const $t15 = (await $.v(C, "dbgrid2"));
+      const $t15 = (await $.wobj(C, "dbgrid2"));
       const $t16 = (await $.wv([$t15], "SelectedRows", C, false));
       const $t17 = (await $.mv((await $.wv([$t15, $t16], "DataSource", C, false)), "DataSet"));
       await $.stmt($.wcall([$t15, $t16, $t17], "DisableControls", [], C));
@@ -348,7 +348,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\u0001"))) {
     {
-      const $t21 = (await $.v(C, "dbgrid1"));
+      const $t21 = (await $.wobj(C, "dbgrid1"));
       const $t22 = (await $.wv([$t21], "SelectedRows", C, false));
       const $t23 = (await $.mv((await $.wv([$t21, $t22], "DataSource", C, false)), "DataSet"));
       await $.stmt($.wcall([$t21, $t22, $t23], "DisableControls", [], C));

@@ -43,7 +43,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["sysdat"] = (await $.call(C, "Integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPD")), "Date"))]))]));
   {
-    const $t2 = (await $.v(C, "Credits"));
+    const $t2 = (await $.wobj(C, "Credits"));
     if ($.truthy((await $.wv([$t2], "Active", C, false)))) {
       await $.stmt($.wcall([$t2], "Close", [], C));
     }
@@ -56,7 +56,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "ExcelExport"));
+    const $t3 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t3], "Connect", [], C));
     await $.stmt((await $.wcall([$t3], "ExportDataset", [(await $.wv([$t3], "Credits", C, false)), "Ödənişlər", (await $.wv([$t3], "true", C, false))], C)));
     await $.stmt($.wcall([$t3], "Disconnect", [], C));

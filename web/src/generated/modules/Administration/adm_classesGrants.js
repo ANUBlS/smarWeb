@@ -21,7 +21,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "AdministrationData"));
+    const $t1 = (await $.wobj(C, "AdministrationData"));
     await $.stmt((await $.mcall((await $.wv([$t1], "pcADM", C, false)), "CallProcedure", ["updclassgrant", [(await $.mv((await $.wv([$t1], "ClassesdataID", C, false)), "AsVariant")), (await $.mv((await $.wv([$t1], "ModeditdataCLASS", C, false)), "AsVariant")), (await $.wcall([$t1], "Integer", [(await $.mv((await $.wv([$t1], "cbIns", C, false)), "Checked"))], C)), (await $.wcall([$t1], "Integer", [(await $.mv((await $.wv([$t1], "cbUpd", C, false)), "Checked"))], C)), (await $.wcall([$t1], "Integer", [(await $.mv((await $.wv([$t1], "cbDel", C, false)), "Checked"))], C))]])));
     await $.stmt((await $.mcall((await $.wv([$t1], "pcADM", C, false)), "CallProcedure", ["delclassadvgrant", [(await $.mv((await $.mcall((await $.wv([$t1], "Classesdata", C, false)), "FieldByName", ["obj"])), "AsString")), (await $.mv((await $.wv([$t1], "ModeditdataCLASS", C, false)), "AsVariant"))]])));
     { const $t2 = $.sub((await $.mv((await $.mv((await $.wv([$t1], "evAdvGrants", C, false)), "Items")), "Count")), 1);
@@ -45,7 +45,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0};
   {
-    const $t4 = (await $.v(C, "AdministrationData"));
+    const $t4 = (await $.wobj(C, "AdministrationData"));
     const $t5 = (await $.wv([$t4], "odsClsModAdvGrant", C, false));
     const $t6 = (await $.wv([$t4, $t5], "frmClassGrants", C, false));
     await $.mcall((await $.wv([$t4, $t5, $t6], "evAdvGrants", C, false)), "Close", []);
@@ -80,7 +80,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "frmAddEditAdvGrants"));
+    const $t10 = (await $.wobj(C, "frmAddEditAdvGrants"));
     const $t11 = (await $.wv([$t10], "AdministrationData", C, false));
     await $.wset([$t10, $t11], "NewRecord", (await $.wv([$t10, $t11], "True", C, false)), C);
     await $.mset((await $.wv([$t10, $t11], "edGrantName", C, false)), "Enabled", (await $.wv([$t10, $t11], "True", C, false)));
@@ -101,7 +101,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "frmAddEditAdvGrants"));
+    const $t12 = (await $.wobj(C, "frmAddEditAdvGrants"));
     const $t13 = (await $.wv([$t12], "AdministrationData", C, false));
     await $.wset([$t12, $t13], "NewRecord", (await $.wv([$t12, $t13], "False", C, false)), C);
     await $.mset((await $.wv([$t12, $t13], "edGrantName", C, false)), "Enabled", (await $.wv([$t12, $t13], "False", C, false)));
@@ -130,7 +130,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "AdministrationData"));
+    const $t14 = (await $.wobj(C, "AdministrationData"));
     await $.stmt((await $.mcall((await $.wv([$t14], "ModAdvancedGrantsData", C, false)), "Locate", ["Description", (await $.idx((await $.mv((await $.wv([$t14], "evAdvGrants", C, false)), "Items")), [(await $.mv((await $.wv([$t14], "evAdvGrants", C, false)), "ItemIndex"))])), []])));
     if ($.truthy($.eq((await $.wcall([$t14], "messagedlg", ["Hüquq ləğv olunsun?", (await $.wv([$t14], "mtWarning", C, false)), [(await $.wv([$t14], "mbyes", C, false)), (await $.wv([$t14], "mbno", C, false))], 0], C)), (await $.wv([$t14], "idyes", C, false))))) {
       await $.stmt((await $.mcall((await $.wv([$t14], "pcADM", C, false)), "CallProcedure", ["deladvancedgrant", [(await $.mv((await $.wv([$t14], "ModAdvancedGrantsDataID", C, false)), "Value"))]])));

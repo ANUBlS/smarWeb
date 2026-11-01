@@ -57,7 +57,7 @@ export default function define($) {
       await $.set(C, "IN_D", (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPIN_DATE")), "DateTime"))])));
       L0["groupid"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "MainFDataModule")), "ViewGroup")), "FieldByName", ["ID"])), "AsInteger"));
       {
-        const $t6 = (await $.v(C, "MainFDataModule"));
+        const $t6 = (await $.wobj(C, "MainFDataModule"));
         await $.stmt((await $.mcall((await $.wv([$t6], "OPViewWares", C, false)), "CallProcedure", ["add_wares", [(await $.wv([$t6], "GroupID", { get: async () => L0["groupid"], set: async (v) => { L0["groupid"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t6], "ENAME", C, false)), "Text")), (await $.mv((await $.wv([$t6], "EInventar", C, false)), "Text")), (await $.wv([$t6], "INV_D", C, false)), (await $.wcall([$t6], "StrToFloat", [(await $.mv((await $.wv([$t6], "EFirst_price", C, false)), "Text"))], C)), (await $.wcall([$t6], "StrToFloat", [(await $.mv((await $.wv([$t6], "EBalance_price", C, false)), "Text"))], C)), (await $.wv([$t6], "IN_D", C, false)), (await $.wcall([$t6], "StrToInt", [(await $.mv((await $.wv([$t6], "EIn_num", C, false)), "Text"))], C)), (await $.wcall([$t6], "StrToInt", [(await $.mv((await $.wv([$t6], "EAMORTNB", C, false)), "Text"))], C)), (await $.mv((await $.wv([$t6], "EPRODUCER_PLANE", C, false)), "Text")), (await $.wcall([$t6], "StrToInt", [(await $.mv((await $.wv([$t6], "EFXM", C, false)), "Text"))], C)), (await $.mv((await $.mcall((await $.wv([$t6], "ODSTakeDepartmentID", C, false)), "FieldByName", ["ID"])), "AsInteger")), 0, 0, (await $.wcall([$t6], "StrToFloat", [(await $.mv((await $.wv([$t6], "EAccrualAmort", C, false)), "Text"))], C)), 0, 0, (await $.wcall([$t6], "StrToInt", [(await $.mv((await $.wv([$t6], "EAMORTTAX", C, false)), "Text"))], C))]])));
         await $.mcall((await $.wv([$t6], "ODSWClose", C, false)), "Refresh", []);
         await $.mcall((await $.wv([$t6], "ODSMODERN", C, false)), "Close", []);
@@ -72,7 +72,7 @@ export default function define($) {
     } else {
       if ($.truthy($.eq((await $.mv((await $.v(C, "MainFacilities")), "OpeartionMode")), (await $.v(C, "omEdit"))))) {
         {
-          const $t7 = (await $.v(C, "MainFDataModule"));
+          const $t7 = (await $.wobj(C, "MainFDataModule"));
           await $.wset([$t7], "SearchID", (await $.mv((await $.mcall((await $.wv([$t7], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger")), { get: async () => L0["searchid"], set: async (v) => { L0["searchid"] = v; }, local: true });
           await $.stmt((await $.mcall((await $.wv([$t7], "OPViewWares", C, false)), "CallProcedure", ["upd_wares", [(await $.mv((await $.mcall((await $.wv([$t7], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.wv([$t7], "EName", C, false)), "Text")), (await $.mv((await $.wv([$t7], "EInventar", C, false)), "Text")), (await $.mv((await $.wv([$t7], "DTPInventar_date", C, false)), "DateTime")), (await $.wcall([$t7], "StrToFloat", [(await $.mv((await $.wv([$t7], "EFirst_price", C, false)), "Text"))], C)), (await $.wcall([$t7], "StrToFloat", [(await $.mv((await $.wv([$t7], "EBalance_price", C, false)), "Text"))], C)), (await $.mv((await $.wv([$t7], "DTPIn_date", C, false)), "DateTime")), (await $.wcall([$t7], "StrToInt", [(await $.mv((await $.wv([$t7], "EIn_num", C, false)), "Text"))], C)), (await $.wcall([$t7], "StrToFloat", [(await $.mv((await $.wv([$t7], "EAMORTNB", C, false)), "Text"))], C)), (await $.mv((await $.wv([$t7], "EPRODUCER_PLANE", C, false)), "Text")), (await $.wcall([$t7], "StrToInt", [(await $.mv((await $.wv([$t7], "EFXM", C, false)), "Text"))], C)), (await $.mv((await $.mcall((await $.mv((await $.wv([$t7], "MainFDataModule", C, false)), "ODSTakeDepartmentID")), "FieldByName", ["ID"])), "AsInteger")), (await $.wcall([$t7], "StrToFloat", [(await $.mv((await $.wv([$t7], "EAccrualAmort", C, false)), "Text"))], C)), (await $.wcall([$t7], "StrToFloat", [(await $.mv((await $.wv([$t7], "EAMORTTAX", C, false)), "Text"))], C))]])));
           await $.mcall((await $.wv([$t7], "ViewWares", C, false)), "Refresh", []);
@@ -112,7 +112,7 @@ export default function define($) {
       await $.set(C, "INV_D", (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPInventar_date")), "DateTime"))])));
       await $.set(C, "IN_D", (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPIn_date")), "DateTime"))])));
       {
-        const $t8 = (await $.v(C, "MainFDataModule"));
+        const $t8 = (await $.wobj(C, "MainFDataModule"));
         await $.mcall((await $.wv([$t8], "ODSMODERN", C, false)), "Close", []);
         await $.stmt((await $.mcall((await $.wv([$t8], "ODSMODERN", C, false)), "SetVariable", ["WID", (await $.mv((await $.mcall((await $.wv([$t8], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger"))])));
         await $.mcall((await $.wv([$t8], "ODSMODERN", C, false)), "Open", []);
@@ -200,7 +200,7 @@ export default function define($) {
   await $.set(C, "OUT_NUM", (await $.v(C, "Null")));
   try {
     {
-      const $t13 = (await $.v(C, "MainFDataModule"));
+      const $t13 = (await $.wobj(C, "MainFDataModule"));
       if ($.truthy((await $.and_(($.ne((await $.mv((await $.wv([$t13], "EMODERN_NUM", C, false)), "Text")), "")), async () => ($.ne((await $.mv((await $.wv([$t13], "EMODERN_SUMMA", C, false)), "Text")), "")))))) {
         await $.stmt((await $.mcall((await $.wv([$t13], "OPViewWares", C, false)), "CallProcedure", ["delete_moderned_wares", [(await $.mv((await $.mcall((await $.wv([$t13], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger"))]])));
         await $.stmt((await $.mcall((await $.wv([$t13], "OPViewWares", C, false)), "CallProcedure", ["add_moderned_wares", [(await $.mv((await $.mcall((await $.wv([$t13], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t13], "ViewWares", C, false)), "FieldByName", ["GroupsID"])), "AsInteger")), (await $.wcall([$t13], "StrToInt", [(await $.mv((await $.wv([$t13], "EMODERN_NUM", C, false)), "Text"))], C)), (await $.wcall([$t13], "StrToInt", [(await $.mv((await $.wv([$t13], "EMODERN_SUMMA", C, false)), "text"))], C)), (await $.wv([$t13], "MOD_D", C, false))]])));
@@ -267,7 +267,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "searchid": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t19 = (await $.v(C, "MainFDataModule"));
+    const $t19 = (await $.wobj(C, "MainFDataModule"));
     const $t20 = (await $.wv([$t19], "OPViewWares", C, false));
     await $.wset([$t19, $t20], "SearchID", (await $.mv((await $.mcall((await $.wv([$t19, $t20], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger")), { get: async () => L0["searchid"], set: async (v) => { L0["searchid"] = v; }, local: true });
     await $.stmt((await $.wcall([$t19, $t20], "CallProcedure", ["TempTaxUpdate", [(await $.wv([$t19, $t20], "searchid", { get: async () => L0["searchid"], set: async (v) => { L0["searchid"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t19, $t20], "CurrencyEdit1", C, false)), "value")), (await $.mv((await $.wv([$t19, $t20], "CurrencyEdit2", C, false)), "value"))]], C)));
@@ -375,7 +375,7 @@ export default function define($) {
   await $.set(C, "OUT_D", (await $.v(C, "Null")));
   await $.set(C, "OUT_NUM", (await $.v(C, "Null")));
   {
-    const $t24 = (await $.v(C, "MainFDataModule"));
+    const $t24 = (await $.wobj(C, "MainFDataModule"));
     try {
       if ($.truthy((await $.and_(($.ne((await $.mv((await $.wv([$t24], "EREPAIR_NUM", C, false)), "Text")), "")), async () => ($.ne((await $.mv((await $.wv([$t24], "EREPAIR_SUMMA", C, false)), "Text")), "")))))) {
         await $.stmt((await $.mcall((await $.wv([$t24], "OPViewWares", C, false)), "CallProcedure", ["delete_repaired_wares", [(await $.mv((await $.mcall((await $.wv([$t24], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger"))]])));
@@ -438,7 +438,7 @@ export default function define($) {
       await $.set(C, "IN_D", (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPIN_DATE")), "DateTime"))])));
       L0["groupid"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "MainFDataModule")), "ViewGroup")), "FieldByName", ["ID"])), "AsInteger"));
       {
-        const $t32 = (await $.v(C, "MainFDataModule"));
+        const $t32 = (await $.wobj(C, "MainFDataModule"));
         await $.stmt((await $.mcall((await $.wv([$t32], "OPViewWares", C, false)), "CallProcedure", ["add_wares", [(await $.wv([$t32], "GroupID", { get: async () => L0["groupid"], set: async (v) => { L0["groupid"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t32], "ENAME", C, false)), "Text")), (await $.mv((await $.wv([$t32], "EInventar", C, false)), "Text")), (await $.wv([$t32], "INV_D", C, false)), (await $.wcall([$t32], "StrToFloat", [(await $.mv((await $.wv([$t32], "EFirst_price", C, false)), "Text"))], C)), (await $.wcall([$t32], "StrToFloat", [(await $.mv((await $.wv([$t32], "EBalance_price", C, false)), "Text"))], C)), (await $.wv([$t32], "IN_D", C, false)), (await $.wcall([$t32], "StrToInt", [(await $.mv((await $.wv([$t32], "EIn_num", C, false)), "Text"))], C)), (await $.wcall([$t32], "StrToInt", [(await $.mv((await $.wv([$t32], "EAMORTNB", C, false)), "Text"))], C)), (await $.mv((await $.wv([$t32], "EPRODUCER_PLANE", C, false)), "Text")), (await $.wcall([$t32], "StrToInt", [(await $.mv((await $.wv([$t32], "EFXM", C, false)), "Text"))], C)), (await $.mv((await $.mcall((await $.wv([$t32], "ODSTakeDepartmentID", C, false)), "FieldByName", ["ID"])), "AsInteger")), 0, (await $.wcall([$t32], "StrToFloat", [(await $.mv((await $.wv([$t32], "EAccrualAmort", C, false)), "Text"))], C)), 0, 0, (await $.wcall([$t32], "StrToInt", [(await $.mv((await $.wv([$t32], "EAMORTTAX", C, false)), "Text"))], C))]])));
         await $.mcall((await $.wv([$t32], "ODSWClose", C, false)), "Refresh", []);
         await $.mcall((await $.wv([$t32], "ODSMODERN", C, false)), "Close", []);
@@ -453,7 +453,7 @@ export default function define($) {
     } else {
       if ($.truthy($.eq((await $.mv((await $.v(C, "MainFacilities")), "OpeartionMode")), (await $.v(C, "omEdit"))))) {
         {
-          const $t33 = (await $.v(C, "MainFDataModule"));
+          const $t33 = (await $.wobj(C, "MainFDataModule"));
           await $.wset([$t33], "SearchID", (await $.mv((await $.mcall((await $.wv([$t33], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger")), { get: async () => L0["searchid"], set: async (v) => { L0["searchid"] = v; }, local: true });
           await $.stmt((await $.mcall((await $.wv([$t33], "OPViewWares", C, false)), "CallProcedure", ["upd_wares", [(await $.mv((await $.mcall((await $.wv([$t33], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.wv([$t33], "EName", C, false)), "Text")), (await $.mv((await $.wv([$t33], "EInventar", C, false)), "Text")), (await $.mv((await $.wv([$t33], "DTPInventar_date", C, false)), "DateTime")), (await $.wcall([$t33], "StrToFloat", [(await $.mv((await $.wv([$t33], "EFirst_price", C, false)), "Text"))], C)), (await $.wcall([$t33], "StrToFloat", [(await $.mv((await $.wv([$t33], "EBalance_price", C, false)), "Text"))], C)), (await $.mv((await $.wv([$t33], "DTPIn_date", C, false)), "DateTime")), (await $.wcall([$t33], "StrToInt", [(await $.mv((await $.wv([$t33], "EIn_num", C, false)), "Text"))], C)), (await $.wcall([$t33], "StrToFloat", [(await $.mv((await $.wv([$t33], "EAMORTNB", C, false)), "Text"))], C)), (await $.mv((await $.wv([$t33], "EPRODUCER_PLANE", C, false)), "Text")), (await $.wcall([$t33], "StrToInt", [(await $.mv((await $.wv([$t33], "EFXM", C, false)), "Text"))], C)), (await $.mv((await $.mcall((await $.mv((await $.wv([$t33], "MainFDataModule", C, false)), "ODSTakeDepartmentID")), "FieldByName", ["ID"])), "AsInteger")), (await $.wcall([$t33], "StrToFloat", [(await $.mv((await $.wv([$t33], "EAccrualAmort", C, false)), "Text"))], C)), (await $.wcall([$t33], "StrToFloat", [(await $.mv((await $.wv([$t33], "EAMORTTAX", C, false)), "Text"))], C)), (await $.mv((await $.mcall((await $.wv([$t33], "ViewWares", C, false)), "FieldByName", ["GroupsID"])), "AsInteger"))]])));
           await $.mcall((await $.wv([$t33], "ViewWares", C, false)), "Refresh", []);

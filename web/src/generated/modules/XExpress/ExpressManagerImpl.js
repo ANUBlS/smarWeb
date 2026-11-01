@@ -499,7 +499,7 @@ export default function define($) {
     await $.set(C, "AdminAllForm", (await $.mcall((await $.v(C, "TAdminAllForm")), "Create", [(await $.v(C, "Application"))])));
   }
   {
-    const $t3 = (await $.v(C, "ExpDataModule"));
+    const $t3 = (await $.wobj(C, "ExpDataModule"));
     const $t4 = (await $.wv([$t3], "ExpBatchsDataSet", C, false));
     if ($.truthy($.eq((await $.wcall([$t3, $t4], "UpperCase", [(await $.mv((await $.wv([$t3, $t4], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mcall((await $.wv([$t3, $t4], "AdminAllForm", C, false)), "ShowModal", []);
@@ -514,7 +514,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "setir": '', "clock": '', "id": 0, "status": 0, "expdate": 0, "optype": 0, "v_setid": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "ExpDataModule"));
+    const $t5 = (await $.wobj(C, "ExpDataModule"));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.mv((await $.wv([$t5], "XDBGrid1", C, false)), "DataSource")), "DataSet")), "RecordCount")), 0))) {
       return L0.result;
     }
@@ -582,7 +582,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "ExpDataModule"));
+    const $t8 = (await $.wobj(C, "ExpDataModule"));
     const $t9 = (await $.wv([$t8], "ExpBatchsDataSet", C, false));
     const $t10 = (await $.wv([$t8, $t9], "EXPESSPAC", C, false));
     if ($.truthy($.eq((await $.wv([$t8, $t9, $t10], "recordcount", C, false)), 0))) {
@@ -830,7 +830,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "CreditReport")), "QRLabel69")), "Caption", (await $.mv((await $.mcall((await $.mv((await $.v(C, "ExpDataModule")), "BankInfoDataSet")), "FieldByName", ["adress"])), "AsString")));
   if ($.truthy($.eq(L0["optype"], 4))) {
     {
-      const $t16 = (await $.v(C, "ExpDataModule"));
+      const $t16 = (await $.wobj(C, "ExpDataModule"));
       await $.mcall((await $.wv([$t16], "SendDataSet", C, false)), "close", []);
       { const $t17 = await $.iset((await $.mv((await $.wv([$t16], "SendDataSet", C, false)), "SQL")), [1], ""); if ($t17 !== undefined) { await $.mset((await $.wv([$t16], "SendDataSet", C, false)), "SQL", $t17); } }
       { const $t18 = await $.iset((await $.mv((await $.wv([$t16], "SendDataSet", C, false)), "SQL")), [1], $.add("where id= ", (await $.wv([$t16], "S", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)))); if ($t18 !== undefined) { await $.mset((await $.wv([$t16], "SendDataSet", C, false)), "SQL", $t18); } }
@@ -894,7 +894,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "CreditReport")), "QRLabel69")), "Caption", (await $.mv((await $.mcall((await $.mv((await $.v(C, "ExpDataModule")), "BankInfoDataSet")), "FieldByName", ["adress"])), "AsString")));
   if ($.truthy($.eq(L0["optype"], 4))) {
     {
-      const $t19 = (await $.v(C, "ExpDataModule"));
+      const $t19 = (await $.wobj(C, "ExpDataModule"));
       await $.mcall((await $.wv([$t19], "SendDataSet", C, false)), "close", []);
       { const $t20 = await $.iset((await $.mv((await $.wv([$t19], "SendDataSet", C, false)), "SQL")), [1], ""); if ($t20 !== undefined) { await $.mset((await $.wv([$t19], "SendDataSet", C, false)), "SQL", $t20); } }
       { const $t21 = await $.iset((await $.mv((await $.wv([$t19], "SendDataSet", C, false)), "SQL")), [1], $.add("where id= ", (await $.wv([$t19], "S", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)))); if ($t21 !== undefined) { await $.mset((await $.wv([$t19], "SendDataSet", C, false)), "SQL", $t21); } }
@@ -944,7 +944,7 @@ export default function define($) {
   }
   L0["skomission"] = "";
   {
-    const $t22 = (await $.v(C, "ExpDataModule"));
+    const $t22 = (await $.wobj(C, "ExpDataModule"));
     const $t23 = (await $.wv([$t22], "SendDataSet", C, false));
     await $.stmt($.wcall([$t22, $t23], "Close", [], C));
     { const $t24 = await $.iset((await $.wv([$t22, $t23], "SQl", C, false)), [1], ""); if ($t24 !== undefined) { await $.wset([$t22, $t23], "SQl", $t24, C); } }
@@ -952,7 +952,7 @@ export default function define($) {
     await $.stmt($.wcall([$t22, $t23], "Open", [], C));
   }
   {
-    const $t26 = (await $.v(C, "ExpDataModule"));
+    const $t26 = (await $.wobj(C, "ExpDataModule"));
     const $t27 = (await $.wv([$t26], "SendToDataSet", C, false));
     await $.stmt($.wcall([$t26, $t27], "Close", [], C));
     { const $t28 = await $.iset((await $.wv([$t26, $t27], "SQl", C, false)), [1], ""); if ($t28 !== undefined) { await $.wset([$t26, $t27], "SQl", $t28, C); } }
@@ -963,7 +963,7 @@ export default function define($) {
     await $.set(C, "QuickReportXOrder", (await $.mcall((await $.v(C, "TQuickReportXOrder")), "Create", [(await $.v(C, "APPLICATION"))])));
   }
   {
-    const $t30 = (await $.v(C, "QuickReportXOrder"));
+    const $t30 = (await $.wobj(C, "QuickReportXOrder"));
     const $t31 = (await $.wv([$t30], "ExpDataModule", C, false));
     await $.mset((await $.wv([$t30, $t31], "QRFilVoin", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t30, $t31], "BankInfoDataSet", C, false)), "FieldByName", ["inn"])), "AsString")));
     await $.mset((await $.wv([$t30, $t31], "QRFilialName", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t30, $t31], "ExpIncomingarchiveDataSet", C, false)), "FieldByName", ["BFILIALNAME"])), "AsString")));
@@ -1010,7 +1010,7 @@ export default function define($) {
   }
   L0["skomission"] = "";
   {
-    const $t32 = (await $.v(C, "ExpDataModule"));
+    const $t32 = (await $.wobj(C, "ExpDataModule"));
     const $t33 = (await $.wv([$t32], "SendDataSet", C, false));
     await $.stmt($.wcall([$t32, $t33], "Close", [], C));
     { const $t34 = await $.iset((await $.wv([$t32, $t33], "SQl", C, false)), [1], ""); if ($t34 !== undefined) { await $.wset([$t32, $t33], "SQl", $t34, C); } }
@@ -1018,7 +1018,7 @@ export default function define($) {
     await $.stmt($.wcall([$t32, $t33], "Open", [], C));
   }
   {
-    const $t36 = (await $.v(C, "ExpDataModule"));
+    const $t36 = (await $.wobj(C, "ExpDataModule"));
     const $t37 = (await $.wv([$t36], "SendToDataSet", C, false));
     await $.stmt($.wcall([$t36, $t37], "Close", [], C));
     { const $t38 = await $.iset((await $.wv([$t36, $t37], "SQl", C, false)), [1], ""); if ($t38 !== undefined) { await $.wset([$t36, $t37], "SQl", $t38, C); } }
@@ -1029,7 +1029,7 @@ export default function define($) {
     await $.set(C, "QuickReportXOrder", (await $.mcall((await $.v(C, "TQuickReportXOrder")), "Create", [(await $.v(C, "APPLICATION"))])));
   }
   {
-    const $t40 = (await $.v(C, "QuickReportXOrder"));
+    const $t40 = (await $.wobj(C, "QuickReportXOrder"));
     const $t41 = (await $.wv([$t40], "ExpDataModule", C, false));
     await $.mset((await $.wv([$t40, $t41], "QRFilVoin", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t40, $t41], "BankInfoDataSet", C, false)), "FieldByName", ["inn"])), "AsString")));
     await $.mset((await $.wv([$t40, $t41], "QRFilialName", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t40, $t41], "ExpIncomingDataSet", C, false)), "FieldByName", ["BFILIALNAME"])), "AsString")));
@@ -1076,7 +1076,7 @@ export default function define($) {
   }
   L0["skomission"] = "";
   {
-    const $t42 = (await $.v(C, "ExpDataModule"));
+    const $t42 = (await $.wobj(C, "ExpDataModule"));
     const $t43 = (await $.wv([$t42], "SendDataSet", C, false));
     await $.stmt($.wcall([$t42, $t43], "Close", [], C));
     { const $t44 = await $.iset((await $.wv([$t42, $t43], "SQl", C, false)), [1], ""); if ($t44 !== undefined) { await $.wset([$t42, $t43], "SQl", $t44, C); } }
@@ -1084,7 +1084,7 @@ export default function define($) {
     await $.stmt($.wcall([$t42, $t43], "Open", [], C));
   }
   {
-    const $t46 = (await $.v(C, "ExpDataModule"));
+    const $t46 = (await $.wobj(C, "ExpDataModule"));
     const $t47 = (await $.wv([$t46], "SendToDataSet", C, false));
     await $.stmt($.wcall([$t46, $t47], "Close", [], C));
     { const $t48 = await $.iset((await $.wv([$t46, $t47], "SQl", C, false)), [1], ""); if ($t48 !== undefined) { await $.wset([$t46, $t47], "SQl", $t48, C); } }
@@ -1095,7 +1095,7 @@ export default function define($) {
     await $.set(C, "QReportOrder", (await $.mcall((await $.v(C, "TQReportOrder")), "Create", [(await $.v(C, "APPLICATION"))])));
   }
   {
-    const $t50 = (await $.v(C, "QReportOrder"));
+    const $t50 = (await $.wobj(C, "QReportOrder"));
     const $t51 = (await $.wv([$t50], "ExpDataModule", C, false));
     await $.mset((await $.wv([$t50, $t51], "QRFilVoin", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t50, $t51], "BankInfoDataSet", C, false)), "FieldByName", ["inn"])), "AsString")));
     await $.mset((await $.wv([$t50, $t51], "QRFilialName", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t50, $t51], "ExpBatchsArchiveDataSet", C, false)), "FieldByName", ["FILIALNAME"])), "AsString")));
@@ -1154,7 +1154,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "CreditReport")), "QRLabel69")), "Caption", (await $.mv((await $.mcall((await $.mv((await $.v(C, "ExpDataModule")), "BankInfoDataSet")), "FieldByName", ["adress"])), "AsString")));
   if ($.truthy($.eq(L0["optype"], 4))) {
     {
-      const $t52 = (await $.v(C, "ExpDataModule"));
+      const $t52 = (await $.wobj(C, "ExpDataModule"));
       await $.mcall((await $.wv([$t52], "SendDataSet", C, false)), "close", []);
       { const $t53 = await $.iset((await $.mv((await $.wv([$t52], "SendDataSet", C, false)), "SQL")), [1], ""); if ($t53 !== undefined) { await $.mset((await $.wv([$t52], "SendDataSet", C, false)), "SQL", $t53); } }
       { const $t54 = await $.iset((await $.mv((await $.wv([$t52], "SendDataSet", C, false)), "SQL")), [1], $.add("where id= ", (await $.wv([$t52], "S", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)))); if ($t54 !== undefined) { await $.mset((await $.wv([$t52], "SendDataSet", C, false)), "SQL", $t54); } }
@@ -1200,7 +1200,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t55 = (await $.v(C, "ExpDataModule"));
+    const $t55 = (await $.wobj(C, "ExpDataModule"));
     const $t56 = (await $.wv([$t55], "ExpIncomingarchiveDataSet", C, false));
     await $.stmt($.wcall([$t55, $t56], "close", [], C));
     await $.stmt((await $.wcall([$t55, $t56], "SetVariable", ["bdate", (await $.mv((await $.wv([$t55, $t56], "DTPInArchiveB", C, false)), "DateTime"))], C)));
@@ -1221,7 +1221,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t57 = (await $.v(C, "ExpDataModule"));
+    const $t57 = (await $.wobj(C, "ExpDataModule"));
     const $t58 = (await $.wv([$t57], "ExpBatchsArchiveDataSet", C, false));
     await $.stmt($.wcall([$t57, $t58], "close", [], C));
     await $.stmt((await $.wcall([$t57, $t58], "SetVariable", ["bdate", (await $.mv((await $.wv([$t57, $t58], "DTPOutArchiveB", C, false)), "DateTime"))], C)));
@@ -1235,7 +1235,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "setir": '', "id": 0, "status": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t59 = (await $.v(C, "ExpDataModule"));
+    const $t59 = (await $.wobj(C, "ExpDataModule"));
     await $.wset([$t59], "id", (await $.mv((await $.mcall((await $.wv([$t59], "ExpBatchsDataSet", C, false)), "fieldbyname", ["id"])), "AsInteger")), { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true });
     await $.wset([$t59], "status", (await $.mcall((await $.wv([$t59], "Repair", C, false)), "CallIntegerFunction", ["Exp_checkstatus", [(await $.wv([$t59], "id", { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true }, false))]])), { get: async () => L0["status"], set: async (v) => { L0["status"] = v; }, local: true });
     if ($.truthy($.in_((await $.wv([$t59], "status", { get: async () => L0["status"], set: async (v) => { L0["status"] = v; }, local: true }, false)), [0, 3]))) {
@@ -1299,7 +1299,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "id": 0, "status": 0, "optype": 0, "v_setid": 0, "setir": '', "descript": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t61 = (await $.v(C, "ExpDataModule"));
+    const $t61 = (await $.wobj(C, "ExpDataModule"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t61], "ExpIncomingDataSet", C, false)), "RecordCount")), 0))) {
       return L0.result;
     }
@@ -1389,7 +1389,7 @@ export default function define($) {
   }
   L0["skomission"] = "";
   {
-    const $t66 = (await $.v(C, "ExpDataModule"));
+    const $t66 = (await $.wobj(C, "ExpDataModule"));
     const $t67 = (await $.wv([$t66], "SendDataSet", C, false));
     await $.stmt($.wcall([$t66, $t67], "Close", [], C));
     { const $t68 = await $.iset((await $.wv([$t66, $t67], "SQl", C, false)), [1], ""); if ($t68 !== undefined) { await $.wset([$t66, $t67], "SQl", $t68, C); } }
@@ -1397,7 +1397,7 @@ export default function define($) {
     await $.stmt($.wcall([$t66, $t67], "Open", [], C));
   }
   {
-    const $t70 = (await $.v(C, "ExpDataModule"));
+    const $t70 = (await $.wobj(C, "ExpDataModule"));
     const $t71 = (await $.wv([$t70], "SendToDataSet", C, false));
     await $.stmt($.wcall([$t70, $t71], "Close", [], C));
     { const $t72 = await $.iset((await $.wv([$t70, $t71], "SQl", C, false)), [1], ""); if ($t72 !== undefined) { await $.wset([$t70, $t71], "SQl", $t72, C); } }
@@ -1408,7 +1408,7 @@ export default function define($) {
     await $.set(C, "QReportOrder", (await $.mcall((await $.v(C, "TQReportOrder")), "Create", [(await $.v(C, "APPLICATION"))])));
   }
   {
-    const $t74 = (await $.v(C, "QReportOrder"));
+    const $t74 = (await $.wobj(C, "QReportOrder"));
     const $t75 = (await $.wv([$t74], "ExpDataModule", C, false));
     await $.mset((await $.wv([$t74, $t75], "QRFilVoin", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t74, $t75], "BankInfoDataSet", C, false)), "FieldByName", ["inn"])), "AsString")));
     await $.mset((await $.wv([$t74, $t75], "QRFilialName", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t74, $t75], "ExpBatchsDataSet", C, false)), "FieldByName", ["FILIALNAME"])), "AsString")));
@@ -1449,7 +1449,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t76 = (await $.v(C, "ExpDataModule"));
+    const $t76 = (await $.wobj(C, "ExpDataModule"));
     const $t77 = (await $.wv([$t76], "ExpBatchsDataSet", C, false));
     if ($.truthy($.eq((await $.wcall([$t76, $t77], "UpperCase", [(await $.mv((await $.wv([$t76, $t77], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mset((await $.wv([$t76, $t77], "ExpParameter", C, false)), "Caption", "Müxbir Hesablar");
@@ -1465,7 +1465,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t78 = (await $.v(C, "ExpDataModule"));
+    const $t78 = (await $.wobj(C, "ExpDataModule"));
     const $t79 = (await $.wv([$t78], "ExpBatchsDataSet", C, false));
     if ($.truthy($.eq((await $.wcall([$t78, $t79], "UpperCase", [(await $.mv((await $.wv([$t78, $t79], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mset((await $.wv([$t78, $t79], "ExpSubForm", C, false)), "Caption", "Əməliyyat Hesabları");
@@ -1481,7 +1481,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t80 = (await $.v(C, "ExpDataModule"));
+    const $t80 = (await $.wobj(C, "ExpDataModule"));
     const $t81 = (await $.wv([$t80], "ExpBatchsDataSet", C, false));
     if ($.truthy($.eq((await $.wcall([$t80, $t81], "UpperCase", [(await $.mv((await $.wv([$t80, $t81], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mset((await $.wv([$t80, $t81], "ExpComAccForm", C, false)), "Caption", "");
@@ -1497,7 +1497,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t82 = (await $.v(C, "ExpDataModule"));
+    const $t82 = (await $.wobj(C, "ExpDataModule"));
     const $t83 = (await $.wv([$t82], "ExpBatchsDataSet", C, false));
     if ($.truthy($.eq((await $.wcall([$t82, $t83], "UpperCase", [(await $.mv((await $.wv([$t82, $t83], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mcall((await $.wv([$t82, $t83], "ExpComTransactionForm", C, false)), "ShowModal", []);
@@ -1514,7 +1514,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "ExpArchiveForm")), "DateTimePicker1")), "DateTime", (await $.call(C, "trunc", [(await $.mv((await $.mcall((await $.mv((await $.v(C, "ExpDataModule")), "SysdateDataSet")), "fieldbyname", ["dat"])), "AsDateTime"))])));
   await $.mset((await $.mv((await $.v(C, "ExpArchiveForm")), "DateTimePicker2")), "DateTime", (await $.call(C, "trunc", [(await $.mv((await $.mcall((await $.mv((await $.v(C, "ExpDataModule")), "SysdateDataSet")), "fieldbyname", ["dat"])), "AsDateTime"))])));
   {
-    const $t84 = (await $.v(C, "ExpDataModule"));
+    const $t84 = (await $.wobj(C, "ExpDataModule"));
     const $t85 = (await $.wv([$t84], "ExpBatchsArchiveDataSet", C, false));
     await $.stmt($.wcall([$t84, $t85], "close", [], C));
     await $.stmt((await $.wcall([$t84, $t85], "SetVariable", ["bdate", (await $.mv((await $.mv((await $.wv([$t84, $t85], "ExpArchiveForm", C, false)), "DateTimePicker1")), "DateTime"))], C)));
@@ -1607,7 +1607,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "CreditReport")), "QRLabel69")), "Caption", (await $.mv((await $.mcall((await $.mv((await $.v(C, "ExpDataModule")), "BankInfoDataSet")), "FieldByName", ["adress"])), "AsString")));
   if ($.truthy((await $.and_(($.eq(L0["optype"], 8)), async () => ((await $.or_(($.eq(L0["vtranstype"], 1)), async () => ($.eq(L0["vtranstype"], 2))))))))) {
     {
-      const $t87 = (await $.v(C, "ExpDataModule"));
+      const $t87 = (await $.wobj(C, "ExpDataModule"));
       await $.mcall((await $.wv([$t87], "Settings", C, false)), "Close", []);
       await $.mcall((await $.wv([$t87], "Settings", C, false)), "Open", []);
       await $.mcall((await $.wv([$t87], "CustDataSet", C, false)), "close", []);
@@ -1643,7 +1643,7 @@ export default function define($) {
   }
   if ($.truthy((await $.or_((await $.or_(($.eq(L0["optype"], 4)), async () => ((await $.and_(($.eq(L0["optype"], 8)), async () => ($.eq(L0["vtranstype"], 0))))))), async () => ($.eq(L0["optype"], 7)))))) {
     {
-      const $t90 = (await $.v(C, "ExpDataModule"));
+      const $t90 = (await $.wobj(C, "ExpDataModule"));
       await $.mcall((await $.wv([$t90], "SendDataSet", C, false)), "close", []);
       { const $t91 = await $.iset((await $.mv((await $.wv([$t90], "SendDataSet", C, false)), "SQL")), [1], ""); if ($t91 !== undefined) { await $.mset((await $.wv([$t90], "SendDataSet", C, false)), "SQL", $t91); } }
       { const $t92 = await $.iset((await $.mv((await $.wv([$t90], "SendDataSet", C, false)), "SQL")), [1], $.add("where id= ", (await $.wv([$t90], "S", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)))); if ($t92 !== undefined) { await $.mset((await $.wv([$t90], "SendDataSet", C, false)), "SQL", $t92); } }
@@ -1716,7 +1716,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t93 = (await $.v(C, "ExpDataModule"));
+    const $t93 = (await $.wobj(C, "ExpDataModule"));
     const $t94 = (await $.wv([$t93], "ExpBatchsDataSet", C, false));
     if ($.truthy($.eq((await $.wcall([$t93, $t94], "UpperCase", [(await $.mv((await $.wv([$t93, $t94], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mcall((await $.wv([$t93, $t94], "ExpAllParametr", C, false)), "ShowModal", []);
@@ -1734,7 +1734,7 @@ export default function define($) {
     await $.set(C, "AdminForm", (await $.mcall((await $.v(C, "TAdminForm")), "Create", [(await $.v(C, "Application"))])));
   }
   {
-    const $t95 = (await $.v(C, "ExpDataModule"));
+    const $t95 = (await $.wobj(C, "ExpDataModule"));
     const $t96 = (await $.wv([$t95], "ExpBatchsDataSet", C, false));
     if ($.truthy($.eq((await $.wcall([$t95, $t96], "UpperCase", [(await $.mv((await $.wv([$t95, $t96], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mcall((await $.wv([$t95, $t96], "AdminForm", C, false)), "ShowModal", []);
@@ -1752,7 +1752,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t97 = (await $.v(C, "ExpDataModule"));
+    const $t97 = (await $.wobj(C, "ExpDataModule"));
     const $t98 = (await $.wv([$t97], "ExpBatchsDataSet", C, false));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t97, $t98], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {
       await $.stmt((await $.wcall([$t97, $t98], "SetVariable", ["title", $.add($.add((await $.mv((await $.wv([$t97, $t98], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), " "), "ASC")], C)));
@@ -1778,7 +1778,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t99 = (await $.v(C, "ExpDataModule"));
+    const $t99 = (await $.wobj(C, "ExpDataModule"));
     const $t100 = (await $.wv([$t99], "ExpIncomingDataSet", C, false));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t99, $t100], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {
       await $.stmt((await $.wcall([$t99, $t100], "SetVariable", ["title", $.add($.add((await $.mv((await $.wv([$t99, $t100], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), " "), "ASC")], C)));
@@ -1804,7 +1804,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t101 = (await $.v(C, "ExpDataModule"));
+    const $t101 = (await $.wobj(C, "ExpDataModule"));
     const $t102 = (await $.wv([$t101], "ExpBatchsArchiveDataSet", C, false));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t101, $t102], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {
       await $.stmt((await $.wcall([$t101, $t102], "SetVariable", ["title", $.add($.add((await $.mv((await $.wv([$t101, $t102], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), " "), "ASC")], C)));
@@ -1829,7 +1829,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t103 = (await $.v(C, "ExpDataModule"));
+    const $t103 = (await $.wobj(C, "ExpDataModule"));
     const $t104 = (await $.wv([$t103], "ExpIncomingarchiveDataSet", C, false));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t103, $t104], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {
       await $.stmt((await $.wcall([$t103, $t104], "SetVariable", ["title", $.add($.add((await $.mv((await $.wv([$t103, $t104], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), " "), "ASC")], C)));

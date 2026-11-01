@@ -85,7 +85,7 @@ export default function define($) {
     L0["period"] = (await $.call(C, "StrToInt", [(await $.mv((await $.v(C, "Edit1")), "Text"))]));
     L0["crdrest"] = (await $.mv((await $.v(C, "Rest")), "value"));
     {
-      const $t1 = (await $.v(C, "ArPaymentDataModule"));
+      const $t1 = (await $.wobj(C, "ArPaymentDataModule"));
       const $t2 = (await $.wv([$t1], "CM_SCHEDULE", C, false));
       await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["ChangeSchedule", ["p_CreditID", (await $.wv([$t1, $t2], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), "P_Date", (await $.wv([$t1, $t2], "BeginDate", { get: async () => L0["begindate"], set: async (v) => { L0["begindate"] = v; }, local: true }, false)), "p_period", (await $.wv([$t1, $t2], "period", { get: async () => L0["period"], set: async (v) => { L0["period"] = v; }, local: true }, false)), "p_rest", (await $.wv([$t1, $t2], "CrdRest", { get: async () => L0["crdrest"], set: async (v) => { L0["crdrest"] = v; }, local: true }, false)), "p_changedate", (await $.mv((await $.wv([$t1, $t2], "XFCheckBox1", C, false)), "checked")), "p_status", 1]], C)));
     }
@@ -96,7 +96,7 @@ export default function define($) {
     L0["period"] = (await $.call(C, "StrToInt", [(await $.mv((await $.v(C, "Edit1")), "Text"))]));
     L0["crdrest"] = (await $.mv((await $.v(C, "Rest")), "value"));
     {
-      const $t3 = (await $.v(C, "ArPaymentDataModule"));
+      const $t3 = (await $.wobj(C, "ArPaymentDataModule"));
       const $t4 = (await $.wv([$t3], "CM_SCHEDULE", C, false));
       await $.stmt((await $.wcall([$t3, $t4], "CallProcedure", ["ChangeSchedule", ["p_CreditID", (await $.wv([$t3, $t4], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), "P_Date", (await $.wv([$t3, $t4], "BeginDate", { get: async () => L0["begindate"], set: async (v) => { L0["begindate"] = v; }, local: true }, false)), "p_period", (await $.wv([$t3, $t4], "period", { get: async () => L0["period"], set: async (v) => { L0["period"] = v; }, local: true }, false)), "p_rest", (await $.wv([$t3, $t4], "CrdRest", { get: async () => L0["crdrest"], set: async (v) => { L0["crdrest"] = v; }, local: true }, false)), "p_changedate", (await $.mv((await $.wv([$t3, $t4], "XFCheckBox1", C, false)), "checked")), "p_status", 2, "p_pay", (await $.mv((await $.mv((await $.wv([$t3, $t4], "PaymentAddForm", C, false)), "MainAmtEdit")), "value"))]], C)));
     }

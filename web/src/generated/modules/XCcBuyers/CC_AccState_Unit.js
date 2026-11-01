@@ -44,7 +44,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "AccStateExporter"));
+    const $t2 = (await $.wobj(C, "AccStateExporter"));
     if ($.truthy((await $.and_((await $.mv((await $.mv((await $.wv([$t2], "ExportSource", C, false)), "DataSet")), "Active")), async () => ($.gt((await $.mv((await $.mv((await $.wv([$t2], "ExportSource", C, false)), "DataSet")), "RecordCount")), 0)))))) {
       await $.mcall((await $.mv((await $.wv([$t2], "ExportSource", C, false)), "DataSet")), "Last", []);
       await $.mcall((await $.mv((await $.wv([$t2], "ExportSource", C, false)), "DataSet")), "First", []);
@@ -71,7 +71,7 @@ export default function define($) {
   }
   if ($.truthy($.ne((await $.v(C, "AccountID")), (await $.v(C, "PriorAccountID"))))) {
     {
-      const $t4 = (await $.v(C, "AccStateData"));
+      const $t4 = (await $.wobj(C, "AccStateData"));
       await $.stmt($.wcall([$t4], "CloseAll", [], C));
       await $.stmt((await $.wcall([$t4], "SetVariable", ["AccID", (await $.wv([$t4], "AccountID", C, false))], C)));
       await $.stmt($.wcall([$t4], "Open", [], C));

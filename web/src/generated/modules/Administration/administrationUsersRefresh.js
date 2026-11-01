@@ -27,7 +27,7 @@ export default function define($) {
       L0["e"] = $.exc($t1);
       if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "fmUsersRefresh"))])))) {
         {
-          const $t2 = (await $.v(C, "fmUsersRefresh"));
+          const $t2 = (await $.wobj(C, "fmUsersRefresh"));
           await $.wset([$t2], "ErrorStr", (await $.mv((await $.wv([$t2], "E", { get: async () => L0["e"], set: async (v) => { L0["e"] = v; }, local: true }, false)), "Message")), C);
           await $.stmt((await $.wcall([$t2], "PostMessage", [(await $.mv((await $.wv([$t2], "fmUsersRefresh", C, false)), "Handle")), (await $.wv([$t2], "WM_EXCEPTIONSMESSAGE", C, false)), (await $.wcall([$t2], "Integer", [(await $.wv([$t2], "E", { get: async () => L0["e"], set: async (v) => { L0["e"] = v; }, local: true }, false))], C)), 0], C)));
         }
@@ -62,7 +62,7 @@ export default function define($) {
   const L0 = {result: undefined};
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "fmUsersRefresh"))])))) {
     {
-      const $t5 = (await $.v(C, "fmUsersRefresh"));
+      const $t5 = (await $.wobj(C, "fmUsersRefresh"));
       await $.mset((await $.wv([$t5], "btMainBar", C, false)), "Progress", $.add((await $.mv((await $.wv([$t5], "btMainBar", C, false)), "Progress")), (await $.wv([$t5], "Inc_Step", C, false))));
     }
   }
@@ -72,7 +72,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t6 = (await $.v(C, "fmUsersRefresh"));
+    const $t6 = (await $.wobj(C, "fmUsersRefresh"));
     await $.mset((await $.wv([$t6], "btApply", C, false)), "Enabled", (await $.wv([$t6], "True", C, false)));
   }
   return L0.result;
@@ -112,7 +112,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t11 = (await $.v(C, "fmUsersRefresh"));
+    const $t11 = (await $.wobj(C, "fmUsersRefresh"));
     await $.mset((await $.wv([$t11], "btMainBar", C, false)), "MaxValue", $.mul($.mul((await $.wv([$t11], "GetCount", { get: async () => L0["getcount"], set: async (v) => { L0["getcount"] = v; }, local: true }, false)), (await $.wv([$t11], "Oper_count", C, false))), 10));
     if ($.truthy((await $.mv((await $.wv([$t11], "cbTables", C, false)), "Checked")))) {
       await $.stmt((await $.wcall([$t11], "CreateSynonyms", ["TABLE", (await $.wv([$t11], "Sm_Own", C, false)), ""], C)));
@@ -193,7 +193,7 @@ export default function define($) {
     }
   }
   {
-    const $t17 = (await $.v(C, "fmUsersRefresh"));
+    const $t17 = (await $.wobj(C, "fmUsersRefresh"));
     const $t18 = (await $.mv((await $.wv([$t17], "fmUsersRefresh", C, false)), "clbUsers"));
     const $t19 = (await $.wv([$t17, $t18], "AdministrationData", C, false));
     { const $t20 = $.sub((await $.mv((await $.mv((await $.mv((await $.wv([$t17, $t18, $t19], "fmUsersRefresh", C, false)), "clbUsers")), "Items")), "Count")), 1);
@@ -241,7 +241,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t25 = (await $.v(C, "fmUsersRefresh"));
+    const $t25 = (await $.wobj(C, "fmUsersRefresh"));
     const $t26 = (await $.mv((await $.wv([$t25], "fmUsersRefresh", C, false)), "clbUsers"));
     const $t27 = (await $.wv([$t25, $t26], "AdministrationData", C, false));
     { const $t28 = $.sub((await $.mv((await $.mv((await $.mv((await $.wv([$t25, $t26, $t27], "fmUsersRefresh", C, false)), "clbUsers")), "Items")), "Count")), 1);
@@ -296,7 +296,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["sowner"] = "SMART";
   {
-    const $t32 = (await $.v(C, "fmUsersRefresh"));
+    const $t32 = (await $.wobj(C, "fmUsersRefresh"));
     const $t33 = (await $.mv((await $.wv([$t32], "fmUsersRefresh", C, false)), "clbUsers"));
     const $t34 = (await $.wv([$t32, $t33], "AdministrationData", C, false));
     { const $t35 = $.sub((await $.mv((await $.mv((await $.mv((await $.wv([$t32, $t33, $t34], "fmUsersRefresh", C, false)), "clbUsers")), "Items")), "Count")), 1);
@@ -318,7 +318,7 @@ export default function define($) {
     }
   }
   {
-    const $t38 = (await $.v(C, "fmUsersRefresh"));
+    const $t38 = (await $.wobj(C, "fmUsersRefresh"));
     await $.mset((await $.wv([$t38], "PB1", C, false)), "Position", 10);
     if ($.truthy((await $.mv((await $.wv([$t38], "cbTables", C, false)), "Checked")))) {
       await $.stmt((await $.mcall((await $.wv([$t38], "Ref", C, false)), "CreateSynonyms", ["TABLE", (await $.wv([$t38], "Sm_Own", C, false)), ""])));
@@ -352,7 +352,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t39 = (await $.v(C, "gbDatabaseObjects"));
+    const $t39 = (await $.wobj(C, "gbDatabaseObjects"));
     { const $t40 = $.sub((await $.wv([$t39], "ControlCount", C, false)), 1);
       await $.wset([$t39], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t41 = true;

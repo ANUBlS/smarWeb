@@ -119,7 +119,7 @@ export default function define($) {
     await $.mcall((await $.mv((await $.v(C, "DatModConstruction")), "Accounts")), "Refresh", []);
   }
   {
-    const $t3 = (await $.v(C, "DatModConstruction"));
+    const $t3 = (await $.wobj(C, "DatModConstruction"));
     const $t4 = (await $.wv([$t3], "CreditPurpose", C, false));
     await $.mset((await $.wcall([$t3, $t4], "FieldByName", ["AccID"], C)), "AsInteger", (await $.wv([$t3, $t4], "AccID", { get: async () => L0["accid"], set: async (v) => { L0["accid"] = v; }, local: true }, false)));
     await $.mset((await $.wcall([$t3, $t4], "FieldByName", ["CONTAMOUNT"], C)), "asfloat", (await $.mv((await $.wcall([$t3, $t4], "FieldByName", ["restt"], C)), "AsFloat")));
@@ -137,7 +137,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "DatModConstruction"));
+    const $t5 = (await $.wobj(C, "DatModConstruction"));
     const $t6 = (await $.wv([$t5], "Accounts", C, false));
     await $.stmt($.wcall([$t5, $t6], "close", [], C));
     await $.stmt((await $.wcall([$t5, $t6], "SetVariable", ["val", (await $.mv((await $.wv([$t5, $t6], "BranchCBEh", C, false)), "KeyValue"))], C)));
@@ -162,7 +162,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "DatModConstruction"));
+    const $t8 = (await $.wobj(C, "DatModConstruction"));
     const $t9 = (await $.wv([$t8], "CreditPurpose", C, false));
     await $.mset((await $.wcall([$t8, $t9], "FieldByName", ["opendate"], C)), "AsDateTime", (await $.wcall([$t8, $t9], "trunc", [(await $.mv((await $.wv([$t8, $t9], "DTPOpenDate", C, false)), "DateTime"))], C)));
     await $.mset((await $.wcall([$t8, $t9], "FieldByName", ["expdate"], C)), "AsDateTime", (await $.wcall([$t8, $t9], "trunc", [(await $.mv((await $.wv([$t8, $t9], "DTPCloseDate", C, false)), "DateTime"))], C)));
@@ -177,7 +177,7 @@ export default function define($) {
   L0["mon"] = (await $.call(C, "strtoint", [(await $.mv((await $.v(C, "edit7")), "text"))]));
   await $.mset((await $.mv((await $.v(C, "AddEditContractForm")), "DTPCloseDate")), "DateTime", (await $.mcall((await $.mv((await $.v(C, "DatModConstruction")), "sbcm_construction")), "CallDateFunction", ["GetFindExpdate", ["odat", (await $.mv((await $.v(C, "DTPOpenDate")), "DateTime")), "mon", L0["mon"]]])));
   {
-    const $t10 = (await $.v(C, "DatModConstruction"));
+    const $t10 = (await $.wobj(C, "DatModConstruction"));
     const $t11 = (await $.wv([$t10], "CreditPurpose", C, false));
     await $.mset((await $.wcall([$t10, $t11], "FieldByName", ["opendate"], C)), "AsDateTime", (await $.wcall([$t10, $t11], "trunc", [(await $.mv((await $.wv([$t10, $t11], "DTPOpenDate", C, false)), "DateTime"))], C)));
     await $.mset((await $.wcall([$t10, $t11], "FieldByName", ["expdate"], C)), "AsDateTime", (await $.wcall([$t10, $t11], "trunc", [(await $.mv((await $.wv([$t10, $t11], "DTPCloseDate", C, false)), "DateTime"))], C)));
@@ -196,7 +196,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "CMSearchEditLoacAccs")), "Text", "");
   {
-    const $t12 = (await $.v(C, "DatModConstruction"));
+    const $t12 = (await $.wobj(C, "DatModConstruction"));
     const $t13 = (await $.wv([$t12], "Accounts", C, false));
     await $.stmt($.wcall([$t12, $t13], "Close", [], C));
     await $.stmt((await $.wcall([$t12, $t13], "SetVariable", ["BID", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t12, $t13], "DBLookupComboboxEh6", C, false)), "ListSource")), "DataSet")), "FieldByName", ["ID"])), "asInteger"))], C)));

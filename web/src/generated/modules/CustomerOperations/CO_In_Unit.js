@@ -38,7 +38,7 @@ export default function define($) {
     await $.set(C, "CO_Transactions", (await $.mcall((await $.v(C, "TCO_Transactions")), "Create", [Self])));
   }
   {
-    const $t2 = (await $.v(C, "CO_Transactions"));
+    const $t2 = (await $.wobj(C, "CO_Transactions"));
     await $.wset([$t2], "TransTypeIncOutDC", (await $.wv([$t2], "IncOut", C, false)), C);
     await $.stmt($.wcall([$t2], "ShowModal", [], C));
   }

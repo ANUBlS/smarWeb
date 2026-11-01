@@ -15,7 +15,7 @@ export default function define($) {
   const L0 = {"transactionid": $.copyArg(p0), result: 0};
   await $.fixArgs(L0, ["transactionid"]);
   {
-    const $t1 = (await $.v(C, "TrData"));
+    const $t1 = (await $.wobj(C, "TrData"));
     const $t2 = (await $.wv([$t1], "SBTransaction", C, false));
     await $.wset([$t1, $t2], "Result", (await $.wcall([$t1, $t2], "CallIntegerFunction", [(await $.wv([$t1, $t2], "cs_commit_transaction", C, false)), ["TransactionID", (await $.wv([$t1, $t2], "TransactionID", { get: async () => L0["transactionid"], set: async (v) => { L0["transactionid"] = v; }, local: true }, false)), "CommitTemp", (await $.wv([$t1, $t2], "True", C, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }

@@ -400,7 +400,7 @@ export default function define($) {
   await $.fixArgs(L0, ["column"]);
   L0["sqlref"] = "select r.rowid, %s from %s r where %s order by %s";
   {
-    const $t3 = (await $.v(C, "ODSCont"));
+    const $t3 = (await $.wobj(C, "ODSCont"));
     await $.stmt($.wcall([$t3], "close", [], C));
     if ($.truthy((await $.mv((await $.wv([$t3], "ODSTablesQUERY_WHERE", C, false)), "isNull")))) {
       await $.mset((await $.wv([$t3], "sql", C, false)), "text", (await $.wcall([$t3], "format", [(await $.wv([$t3], "sqlref", { get: async () => L0["sqlref"], set: async (v) => { L0["sqlref"] = v; }, local: true }, false)), [(await $.mv((await $.wv([$t3], "ODSTablesQUERYST", C, false)), "AsVariant")), (await $.mv((await $.wv([$t3], "ODSTablesNAME", C, false)), "AsVariant")), "1=1", (await $.mv((await $.wv([$t3], "ODSTablesORDERCOL", C, false)), "AsVariant"))]], C)));
@@ -421,13 +421,13 @@ export default function define($) {
     }
   }
   {
-    const $t6 = (await $.v(C, "ODSColumnTitlles"));
+    const $t6 = (await $.wobj(C, "ODSColumnTitlles"));
     await $.stmt($.wcall([$t6], "Close", [], C));
     await $.stmt((await $.wcall([$t6], "SetVariable", ["tableid", (await $.mv((await $.wv([$t6], "ODSTablesID", C, false)), "AsInteger"))], C)));
     await $.stmt($.wcall([$t6], "Open", [], C));
   }
   {
-    const $t7 = (await $.v(C, "grSettings"));
+    const $t7 = (await $.wobj(C, "grSettings"));
     { const $t8 = $.sub((await $.mv((await $.wv([$t7], "Columns", C, false)), "Count")), 1);
       await $.wset([$t7], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t9 = true;
@@ -463,7 +463,7 @@ export default function define($) {
     await $.set(C, "frmNewUS", (await $.mcall((await $.v(C, "TfrmNewUS")), "Create", [Self])));
   }
   {
-    const $t10 = (await $.v(C, "frmNewUS"));
+    const $t10 = (await $.wobj(C, "frmNewUS"));
     await $.stmt($.wcall([$t10], "ShowModal", [], C));
   }
   return L0.result;
@@ -480,7 +480,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   L0["sqlref"] = "select r.rowid, %s from %s r where %s order by %s";
   {
-    const $t11 = (await $.v(C, "ODSCont"));
+    const $t11 = (await $.wobj(C, "ODSCont"));
     await $.stmt($.wcall([$t11], "close", [], C));
     if ($.truthy((await $.mv((await $.wv([$t11], "ODSTablesQUERY_WHERE", C, false)), "isNull")))) {
       await $.mset((await $.wv([$t11], "sql", C, false)), "text", (await $.wcall([$t11], "format", [(await $.wv([$t11], "sqlref", { get: async () => L0["sqlref"], set: async (v) => { L0["sqlref"] = v; }, local: true }, false)), [(await $.mv((await $.wv([$t11], "ODSTablesQUERYST", C, false)), "AsVariant")), (await $.mv((await $.wv([$t11], "ODSTablesNAME", C, false)), "AsVariant")), "1=1", (await $.mv((await $.wv([$t11], "ODSTablesORDERCOL", C, false)), "AsVariant"))]], C)));
@@ -501,13 +501,13 @@ export default function define($) {
     }
   }
   {
-    const $t14 = (await $.v(C, "ODSColumnTitlles"));
+    const $t14 = (await $.wobj(C, "ODSColumnTitlles"));
     await $.stmt($.wcall([$t14], "Close", [], C));
     await $.stmt((await $.wcall([$t14], "SetVariable", ["tableid", (await $.mv((await $.wv([$t14], "ODSTablesID", C, false)), "AsInteger"))], C)));
     await $.stmt($.wcall([$t14], "Open", [], C));
   }
   {
-    const $t15 = (await $.v(C, "grSettings"));
+    const $t15 = (await $.wobj(C, "grSettings"));
     { const $t16 = $.sub((await $.mv((await $.wv([$t15], "Columns", C, false)), "Count")), 1);
       await $.wset([$t15], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t17 = true;

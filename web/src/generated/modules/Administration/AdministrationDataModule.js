@@ -26,7 +26,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "AdministrationForm"));
+    const $t1 = (await $.wobj(C, "AdministrationForm"));
     if ($.truthy($.not(((await $.wcall([$t1], "Assigned", [(await $.wv([$t1], "AdministrationForm", C, false))], C)))))) {
       return L0.result;
     }

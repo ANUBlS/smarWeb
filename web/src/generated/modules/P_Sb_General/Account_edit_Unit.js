@@ -61,7 +61,7 @@ export default function define($) {
   await $.set(C, "FormAccounFlags", (await $.mcall((await $.v(C, "TFormAccounFlags")), "Create", [Self])));
   try {
     {
-      const $t1 = (await $.v(C, "FormAccounFlags"));
+      const $t1 = (await $.wobj(C, "FormAccounFlags"));
       const $t2 = (await $.mv((await $.wv([$t1], "DataAcc", C, false)), "Accflags"));
       if ($.truthy((await $.and_(($.eq((await $.wv([$t1, $t2], "ShowModal", C, false)), (await $.wv([$t1, $t2], "mrOk", C, false)))), async () => ($.in_((await $.wv([$t1, $t2], "State", C, false)), [(await $.wv([$t1, $t2], "dsInsert", C, false)), (await $.wv([$t1, $t2], "dsEdit", C, false))])))))) {
         await $.mset((await $.wcall([$t1, $t2], "FieldByName", ["Tipacc"], C)), "AsString", (await $.wv([$t1, $t2], "FlagMap", C, false)));
@@ -343,7 +343,7 @@ export default function define($) {
     await $.mset((await $.v(C, "XFLabel18")), "Visible", true);
   }
   {
-    const $t3 = (await $.v(C, "DataAcc"));
+    const $t3 = (await $.wobj(C, "DataAcc"));
     const $t4 = (await $.wv([$t3], "Account_edit", C, false));
     await $.stmt($.wcall([$t3, $t4], "close", [], C));
     await $.stmt((await $.wcall([$t3, $t4], "SetVariable", ["id", (await $.wv([$t3, $t4], "accont_id", C, false))], C)));
@@ -359,7 +359,7 @@ export default function define($) {
     await $.stmt($.wcall([$t3, $t4], "edit", [], C));
   }
   {
-    const $t5 = (await $.v(C, "DataAcc"));
+    const $t5 = (await $.wobj(C, "DataAcc"));
     const $t6 = (await $.wv([$t5], "Cust_Account", C, false));
     await $.stmt($.wcall([$t5, $t6], "close", [], C));
     await $.stmt((await $.wcall([$t5, $t6], "SetVariable", ["id", (await $.wv([$t5, $t6], "accont_id", C, false))], C)));
@@ -403,7 +403,7 @@ export default function define($) {
     }
   }
   {
-    const $t9 = (await $.v(C, "DataAcc"));
+    const $t9 = (await $.wobj(C, "DataAcc"));
     const $t10 = (await $.wv([$t9], "Tenostat", C, false));
     await $.stmt($.wcall([$t9, $t10], "close", [], C));
     await $.stmt((await $.wcall([$t9, $t10], "SetVariable", ["Acc_id", (await $.wv([$t9, $t10], "accont_id", C, false))], C)));
@@ -503,7 +503,7 @@ export default function define($) {
     await $.mset((await $.v(C, "XFButtEdit")), "Enabled", false);
   }
   {
-    const $t12 = (await $.v(C, "DataAcc"));
+    const $t12 = (await $.wobj(C, "DataAcc"));
     const $t13 = (await $.wv([$t12], "Cust_Account", C, false));
     { const $t14 = (await $.mv((await $.mcall((await $.wv([$t12, $t13], "Cust_Account", C, false)), "FieldByName", ["cust_type"])), "AsInteger"));
       if ($.eq($t14, 0)) {

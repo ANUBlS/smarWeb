@@ -16,7 +16,7 @@ export default function define($) {
   await $.mset((await $.v(C, "FrmApplyMoney")), "Caption", $.add((await $.v(C, "Get_SelectedContNo")), " nömrəli müqavilənin yatrımları"));
   L0["contractid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "DMApplyMoney"));
+    const $t1 = (await $.wobj(C, "DMApplyMoney"));
     {
       const $t2 = (await $.wv([$t1], "Tranches", C, false));
       await $.stmt($.wcall([$t1, $t2], "close", [], C));
@@ -98,7 +98,7 @@ export default function define($) {
     await $.stmt((await $.call(C, "RefreshWithSavely", [true])));
   }
   {
-    const $t6 = (await $.v(C, "DMApplyMoney"));
+    const $t6 = (await $.wobj(C, "DMApplyMoney"));
     await $.mcall((await $.wv([$t6], "Tranches", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t6], "DepositInfo", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t6], "CustAcc", C, false)), "CloseAll", []);
@@ -123,7 +123,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t7 = (await $.v(C, "DMApplyMoney"));
+    const $t7 = (await $.wobj(C, "DMApplyMoney"));
     const $t8 = (await $.wv([$t7], "Tranches", C, false));
     const $t9 = (await $.wv([$t7, $t8], "sbcm_tranches", C, false));
     await $.stmt((await $.wcall([$t7, $t8, $t9], "CallProcedure", ["DeleteDepositMoney", ["P_DepMoneyID", (await $.mv((await $.wcall([$t7, $t8, $t9], "FieldByName", ["ID"], C)), "AsInteger"))]], C)));
@@ -136,7 +136,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "ExcelExport"));
+    const $t10 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t10], "Connect", [], C));
     await $.stmt((await $.wcall([$t10], "ExportDataset", [(await $.mv((await $.wv([$t10], "DMApplyMoney", C, false)), "Tranches")), "Depozit yatrımları", (await $.wv([$t10], "True", C, false)), (await $.wv([$t10], "false", C, false))], C)));
     await $.stmt($.wcall([$t10], "Disconnect", [], C));

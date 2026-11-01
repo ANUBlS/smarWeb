@@ -76,7 +76,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "DatModCustmer"));
+    const $t1 = (await $.wobj(C, "DatModCustmer"));
     const $t2 = (await $.wv([$t1], "cm_credit", C, false));
     const $t3 = (await $.wv([$t1, $t2], "Customer", C, false));
     await $.wset([$t1, $t2, $t3], "CustomerID", (await $.wcall([$t1, $t2, $t3], "CallIntegerFunction", ["add_cm_customer", ["open_dat", (await $.wv([$t1, $t2, $t3], "Get_CurrentDate", C, false)), "Name", (await $.wv([$t1, $t2, $t3], "Name", C, false)), "CLOSE_DAT", (await $.wv([$t1, $t2, $t3], "CloseDate", C, false)), "NEREZIDENT", (await $.wcall([$t1, $t2, $t3], "Integer", [(await $.wv([$t1, $t2, $t3], "IsResident", C, false))], C)), "PRINAD_KOD", (await $.wv([$t1, $t2, $t3], "RelationID", C, false)), "SHORT_NAME", (await $.wv([$t1, $t2, $t3], "ShortName", C, false)), "GROUP_KLIE", (await $.wv([$t1, $t2, $t3], "GroupID", C, false)), "VID_SOB", (await $.wv([$t1, $t2, $t3], "EstateType", C, false)), "ORG_SOB", (await $.wv([$t1, $t2, $t3], "OrganizationType", C, false)), "SFERA_DEY", (await $.wv([$t1, $t2, $t3], "ActionArea", C, false)), "OTRASL", (await $.wv([$t1, $t2, $t3], "BranchID", C, false)), "NALOG_KOD", (await $.wv([$t1, $t2, $t3], "TaxAreaID", C, false)), "INN", (await $.wv([$t1, $t2, $t3], "TaxIDString", C, false)), "BIK", (await $.wv([$t1, $t2, $t3], "BankIDString", C, false)), "KOD_OKPRO", (await $.wv([$t1, $t2, $t3], "OKPRO", C, false)), "DAT_NAL", (await $.wv([$t1, $t2, $t3], "DATNAL", C, false)), "DAT_USTAV", (await $.wv([$t1, $t2, $t3], "DATUSTAV", C, false))]], C)), C);
@@ -88,7 +88,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t4 = (await $.v(C, "Customer"));
+    const $t4 = (await $.wobj(C, "Customer"));
     await $.wset([$t4], "Name", (await $.mv((await $.wv([$t4], "NameEdit", C, false)), "Text")), C);
     await $.wset([$t4], "ShortName", (await $.mv((await $.wv([$t4], "ShortNameEdit", C, false)), "Text")), C);
     await $.wset([$t4], "OpenDate", (await $.mv((await $.wv([$t4], "OpenDateEdit", C, false)), "DateTime")), C);

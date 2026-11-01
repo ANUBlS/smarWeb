@@ -469,7 +469,7 @@ export default function define($) {
   const L0 = {result: undefined, "i": 0, "spos": 0};
   L0["c_err_message"] = " Table or View in Dataset \"%s\" does not exist! ";
   {
-    const $t3 = (await $.v(C, "AccDataModule"));
+    const $t3 = (await $.wobj(C, "AccDataModule"));
     { const $t4 = $.sub((await $.wv([$t3], "ComponentCount", C, false)), 1);
       await $.wset([$t3], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t5 = true;
@@ -609,7 +609,7 @@ export default function define($) {
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     await $.mset((await $.v(C, "EditNAME1")), "Text", (await $.mv((await $.v(C, "EditName")), "Text")));
     {
-      const $t14 = (await $.v(C, "EditNAME1"));
+      const $t14 = (await $.wobj(C, "EditNAME1"));
     }
     await $.stmt((await $.call(C, "ActionSpeedSearchExecute", [(await $.v(C, "EditNAME1"))])));
   }
@@ -809,7 +809,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t18 = (await $.v(C, "AccDataModule"));
+    const $t18 = (await $.wobj(C, "AccDataModule"));
     await $.stmt((await $.wcall([$t18], "Refresh_", [""], C)));
   }
   return L0.result;
@@ -825,7 +825,7 @@ export default function define($) {
     await $.set(C, "FormAccountTransactions", (await $.mcall((await $.v(C, "TFormAccountTransactions")), "Create", [Self])));
   }
   {
-    const $t19 = (await $.v(C, "FormInterval"));
+    const $t19 = (await $.wobj(C, "FormInterval"));
     await $.mset((await $.wv([$t19], "StartDateEdit", C, false)), "DateTime", (await $.mv((await $.mcall((await $.mv((await $.wv([$t19], "AccDataModule", C, false)), "Sysdat")), "FieldByName", ["tek_dat"])), "AsDateTime")));
     await $.mset((await $.wv([$t19], "EndDateEdit", C, false)), "DateTime", (await $.mv((await $.wv([$t19], "StartDateEdit", C, false)), "DateTime")));
     if ($.truthy($.eq((await $.wv([$t19], "ShowModal", C, false)), (await $.wv([$t19], "mrOK", C, false))))) {
@@ -848,7 +848,7 @@ export default function define($) {
     await $.set(C, "FormAccountState", (await $.mcall((await $.v(C, "TFormAccountState")), "Create", [Self])));
   }
   {
-    const $t21 = (await $.v(C, "FormAccountState"));
+    const $t21 = (await $.wobj(C, "FormAccountState"));
     await $.stmt($.wcall([$t21], "ShowModal", [], C));
   }
   return L0.result;
@@ -859,7 +859,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["cs_message"] = "\"%s\" N-li hesab bağlansın?";
   {
-    const $t22 = (await $.v(C, "AccDataModule"));
+    const $t22 = (await $.wobj(C, "AccDataModule"));
     const $t23 = (await $.wv([$t22], "Account", C, false));
     if ($.truthy($.eq((await $.wcall([$t22, $t23], "MessageDlg", [(await $.wcall([$t22, $t23], "Format", [(await $.wv([$t22, $t23], "cs_message", { get: async () => L0["cs_message"], set: async (v) => { L0["cs_message"] = v; }, local: true }, false)), [(await $.mv((await $.wcall([$t22, $t23], "FieldByName", ["acc_no"], C)), "AsString"))]], C)), (await $.wv([$t22, $t23], "mtConfirmation", C, false)), [(await $.wv([$t22, $t23], "mbYes", C, false)), (await $.wv([$t22, $t23], "mbNo", C, false))], 0], C)), (await $.wv([$t22, $t23], "mrYes", C, false))))) {
       await $.stmt((await $.wcall([$t22, $t23], "CloseAccount", [(await $.mv((await $.wcall([$t22, $t23], "FieldByName", ["ID"], C)), "AsInteger"))], C)));

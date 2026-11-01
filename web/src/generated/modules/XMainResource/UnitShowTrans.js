@@ -16,7 +16,7 @@ export default function define($) {
   await $.mcall((await $.mv((await $.v(C, "DataModWares")), "lazy")), "Refresh", []);
   if ($.truthy($.ne((await $.mv((await $.v(C, "DateTimePicker1")), "DateTime")), (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModWares")), "ODSCalcWares")), "FieldByName", ["trans_date"])), "AsDateTime"))))) {
     {
-      const $t1 = (await $.v(C, "DataModWares"));
+      const $t1 = (await $.wobj(C, "DataModWares"));
       { const $t2 = (await $.wv([$t1], "New_Or_Calc_Wares_Trans", C, false));
         if ($.eq($t2, 1)) {
           if ($.truthy($.not((await $.mv((await $.wv([$t1], "ODSCalcWares", C, false)), "IsEmpty"))))) {
@@ -98,7 +98,7 @@ export default function define($) {
     if ($.eq($t7, 1)) {
       await $.stmt((await $.mcall((await $.mv((await $.v(C, "DataModWares")), "SB_MAIN_RESOURCE")), "CallProcedure", ["wares_all_transaction", []])));
       {
-        const $t8 = (await $.v(C, "DataModWares"));
+        const $t8 = (await $.wobj(C, "DataModWares"));
         await $.mcall((await $.wv([$t8], "ODSCalcWares", C, false)), "Close", []);
         await $.mcall((await $.mv((await $.wv([$t8], "ODSCalcWares", C, false)), "SQL")), "Clear", []);
         await $.stmt((await $.mcall((await $.mv((await $.wv([$t8], "ODSCalcWares", C, false)), "SQL")), "Add", [$.add($.add($.add("select W.*,", "SB_MAIN_RESOURCE.GetAccountNumber(W.debt_acc) as DebtAccNo,"), "SB_MAIN_RESOURCE.GetAccountNumber(W.cred_acc) as CredAccNo "), " from wares_all_trans W")])));

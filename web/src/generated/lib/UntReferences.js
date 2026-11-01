@@ -103,7 +103,7 @@ export default function define($) {
 });
   L0["targetitemid"] = (await $.call(C, "Integer", [(await $.idx((await $.mv((await $.v(C, "TreeItems")), "Items")), [(await $.mv(L0["node"], "AbsoluteIndex"))]))]));
   {
-    const $t4 = (await $.v(C, "DataModReferences"));
+    const $t4 = (await $.wobj(C, "DataModReferences"));
     {
       const $t5 = (await $.wv([$t4], "ReferLink", C, false));
       await $.stmt((await $.wcall([$t4, $t5], "Locate", ["ID", (await $.wv([$t4, $t5], "TargetItemID", { get: async () => L0["targetitemid"], set: async (v) => { L0["targetitemid"] = v; }, local: true }, false)), []], C)));
@@ -137,7 +137,7 @@ export default function define($) {
     L0["newvalue"] = (await $.mv((await $.v(C, "ValuesEdit")), "Text"));
   }
   {
-    const $t6 = (await $.v(C, "DataModReferences"));
+    const $t6 = (await $.wobj(C, "DataModReferences"));
     {
       const $t7 = (await $.wv([$t6], "ReferLink", C, false));
       const $t8 = (await $.wv([$t6, $t7], "ReferPackage", C, false));
@@ -161,7 +161,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "FrmDateInterval"));
+    const $t9 = (await $.wobj(C, "FrmDateInterval"));
     const $t10 = (await $.mv((await $.mv(((await $.wv([$t9], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "DataSource")), "DataSet"));
     await $.mset((await $.wv([$t9, $t10], "DateTrack", C, false)), "Position", (await $.mv((await $.wcall([$t9, $t10], "FieldByName", ["DateInterval"], C)), "AsInteger")));
     if ($.truthy($.eq((await $.wv([$t9, $t10], "ShowModal", C, false)), (await $.wv([$t9, $t10], "mrOk", C, false))))) {

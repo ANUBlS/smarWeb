@@ -17,7 +17,7 @@ export default function define($) {
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [L0["rscracc"], (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     await $.mcall((await $.mv((await $.v(C, "CUDataModuleConcl")), "OracleDataSet1")), "post", []);
     {
-      const $t1 = (await $.v(C, "CUDataModuleConcl"));
+      const $t1 = (await $.wobj(C, "CUDataModuleConcl"));
       const $t2 = (await $.wv([$t1], "OracleDataSet2", C, false));
       await $.stmt((await $.mcall((await $.wv([$t1, $t2], "IUPackage", C, false)), "CallProcedure", ["open_accno", []])));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {

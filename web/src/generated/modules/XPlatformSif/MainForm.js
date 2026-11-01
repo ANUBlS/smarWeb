@@ -269,7 +269,7 @@ export default function define($) {
   L0["urls"] = $.add($.add($.add($.add(L0["url"], L0["endpars"]), L0["pages"]), "&"), L0["cnts"]);
   L0["urls2"] = $.add(L0["url"], L0["endpars"]);
   {
-    const $t1 = (await $.v(C, "sendingreq"));
+    const $t1 = (await $.wobj(C, "sendingreq"));
     try {
       await $.mcall((await $.mv((await $.wv([$t1], "Request", C, false)), "CustomHeaders")), "Clear", []);
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t1], "Request", C, false)), "CustomHeaders")), "AddValue", ["key", (await $.wv([$t1], "headerkey", { get: async () => L0["headerkey"], set: async (v) => { L0["headerkey"] = v; }, local: true }, false))])));

@@ -17,7 +17,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "co_statement"));
+    const $t1 = (await $.wobj(C, "co_statement"));
     const $t2 = (await $.wv([$t1], "CO_Datamod", C, false));
     const $t3 = (await $.wv([$t1, $t2], "OraDataSetMainExell", C, false));
     if ($.truthy((await $.mv((await $.wv([$t1, $t2, $t3], "CBTurnOver", C, false)), "Checked")))) {
@@ -40,7 +40,7 @@ export default function define($) {
   { const $t6 = await $.iset((await $.mv((await $.v(C, "Sheet")), "Cells")), [$.add(L0["finishpos"], 2), 2], "Ekvivalent:"); if ($t6 !== undefined) { await $.mset((await $.v(C, "Sheet")), "Cells", $t6); } }
   { const $t7 = await $.iset((await $.mv((await $.v(C, "Sheet")), "Cells")), [$.add((await $.v(C, "FinishPosition")), 3), 2], "Rəsmi məzənnə:"); if ($t7 !== undefined) { await $.mset((await $.v(C, "Sheet")), "Cells", $t7); } }
   {
-    const $t8 = (await $.v(C, "CO_DataMod"));
+    const $t8 = (await $.wobj(C, "CO_DataMod"));
     const $t9 = (await $.wv([$t8], "OraPackVExtraction", C, false));
     await $.stmt((await $.wcall([$t8, $t9], "CallProcedure", ["get_ostat", [(await $.wv([$t8, $t9], "acc_id", C, false)), (await $.wv([$t8, $t9], "EndDat", C, false)), "CURR", (await $.wv([$t8, $t9], "ostat", { get: async () => L0["ostat"], set: async (v) => { L0["ostat"] = v; }, local: true }, false)), (await $.wv([$t8, $t9], "pok_ostat", { get: async () => L0["pok_ostat"], set: async (v) => { L0["pok_ostat"] = v; }, local: true }, false))]], C)));
     { const $t10 = await $.iset((await $.mv((await $.wv([$t8, $t9], "Sheet", C, false)), "Cells")), [$.add((await $.wv([$t8, $t9], "FinishPos", { get: async () => L0["finishpos"], set: async (v) => { L0["finishpos"] = v; }, local: true }, false)), 1), 3], (await $.wcall([$t8, $t9], "FormatFloat", ["#,##0.00", (await $.wcall([$t8, $t9], "Abs", [(await $.wcall([$t8, $t9], "GetParameter", [3], C))], C))], C))); if ($t10 !== undefined) { await $.mset((await $.wv([$t8, $t9], "Sheet", C, false)), "Cells", $t10); } }
@@ -58,7 +58,7 @@ export default function define($) {
   const L0 = {"acc": $.copyArg(p0), "byval": $.copyArg(p1), result: undefined, "begpos": 0};
   await $.fixArgs(L0, ["acc", "byval"]);
   {
-    const $t13 = (await $.v(C, "CO_Statement"));
+    const $t13 = (await $.wobj(C, "CO_Statement"));
     const $t14 = (await $.wv([$t13], "CO_DataMod", C, false));
     const $t15 = (await $.wv([$t13, $t14], "OraDataSetMainExell", C, false));
     try {
@@ -167,7 +167,7 @@ export default function define($) {
   const L0 = {"bal": $.copyArg(p0), "bdat": $.copyArg(p1), "edat": $.copyArg(p2), result: undefined};
   await $.fixArgs(L0, ["bal", "bdat", "edat"]);
   {
-    const $t31 = (await $.v(C, "CO_DataMod"));
+    const $t31 = (await $.wobj(C, "CO_DataMod"));
     const $t32 = (await $.wv([$t31], "OraPackVExtraction", C, false));
     if ($.truthy($.eq((await $.wcall([$t31, $t32], "CallFloatFunction", ["check_bal_number", [(await $.wv([$t31, $t32], "Bal", { get: async () => L0["bal"], set: async (v) => { L0["bal"] = v; }, local: true }, false))]], C)), 0))) {
       await $.stmt((await $.wcall([$t31, $t32], "ShowMessage", [$.add($.add("Sub Account: \"", (await $.wv([$t31, $t32], "Bal", { get: async () => L0["bal"], set: async (v) => { L0["bal"] = v; }, local: true }, false))), "\" not found")], C)));
@@ -193,7 +193,7 @@ export default function define($) {
   const L0 = {"bdat": $.copyArg(p0), "edat": $.copyArg(p1), result: undefined};
   await $.fixArgs(L0, ["bdat", "edat"]);
   {
-    const $t35 = (await $.v(C, "CO_DataMod"));
+    const $t35 = (await $.wobj(C, "CO_DataMod"));
     const $t36 = (await $.wv([$t35], "OraDataSetTurnBals", C, false));
     await $.stmt($.wcall([$t35, $t36], "Open", [], C));
     await $.stmt($.wcall([$t35, $t36], "First", [], C));

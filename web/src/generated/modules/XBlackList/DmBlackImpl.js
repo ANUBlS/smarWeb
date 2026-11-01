@@ -42,7 +42,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "ods_blecnamexml"));
+    const $t1 = (await $.wobj(C, "ods_blecnamexml"));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["v_dataid", (await $.mv((await $.wv([$t1], "ods_blecxmlDATAID", C, false)), "AsVariant"))], C)));
     if ($.truthy($.not((await $.wv([$t1], "Active", C, false))))) {
       await $.stmt($.wcall([$t1], "Open", [], C));

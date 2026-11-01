@@ -55,7 +55,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "SWDataModule"));
+    const $t2 = (await $.wobj(C, "SWDataModule"));
     await $.mcall((await $.wv([$t2], "azpsettings", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t2], "AzpFilial", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t2], "azpval", C, false)), "CloseAll", []);

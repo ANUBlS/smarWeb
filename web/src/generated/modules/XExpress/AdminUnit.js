@@ -40,7 +40,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ExpDataModule"));
+    const $t1 = (await $.wobj(C, "ExpDataModule"));
     await $.stmt((await $.mcall((await $.wv([$t1], "Repair", C, false)), "CallProcedure", ["ExpAdmin_add", [(await $.mv((await $.mcall((await $.wv([$t1], "AdminUserDataSet", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t1], "AllFilialDataSet", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t1], "AdminUserDataSet", C, false)), "FieldByName", ["NAME"])), "AsString")), (await $.mv((await $.mcall((await $.wv([$t1], "AllFilialDataSet", C, false)), "FieldByName", ["NAME"])), "AsString"))]])));
     await $.mcall((await $.wv([$t1], "ExpAdminDataSet", C, false)), "Refresh", []);
   }
@@ -64,7 +64,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "ExpDataModule"));
+    const $t2 = (await $.wobj(C, "ExpDataModule"));
     await $.stmt((await $.mcall((await $.wv([$t2], "Repair", C, false)), "CallProcedure", ["ExpAdmin_del", [(await $.mv((await $.mcall((await $.wv([$t2], "ExpAdminDataSet", C, false)), "FieldByName", ["USER_ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t2], "ExpAdminDataSet", C, false)), "FieldByName", ["FILIAL_ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t2], "ExpAdminDataSet", C, false)), "FieldByName", ["USER_NAME"])), "AsString")), (await $.mv((await $.mcall((await $.wv([$t2], "ExpAdminDataSet", C, false)), "FieldByName", ["FILIAL_NAME"])), "AsString"))]])));
     await $.mcall((await $.wv([$t2], "ExpAdminDataSet", C, false)), "Refresh", []);
   }

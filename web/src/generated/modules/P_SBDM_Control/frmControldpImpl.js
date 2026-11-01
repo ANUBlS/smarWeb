@@ -48,7 +48,7 @@ export default function define($) {
   L0["brid"] = (await $.mv((await $.mcall((await $.v(C, "filials")), "FieldByName", ["ID"])), "AsInteger"));
   L0["dat"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPDAT")), "DateTime"))]))]));
   {
-    const $t1 = (await $.v(C, "SBCM_CONTROL"));
+    const $t1 = (await $.wobj(C, "SBCM_CONTROL"));
     await $.stmt((await $.wcall([$t1], "CallProcedure", ["control", [(await $.wv([$t1], "BrID", { get: async () => L0["brid"], set: async (v) => { L0["brid"] = v; }, local: true }, false)), (await $.wv([$t1], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false))]], C)));
     await $.mcall((await $.wv([$t1], "ResultControl", C, false)), "Close", []);
     await $.mcall((await $.wv([$t1], "ResultControl", C, false)), "Open", []);

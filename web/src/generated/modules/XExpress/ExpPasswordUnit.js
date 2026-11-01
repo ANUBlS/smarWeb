@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "s": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ExpDataModule"));
+    const $t1 = (await $.wobj(C, "ExpDataModule"));
     const $t2 = (await $.wv([$t1], "ExpIncomingPassword", C, false));
     await $.wset([$t1, $t2], "s", (await $.mv((await $.wv([$t1, $t2], "EditPassword", C, false)), "Text")), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
     await $.stmt($.wcall([$t1, $t2], "close", [], C));

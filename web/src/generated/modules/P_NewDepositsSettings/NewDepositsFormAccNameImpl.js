@@ -62,7 +62,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "Accounts"));
+    const $t1 = (await $.wobj(C, "Accounts"));
     await $.stmt($.wcall([$t1], "Close", [], C));
     if ($.truthy($.eq((await $.mv((await $.wv([$t1], "NewDepositsFrmAddEditAccTurning", C, false)), "valcategoryid")), 0))) {
       { const $t2 = await $.iset((await $.wv([$t1], "SQL", C, false)), [11], "close_dat is null and (val_acc<=:val_acc)"); if ($t2 !== undefined) { await $.wset([$t1], "SQL", $t2, C); } }
@@ -79,7 +79,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "NewDepositsFrmAddEditAccTurning"));
+    const $t4 = (await $.wobj(C, "NewDepositsFrmAddEditAccTurning"));
     await $.wset([$t4], "pvalkod", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t4], "XDBGrid1", C, false)), "DataSource")), "DataSet")), "FieldByName", ["id"])), "AsInteger")), C);
     await $.wset([$t4], "paccid", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t4], "XDBGrid1", C, false)), "DataSource")), "DataSet")), "FieldByName", ["val_acc"])), "AsInteger")), C);
     await $.wset([$t4], "pfilial", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t4], "XDBGrid1", C, false)), "DataSource")), "DataSet")), "FieldByName", ["filialid"])), "AsInteger")), C);

@@ -60,7 +60,7 @@ export default function define($) {
   if ($.truthy($.eq((await $.call(C, "ord", [(await L0["key"].get())])), 13))) {
     if ($.truthy($.ne((await $.mv((await $.v(C, "EditBalcn")), "Text")), ""))) {
       {
-        const $t3 = (await $.v(C, "ODS_Account"));
+        const $t3 = (await $.wobj(C, "ODS_Account"));
         await $.stmt($.wcall([$t3], "close", [], C));
         { const $t4 = await $.iset((await $.wv([$t3], "sql", C, false)), [7], ""); if ($t4 !== undefined) { await $.wset([$t3], "sql", $t4, C); } }
         { const $t5 = await $.iset((await $.wv([$t3], "sql", C, false)), [7], $.add((await $.idx((await $.wv([$t3], "sql", C, false)), [7])), (await $.wv([$t3], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)))); if ($t5 !== undefined) { await $.wset([$t3], "sql", $t5, C); } }
@@ -86,7 +86,7 @@ export default function define($) {
   if ($.truthy($.eq((await $.call(C, "ord", [(await L0["key"].get())])), 13))) {
     if ($.truthy($.ne((await $.mv((await $.v(C, "EditKli_id")), "Text")), ""))) {
       {
-        const $t6 = (await $.v(C, "ODS_Account"));
+        const $t6 = (await $.wobj(C, "ODS_Account"));
         await $.stmt($.wcall([$t6], "close", [], C));
         { const $t7 = await $.iset((await $.wv([$t6], "sql", C, false)), [7], ""); if ($t7 !== undefined) { await $.wset([$t6], "sql", $t7, C); } }
         { const $t8 = await $.iset((await $.wv([$t6], "sql", C, false)), [7], $.add((await $.idx((await $.wv([$t6], "sql", C, false)), [7])), (await $.wv([$t6], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)))); if ($t8 !== undefined) { await $.wset([$t6], "sql", $t8, C); } }

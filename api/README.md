@@ -34,7 +34,7 @@ uses — generated from the transpiled client by `tools/build_registry.py`:
 - `POST /api/modules/{module}/datasets/{dataset}` — open a dataset with its registered SQL
 - `POST /api/modules/{module}/packages/{component}/{routine}` — call a routine the module calls
 
-`GET /api/modules` lists all 285 registry entries (161 menu modules, 21 dialogs, 109 run-time
+`GET /api/modules` lists all registry entries (161 menu modules, 21 dialogs, 109 run-time
 packages, and *Common* — the shared `sboapi50` units) with `apiReady`. A module becomes ready when its
 name is added to `smartweb_api/registry/ready.json` after its checks pass (see *Tests*).
 
@@ -64,6 +64,8 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | RepairNew — Balans / Sistem servisi / Arxiv Günə duzəliş (p_Correct.Main insert / delete; filter; search) | ✅ ready |
 | CloseDay — Balans / Sistem servisi / Əməliyyat gününün bağlanması (SBSYS.close_day / calc_percent / calc_reserv; pre-close checks run the SQL stored in their table) | ✅ ready |
 | QueryExporter — Balans / Sistem servisi / Sorğular (SB_Queries edit; runs the stored query with :begindat / :enddat; Excel export) | ✅ ready |
+| PCustService — Balans / Müştərilər / Müştəri xidməti (PCustService.ocx, source Packages/PCustService2026; customers, relations, groups, accounts via SBOP; PG_PCustService; HMS/PEP checks: PG_PCustService.get_world_yoxlama, the result PDF (SynPdf TPdfDocumentGDI) is downloaded and opened) | ✅ ready |
+| P_Customers — Balans / Müştərilər / Fiziki şəxslər üzrə əməliyyatlar (P_Customers.ocx; customer → accounts → day's operations of natural persons; PHYS_FS_CUSTOMERS.open_Account, SB_TRANSACTION, SB_COMPLEX_TRANSACTIONS; statements, memorial order) | ✅ ready |
 | BackupCreator — Balans / Sistem servisi / Məlumatın arxivləşdirilməsi (runs Oracle `exp` on the user's PC — not possible in a browser; needs a server-side export decision) | ⏸ waiting |
 | all others | gateway works; own Swagger section pending |
 

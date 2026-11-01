@@ -341,6 +341,7 @@ export class Env {
     this.units.set(u.lname, u);
     this.unitOrder.push(u);
     this.globalCache.clear();
+    for (const x of this.unitOrder) delete (x as any).__usesCache;
   }
 
   findClass(name: string): ClassDef | undefined {
@@ -388,6 +389,54 @@ export class Env {
     if (hit.unit && hit.sym) return hit.unit.symValue(hit.sym);
     if (this.parent) return this.parent.lookup(lname);
     return Env.rootGlobals(lname);
+  }
+
+  /**
+   * Delphi scoping: an identifier not declared in the unit itself comes from the units of its uses clauses,
+   * the last listed unit first (implementation uses after interface uses). Matters when two units declare the
+   * same name, e.g. a stray copy of a form unit left in the package folder. Falls back to the global lookup.
+   */
+  private usesHit(from: UnitObj, lname: string): { unit: UnitObj; sym: Sym } | null {
+    let cache = (from as any).__usesCache as Map<string, { unit: UnitObj; sym: Sym } | null> | undefined;
+    if (!cache) { cache = new Map(); (from as any).__usesCache = cache; }
+    if (cache.has(lname)) return cache.get(lname)!;
+    let hit: { unit: UnitObj; sym: Sym } | null = null;
+    for (let i = from.uses.length - 1; i >= 0 && !hit; i--) {
+      const u = this.findUnit(from.uses[i]);
+      const s = u && u !== from ? u.symbols.get(lname) : undefined;
+      if (u && s) hit = { unit: u, sym: s };
+    }
+    cache.set(lname, hit);
+    return hit;
+  }
+  /** Declared type of the unit-level variable `lname` resolves to from `from` — the same unit lookupFrom reads
+   *  it from (own unit, its uses, then the global lookup); null when it is not a variable. */
+  declaredType(from: UnitObj | undefined, lname: string): string | null {
+    const typeOf = (s: Sym | undefined) => (s && s.kind === 'var' ? s.type ?? null : null);
+    if (this.units.has(lname)) return null;
+    const own = from?.symbols.get(lname);
+    if (own) return typeOf(own);
+    const hit = from ? this.usesHit(from, lname) : null;
+    if (hit) return typeOf(hit.sym);
+    for (let i = this.unitOrder.length - 1; i >= 0; i--) {
+      const s = this.unitOrder[i].symbols.get(lname);
+      if (s) return typeOf(s);
+    }
+    return this.parent ? this.parent.declaredType(undefined, lname) : null;
+  }
+  lookupFrom(from: UnitObj | undefined, lname: string): Found | Promise<Found> {
+    if (from && !this.units.has(lname) && !this.parent?.findUnit(lname)) {
+      const hit = this.usesHit(from, lname);
+      if (hit) return hit.unit.symValue(hit.sym);
+    }
+    return this.lookup(lname);
+  }
+  assignFrom(from: UnitObj | undefined, lname: string, v: unknown): boolean {
+    if (from) {
+      const hit = this.usesHit(from, lname);
+      if (hit && hit.unit.pset(lname, v)) return true;
+    }
+    return this.assign(lname, v);
   }
 
   assign(lname: string, v: unknown): boolean {

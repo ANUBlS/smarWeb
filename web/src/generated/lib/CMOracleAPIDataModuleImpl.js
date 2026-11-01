@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"username": $.copyArg(p0), "password": $.copyArg(p1), "database": $.copyArg(p2), result: false};
   await $.fixArgs(L0, ["username", "password", "database"]);
   {
-    const $t1 = (await $.v(C, "CMLogon"));
+    const $t1 = (await $.wobj(C, "CMLogon"));
     const $t2 = (await $.wv([$t1], "Session", C, false));
     await $.wset([$t1, $t2], "PLogonUsername", (await $.wv([$t1, $t2], "UserName", { get: async () => L0["username"], set: async (v) => { L0["username"] = v; }, local: true }, false)), C);
     await $.wset([$t1, $t2], "PLogonDatabase", (await $.wv([$t1, $t2], "Database", { get: async () => L0["database"], set: async (v) => { L0["database"] = v; }, local: true }, false)), C);
@@ -31,7 +31,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t3 = (await $.v(C, "CMSession"));
+    const $t3 = (await $.wobj(C, "CMSession"));
     if ($.truthy((await $.wv([$t3], "Connected", C, false)))) {
       await $.stmt($.wcall([$t3], "LogOff", [], C));
     }
@@ -42,14 +42,14 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t4 = (await $.v(C, "DSBankDate"));
+    const $t4 = (await $.wobj(C, "DSBankDate"));
     await $.stmt($.wcall([$t4], "Open", [], C));
     await $.wset([$t4], "FCurrentDate", (await $.mv((await $.wcall([$t4], "FieldByName", ["TEK_DAT"], C)), "AsDateTime")), C);
     await $.wset([$t4], "FPrevDate", (await $.mv((await $.wcall([$t4], "FieldByName", ["PRED_DAT"], C)), "AsDateTime")), C);
     await $.stmt($.wcall([$t4], "CloseAll", [], C));
   }
   {
-    const $t5 = (await $.v(C, "Branch"));
+    const $t5 = (await $.wobj(C, "Branch"));
     await $.stmt($.wcall([$t5], "Open", [], C));
     await $.wset([$t5], "FBranchID", (await $.mv((await $.wcall([$t5], "FieldByName", ["KOD_FIL"], C)), "AsInteger")), C);
     await $.stmt($.wcall([$t5], "CloseAll", [], C));
@@ -67,7 +67,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: ''};
   {
-    const $t6 = (await $.v(C, "CM_LOGIN"));
+    const $t6 = (await $.wobj(C, "CM_LOGIN"));
     await $.wset([$t6], "Result", (await $.wcall([$t6], "callStringFunction", ["Get_UserAlert", []], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;

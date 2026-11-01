@@ -35,7 +35,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: 0, "filial_id": 0};
   {
-    const $t1 = (await $.v(C, "TransForm"));
+    const $t1 = (await $.wobj(C, "TransForm"));
     if ($.truthy($.gt((await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "DataMod", C, false)), "DataAccount")), "FieldByName", ["Filial"])), "AsInteger")), 0))) {
       await $.wset([$t1], "Filial_Id", (await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "DataMod", C, false)), "DataAccount")), "FieldByName", ["Filial"])), "AsInteger")), { get: async () => L0["filial_id"], set: async (v) => { L0["filial_id"] = v; }, local: true });
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t1], "DataMod", C, false)), "DataSetFilial")), "SetVariable", ["FilialID", (await $.wv([$t1], "Filial_Id", { get: async () => L0["filial_id"], set: async (v) => { L0["filial_id"] = v; }, local: true }, false))])));
@@ -68,7 +68,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t2 = (await $.v(C, "PaymentDetalsForm"));
+    const $t2 = (await $.wobj(C, "PaymentDetalsForm"));
     if ($.truthy((await $.mv((await $.wv([$t2], "RB_102T", C, false)), "Checked")))) {
       await $.mset((await $.wv([$t2], "RB_102T", C, false)), "Checked", (await $.wv([$t2], "false", C, false)));
       await $.mset((await $.wv([$t2], "RB_102", C, false)), "Checked", (await $.wv([$t2], "true", C, false)));
@@ -103,7 +103,7 @@ export default function define($) {
     await $.mcall((await $.wv([$t2], "SearchBankM", C, false)), "Clear", []);
   }
   {
-    const $t3 = (await $.v(C, "PaymentDetalsForm"));
+    const $t3 = (await $.wobj(C, "PaymentDetalsForm"));
     await $.mset((await $.wv([$t3], "ButtonFinish", C, false)), "Enabled", (await $.wv([$t3], "True", C, false)));
     await $.mset((await $.wv([$t3], "Button2", C, false)), "Enabled", (await $.wv([$t3], "false", C, false)));
     await $.mset((await $.wv([$t3], "Button4", C, false)), "Enabled", (await $.wv([$t3], "true", C, false)));

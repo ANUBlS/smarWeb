@@ -477,7 +477,7 @@ export default function define($) {
   await $.set(C, "TransactionDataModule", (await $.mcall((await $.v(C, "TTransactionDataModule")), "Create", [Self])));
   await $.set(C, "TransactionDestinationForm", (await $.mcall((await $.v(C, "TTransactionDestinationForm")), "Create", [Self])));
   {
-    const $t5 = (await $.v(C, "TransactionDataModule"));
+    const $t5 = (await $.wobj(C, "TransactionDataModule"));
     await $.wset([$t5], "CurrentDate", (await $.mv((await $.mcall((await $.wv([$t5], "Sysdat", C, false)), "FieldByName", ["tek_dat"])), "AsDateTime")), C);
   }
   await $.set(C, "TransactionState", (await $.v(C, "tsDelete")));
@@ -492,7 +492,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "OperationMode", (await $.v(C, "omInsert")));
   {
-    const $t6 = (await $.v(C, "TransactionDataModule"));
+    const $t6 = (await $.wobj(C, "TransactionDataModule"));
     await $.mcall((await $.wv([$t6], "Transactions", C, false)), "Insert", []);
   }
   await $.stmt($.call(C, "InitProperties", []));
@@ -527,7 +527,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "OperationMode", (await $.v(C, "omEdit")));
   {
-    const $t9 = (await $.v(C, "TransactionDataModule"));
+    const $t9 = (await $.wobj(C, "TransactionDataModule"));
     await $.mcall((await $.wv([$t9], "Transactions", C, false)), "Edit", []);
   }
   await $.stmt($.call(C, "InitProperties", []));
@@ -569,7 +569,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "GridTransactions"));
+    const $t12 = (await $.wobj(C, "GridTransactions"));
     const $t13 = (await $.wv([$t12], "SelectedRows", C, false));
     const $t14 = (await $.mv((await $.wv([$t12, $t13], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t12, $t13, $t14], "DisableControls", [], C));
@@ -726,7 +726,7 @@ export default function define($) {
   L0["ids"] = "";
   L0["trcount"] = 0;
   {
-    const $t32 = (await $.v(C, "GridTransactions"));
+    const $t32 = (await $.wobj(C, "GridTransactions"));
     const $t33 = (await $.wv([$t32], "SelectedRows", C, false));
     const $t34 = (await $.mv((await $.wv([$t32, $t33], "DataSource", C, false)), "DataSet"));
     if ($.truthy($.eq((await $.wv([$t32, $t33, $t34], "Count", C, false)), 0))) {
@@ -759,7 +759,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [(await $.call(C, "Format", ["%d sayda əməliyyat təsdiqlənsinmi?", [L0["trcount"]]])), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbCancel"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t40 = (await $.v(C, "TransactionDataModule"));
+      const $t40 = (await $.wobj(C, "TransactionDataModule"));
       await $.stmt((await $.wcall([$t40], "CommitTransactions", [(await $.wv([$t40], "IDs", { get: async () => L0["ids"], set: async (v) => { L0["ids"] = v; }, local: true }, false))], C)));
       await $.stmt((await $.wcall([$t40], "SBCommit", [], C)));
       await $.stmt((await $.wcall([$t40], "ActionRefreshExecute", [(await $.wv([$t40], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)));
@@ -786,7 +786,7 @@ export default function define($) {
   L0["willrefresh"] = false;
   await $.stmt($.call(C, "Focus", []));
   {
-    const $t43 = (await $.v(C, "GridTransactions"));
+    const $t43 = (await $.wobj(C, "GridTransactions"));
     const $t44 = (await $.wv([$t43], "SelectedRows", C, false));
     const $t45 = (await $.mv((await $.wv([$t43, $t44], "DataSource", C, false)), "DataSet"));
     const $t46 = (await $.wv([$t43, $t44, $t45], "TransactionDataModule", C, false));
@@ -886,7 +886,7 @@ export default function define($) {
   await $.mcall((await $.v(C, "CLBCurrency")), "Clear", []);
   await $.mcall((await $.call(C, "TStringList", [(await $.call(C, "Pointer", [(await $.mv((await $.v(C, "CLBCurrency")), "Tag"))]))])), "Clear", []);
   {
-    const $t55 = (await $.v(C, "TransactionDataModule"));
+    const $t55 = (await $.wobj(C, "TransactionDataModule"));
     await $.mcall((await $.wv([$t55], "Operations", C, false)), "Execute", []);
     await $.mcall((await $.wv([$t55], "Valute", C, false)), "Execute", []);
   }
@@ -1036,7 +1036,7 @@ export default function define($) {
 });
   L0["result"] = false;
   {
-    const $t61 = (await $.v(C, "GridTransactions"));
+    const $t61 = (await $.wobj(C, "GridTransactions"));
     const $t62 = (await $.wv([$t61], "SelectedRows", C, false));
     const $t63 = (await $.mv((await $.wv([$t61, $t62], "DataSource", C, false)), "DataSet"));
     if ($.truthy((await $.or_(($.eq((await $.wv([$t61, $t62, $t63], "Count", C, false)), 1)), async () => ($.eq((await $.wv([$t61, $t62, $t63], "Count", C, false)), 0)))))) {
@@ -1083,7 +1083,7 @@ export default function define($) {
   L0["errorcount"] = 0;
   L0["willrefresh"] = false;
   {
-    const $t66 = (await $.v(C, "TransactionDataModule"));
+    const $t66 = (await $.wobj(C, "TransactionDataModule"));
     const $t67 = (await $.wv([$t66], "GridTransactions", C, false));
     const $t68 = (await $.wv([$t66, $t67], "SelectedRows", C, false));
     const $t69 = (await $.mv((await $.wv([$t66, $t67, $t68], "DataSource", C, false)), "DataSet"));
@@ -1151,7 +1151,7 @@ export default function define($) {
   L0["willrefresh"] = false;
   if ($.truthy((await $.call(C, "InputQuery", ["Inkarolunma !!! ", "Təyinat:", $.ref(async () => L0["rejectreason"], async ($t75) => { L0["rejectreason"] = $t75; })])))) {
     {
-      const $t76 = (await $.v(C, "TransactionDataModule"));
+      const $t76 = (await $.wobj(C, "TransactionDataModule"));
       const $t77 = (await $.wv([$t76], "GridTransactions", C, false));
       const $t78 = (await $.wv([$t76, $t77], "SelectedRows", C, false));
       const $t79 = (await $.mv((await $.wv([$t76, $t77, $t78], "DataSource", C, false)), "DataSet"));

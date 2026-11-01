@@ -26,7 +26,7 @@ export default function define($) {
   L0["cs"] = " order by  balance ";
   L0["s"] = (await $.v(C, "BuildFilterString"));
   {
-    const $t1 = (await $.v(C, "query"));
+    const $t1 = (await $.wobj(C, "query"));
     if ($.truthy((await $.wv([$t1], "Active", C, false)))) {
       await $.stmt($.wcall([$t1], "close", [], C));
     }
@@ -40,7 +40,7 @@ export default function define($) {
     }
   }
   {
-    const $t3 = (await $.v(C, "Results"));
+    const $t3 = (await $.wobj(C, "Results"));
     if ($.truthy($.ne((await $.wv([$t3], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)), ""))) {
       await $.wset([$t3], "s", $.add($.add($.add(" where  ", (await $.wv([$t3], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))), " and type# in (3,4) "), (await $.wv([$t3], "cs", { get: async () => L0["cs"], set: async (v) => { L0["cs"] = v; }, local: true }, false))), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
     } else {

@@ -21,7 +21,7 @@ export default function define($) {
     L0["result"] = true;
   }
   {
-    const $t1 = (await $.v(C, "FormPayment_Det"));
+    const $t1 = (await $.wobj(C, "FormPayment_Det"));
     { const $t2 = $.sub((await $.wv([$t1], "ComponentCount", C, false)), 1);
       await $.wset([$t1], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t3 = true;

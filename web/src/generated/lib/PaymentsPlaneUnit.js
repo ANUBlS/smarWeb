@@ -112,7 +112,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "PlaneDataModule"));
+    const $t15 = (await $.wobj(C, "PlaneDataModule"));
     {
       const $t16 = (await $.wv([$t15], "PaymentsPlaneData", C, false));
       await $.stmt((await $.wcall([$t15, $t16], "SetVariable", ["ContractID", (await $.wv([$t15, $t16], "FContractID", C, false))], C)));
@@ -126,7 +126,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "PlaneDataModule"));
+    const $t17 = (await $.wobj(C, "PlaneDataModule"));
     {
       const $t18 = (await $.wv([$t17], "PaymentsPlaneData", C, false));
       await $.stmt($.wcall([$t17, $t18], "CloseAll", [], C));

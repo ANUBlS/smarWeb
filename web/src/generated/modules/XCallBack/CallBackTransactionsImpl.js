@@ -353,7 +353,7 @@ export default function define($) {
   const L0 = {result: '', "condition": '', "i": 0, "icount": 0};
   L0["condition"] = "";
   {
-    const $t1 = (await $.v(C, "CheckListOperations"));
+    const $t1 = (await $.wobj(C, "CheckListOperations"));
     await $.wset([$t1], "icount", (await $.mv((await $.wv([$t1], "Items", C, false)), "Count")), { get: async () => L0["icount"], set: async (v) => { L0["icount"] = v; }, local: true });
     { const $t2 = $.sub((await $.wv([$t1], "icount", { get: async () => L0["icount"], set: async (v) => { L0["icount"] = v; }, local: true }, false)), 1);
       await $.wset([$t1], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
@@ -381,7 +381,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "CheckListOperations"));
+    const $t4 = (await $.wobj(C, "CheckListOperations"));
     const $t5 = (await $.wv([$t4], "Items", C, false));
     await $.stmt((await $.wcall([$t4, $t5], "Add", [(await $.mcall((await $.wv([$t4, $t5], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Field", ["name"]))], C)));
     { const $t6 = await $.iset((await $.wv([$t4, $t5], "Checked", C, false)), [$.sub((await $.wv([$t4, $t5], "Count", C, false)), 1)], (await $.wv([$t4, $t5], "True", C, false))); if ($t6 !== undefined) { await $.wset([$t4, $t5], "Checked", $t6, C); } }
@@ -416,7 +416,7 @@ export default function define($) {
   await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
   try {
     {
-      const $t7 = (await $.v(C, "OPCallBack"));
+      const $t7 = (await $.wobj(C, "OPCallBack"));
       await $.stmt((await $.wcall([$t7], "CallProcedure", ["SetTransactions", [(await $.mv((await $.mcall((await $.wv([$t7], "DebetSide", C, false)), "FieldbyName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t7], "CreditSide", C, false)), "FieldbyName", ["ID"])), "AsInteger")), (await $.wv([$t7], "GenerateOperationFilter", C, false)), (await $.mv((await $.mcall((await $.wv([$t7], "DebetBranch", C, false)), "FieldbyName", ["ID"])), "AsInteger"))]], C)));
     }
   } finally {

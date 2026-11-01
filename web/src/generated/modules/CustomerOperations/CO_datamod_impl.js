@@ -52,14 +52,14 @@ export default function define($) {
   L0["iscommission"] = $.fn(async function IsCommission() {
   const L1 = {result: false};
   {
-    const $t1 = (await $.v(C, "CO_TransTypeIncOUT"));
+    const $t1 = (await $.wobj(C, "CO_TransTypeIncOUT"));
     await $.wset([$t1], "Result", $.eq((await $.wv([$t1], "OperationMode", C, false)), (await $.wv([$t1], "omCommission", C, false))), { get: async () => L1["result"], set: async (v) => { L1["result"] = v; }, local: true });
   }
   return L1.result;
 });
   if ($.truthy(L0["iscommission"])) {
     {
-      const $t2 = (await $.v(C, "OSCT"));
+      const $t2 = (await $.wobj(C, "OSCT"));
       await $.stmt((await $.wcall([$t2], "CallProcedure", [(await $.wv([$t2], "cs_commission_execute", C, false)), ["CommisionID", (await $.wv([$t2], "CommissionID", { get: async () => L0["commissionid"], set: async (v) => { L0["commissionid"] = v; }, local: true }, false)), "DebitID", (await $.wv([$t2], "DebitID", { get: async () => L0["debitid"], set: async (v) => { L0["debitid"] = v; }, local: true }, false)), "CreditID", (await $.wv([$t2], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), "DebitAmmount", (await $.wv([$t2], "DebitAmmount", { get: async () => L0["debitammount"], set: async (v) => { L0["debitammount"] = v; }, local: true }, false)), "CreditAmmount", (await $.wv([$t2], "CreditAmmount", { get: async () => L0["creditammount"], set: async (v) => { L0["creditammount"] = v; }, local: true }, false)), "TransDate", (await $.wv([$t2], "TransDate", { get: async () => L0["transdate"], set: async (v) => { L0["transdate"] = v; }, local: true }, false))]], C)));
     }
   }
@@ -80,7 +80,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t4 = (await $.v(C, "DSCityByConctType"));
+    const $t4 = (await $.wobj(C, "DSCityByConctType"));
     await $.stmt((await $.wcall([$t4], "SetVariable", ["CID", (await $.mv((await $.mcall((await $.wv([$t4], "DSCountryByConctType", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
     if ($.truthy($.not((await $.wv([$t4], "Active", C, false))))) {
       await $.stmt($.wcall([$t4], "Open", [], C));
@@ -95,7 +95,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t5 = (await $.v(C, "CityByConctType"));
+    const $t5 = (await $.wobj(C, "CityByConctType"));
     await $.stmt((await $.wcall([$t5], "SetVariable", ["CID", (await $.mv((await $.mcall((await $.wv([$t5], "CountryByConctType", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
     if ($.truthy($.not((await $.wv([$t5], "Active", C, false))))) {
       await $.stmt($.wcall([$t5], "Open", [], C));
@@ -252,7 +252,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t14 = (await $.v(C, "ODS_CiCity"));
+    const $t14 = (await $.wobj(C, "ODS_CiCity"));
     await $.stmt((await $.wcall([$t14], "SetVariable", ["CID", (await $.mv((await $.mcall((await $.wv([$t14], "ODS_CiCntr", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
     if ($.truthy($.not((await $.wv([$t14], "Active", C, false))))) {
       await $.stmt($.wcall([$t14], "Open", [], C));
@@ -306,7 +306,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t18 = (await $.v(C, "Transactions"));
+    const $t18 = (await $.wobj(C, "Transactions"));
     await $.stmt((await $.wcall([$t18], "SetVariable", ["p_AccID", (await $.mv((await $.mcall((await $.wv([$t18], "Account", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
     if ($.truthy($.not((await $.wv([$t18], "Active", C, false))))) {
       await $.stmt($.wcall([$t18], "Open", [], C));

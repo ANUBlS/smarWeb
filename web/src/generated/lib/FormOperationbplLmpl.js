@@ -29,7 +29,7 @@ export default function define($) {
   await $.set(C, "FormOperationShow", (await $.mcall((await $.v(C, "TFormOperationShow")), "Create", [Self])));
   await $.set(C, "FormOperationShow1", (await $.mcall((await $.v(C, "TFormOperationShow1")), "Create", [Self])));
   {
-    const $t1 = (await $.v(C, "DataCustNom"));
+    const $t1 = (await $.wobj(C, "DataCustNom"));
     const $t2 = (await $.wv([$t1], "ODS_SYSDATE", C, false));
     await $.mset((await $.wv([$t1, $t2], "BeginDat", C, false)), "DateTime", (await $.mv((await $.wcall([$t1, $t2], "fieldbyname", ["tek_dat"], C)), "asdatetime")));
     await $.mset((await $.wv([$t1, $t2], "EndDat", C, false)), "DateTime", (await $.mv((await $.wcall([$t1, $t2], "fieldbyname", ["tek_dat"], C)), "asdatetime")));
@@ -62,7 +62,7 @@ export default function define($) {
   L0["bdat"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "BeginDat")), "DateTime"))]))]));
   L0["edat"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "EndDat")), "DateTime"))]))]));
   {
-    const $t6 = (await $.v(C, "DataCustNom"));
+    const $t6 = (await $.wobj(C, "DataCustNom"));
     if ($.truthy($.ne((await $.wv([$t6], "a", C, false)), ""))) {
       await $.wset([$t6], "v_custid", (await $.wv([$t6], "a", C, false)), { get: async () => L0["v_custid"], set: async (v) => { L0["v_custid"] = v; }, local: true });
       await $.mcall((await $.wv([$t6], "ODS_sb_business_opers1", C, false)), "Close", []);
@@ -125,7 +125,7 @@ export default function define($) {
       await $.wset([$t10], "Filtered", (await $.wv([$t10], "True", C, false)), C);
     }
     {
-      const $t13 = (await $.v(C, "DataCustNom"));
+      const $t13 = (await $.wobj(C, "DataCustNom"));
       const $t14 = (await $.wv([$t13], "ODSValuteName", C, false));
       await $.stmt($.wcall([$t13, $t14], "Close", [], C));
       await $.stmt((await $.wcall([$t13, $t14], "SetVariable", ["valute", (await $.mv((await $.mcall((await $.wv([$t13, $t14], "ODS_trancation1", C, false)), "fieldbyname", ["debitcurrencyid"])), "Value"))], C)));
@@ -187,7 +187,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "trid": 0, "parentid": 0, "selectrow": 0, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t19 = (await $.v(C, "XDBGrid2"));
+    const $t19 = (await $.wobj(C, "XDBGrid2"));
     const $t20 = (await $.mv((await $.wv([$t19], "DataSource", C, false)), "DataSet"));
     await $.wset([$t19, $t20], "selectrow", (await $.mv((await $.wv([$t19, $t20], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectrow"], set: async (v) => { L0["selectrow"] = v; }, local: true });
     { const $t21 = $.sub((await $.wv([$t19, $t20], "selectrow", { get: async () => L0["selectrow"], set: async (v) => { L0["selectrow"] = v; }, local: true }, false)), 1);
@@ -286,7 +286,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "trid": 0, "parentid": 0, "selectrow": 0, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t27 = (await $.v(C, "XDBGrid2"));
+    const $t27 = (await $.wobj(C, "XDBGrid2"));
     const $t28 = (await $.mv((await $.wv([$t27], "DataSource", C, false)), "DataSet"));
     await $.wset([$t27, $t28], "selectrow", (await $.mv((await $.wv([$t27, $t28], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectrow"], set: async (v) => { L0["selectrow"] = v; }, local: true });
     await $.stmt((await $.wcall([$t27, $t28], "ShowMessage", [(await $.wcall([$t27, $t28], "inttostr", [(await $.wv([$t27, $t28], "selectrow", { get: async () => L0["selectrow"], set: async (v) => { L0["selectrow"] = v; }, local: true }, false))], C))], C)));
@@ -315,7 +315,7 @@ export default function define($) {
   L0["bdat"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "BeginDat")), "DateTime"))]))]));
   L0["edat"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "EndDat")), "DateTime"))]))]));
   {
-    const $t31 = (await $.v(C, "DataCustNom"));
+    const $t31 = (await $.wobj(C, "DataCustNom"));
     const $t32 = (await $.wv([$t31], "ODS_sb_business_opers1", C, false));
     if ($.truthy($.eq((await $.wv([$t31, $t32], "active", C, false)), (await $.wv([$t31, $t32], "True", C, false))))) {
       await $.stmt($.wcall([$t31, $t32], "Close", [], C));

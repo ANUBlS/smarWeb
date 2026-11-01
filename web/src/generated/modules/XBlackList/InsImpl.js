@@ -45,7 +45,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.v(C, "x")), 1))) {
     {
-      const $t1 = (await $.v(C, "DmBlack"));
+      const $t1 = (await $.wobj(C, "DmBlack"));
       await $.stmt((await $.mcall((await $.wv([$t1], "OraclePackage1", C, false)), "CallProcedure", ["add_cust_black", ["p_adtype", 0, "p_name", (await $.mv((await $.wv([$t1], "edit1", C, false)), "text")), "p_lastname", (await $.mv((await $.wv([$t1], "edit2", C, false)), "text")), "p_middlename", (await $.mv((await $.wv([$t1], "edit4", C, false)), "text")), "p_doc_type", (await $.mv((await $.mcall((await $.wv([$t1], "Doctype", C, false)), "fieldbyname", ["ID"])), "asinteger")), "p_doc_serie", (await $.mv((await $.wv([$t1], "edit7", C, false)), "text")), "p_doc_num", (await $.mv((await $.wv([$t1], "edit6", C, false)), "text")), "p_citizenship", (await $.mv((await $.wv([$t1], "DBLookupComboBox3", C, false)), "text")), "p_adrs_state", (await $.mv((await $.wv([$t1], "DBLookupComboBox3", C, false)), "text")), "p_adrs_city", (await $.mv((await $.wv([$t1], "DBLookupComboBox2", C, false)), "text")), "p_address", (await $.mv((await $.wv([$t1], "edit8", C, false)), "text")), "p_doc_date", (await $.wv([$t1], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false)), "p_doc_organ", (await $.mv((await $.wv([$t1], "edit5", C, false)), "text")), "p_gender", (await $.mv((await $.mcall((await $.wv([$t1], "Sex", C, false)), "fieldbyname", ["ID"])), "asinteger")), "p_doc_pin", (await $.mv((await $.wv([$t1], "edit3", C, false)), "text")), "p_birthdate", (await $.wv([$t1], "dat1", { get: async () => L0["dat1"], set: async (v) => { L0["dat1"] = v; }, local: true }, false))]])));
     }
     await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "Refresh", []);
@@ -65,7 +65,7 @@ export default function define($) {
     await $.stmt($.call(C, "close", []));
   } else {
     {
-      const $t2 = (await $.v(C, "DmBlack"));
+      const $t2 = (await $.wobj(C, "DmBlack"));
       await $.stmt((await $.mcall((await $.wv([$t2], "OraclePackage1", C, false)), "CallProcedure", ["upd_cust_black", ["p_id", (await $.mv((await $.mcall((await $.mv((await $.wv([$t2], "DmBlack", C, false)), "MainDSet")), "fieldbyname", ["id"])), "asinteger")), "p_name", (await $.mv((await $.wv([$t2], "edit1", C, false)), "text")), "p_lastname", (await $.mv((await $.wv([$t2], "edit2", C, false)), "text")), "p_middlename", (await $.mv((await $.wv([$t2], "edit4", C, false)), "text")), "p_doc_type", (await $.mv((await $.mcall((await $.wv([$t2], "Doctype", C, false)), "fieldbyname", ["ID"])), "asinteger")), "p_doc_serie", (await $.mv((await $.wv([$t2], "edit7", C, false)), "text")), "p_doc_num", (await $.mv((await $.wv([$t2], "edit6", C, false)), "text")), "p_citizenship", (await $.mv((await $.wv([$t2], "DBLookupComboBox3", C, false)), "text")), "p_adrs_state", (await $.mv((await $.wv([$t2], "DBLookupComboBox3", C, false)), "text")), "p_adrs_city", (await $.mv((await $.wv([$t2], "DBLookupComboBox2", C, false)), "text")), "p_address", (await $.mv((await $.wv([$t2], "edit8", C, false)), "text")), "p_doc_date", (await $.wv([$t2], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false)), "p_doc_organ", (await $.mv((await $.wv([$t2], "edit5", C, false)), "text")), "p_gender", (await $.mv((await $.mcall((await $.wv([$t2], "Sex", C, false)), "fieldbyname", ["ID"])), "asinteger")), "p_doc_pin", (await $.mv((await $.wv([$t2], "edit3", C, false)), "text")), "p_birthdate", (await $.wv([$t2], "dat1", { get: async () => L0["dat1"], set: async (v) => { L0["dat1"] = v; }, local: true }, false))]])));
     }
     await $.mcall((await $.mv((await $.v(C, "DmBlack")), "MainDSet")), "Refresh", []);
@@ -84,7 +84,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "DmBlack"));
+    const $t3 = (await $.wobj(C, "DmBlack"));
     const $t4 = (await $.wv([$t3], "CITIES", C, false));
     await $.stmt($.wcall([$t3, $t4], "close", [], C));
     await $.stmt((await $.wcall([$t3, $t4], "SetVariable", ["country_id", (await $.mv((await $.mcall((await $.wv([$t3, $t4], "Contry", C, false)), "FieldByName", ["id"])), "AsInteger"))], C)));

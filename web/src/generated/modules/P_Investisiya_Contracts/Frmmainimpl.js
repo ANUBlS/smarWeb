@@ -61,7 +61,7 @@ export default function define($) {
     }
   }
   {
-    const $t1 = (await $.v(C, "Dm_Contracts_Investisiya"));
+    const $t1 = (await $.wobj(C, "Dm_Contracts_Investisiya"));
     if ($.truthy($.eq((await $.wv([$t1], "opetion", C, false)), "ins"))) {
       await $.mcall((await $.mv((await $.wv([$t1], "Dm_Contracts_Investisiya", C, false)), "ds_ostat")), "Close", []);
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t1], "Dm_Contracts_Investisiya", C, false)), "ds_ostat")), "SetVariable", ["p_acc_id", (await $.mv((await $.wv([$t1], "DBLookupComboBox4", C, false)), "KeyValue"))])));

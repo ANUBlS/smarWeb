@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ExpAllParametr"));
+    const $t1 = (await $.wobj(C, "ExpAllParametr"));
     await $.mset((await $.mcall((await $.wv([$t1], "ExpTypeAccountsDataSet", C, false)), "FieldByName", ["branchid"])), "AsInteger", (await $.mv((await $.wv([$t1], "DBLookupComboBox1", C, false)), "KeyValue")));
     await $.mset((await $.mcall((await $.wv([$t1], "ExpTypeAccountsDataSet", C, false)), "FieldByName", ["valute"])), "AsInteger", (await $.mv((await $.wv([$t1], "DBLookupComboBox2", C, false)), "KeyValue")));
     await $.mset((await $.mcall((await $.wv([$t1], "ExpTypeAccountsDataSet", C, false)), "FieldByName", ["debet"])), "AsInteger", (await $.mv((await $.wv([$t1], "DBLookupComboboxEh1", C, false)), "KeyValue")));
@@ -37,7 +37,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "ExpAllParametr"));
+    const $t2 = (await $.wobj(C, "ExpAllParametr"));
     const $t3 = (await $.wv([$t2], "ExpTypeAccountsDataSet", C, false));
     await $.stmt($.wcall([$t2, $t3], "Cancel", [], C));
   }

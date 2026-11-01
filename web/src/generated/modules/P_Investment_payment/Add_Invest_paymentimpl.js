@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DmPayment1"));
+    const $t1 = (await $.wobj(C, "DmPayment1"));
     if ($.truthy($.eq((await $.mcall((await $.wv([$t1], "pk_ins_investment", C, false)), "CallBooleanFunction", ["ins_invest_payment_transaction", [(await $.wv([$t1], "contactid", C, false)), (await $.mv((await $.wv([$t1], "CurrencyEdit1", C, false)), "Value")), (await $.mv((await $.wv([$t1], "DBLookupComboBox1", C, false)), "KeyValue")), (await $.mv((await $.wv([$t1], "CurrencyEdit2", C, false)), "Value")), (await $.mv((await $.wv([$t1], "DBLookupComboBox2", C, false)), "KeyValue")), (await $.mv((await $.wv([$t1], "CurrencyEdit3", C, false)), "Value")), (await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "DmPayment1", C, false)), "Dscontracts")), "FieldByName", ["INCOME_ACC_ID"])), "AsInteger")), (await $.mv((await $.wv([$t1], "CurrencyEdit4", C, false)), "Value")), (await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "DmPayment1", C, false)), "Dscontracts")), "FieldByName", ["EXP_ACC_ID"])), "AsInteger"))]])), (await $.wv([$t1], "true", C, false))))) {
       await $.stmt((await $.wcall([$t1], "ShowMessage", ["Əməliyyatlar yerinə yetirildi!"], C)));
     }

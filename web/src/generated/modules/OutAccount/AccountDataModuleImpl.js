@@ -20,7 +20,7 @@ export default function define($) {
   const L0 = {"account": $.copyArg(p0), result: 0};
   await $.fixArgs(L0, ["account"]);
   {
-    const $t1 = (await $.v(C, "OUT_SBOP"));
+    const $t1 = (await $.wobj(C, "OUT_SBOP"));
     const $t2 = (await $.wv([$t1], "Account", { get: async () => L0["account"], set: async (v) => { L0["account"] = v; }, local: true }, false));
     await $.wset([$t1, $t2], "Result", (await $.wcall([$t1, $t2], "CallIntegerFunction", [(await $.wv([$t1, $t2], "cs_add_account", C, false)), ["customerid", (await $.wv([$t1, $t2], "CustomerID", C, false)), "op_id", (await $.wv([$t1, $t2], "OperatorID", C, false)), "accno", (await $.wv([$t1, $t2], "AccNo", C, false)), "currencyid", (await $.wv([$t1, $t2], "CurrencyID", C, false)), "name", (await $.wv([$t1, $t2], "Name", C, false)), "open_dat", (await $.wv([$t1, $t2], "OpenDate", C, false)), "balcn", (await $.wv([$t1, $t2], "Balance1", C, false)), "limit", (await $.wv([$t1, $t2], "Limit", C, false)), "close_dat", (await $.wv([$t1, $t2], "CloseDate", C, false)), "bal_cn2", (await $.wv([$t1, $t2], "Balance2", C, false)), "bal_cn3", (await $.wv([$t1, $t2], "Balance3", C, false)), "bal_cn4", (await $.wv([$t1, $t2], "Balance4", C, false)), "filial", (await $.wv([$t1, $t2], "FilialID", C, false)), "sim_otcet", (await $.wv([$t1, $t2], "Simotcet", C, false)), "typeacc", (await $.wv([$t1, $t2], "Tipacc", C, false)), "old_acc_no", (await $.wv([$t1, $t2], "OldAccNo", C, false)), "pair_acc", (await $.wv([$t1, $t2], "PairAccID", C, false)), "insider", (await $.wv([$t1, $t2], "Insider", C, false)), "v_tempid", (await $.wv([$t1, $t2], "tempid", C, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
@@ -31,7 +31,7 @@ export default function define($) {
   const L0 = {"account": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["account"]);
   {
-    const $t3 = (await $.v(C, "OUT_SBOP"));
+    const $t3 = (await $.wobj(C, "OUT_SBOP"));
     const $t4 = (await $.wv([$t3], "Account", { get: async () => L0["account"], set: async (v) => { L0["account"] = v; }, local: true }, false));
     await $.stmt((await $.wcall([$t3, $t4], "CallProcedure", [(await $.wv([$t3, $t4], "cs_upd_account", C, false)), ["v_id", (await $.wv([$t3, $t4], "ID", C, false)), "v_customerid", (await $.wv([$t3, $t4], "CustomerID", C, false)), "v_op_id", (await $.wv([$t3, $t4], "OperatorID", C, false)), "v_accno", (await $.wv([$t3, $t4], "AccNo", C, false)), "v_currencyid", (await $.wv([$t3, $t4], "CurrencyID", C, false)), "v_name", (await $.wv([$t3, $t4], "Name", C, false)), "v_open_dat", (await $.wv([$t3, $t4], "OpenDate", C, false)), "v_balcn", (await $.wv([$t3, $t4], "Balance1", C, false)), "v_limit", (await $.wv([$t3, $t4], "Limit", C, false)), "v_close_dat", (await $.wv([$t3, $t4], "CloseDate", C, false)), "v_bal_cn2", (await $.wv([$t3, $t4], "Balance2", C, false)), "v_bal_cn3", (await $.wv([$t3, $t4], "Balance3", C, false)), "v_bal_cn4", (await $.wv([$t3, $t4], "Balance4", C, false)), "v_filial", (await $.wv([$t3, $t4], "FilialID", C, false)), "v_sim_otcet", (await $.wv([$t3, $t4], "Simotcet", C, false)), "v_typeacc", (await $.wv([$t3, $t4], "Tipacc", C, false)), "v_old_acc_no", (await $.wv([$t3, $t4], "OldAccNo", C, false)), "v_pair_acc", (await $.wv([$t3, $t4], "PairAccID", C, false)), "v_insider", (await $.wv([$t3, $t4], "Insider", C, false)), "v_tempid", (await $.wv([$t3, $t4], "tempid", C, false))]], C)));
   }
@@ -42,7 +42,7 @@ export default function define($) {
   const L0 = {"accountid": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["accountid"]);
   {
-    const $t5 = (await $.v(C, "OUT_SBOP"));
+    const $t5 = (await $.wobj(C, "OUT_SBOP"));
     const $t6 = (await $.wv([$t5], "Account", C, false));
     await $.stmt((await $.wcall([$t5, $t6], "CallProcedure", [(await $.wv([$t5, $t6], "cs_close_account", C, false)), ["accid", (await $.wv([$t5, $t6], "AccountID", { get: async () => L0["accountid"], set: async (v) => { L0["accountid"] = v; }, local: true }, false)), "doclose", 1]], C)));
   }
@@ -52,7 +52,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: 0};
   {
-    const $t7 = (await $.v(C, "OUT_SBOP"));
+    const $t7 = (await $.wobj(C, "OUT_SBOP"));
     await $.wset([$t7], "Result", (await $.wcall([$t7], "CallIntegerFunction", [(await $.wv([$t7], "cs_generateID", C, false)), []], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;
@@ -62,7 +62,7 @@ export default function define($) {
   const L0 = {"accid": $.copyArg(p0), "ch": $.copyArg(p1), result: false};
   await $.fixArgs(L0, ["accid", "ch"]);
   {
-    const $t8 = (await $.v(C, "OUT_SBUTIL"));
+    const $t8 = (await $.wobj(C, "OUT_SBUTIL"));
     await $.wset([$t8], "Result", (await $.wcall([$t8], "CallBooleanFunction", [(await $.wv([$t8], "cs_flagexsist", C, false)), ["AccID", (await $.wv([$t8], "AccID", { get: async () => L0["accid"], set: async (v) => { L0["accid"] = v; }, local: true }, false)), "FlagChar", (await $.wv([$t8], "ch", { get: async () => L0["ch"], set: async (v) => { L0["ch"] = v; }, local: true }, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;
@@ -146,7 +146,7 @@ export default function define($) {
   await $.fixArgs(L0, ["datasetname"]);
   L0["c_err_message"] = " Table or View in Dataset \"%s\" does not exist! ";
   {
-    const $t13 = (await $.v(C, "out_accdatamodule"));
+    const $t13 = (await $.wobj(C, "out_accdatamodule"));
     await $.mcall((await $.wv([$t13], "Account", C, false)), "Close", []);
     await $.mcall((await $.wv([$t13], "Customers", C, false)), "Close", []);
     await $.mcall((await $.wv([$t13], "Users", C, false)), "Close", []);

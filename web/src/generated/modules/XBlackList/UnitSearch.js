@@ -21,7 +21,7 @@ export default function define($) {
     if ($.truthy($.ne((await $.mv((await $.v(C, "edit1")), "Text")), ""))) {
       await $.mcall((await $.v(C, "edit2")), "Clear", []);
       {
-        const $t2 = (await $.v(C, "DmBlack"));
+        const $t2 = (await $.wobj(C, "DmBlack"));
         const $t3 = (await $.wv([$t2], "ods_search", C, false));
         await $.stmt($.wcall([$t2, $t3], "close", [], C));
         { const $t4 = await $.iset((await $.wv([$t2, $t3], "SQL", C, false)), [8], $.add($.add($.add((await $.idx((await $.wv([$t2, $t3], "SQL", C, false)), [8])), " and nvl(upper(nam),0) like upper ('%"), (await $.mv((await $.wv([$t2, $t3], "Edit1", C, false)), "Text"))), "%')")); if ($t4 !== undefined) { await $.wset([$t2, $t3], "SQL", $t4, C); } }
@@ -47,7 +47,7 @@ export default function define($) {
     if ($.truthy($.ne((await $.mv((await $.v(C, "edit2")), "Text")), ""))) {
       await $.mcall((await $.v(C, "edit1")), "Clear", []);
       {
-        const $t7 = (await $.v(C, "DmBlack"));
+        const $t7 = (await $.wobj(C, "DmBlack"));
         const $t8 = (await $.wv([$t7], "ods_search", C, false));
         await $.stmt($.wcall([$t7, $t8], "close", [], C));
         { const $t9 = await $.iset((await $.wv([$t7, $t8], "SQL", C, false)), [8], $.add($.add($.add((await $.idx((await $.wv([$t7, $t8], "SQL", C, false)), [8])), " and nvl(upper(nam1),0) like upper ('%"), (await $.mv((await $.wv([$t7, $t8], "Edit2", C, false)), "Text"))), "%')")); if ($t9 !== undefined) { await $.wset([$t7, $t8], "SQL", $t9, C); } }
@@ -66,7 +66,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "DmBlack"));
+    const $t11 = (await $.wobj(C, "DmBlack"));
     const $t12 = (await $.wv([$t11], "ods_search", C, false));
     if ($.truthy($.not((await $.wv([$t11, $t12], "Active", C, false))))) {
       await $.stmt($.wcall([$t11, $t12], "Open", [], C));
@@ -82,7 +82,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.ne((await $.mv((await $.mv((await $.v(C, "DmBlack")), "ods_searchDATAID")), "AsString")), ""))) {
     {
-      const $t13 = (await $.v(C, "DmBlack"));
+      const $t13 = (await $.wobj(C, "DmBlack"));
       const $t14 = (await $.wv([$t13], "ods_blecxml", C, false));
       { const $t15 = await $.iset((await $.wv([$t13, $t14], "Sql", C, false)), [4], ""); if ($t15 !== undefined) { await $.wset([$t13, $t14], "Sql", $t15, C); } }
       await $.stmt($.wcall([$t13, $t14], "close", [], C));
@@ -106,7 +106,7 @@ export default function define($) {
   }
   L0["titlename"] = (await $.mv(L0["column"], "FieldName"));
   {
-    const $t18 = (await $.v(C, "DmBlack"));
+    const $t18 = (await $.wobj(C, "DmBlack"));
     const $t19 = (await $.wv([$t18], "ods_search", C, false));
     await $.mset((await $.wv([$t18, $t19], "Screen", C, false)), "Cursor", (await $.wv([$t18, $t19], "crSQLWait", C, false)));
     await $.stmt((await $.wcall([$t18, $t19], "SetVariable", ["Title", (await $.wv([$t18, $t19], "TitleName", { get: async () => L0["titlename"], set: async (v) => { L0["titlename"] = v; }, local: true }, false))], C)));

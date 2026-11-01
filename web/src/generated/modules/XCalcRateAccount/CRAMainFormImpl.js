@@ -355,7 +355,7 @@ export default function define($) {
     await $.mset((await $.wcall([$t1], "FieldByName", ["CLOSEDATE"], C)), "AsDateTime", (await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "CRADatMod", C, false)), "BankDate")), "FieldByName", ["TEK_DAT"])), "AsDateTime")));
   }
   {
-    const $t2 = (await $.v(C, "FormAddEditContract"));
+    const $t2 = (await $.wobj(C, "FormAddEditContract"));
     await $.mset((await $.wv([$t2], "CMSearchEdit2", C, false)), "Text", "");
     await $.mset((await $.wv([$t2], "CMSearchEdit1", C, false)), "Text", "");
     await $.stmt($.wcall([$t2], "ShowModal", [], C));
@@ -393,7 +393,7 @@ export default function define($) {
 });
   await $.stmt((await $.mcall((await $.mv((await $.v(C, "CRADatMod")), "SB_ACA")), "CallProcedure", ["CheckObjectAccess", ["CALCRATEFORACCOUNT", "Update"]])));
   {
-    const $t4 = (await $.v(C, "CRADatMod"));
+    const $t4 = (await $.wobj(C, "CRADatMod"));
     const $t5 = (await $.wv([$t4], "Purpose", C, false));
     if ($.truthy((await $.wv([$t4, $t5], "Active", C, false)))) {
       await $.stmt($.wcall([$t4, $t5], "CloseAll", [], C));
@@ -464,7 +464,7 @@ export default function define($) {
   L0["noerrortitle"] = " Faizlər hesablandı.";
   L0["resultitle"] = " Faizlərin  hesablanmasında səhvlər var! ";
   {
-    const $t9 = (await $.v(C, "CRADBGrid"));
+    const $t9 = (await $.wobj(C, "CRADBGrid"));
     const $t10 = (await $.wv([$t9], "SelectedRows", C, false));
     const $t11 = (await $.mv((await $.wv([$t9, $t10], "DataSource", C, false)), "DataSet"));
     await $.wset([$t9, $t10, $t11], "ContID", (await $.mv((await $.wcall([$t9, $t10, $t11], "FieldByName", ["ID"], C)), "AsInteger")), { get: async () => L0["contid"], set: async (v) => { L0["contid"] = v; }, local: true });
@@ -542,7 +542,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t21 = (await $.v(C, "CRADBGrid"));
+    const $t21 = (await $.wobj(C, "CRADBGrid"));
     const $t22 = (await $.wv([$t21], "SelectedRows", C, false));
     const $t23 = (await $.mv((await $.wv([$t21, $t22], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t21, $t22, $t23], "DisableControls", [], C));
@@ -564,7 +564,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t24 = (await $.v(C, "CRADatMod"));
+    const $t24 = (await $.wobj(C, "CRADatMod"));
     const $t25 = (await $.wv([$t24], "Contracts", C, false));
     const $t26 = (await $.wv([$t24, $t25], "CRA_CONTRACT", C, false));
     await $.stmt((await $.wcall([$t24, $t25, $t26], "CallProcedure", ["CalcEnabledDisabled", ["p_id", (await $.mv((await $.wcall([$t24, $t25, $t26], "FieldByName", ["ID"], C)), "AsInteger"))]], C)));
@@ -660,7 +660,7 @@ export default function define($) {
     $.abort();
   }
   {
-    const $t31 = (await $.v(C, "CRADatMod"));
+    const $t31 = (await $.wobj(C, "CRADatMod"));
     const $t32 = (await $.wv([$t31], "Contracts", C, false));
     await $.stmt((await $.mcall((await $.wv([$t31, $t32], "CRA_CONTRACT", C, false)), "CallProcedure", ["close_cont", ["p_contid", (await $.mv((await $.wcall([$t31, $t32], "FieldByName", ["ID"], C)), "Asinteger"))]])));
     await $.stmt($.wcall([$t31, $t32], "Refresh", [], C));
@@ -672,7 +672,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t33 = (await $.v(C, "ExcelExport"));
+    const $t33 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t33], "Connect", [], C));
     await $.stmt((await $.wcall([$t33], "ExportDataset", [(await $.mv((await $.wv([$t33], "CRADatMod", C, false)), "Contracts")), "export", (await $.wv([$t33], "true", C, false))], C)));
     await $.stmt($.wcall([$t33], "Disconnect", [], C));

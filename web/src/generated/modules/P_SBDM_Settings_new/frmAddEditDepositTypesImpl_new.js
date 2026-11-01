@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "frmDepositTypes_new"));
+    const $t1 = (await $.wobj(C, "frmDepositTypes_new"));
     const $t2 = (await $.wv([$t1], "DepositTypes", C, false));
     await $.stmt($.wcall([$t1, $t2], "Cancel", [], C));
   }
@@ -38,7 +38,7 @@ export default function define($) {
     L0["hesab_faiz_evvelceden_vermek"] = 0;
   }
   {
-    const $t3 = (await $.v(C, "frmDepositTypes_new"));
+    const $t3 = (await $.wobj(C, "frmDepositTypes_new"));
     await $.wset([$t3], "FAdditionalType", (await $.mv((await $.mcall((await $.wv([$t3], "AddTypesForColl", C, false)), "FieldByName", ["addtypename"])), "AsString")), C);
     await $.wset([$t3], "FWithdrawtype", (await $.mv((await $.mcall((await $.wv([$t3], "AddTypesForWith", C, false)), "FieldByName", ["withdrtype"])), "AsString")), C);
     await $.mset((await $.mcall((await $.wv([$t3], "DepositTypes", C, false)), "FieldByName", ["PERCENT_RULE"])), "AsInteger", (await $.wv([$t3], "hesab_faiz_evvelceden_vermek", { get: async () => L0["hesab_faiz_evvelceden_vermek"], set: async (v) => { L0["hesab_faiz_evvelceden_vermek"] = v; }, local: true }, false)));

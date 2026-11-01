@@ -63,7 +63,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "FrmDashinmaz"));
+    const $t6 = (await $.wobj(C, "FrmDashinmaz"));
     await $.mset((await $.wv([$t6], "Edit1", C, false)), "Text", (await $.mv((await $.wv([$t6], "ODS_CUSTOMERSID", C, false)), "AsString")));
     await $.mset((await $.wv([$t6], "edit2", C, false)), "Text", (await $.mv((await $.wv([$t6], "ODS_CUSTOMERSNAME", C, false)), "AsString")));
     await $.mset((await $.wv([$t6], "edit3", C, false)), "Text", (await $.mv((await $.wv([$t6], "ODS_CUSTOMERSINN", C, false)), "AsString")));

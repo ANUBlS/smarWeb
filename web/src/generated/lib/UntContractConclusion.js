@@ -87,7 +87,7 @@ export default function define($) {
     }
     await $.stmt($.call(C, "InitPercents", []));
     {
-      const $t5 = (await $.v(C, "DataModContract"));
+      const $t5 = (await $.wobj(C, "DataModContract"));
       {
         const $t6 = (await $.wv([$t5], "ContractPack", C, false));
         if ($.truthy($.eq((await $.wv([$t5, $t6], "FOpMode", C, false)), (await $.wv([$t5, $t6], "omInsert", C, false))))) {
@@ -239,7 +239,7 @@ export default function define($) {
   const L0 = {"params": $.copyArg(p0), result: undefined, "currentcurrency": 0};
   await $.fixArgs(L0, ["params"]);
   {
-    const $t33 = (await $.v(C, "DataModContract"));
+    const $t33 = (await $.wobj(C, "DataModContract"));
     await $.wset([$t33], "CurrentCurrency", (await $.mv((await $.mcall((await $.mv((await $.wv([$t33], "MainDataModule", C, false)), "Contracts")), "FieldByName", ["ContractCurrencyID"])), "AsInteger")), { get: async () => L0["currentcurrency"], set: async (v) => { L0["currentcurrency"] = v; }, local: true });
     await $.stmt((await $.mcall((await $.wv([$t33], "CurrencyDataSet", C, false)), "Locate", ["CurrencyID", (await $.wv([$t33], "CurrentCurrency", { get: async () => L0["currentcurrency"], set: async (v) => { L0["currentcurrency"] = v; }, local: true }, false)), []])));
     await $.mset((await $.wv([$t33], "CurrencyEdit", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t33], "CurrencyDataSet", C, false)), "FieldByName", ["CurrencyID"])), "AsString")));
@@ -294,7 +294,7 @@ export default function define($) {
   await $.stmt((await $.call(C, "LoadingAccounts", [(await $.v(C, "FAccountsID"))])));
   await $.stmt($.call(C, "IncludePercents", []));
   {
-    const $t46 = (await $.v(C, "MainDataModule"));
+    const $t46 = (await $.wobj(C, "MainDataModule"));
     {
       const $t47 = (await $.wv([$t46], "Contracts", C, false));
       await $.mset((await $.wv([$t46, $t47], "ContractNumEdit", C, false)), "Text", (await $.mv((await $.wcall([$t46, $t47], "FieldByName", ["ContractNo"], C)), "AsString")));
@@ -515,7 +515,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t72 = (await $.v(C, "DataModContract"));
+    const $t72 = (await $.wobj(C, "DataModContract"));
     await $.mcall((await $.wv([$t72], "CurrencyDataSet", C, false)), "Open", []);
     await $.mcall((await $.wv([$t72], "GrandAcc", C, false)), "Open", []);
     if ($.truthy($.eq((await $.wcall([$t72], "SBCMGetOption", ["cmrCurrencyFilter"], C)), "OFF"))) {
@@ -648,7 +648,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t77 = (await $.v(C, "DataModContract"));
+    const $t77 = (await $.wobj(C, "DataModContract"));
     await $.mcall((await $.wv([$t77], "CurrencyDataSet", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t77], "GrandAcc", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t77], "ClientAcc", C, false)), "CloseAll", []);

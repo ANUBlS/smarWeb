@@ -76,7 +76,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "ExpiresPaymentsForm"));
+    const $t3 = (await $.wobj(C, "ExpiresPaymentsForm"));
     await $.mcall((await $.wv([$t3], "Credits", C, false)), "Close", []);
     { const $t4 = await $.iset((await $.mv((await $.wv([$t3], "Credits", C, false)), "SQL")), [6], $.add($.add($.add("and cont.contnum=", "'"), (await $.mv((await $.mcall((await $.mv((await $.wv([$t3], "DatModConstruction", C, false)), "Credits")), "FieldByName", ["contnum"])), "AsString"))), "'")); if ($t4 !== undefined) { await $.mset((await $.wv([$t3], "Credits", C, false)), "SQL", $t4); } }
     await $.mcall((await $.wv([$t3], "Credits", C, false)), "Open", []);
@@ -305,7 +305,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Müqavilədən imtina etmək istəyirsinizmi?", (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t5 = (await $.v(C, "DatModConstruction"));
+      const $t5 = (await $.wobj(C, "DatModConstruction"));
       const $t6 = (await $.wv([$t5], "sbcm_construction", C, false));
       await $.stmt((await $.wcall([$t5, $t6], "CallProcedure", ["ContRefusal", ["p_ID", (await $.mv((await $.mcall((await $.mv((await $.wv([$t5, $t6], "DatModConstruction", C, false)), "Credits")), "FieldByName", ["FLATID"])), "AsInteger"))]], C)));
     }
@@ -327,7 +327,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "DatModConstruction"));
+    const $t7 = (await $.wobj(C, "DatModConstruction"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t7], "RadioGrpCont", C, false)), "ItemIndex")), 0))) {
       await $.mcall((await $.wv([$t7], "Credits", C, false)), "Close", []);
       { const $t8 = await $.iset((await $.mv((await $.wv([$t7], "Credits", C, false)), "SQL")), [8], ""); if ($t8 !== undefined) { await $.mset((await $.wv([$t7], "Credits", C, false)), "SQL", $t8); } }
@@ -488,7 +488,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "addupd", 1);
   {
-    const $t14 = (await $.v(C, "DatModConstruction"));
+    const $t14 = (await $.wobj(C, "DatModConstruction"));
     const $t15 = (await $.wv([$t14], "AddEditContractForm", C, false));
     {
       const $t16 = (await $.wv([$t14, $t15], "CreditPurpose", C, false));
@@ -522,7 +522,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "addupd", 2);
   {
-    const $t17 = (await $.v(C, "DatModConstruction"));
+    const $t17 = (await $.wobj(C, "DatModConstruction"));
     const $t18 = (await $.wv([$t17], "CreditPurpose", C, false));
     if ($.truthy((await $.wv([$t17, $t18], "active", C, false)))) {
       await $.stmt($.wcall([$t17, $t18], "CloseAll", [], C));
@@ -592,7 +592,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Müqavilə bağlansın?", (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t22 = (await $.v(C, "DatModConstruction"));
+      const $t22 = (await $.wobj(C, "DatModConstruction"));
       const $t23 = (await $.wv([$t22], "sbcm_construction", C, false));
       await $.stmt((await $.wcall([$t22, $t23], "CallProcedure", ["Close_Contract", ["p_ID", (await $.wv([$t22, $t23], "Get_CreditID", C, false))]], C)));
     }
@@ -657,7 +657,7 @@ export default function define($) {
 });
   L0["filterstr"] = "";
   {
-    const $t24 = (await $.v(C, "DatModConstruction"));
+    const $t24 = (await $.wobj(C, "DatModConstruction"));
     await $.wset([$t24], "CompanyF", (await $.wcall([$t24], "CheckFiltred", [(await $.mv((await $.wv([$t24], "CheckBoxCompany", C, false)), "Checked")), (await $.wv([$t24], "CompanyFilter", { get: async () => L0["companyfilter"], set: async (v) => { L0["companyfilter"] = v; }, local: true }, false)), [(await $.mv((await $.mcall((await $.wv([$t24], "Componies", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], { get: async () => L0["checkfiltred"], set: async (v) => { L0["checkfiltred"] = v; }, local: true })), { get: async () => L0["companyf"], set: async (v) => { L0["companyf"] = v; }, local: true });
     if ($.truthy((await $.mv((await $.wv([$t24], "CheckBoxBuilding", C, false)), "Checked")))) {
       await $.wset([$t24], "BuildingF", $.add($.add($.add(" (bld_name=", "'"), (await $.mv((await $.mcall((await $.wv([$t24], "buildings", C, false)), "FieldByName", ["bld_Name"])), "asString"))), "')"), { get: async () => L0["buildingf"], set: async (v) => { L0["buildingf"] = v; }, local: true });
@@ -879,7 +879,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t42 = (await $.v(C, "ExpiresPaymentsForm"));
+    const $t42 = (await $.wobj(C, "ExpiresPaymentsForm"));
     await $.mcall((await $.wv([$t42], "Credits", C, false)), "Close", []);
     { const $t43 = await $.iset((await $.mv((await $.wv([$t42], "Credits", C, false)), "SQL")), [6], ""); if ($t43 !== undefined) { await $.mset((await $.wv([$t42], "Credits", C, false)), "SQL", $t43); } }
     await $.mcall((await $.wv([$t42], "Credits", C, false)), "Open", []);

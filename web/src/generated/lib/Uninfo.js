@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "x": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "gcprog"));
+    const $t1 = (await $.wobj(C, "gcprog"));
     await $.wset([$t1], "Progress", $.add((await $.wv([$t1], "Progress", C, false)), 2), C);
     if ($.truthy($.eq((await $.wv([$t1], "Progress", C, false)), (await $.wv([$t1], "MaxValue", C, false))))) {
       await $.wset([$t1], "MaxValue", 0, C);

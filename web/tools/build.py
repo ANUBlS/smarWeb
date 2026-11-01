@@ -518,7 +518,14 @@ def main():
             continue
         act = FIRST_ACTION + i
         actions[str(act)] = name
-        cats.setdefault(cat, []).append({'caption': cap, 'action': act, 'params': {}, 'children': []})
+        item = {'caption': cap, 'action': act, 'params': {}, 'children': []}
+        if cat.startswith('@'):
+            branch = {'children': tree}
+            for part in cat[1:].split('/'):
+                branch = next(n for n in branch['children'] if n['caption'] == part)
+            branch['children'].append(item)
+            continue
+        cats.setdefault(cat, []).append(item)
     if cats:
         tree.append({'caption': EXTRA_ROOT, 'action': 0, 'params': {}, 'extra': True, 'children': [
             {'caption': c, 'action': 0, 'params': {}, 'children': sorted(cats[c], key=lambda n: n['caption'])}

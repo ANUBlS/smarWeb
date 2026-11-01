@@ -47,7 +47,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: 0, "filial_id": 0};
   {
-    const $t1 = (await $.v(C, "FormXohks"));
+    const $t1 = (await $.wobj(C, "FormXohks"));
     if ($.truthy($.gt((await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "DataModXhoks", C, false)), "DataAccount")), "FieldByName", ["Filial"])), "AsInteger")), 0))) {
       await $.wset([$t1], "Filial_Id", (await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "DataModXhoks", C, false)), "DataAccount")), "FieldByName", ["Filial"])), "AsInteger")), { get: async () => L0["filial_id"], set: async (v) => { L0["filial_id"] = v; }, local: true });
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t1], "DataModXhoks", C, false)), "DataSetFilial")), "SetVariable", ["FilialID", (await $.wv([$t1], "Filial_Id", { get: async () => L0["filial_id"], set: async (v) => { L0["filial_id"] = v; }, local: true }, false))])));
@@ -460,7 +460,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t14 = (await $.v(C, "FormPayment_Det"));
+    const $t14 = (await $.wobj(C, "FormPayment_Det"));
     if ($.truthy((await $.mv((await $.wv([$t14], "RB_102T", C, false)), "Checked")))) {
       await $.mset((await $.wv([$t14], "RB_102T", C, false)), "Checked", (await $.wv([$t14], "false", C, false)));
       await $.mset((await $.wv([$t14], "RB_102", C, false)), "Checked", (await $.wv([$t14], "true", C, false)));
@@ -494,7 +494,7 @@ export default function define($) {
     await $.mcall((await $.wv([$t14], "Edit_tey4", C, false)), "Clear", []);
   }
   {
-    const $t15 = (await $.v(C, "FormPayment_Det"));
+    const $t15 = (await $.wobj(C, "FormPayment_Det"));
     await $.mset((await $.wv([$t15], "ButtonFinish", C, false)), "Enabled", (await $.wv([$t15], "True", C, false)));
     await $.mset((await $.wv([$t15], "XFBitBtn6", C, false)), "Enabled", (await $.wv([$t15], "false", C, false)));
     await $.mset((await $.wv([$t15], "XFBitBtn4", C, false)), "Enabled", (await $.wv([$t15], "true", C, false)));

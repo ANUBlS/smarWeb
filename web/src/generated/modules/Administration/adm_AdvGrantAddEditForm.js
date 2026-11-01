@@ -22,7 +22,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   try {
     {
-      const $t2 = (await $.v(C, "AdministrationData"));
+      const $t2 = (await $.wobj(C, "AdministrationData"));
       if ($.truthy((await $.wv([$t2], "NewRecord", C, false)))) {
         if ($.truthy((await $.mv((await $.wv([$t2], "CheckBox1", C, false)), "Checked")))) {
           await $.stmt((await $.mcall((await $.wv([$t2], "pcADM", C, false)), "CallProcedure", ["addnewadvancedgrantwithborder", [(await $.mv((await $.wv([$t2], "ModeditdataMODID", C, false)), "AsVariant")), (await $.mv((await $.wv([$t2], "edGrantName", C, false)), "Text")), (await $.mv((await $.wv([$t2], "edErrorMessage", C, false)), "Text")), (await $.mv((await $.wv([$t2], "edDescription", C, false)), "Text")), (await $.mv((await $.wv([$t2], "currencyedit1", C, false)), "Value"))]])));

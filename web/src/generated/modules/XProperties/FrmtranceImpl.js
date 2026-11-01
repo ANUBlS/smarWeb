@@ -21,7 +21,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DMproperties"));
+    const $t1 = (await $.wobj(C, "DMproperties"));
     const $t2 = (await $.wv([$t1], "DataSetPropIns", C, false));
     await $.stmt($.wcall([$t1, $t2], "open", [], C));
   }
@@ -64,7 +64,7 @@ export default function define($) {
   L0["name"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "DMproperties")), "DataSetPropIns")), "FieldByname", ["name"])), "asstring"));
   await $.set(C, "Caption", $.add(L0["name"], " adlı əmlakın alınması"));
   {
-    const $t3 = (await $.v(C, "DMproperties"));
+    const $t3 = (await $.wobj(C, "DMproperties"));
     const $t4 = (await $.wv([$t3], "DataSetProp_take", C, false));
     await $.stmt($.wcall([$t3, $t4], "close", [], C));
     await $.stmt((await $.wcall([$t3, $t4], "SetVariable", ["propid", (await $.wv([$t3, $t4], "propid", { get: async () => L0["propid"], set: async (v) => { L0["propid"] = v; }, local: true }, false))], C)));
@@ -91,7 +91,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t5 = (await $.v(C, "DMproperties"));
+    const $t5 = (await $.wobj(C, "DMproperties"));
     const $t6 = (await $.wv([$t5], "OraclePackage2", C, false));
     const $t7 = (await $.wv([$t5, $t6], "DataSetProp_take", C, false));
     await $.stmt((await $.wcall([$t5, $t6, $t7], "CallProcedure", ["DeleteTranche", ["P_Prop_Takeid", (await $.mv((await $.wcall([$t5, $t6, $t7], "FieldByName", ["ID"], C)), "AsInteger"))]], C)));
@@ -114,7 +114,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "ExcelExport"));
+    const $t9 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t9], "Connect", [], C));
     await $.stmt((await $.wcall([$t9], "ExportDataset", [(await $.mv((await $.wv([$t9], "DMproperties", C, false)), "DataSetProp_take")), "Tranşlar", (await $.wv([$t9], "True", C, false))], C)));
     await $.stmt($.wcall([$t9], "Disconnect", [], C));

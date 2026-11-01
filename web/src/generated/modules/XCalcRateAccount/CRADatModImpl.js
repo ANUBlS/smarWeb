@@ -19,7 +19,7 @@ export default function define($) {
   await $.mcall((await $.v(C, "IntAccs")), "Open", []);
   await $.mcall((await $.v(C, "Branches")), "Open", []);
   {
-    const $t1 = (await $.v(C, "Contracts"));
+    const $t1 = (await $.wobj(C, "Contracts"));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["OrderClause", "contractaccno"], C)));
     await $.stmt($.wcall([$t1], "Open", [], C));
   }

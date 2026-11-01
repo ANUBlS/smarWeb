@@ -420,7 +420,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Silinməsinə əminsinizmi?", (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbCancel"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t5 = (await $.v(C, "DMBudget"));
+      const $t5 = (await $.wobj(C, "DMBudget"));
       await $.stmt((await $.mcall((await $.wv([$t5], "ArticlesPkg", C, false)), "CallProcedure", ["del_art", [(await $.mv((await $.mcall((await $.wv([$t5], "ArtDataSet", C, false)), "FieldByname", ["id"])), "asinteger"))]])));
       await $.mcall((await $.wv([$t5], "ArtDataSet", C, false)), "refresh", []);
       await $.mcall((await $.wv([$t5], "ArticlesDST", C, false)), "refresh", []);
@@ -482,7 +482,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.mv((await $.v(C, "DMBudget")), "SetigDatSet")), "Active", true);
   {
-    const $t8 = (await $.v(C, "DMBudget"));
+    const $t8 = (await $.wobj(C, "DMBudget"));
     const $t9 = (await $.wv([$t8], "AddArt", C, false));
     if ($.truthy((await $.wv([$t8, $t9], "active", C, false)))) {
       await $.stmt($.wcall([$t8, $t9], "close", [], C));
@@ -530,7 +530,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "Edit1"));
+    const $t11 = (await $.wobj(C, "Edit1"));
     if ($.truthy($.ne((await $.wv([$t11], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t11], "DMBudget", C, false)), "ArtDataSrc")), "DataSet")), "Locate", ["NUMBEROFARTICLE", (await $.mv((await $.wv([$t11], "Edit1", C, false)), "Text")), [(await $.wv([$t11], "loPartialKey", C, false))]])));
     }
@@ -555,7 +555,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "DMBudget"));
+    const $t12 = (await $.wobj(C, "DMBudget"));
     await $.mset((await $.wv([$t12], "ArticlesDST", C, false)), "Active", (await $.wv([$t12], "true", C, false)));
     await $.mset((await $.wv([$t12], "ItemsofArticlesDST", C, false)), "Active", (await $.wv([$t12], "true", C, false)));
   }
@@ -619,7 +619,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "Edit3"));
+    const $t15 = (await $.wobj(C, "Edit3"));
     if ($.truthy($.ne((await $.wv([$t15], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t15], "DMBudget", C, false)), "ItmDataSrc")), "DataSet")), "Locate", ["NUMBEROFITEM", (await $.mv((await $.wv([$t15], "Edit3", C, false)), "Text")), [(await $.wv([$t15], "loCaseInsensitive", C, false)), (await $.wv([$t15], "loPartialKey", C, false))]])));
     }
@@ -661,7 +661,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "Edit5"));
+    const $t16 = (await $.wobj(C, "Edit5"));
     if ($.truthy($.ne((await $.wv([$t16], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t16], "DMBudget", C, false)), "ItmDataSrc")), "DataSet")), "Locate", ["ACCNO", (await $.mv((await $.wv([$t16], "Edit5", C, false)), "Text")), [(await $.wv([$t16], "loPartialKey", C, false))]])));
     }

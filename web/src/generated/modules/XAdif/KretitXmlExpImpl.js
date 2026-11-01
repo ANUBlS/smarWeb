@@ -171,7 +171,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "SaveDlg"));
+    const $t17 = (await $.wobj(C, "SaveDlg"));
     if ($.truthy((await $.wv([$t17], "Execute", C, false)))) {
       await $.mset((await $.wv([$t17], "EditDest", C, false)), "Text", (await $.wv([$t17], "FileName", C, false)));
     }

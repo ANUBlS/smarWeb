@@ -35,7 +35,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "NewDepositsDMWRGroups"));
+    const $t1 = (await $.wobj(C, "NewDepositsDMWRGroups"));
     await $.mcall((await $.wv([$t1], "DMtypes", C, false)), "Close", []);
     await $.mcall((await $.wv([$t1], "DmWrGroups", C, false)), "Close", []);
     await $.mcall((await $.wv([$t1], "DmWrTemplates", C, false)), "Close", []);
@@ -71,7 +71,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "NewDepositsDMWRGroups"));
+    const $t2 = (await $.wobj(C, "NewDepositsDMWRGroups"));
     await $.mcall((await $.wv([$t2], "DMtypes", C, false)), "Open", []);
     await $.mcall((await $.wv([$t2], "DmWrGroups", C, false)), "Open", []);
     await $.mcall((await $.wv([$t2], "DmWrTemplates", C, false)), "Open", []);
@@ -83,7 +83,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "NewDepositsDMWRGroups"));
+    const $t3 = (await $.wobj(C, "NewDepositsDMWRGroups"));
     await $.stmt((await $.mcall((await $.wv([$t3], "dm_rpdepository", C, false)), "CallProcedure", ["DmWrGroupAdd", [(await $.mv((await $.mcall((await $.wv([$t3], "DMtypes", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t3], "DmWrTemplates", C, false)), "FieldByName", ["ID"])), "AsInteger"))]])));
     await $.mcall((await $.wv([$t3], "DmWrGroups", C, false)), "Refresh", []);
   }
@@ -117,7 +117,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "NewDepositsDMWRGroups"));
+    const $t4 = (await $.wobj(C, "NewDepositsDMWRGroups"));
     await $.stmt((await $.mcall((await $.wv([$t4], "dm_rpdepository", C, false)), "CallProcedure", ["DmWrGroupDel", [(await $.mv((await $.mcall((await $.wv([$t4], "DMtypes", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t4], "DmWrTemplates", C, false)), "FieldByName", ["ID"])), "AsInteger"))]])));
     await $.mcall((await $.wv([$t4], "DmWrGroups", C, false)), "Refresh", []);
   }

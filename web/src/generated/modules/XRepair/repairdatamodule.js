@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "RepairMainForm"));
+    const $t1 = (await $.wobj(C, "RepairMainForm"));
     await $.mset((await $.wv([$t1], "LTrDate", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t1], "Transactions", C, false)), "FieldByName", ["DAT"])), "asstring")));
     await $.mset((await $.wv([$t1], "LD_Currency", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t1], "Transactions", C, false)), "FieldByName", ["D$"])), "asstring")));
     await $.mset((await $.wv([$t1], "LC_Currency", C, false)), "Caption", (await $.mv((await $.mcall((await $.wv([$t1], "Transactions", C, false)), "FieldByName", ["C$"])), "asstring")));

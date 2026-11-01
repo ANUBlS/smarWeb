@@ -15,7 +15,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "ArPaymentDataModule"));
+    const $t1 = (await $.wobj(C, "ArPaymentDataModule"));
     const $t2 = (await $.wv([$t1], "cm_utils", C, false));
     await $.mset((await $.wv([$t1, $t2], "MainAmtEdit", C, false)), "Value", (await $.wcall([$t1, $t2], "CallFloatFunction", ["Get_MainPlanPayment", [(await $.wv([$t1, $t2], "crdid", C, false))]], C)));
     await $.mset((await $.wv([$t1, $t2], "IntAmtEdit", C, false)), "Value", (await $.mv((await $.mcall((await $.wv([$t1, $t2], "IntRest", C, false)), "FieldByName", ["intrest"])), "AsFloat")));
@@ -49,7 +49,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "pen": 0};
   {
-    const $t4 = (await $.v(C, "ArPaymentDataModule"));
+    const $t4 = (await $.wobj(C, "ArPaymentDataModule"));
     const $t5 = (await $.wv([$t4], "cm_utils", C, false));
     await $.mset((await $.wv([$t4, $t5], "MainAmtEdit", C, false)), "Text", (await $.wcall([$t4, $t5], "FloatToStr", [(await $.mv((await $.mcall((await $.wv([$t4, $t5], "LoanRest", C, false)), "FieldByName", ["REST"])), "AsFloat"))], C)));
     await $.mset((await $.wv([$t4, $t5], "IntAmtEdit", C, false)), "Text", (await $.wcall([$t4, $t5], "FloatToStr", [(await $.mv((await $.mcall((await $.wv([$t4, $t5], "IntRest", C, false)), "FieldByName", ["INTERESTREST"])), "AsFloat"))], C)));
@@ -106,7 +106,7 @@ export default function define($) {
   }
   await $.set(C, "cusb", 0);
   {
-    const $t6 = (await $.v(C, "ArPaymentDataModule"));
+    const $t6 = (await $.wobj(C, "ArPaymentDataModule"));
     if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t6], "PortfInfo", C, false)), "FieldByName", ["credittype"])), "AsInteger")), 13))) {
       if ($.truthy((await $.mv((await $.wv([$t6], "ODS_CUST_COMBİNED", C, false)), "Active")))) {
         await $.mcall((await $.wv([$t6], "ODS_CUST_COMBİNED", C, false)), "Close", []);
@@ -125,7 +125,7 @@ export default function define($) {
     L0["committranche"] = (await $.call(C, "TrDelayed_Show", [Self, L0["rstransactionswillprocessed"]]));
     await $.mcall(Self, "Update", []);
     {
-      const $t8 = (await $.v(C, "ArPaymentDataModule"));
+      const $t8 = (await $.wobj(C, "ArPaymentDataModule"));
       await $.stmt((await $.mcall((await $.wv([$t8], "CM_PAYMENT", C, false)), "CallProcedure", ["CommitPayment", ["DoCommit", (await $.wv([$t8], "CommitTranche", { get: async () => L0["committranche"], set: async (v) => { L0["committranche"] = v; }, local: true }, false))]])));
     }
     if ($.truthy(L0["committranche"])) {
@@ -136,7 +136,7 @@ export default function define($) {
     $.rethrowControl($t7);
     $.handled($t7);
     {
-      const $t9 = (await $.v(C, "ArPaymentDataModule"));
+      const $t9 = (await $.wobj(C, "ArPaymentDataModule"));
       await $.stmt((await $.mcall((await $.wv([$t9], "CM_PAYMENT", C, false)), "CallProcedure", ["CommitPayment", ["DoCommit", (await $.wv([$t9], "False", C, false))]])));
     }
     throw $t7;
@@ -162,7 +162,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "ArPaymentDataModule"));
+    const $t10 = (await $.wobj(C, "ArPaymentDataModule"));
     await $.mset((await $.wv([$t10], "MainAmtEdit", C, false)), "ReadOnly", (await $.mv((await $.mcall((await $.wv([$t10], "LoanRest", C, false)), "FieldByName", ["ACC_NO"])), "IsNull")));
     await $.mset((await $.wv([$t10], "IntAmtEdit", C, false)), "ReadOnly", (await $.mv((await $.mcall((await $.wv([$t10], "IntRest", C, false)), "FieldByName", ["ACC_NO"])), "IsNull")));
     await $.mset((await $.wv([$t10], "DueAmtEdit", C, false)), "ReadOnly", (await $.mv((await $.mcall((await $.wv([$t10], "DueRest", C, false)), "FieldByName", ["ACC_NO"])), "IsNull")));
@@ -219,7 +219,7 @@ export default function define($) {
   await $.mset((await $.v(C, "DueAmtEdit")), "Value", 0);
   await $.mset((await $.v(C, "DueIntAmtEdit")), "Value", 0);
   {
-    const $t11 = (await $.v(C, "ArPaymentDataModule"));
+    const $t11 = (await $.wobj(C, "ArPaymentDataModule"));
     await $.wset([$t11], "CustomerCanPay", (await $.mv((await $.mcall((await $.wv([$t11], "PaymentAccounts", C, false)), "FieldByName", ["REST"])), "AsFloat")), { get: async () => L0["customercanpay"], set: async (v) => { L0["customercanpay"] = v; }, local: true });
     await $.wset([$t11], "Temp", (await $.mv((await $.mcall((await $.wv([$t11], "DueRest", C, false)), "FieldByName", ["DUEREST"])), "AsFloat")), { get: async () => L0["temp"], set: async (v) => { L0["temp"] = v; }, local: true });
     if ($.truthy((await $.and_(($.gt((await $.wv([$t11], "Temp", { get: async () => L0["temp"], set: async (v) => { L0["temp"] = v; }, local: true }, false)), 0)), async () => ($.gt((await $.wv([$t11], "CustomerCanPay", { get: async () => L0["customercanpay"], set: async (v) => { L0["customercanpay"] = v; }, local: true }, false)), 0)))))) {

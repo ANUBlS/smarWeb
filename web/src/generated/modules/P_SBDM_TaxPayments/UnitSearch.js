@@ -34,7 +34,7 @@ export default function define($) {
     }
   }
   {
-    const $t1 = (await $.v(C, "FormTaxPayments"));
+    const $t1 = (await $.wobj(C, "FormTaxPayments"));
     await $.mcall((await $.mv((await $.wv([$t1], "DbGr", C, false)), "SelectedRows")), "Clear", []);
     await $.wset([$t1], "FieldToSearch", (await $.mv((await $.wv([$t1], "CBSearchWhere", C, false)), "KeyValue")), { get: async () => L0["fieldtosearch"], set: async (v) => { L0["fieldtosearch"] = v; }, local: true });
     await $.stmt((await $.wcall([$t1], "FindNextRecord", [(await $.mv((await $.mv((await $.wv([$t1], "DbGr", C, false)), "DataSource")), "DataSet")), (await $.wv([$t1], "FieldToSearch", { get: async () => L0["fieldtosearch"], set: async (v) => { L0["fieldtosearch"] = v; }, local: true }, false)), (await $.wv([$t1], "SearchValue", { get: async () => L0["searchvalue"], set: async (v) => { L0["searchvalue"] = v; }, local: true }, false))], C)));

@@ -38,7 +38,7 @@ export default function define($) {
   await $.set(C, "FTransactionID", L0["id"]);
   await $.set(C, "Caption", (await $.call(C, "Format", ["Editing transaction #%d", [(await $.v(C, "FTransactionID"))]])));
   {
-    const $t1 = (await $.v(C, "TransactionsDataModule"));
+    const $t1 = (await $.wobj(C, "TransactionsDataModule"));
     const $t2 = (await $.wv([$t1], "TransactionsData", C, false));
     await $.stmt($.wcall([$t1, $t2], "Edit", [], C));
     await $.mset((await $.wv([$t1, $t2], "DebitAmountEdit", C, false)), "Value", (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["DebitAmount"], C)), "AsCurrency")));
@@ -48,7 +48,7 @@ export default function define($) {
     await $.mset((await $.wv([$t1, $t2], "TransactionDateEdit", C, false)), "DateTime", (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["TransactionDate"], C)), "AsDateTime")));
   }
   {
-    const $t3 = (await $.v(C, "TransactionsDataModule"));
+    const $t3 = (await $.wobj(C, "TransactionsDataModule"));
     await $.wset([$t3], "LastCacheAccountSide", (await $.wv([$t3], "asUnknown", C, false)), C);
     await $.stmt($.wcall([$t3], "PrepareCacheSymbols", [], C));
   }
@@ -266,7 +266,7 @@ export default function define($) {
       await $.stmt((await $.mcall((await $.v(C, "ErrorHintBox")), "ShowMessage", ["Əmalliyyatının təyyinatı daxil edin"])));
     } else {
       {
-        const $t18 = (await $.v(C, "TransactionsDataModule"));
+        const $t18 = (await $.wobj(C, "TransactionsDataModule"));
         const $t19 = (await $.wv([$t18], "TransactionsData", C, false));
         {
           const $t20 = (await $.wv([$t18, $t19], "DebitAccountData", C, false));
@@ -494,7 +494,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t36 = (await $.v(C, "TransactionsDataModule"));
+    const $t36 = (await $.wobj(C, "TransactionsDataModule"));
     const $t37 = (await $.wv([$t36], "TransactionsData", C, false));
     if ($.truthy($.in_((await $.wv([$t36, $t37], "State", C, false)), [(await $.wv([$t36, $t37], "dsInsert", C, false)), (await $.wv([$t36, $t37], "dsEdit", C, false))]))) {
       await $.stmt($.wcall([$t36, $t37], "Cancel", [], C));
@@ -511,7 +511,7 @@ export default function define($) {
     await $.set(C, "RefreshDisabled", true);
     try {
       {
-        const $t38 = (await $.v(C, "TransactionsDataModule"));
+        const $t38 = (await $.wobj(C, "TransactionsDataModule"));
         const $t39 = (await $.wv([$t38], "TransactionsData", C, false));
         {
           const $t40 = (await $.wv([$t38, $t39], "DebitAccData", C, false));
@@ -532,7 +532,7 @@ export default function define($) {
       await $.mset((await $.v(C, "DebitAccNoSearchEdit")), "Text", "");
       await $.mset((await $.v(C, "CreditAccNoSearchEdit")), "Text", "");
       {
-        const $t42 = (await $.v(C, "TransactionsDataModule"));
+        const $t42 = (await $.wobj(C, "TransactionsDataModule"));
         await $.wset([$t42], "LastCacheAccountSide", (await $.wv([$t42], "asUnknown", C, false)), C);
         await $.stmt($.wcall([$t42], "PrepareCacheSymbols", [], C));
       }
@@ -722,7 +722,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: false, "balancechar": 0, "colorerror": false};
   {
-    const $t54 = (await $.v(C, "TransactionsDataModule"));
+    const $t54 = (await $.wobj(C, "TransactionsDataModule"));
     const $t55 = (await $.wv([$t54], "InBalanceSymbolsData", C, false));
     await $.wset([$t54, $t55], "BalanceChar", (await $.mv((await $.mcall((await $.wv([$t54, $t55], "TransactionsData", C, false)), "FieldByName", ["InBalanceChar"])), "AsInteger")), { get: async () => L0["balancechar"], set: async (v) => { L0["balancechar"] = v; }, local: true });
     if ($.truthy($.ne((await $.wv([$t54, $t55], "BalanceChar", { get: async () => L0["balancechar"], set: async (v) => { L0["balancechar"] = v; }, local: true }, false)), 0))) {

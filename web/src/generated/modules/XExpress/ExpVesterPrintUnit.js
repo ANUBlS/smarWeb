@@ -38,7 +38,7 @@ export default function define($) {
   await $.stmt((await $.mcall((await $.v(C, "WordDocument")), "ConnectTo", [(await $.mcall((await $.mv((await $.v(C, "WordApplication")), "Documents")), "Item", [L0["itemindex"]]))])));
   try {
     {
-      const $t2 = (await $.v(C, "ReplaceCustDataSet"));
+      const $t2 = (await $.wobj(C, "ReplaceCustDataSet"));
       const $t3 = (await $.wv([$t2], "WordDocument", C, false));
       { const $t4 = (await $.mv((await $.wv([$t2, $t3], "Bookmarks", C, false)), "Count"));
         await $.wset([$t2, $t3], "IbookmarkCount", 1, { get: async () => L0["ibookmarkcount"], set: async (v) => { L0["ibookmarkcount"] = v; }, local: true });

@@ -16,7 +16,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "depositid": 0, "currencyid": 0, "periodid": 0, "capitalperid": 0, "checksett": false, "r": false, "amount": 0};
   {
-    const $t1 = (await $.v(C, "dmDepositContract"));
+    const $t1 = (await $.wobj(C, "dmDepositContract"));
     const $t2 = (await $.wv([$t1], "sbcm_contract", C, false));
     const $t3 = (await $.wv([$t1, $t2], "DepositPorps", C, false));
     await $.wset([$t1, $t2, $t3], "DepositID", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t1, $t2, $t3], "ContractTypes", C, false)), "ListSource")), "DataSet")), "FieldByName", ["ID"])), "AsInteger")), { get: async () => L0["depositid"], set: async (v) => { L0["depositid"] = v; }, local: true });
@@ -85,7 +85,7 @@ export default function define($) {
 });
   await $.stmt((await $.callv(L0["checkbynames"], [["BRANCHID", "CONTRACTNO", "OPENDATE", "CLOSEDATE", "INTEREST", "OVERDUEINTEREST", "CONTRACTTYPE", "CLIENTTYPE", "PERSONALTYPE", "CURRENCY", "AMOUNT", "CUSTOMERID"]])));
   {
-    const $t7 = (await $.v(C, "dmDepositContract"));
+    const $t7 = (await $.wobj(C, "dmDepositContract"));
     const $t8 = (await $.wv([$t7], "DepositPorps", C, false));
     const $t9 = (await $.wv([$t7, $t8], "sbcm_contract", C, false));
     if ($.truthy($.eq((await $.mv((await $.wcall([$t7, $t8, $t9], "FieldByName", ["ContractAccID"], C)), "AsInteger")), 0))) {
@@ -124,7 +124,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t10 = (await $.v(C, "dmDepositContract"));
+    const $t10 = (await $.wobj(C, "dmDepositContract"));
     const $t11 = (await $.wv([$t10], "DepositPorps", C, false));
     if ($.truthy((await $.wv([$t10, $t11], "Active", C, false)))) {
       await $.stmt($.wcall([$t10, $t11], "CloseAll", [], C));
@@ -157,7 +157,7 @@ export default function define($) {
 });
   await $.set(C, "FInserted", false);
   {
-    const $t13 = (await $.v(C, "dmDepositContract"));
+    const $t13 = (await $.wobj(C, "dmDepositContract"));
     const $t14 = (await $.wv([$t13], "DepositPorps", C, false));
     if ($.truthy((await $.wv([$t13, $t14], "Active", C, false)))) {
       await $.stmt($.wcall([$t13, $t14], "CloseAll", [], C));
@@ -174,7 +174,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "customerid": 0, "contractaccid": 0, "interestaccid": 0, "clientaccid": 0, "booroweraccid": 0, "autopr": 0};
   {
-    const $t15 = (await $.v(C, "dmDepositContract"));
+    const $t15 = (await $.wobj(C, "dmDepositContract"));
     {
       const $t16 = (await $.wv([$t15], "DepositPorps", C, false));
       await $.wset([$t15, $t16], "CustomerID", (await $.mv((await $.wcall([$t15, $t16], "FieldByName", ["CustomerID"], C)), "AsInteger")), { get: async () => L0["customerid"], set: async (v) => { L0["customerid"] = v; }, local: true });
@@ -218,22 +218,22 @@ export default function define($) {
     }
   }
   {
-    const $t21 = (await $.v(C, "DBLookupComboboxEh9"));
+    const $t21 = (await $.wobj(C, "DBLookupComboboxEh9"));
     const $t22 = (await $.mv((await $.wv([$t21], "DataSource", C, false)), "DataSet"));
     await $.wset([$t21, $t22], "KeyValue", (await $.wv([$t21, $t22], "CONTRACTACCID", { get: async () => L0["contractaccid"], set: async (v) => { L0["contractaccid"] = v; }, local: true }, false)), C);
   }
   {
-    const $t23 = (await $.v(C, "DBLookupComboboxEh10"));
+    const $t23 = (await $.wobj(C, "DBLookupComboboxEh10"));
     const $t24 = (await $.mv((await $.wv([$t23], "DataSource", C, false)), "DataSet"));
     await $.wset([$t23, $t24], "KeyValue", (await $.wv([$t23, $t24], "ClientAccID", { get: async () => L0["clientaccid"], set: async (v) => { L0["clientaccid"] = v; }, local: true }, false)), C);
   }
   {
-    const $t25 = (await $.v(C, "DBLookupComboboxEh11"));
+    const $t25 = (await $.wobj(C, "DBLookupComboboxEh11"));
     const $t26 = (await $.mv((await $.wv([$t25], "DataSource", C, false)), "DataSet"));
     await $.wset([$t25, $t26], "KeyValue", (await $.wv([$t25, $t26], "InterestAccID", { get: async () => L0["interestaccid"], set: async (v) => { L0["interestaccid"] = v; }, local: true }, false)), C);
   }
   {
-    const $t27 = (await $.v(C, "DBLookupComboboxEh2"));
+    const $t27 = (await $.wobj(C, "DBLookupComboboxEh2"));
     const $t28 = (await $.mv((await $.wv([$t27], "DataSource", C, false)), "DataSet"));
     await $.wset([$t27, $t28], "KeyValue", (await $.wv([$t27, $t28], "Booroweraccid", { get: async () => L0["booroweraccid"], set: async (v) => { L0["booroweraccid"] = v; }, local: true }, false)), C);
   }
@@ -303,7 +303,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t29 = (await $.v(C, "dmDepositContract"));
+    const $t29 = (await $.wobj(C, "dmDepositContract"));
     const $t30 = (await $.wv([$t29], "DepositPorps", C, false));
     const $t31 = (await $.wv([$t29, $t30], "SaveDeposit", C, false));
     await $.wset([$t29, $t30, $t31], "TypeD", 3, C);
@@ -352,7 +352,7 @@ export default function define($) {
   const L0 = {"save": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["save"]);
   {
-    const $t32 = (await $.v(C, "dmDepositContract"));
+    const $t32 = (await $.wobj(C, "dmDepositContract"));
     const $t33 = (await $.wv([$t32], "DepositPorps", C, false));
     if ($.truthy((await $.wv([$t32, $t33], "Save", { get: async () => L0["save"], set: async (v) => { L0["save"] = v; }, local: true }, false)))) {
       await $.stmt($.wcall([$t32, $t33], "Post", [], C));
@@ -458,7 +458,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t37 = (await $.v(C, "dmDepositContract"));
+    const $t37 = (await $.wobj(C, "dmDepositContract"));
     await $.stmt($.wcall([$t37], "RefreshDataSets", [], C));
   }
   return L0.result;
@@ -528,7 +528,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["period"] = (await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "LCBPeriods")), "ListSource")), "DataSet")), "FieldByName", ["period"])), "AsInteger"));
   {
-    const $t40 = (await $.v(C, "dmDepositContract"));
+    const $t40 = (await $.wobj(C, "dmDepositContract"));
     const $t41 = (await $.wv([$t40], "DepositPorps", C, false));
     await $.mset((await $.wcall([$t40, $t41], "FieldByName", ["Closedate"], C)), "AsDateTime", (await $.wcall([$t40, $t41], "IncMonth", [(await $.mv((await $.wcall([$t40, $t41], "FieldByName", ["OpenDate"], C)), "AsDateTime")), (await $.wv([$t40, $t41], "period", { get: async () => L0["period"], set: async (v) => { L0["period"] = v; }, local: true }, false))], C)));
   }
@@ -546,13 +546,13 @@ export default function define($) {
   L0["period"] = (await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "LCBCapPer")), "ListSource")), "DataSet")), "FieldByName", ["period"])), "AsInteger"));
   if ($.truthy($.gt(L0["period"], 0))) {
     {
-      const $t42 = (await $.v(C, "dmDepositContract"));
+      const $t42 = (await $.wobj(C, "dmDepositContract"));
       const $t43 = (await $.wv([$t42], "DepositPorps", C, false));
       await $.mset((await $.wcall([$t42, $t43], "FieldByName", ["FIRSTINTERESTPAYDAT"], C)), "AsDateTime", (await $.wcall([$t42, $t43], "IncMonth", [(await $.mv((await $.wcall([$t42, $t43], "FieldByName", ["OpenDate"], C)), "AsDateTime")), $.idiv((await $.wv([$t42, $t43], "period", { get: async () => L0["period"], set: async (v) => { L0["period"] = v; }, local: true }, false)), 30)], C)));
     }
   } else {
     {
-      const $t44 = (await $.v(C, "dmDepositContract"));
+      const $t44 = (await $.wobj(C, "dmDepositContract"));
       const $t45 = (await $.wv([$t44], "DepositPorps", C, false));
       await $.mset((await $.wcall([$t44, $t45], "FieldByName", ["FIRSTINTERESTPAYDAT"], C)), "AsDateTime", (await $.wcall([$t44, $t45], "IncMonth", [(await $.mv((await $.wcall([$t44, $t45], "FieldByName", ["OpenDate"], C)), "AsDateTime")), (await $.wv([$t44, $t45], "period", { get: async () => L0["period"], set: async (v) => { L0["period"] = v; }, local: true }, false))], C)));
     }

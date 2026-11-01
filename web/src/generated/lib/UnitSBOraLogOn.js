@@ -189,7 +189,7 @@ export default function define($) {
     await $.stmt((await $.call(C, "BSDK_Destroy_Object", [(await $.v(C, "pScanner"))])));
   }
   {
-    const $t7 = (await $.v(C, "OracleSession1"));
+    const $t7 = (await $.wobj(C, "OracleSession1"));
     try {
       await $.wset([$t7], "LogonDatabase", (await $.mv((await $.wv([$t7], "cbDatabase", C, false)), "Text")), C);
       await $.wset([$t7], "LogonUsername", (await $.mv((await $.wv([$t7], "edUserName", C, false)), "Text")), C);

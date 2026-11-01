@@ -153,7 +153,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "AccountDataModule"));
+    const $t10 = (await $.wobj(C, "AccountDataModule"));
     const $t11 = (await $.mv((await $.wv([$t10], "Accounts", C, false)), "DataSet"));
     await $.mset((await $.wcall([$t10, $t11], "FieldByName", ["AccName"], C)), "AsString", (await $.mv((await $.mcall((await $.mv((await $.wv([$t10, $t11], "Customers", C, false)), "DataSet")), "FieldByName", ["Name"])), "AsString")));
   }
@@ -197,7 +197,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "AccFlagsForm"));
+    const $t13 = (await $.wobj(C, "AccFlagsForm"));
     await $.wset([$t13], "FModified", (await $.wv([$t13], "False", C, false)), C);
     if ($.truthy(((await $.and_(($.eq((await $.wv([$t13], "ShowModal", C, false)), (await $.wv([$t13], "mrOk", C, false)))), async () => ((await $.wv([$t13], "FModified", C, false)))))))) {
       await $.mset((await $.mcall((await $.mv((await $.wv([$t13], "AccountDataModule", C, false)), "AccountsData")), "FieldByName", ["AccFlags"])), "AsString", (await $.wv([$t13], "Result", { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true }, false)));
@@ -210,7 +210,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "AccountDataModule"));
+    const $t14 = (await $.wobj(C, "AccountDataModule"));
     if ($.truthy($.in_((await $.mv((await $.wv([$t14], "AccountsData", C, false)), "State")), [(await $.wv([$t14], "dsInsert", C, false))]))) {
       await $.mset((await $.mcall((await $.wv([$t14], "AccountsData", C, false)), "FieldByName", ["FILIALID"])), "AsInteger", (await $.mcall((await $.wv([$t14], "SB_ACA", C, false)), "CallIntegerFunction", ["getuserfilialid", []])));
     }

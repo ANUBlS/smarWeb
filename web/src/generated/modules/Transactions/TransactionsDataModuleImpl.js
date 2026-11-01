@@ -89,7 +89,7 @@ export default function define($) {
     await $.mcall((await $.mcall((await $.mv((await $.v(C, "Transactions")), "DataSet")), "FieldByName", ["DebitID"])), "Clear", []);
     if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "TransactionPropertiesForm"))])))) {
       {
-        const $t8 = (await $.v(C, "TransactionPropertiesForm"));
+        const $t8 = (await $.wobj(C, "TransactionPropertiesForm"));
         await $.mset((await $.wv([$t8], "DebitAmountEdit", C, false)), "Value", 0);
         await $.mset((await $.wv([$t8], "CreditAmountEdit", C, false)), "Value", 0);
         await $.mset((await $.wv([$t8], "DebitLAmountEdit", C, false)), "Value", 0);
@@ -113,7 +113,7 @@ export default function define($) {
     await $.mcall((await $.mcall((await $.mv((await $.v(C, "Transactions")), "DataSet")), "FieldByName", ["CreditID"])), "Clear", []);
     if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "TransactionPropertiesForm"))])))) {
       {
-        const $t9 = (await $.v(C, "TransactionPropertiesForm"));
+        const $t9 = (await $.wobj(C, "TransactionPropertiesForm"));
         await $.mset((await $.wv([$t9], "DebitAmountEdit", C, false)), "Value", 0);
         await $.mset((await $.wv([$t9], "CreditAmountEdit", C, false)), "Value", 0);
         await $.mset((await $.wv([$t9], "DebitLAmountEdit", C, false)), "Value", 0);
@@ -177,7 +177,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "TransactionPropertiesForm"))])))) {
     {
-      const $t10 = (await $.v(C, "TransactionPropertiesForm"));
+      const $t10 = (await $.wobj(C, "TransactionPropertiesForm"));
       if ($.truthy($.not((await $.wv([$t10], "RefreshDisabled", C, false))))) {
         await $.wset([$t10], "S", (await $.mv((await $.mcall((await $.wv([$t10], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false)), "FieldByName", ["ACC_NO"])), "AsString")), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
         if ($.truthy($.eq((await $.mv((await $.wv([$t10], "DebitAccNoSearchEdit", C, false)), "Tag")), 0))) {
@@ -211,7 +211,7 @@ export default function define($) {
     try {
       if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "TransactionPropertiesForm"))])))) {
         {
-          const $t12 = (await $.v(C, "TransactionPropertiesForm"));
+          const $t12 = (await $.wobj(C, "TransactionPropertiesForm"));
           if ($.truthy($.not((await $.wv([$t12], "RefreshDisabled", C, false))))) {
             await $.wset([$t12], "S", (await $.mv((await $.mcall((await $.wv([$t12], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false)), "FieldByName", ["ACC_NO"])), "AsString")), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
             if ($.truthy($.eq((await $.mv((await $.wv([$t12], "CreditAccNoSearchEdit", C, false)), "Tag")), 0))) {
@@ -295,7 +295,7 @@ export default function define($) {
   }
   if ($.truthy(L0["willrefresh"])) {
     {
-      const $t15 = (await $.v(C, "InBalanceSymbolsData"));
+      const $t15 = (await $.wobj(C, "InBalanceSymbolsData"));
       await $.stmt($.wcall([$t15], "Close", [], C));
       if ($.truthy($.eq((await $.wv([$t15], "FLastCacheAccountSide", C, false)), (await $.wv([$t15], "asDebit", C, false))))) {
         await $.wset([$t15], "IntAccountSide", 0, { get: async () => L0["intaccountside"], set: async (v) => { L0["intaccountside"] = v; }, local: true });
@@ -327,7 +327,7 @@ export default function define($) {
   L0["c_name"] = "SetTransactions";
   if ($.truthy(L0["applied"])) {
     {
-      const $t16 = (await $.v(C, "OPComplexTrans"));
+      const $t16 = (await $.wobj(C, "OPComplexTrans"));
       await $.stmt((await $.wcall([$t16], "CallProcedure", [(await $.wv([$t16], "c_name", { get: async () => L0["c_name"], set: async (v) => { L0["c_name"] = v; }, local: true }, false)), [(await $.wv([$t16], "operationID", { get: async () => L0["operationid"], set: async (v) => { L0["operationid"] = v; }, local: true }, false)), (await $.wv([$t16], "DebitID", { get: async () => L0["debitid"], set: async (v) => { L0["debitid"] = v; }, local: true }, false)), (await $.wv([$t16], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), (await $.wv([$t16], "DebitAmmount", { get: async () => L0["debitammount"], set: async (v) => { L0["debitammount"] = v; }, local: true }, false)), (await $.wv([$t16], "CreditAmmount", { get: async () => L0["creditammount"], set: async (v) => { L0["creditammount"] = v; }, local: true }, false))]], C)));
     }
   }

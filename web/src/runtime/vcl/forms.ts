@@ -649,6 +649,9 @@ export const pendingRef: { current: ((global: string, walk: (o: unknown) => Prom
 
 /* ------------------------------------------------------------------ instance factory */
 
+/** Application.CreateForm(TX, X): Delphi assigns X right after allocation, before the constructor (and the DFM
+ *  loading) runs, so events fired while loading can already use the global X. */
+let createFormRef: { def: ClassDef; ref: any } | null = null;
 Env.instanceFactory = async (def: ClassDef, args: any[], env: Env) => {
   if (def.isA('Exception')) {
     const parents = def.chain().slice(1).map((c) => c.lname);
@@ -661,6 +664,11 @@ Env.instanceFactory = async (def: ClassDef, args: any[], env: Env) => {
   inst.__className = def.name;
   (inst as any).env = env;
   def.initFields(inst);
+  if (createFormRef && createFormRef.def === def) {
+    const r = createFormRef;
+    createFormRef = null;
+    await r.ref.set(inst);
+  }
   const userCtor = def.findMethod('create', args.length);
   if (userCtor) await userCtor(inst, ...args);
   else if (typeof (inst as any).Create === 'function') await (inst as any).Create(...args);
@@ -697,8 +705,12 @@ export class TApplication extends TComponent {
   HandleException(e: unknown) { void import('./component').then((m) => m.reportException(e, 'Application')); }
   ShowException(e: unknown) { void import('./component').then((m) => m.reportException(e, 'Application')); }
   async CreateForm(type: any, ref: any) {
-    const inst = await type.create([this]);
-    if (ref && typeof ref.set === 'function') await ref.set(inst);
+    const hasRef = ref && typeof ref.set === 'function';
+    if (hasRef && type?.def) createFormRef = { def: type.def, ref };
+    try {
+      const inst = await type.create([this]);
+      if (hasRef) await ref.set(inst);
+    } finally { createFormRef = null; }
   }
   HelpCommand() { return false; }
   HelpContext() { return false; }

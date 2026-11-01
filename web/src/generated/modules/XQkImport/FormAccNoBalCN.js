@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "QKİmportDataMod"));
+    const $t1 = (await $.wobj(C, "QKİmportDataMod"));
     const $t2 = (await $.wv([$t1], "ODS_ACCOUNT", C, false));
     if ($.truthy($.ne((await $.mv((await $.wv([$t1, $t2], "EditBal_Cn", C, false)), "Text")), ""))) {
       { const $t3 = await $.iset((await $.wv([$t1, $t2], "SQL", C, false)), [2], $.add($.add(" and  nvl(upper(bal_cn1 ),0)like upper('%", (await $.mv((await $.wv([$t1, $t2], "EditBal_Cn", C, false)), "Text"))), "%')")); if ($t3 !== undefined) { await $.wset([$t1, $t2], "SQL", $t3, C); } }

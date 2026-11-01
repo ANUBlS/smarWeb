@@ -21,7 +21,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModExch"));
+    const $t1 = (await $.wobj(C, "DataModExch"));
     await $.mcall((await $.wv([$t1], "ODSExchAcc", C, false)), "Close", []);
     await $.mcall((await $.wv([$t1], "ODSExchAcc", C, false)), "Open", []);
   }
@@ -67,7 +67,7 @@ export default function define($) {
   if ($.truthy($.eq(L0["usrname"], "SMART"))) {
     if ($.truthy($.eq((await $.call(C, "MessageDLG", [(await $.call(C, "Pchar", ["Silmək istəyirsiniz? "])), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
       {
-        const $t2 = (await $.v(C, "DataModExch"));
+        const $t2 = (await $.wobj(C, "DataModExch"));
         await $.wset([$t2], "v_id", (await $.mv((await $.mcall((await $.wv([$t2], "ODSExchAcc", C, false)), "FieldByName", ["id"])), "AsInteger")), { get: async () => L0["v_id"], set: async (v) => { L0["v_id"] = v; }, local: true });
         await $.stmt((await $.mcall((await $.wv([$t2], "OPExchMgr", C, false)), "CallProcedure", ["ex_accounts_delete", [(await $.wv([$t2], "v_id", { get: async () => L0["v_id"], set: async (v) => { L0["v_id"] = v; }, local: true }, false))]])));
         await $.mcall((await $.wv([$t2], "ODSExchAcc", C, false)), "Refresh", []);
@@ -105,7 +105,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "DataModExch"));
+    const $t4 = (await $.wobj(C, "DataModExch"));
     const $t5 = (await $.wv([$t4], "ODSExchOffice", C, false));
     if ($.truthy($.eq((await $.wcall([$t4, $t5], "UpperCase", [(await $.mv((await $.wv([$t4, $t5], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mcall((await $.wv([$t4, $t5], "ODSExchAcc", C, false)), "Cancel", []);
@@ -121,7 +121,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "DataModExch"));
+    const $t6 = (await $.wobj(C, "DataModExch"));
     const $t7 = (await $.wv([$t6], "ODSExchOffice", C, false));
     if ($.truthy($.eq((await $.wcall([$t6, $t7], "UpperCase", [(await $.mv((await $.wv([$t6, $t7], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mcall((await $.wv([$t6, $t7], "ODSExchAcc", C, false)), "Refresh", []);

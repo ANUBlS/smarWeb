@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModCable"));
+    const $t1 = (await $.wobj(C, "DataModCable"));
     { const $t2 = $.sub((await $.wv([$t1], "componentcount", C, false)), 1);
       await $.wset([$t1], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t3 = true;

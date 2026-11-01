@@ -591,7 +591,7 @@ export default function define($) {
   const L0 = {"selitem": $.copyArg(p0), result: undefined, "m": ''};
   await $.fixArgs(L0, ["selitem"]);
   {
-    const $t9 = (await $.v(C, "AdministrationData"));
+    const $t9 = (await $.wobj(C, "AdministrationData"));
     const $t10 = (await $.mv((await $.wv([$t9], "AdministrationData", C, false)), "UsersData"));
     await $.mcall((await $.wv([$t9, $t10], "edUsInfClass", C, false)), "Refresh", []);
     if ($.truthy($.not(((await $.wv([$t9, $t10], "Active", C, false)))))) {
@@ -680,7 +680,7 @@ export default function define($) {
   const L2 = {result: undefined, "i": 0};
   await $.mset((await $.v(C, "pnlCtrlBr")), "Visible", false);
   {
-    const $t16 = (await $.v(C, "pcMain"));
+    const $t16 = (await $.wobj(C, "pcMain"));
     { const $t17 = $.sub((await $.wv([$t16], "PageCount", C, false)), 1);
       await $.wset([$t16], "i", 0, { get: async () => L2["i"], set: async (v) => { L2["i"] = v; }, local: true });
       let $t18 = true;
@@ -721,7 +721,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t20 = (await $.v(C, "AdministrationData"));
+    const $t20 = (await $.wobj(C, "AdministrationData"));
     { const $t21 = (await $.mv((await $.mv((await $.mv((await $.wv([$t20], "tvMain", C, false)), "Selected")), "Parent")), "Index"));
       if ($.eq($t21, (await $.wv([$t20], "csUsers", C, false)))) {
         await $.stmt((await $.wcall([$t20], "LoadUserInfo", [(await $.wv([$t20], "SelItem", { get: async () => L0["selitem"], set: async (v) => { L0["selitem"] = v; }, local: true }, false))], C)));
@@ -752,7 +752,7 @@ export default function define($) {
   const L0 = {"selitem": $.copyArg(p0), result: false, "handcom": null};
   await $.fixArgs(L0, ["selitem"]);
   {
-    const $t22 = (await $.v(C, "AdministrationData"));
+    const $t22 = (await $.wobj(C, "AdministrationData"));
     await $.wset([$t22], "Result", (await $.wv([$t22], "False", C, false)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
     await $.wset([$t22], "HandCom", (await $.wcall([$t22], "FindComponent", [(await $.wv([$t22], "SelItem", { get: async () => L0["selitem"], set: async (v) => { L0["selitem"] = v; }, local: true }, false))], C)), { get: async () => L0["handcom"], set: async (v) => { L0["handcom"] = v; }, local: true });
     if ($.truthy((await $.wcall([$t22], "Assigned", [(await $.wv([$t22], "HandCom", { get: async () => L0["handcom"], set: async (v) => { L0["handcom"] = v; }, local: true }, false))], C)))) {
@@ -782,7 +782,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t24 = (await $.v(C, "cgrModules"));
+    const $t24 = (await $.wobj(C, "cgrModules"));
     await $.wset([$t24], "RowCount", $.idiv((await $.wv([$t24], "Height", C, false)), (await $.wv([$t24], "_CGPanWidth", C, false))), C);
   }
   return L0.result;
@@ -823,7 +823,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t25 = (await $.v(C, "AdministrationData"));
+    const $t25 = (await $.wobj(C, "AdministrationData"));
     const $t26 = (await $.mv((await $.wv([$t25], "AdministrationData", C, false)), "UsModulesData"));
     await $.stmt((await $.mcall((await $.wv([$t25, $t26], "BrForm", { get: async () => L0["brform"], set: async (v) => { L0["brform"] = v; }, local: true }, false)), "Execute", ["Module Access", "Module access", "Process...", 10, $.mul(((await $.wv([$t25, $t26], "RecordCount", C, false))), 10)])));
     await $.stmt((await $.mcall((await $.wv([$t25, $t26], "pcADM", C, false)), "CallProcedure", ["lockunlockuser", [(await $.mv((await $.mv((await $.wv([$t25, $t26], "tvMain", C, false)), "Selected")), "Text")), (await $.wv([$t25, $t26], "True", C, false))]])));
@@ -870,7 +870,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t27 = (await $.v(C, "cgrModules"));
+    const $t27 = (await $.wobj(C, "cgrModules"));
     if ($.truthy((await $.and_((await $.wv([$t27], "CanFocus", C, false)), async () => $.not(((await $.wv([$t27], "Focused", C, false)))))))) {
       await $.stmt($.wcall([$t27], "SetFocus", [], C));
     }
@@ -883,7 +883,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t28 = (await $.v(C, "AdministrationData"));
+    const $t28 = (await $.wobj(C, "AdministrationData"));
     const $t29 = (await $.mv((await $.wv([$t28], "AdministrationData", C, false)), "UsTablesData"));
     if ($.truthy(($.in_((await $.wv([$t28, $t29], "State", C, false)), [(await $.wv([$t28, $t29], "dsEdit", C, false)), (await $.wv([$t28, $t29], "dsInsert", C, false))])))) {
       await $.stmt($.wcall([$t28, $t29], "Post", [], C));
@@ -909,7 +909,7 @@ export default function define($) {
   const L1 = {"sender": $.copyArg(p0), result: undefined, "i": 0, "z": 0};
   await $.fixArgs(L1, ["sender"]);
   {
-    const $t30 = (await $.v(C, "AdministrationData"));
+    const $t30 = (await $.wobj(C, "AdministrationData"));
     const $t31 = (await $.wv([$t30], "GroupsData", C, false));
     if ($.truthy(($.is_((await $.wv([$t30, $t31], "Sender", { get: async () => L1["sender"], set: async (v) => { L1["sender"] = v; }, local: true }, false)), "TStringGrid")))) {
       {
@@ -960,7 +960,7 @@ export default function define($) {
   L0["recr"] = false;
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t37 = (await $.v(C, "AdministrationData"));
+    const $t37 = (await $.wobj(C, "AdministrationData"));
     const $t38 = (await $.mv((await $.wv([$t37], "AdministrationData", C, false)), "GroupsData"));
     if ($.truthy($.not(((await $.mv((await $.wv([$t37, $t38], "UsersData", C, false)), "Active")))))) {
       return L0.result;
@@ -1029,7 +1029,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "varfildat": '', "varlangdat": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t44 = (await $.v(C, "AdministrationData"));
+    const $t44 = (await $.wobj(C, "AdministrationData"));
     const $t45 = (await $.mv((await $.wv([$t44], "AdministrationData", C, false)), "pcAdm"));
     if ($.truthy((await $.and_(($.ne((await $.mv((await $.wv([$t44, $t45], "edUsInfClass", C, false)), "ItemIndex")), 0)), async () => (await $.mcall((await $.wv([$t44, $t45], "pcAca", C, false)), "CallBooleanFunction", ["isadm", [(await $.mv((await $.mv((await $.wv([$t44, $t45], "tvMain", C, false)), "Selected")), "text"))]])))))) {
       await $.stmt((await $.mcall((await $.wv([$t44, $t45], "hbErrorBox", C, false)), "ShowMessage", ["Administrator heç bir sinfə aid ola bilməz"])));
@@ -1207,7 +1207,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t64 = (await $.v(C, "AdministrationData"));
+    const $t64 = (await $.wobj(C, "AdministrationData"));
     await $.stmt((await $.wcall([$t64], "ChangeOrder", [(await $.wv([$t64], "UsModulesData", C, false)), (await $.idx((await $.mv((await $.wv([$t64], "UsModulesData", C, false)), "Fields")), [(await $.mv((await $.wv([$t64], "Section", { get: async () => L0["section"], set: async (v) => { L0["section"] = v; }, local: true }, false)), "Index"))])), (await $.wv([$t64], "ResetActSection", { get: async () => L0["resetactsection"], set: async (v) => { L0["resetactsection"] = v; }, local: true }, false))], C)));
   }
   return L0.result;
@@ -1253,7 +1253,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t69 = (await $.v(C, "grAdvan"));
+    const $t69 = (await $.wobj(C, "grAdvan"));
     if ($.truthy((await $.and_(((await $.wv([$t69], "CanFocus", C, false))), async () => $.not(((await $.wv([$t69], "Focused", C, false)))))))) {
       await $.stmt($.wcall([$t69], "SetFocus", [], C));
     }
@@ -1338,7 +1338,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "handcom": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t74 = (await $.v(C, "AdministrationData"));
+    const $t74 = (await $.wobj(C, "AdministrationData"));
     if ($.truthy((await $.mv((await $.wv([$t74], "pnlCtrlBr", C, false)), "Visible")))) {
       {
         const $t75 = (await $.wv([$t74], "pcMain", C, false));
@@ -1431,7 +1431,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0, "moded": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t79 = (await $.v(C, "AdministrationData"));
+    const $t79 = (await $.wobj(C, "AdministrationData"));
     const $t80 = ((await $.wv([$t79], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t79, $t80], "DataSource", C, false)), "DataSet")), "RecordCount")), 0))) {
       return L0.result;
@@ -1506,7 +1506,7 @@ export default function define($) {
   const L0 = {"dat": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dat"]);
   {
-    const $t90 = (await $.v(C, "AdministrationData"));
+    const $t90 = (await $.wobj(C, "AdministrationData"));
     if ($.truthy($.eq((await $.wv([$t90], "Dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false)), (await $.wv([$t90], "Classes", C, false))))) {
       if ($.truthy($.eq((await $.wcall([$t90], "MessageDlg", ["Sinif ləğv olunsun?", (await $.wv([$t90], "mtConfirmation", C, false)), [(await $.wv([$t90], "mbYes", C, false)), (await $.wv([$t90], "mbNo", C, false))], 0], C)), (await $.wv([$t90], "mrYes", C, false))))) {
         {
@@ -1654,7 +1654,7 @@ export default function define($) {
   const L0 = {"selit": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["selit"]);
   {
-    const $t99 = (await $.v(C, "AdministrationData"));
+    const $t99 = (await $.wobj(C, "AdministrationData"));
     const $t100 = (await $.mv((await $.wv([$t99], "AdministrationData", C, false)), "GroupUsersData"));
     await $.stmt((await $.wcall([$t99, $t100], "ClearGrid", [(await $.wv([$t99, $t100], "slGroupGrid", C, false))], C)));
     await $.stmt((await $.mcall((await $.wv([$t99, $t100], "GroupsData", C, false)), "Locate", ["obj", (await $.wv([$t99, $t100], "selit", { get: async () => L0["selit"], set: async (v) => { L0["selit"] = v; }, local: true }, false)), []])));
@@ -1730,7 +1730,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "newtab"]);
   await $.mset((await $.v(C, "pcDepSub")), "ActivePageIndex", L0["newtab"]);
   {
-    const $t105 = (await $.v(C, "Administrationdata"));
+    const $t105 = (await $.wobj(C, "Administrationdata"));
     const $t106 = (await $.wv([$t105], "SubmissionData", C, false));
     await $.stmt((await $.wcall([$t105, $t106], "SetVariable", ["USERID", (await $.mv((await $.mcall((await $.wv([$t105, $t106], "UsersData", C, false)), "FieldByName", ["USER#"])), "AsInteger"))], C)));
     if ($.truthy($.not(((await $.wv([$t105, $t106], "Active", C, false)))))) {
@@ -1740,7 +1740,7 @@ export default function define($) {
     }
   }
   {
-    const $t107 = (await $.v(C, "Administrationdata"));
+    const $t107 = (await $.wobj(C, "Administrationdata"));
     const $t108 = (await $.wv([$t107], "DependencesData", C, false));
     await $.stmt((await $.wcall([$t107, $t108], "SetVariable", ["USERID", (await $.mv((await $.mcall((await $.wv([$t107, $t108], "UsersData", C, false)), "FieldByName", ["USER#"])), "AsInteger"))], C)));
     if ($.truthy($.not(((await $.wv([$t107, $t108], "Active", C, false)))))) {
@@ -1861,7 +1861,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t118 = (await $.v(C, "AdministrationData"));
+    const $t118 = (await $.wobj(C, "AdministrationData"));
     await $.stmt((await $.wcall([$t118], "SelAlll", [(await $.wv([$t118], "UsModulesData", C, false)), "MODACC", $.eq((await $.wv([$t118], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), (await $.wv([$t118], "miSelAll", C, false)))], C)));
   }
   return L0.result;
@@ -2171,7 +2171,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t137 = (await $.v(C, "AdministrationData"));
+    const $t137 = (await $.wobj(C, "AdministrationData"));
     { const $t138 = (await $.wv([$t137], "Value", { get: async () => L0["value"], set: async (v) => { L0["value"] = v; }, local: true }, false));
       if ($.eq($t138, (await $.wv([$t137], "atGroups", C, false)))) {
         await $.stmt((await $.wcall([$t137], "OpenData", [(await $.wv([$t137], "repGroupsData", C, false))], { get: async () => L0["opendata"], set: async (v) => { L0["opendata"] = v; }, local: true })));
@@ -2198,7 +2198,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t139 = (await $.v(C, "pcOrders"));
+    const $t139 = (await $.wobj(C, "pcOrders"));
     const $t140 = (await $.wv([$t139], "AdministrationData", C, false));
     { const $t141 = (await $.wv([$t139, $t140], "ActivePageIndex", C, false));
       if ($.eq($t141, 0)) {
@@ -2539,7 +2539,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t168 = (await $.v(C, "AdministrationData"));
+    const $t168 = (await $.wobj(C, "AdministrationData"));
     const $t169 = (await $.wv([$t168], "pcADM", C, false));
     const $t170 = (await $.wv([$t168, $t169], "UsersData", C, false));
     if ($.truthy(($.is_((await $.wv([$t168, $t169, $t170], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "TAction")))) {
@@ -2579,7 +2579,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t172 = (await $.v(C, "AdministrationData"));
+    const $t172 = (await $.wobj(C, "AdministrationData"));
     const $t173 = (await $.wv([$t172], "repAdvGrantData", C, false));
     const $t174 = (await $.wv([$t172, $t173], "cbUsersOrder", C, false));
     const $t175 = (await $.wv([$t172, $t173, $t174], "rptAdvgrant", C, false));
@@ -2616,7 +2616,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t181 = (await $.v(C, "AdministrationData"));
+    const $t181 = (await $.wobj(C, "AdministrationData"));
     const $t182 = (await $.wv([$t181], "pcADM", C, false));
     const $t183 = (await $.wv([$t181, $t182], "UsersData", C, false));
     if ($.truthy($.eq((await $.mv((await $.wcall([$t181, $t182, $t183], "FieldByName", ["Is_Adm"], C)), "AsInteger")), 1))) {

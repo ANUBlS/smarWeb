@@ -78,7 +78,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.mv((await $.v(C, "WordDocument")), "Application")), "Get_ActiveWindow")), "Caption", (await $.v(C, "Caption")));
   try {
     {
-      const $t2 = (await $.v(C, "AgreeDataModule"));
+      const $t2 = (await $.wobj(C, "AgreeDataModule"));
       const $t3 = (await $.wv([$t2], "ReplaceDataSet", C, false));
       const $t4 = (await $.wv([$t2, $t3], "WordDocument", C, false));
       { const $t5 = (await $.mv((await $.wv([$t2, $t3, $t4], "Bookmarks", C, false)), "Count"));

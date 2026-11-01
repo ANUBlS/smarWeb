@@ -352,7 +352,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t1 = (await $.v(C, "BranchFilter"));
+    const $t1 = (await $.wobj(C, "BranchFilter"));
     const $t2 = (await $.wv([$t1], "DataModWU", C, false));
     if ($.truthy($.eq((await $.mv((await $.wv([$t1, $t2], "Items", C, false)), "Count")), 0))) {
       return L0.result;
@@ -414,7 +414,7 @@ export default function define($) {
   const L0 = {result: undefined, "i": 0, "temp": 0, "tempdate": 0};
   L0["temp"] = 0;
   {
-    const $t7 = (await $.v(C, "WesternUnionForm"));
+    const $t7 = (await $.wobj(C, "WesternUnionForm"));
     const $t8 = (await $.wv([$t7], "DataModWU", C, false));
     if ($.truthy((await $.or_(($.eq((await $.mv((await $.wv([$t7, $t8], "EditFileName", C, false)), "Text")), "")), async () => ($.not((await $.wcall([$t7, $t8], "FileExists", [(await $.mv((await $.wv([$t7, $t8], "EditFileName", C, false)), "Text"))], C)))))))) {
       return L0.result;
@@ -451,7 +451,7 @@ export default function define($) {
   L0["stdt"] = (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "StartDate")), "Date"))]));
   L0["endt"] = (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "EndDate")), "Date"))]));
   {
-    const $t11 = (await $.v(C, "DataModWU"));
+    const $t11 = (await $.wobj(C, "DataModWU"));
     const $t12 = (await $.wv([$t11], "ComboFilter", C, false));
     await $.stmt((await $.mcall((await $.wv([$t11, $t12], "DataWUIncoming", C, false)), "SetVariable", ["StDate", (await $.wv([$t11, $t12], "StDt", { get: async () => L0["stdt"], set: async (v) => { L0["stdt"] = v; }, local: true }, false))])));
     await $.stmt((await $.mcall((await $.wv([$t11, $t12], "DataWUIncoming", C, false)), "SetVariable", ["EnDate", (await $.wv([$t11, $t12], "EnDt", { get: async () => L0["endt"], set: async (v) => { L0["endt"] = v; }, local: true }, false))])));
@@ -465,7 +465,7 @@ export default function define($) {
   await $.mset((await $.v(C, "ComboBoxKind")), "ItemIndex", 0);
   await $.set(C, "FilterFilialID", (await $.mv((await $.v(C, "TStringList")), "Create")));
   {
-    const $t13 = (await $.v(C, "DataModWU"));
+    const $t13 = (await $.wobj(C, "DataModWU"));
     const $t14 = (await $.wv([$t13], "BranchFilter", C, false));
     await $.mcall((await $.wv([$t13, $t14], "BranchFilter", C, false)), "Clear", []);
     await $.mcall((await $.wv([$t13, $t14], "DataBranch", C, false)), "First", []);
@@ -530,7 +530,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "GridWUIncoming"));
+    const $t17 = (await $.wobj(C, "GridWUIncoming"));
     const $t18 = (await $.wv([$t17], "SelectedRows", C, false));
     const $t19 = (await $.mv((await $.wv([$t17, $t18], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t17, $t18, $t19], "DisableControls", [], C));
@@ -553,7 +553,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.and_(($.ne((await $.mv((await $.v(C, "EditFileName")), "Text")), "")), async () => ((await $.call(C, "FileExists", [(await $.mv((await $.v(C, "EditFileName")), "Text"))]))))))) {
     {
-      const $t20 = (await $.v(C, "DataModWU"));
+      const $t20 = (await $.wobj(C, "DataModWU"));
       await $.mcall((await $.wv([$t20], "DataTempFile", C, false)), "Edit", []);
       await $.stmt((await $.mcall((await $.wcall([$t20], "TBlobField", [(await $.mcall((await $.wv([$t20], "DataTempFile", C, false)), "FieldByName", ["FileBody"]))], C)), "LoadFromFile", [(await $.mv((await $.wv([$t20], "EditFileName", C, false)), "Text"))])));
       await $.mcall((await $.wv([$t20], "DataTempFile", C, false)), "Post", []);
@@ -667,13 +667,13 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t29 = (await $.v(C, "DataModWU"));
+    const $t29 = (await $.wobj(C, "DataModWU"));
     await $.stmt((await $.mcall((await $.wv([$t29], "DataWUIncoming", C, false)), "SetVariable", ["Title", (await $.mv((await $.wv([$t29], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName"))])));
     await $.mcall((await $.wv([$t29], "DataWUIncoming", C, false)), "Refresh", []);
   }
   await $.mcall((await $.mv((await $.v(C, "GridWUIncoming")), "SelectedRows")), "Clear", []);
   {
-    const $t30 = (await $.v(C, "GridWUIncoming"));
+    const $t30 = (await $.wobj(C, "GridWUIncoming"));
     { const $t31 = $.sub((await $.mv((await $.wv([$t30], "Columns", C, false)), "Count")), 1);
       await $.wset([$t30], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t32 = true;
@@ -702,7 +702,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t33 = (await $.v(C, "FormConfig"));
+    const $t33 = (await $.wobj(C, "FormConfig"));
     const $t34 = (await $.wv([$t33], "DataModWU", C, false));
     await $.mset((await $.wv([$t33, $t34], "P_ComboDC", C, false)), "ItemIndex", 0);
     await $.mset((await $.wv([$t33, $t34], "R_ComboDC", C, false)), "ItemIndex", 0);
@@ -726,7 +726,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t35 = (await $.v(C, "DataModWU"));
+    const $t35 = (await $.wobj(C, "DataModWU"));
     const $t36 = (await $.wv([$t35], "GridWUIncoming", C, false));
     try {
       if ($.truthy((await $.mv((await $.wv([$t35, $t36], "DataWUIncoming", C, false)), "IsEmpty")))) {
@@ -777,7 +777,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t40 = (await $.v(C, "DataModWU"));
+    const $t40 = (await $.wobj(C, "DataModWU"));
     const $t41 = (await $.wv([$t40], "ComboFilter", C, false));
     if ($.truthy($.eq((await $.wv([$t40, $t41], "ItemIndex", C, false)), 0))) {
       await $.mset((await $.wv([$t40, $t41], "DataWUIncoming", C, false)), "Filter", (await $.wv([$t40, $t41], "EmptyStr", C, false)));
@@ -908,7 +908,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "stdt": 0, "endt": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t57 = (await $.v(C, "DataModWU"));
+    const $t57 = (await $.wobj(C, "DataModWU"));
     if ($.truthy((await $.mv((await $.wv([$t57], "DataWUIncoming", C, false)), "IsEmpty")))) {
       return L0.result;
     }
@@ -933,7 +933,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "stdt": 0, "endt": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t58 = (await $.v(C, "DataModWU"));
+    const $t58 = (await $.wobj(C, "DataModWU"));
     if ($.truthy((await $.mv((await $.wv([$t58], "DataWUIncoming", C, false)), "IsEmpty")))) {
       return L0.result;
     }

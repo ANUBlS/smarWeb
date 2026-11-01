@@ -108,7 +108,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ExpDataModule"));
+    const $t1 = (await $.wobj(C, "ExpDataModule"));
     await $.mset((await $.wv([$t1], "EditDescription", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t1], "Exp_settingstype", C, false)), "FieldByName", ["description"])), "AsString")));
     if ($.truthy($.eq((await $.mv((await $.wv([$t1], "DBLookupComboboxEh1", C, false)), "KeyValue")), 69))) {
       await $.mset((await $.wv([$t1], "RFilialPanel", C, false)), "Visible", (await $.wv([$t1], "True", C, false)));
@@ -126,7 +126,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "shift"]);
   if ($.truthy($.eq((await L0["key"].get()), (await $.v(C, "VK_F3"))))) {
     {
-      const $t2 = (await $.v(C, "ExpFormDestination"));
+      const $t2 = (await $.wobj(C, "ExpFormDestination"));
       const $t3 = (await $.wv([$t2], "ExpDataModule", C, false));
       await $.stmt($.wcall([$t2, $t3], "ShowModal", [], C));
       if ($.truthy($.eq((await $.wv([$t2, $t3], "ModalResult", C, false)), (await $.wv([$t2, $t3], "mrOk", C, false))))) {
@@ -164,7 +164,7 @@ export default function define($) {
   { const $t5 = (await $.v(C, "FForm"));
     if ($.eq($t5, 0)) {
       {
-        const $t6 = (await $.v(C, "ExpDataModule"));
+        const $t6 = (await $.wobj(C, "ExpDataModule"));
         await $.mset((await $.wv([$t6], "CMCurrencyEdit1", C, false)), "Value", 0.0);
         await $.wset([$t6], "FNumber", (await $.mcall((await $.wv([$t6], "Repair", C, false)), "CallIntegerFunction", ["Filid", []])), { get: async () => L0["fnumber"], set: async (v) => { L0["fnumber"] = v; }, local: true });
         await $.mcall((await $.wv([$t6], "FilialDataSet", C, false)), "Close", []);
@@ -207,7 +207,7 @@ export default function define($) {
     }
     else if ($.eq($t5, 1)) {
       {
-        const $t11 = (await $.v(C, "ExpDataModule"));
+        const $t11 = (await $.wobj(C, "ExpDataModule"));
         if ($.truthy((await $.wv([$t11], "FiledIncoming", C, false)))) {
           await $.mset((await $.wv([$t11], "ExpSetDataSet", C, false)), "Filter", $.add("id=", (await $.mv((await $.mcall((await $.wv([$t11], "ExpIncomingDataSet", C, false)), "FieldByName", ["optype"])), "AsString"))));
           await $.mset((await $.wv([$t11], "ExpSetDataSet", C, false)), "Filtered", (await $.wv([$t11], "true", C, false)));

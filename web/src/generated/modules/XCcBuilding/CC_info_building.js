@@ -397,7 +397,7 @@ export default function define($) {
   const L0 = {result: undefined, "i": 0};
   L0["c_err_message"] = " Table or View in Dataset \"%s\" does not exist! ";
   {
-    const $t3 = (await $.v(C, "CC_Datamod"));
+    const $t3 = (await $.wobj(C, "CC_Datamod"));
     { const $t4 = $.sub((await $.wv([$t3], "ComponentCount", C, false)), 1);
       await $.wset([$t3], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t5 = true;

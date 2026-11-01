@@ -52,7 +52,7 @@ export default function define($) {
     await $.stmt((await $.call(C, "MessageDlg", [L0["rsinvaliddate"], (await $.v(C, "mtWarning")), [(await $.v(C, "mbOK"))], 0])));
   } else {
     {
-      const $t1 = (await $.v(C, "NewDepositsFrmProlongation"));
+      const $t1 = (await $.wobj(C, "NewDepositsFrmProlongation"));
       const $t2 = (await $.wv([$t1], "sbcm_prolongation", C, false));
       await $.wset([$t1, $t2], "Check", (await $.wcall([$t1, $t2], "CallIntegerFunction", ["ProlongationCheck", [(await $.wv([$t1, $t2], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))]], C)), { get: async () => L0["check"], set: async (v) => { L0["check"] = v; }, local: true });
       if ($.truthy($.eq((await $.wv([$t1, $t2], "Check", { get: async () => L0["check"], set: async (v) => { L0["check"] = v; }, local: true }, false)), 0))) {

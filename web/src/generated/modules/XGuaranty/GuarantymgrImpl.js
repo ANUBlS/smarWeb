@@ -373,7 +373,7 @@ export default function define($) {
   const L1 = {result: undefined};
   L1["smainmenuinilocation"] = "CRPopupMenu.ini";
   {
-    const $t2 = (await $.v(C, "PopupMenuIniLocation"));
+    const $t2 = (await $.wobj(C, "PopupMenuIniLocation"));
     await $.wset([$t2], "IniLocation", $.add((await $.wcall([$t2], "ExtractFilePath", [(await $.mv((await $.wv([$t2], "Application", C, false)), "ExeName"))], C)), (await $.wv([$t2], "sMainMenuIniLocation", { get: async () => L1["smainmenuinilocation"], set: async (v) => { L1["smainmenuinilocation"] = v; }, local: true }, false))), C);
     await $.wset([$t2], "IniSection", "Menu", C);
     await $.wset([$t2], "Active", (await $.wv([$t2], "True", C, false)), C);
@@ -412,7 +412,7 @@ export default function define($) {
   await $.fixArgs(L2, ["afieldname"]);
   L2["result"] = 0;
   {
-    const $t5 = (await $.v(C, "MainGrid"));
+    const $t5 = (await $.wobj(C, "MainGrid"));
     while ($.truthy((await $.and_(($.lt((await $.wv([$t5], "Result", { get: async () => L2["result"], set: async (v) => { L2["result"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t5], "Columns", C, false)), "Count")))), async () => ($.ne((await $.mv((await $.idx((await $.mv((await $.wv([$t5], "Columns", C, false)), "Items")), [(await $.wv([$t5], "Result", { get: async () => L2["result"], set: async (v) => { L2["result"] = v; }, local: true }, false))])), "FieldName")), (await $.wv([$t5], "AFieldName", { get: async () => L2["afieldname"], set: async (v) => { L2["afieldname"] = v; }, local: true }, false)))))))) {
       await $.stmt((await $.wcall([$t5], "INC", [$.ref(async () => (await $.wv([$t5], "Result", { get: async () => L2["result"], set: async (v) => { L2["result"] = v; }, local: true }, false)), async ($t6) => { await $.wset([$t5], "Result", $t6, { get: async () => L2["result"], set: async (v) => { L2["result"] = v; }, local: true }); })], C)));
       await $.tick();
@@ -448,7 +448,7 @@ export default function define($) {
   await $.set(C, "frmLogOutput", (await $.mcall((await $.v(C, "TfrmLogOutput")), "Create", [(await $.v(C, "Application"))])));
   await $.stmt($.callv(L0["loadfieldslist"], []));
   {
-    const $t9 = (await $.v(C, "frmLogOutput"));
+    const $t9 = (await $.wobj(C, "frmLogOutput"));
     await $.wset([$t9], "OnClose", (await $.wv([$t9], "OnLogOutputClose", C, true)), C);
     await $.wset([$t9], "OnShow", (await $.wv([$t9], "OnLogoutputShow", C, true)), C);
   }
@@ -507,7 +507,7 @@ export default function define($) {
     L0["param"] = L0["cnone"];
   }
   {
-    const $t13 = (await $.v(C, "GrDataModule"));
+    const $t13 = (await $.wobj(C, "GrDataModule"));
     const $t14 = (await $.wv([$t13], "CR_ADMIN", C, false));
     await $.wset([$t13, $t14], "PluginID", (await $.wcall([$t13, $t14], "CallIntegerFunction", ["getpluginid", [(await $.wv([$t13, $t14], "Plugin", { get: async () => L0["plugin"], set: async (v) => { L0["plugin"] = v; }, local: true }, false)), (await $.wv([$t13, $t14], "Param", { get: async () => L0["param"], set: async (v) => { L0["param"] = v; }, local: true }, false))]], C)), { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true });
     await $.wset([$t13, $t14], "AccessRes", (await $.wcall([$t13, $t14], "CallBooleanFunction", ["pluginaccess", [(await $.wv([$t13, $t14], "pluginid", { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true }, false))]], C)), { get: async () => L0["accessres"], set: async (v) => { L0["accessres"] = v; }, local: true });
@@ -611,7 +611,7 @@ export default function define($) {
     L0["param"] = L0["cnone"];
   }
   {
-    const $t15 = (await $.v(C, "GrDataModule"));
+    const $t15 = (await $.wobj(C, "GrDataModule"));
     const $t16 = (await $.wv([$t15], "CR_ADMIN", C, false));
     await $.wset([$t15, $t16], "PluginID", (await $.wcall([$t15, $t16], "CallIntegerFunction", ["getpluginid", [(await $.wv([$t15, $t16], "Plugin", { get: async () => L0["plugin"], set: async (v) => { L0["plugin"] = v; }, local: true }, false)), (await $.wv([$t15, $t16], "Param", { get: async () => L0["param"], set: async (v) => { L0["param"] = v; }, local: true }, false))]], C)), { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true });
     await $.wset([$t15, $t16], "AccessRes", (await $.wcall([$t15, $t16], "CallBooleanFunction", ["pluginaccess", [(await $.wv([$t15, $t16], "pluginid", { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true }, false))]], C)), { get: async () => L0["accessres"], set: async (v) => { L0["accessres"] = v; }, local: true });
@@ -629,7 +629,7 @@ export default function define($) {
   { const $t17 = (await $.mv((await $.v(C, "RadioGroup1")), "ItemIndex"));
     if ($.eq($t17, 0)) {
       {
-        const $t18 = (await $.v(C, "GrDataModule"));
+        const $t18 = (await $.wobj(C, "GrDataModule"));
         await $.mcall((await $.wv([$t18], "CR_ACTIVE", C, false)), "Close", []);
         { const $t19 = await $.iset((await $.mv((await $.wv([$t18], "CR_ACTIVE", C, false)), "sql")), [3], ""); if ($t19 !== undefined) { await $.mset((await $.wv([$t18], "CR_ACTIVE", C, false)), "sql", $t19); } }
         { const $t20 = await $.iset((await $.mv((await $.wv([$t18], "CR_ACTIVE", C, false)), "sql")), [3], " where nvl(partitionkey,0) =0 and closedate is null"); if ($t20 !== undefined) { await $.mset((await $.wv([$t18], "CR_ACTIVE", C, false)), "sql", $t20); } }
@@ -638,7 +638,7 @@ export default function define($) {
     }
     else if ($.eq($t17, 1)) {
       {
-        const $t21 = (await $.v(C, "GrDataModule"));
+        const $t21 = (await $.wobj(C, "GrDataModule"));
         await $.mcall((await $.wv([$t21], "CR_ACTIVE", C, false)), "Close", []);
         { const $t22 = await $.iset((await $.mv((await $.wv([$t21], "CR_ACTIVE", C, false)), "sql")), [3], ""); if ($t22 !== undefined) { await $.mset((await $.wv([$t21], "CR_ACTIVE", C, false)), "sql", $t22); } }
         { const $t23 = await $.iset((await $.mv((await $.wv([$t21], "CR_ACTIVE", C, false)), "sql")), [3], " where partitionkey =1 and closedate is not null"); if ($t23 !== undefined) { await $.mset((await $.wv([$t21], "CR_ACTIVE", C, false)), "sql", $t23); } }

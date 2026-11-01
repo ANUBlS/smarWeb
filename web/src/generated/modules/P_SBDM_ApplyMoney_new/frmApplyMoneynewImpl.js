@@ -16,7 +16,7 @@ export default function define($) {
   await $.mset((await $.v(C, "FrmApplyMoneynew")), "Caption", $.add((await $.v(C, "Get_SelectedContNo")), "  nömrəli müqavilənin yatrımları"));
   L0["contractid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "DMApplyMoney_new"));
+    const $t1 = (await $.wobj(C, "DMApplyMoney_new"));
     {
       const $t2 = (await $.wv([$t1], "Tranches", C, false));
       await $.stmt($.wcall([$t1, $t2], "close", [], C));
@@ -65,7 +65,7 @@ export default function define($) {
     await $.stmt((await $.call(C, "RefreshWithSavely", [true])));
   }
   {
-    const $t6 = (await $.v(C, "DMApplyMoney_new"));
+    const $t6 = (await $.wobj(C, "DMApplyMoney_new"));
     await $.mcall((await $.wv([$t6], "Tranches", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t6], "DepositInfo", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t6], "CustAcc", C, false)), "CloseAll", []);
@@ -200,7 +200,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t21 = (await $.v(C, "DMApplyMoney_new"));
+    const $t21 = (await $.wobj(C, "DMApplyMoney_new"));
     const $t22 = (await $.wv([$t21], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t21, $t22], "CallProcedure", ["checkadvancedobjectaccess", ["INSERT_SBCM_TRANSH"]], C)));
   }
@@ -215,7 +215,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t23 = (await $.v(C, "DMApplyMoney_new"));
+    const $t23 = (await $.wobj(C, "DMApplyMoney_new"));
     const $t24 = (await $.wv([$t23], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t23, $t24], "CallProcedure", ["checkadvancedobjectaccess", ["DELETE_SBCM_TRANSH"]], C)));
   }
@@ -223,7 +223,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t25 = (await $.v(C, "DMApplyMoney_new"));
+    const $t25 = (await $.wobj(C, "DMApplyMoney_new"));
     const $t26 = (await $.wv([$t25], "Tranches", C, false));
     const $t27 = (await $.wv([$t25, $t26], "sbcm_tranches", C, false));
     await $.stmt((await $.wcall([$t25, $t26, $t27], "CallProcedure", ["DeleteDepositMoney", ["P_DepMoneyID", (await $.mv((await $.wcall([$t25, $t26, $t27], "FieldByName", ["ID"], C)), "AsInteger"))]], C)));
@@ -236,12 +236,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t28 = (await $.v(C, "DMApplyMoney_new"));
+    const $t28 = (await $.wobj(C, "DMApplyMoney_new"));
     const $t29 = (await $.wv([$t28], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t28, $t29], "CallProcedure", ["checkadvancedobjectaccess", ["EXCEL_SBCM_TRANSH"]], C)));
   }
   {
-    const $t30 = (await $.v(C, "ExcelExport"));
+    const $t30 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t30], "Connect", [], C));
     await $.stmt((await $.wcall([$t30], "ExportDataset", [(await $.mv((await $.wv([$t30], "DMApplyMoney_new", C, false)), "Tranches")), "Depozit yatrımları", (await $.wv([$t30], "True", C, false)), (await $.wv([$t30], "false", C, false))], C)));
     await $.stmt($.wcall([$t30], "Disconnect", [], C));

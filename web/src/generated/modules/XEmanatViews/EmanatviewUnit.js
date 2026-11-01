@@ -255,7 +255,7 @@ export default function define($) {
   await $.mset((await $.v(C, "XFRadioButton1")), "Checked", true);
   await $.mset((await $.v(C, "DateTi_samelydate")), "value", (await $.mv((await $.mv((await $.v(C, "DataEmanat")), "Ods_wssysdateSYSDATE")), "AsDateTime")));
   {
-    const $t1 = (await $.v(C, "DataEmanat"));
+    const $t1 = (await $.wobj(C, "DataEmanat"));
     const $t2 = (await $.wv([$t1], "Ods_wspaymentemant", C, false));
     { const $t3 = await $.iset((await $.wv([$t1, $t2], "SQL", C, false)), [3], ""); if ($t3 !== undefined) { await $.wset([$t1, $t2], "SQL", $t3, C); } }
     { const $t4 = await $.iset((await $.wv([$t1, $t2], "SQL", C, false)), [3], $.add((await $.idx((await $.wv([$t1, $t2], "SQL", C, false)), [3])), "Where  trunc(respdatetime)=trunc(sysdate) ")); if ($t4 !== undefined) { await $.wset([$t1, $t2], "SQL", $t4, C); } }
@@ -519,7 +519,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.mv((await $.v(C, "XFRadioButton1")), "Checked")))) {
     {
-      const $t5 = (await $.v(C, "DataEmanat"));
+      const $t5 = (await $.wobj(C, "DataEmanat"));
       const $t6 = (await $.wv([$t5], "Ods_wspaymentemant", C, false));
       { const $t7 = await $.iset((await $.wv([$t5, $t6], "SQL", C, false)), [3], ""); if ($t7 !== undefined) { await $.wset([$t5, $t6], "SQL", $t7, C); } }
     }
@@ -536,7 +536,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["p_date"] = (await $.mv((await $.v(C, "DateTi_samelydate")), "Value"));
   {
-    const $t8 = (await $.v(C, "DataEmanat"));
+    const $t8 = (await $.wobj(C, "DataEmanat"));
     const $t9 = (await $.wv([$t8], "ods_arxipayment", C, false));
     await $.stmt($.wcall([$t8, $t9], "close", [], C));
     await $.stmt((await $.wcall([$t8, $t9], "SetVariable", ["v_dat", (await $.wv([$t8, $t9], "p_date", { get: async () => L0["p_date"], set: async (v) => { L0["p_date"] = v; }, local: true }, false))], C)));
@@ -551,12 +551,12 @@ export default function define($) {
   await $.mset((await $.v(C, "XFLabel2")), "Visible", true);
   await $.mset((await $.v(C, "CurrencyEdit1")), "Visible", true);
   {
-    const $t10 = (await $.v(C, "DataEmanat"));
+    const $t10 = (await $.wobj(C, "DataEmanat"));
     const $t11 = (await $.wv([$t10], "Ods_wspaymentemant", C, false));
     { const $t12 = await $.iset((await $.wv([$t10, $t11], "SQL", C, false)), [3], ""); if ($t12 !== undefined) { await $.wset([$t10, $t11], "SQL", $t12, C); } }
   }
   {
-    const $t13 = (await $.v(C, "DataEmanat"));
+    const $t13 = (await $.wobj(C, "DataEmanat"));
     const $t14 = (await $.wv([$t13], "ods_sum", C, false));
     await $.stmt($.wcall([$t13, $t14], "close", [], C));
     { const $t15 = await $.iset((await $.wv([$t13, $t14], "SQL", C, false)), [3], ""); if ($t15 !== undefined) { await $.wset([$t13, $t14], "SQL", $t15, C); } }
@@ -573,13 +573,13 @@ export default function define($) {
   await $.mset((await $.v(C, "XFLabel2")), "Visible", true);
   await $.mset((await $.v(C, "CurrencyEdit1")), "Visible", true);
   {
-    const $t17 = (await $.v(C, "DataEmanat"));
+    const $t17 = (await $.wobj(C, "DataEmanat"));
     const $t18 = (await $.wv([$t17], "Ods_wspaymentemant", C, false));
     { const $t19 = await $.iset((await $.wv([$t17, $t18], "SQL", C, false)), [3], ""); if ($t19 !== undefined) { await $.wset([$t17, $t18], "SQL", $t19, C); } }
     { const $t20 = await $.iset((await $.wv([$t17, $t18], "SQL", C, false)), [3], $.add((await $.idx((await $.wv([$t17, $t18], "SQL", C, false)), [3])), "Where  status=1 and trunc(respdatetime)=trunc(sysdate) ")); if ($t20 !== undefined) { await $.wset([$t17, $t18], "SQL", $t20, C); } }
   }
   {
-    const $t21 = (await $.v(C, "DataEmanat"));
+    const $t21 = (await $.wobj(C, "DataEmanat"));
     const $t22 = (await $.wv([$t21], "ods_sum", C, false));
     await $.stmt($.wcall([$t21, $t22], "close", [], C));
     { const $t23 = await $.iset((await $.wv([$t21, $t22], "SQL", C, false)), [3], ""); if ($t23 !== undefined) { await $.wset([$t21, $t22], "SQL", $t23, C); } }
@@ -596,7 +596,7 @@ export default function define($) {
   await $.mset((await $.v(C, "XFLabel2")), "Visible", false);
   await $.mset((await $.v(C, "CurrencyEdit1")), "Visible", false);
   {
-    const $t25 = (await $.v(C, "DataEmanat"));
+    const $t25 = (await $.wobj(C, "DataEmanat"));
     const $t26 = (await $.wv([$t25], "Ods_wspaymentemant", C, false));
     { const $t27 = await $.iset((await $.wv([$t25, $t26], "SQL", C, false)), [3], ""); if ($t27 !== undefined) { await $.wset([$t25, $t26], "SQL", $t27, C); } }
     { const $t28 = await $.iset((await $.wv([$t25, $t26], "SQL", C, false)), [3], $.add((await $.idx((await $.wv([$t25, $t26], "SQL", C, false)), [3])), "Where  status=0 and trunc(respdatetime)=trunc(sysdate) ")); if ($t28 !== undefined) { await $.wset([$t25, $t26], "SQL", $t28, C); } }

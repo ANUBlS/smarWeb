@@ -363,7 +363,7 @@ export default function define($) {
   L0["result"] = (await $.v(C, "SAccountsQuery"));
   if ($.truthy((await $.mv((await $.v(C, "ApplyFilter")), "Checked")))) {
     {
-      const $t3 = (await $.v(C, "AccountDataModule"));
+      const $t3 = (await $.wobj(C, "AccountDataModule"));
       if ($.truthy((await $.mv((await $.wv([$t3], "ActiveAccounts", C, false)), "Checked")))) {
         await $.wset([$t3], "Result", $.add((await $.wv([$t3], "Result", { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true }, false)), " AND (acc.CLOSE_DAT IS NULL)\r\n"), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
       } else {
@@ -409,7 +409,7 @@ export default function define($) {
   L0["tbeg"] = (await $.call(C, "Time", []));
   await $.mcall((await $.v(C, "AccountDataModuleImpl")), "Initialize", []);
   {
-    const $t4 = (await $.v(C, "AccountDataModule"));
+    const $t4 = (await $.wobj(C, "AccountDataModule"));
     const $t5 = (await $.wv([$t4], "AccountsData", C, false));
     await $.stmt($.wcall([$t4, $t5], "CloseAll", [], C));
     {
@@ -866,7 +866,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "savedpos": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t39 = (await $.v(C, "AccountDataModule"));
+    const $t39 = (await $.wobj(C, "AccountDataModule"));
     const $t40 = (await $.wv([$t39], "AccountsData", C, false));
     await $.wset([$t39, $t40], "SavedPos", (await $.mv((await $.wcall([$t39, $t40], "FieldByName", ["AccID"], C)), "AsInteger")), { get: async () => L0["savedpos"], set: async (v) => { L0["savedpos"] = v; }, local: true });
     await $.stmt($.wcall([$t39, $t40], "Refresh", [], C));
@@ -887,7 +887,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t41 = (await $.v(C, "AccountDataModule"));
+    const $t41 = (await $.wobj(C, "AccountDataModule"));
     await $.stmt((await $.mcall((await $.mv((await $.wv([$t41], "AccountsData", C, false)), "SQL")), "Assign", [(await $.mv((await $.wv([$t41], "Memo1", C, false)), "Lines"))])));
   }
   return L0.result;
@@ -899,7 +899,7 @@ export default function define($) {
   L0["tbeg"] = (await $.call(C, "Time", []));
   await $.mcall((await $.v(C, "AccountDataModuleImpl")), "Initialize", []);
   {
-    const $t42 = (await $.v(C, "AccountDataModule"));
+    const $t42 = (await $.wobj(C, "AccountDataModule"));
     const $t43 = (await $.wv([$t42], "AccountsData", C, false));
     await $.stmt($.wcall([$t42, $t43], "CloseAll", [], C));
     {

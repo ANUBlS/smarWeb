@@ -42,7 +42,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "TreeView1")), "Items")), "Clear", []);
   {
-    const $t1 = (await $.v(C, "ExpDataModule"));
+    const $t1 = (await $.wobj(C, "ExpDataModule"));
     await $.mcall((await $.wv([$t1], "ExpTypeDataSet", C, false)), "First", []);
     while ($.truthy($.not((await $.mv((await $.wv([$t1], "ExpTypeDataSet", C, false)), "Eof"))))) {
       await $.wset([$t1], "MyTreeNode1", (await $.mcall((await $.mv((await $.wv([$t1], "TreeView1", C, false)), "Items")), "AddChild", [null, (await $.mv((await $.mcall((await $.wv([$t1], "ExpTypeDataSet", C, false)), "FieldByName", ["name"])), "AsString"))])), { get: async () => L0["mytreenode1"], set: async (v) => { L0["mytreenode1"] = v; }, local: true });
@@ -106,7 +106,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.or_((await $.or_((await $.or_((await $.or_((await $.or_(($.eq((await $.v(C, "typecode")), 2)), async () => ($.eq((await $.v(C, "typecode")), 4)))), async () => ($.eq((await $.v(C, "typecode")), 5)))), async () => ($.eq((await $.v(C, "typecode")), 6)))), async () => ($.eq((await $.v(C, "typecode")), 7)))), async () => ($.eq((await $.v(C, "typecode")), 8)))))) {
     {
-      const $t3 = (await $.v(C, "ExpDataModule"));
+      const $t3 = (await $.wobj(C, "ExpDataModule"));
       const $t4 = (await $.wv([$t3], "ExpGroupsDataset", C, false));
       await $.stmt($.wcall([$t3, $t4], "close", [], C));
       await $.stmt((await $.wcall([$t3, $t4], "SetVariable", ["name", (await $.wv([$t3, $t4], "typetext", C, false))], C)));
@@ -116,7 +116,7 @@ export default function define($) {
     { const $t5 = L0["v_groups"];
       if ($.eq($t5, 1)) {
         {
-          const $t6 = (await $.v(C, "ExpFormNew"));
+          const $t6 = (await $.wobj(C, "ExpFormNew"));
           const $t7 = (await $.wv([$t6], "ExpDataModule", C, false));
           await $.mset((await $.wv([$t6, $t7], "PageControl1", C, false)), "ActivePageIndex", 0);
           await $.mset((await $.wv([$t6, $t7], "ExpressVariables", C, false)), "exid", 1);
@@ -128,7 +128,7 @@ export default function define($) {
       }
       else if ($.eq($t5, 2)) {
         {
-          const $t8 = (await $.v(C, "ExpDataModule"));
+          const $t8 = (await $.wobj(C, "ExpDataModule"));
           const $t9 = (await $.wv([$t8], "Formpayments", C, false));
           await $.wset([$t8, $t9], "exid", 2, C);
           await $.wset([$t8, $t9], "FForm", 0, C);

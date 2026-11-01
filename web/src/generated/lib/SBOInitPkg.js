@@ -32,7 +32,7 @@ export default function define($) {
         L0["result"] = (await $.call(C, "Sb_AskForLogin", [$.ref(async () => (await L0["asbdata"].get()), async ($t1) => { await L0["asbdata"].set($t1); }), L0["options"], (await $.v(C, "MaxLogonRetryCount"))]));
         if ($.truthy(L0["result"])) {
           {
-            const $t2 = (await $.v(C, "sboapiDataModule"));
+            const $t2 = (await $.wobj(C, "sboapiDataModule"));
             await $.stmt((await $.wcall([$t2], "SetSBData", [(await $.wv([$t2], "ASBData", { get: async () => await L0["asbdata"].get(), set: async (v) => { await L0["asbdata"].set(v); }, local: true }, false))], C)));
             await $.stmt($.wcall([$t2], "LogOn", [], C));
             await $.mset((await $.wv([$t2], "ASBData", { get: async () => await L0["asbdata"].get(), set: async (v) => { await L0["asbdata"].set(v); }, local: true }, false)), "SessionID", (await $.wcall([$t2], "Sb_GetSessionID", [], C)));
@@ -74,7 +74,7 @@ export default function define($) {
   L0["retrycounter"] = L0["maxretrycount"];
   L0["succeeded"] = false;
   {
-    const $t4 = (await $.v(C, "sboapiDataModule"));
+    const $t4 = (await $.wobj(C, "sboapiDataModule"));
     while ($.truthy((await $.wv([$t4], "CheckStopCondition", { get: async () => L0["checkstopcondition"], set: async (v) => { L0["checkstopcondition"] = v; }, local: true }, false)))) {
       try {
         await $.wset([$t4], "Result", (await $.wcall([$t4], "AskForLogon", [$.ref(async () => (await $.wv([$t4], "SBData", { get: async () => await L0["sbdata"].get(), set: async (v) => { await L0["sbdata"].set(v); }, local: true }, false)), async ($t6) => { await $.wset([$t4], "SBData", $t6, { get: async () => await L0["sbdata"].get(), set: async (v) => { await L0["sbdata"].set(v); }, local: true }); }), (await $.wv([$t4], "LogonOptions", { get: async () => L0["logonoptions"], set: async (v) => { L0["logonoptions"] = v; }, local: true }, false))], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
@@ -98,7 +98,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t7 = (await $.v(C, "sboapiDataModule"));
+    const $t7 = (await $.wobj(C, "sboapiDataModule"));
     await $.mcall((await $.wv([$t7], "SBSession", C, false)), "LogOff", []);
   }
   return L0.result;

@@ -70,7 +70,7 @@ export default function define($) {
   L0["desc"] = (await $.mv((await $.v(C, "DBViewComboBox1")), "Text"));
   L0["code"] = (await $.call(C, "strtoint", [(await $.mv((await $.v(C, "Edit1")), "Text"))]));
   {
-    const $t2 = (await $.v(C, "DatModConstruction"));
+    const $t2 = (await $.wobj(C, "DatModConstruction"));
     const $t3 = (await $.wv([$t2], "sbcm_construction", C, false));
     await $.stmt((await $.wcall([$t2, $t3], "CallProcedure", ["PaymentTracttransactions", ["p_contractid", (await $.mv((await $.mcall((await $.wv([$t2, $t3], "Credits", C, false)), "Fieldbyname", ["ID"])), "AsInteger")), "p_dat", (await $.wv([$t2, $t3], "TrDate", { get: async () => L0["trdate"], set: async (v) => { L0["trdate"] = v; }, local: true }, false)), "p_desc", (await $.wv([$t2, $t3], "desc", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true }, false)), "p_code", (await $.wv([$t2, $t3], "code", { get: async () => L0["code"], set: async (v) => { L0["code"] = v; }, local: true }, false)), "p_flatamt", (await $.wv([$t2, $t3], "sum", { get: async () => L0["sum"], set: async (v) => { L0["sum"] = v; }, local: true }, false)), "p_showtr", (await $.wv([$t2, $t3], "TRUE", C, false)), "p_DebitAccID", (await $.mv((await $.mcall((await $.mv((await $.wv([$t2, $t3], "OrderForm", C, false)), "Cash")), "FieldByName", ["ID"])), "AsInteger"))]], C)));
   }
@@ -78,7 +78,7 @@ export default function define($) {
     L0["commitpayment"] = (await $.call(C, "TrDelayed_Show", [Self]));
     await $.stmt($.call(C, "Update", []));
     {
-      const $t5 = (await $.v(C, "DatModConstruction"));
+      const $t5 = (await $.wobj(C, "DatModConstruction"));
       const $t6 = (await $.wv([$t5], "sbcm_construction", C, false));
       await $.stmt((await $.wcall([$t5, $t6], "CallProcedure", ["commitdelayedtransactions", ["DoCommit", (await $.wv([$t5, $t6], "CommitPayment", { get: async () => L0["commitpayment"], set: async (v) => { L0["commitpayment"] = v; }, local: true }, false))]], C)));
     }
@@ -91,7 +91,7 @@ export default function define($) {
     $.rethrowControl($t4);
     $.handled($t4);
     {
-      const $t7 = (await $.v(C, "DatModConstruction"));
+      const $t7 = (await $.wobj(C, "DatModConstruction"));
       const $t8 = (await $.wv([$t7], "sbcm_construction", C, false));
       await $.stmt((await $.wcall([$t7, $t8], "CallProcedure", ["commitdelayedtransactions", ["DoCommit", (await $.wv([$t7, $t8], "False", C, false))]], C)));
     }

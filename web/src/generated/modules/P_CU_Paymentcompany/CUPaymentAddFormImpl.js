@@ -15,7 +15,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "CUPaymentDataModule"));
+    const $t1 = (await $.wobj(C, "CUPaymentDataModule"));
     const $t2 = (await $.wv([$t1], "cm_utils", C, false));
     await $.mset((await $.wv([$t1, $t2], "MainAmtEdit", C, false)), "Value", (await $.wcall([$t1, $t2], "CallFloatFunction", ["Get_MainPlanPayment", [(await $.wv([$t1, $t2], "crdid", C, false))]], C)));
     await $.mset((await $.wv([$t1, $t2], "IntAmtEdit", C, false)), "Value", (await $.mv((await $.mcall((await $.wv([$t1, $t2], "IntRest", C, false)), "FieldByName", ["intrest"])), "AsFloat")));
@@ -46,7 +46,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "pen": 0};
   {
-    const $t4 = (await $.v(C, "CUPaymentDataModule"));
+    const $t4 = (await $.wobj(C, "CUPaymentDataModule"));
     const $t5 = (await $.wv([$t4], "cm_utils", C, false));
     await $.mset((await $.wv([$t4, $t5], "MainAmtEdit", C, false)), "Text", (await $.wcall([$t4, $t5], "FloatToStr", [(await $.mv((await $.mcall((await $.wv([$t4, $t5], "LoanRest", C, false)), "FieldByName", ["REST"])), "AsFloat"))], C)));
     await $.mset((await $.wv([$t4, $t5], "IntAmtEdit", C, false)), "Text", (await $.wcall([$t4, $t5], "FloatToStr", [(await $.mv((await $.mcall((await $.wv([$t4, $t5], "IntRest", C, false)), "FieldByName", ["INTERESTREST"])), "AsFloat"))], C)));
@@ -95,7 +95,7 @@ export default function define($) {
   L0["penaltyamt"] = (await $.mv((await $.v(C, "PenaltyAmtEdit")), "Value"));
   await $.set(C, "cusb", 0);
   {
-    const $t6 = (await $.v(C, "CUPaymentDataModule"));
+    const $t6 = (await $.wobj(C, "CUPaymentDataModule"));
     if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t6], "PortfInfo", C, false)), "FieldByName", ["credittype"])), "AsInteger")), 13))) {
       if ($.truthy((await $.mv((await $.wv([$t6], "ODS_CUST_COMBİNED", C, false)), "Active")))) {
         await $.mcall((await $.wv([$t6], "ODS_CUST_COMBİNED", C, false)), "Close", []);
@@ -133,7 +133,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "CUPaymentDataModule"));
+    const $t7 = (await $.wobj(C, "CUPaymentDataModule"));
     await $.mset((await $.wv([$t7], "MainAmtEdit", C, false)), "ReadOnly", (await $.mv((await $.mcall((await $.wv([$t7], "LoanRest", C, false)), "FieldByName", ["ACC_NO"])), "IsNull")));
     await $.mset((await $.wv([$t7], "IntAmtEdit", C, false)), "ReadOnly", (await $.mv((await $.mcall((await $.wv([$t7], "IntRest", C, false)), "FieldByName", ["ACC_NO"])), "IsNull")));
   }
@@ -173,7 +173,7 @@ export default function define($) {
   await $.mset((await $.v(C, "MainAmtEdit")), "Value", 0);
   await $.mset((await $.v(C, "IntAmtEdit")), "Value", 0);
   {
-    const $t8 = (await $.v(C, "CUPaymentDataModule"));
+    const $t8 = (await $.wobj(C, "CUPaymentDataModule"));
     await $.wset([$t8], "CustomerCanPay", (await $.mv((await $.mcall((await $.wv([$t8], "PaymentAccounts", C, false)), "FieldByName", ["REST"])), "AsFloat")), { get: async () => L0["customercanpay"], set: async (v) => { L0["customercanpay"] = v; }, local: true });
     await $.wset([$t8], "Temp", (await $.mv((await $.mcall((await $.wv([$t8], "DueRest", C, false)), "FieldByName", ["DUEREST"])), "AsFloat")), { get: async () => L0["temp"], set: async (v) => { L0["temp"] = v; }, local: true });
     if ($.truthy((await $.and_(($.gt((await $.wv([$t8], "Temp", { get: async () => L0["temp"], set: async (v) => { L0["temp"] = v; }, local: true }, false)), 0)), async () => ($.gt((await $.wv([$t8], "CustomerCanPay", { get: async () => L0["customercanpay"], set: async (v) => { L0["customercanpay"] = v; }, local: true }, false)), 0)))))) {

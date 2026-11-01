@@ -64,14 +64,14 @@ export default function define($) {
   L0["desc"] = "";
   L0["code"] = 0;
   {
-    const $t2 = (await $.v(C, "sbcm_construction"));
+    const $t2 = (await $.wobj(C, "sbcm_construction"));
     await $.stmt((await $.wcall([$t2], "CallProcedure", ["PaymentTracttransactions2", ["p_contractid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t2], "DataMod_CCCashOper", C, false)), "cc_contracts")), "fieldbyname", ["id"])), "asinteger")), "p_dat", (await $.wv([$t2], "TrDate", { get: async () => L0["trdate"], set: async (v) => { L0["trdate"] = v; }, local: true }, false)), "p_desc", (await $.wv([$t2], "desc", { get: async () => L0["desc"], set: async (v) => { L0["desc"] = v; }, local: true }, false)), "p_code", (await $.wv([$t2], "code", { get: async () => L0["code"], set: async (v) => { L0["code"] = v; }, local: true }, false)), "p_flatamt", (await $.wv([$t2], "sum", { get: async () => L0["sum"], set: async (v) => { L0["sum"] = v; }, local: true }, false)), "p_showtr", (await $.wv([$t2], "TRUE", C, false)), "p_DebitAccID", (await $.mv((await $.mcall((await $.wv([$t2], "Cash", C, false)), "FieldByName", ["ID"])), "AsInteger")), "p_faiz", (await $.wv([$t2], "faiz", { get: async () => L0["faiz"], set: async (v) => { L0["faiz"] = v; }, local: true }, false))]], C)));
   }
   try {
     L0["commitpayment"] = (await $.call(C, "TrDelayed_Show", [Self]));
     await $.stmt($.call(C, "Update", []));
     {
-      const $t4 = (await $.v(C, "sbcm_construction"));
+      const $t4 = (await $.wobj(C, "sbcm_construction"));
       await $.stmt((await $.wcall([$t4], "CallProcedure", ["commitdelayedtransactions", ["DoCommit", (await $.wv([$t4], "CommitPayment", { get: async () => L0["commitpayment"], set: async (v) => { L0["commitpayment"] = v; }, local: true }, false))]], C)));
     }
     if ($.truthy(L0["commitpayment"])) {
@@ -83,7 +83,7 @@ export default function define($) {
     $.rethrowControl($t3);
     $.handled($t3);
     {
-      const $t5 = (await $.v(C, "sbcm_construction"));
+      const $t5 = (await $.wobj(C, "sbcm_construction"));
       await $.stmt((await $.wcall([$t5], "CallProcedure", ["commitdelayedtransactions", ["DoCommit", (await $.wv([$t5], "False", C, false))]], C)));
     }
     throw $t3;

@@ -372,7 +372,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "DataModuleTicketMan"));
+    const $t2 = (await $.wobj(C, "DataModuleTicketMan"));
     const $t3 = (await $.wv([$t2], "ODSArchive", C, false));
     if ($.truthy((await $.wv([$t2, $t3], "Active", C, false)))) {
       await $.stmt($.wcall([$t2, $t3], "Close", [], C));
@@ -402,7 +402,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t4 = (await $.v(C, "grTickets"));
+    const $t4 = (await $.wobj(C, "grTickets"));
     const $t5 = (await $.wv([$t4], "SelectedRows", C, false));
     const $t6 = (await $.mv((await $.wv([$t4, $t5], "DataSource", C, false)), "DataSet"));
     const $t7 = (await $.wv([$t4, $t5, $t6], "DataModuleTicketMan", C, false));
@@ -429,7 +429,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "frmNewTicket"));
+    const $t11 = (await $.wobj(C, "frmNewTicket"));
     const $t12 = (await $.mv((await $.wv([$t11], "DataModuleTicketMan", C, false)), "ODSAllTickets"));
     await $.mset((await $.wv([$t11, $t12], "edTicketDate", C, false)), "Date", (await $.wv([$t11, $t12], "Now", C, false)));
     if ($.truthy($.not((await $.wv([$t11, $t12], "active", C, false))))) {
@@ -445,7 +445,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "frmNewTicket"));
+    const $t13 = (await $.wobj(C, "frmNewTicket"));
     const $t14 = (await $.wv([$t13], "DataModuleTicketMan", C, false));
     const $t15 = (await $.wv([$t13, $t14], "ODSAllTickets", C, false));
     if ($.truthy((await $.wv([$t13, $t14, $t15], "active", C, false)))) {
@@ -545,7 +545,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t30 = (await $.v(C, "frmSettings"));
+    const $t30 = (await $.wobj(C, "frmSettings"));
     await $.stmt($.wcall([$t30], "ShowModal", [], C));
   }
   return L0.result;

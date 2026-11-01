@@ -52,7 +52,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.v(C, "DepositTypes")), "Insert", []);
   {
-    const $t1 = (await $.v(C, "frmAddEditDepositTypes"));
+    const $t1 = (await $.wobj(C, "frmAddEditDepositTypes"));
     await $.wset([$t1], "Caption", "Yeni", C);
     await $.stmt($.wcall([$t1], "ShowModal", [], C));
   }
@@ -79,7 +79,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t3 = (await $.v(C, "SBCM_RPDEPOSITORY"));
+    const $t3 = (await $.wobj(C, "SBCM_RPDEPOSITORY"));
     await $.stmt((await $.wcall([$t3], "CallProcedure", ["delDepositTypes", [(await $.mv((await $.mcall((await $.wv([$t3], "DepositTypes", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], C)));
   }
   await $.mcall((await $.v(C, "DepositTypes")), "Refresh", []);
@@ -97,14 +97,14 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "frmAddEditDepositTypes"));
+    const $t4 = (await $.wobj(C, "frmAddEditDepositTypes"));
     const $t5 = (await $.wv([$t4], "DepositTypes", C, false));
     await $.mset((await $.wv([$t4, $t5], "DBLookupComboboxEh1", C, false)), "KeyValue", (await $.mv((await $.wcall([$t4, $t5], "FieldByName", ["additionaltype"], C)), "AsString")));
     await $.mset((await $.wv([$t4, $t5], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.wcall([$t4, $t5], "FieldByName", ["withdrawtype"], C)), "AsString")));
     await $.stmt($.wcall([$t4, $t5], "Edit", [], C));
   }
   {
-    const $t6 = (await $.v(C, "frmAddEditDepositTypes"));
+    const $t6 = (await $.wobj(C, "frmAddEditDepositTypes"));
     await $.wset([$t6], "Caption", "Redaktə", C);
     await $.stmt($.wcall([$t6], "ShowModal", [], C));
   }

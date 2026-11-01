@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ExpFormNew"));
+    const $t1 = (await $.wobj(C, "ExpFormNew"));
     {
       const $t2 = (await $.mv((await $.mv((await $.wv([$t1], "DBGrid1", C, false)), "DataSource")), "DataSet"));
       { const $t3 = (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["cust_type"], C)), "AsInteger"));
@@ -102,7 +102,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "ExpDataModule"));
+    const $t6 = (await $.wobj(C, "ExpDataModule"));
     const $t7 = (await $.wv([$t6], "SendDataSet", C, false));
     await $.stmt($.wcall([$t6, $t7], "Close", [], C));
     await $.mcall((await $.wv([$t6, $t7], "SQL", C, false)), "Clear", []);
@@ -110,7 +110,7 @@ export default function define($) {
     await $.stmt($.wcall([$t6, $t7], "Open", [], C));
   }
   {
-    const $t8 = (await $.v(C, "ExpDataModule"));
+    const $t8 = (await $.wobj(C, "ExpDataModule"));
     const $t9 = (await $.wv([$t8], "SendToDataSet", C, false));
     await $.stmt($.wcall([$t8, $t9], "Close", [], C));
     await $.mcall((await $.wv([$t8, $t9], "SQL", C, false)), "Clear", []);

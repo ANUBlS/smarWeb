@@ -37,7 +37,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.v(C, "OracleDataSet1")), "open", []);
   {
-    const $t1 = (await $.v(C, "CMExcelExport1"));
+    const $t1 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t1], "Connect", [], C));
     await $.stmt((await $.wcall([$t1], "ExportDataset", [(await $.wv([$t1], "OracleDataSet1", C, false)), "FileReport", (await $.wv([$t1], "True", C, false))], C)));
     await $.stmt($.wcall([$t1], "Disconnect", [], C));

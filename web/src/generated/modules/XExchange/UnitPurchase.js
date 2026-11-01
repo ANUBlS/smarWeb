@@ -41,7 +41,7 @@ export default function define($) {
   const L0 = {"valid": $.copyArg(p0), result: 0, "rest": 0};
   await $.fixArgs(L0, ["valid"]);
   {
-    const $t1 = (await $.v(C, "DataModExch"));
+    const $t1 = (await $.wobj(C, "DataModExch"));
     await $.mcall((await $.wv([$t1], "ODSExRemainder", C, false)), "Close", []);
     await $.mset((await $.wv([$t1], "ODSExRemainder", C, false)), "Filtered", (await $.wv([$t1], "False", C, false)));
     await $.mset((await $.wv([$t1], "ODSExRemainder", C, false)), "Filter", $.add("val_id=", (await $.wcall([$t1], "IntToStr", [(await $.wv([$t1], "valid", { get: async () => L0["valid"], set: async (v) => { L0["valid"] = v; }, local: true }, false))], C))));
@@ -218,7 +218,7 @@ export default function define($) {
     try {
       await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
       {
-        const $t4 = (await $.v(C, "DataModExch"));
+        const $t4 = (await $.wobj(C, "DataModExch"));
         await $.wset([$t4], "v_id", (await $.mv((await $.mcall((await $.wv([$t4], "ODSExchProvarch", C, false)), "FieldByName", ["id"])), "AsInteger")), { get: async () => L0["v_id"], set: async (v) => { L0["v_id"] = v; }, local: true });
         await $.mset((await $.wv([$t4], "Trans", C, false)), "status", (await $.wv([$t4], "ex_status", { get: async () => L0["ex_status"], set: async (v) => { L0["ex_status"] = v; }, local: true }, false)));
         await $.mset((await $.wv([$t4], "Trans", C, false)), "operator_id", (await $.mcall((await $.wv([$t4], "OPExchMgr", C, false)), "CallIntegerFunction", ["UserID", []])));
@@ -433,7 +433,7 @@ export default function define($) {
   await $.mset((await $.v(C, "DTP_Date")), "Date", (await $.mv((await $.mv((await $.v(C, "DataModExch")), "ODSSysdatSSDAT")), "AsDateTime")));
   await $.mset((await $.v(C, "DTP_System_Time")), "Time", (await $.mv((await $.mv((await $.v(C, "DataModExch")), "ODSSysdatSTIME")), "AsDateTime")));
   {
-    const $t13 = (await $.v(C, "DataModExch"));
+    const $t13 = (await $.wobj(C, "DataModExch"));
     const $t14 = (await $.wv([$t13], "OPExchMgr", C, false));
     await $.wset([$t13, $t14], "Delta", (await $.wcall([$t13, $t14], "CallIntegerFunction", ["ex_date_change", []], C)), { get: async () => L0["delta"], set: async (v) => { L0["delta"] = v; }, local: true });
     { const $t15 = (await $.wv([$t13, $t14], "Delta", { get: async () => L0["delta"], set: async (v) => { L0["delta"] = v; }, local: true }, false));

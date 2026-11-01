@@ -18,7 +18,7 @@ export default function define($) {
       await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
       L0["calc_date"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTP_CalcDate")), "DateTime"))]))]));
       {
-        const $t1 = (await $.v(C, "DataModWares"));
+        const $t1 = (await $.wobj(C, "DataModWares"));
         { const $t2 = (await $.mv((await $.wv([$t1], "RGroupSt", C, false)), "ItemIndex"));
           if ($.eq($t2, 1)) {
             await $.stmt((await $.mcall((await $.wv([$t1], "SB_MAIN_RESOURCE", C, false)), "CallProcedure", ["Calculate_Wares", [(await $.wv([$t1], "calc_date", { get: async () => L0["calc_date"], set: async (v) => { L0["calc_date"] = v; }, local: true }, false))]])));

@@ -56,7 +56,7 @@ export default function define($) {
     await $.mcall((await $.mv((await $.v(C, "DatModConstr")), "Accounts")), "Refresh", []);
   }
   {
-    const $t1 = (await $.v(C, "DatModConstr"));
+    const $t1 = (await $.wobj(C, "DatModConstr"));
     const $t2 = (await $.wv([$t1], "CreditPurpose", C, false));
     await $.mset((await $.wcall([$t1, $t2], "FieldByName", ["AccID"], C)), "AsInteger", (await $.wv([$t1, $t2], "AccID", { get: async () => L0["accid"], set: async (v) => { L0["accid"] = v; }, local: true }, false)));
     await $.mset((await $.wcall([$t1, $t2], "FieldByName", ["CONTAMOUNT"], C)), "asfloat", (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["restt"], C)), "AsFloat")));
@@ -154,7 +154,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "DatModConstr"));
+    const $t6 = (await $.wobj(C, "DatModConstr"));
     const $t7 = (await $.wv([$t6], "CreditPurpose", C, false));
     await $.mset((await $.wcall([$t6, $t7], "FieldByName", ["opendate"], C)), "AsDateTime", (await $.wcall([$t6, $t7], "trunc", [(await $.mv((await $.wv([$t6, $t7], "DTPOpenDate", C, false)), "DateTime"))], C)));
     await $.mset((await $.wcall([$t6, $t7], "FieldByName", ["expdate"], C)), "AsDateTime", (await $.wcall([$t6, $t7], "trunc", [(await $.mv((await $.wv([$t6, $t7], "DTPCloseDate", C, false)), "DateTime"))], C)));
@@ -169,7 +169,7 @@ export default function define($) {
   L0["mon"] = (await $.call(C, "strtoint", [(await $.mv((await $.v(C, "edit7")), "text"))]));
   await $.mset((await $.mv((await $.v(C, "FrmContract")), "DTPCloseDate")), "DateTime", (await $.mcall((await $.mv((await $.v(C, "DatModConstr")), "CC_GENERAL")), "CallDateFunction", ["GetFindExpdate", ["odat", (await $.mv((await $.v(C, "DTPOpenDate")), "DateTime")), "mon", L0["mon"]]])));
   {
-    const $t8 = (await $.v(C, "DatModConstr"));
+    const $t8 = (await $.wobj(C, "DatModConstr"));
     const $t9 = (await $.wv([$t8], "CreditPurpose", C, false));
     await $.mset((await $.wcall([$t8, $t9], "FieldByName", ["opendate"], C)), "AsDateTime", (await $.wcall([$t8, $t9], "trunc", [(await $.mv((await $.wv([$t8, $t9], "DTPOpenDate", C, false)), "DateTime"))], C)));
     await $.mset((await $.wcall([$t8, $t9], "FieldByName", ["expdate"], C)), "AsDateTime", (await $.wcall([$t8, $t9], "trunc", [(await $.mv((await $.wv([$t8, $t9], "DTPCloseDate", C, false)), "DateTime"))], C)));

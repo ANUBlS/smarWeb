@@ -63,7 +63,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "BKTBalans"));
+    const $t1 = (await $.wobj(C, "BKTBalans"));
     if ($.truthy((await $.mv((await $.wv([$t1], "CheckBox1", C, false)), "Checked")))) {
       await $.stmt($.wcall([$t1], "close", [], C));
       { const $t2 = await $.iset((await $.wv([$t1], "SQL", C, false)), [16], $.add("where bkt=", (await $.wcall([$t1], "VarToStr", [(await $.mv((await $.wv([$t1], "DBLookupComboboxEh1", C, false)), "KeyValue"))], C)))); if ($t2 !== undefined) { await $.wset([$t1], "SQL", $t2, C); } }

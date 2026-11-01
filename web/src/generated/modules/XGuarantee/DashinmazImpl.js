@@ -20,7 +20,7 @@ export default function define($) {
         await $.stmt((await $.call(C, "LoadPlugin2", ["Sb_General.bpl", "FormCusNom", ""])));
       }
       {
-        const $t3 = (await $.v(C, "ods_phys"));
+        const $t3 = (await $.wobj(C, "ods_phys"));
         await $.stmt($.wcall([$t3], "close", [], C));
         await $.stmt((await $.wcall([$t3], "SetVariable", ["v_id", (await $.wv([$t3], "nomid", C, false))], C)));
         await $.stmt($.wcall([$t3], "open", [], C));
@@ -48,7 +48,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "ord", [(await L0["key"].get())])), 13))) {
     {
-      const $t5 = (await $.v(C, "ods_mutex"));
+      const $t5 = (await $.wobj(C, "ods_mutex"));
       await $.stmt($.wcall([$t5], "close", [], C));
       await $.stmt((await $.wcall([$t5], "SetVariable", ["v_id", (await $.mv((await $.wv([$t5], "DBEdit1", C, false)), "Text"))], C)));
       await $.stmt($.wcall([$t5], "open", [], C));
@@ -120,7 +120,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.v(C, "form_edit_ins")), true))) {
     {
-      const $t8 = (await $.v(C, "ODS_borc"));
+      const $t8 = (await $.wobj(C, "ODS_borc"));
       await $.stmt($.wcall([$t8], "close", [], C));
       await $.stmt((await $.wcall([$t8], "SetVariable", ["v_id", (await $.mv((await $.mv((await $.wv([$t8], "DataMGuarante", C, false)), "DataSetGuaranteeBIRGE_BORCID")), "AsInteger"))], C)));
       await $.stmt($.wcall([$t8], "open", [], C));
@@ -147,7 +147,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.stmt((await $.call(C, "LoadPlugin2", ["Sb_General.bpl", "FormCusNom", ""])));
   {
-    const $t10 = (await $.v(C, "ods_borc"));
+    const $t10 = (await $.wobj(C, "ods_borc"));
     await $.stmt($.wcall([$t10], "close", [], C));
     await $.stmt((await $.wcall([$t10], "SetVariable", ["v_id", (await $.wv([$t10], "nomid", C, false))], C)));
     await $.stmt($.wcall([$t10], "open", [], C));
@@ -162,7 +162,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.stmt((await $.call(C, "LoadPlugin2", ["Sb_General.bpl", "FormCusNom", ""])));
   {
-    const $t11 = (await $.v(C, "ods_borc2"));
+    const $t11 = (await $.wobj(C, "ods_borc2"));
     await $.stmt($.wcall([$t11], "close", [], C));
     await $.stmt((await $.wcall([$t11], "SetVariable", ["v_id", (await $.wv([$t11], "nomid", C, false))], C)));
     await $.stmt($.wcall([$t11], "open", [], C));
@@ -193,7 +193,7 @@ export default function define($) {
   L0["checkfieldbynames"] = $.fn(async function CheckFieldByNames() {
   const L1 = {result: undefined};
   {
-    const $t12 = (await $.v(C, "DataMGuarante"));
+    const $t12 = (await $.wobj(C, "DataMGuarante"));
   }
   return L1.result;
 });

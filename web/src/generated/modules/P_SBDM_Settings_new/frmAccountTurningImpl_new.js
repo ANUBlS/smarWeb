@@ -14,16 +14,16 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "settings"));
+    const $t1 = (await $.wobj(C, "settings"));
     await $.stmt($.wcall([$t1], "Insert", [], C));
   }
   {
-    const $t2 = (await $.v(C, "frmAddEditAccTurning_new"));
+    const $t2 = (await $.wobj(C, "frmAddEditAccTurning_new"));
     await $.wset([$t2], "Caption", "Yeni", C);
     await $.stmt($.wcall([$t2], "ShowModal", [], C));
   }
   {
-    const $t3 = (await $.v(C, "settings"));
+    const $t3 = (await $.wobj(C, "settings"));
     await $.stmt($.wcall([$t3], "Refresh", [], C));
   }
   return L0.result;
@@ -36,7 +36,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t4 = (await $.v(C, "settings"));
+    const $t4 = (await $.wobj(C, "settings"));
     await $.stmt($.wcall([$t4], "Delete", [], C));
     await $.stmt($.wcall([$t4], "Refresh", [], C));
   }
@@ -57,16 +57,16 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "settings"));
+    const $t6 = (await $.wobj(C, "settings"));
     await $.stmt($.wcall([$t6], "Edit", [], C));
   }
   {
-    const $t7 = (await $.v(C, "frmAddEditAccTurning_new"));
+    const $t7 = (await $.wobj(C, "frmAddEditAccTurning_new"));
     await $.wset([$t7], "Caption", "Redaktə", C);
     await $.stmt($.wcall([$t7], "ShowModal", [], C));
   }
   {
-    const $t8 = (await $.v(C, "settings"));
+    const $t8 = (await $.wobj(C, "settings"));
     await $.stmt($.wcall([$t8], "Refresh", [], C));
   }
   return L0.result;
@@ -129,7 +129,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "p_id": 0, "p_parentid": 0, "p_currencyid": 0, "p_accid": 0, "p_branchid": 0};
   await $.fixArgs(L0, ["sender", "action"]);
   {
-    const $t10 = (await $.v(C, "settings"));
+    const $t10 = (await $.wobj(C, "settings"));
     await $.wset([$t10], "p_id", (await $.mv((await $.wcall([$t10], "fieldbyname", ["ID"], C)), "AsInteger")), { get: async () => L0["p_id"], set: async (v) => { L0["p_id"] = v; }, local: true });
     await $.wset([$t10], "p_PARENTID", (await $.mv((await $.wcall([$t10], "fieldbyname", ["PARENTID"], C)), "AsInteger")), { get: async () => L0["p_parentid"], set: async (v) => { L0["p_parentid"] = v; }, local: true });
     await $.wset([$t10], "p_CurrencyID", (await $.mv((await $.wcall([$t10], "fieldbyname", ["CurrencyID"], C)), "AsInteger")), { get: async () => L0["p_currencyid"], set: async (v) => { L0["p_currencyid"] = v; }, local: true });

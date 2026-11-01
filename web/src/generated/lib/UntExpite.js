@@ -58,7 +58,7 @@ export default function define($) {
   await $.stmt((await $.mcall((await $.mv((await $.mv((await $.v(C, "CBReliabilityPercent")), "ListSource")), "DataSet")), "Locate", ["id", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModExpire")), "MainReserve")), "FieldByName", ["ID"])), "AsInteger")), []])));
   await $.stmt((await $.mcall((await $.mv((await $.mv((await $.v(C, "CBOverdueReliabilityPercent")), "ListSource")), "DataSet")), "Locate", ["id", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModExpire")), "ExpiredReserve")), "FieldByName", ["ID"])), "AsInteger")), []])));
   {
-    const $t3 = (await $.v(C, "DataModExpire"));
+    const $t3 = (await $.wobj(C, "DataModExpire"));
     {
       const $t4 = (await $.wv([$t3], "OverdueAccData", C, false));
       await $.stmt((await $.wcall([$t3, $t4], "SetVariable", ["ClientAccID", (await $.wv([$t3, $t4], "OverdueAccID", { get: async () => L0["overdueaccid"], set: async (v) => { L0["overdueaccid"] = v; }, local: true }, false))], C)));

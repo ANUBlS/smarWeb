@@ -21,7 +21,7 @@ export default function define($) {
     }
   }
   {
-    const $t2 = (await $.v(C, "MainFacilities"));
+    const $t2 = (await $.wobj(C, "MainFacilities"));
     const $t3 = (await $.wv([$t2], "MainFDataModule", C, false));
     await $.stmt((await $.wcall([$t2, $t3], "PustToComboID", [(await $.wv([$t2, $t3], "ODSGroupFilter", C, false)), "Name", "ID", (await $.wv([$t2, $t3], "CBGroups", C, false))], C)));
   }
@@ -112,7 +112,7 @@ export default function define($) {
   }
   L0["groupsid"] = (await $.idx((await $.v(C, "Rate")), [$.sub((await $.mv((L0["sender"]), "ItemIndex")), 1)]));
   {
-    const $t13 = (await $.v(C, "MainFacilities"));
+    const $t13 = (await $.wobj(C, "MainFacilities"));
     await $.stmt((await $.wcall([$t13], "SumGroupDetailsForTax", [(await $.wv([$t13], "GroupsID", { get: async () => L0["groupsid"], set: async (v) => { L0["groupsid"] = v; }, local: true }, false)), $.ref(async () => (await $.wv([$t13], "FirstPrice", { get: async () => L0["firstprice"], set: async (v) => { L0["firstprice"] = v; }, local: true }, false)), async ($t14) => { await $.wset([$t13], "FirstPrice", $t14, { get: async () => L0["firstprice"], set: async (v) => { L0["firstprice"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t13], "BalancePrice", { get: async () => L0["balanceprice"], set: async (v) => { L0["balanceprice"] = v; }, local: true }, false)), async ($t15) => { await $.wset([$t13], "BalancePrice", $t15, { get: async () => L0["balanceprice"], set: async (v) => { L0["balanceprice"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t13], "AllTaxAmort", { get: async () => L0["alltaxamort"], set: async (v) => { L0["alltaxamort"] = v; }, local: true }, false)), async ($t16) => { await $.wset([$t13], "AllTaxAmort", $t16, { get: async () => L0["alltaxamort"], set: async (v) => { L0["alltaxamort"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t13], "TaxAmort", { get: async () => L0["taxamort"], set: async (v) => { L0["taxamort"] = v; }, local: true }, false)), async ($t17) => { await $.wset([$t13], "TaxAmort", $t17, { get: async () => L0["taxamort"], set: async (v) => { L0["taxamort"] = v; }, local: true }); })], C)));
   }
   await $.mset((await $.v(C, "EFPrice")), "text", (await $.call(C, "FormatFloat", ["#,##.00", L0["firstprice"]])));

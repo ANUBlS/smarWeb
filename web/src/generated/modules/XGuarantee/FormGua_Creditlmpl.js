@@ -21,7 +21,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataMGuarante"));
+    const $t1 = (await $.wobj(C, "DataMGuarante"));
     const $t2 = (await $.wv([$t1], "DataSGuacredit", C, false));
     await $.stmt($.wcall([$t1, $t2], "close", [], C));
     { const $t3 = await $.iset((await $.wv([$t1, $t2], "SQL", C, false)), [10], ""); if ($t3 !== undefined) { await $.wset([$t1, $t2], "SQL", $t3, C); } }

@@ -353,7 +353,7 @@ export default function define($) {
   await $.set(C, "CommonApplication", (await $.v(C, "Application")));
   await $.set(C, "CommonGrid", (await $.v(C, "MainGrid")));
   {
-    const $t1 = (await $.v(C, "DMDepositsManager"));
+    const $t1 = (await $.wobj(C, "DMDepositsManager"));
     await $.wset([$t1], "Get_FilialID", (await $.mv((await $.mcall((await $.wv([$t1], "FilialID", C, false)), "FieldByname", ["kod_fil"])), "AsInteger")), C);
     await $.wset([$t1], "Get_BankDate", (await $.mv((await $.mcall((await $.wv([$t1], "BankDate", C, false)), "FieldByname", ["Tek_Dat"])), "AsDateTime")), C);
   }
@@ -498,12 +498,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "MainGrid"));
+    const $t15 = (await $.wobj(C, "MainGrid"));
     const $t16 = (await $.wv([$t15], "SelectedRows", C, false));
     await $.stmt($.wcall([$t15, $t16], "Clear", [], C));
   }
   {
-    const $t17 = (await $.v(C, "MainGrid"));
+    const $t17 = (await $.wobj(C, "MainGrid"));
     const $t18 = (await $.mv((await $.wv([$t17], "DataSource", C, false)), "DataSet"));
     await $.wset([$t17, $t18], "Cursor", (await $.wv([$t17, $t18], "crSqlWait", C, false)), C);
     await $.wset([$t17, $t18], "Filtered", (await $.wv([$t17, $t18], "False", C, false)), C);
@@ -531,7 +531,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t19 = (await $.v(C, "DMDepositsManager"));
+    const $t19 = (await $.wobj(C, "DMDepositsManager"));
     await $.mset((await $.wv([$t19], "DBLookupComboboxEh1", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t19], "Valutes", C, false)), "fieldByName", ["Valute"])), "AsInteger")));
     await $.mset((await $.wv([$t19], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t19], "Filials", C, false)), "fieldByName", ["id"])), "AsInteger")));
     await $.mset((await $.wv([$t19], "DBLookupComboboxEh3", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t19], "DepositTypes", C, false)), "fieldByName", ["id"])), "AsInteger")));
@@ -586,7 +586,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.v(C, "MainGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t22 = (await $.v(C, "DMDepositsManager"));
+    const $t22 = (await $.wobj(C, "DMDepositsManager"));
     const $t23 = (await $.wv([$t22], "DepositsData", C, false));
     await $.wset([$t22, $t23], "SaveID", (await $.wv([$t22, $t23], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
     await $.stmt($.wcall([$t22, $t23], "Refresh", [], C));
@@ -699,7 +699,7 @@ export default function define($) {
   L0["cfmsg"] = "Müqavilə bağlannır, əminsinizmi?";
   L0["cfselmsg"] = "Seçilmiş müqavilələr bağlanır, əminsinizmi?";
   {
-    const $t24 = (await $.v(C, "MainGrid"));
+    const $t24 = (await $.wobj(C, "MainGrid"));
     const $t25 = (await $.wv([$t24], "SelectedRows", C, false));
     if ($.truthy($.gt((await $.wv([$t24, $t25], "Count", C, false)), 1))) {
       await $.wset([$t24, $t25], "Cf", (await $.wv([$t24, $t25], "CfSelMsg", { get: async () => L0["cfselmsg"], set: async (v) => { L0["cfselmsg"] = v; }, local: true }, false)), { get: async () => L0["cf"], set: async (v) => { L0["cf"] = v; }, local: true });
@@ -711,7 +711,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t26 = (await $.v(C, "MainGrid"));
+    const $t26 = (await $.wobj(C, "MainGrid"));
     const $t27 = (await $.wv([$t26], "SelectedRows", C, false));
     const $t28 = (await $.mv((await $.wv([$t26, $t27], "DataSource", C, false)), "DataSet"));
     { const $t29 = $.sub((await $.wv([$t26, $t27, $t28], "Count", C, false)), 1);
@@ -735,7 +735,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "calculationenabled": false, "confmsg": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t31 = (await $.v(C, "DMDepositsManager"));
+    const $t31 = (await $.wobj(C, "DMDepositsManager"));
     const $t32 = (await $.wv([$t31], "Stored_Programs", C, false));
     await $.wset([$t31, $t32], "CalculationEnabled", (await $.wcall([$t31, $t32], "CallBooleanFunction", ["IsCalculationEnabled", ["ContractID", (await $.wv([$t31, $t32], "get_SelectedContID", C, false))]], C)), { get: async () => L0["calculationenabled"], set: async (v) => { L0["calculationenabled"] = v; }, local: true });
   }
@@ -746,7 +746,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [L0["confmsg"], (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t33 = (await $.v(C, "DMDepositsManager"));
+      const $t33 = (await $.wobj(C, "DMDepositsManager"));
       const $t34 = (await $.wv([$t33], "Stored_Programs", C, false));
       if ($.truthy((await $.wv([$t33, $t34], "CalculationEnabled", { get: async () => L0["calculationenabled"], set: async (v) => { L0["calculationenabled"] = v; }, local: true }, false)))) {
         await $.stmt((await $.wcall([$t33, $t34], "CallProcedure", ["DisableCalculation", ["ContractID", (await $.wv([$t33, $t34], "get_SelectedContID", C, false))]], C)));
@@ -790,7 +790,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t35 = (await $.v(C, "EExport"));
+    const $t35 = (await $.wobj(C, "EExport"));
     await $.mcall((await $.mv((await $.mv((await $.wv([$t35], "MainGrid", C, false)), "DataSource")), "DataSet")), "Last", []);
     await $.stmt($.wcall([$t35], "Connect", [], C));
     await $.stmt((await $.wcall([$t35], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t35], "MainGrid", C, false)), "DataSource")), "DataSet")), "Depozitlər", (await $.wv([$t35], "True", C, false)), (await $.wv([$t35], "false", C, false))], C)));

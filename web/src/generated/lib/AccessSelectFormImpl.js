@@ -17,7 +17,7 @@ export default function define($) {
   await $.set(C, "FSid", L0["sid"]);
   await $.set(C, "FLinkID", L0["linkid"]);
   {
-    const $t1 = (await $.v(C, "AccessData"));
+    const $t1 = (await $.wobj(C, "AccessData"));
     await $.stmt($.wcall([$t1], "Close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["SID", (await $.wv([$t1], "FSid", C, false))], C)));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["LinkID", (await $.wv([$t1], "FLinkID", C, false))], C)));
@@ -33,7 +33,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "FCommited", true);
   {
-    const $t2 = (await $.v(C, "AccessCB"));
+    const $t2 = (await $.wobj(C, "AccessCB"));
     { const $t3 = $.sub((await $.mv((await $.wv([$t2], "Items", C, false)), "Count")), 1);
       await $.wset([$t2], "Index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
       let $t4 = true;

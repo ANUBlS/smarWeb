@@ -74,7 +74,7 @@ export default function define($) {
   if ($.truthy((await $.and_(((await $.mv((await $.v(C, "XFCheckBox2")), "Checked"))), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox2")), "keyvalue")), (-(1)))))))) {
     if ($.truthy($.not(((await $.and_(((await $.mv((await $.v(C, "XFCheckBox3")), "Checked"))), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox4")), "keyvalue")), (-(1)))))))))) {
       {
-        const $t1 = (await $.v(C, "DataModXhoks"));
+        const $t1 = (await $.wobj(C, "DataModXhoks"));
         const $t2 = (await $.wv([$t1], "XS_INCOMING", C, false));
         await $.wset([$t1, $t2], "Filtered", (await $.wv([$t1, $t2], "false", C, false)), C);
         await $.wset([$t1, $t2], "Filter", $.add("filial=", (await $.wcall([$t1, $t2], "IntToStr", [(await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t1, $t2], "DBLookupComboBox2", C, false)), "ListSource")), "DataSet")), "FieldByName", ["FILIAL_ID"])), "Asinteger"))], C))), C);
@@ -85,7 +85,7 @@ export default function define($) {
   if ($.truthy((await $.and_(((await $.mv((await $.v(C, "XFCheckBox3")), "Checked"))), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox4")), "keyvalue")), (-(1)))))))) {
     if ($.truthy($.not(((await $.and_(((await $.mv((await $.v(C, "XFCheckBox2")), "Checked"))), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox2")), "keyvalue")), (-(1)))))))))) {
       {
-        const $t3 = (await $.v(C, "DataModXhoks"));
+        const $t3 = (await $.wobj(C, "DataModXhoks"));
         const $t4 = (await $.wv([$t3], "XS_INCOMING", C, false));
         await $.wset([$t3, $t4], "Filtered", (await $.wv([$t3, $t4], "false", C, false)), C);
         await $.wset([$t3, $t4], "Filter", $.add("TYPECODE=", (await $.wcall([$t3, $t4], "IntToStr", [(await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t3, $t4], "DBLookupComboBox4", C, false)), "ListSource")), "DataSet")), "FieldByName", ["code"])), "Asinteger"))], C))), C);
@@ -96,7 +96,7 @@ export default function define($) {
   if ($.truthy((await $.and_(((await $.mv((await $.v(C, "XFCheckBox2")), "Checked"))), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox2")), "keyvalue")), (-(1)))))))) {
     if ($.truthy((await $.and_(((await $.mv((await $.v(C, "XFCheckBox3")), "Checked"))), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox4")), "keyvalue")), (-(1)))))))) {
       {
-        const $t5 = (await $.v(C, "DataModXhoks"));
+        const $t5 = (await $.wobj(C, "DataModXhoks"));
         const $t6 = (await $.wv([$t5], "XS_INCOMING", C, false));
         await $.wset([$t5, $t6], "Filtered", (await $.wv([$t5, $t6], "false", C, false)), C);
         await $.wset([$t5, $t6], "Filter", $.add($.add($.add($.add($.add("(filial=", (await $.wcall([$t5, $t6], "IntToStr", [(await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t5, $t6], "DBLookupComboBox2", C, false)), "ListSource")), "DataSet")), "FieldByName", ["FILIAL_ID"])), "Asinteger"))], C))), ")"), "and (TYPECODE="), (await $.wcall([$t5, $t6], "IntToStr", [(await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t5, $t6], "DBLookupComboBox4", C, false)), "ListSource")), "DataSet")), "FieldByName", ["code"])), "Asinteger"))], C))), ")"), C);
@@ -107,7 +107,7 @@ export default function define($) {
   if ($.truthy($.not(((await $.and_(((await $.mv((await $.v(C, "XFCheckBox2")), "Checked"))), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox2")), "keyvalue")), (-(1)))))))))) {
     if ($.truthy($.not(((await $.and_(((await $.mv((await $.v(C, "XFCheckBox3")), "Checked"))), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox4")), "keyvalue")), (-(1)))))))))) {
       {
-        const $t7 = (await $.v(C, "DataModXhoks"));
+        const $t7 = (await $.wobj(C, "DataModXhoks"));
         const $t8 = (await $.wv([$t7], "XS_INCOMING", C, false));
         await $.wset([$t7, $t8], "Filtered", (await $.wv([$t7, $t8], "false", C, false)), C);
         await $.wset([$t7, $t8], "Filter", "", C);
@@ -127,7 +127,7 @@ export default function define($) {
   } else {
     if ($.truthy((await $.and_((await $.mv((await $.v(C, "XFCheckBox1")), "Checked")), async () => ($.ne((await $.mv((await $.v(C, "DBLookupComboBox1")), "Text")), "")))))) {
       {
-        const $t9 = (await $.v(C, "DataModXhoks"));
+        const $t9 = (await $.wobj(C, "DataModXhoks"));
         const $t10 = (await $.wv([$t9], "XS_IncomingView", C, false));
         await $.wset([$t9, $t10], "filtered", (await $.wv([$t9, $t10], "false", C, false)), C);
         await $.wset([$t9, $t10], "filter", $.add("TYPECODE=", (await $.wcall([$t9, $t10], "IntToStr", [(await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t9, $t10], "DBLookupComboBox1", C, false)), "ListSource")), "DataSet")), "fieldbyname", ["code"])), "AsInteger"))], C))), C);
@@ -136,7 +136,7 @@ export default function define($) {
     } else {
       if ($.truthy($.eq((await $.mv((await $.v(C, "XFCheckBox1")), "Checked")), false))) {
         {
-          const $t11 = (await $.v(C, "DataModXhoks"));
+          const $t11 = (await $.wobj(C, "DataModXhoks"));
           const $t12 = (await $.wv([$t11], "XS_IncomingView", C, false));
           await $.wset([$t11, $t12], "filtered", (await $.wv([$t11, $t12], "false", C, false)), C);
           await $.wset([$t11, $t12], "filter", "", C);
@@ -286,7 +286,7 @@ export default function define($) {
   await $.stmt((await $.call(C, "AddtoCOMBO", [(await $.mv((await $.v(C, "FormPayment_Det")), "Combo_Valute")), (await $.mv((await $.v(C, "FormPayment_Det")), "Valute_ID")), (await $.mv((await $.v(C, "DataModXhoks")), "DataValute")), "Select * from Avalute", "VALUTE", "VAL_NAME"])));
   await $.set(C, "new_id", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModXhoks")), "XS_BATCHS")), "fieldbyname", ["id"])), "AsInteger")));
   {
-    const $t18 = (await $.v(C, "FormPayment_Det"));
+    const $t18 = (await $.wobj(C, "FormPayment_Det"));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t18], "DataModXhoks", C, false)), "DataBankInfo")), "Active")), (await $.wv([$t18], "false", C, false))))) {
       await $.mcall((await $.mv((await $.wv([$t18], "DataModXhoks", C, false)), "DataBankInfo")), "Open", []);
     }
@@ -349,7 +349,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "FormPayment_Det")), "ButtonFinish")), "Caption", "Yaddaşa yaz");
   if ($.truthy((await $.or_(((await $.and_(($.gt((await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModXhoks")), "XS_BATCHS")), "FieldByName", ["status"])), "AsInteger")), 0)), async () => ($.gt((await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModXhoks")), "XS_BENEFICIARY")), "FieldByName", ["status"])), "AsInteger")), 0))))), async () => ($.gt((await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModXhoks")), "XS_BENEFICIARY")), "FieldByName", ["TRANSACTION_ID"])), "AsInteger")), 0)))))) {
     {
-      const $t19 = (await $.v(C, "FormPayment_Det"));
+      const $t19 = (await $.wobj(C, "FormPayment_Det"));
       await $.mset((await $.wv([$t19], "ButtonFinish", C, false)), "Enabled", (await $.wv([$t19], "false", C, false)));
       await $.mset((await $.wv([$t19], "XFBitBtn4", C, false)), "Enabled", (await $.wv([$t19], "false", C, false)));
       await $.mset((await $.wv([$t19], "SpeedButton2", C, false)), "Enabled", (await $.wv([$t19], "false", C, false)));
@@ -390,7 +390,7 @@ export default function define($) {
   const L0 = {"bnfcount": $.copyArg(p0), "editbeneficiary": $.copyArg(p1), result: undefined, "dd": 0};
   await $.fixArgs(L0, ["bnfcount", "editbeneficiary"]);
   {
-    const $t20 = (await $.v(C, "DataModXhoks"));
+    const $t20 = (await $.wobj(C, "DataModXhoks"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t20], "XS_CONFIG", C, false)), "Active")), (await $.wv([$t20], "false", C, false))))) {
       await $.mcall((await $.wv([$t20], "XS_CONFIG", C, false)), "Open", []);
     }
@@ -647,7 +647,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "FormXohks")), "XFLabel2")), "Caption", (await $.v(C, "Tcust_name")));
   await $.mset((await $.mv((await $.v(C, "FormXohks")), "XFLabel1")), "Caption", (await $.call(C, "inttostr", [(await $.v(C, "Tcust_id"))])));
   {
-    const $t31 = (await $.v(C, "DataModXhoks"));
+    const $t31 = (await $.wobj(C, "DataModXhoks"));
     const $t32 = (await $.wv([$t31], "XS_BATCHS", C, false));
     await $.stmt($.wcall([$t31, $t32], "Close", [], C));
     await $.stmt((await $.wcall([$t31, $t32], "SetVariable", ["custid", (await $.wv([$t31, $t32], "Tcust_id", C, false))], C)));
@@ -1038,7 +1038,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "ReportX", (await $.mcall((await $.v(C, "TReportX")), "Create", [Self])));
   {
-    const $t50 = (await $.v(C, "ReportX"));
+    const $t50 = (await $.wobj(C, "ReportX"));
     await $.mset((await $.wv([$t50], "QRDBText1", C, false)), "DataSet", (await $.mv((await $.wv([$t50], "DataModXhoks", C, false)), "XS_BeneficiaryArchive")));
     await $.mset((await $.wv([$t50], "QRDBText1", C, false)), "DataSet", (await $.mv((await $.wv([$t50], "DataModXhoks", C, false)), "XS_BatchsArchive")));
     await $.mset((await $.wv([$t50], "QRDBText2", C, false)), "DataSet", (await $.mv((await $.wv([$t50], "DataModXhoks", C, false)), "XS_BatchsArchive")));
@@ -1107,7 +1107,7 @@ export default function define($) {
     await $.mcall((await $.mv((await $.v(C, "DataModXhoks")), "DataBankInfo")), "Open", []);
   }
   {
-    const $t52 = (await $.v(C, "FormPayment_Det"));
+    const $t52 = (await $.wobj(C, "FormPayment_Det"));
     await $.mset((await $.wv([$t52], "ButtonFinish", C, false)), "Enabled", (await $.wv([$t52], "true", C, false)));
     await $.mset((await $.wv([$t52], "XFBitBtn4", C, false)), "Enabled", (await $.wv([$t52], "true", C, false)));
     await $.mset((await $.wv([$t52], "SpeedButton2", C, false)), "Enabled", (await $.wv([$t52], "true", C, false)));
@@ -1281,7 +1281,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t63 = (await $.v(C, "GridBeneficiary"));
+    const $t63 = (await $.wobj(C, "GridBeneficiary"));
     const $t64 = (await $.wv([$t63], "SelectedRows", C, false));
     const $t65 = (await $.mv((await $.wv([$t63, $t64], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t63, $t64, $t65], "DisableControls", [], C));
@@ -1398,7 +1398,7 @@ export default function define($) {
     await $.mcall((await $.mv((await $.v(C, "DataModXhoks")), "DataBankInfo")), "Open", []);
   }
   {
-    const $t70 = (await $.v(C, "FormPayment_Det"));
+    const $t70 = (await $.wobj(C, "FormPayment_Det"));
     await $.mset((await $.wv([$t70], "ButtonFinish", C, false)), "Enabled", (await $.wv([$t70], "true", C, false)));
     await $.mset((await $.wv([$t70], "XFBitBtn4", C, false)), "Enabled", (await $.wv([$t70], "true", C, false)));
     await $.mset((await $.wv([$t70], "SpeedButton2", C, false)), "Enabled", (await $.wv([$t70], "true", C, false)));
@@ -1541,7 +1541,7 @@ export default function define($) {
     }
     await $.set(C, "AcceptTransForCreated", false);
     {
-      const $t77 = (await $.v(C, "FormAcceptTransaction"));
+      const $t77 = (await $.wobj(C, "FormAcceptTransaction"));
       await $.mset((await $.wv([$t77], "CheckBox1", C, false)), "Checked", (await $.wv([$t77], "True", C, false)));
       await $.mset((await $.wv([$t77], "CheckBox2", C, false)), "Checked", (await $.wv([$t77], "True", C, false)));
       await $.mset((await $.wv([$t77], "GroupBox1", C, false)), "Enabled", (await $.wv([$t77], "True", C, false)));
@@ -1674,7 +1674,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "Form_Report", (await $.mcall((await $.v(C, "TForm_Report")), "Create", [Self])));
   {
-    const $t85 = (await $.v(C, "Form_Report"));
+    const $t85 = (await $.wobj(C, "Form_Report"));
     await $.mset((await $.wv([$t85], "QuickRep1", C, false)), "DataSet", (await $.mv((await $.wv([$t85], "DataModXhoks", C, false)), "XS_BeneficiaryArchive")));
     await $.mset((await $.wv([$t85], "QRDBText1", C, false)), "DataSet", (await $.mv((await $.wv([$t85], "DataModXhoks", C, false)), "XS_BatchsArchive")));
     await $.mset((await $.wv([$t85], "QRDBText2", C, false)), "DataSet", (await $.mv((await $.wv([$t85], "DataModXhoks", C, false)), "XS_BatchsArchive")));
@@ -1705,7 +1705,7 @@ export default function define($) {
     do {
       L0["dow_i"] = $.add(L0["dow_i"], 70);
       {
-        const $t87 = (await $.v(C, "Form_report"));
+        const $t87 = (await $.wobj(C, "Form_report"));
         await $.mset((await $.wcall([$t87], "TQRLabel", [(await $.wcall([$t87], "FindComponent", [$.add("QRL_70_", (await $.wcall([$t87], "IntToStr", [(await $.wv([$t87], "Dow_i", { get: async () => L0["dow_i"], set: async (v) => { L0["dow_i"] = v; }, local: true }, false))], C)))], C))], C)), "Caption", (await $.wcall([$t87], "copy", [(await $.wv([$t87], "Dow_s", { get: async () => L0["dow_s"], set: async (v) => { L0["dow_s"] = v; }, local: true }, false)), $.sub((await $.wv([$t87], "Dow_i", { get: async () => L0["dow_i"], set: async (v) => { L0["dow_i"] = v; }, local: true }, false)), 69), 70], C)));
       }
       await $.tick();
@@ -1771,7 +1771,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "Form_Report", (await $.mcall((await $.v(C, "TForm_Report")), "Create", [Self])));
   {
-    const $t88 = (await $.v(C, "Form_Report"));
+    const $t88 = (await $.wobj(C, "Form_Report"));
     await $.mset((await $.wv([$t88], "QuickRep1", C, false)), "DataSet", (await $.mv((await $.wv([$t88], "DataModXhoks", C, false)), "XS_Beneficiary")));
     await $.mset((await $.wv([$t88], "QRDBText1", C, false)), "DataSet", (await $.mv((await $.wv([$t88], "DataModXhoks", C, false)), "XS_Batchs")));
     await $.mset((await $.wv([$t88], "QRDBText2", C, false)), "DataSet", (await $.mv((await $.wv([$t88], "DataModXhoks", C, false)), "XS_Batchs")));
@@ -1801,7 +1801,7 @@ export default function define($) {
     do {
       L0["dow_i"] = $.add(L0["dow_i"], 70);
       {
-        const $t90 = (await $.v(C, "Form_report"));
+        const $t90 = (await $.wobj(C, "Form_report"));
         await $.mset((await $.wcall([$t90], "TQRLabel", [(await $.wcall([$t90], "FindComponent", [$.add("QRL_70_", (await $.wcall([$t90], "IntToStr", [(await $.wv([$t90], "Dow_i", { get: async () => L0["dow_i"], set: async (v) => { L0["dow_i"] = v; }, local: true }, false))], C)))], C))], C)), "Caption", (await $.wcall([$t90], "copy", [(await $.wv([$t90], "Dow_s", { get: async () => L0["dow_s"], set: async (v) => { L0["dow_s"] = v; }, local: true }, false)), $.sub((await $.wv([$t90], "Dow_i", { get: async () => L0["dow_i"], set: async (v) => { L0["dow_i"] = v; }, local: true }, false)), 69), 70], C)));
       }
       await $.tick();
@@ -1896,7 +1896,7 @@ export default function define($) {
     do {
       L0["dow_i"] = $.add(L0["dow_i"], 70);
       {
-        const $t92 = (await $.v(C, "Form_report_in"));
+        const $t92 = (await $.wobj(C, "Form_report_in"));
         await $.mset((await $.wcall([$t92], "TQRLabel", [(await $.wcall([$t92], "FindComponent", [$.add("QRL_70_", (await $.wcall([$t92], "IntToStr", [(await $.wv([$t92], "Dow_i", { get: async () => L0["dow_i"], set: async (v) => { L0["dow_i"] = v; }, local: true }, false))], C)))], C))], C)), "Caption", (await $.wcall([$t92], "copy", [(await $.wv([$t92], "Dow_s", { get: async () => L0["dow_s"], set: async (v) => { L0["dow_s"] = v; }, local: true }, false)), $.sub((await $.wv([$t92], "Dow_i", { get: async () => L0["dow_i"], set: async (v) => { L0["dow_i"] = v; }, local: true }, false)), 69), 70], C)));
       }
       await $.tick();
@@ -1934,7 +1934,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "ReportX", (await $.mcall((await $.v(C, "TReportX")), "Create", [Self])));
   {
-    const $t93 = (await $.v(C, "ReportX"));
+    const $t93 = (await $.wobj(C, "ReportX"));
     await $.mset((await $.wv([$t93], "QRDBText1", C, false)), "DataSet", (await $.mv((await $.wv([$t93], "DataModXhoks", C, false)), "XS_Beneficiary")));
     await $.mset((await $.wv([$t93], "QRDBText1", C, false)), "DataSet", (await $.mv((await $.wv([$t93], "DataModXhoks", C, false)), "XS_Batchs")));
     await $.mset((await $.wv([$t93], "QRDBText2", C, false)), "DataSet", (await $.mv((await $.wv([$t93], "DataModXhoks", C, false)), "XS_Batchs")));
@@ -2030,7 +2030,7 @@ export default function define($) {
     do {
       L0["dow_i"] = $.add(L0["dow_i"], 70);
       {
-        const $t96 = (await $.v(C, "Form_report_in"));
+        const $t96 = (await $.wobj(C, "Form_report_in"));
         await $.mset((await $.wcall([$t96], "TQRLabel", [(await $.wcall([$t96], "FindComponent", [$.add("QRL_70_", (await $.wcall([$t96], "IntToStr", [(await $.wv([$t96], "Dow_i", { get: async () => L0["dow_i"], set: async (v) => { L0["dow_i"] = v; }, local: true }, false))], C)))], C))], C)), "Caption", (await $.wcall([$t96], "copy", [(await $.wv([$t96], "Dow_s", { get: async () => L0["dow_s"], set: async (v) => { L0["dow_s"] = v; }, local: true }, false)), $.sub((await $.wv([$t96], "Dow_i", { get: async () => L0["dow_i"], set: async (v) => { L0["dow_i"] = v; }, local: true }, false)), 69), 70], C)));
       }
       await $.tick();
@@ -2352,7 +2352,7 @@ export default function define($) {
     await $.mcall((await $.mv((await $.v(C, "DataModXhoks")), "DataBankInfo")), "Open", []);
   }
   {
-    const $t112 = (await $.v(C, "FormPayment_Det"));
+    const $t112 = (await $.wobj(C, "FormPayment_Det"));
     await $.mset((await $.wv([$t112], "ButtonFinish", C, false)), "Enabled", (await $.wv([$t112], "true", C, false)));
     await $.mset((await $.wv([$t112], "XFBitBtn4", C, false)), "Enabled", (await $.wv([$t112], "true", C, false)));
     await $.mset((await $.wv([$t112], "SpeedButton2", C, false)), "Enabled", (await $.wv([$t112], "true", C, false)));

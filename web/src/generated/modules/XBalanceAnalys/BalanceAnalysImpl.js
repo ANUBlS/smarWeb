@@ -426,7 +426,7 @@ export default function define($) {
   }
   await $.mset((await $.v(C, "CBBranches")), "Tag", (await $.call(C, "Integer", [(await $.ref_(C, "OperationIDs"))])));
   {
-    const $t7 = (await $.v(C, "DataModulBalance"));
+    const $t7 = (await $.wobj(C, "DataModulBalance"));
     await $.mcall((await $.wv([$t7], "OperationType", C, false)), "Execute", []);
   }
   return L0.result;
@@ -436,7 +436,7 @@ export default function define($) {
   const L0 = {"begindate": $.copyArg(p0), result: 0};
   await $.fixArgs(L0, ["begindate"]);
   {
-    const $t8 = (await $.v(C, "DataModulBalance"));
+    const $t8 = (await $.wobj(C, "DataModulBalance"));
     const $t9 = (await $.wv([$t8], "PeriodData", C, false));
     await $.stmt($.wcall([$t8, $t9], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t8, $t9], "SetVariable", ["BeginDate", (await $.wv([$t8, $t9], "BeginDate", { get: async () => L0["begindate"], set: async (v) => { L0["begindate"] = v; }, local: true }, false))], C)));
@@ -454,7 +454,7 @@ export default function define($) {
   const L0 = {result: '', "condition": '', "i": 0, "icount": 0};
   L0["condition"] = "";
   {
-    const $t10 = (await $.v(C, "CBBranches"));
+    const $t10 = (await $.wobj(C, "CBBranches"));
     await $.wset([$t10], "icount", (await $.mv((await $.mv((await $.wv([$t10], "CBBranches", C, false)), "Items")), "Count")), { get: async () => L0["icount"], set: async (v) => { L0["icount"] = v; }, local: true });
     { const $t11 = $.sub((await $.wv([$t10], "icount", { get: async () => L0["icount"], set: async (v) => { L0["icount"] = v; }, local: true }, false)), 1);
       await $.wset([$t10], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
@@ -484,7 +484,7 @@ export default function define($) {
   L0["isforeignbalance"] = (await $.and_(((await $.mv((await $.v(C, "CHBCurrency")), "Checked"))), async () => ($.eq((await $.mv((await $.v(C, "CBBalanceView")), "ItemIndex")), 0))));
   L0["balanceplane"] = $.add((await $.mv((await $.v(C, "CBBalanceReference")), "ItemIndex")), 1);
   {
-    const $t13 = (await $.v(C, "DataModulBalance"));
+    const $t13 = (await $.wobj(C, "DataModulBalance"));
     const $t14 = (await $.wv([$t13], "Balance", C, false));
     await $.mset((await $.wv([$t13, $t14], "SQL", C, false)), "CommaText", (await $.wv([$t13, $t14], "FBalance", C, false)));
     if ($.truthy(((await $.and_((await $.wcall([$t13, $t14], "WillEnabled", [(await $.wv([$t13, $t14], "CBBranches", C, false))], C)), async () => ($.not((await $.wcall([$t13, $t14], "IsEnabled", [(await $.wv([$t13, $t14], "CBBranches", C, false))], C))))))))) {
@@ -540,7 +540,7 @@ export default function define($) {
   L0["isforeignbalance"] = (await $.and_(((await $.mv((await $.v(C, "CHBCurrency")), "Checked"))), async () => ($.eq((await $.mv((await $.v(C, "CBBalanceView")), "ItemIndex")), 0))));
   L0["balanceplane"] = $.add((await $.mv((await $.v(C, "CBBalanceReference")), "ItemIndex")), 1);
   {
-    const $t36 = (await $.v(C, "DataModulBalance"));
+    const $t36 = (await $.wobj(C, "DataModulBalance"));
     const $t37 = (await $.wv([$t36], "Account", C, false));
     await $.mset((await $.wv([$t36, $t37], "SQL", C, false)), "CommaText", (await $.wv([$t36, $t37], "FAccount", C, false)));
     if ($.truthy(((await $.and_((await $.wcall([$t36, $t37], "WillEnabled", [(await $.wv([$t36, $t37], "CBBranches", C, false))], C)), async () => ($.not((await $.wcall([$t36, $t37], "IsEnabled", [(await $.wv([$t36, $t37], "CBBranches", C, false))], C))))))))) {
@@ -597,7 +597,7 @@ export default function define($) {
 });
   L0["condition"] = "";
   {
-    const $t57 = (await $.v(C, "DataModulBalance"));
+    const $t57 = (await $.wobj(C, "DataModulBalance"));
     const $t58 = (await $.wv([$t57], "debtTransaction", C, false));
     await $.mset((await $.wv([$t57, $t58], "SQL", C, false)), "CommaText", (await $.wv([$t57, $t58], "FTransaction", C, false)));
     { const $t59 = await $.iset((await $.wv([$t57, $t58], "SQL", C, false)), [16], (await $.wcall([$t57, $t58], "BuildFilter", [(await $.mv((await $.wv([$t57, $t58], "CBOperator", C, false)), "Checked")), "t.op_id = %d and ", [(await $.mv((await $.mcall((await $.wv([$t57, $t58], "Operators", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], { get: async () => L0["buildfilter"], set: async (v) => { L0["buildfilter"] = v; }, local: true }))); if ($t59 !== undefined) { await $.wset([$t57, $t58], "SQL", $t59, C); } }
@@ -614,7 +614,7 @@ export default function define($) {
   const L0 = {result: undefined, "condition": ''};
   L0["condition"] = "";
   {
-    const $t60 = (await $.v(C, "DataModulBalance"));
+    const $t60 = (await $.wobj(C, "DataModulBalance"));
     const $t61 = (await $.wv([$t60], "credbal_acc", C, false));
     await $.stmt($.wcall([$t60, $t61], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t60, $t61], "SetVariable", ["BeginDate", (await $.wv([$t60, $t61], "BeginDate", C, false))], C)));
@@ -630,7 +630,7 @@ export default function define($) {
   const L0 = {result: undefined, "condition": ''};
   L0["condition"] = "";
   {
-    const $t62 = (await $.v(C, "DataModulBalance"));
+    const $t62 = (await $.wobj(C, "DataModulBalance"));
     const $t63 = (await $.wv([$t62], "debtbal_acc", C, false));
     await $.stmt($.wcall([$t62, $t63], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t62, $t63], "SetVariable", ["BeginDate", (await $.wv([$t62, $t63], "BeginDate", C, false))], C)));
@@ -654,7 +654,7 @@ export default function define($) {
 });
   L0["condition"] = "";
   {
-    const $t64 = (await $.v(C, "DataModulBalance"));
+    const $t64 = (await $.wobj(C, "DataModulBalance"));
     const $t65 = (await $.wv([$t64], "credTransaction", C, false));
     await $.mset((await $.wv([$t64, $t65], "SQL", C, false)), "CommaText", (await $.wv([$t64, $t65], "FTransaction", C, false)));
     { const $t66 = await $.iset((await $.wv([$t64, $t65], "SQL", C, false)), [16], (await $.wcall([$t64, $t65], "BuildFilter", [(await $.mv((await $.wv([$t64, $t65], "CBOperator", C, false)), "Checked")), "t.op_id = %d and ", [(await $.mv((await $.mcall((await $.wv([$t64, $t65], "Operators", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], { get: async () => L0["buildfilter"], set: async (v) => { L0["buildfilter"] = v; }, local: true }))); if ($t66 !== undefined) { await $.wset([$t64, $t65], "SQL", $t66, C); } }
@@ -680,7 +680,7 @@ export default function define($) {
 });
   L0["condition"] = "";
   {
-    const $t67 = (await $.v(C, "DataModulBalance"));
+    const $t67 = (await $.wobj(C, "DataModulBalance"));
     const $t68 = (await $.wv([$t67], "Transaction", C, false));
     await $.mset((await $.wv([$t67, $t68], "SQL", C, false)), "CommaText", (await $.wv([$t67, $t68], "FTransaction", C, false)));
     { const $t69 = await $.iset((await $.wv([$t67, $t68], "SQL", C, false)), [16], (await $.wcall([$t67, $t68], "BuildFilter", [(await $.mv((await $.wv([$t67, $t68], "CBOperator", C, false)), "Checked")), "t.op_id = %d and ", [(await $.mv((await $.mcall((await $.wv([$t67, $t68], "Operators", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], { get: async () => L0["buildfilter"], set: async (v) => { L0["buildfilter"] = v; }, local: true }))); if ($t69 !== undefined) { await $.wset([$t67, $t68], "SQL", $t69, C); } }
@@ -701,7 +701,7 @@ export default function define($) {
   await $.stmt($.call(C, "SetAddress", []));
   await $.stmt($.call(C, "SetSysDate", []));
   {
-    const $t70 = (await $.v(C, "DataModulBalance"));
+    const $t70 = (await $.wobj(C, "DataModulBalance"));
     await $.wset([$t70], "FBalance", (await $.mv((await $.mv((await $.wv([$t70], "Balance", C, false)), "SQL")), "CommaText")), C);
     await $.wset([$t70], "FAccount", (await $.mv((await $.mv((await $.wv([$t70], "Account", C, false)), "SQL")), "CommaText")), C);
     await $.wset([$t70], "FTransaction", (await $.mv((await $.mv((await $.wv([$t70], "Transaction", C, false)), "SQL")), "CommaText")), C);
@@ -956,7 +956,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "fafterscroll": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t77 = (await $.v(C, "ExcelExporter"));
+    const $t77 = (await $.wobj(C, "ExcelExporter"));
     await $.wset([$t77], "ExportSource", (await $.mv((await $.wv([$t77], "DBGrid", C, false)), "DataSource")), C);
     await $.wset([$t77], "FAfterScroll", (await $.mv((await $.mv((await $.wv([$t77], "ExportSource", C, false)), "DataSet")), "AfterScroll")), { get: async () => L0["fafterscroll"], set: async (v) => { L0["fafterscroll"] = v; }, local: true });
     await $.mset((await $.mv((await $.wv([$t77], "ExportSource", C, false)), "DataSet")), "AfterScroll", null);

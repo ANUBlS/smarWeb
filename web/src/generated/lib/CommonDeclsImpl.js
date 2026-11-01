@@ -49,7 +49,7 @@ export default function define($) {
   await $.fixArgs(L0, ["savetype"]);
   await $.mcall((await $.mv((await $.v(C, "CommonGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t1 = (await $.v(C, "CommonGrid"));
+    const $t1 = (await $.wobj(C, "CommonGrid"));
     const $t2 = (await $.wv([$t1], "DataSource", C, false));
     const $t3 = (await $.wv([$t1, $t2], "DataSet", C, false));
     await $.wset([$t1, $t2, $t3], "SaveID", (await $.wv([$t1, $t2, $t3], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });

@@ -64,7 +64,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.v(C, "DepositTypes")), "Insert", []);
   {
-    const $t2 = (await $.v(C, "frmAddEditDepositTypes_new"));
+    const $t2 = (await $.wobj(C, "frmAddEditDepositTypes_new"));
     await $.wset([$t2], "Caption", "Yeni", C);
     await $.mset((await $.mv((await $.wv([$t2], "frmAddEditDepositTypes_new", C, false)), "CheckBox1")), "Checked", (await $.wv([$t2], "false", C, false)));
     await $.mset((await $.mv((await $.wv([$t2], "frmAddEditDepositTypes_new", C, false)), "CheckBox2")), "Checked", (await $.wv([$t2], "false", C, false)));
@@ -78,7 +78,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "frmAddEditDepositTypes_new"));
+    const $t3 = (await $.wobj(C, "frmAddEditDepositTypes_new"));
     const $t4 = (await $.wv([$t3], "DepositTypes", C, false));
     await $.mset((await $.wv([$t3, $t4], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.wcall([$t3, $t4], "FieldByName", ["withdrawtype"], C)), "AsString")));
     if ($.truthy($.eq((await $.mv((await $.wcall([$t3, $t4], "FieldByName", ["PERCENT_RULE"], C)), "AsInteger")), 0))) {
@@ -96,7 +96,7 @@ export default function define($) {
     await $.stmt($.wcall([$t3, $t4], "Edit", [], C));
   }
   {
-    const $t5 = (await $.v(C, "frmAddEditDepositTypes_new"));
+    const $t5 = (await $.wobj(C, "frmAddEditDepositTypes_new"));
     await $.wset([$t5], "Caption", "Redaktə", C);
     await $.stmt($.wcall([$t5], "ShowModal", [], C));
   }
@@ -111,7 +111,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t6 = (await $.v(C, "SBCM_RPDEPOSITORY"));
+    const $t6 = (await $.wobj(C, "SBCM_RPDEPOSITORY"));
     await $.stmt((await $.wcall([$t6], "CallProcedure", ["delDepositTypes", [(await $.mv((await $.mcall((await $.wv([$t6], "DepositTypes", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], C)));
   }
   await $.mcall((await $.v(C, "DepositTypes")), "Refresh", []);

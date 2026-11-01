@@ -175,7 +175,7 @@ export default function define($) {
     await $.stmt((await $.callv(L0["sfilter"], [$.ref(async () => L0["allfilterwares"], async ($t17) => { L0["allfilterwares"] = $t17; }), L0["filter_wares_name"], L0["bool_wares_name"]])));
     await $.stmt((await $.callv(L0["sfilter"], [$.ref(async () => L0["allfilterwares"], async ($t18) => { L0["allfilterwares"] = $t18; }), L0["filter_user_name"], L0["bool_user_name"]])));
     {
-      const $t19 = (await $.v(C, "DataModWares"));
+      const $t19 = (await $.wobj(C, "DataModWares"));
       await $.stmt((await $.wcall([$t19], "FilteredDataSet", [(await $.wv([$t19], "ODSGroups", C, false)), (await $.wv([$t19], "AllFilterGroup", { get: async () => L0["allfiltergroup"], set: async (v) => { L0["allfiltergroup"] = v; }, local: true }, false))], C)));
       await $.stmt((await $.wcall([$t19], "FilteredDataSet", [(await $.wv([$t19], "ODSWares", C, false)), (await $.wv([$t19], "AllFilterWares", { get: async () => L0["allfilterwares"], set: async (v) => { L0["allfilterwares"] = v; }, local: true }, false))], C)));
     }
@@ -212,7 +212,7 @@ export default function define($) {
   try {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
     {
-      const $t20 = (await $.v(C, "DataModWares"));
+      const $t20 = (await $.wobj(C, "DataModWares"));
       await $.stmt((await $.wcall([$t20], "FillListBox", [(await $.wv([$t20], "ODSFilterGroup", C, false)), "name", (await $.wv([$t20], "ChListBoxGr", C, false))], C)));
       await $.stmt((await $.wcall([$t20], "FillListBox", [(await $.wv([$t20], "ODSFilterWares", C, false)), "keeping_sec", (await $.wv([$t20], "ChListBoxSektor", C, false))], C)));
       await $.stmt((await $.wcall([$t20], "FillListBox", [(await $.wv([$t20], "ODSFilterWares", C, false)), "wares_name", (await $.wv([$t20], "ChListBoxWares", C, false))], C)));

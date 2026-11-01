@@ -392,7 +392,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "OrDSCustomers"));
+    const $t1 = (await $.wobj(C, "OrDSCustomers"));
     await $.stmt($.wcall([$t1], "Close", [], C));
     await $.mcall((await $.wv([$t1], "SQL", C, false)), "Clear", []);
     await $.stmt((await $.mcall((await $.wv([$t1], "SQL", C, false)), "Add", [(await $.mv((await $.wv([$t1], "Memo2", C, false)), "Text"))])));
@@ -465,7 +465,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t4 = (await $.v(C, "OrDSAccount"));
+    const $t4 = (await $.wobj(C, "OrDSAccount"));
     await $.stmt($.wcall([$t4], "Close", [], C));
     await $.mcall((await $.wv([$t4], "SQL", C, false)), "Clear", []);
     await $.stmt((await $.mcall((await $.wv([$t4], "SQL", C, false)), "Add", [$.add($.add($.add($.add(" select ac.id,ac.ACC_NO,ac.Name,val.Val_Name,ac.Open_Dat,ac.Close_Dat,", "ac.Kli_ID,abs(ten.Ostat),abs(ten.Pok_Ostat),ten.datdate as Tarix ,"), "ac.tipacc as symbol, f.Name as Filial, cu.name as cust_name,ac.bal_cn1,cu.inn as cust_voen,ct.name as cust_type"), " from Account ac, Avalute val, Archost ten, Filial f, customers cu,cust_types ct"), " where ten.Datdate=:BalDate and f.ID=ac.filial and cu.id=ac.kli_id and ct.id=cu.cust_type and")])));
@@ -522,7 +522,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t5 = (await $.v(C, "OrDSDocs"));
+    const $t5 = (await $.wobj(C, "OrDSDocs"));
     await $.stmt($.wcall([$t5], "Close", [], C));
     await $.mcall((await $.wv([$t5], "SQL", C, false)), "Clear", []);
     await $.stmt((await $.mcall((await $.wv([$t5], "SQL", C, false)), "Add", [$.add($.add(" select p.dat,a1.acc_no as Debit,a1.Name as DName,a2.acc_no as Credit,a2.Name as CName,", "p.ammount,p.lammount,p.ammount_c,p.name, a1.tipacc as d_symbol, a2.tipacc as c_symbol"), " from provarch p, account a1, account a2 ")])));
@@ -606,7 +606,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "OrDSCustomers"));
+    const $t6 = (await $.wobj(C, "OrDSCustomers"));
     await $.stmt($.wcall([$t6], "Close", [], C));
     await $.mset((await $.wv([$t6], "Memo1", C, false)), "Text", (await $.mv((await $.wv([$t6], "sql", C, false)), "Text")));
     await $.stmt($.wcall([$t6], "Open", [], C));
@@ -618,7 +618,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "OrDSAccount"));
+    const $t7 = (await $.wobj(C, "OrDSAccount"));
     await $.stmt($.wcall([$t7], "Close", [], C));
     await $.stmt($.wcall([$t7], "Open", [], C));
   }
@@ -629,12 +629,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "OrDSCustomers"));
+    const $t8 = (await $.wobj(C, "OrDSCustomers"));
     await $.stmt($.wcall([$t8], "Close", [], C));
     await $.stmt($.wcall([$t8], "Open", [], C));
   }
   {
-    const $t9 = (await $.v(C, "OrDSAccount"));
+    const $t9 = (await $.wobj(C, "OrDSAccount"));
     await $.stmt($.wcall([$t9], "Close", [], C));
     await $.stmt($.wcall([$t9], "Open", [], C));
   }
@@ -812,7 +812,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t10 = (await $.v(C, "OrDSAccount"));
+      const $t10 = (await $.wobj(C, "OrDSAccount"));
       await $.stmt($.wcall([$t10], "Close", [], C));
       await $.stmt($.wcall([$t10], "Open", [], C));
     }
@@ -825,7 +825,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "ExcelCl", true);
   {
-    const $t11 = (await $.v(C, "CMExcelExport1"));
+    const $t11 = (await $.wobj(C, "CMExcelExport1"));
     if ($.truthy($.not((await $.wv([$t11], "Connected", C, false))))) {
       await $.stmt($.wcall([$t11], "Connect", [], C));
     }
@@ -841,7 +841,7 @@ export default function define($) {
   await $.set(C, "ExcelCl", true);
   await $.mcall((await $.v(C, "OrDSCustomers")), "Last", []);
   {
-    const $t12 = (await $.v(C, "CMExcelExport1"));
+    const $t12 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t12], "Connect", [], C));
     await $.stmt((await $.wcall([$t12], "ExportDataset", [(await $.wv([$t12], "OrDSCustomers", C, false)), "Customers", (await $.wv([$t12], "True", C, false)), (await $.wv([$t12], "True", C, false))], C)));
     await $.stmt($.wcall([$t12], "Disconnect", [], C));
@@ -854,7 +854,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "ExcelCl", true);
   {
-    const $t13 = (await $.v(C, "CMExcelExport1"));
+    const $t13 = (await $.wobj(C, "CMExcelExport1"));
     if ($.truthy($.not((await $.wv([$t13], "Connected", C, false))))) {
       await $.stmt($.wcall([$t13], "Connect", [], C));
     }
@@ -870,7 +870,7 @@ export default function define($) {
   await $.mset((await $.v(C, "WaitLabel")), "Visible", true);
   await $.mcall((await $.v(C, "Application")), "ProcessMessages", []);
   {
-    const $t14 = (await $.v(C, "OrDSDocs"));
+    const $t14 = (await $.wobj(C, "OrDSDocs"));
     await $.stmt($.wcall([$t14], "Close", [], C));
     await $.stmt($.wcall([$t14], "Open", [], C));
   }
@@ -883,7 +883,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t15 = (await $.v(C, "OrDSCustomers"));
+      const $t15 = (await $.wobj(C, "OrDSCustomers"));
       await $.stmt((await $.wcall([$t15], "SetVariable", ["pName", $.add($.add("%", (await $.wcall([$t15], "upperCase", [(await $.mv((await $.wv([$t15], "EditLocate", C, false)), "text"))], C))), "%")], C)));
       await $.stmt($.wcall([$t15], "Refresh", [], C));
     }
@@ -903,7 +903,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t16 = (await $.v(C, "OrDSAccount"));
+      const $t16 = (await $.wobj(C, "OrDSAccount"));
       await $.stmt((await $.wcall([$t16], "SetVariable", ["pName", $.add($.add("%", (await $.wcall([$t16], "upperCase", [(await $.mv((await $.wv([$t16], "LocAccName", C, false)), "text"))], C))), "%")], C)));
       await $.stmt((await $.wcall([$t16], "ShowMessage", [$.add($.add("%", (await $.wcall([$t16], "upperCase", [(await $.mv((await $.wv([$t16], "LocAccName", C, false)), "text"))], C))), "%")], C)));
       await $.stmt($.wcall([$t16], "Refresh", [], C));

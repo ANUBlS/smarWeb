@@ -3,9 +3,9 @@
   "name": "Common",
   "caption": "Ümumi (sboapi və paylaşılan modullar)",
   "plugin": false,
-  "datasets": 583,
-  "packages": 73,
-  "sql": 21
+  "datasets": 716,
+  "packages": 77,
+  "sql": 24
  },
  {
   "name": "AboutBanks",
@@ -232,6 +232,14 @@
   "sql": 0
  },
  {
+  "name": "PCustService",
+  "caption": "Balans / Müştərilər / Müştəri xidməti",
+  "plugin": false,
+  "datasets": 187,
+  "packages": 13,
+  "sql": 0
+ },
+ {
   "name": "P_CMArFilter",
   "caption": "",
   "plugin": true,
@@ -422,6 +430,14 @@
   "datasets": 9,
   "packages": 1,
   "sql": 0
+ },
+ {
+  "name": "P_Customers",
+  "caption": "Balans / Müştərilər / Fiziki şəxslər üzrə əməliyyatlar",
+  "plugin": true,
+  "datasets": 149,
+  "packages": 16,
+  "sql": 5
  },
  {
   "name": "P_Ferid",
@@ -1693,14 +1709,6 @@
   "plugin": false,
   "datasets": 15,
   "packages": 1,
-  "sql": 0
- },
- {
-  "name": "XPCustService",
-  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Müştəri xidməti",
-  "plugin": false,
-  "datasets": 175,
-  "packages": 13,
   "sql": 0
  },
  {

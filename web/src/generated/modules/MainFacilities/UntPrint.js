@@ -63,7 +63,7 @@ export default function define($) {
   }
   if ($.truthy((await $.mv((await $.v(C, "RBWares")), "Checked")))) {
     {
-      const $t7 = (await $.v(C, "MainFDataModule"));
+      const $t7 = (await $.wobj(C, "MainFDataModule"));
       await $.mcall((await $.wv([$t7], "M1", C, false)), "Close", []);
       if ($.truthy($.eq((await $.mv((await $.wv([$t7], "CBGroupsFilter", C, false)), "ItemIndex")), 0))) {
         { const $t8 = await $.iset((await $.mv((await $.wv([$t7], "M1", C, false)), "SQL")), [7], ""); if ($t8 !== undefined) { await $.mset((await $.wv([$t7], "M1", C, false)), "SQL", $t8); } }
@@ -164,7 +164,7 @@ export default function define($) {
       }
     }
     {
-      const $t28 = (await $.v(C, "MainFacilities"));
+      const $t28 = (await $.wobj(C, "MainFacilities"));
       const $t29 = (await $.mv((await $.wv([$t28], "MainFDataModule", C, false)), "ViewGroup"));
       await $.stmt((await $.wcall([$t28, $t29], "SumGroupDetails", [(await $.idx((await $.mv(Self, "Rate")), [(await $.mv((await $.wv([$t28, $t29], "CBGroupsFilter", C, false)), "ItemIndex"))])), $.ref(async () => (await $.wv([$t28, $t29], "FirstPrice", { get: async () => L0["firstprice"], set: async (v) => { L0["firstprice"] = v; }, local: true }, false)), async ($t30) => { await $.wset([$t28, $t29], "FirstPrice", $t30, { get: async () => L0["firstprice"], set: async (v) => { L0["firstprice"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t28, $t29], "BalancePrice", { get: async () => L0["balanceprice"], set: async (v) => { L0["balanceprice"] = v; }, local: true }, false)), async ($t31) => { await $.wset([$t28, $t29], "BalancePrice", $t31, { get: async () => L0["balanceprice"], set: async (v) => { L0["balanceprice"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t28, $t29], "AllAmort", { get: async () => L0["allamort"], set: async (v) => { L0["allamort"] = v; }, local: true }, false)), async ($t32) => { await $.wset([$t28, $t29], "AllAmort", $t32, { get: async () => L0["allamort"], set: async (v) => { L0["allamort"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t28, $t29], "Remainder", { get: async () => L0["remainder"], set: async (v) => { L0["remainder"] = v; }, local: true }, false)), async ($t33) => { await $.wset([$t28, $t29], "Remainder", $t33, { get: async () => L0["remainder"], set: async (v) => { L0["remainder"] = v; }, local: true }); })], C)));
     }
@@ -218,7 +218,7 @@ export default function define($) {
   }
   await $.set(C, "HeadDescription", "Bütün Vəsaitlər Üzrə");
   {
-    const $t45 = (await $.v(C, "MainFacilities"));
+    const $t45 = (await $.wobj(C, "MainFacilities"));
     const $t46 = (await $.wv([$t45], "MainFDataModule", C, false));
     await $.stmt((await $.wcall([$t45, $t46], "PustToComboID", [(await $.wv([$t45, $t46], "ODSGroupFilter", C, false)), "Name", "ID", (await $.wv([$t45, $t46], "CBGroupsFilter", C, false))], C)));
   }
@@ -319,7 +319,7 @@ export default function define($) {
   }
   await $.set(C, "HeadDescription", "Ümumi Bank Üzrə");
   {
-    const $t54 = (await $.v(C, "MainFacilities"));
+    const $t54 = (await $.wobj(C, "MainFacilities"));
     const $t55 = (await $.wv([$t54], "MainFDataModule", C, false));
     await $.stmt((await $.wcall([$t54, $t55], "PustToComboID", [(await $.wv([$t54, $t55], "ODSDepartments", C, false)), "Department", "ID", (await $.wv([$t54, $t55], "CBGroupsFilter", C, false))], C)));
   }
@@ -387,7 +387,7 @@ export default function define($) {
   }
   if ($.truthy((await $.mv((await $.v(C, "RBWares")), "Checked")))) {
     {
-      const $t63 = (await $.v(C, "MainFDataModule"));
+      const $t63 = (await $.wobj(C, "MainFDataModule"));
       await $.mcall((await $.wv([$t63], "M1", C, false)), "Close", []);
       if ($.truthy($.eq((await $.mv((await $.wv([$t63], "CBGroupsFilter", C, false)), "ItemIndex")), 0))) {
         { const $t64 = await $.iset((await $.mv((await $.wv([$t63], "M1", C, false)), "SQL")), [7], ""); if ($t64 !== undefined) { await $.mset((await $.wv([$t63], "M1", C, false)), "SQL", $t64); } }
@@ -488,7 +488,7 @@ export default function define($) {
       }
     }
     {
-      const $t84 = (await $.v(C, "MainFacilities"));
+      const $t84 = (await $.wobj(C, "MainFacilities"));
       const $t85 = (await $.mv((await $.wv([$t84], "MainFDataModule", C, false)), "ViewGroup"));
       await $.stmt((await $.wcall([$t84, $t85], "SumGroupDetails", [(await $.idx((await $.mv(Self, "Rate")), [(await $.mv((await $.wv([$t84, $t85], "CBGroupsFilter", C, false)), "ItemIndex"))])), $.ref(async () => (await $.wv([$t84, $t85], "FirstPrice", { get: async () => L0["firstprice"], set: async (v) => { L0["firstprice"] = v; }, local: true }, false)), async ($t86) => { await $.wset([$t84, $t85], "FirstPrice", $t86, { get: async () => L0["firstprice"], set: async (v) => { L0["firstprice"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t84, $t85], "BalancePrice", { get: async () => L0["balanceprice"], set: async (v) => { L0["balanceprice"] = v; }, local: true }, false)), async ($t87) => { await $.wset([$t84, $t85], "BalancePrice", $t87, { get: async () => L0["balanceprice"], set: async (v) => { L0["balanceprice"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t84, $t85], "AllAmort", { get: async () => L0["allamort"], set: async (v) => { L0["allamort"] = v; }, local: true }, false)), async ($t88) => { await $.wset([$t84, $t85], "AllAmort", $t88, { get: async () => L0["allamort"], set: async (v) => { L0["allamort"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t84, $t85], "Remainder", { get: async () => L0["remainder"], set: async (v) => { L0["remainder"] = v; }, local: true }, false)), async ($t89) => { await $.wset([$t84, $t85], "Remainder", $t89, { get: async () => L0["remainder"], set: async (v) => { L0["remainder"] = v; }, local: true }); })], C)));
     }

@@ -72,7 +72,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "NewDepositsSBWRSetupDataMod"));
+    const $t4 = (await $.wobj(C, "NewDepositsSBWRSetupDataMod"));
     const $t5 = (await $.wv([$t4], "OpenDlg", C, false));
     const $t6 = (await $.wv([$t4, $t5], "SBWRTemplatesDSet", C, false));
     if ($.truthy((await $.wv([$t4, $t5, $t6], "Execute", C, false)))) {

@@ -411,7 +411,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "EpployeRepFrm"));
+    const $t14 = (await $.wobj(C, "EpployeRepFrm"));
     await $.stmt($.wcall([$t14], "Fill_Edit1", [], C));
     await $.mcall((await $.wv([$t14], "EmpRep", C, false)), "Preview", []);
   }
@@ -422,7 +422,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "PesionRepFrm"));
+    const $t15 = (await $.wobj(C, "PesionRepFrm"));
     await $.stmt($.wcall([$t15], "Fill_Edit1", [], C));
     await $.mset((await $.mv((await $.wv([$t15], "PesionRepFrm", C, false)), "pincode")), "Caption", (await $.mv((await $.wv([$t15], "edit2", C, false)), "Text")));
     await $.mcall((await $.wv([$t15], "PensionRep", C, false)), "Preview", []);
@@ -434,7 +434,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "RepEtkisFrm"));
+    const $t16 = (await $.wobj(C, "RepEtkisFrm"));
     await $.stmt($.wcall([$t16], "Fill_Edit1", [], C));
     await $.mset((await $.mv((await $.wv([$t16], "RepEtkisFrm", C, false)), "pincode")), "Caption", (await $.mv((await $.wv([$t16], "edit3", C, false)), "Text")));
     await $.mcall((await $.wv([$t16], "EtkisRep", C, false)), "Preview", []);
@@ -446,7 +446,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "VoenForm"));
+    const $t17 = (await $.wobj(C, "VoenForm"));
     await $.stmt($.wcall([$t17], "Fill_Edit1", [], C));
     await $.mcall((await $.wv([$t17], "VoenRep", C, false)), "Preview", []);
   }
@@ -506,7 +506,7 @@ export default function define($) {
     }
   }
   {
-    const $t22 = (await $.v(C, "PersonalQrFm"));
+    const $t22 = (await $.wobj(C, "PersonalQrFm"));
     await $.mset((await $.wv([$t22], "QRImage1", C, false)), "Picture", (await $.mv((await $.wv([$t22], "Image1", C, false)), "Picture")));
     await $.stmt($.wcall([$t22], "Fill_Edit", [], C));
     await $.mcall((await $.wv([$t22], "PersonalRep", C, false)), "Preview", []);
@@ -746,7 +746,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t37 = (await $.v(C, "ExcelExport"));
+    const $t37 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t37], "Connect", [], C));
     await $.stmt((await $.wcall([$t37], "ExportDataset", [(await $.mv((await $.wv([$t37], "AsanDm", C, false)), "XercSet")), "Xercler", (await $.wv([$t37], "True", C, false))], C)));
     await $.stmt($.wcall([$t37], "Disconnect", [], C));
@@ -775,7 +775,7 @@ export default function define($) {
   L0["v_expdate"] = (await $.mv((await $.v(C, "ExpireDate")), "Text"));
   L0["l_custid"] = 0;
   {
-    const $t38 = (await $.v(C, "AsanDm"));
+    const $t38 = (await $.wobj(C, "AsanDm"));
     await $.wset([$t38], "l_custid", (await $.mcall((await $.wv([$t38], "PrPackage", C, false)), "CallIntegerFunction", ["add_cust", ["p_passnum", (await $.mv((await $.wv([$t38], "DocumentNumber", C, false)), "Text")), "p_paspin", (await $.mv((await $.wv([$t38], "PIN", C, false)), "Text")), "p_name", (await $.wv([$t38], "l_name", { get: async () => L0["l_name"], set: async (v) => { L0["l_name"] = v; }, local: true }, false)), "p_soname", (await $.mv((await $.wv([$t38], "Patronymic", C, false)), "Text")), "p_lastname", (await $.mv((await $.wv([$t38], "Surname", C, false)), "Text")), "p_birthday", (await $.wcall([$t38], "StrToDate", [(await $.mv((await $.wv([$t38], "BirthDate", C, false)), "Text"))], C)), "p_birthplace", (await $.mv((await $.wv([$t38], "BirthAddress", C, false)), "Text")), "p_sex", (await $.wv([$t38], "v_gender", { get: async () => L0["v_gender"], set: async (v) => { L0["v_gender"] = v; }, local: true }, false)), "p_address", (await $.mv((await $.wv([$t38], "RegistrationAddress", C, false)), "Text")), "p_paspdate", (await $.wcall([$t38], "StrToDate", [(await $.mv((await $.wv([$t38], "GivenDate", C, false)), "Text"))], C)), "p_passexpire", (await $.wv([$t38], "v_expdate", { get: async () => L0["v_expdate"], set: async (v) => { L0["v_expdate"] = v; }, local: true }, false)), "p_fam_status", (await $.wv([$t38], "v_fam_status", { get: async () => L0["v_fam_status"], set: async (v) => { L0["v_fam_status"] = v; }, local: true }, false)), "p_paspplace", (await $.mv((await $.wv([$t38], "GivenOrganization", C, false)), "Text")), "p_citizenship", (await $.mv((await $.wv([$t38], "Citizenship", C, false)), "Text")), "p_work_place", "", "p_work_post", "", "p_monthlyprofit", ""]])), { get: async () => L0["l_custid"], set: async (v) => { L0["l_custid"] = v; }, local: true });
   }
   if ($.truthy($.gt(L0["l_custid"], 0))) {

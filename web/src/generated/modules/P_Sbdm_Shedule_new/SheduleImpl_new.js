@@ -71,7 +71,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t5 = (await $.v(C, "SchduleGrid"));
+    const $t5 = (await $.wobj(C, "SchduleGrid"));
     { const $t6 = 0;
       await $.wset([$t5], "I", $.sub((await $.mv((await $.wv([$t5], "SelectedRows", C, false)), "Count")), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t7 = true;
@@ -93,7 +93,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "PaymentShedule_new", (await $.mcall((await $.v(C, "TPaymentShedule_new")), "Create", [Self])));
   {
-    const $t8 = (await $.v(C, "PaymentShedule_new"));
+    const $t8 = (await $.wobj(C, "PaymentShedule_new"));
     const $t9 = (await $.wv([$t8], "ScheduleDataModule_new", C, false));
     const $t10 = (await $.wv([$t8, $t9], "sbcm_percent_converting", C, false));
     await $.wset([$t8, $t9, $t10], "interval", (await $.wcall([$t8, $t9, $t10], "CallIntegerFunction", ["getdateinterval", [(await $.wcall([$t8, $t9, $t10], "strtodate", [(await $.mv((await $.wv([$t8, $t9, $t10], "DBEdit3", C, false)), "text"))], C)), (await $.wcall([$t8, $t9, $t10], "strtodate", [(await $.mv((await $.wv([$t8, $t9, $t10], "DBEdit4", C, false)), "text"))], C))]], C)), { get: async () => L0["interval"], set: async (v) => { L0["interval"] = v; }, local: true });
@@ -110,7 +110,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "ScheduleDataModule_new"));
+    const $t11 = (await $.wobj(C, "ScheduleDataModule_new"));
     const $t12 = (await $.mv((await $.wv([$t11], "OracleDataSet2", C, false)), "Session"));
     await $.stmt((await $.wcall([$t11, $t12], "ApplyUpdates", [[(await $.wv([$t11, $t12], "OracleDataSet2", C, false))], (await $.wv([$t11, $t12], "True", C, false))], C)));
     await $.stmt($.wcall([$t11, $t12], "Commit", [], C));

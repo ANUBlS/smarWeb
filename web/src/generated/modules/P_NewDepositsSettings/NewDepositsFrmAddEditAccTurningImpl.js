@@ -16,7 +16,7 @@ export default function define($) {
   await $.set(C, "categoryid", (await $.mv((await $.v(C, "DBCustType")), "KeyValue")));
   await $.set(C, "valcategoryid", (await $.mv((await $.v(C, "CategoriesVALCATEGORY")), "AsInteger")));
   {
-    const $t1 = (await $.v(C, "MoveNames"));
+    const $t1 = (await $.wobj(C, "MoveNames"));
     await $.stmt($.wcall([$t1], "Close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["typeid", (await $.wv([$t1], "categoryid", C, false))], C)));
     await $.stmt($.wcall([$t1], "Open", [], C));

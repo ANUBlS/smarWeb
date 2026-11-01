@@ -36,7 +36,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: 0};
   {
-    const $t1 = (await $.v(C, "sboapiDataModule"));
+    const $t1 = (await $.wobj(C, "sboapiDataModule"));
     await $.wset([$t1], "Result", (await $.mcall((await $.wv([$t1], "SBOperationDay", C, false)), "CallDateFunction", [(await $.wv([$t1], "sPN_GetDate", C, false)), []])), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;

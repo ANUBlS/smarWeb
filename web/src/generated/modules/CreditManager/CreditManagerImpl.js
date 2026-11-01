@@ -668,7 +668,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "ContractsViewer"));
+    const $t16 = (await $.wobj(C, "ContractsViewer"));
     const $t17 = (await $.wv([$t16], "SelectedRows", C, false));
     const $t18 = (await $.mv((await $.wv([$t16, $t17], "MainDataModule", C, false)), "Contracts"));
     await $.stmt($.wcall([$t16, $t17, $t18], "DisableControls", [], C));
@@ -691,7 +691,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["resultitle"] = "  : Errors Found On Convertion Percents";
   {
-    const $t19 = (await $.v(C, "ContractsViewer"));
+    const $t19 = (await $.wobj(C, "ContractsViewer"));
     const $t20 = (await $.wv([$t19], "SelectedRows", C, false));
     const $t21 = (await $.mv((await $.wv([$t19, $t20], "DataSource", C, false)), "DataSet"));
     await $.wset([$t19, $t20, $t21], "Aborted", 0, { get: async () => L0["aborted"], set: async (v) => { L0["aborted"] = v; }, local: true });
@@ -812,7 +812,7 @@ export default function define($) {
 });
   L0["filterstr"] = "";
   {
-    const $t29 = (await $.v(C, "ContDataModule"));
+    const $t29 = (await $.wobj(C, "ContDataModule"));
     await $.wset([$t29], "CurrencyF", (await $.wcall([$t29], "CheckFiltred", [(await $.mv((await $.wv([$t29], "CBCurrency", C, false)), "Checked")), (await $.wv([$t29], "CurrencyFilter", { get: async () => L0["currencyfilter"], set: async (v) => { L0["currencyfilter"] = v; }, local: true }, false)), [(await $.mv((await $.mcall((await $.wv([$t29], "Currencys", C, false)), "FieldByName", ["Valute"])), "AsInteger"))]], { get: async () => L0["checkfiltred"], set: async (v) => { L0["checkfiltred"] = v; }, local: true })), { get: async () => L0["currencyf"], set: async (v) => { L0["currencyf"] = v; }, local: true });
     await $.wset([$t29], "ContTypeF", (await $.wcall([$t29], "CheckFiltred", [(await $.mv((await $.wv([$t29], "CBContractType", C, false)), "Checked")), (await $.wv([$t29], "ContractTypeFilter", { get: async () => L0["contracttypefilter"], set: async (v) => { L0["contracttypefilter"] = v; }, local: true }, false)), [(await $.mv((await $.mcall((await $.wv([$t29], "CreditTypes", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], { get: async () => L0["checkfiltred"], set: async (v) => { L0["checkfiltred"] = v; }, local: true })), { get: async () => L0["conttypef"], set: async (v) => { L0["conttypef"] = v; }, local: true });
     await $.wset([$t29], "CustTypeF", (await $.wcall([$t29], "CheckFiltred", [(await $.mv((await $.wv([$t29], "CBClientType", C, false)), "Checked")), (await $.wv([$t29], "CustomerTypeFilter", { get: async () => L0["customertypefilter"], set: async (v) => { L0["customertypefilter"] = v; }, local: true }, false)), [(await $.mv((await $.mcall((await $.wv([$t29], "Categories", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], { get: async () => L0["checkfiltred"], set: async (v) => { L0["checkfiltred"] = v; }, local: true })), { get: async () => L0["custtypef"], set: async (v) => { L0["custtypef"] = v; }, local: true });
@@ -877,7 +877,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["waitnextconfirm"] = true;
   {
-    const $t31 = (await $.v(C, "ContractsViewer"));
+    const $t31 = (await $.wobj(C, "ContractsViewer"));
     const $t32 = (await $.wv([$t31], "SelectedRows", C, false));
     const $t33 = (await $.mv((await $.wv([$t31, $t32], "DataSource", C, false)), "DataSet"));
     try {

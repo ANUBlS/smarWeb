@@ -20,7 +20,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "ExportDeposits"));
+    const $t1 = (await $.wobj(C, "ExportDeposits"));
     await $.stmt($.wcall([$t1], "Connect", [], C));
     await $.stmt((await $.wcall([$t1], "ExportDataset", [(await $.mv((await $.wv([$t1], "dmPeriodReport_new", C, false)), "ResultData")), "Period hesabatı", (await $.wv([$t1], "True", C, false))], C)));
     await $.stmt($.wcall([$t1], "Disconnect", [], C));
@@ -31,7 +31,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t2 = (await $.v(C, "frmQrptReport_new"));
+    const $t2 = (await $.wobj(C, "frmQrptReport_new"));
     const $t3 = (await $.wv([$t2], "QRepPeriod", C, false));
     await $.stmt($.wcall([$t2, $t3], "Preview", [], C));
   }
@@ -84,7 +84,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t4 = (await $.v(C, "RGReport"));
+    const $t4 = (await $.wobj(C, "RGReport"));
     { const $t5 = (await $.wv([$t4], "ItemIndex", C, false));
       if ($.eq($t5, 0)) {
         await $.stmt($.wcall([$t4], "expexcel", [], C));
@@ -111,7 +111,7 @@ export default function define($) {
   L0["enddat"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPend")), "DateTime"))]))]));
   L0["ffilterstr"] = (await $.call(C, "BuildFilterString", [$.ref(async () => L0["sfilterstr"], async ($t6) => { L0["sfilterstr"] = $t6; })]));
   {
-    const $t7 = (await $.v(C, "dmPeriodReport_new"));
+    const $t7 = (await $.wobj(C, "dmPeriodReport_new"));
     {
       const $t8 = (await $.wv([$t7], "sbcm_period_report", C, false));
       await $.stmt((await $.wcall([$t7, $t8], "CallProcedure", ["initreportdata", ["bdat", (await $.wv([$t7, $t8], "BeginDat", { get: async () => L0["begindat"], set: async (v) => { L0["begindat"] = v; }, local: true }, false)), "edat", (await $.wv([$t7, $t8], "EndDat", { get: async () => L0["enddat"], set: async (v) => { L0["enddat"] = v; }, local: true }, false)), "Ffilterstr", (await $.wv([$t7, $t8], "Ffilterstr", { get: async () => L0["ffilterstr"], set: async (v) => { L0["ffilterstr"] = v; }, local: true }, false)), "Sfilterstr", (await $.wv([$t7, $t8], "Sfilterstr", { get: async () => L0["sfilterstr"], set: async (v) => { L0["sfilterstr"] = v; }, local: true }, false))]], C)));
@@ -192,7 +192,7 @@ export default function define($) {
     L0["fdepositamt"] = "";
   }
   {
-    const $t19 = (await $.v(C, "RGTypes"));
+    const $t19 = (await $.wobj(C, "RGTypes"));
     { const $t20 = (await $.wv([$t19], "ItemIndex", C, false));
       if ($.eq($t20, 0)) {
         await $.wset([$t19], "FType", "(cont.type# = 3)", { get: async () => L0["ftype"], set: async (v) => { L0["ftype"] = v; }, local: true });
@@ -203,7 +203,7 @@ export default function define($) {
     }
   }
   {
-    const $t21 = (await $.v(C, "RGStatus"));
+    const $t21 = (await $.wobj(C, "RGStatus"));
     { const $t22 = (await $.wv([$t21], "ItemIndex", C, false));
       if ($.eq($t22, 0)) {
         await $.wset([$t21], "FStatus", "( CALCULATIONENABLED = 1)", { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true });

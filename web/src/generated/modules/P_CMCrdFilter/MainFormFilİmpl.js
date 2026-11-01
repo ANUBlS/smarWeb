@@ -58,7 +58,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "CommonDBGrid"));
+    const $t1 = (await $.wobj(C, "CommonDBGrid"));
     const $t2 = (await $.mv((await $.wv([$t1], "DataSource", C, false)), "DataSet"));
     if ($.truthy((await $.mv((await $.wv([$t1, $t2], "CheckBox1", C, false)), "Checked")))) {
       await $.wset([$t1, $t2], "Filter", "", C);
@@ -94,7 +94,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "CommonDBGrid"));
+    const $t3 = (await $.wobj(C, "CommonDBGrid"));
     const $t4 = (await $.mv((await $.wv([$t3], "DataSource", C, false)), "DataSet"));
     await $.wset([$t3, $t4], "Filter", "", C);
     await $.wset([$t3, $t4], "Filtered", (await $.wv([$t3, $t4], "False", C, false)), C);

@@ -346,7 +346,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModAL"));
+    const $t1 = (await $.wobj(C, "DataModAL"));
     const $t2 = (await $.wv([$t1], "ExcelExport", C, false));
     await $.stmt($.wcall([$t1, $t2], "Connect", [], C));
     { const $t3 = (await $.mv((await $.wv([$t1, $t2], "pgcMain", C, false)), "ActivePageIndex"));
@@ -418,7 +418,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["İctifadəçi account-u açılsın?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbyes")), (await $.v(C, "mbno"))], 0])), (await $.v(C, "idyes"))))) {
     {
-      const $t6 = (await $.v(C, "DataModAL"));
+      const $t6 = (await $.wobj(C, "DataModAL"));
       await $.stmt((await $.mcall((await $.wv([$t6], "SB_ADM", C, false)), "CallProcedure", ["lockunlockuser", [(await $.mv((await $.wv([$t6], "ODSLockedUsersNAME", C, false)), "AsVariant")), (await $.wv([$t6], "False", C, false))]])));
       await $.stmt((await $.wcall([$t6], "RefreshDataSet", [(await $.wv([$t6], "ODSLockedUsers", C, false))], C)));
     }
@@ -430,7 +430,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "DataModAL"));
+    const $t7 = (await $.wobj(C, "DataModAL"));
     { const $t8 = (await $.mv((await $.wv([$t7], "pgcMain", C, false)), "ActivePageIndex"));
       if ($.eq($t8, 0)) {
         await $.stmt((await $.wcall([$t7], "RefreshDataset", [(await $.wv([$t7], "ODSUserGrantsLogs", C, false))], C)));
@@ -463,7 +463,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "DataModAL"));
+    const $t9 = (await $.wobj(C, "DataModAL"));
     { const $t10 = (await $.mv((await $.wv([$t9], "pgcMain", C, false)), "ActivePageIndex"));
       if ($.eq($t10, 0)) {
         await $.mcall((await $.wv([$t9], "ODSUserGrantsLogs", C, false)), "Close", []);
@@ -517,7 +517,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Sətirlət silinsin?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbyes")), (await $.v(C, "mbno"))], 0])), (await $.v(C, "idyes"))))) {
     {
-      const $t25 = (await $.v(C, "DataModAL"));
+      const $t25 = (await $.wobj(C, "DataModAL"));
       { const $t26 = (await $.mv((await $.wv([$t25], "pgcMain", C, false)), "ActivePageIndex"));
         if ($.eq($t26, 0)) {
           await $.stmt((await $.wcall([$t25], "DelRowsDS", [(await $.wv([$t25], "ODSUserGrantsLogs", C, false))], C)));
@@ -551,7 +551,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Sinifə aid bütün istifadəçi account-ları açılsın?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbyes")), (await $.v(C, "mbno"))], 0])), (await $.v(C, "idyes"))))) {
     {
-      const $t27 = (await $.v(C, "DataModAL"));
+      const $t27 = (await $.wobj(C, "DataModAL"));
       await $.stmt((await $.mcall((await $.wv([$t27], "SB_ADM", C, false)), "CallProcedure", ["unlockclass", [(await $.mv((await $.wv([$t27], "ODSClasNamesID", C, false)), "AsVariant"))]])));
       await $.stmt((await $.wcall([$t27], "RefreshDataSet", [(await $.wv([$t27], "ODSLockedUsers", C, false))], C)));
     }

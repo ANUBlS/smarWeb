@@ -42,7 +42,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "ReportData"));
+    const $t1 = (await $.wobj(C, "ReportData"));
     await $.mset((await $.wcall([$t1], "fieldByName", ["fclosedat"], C)), "AsDateTime", (await $.mv((await $.wcall([$t1], "fieldByName", ["FIRSTOPDATE"], C)), "AsDateTime")));
     if ($.truthy((await $.mv((await $.wcall([$t1], "fieldByName", ["FIRSTOPDATE"], C)), "IsNull")))) {
       await $.mset((await $.wcall([$t1], "fieldByName", ["fclosedat"], C)), "AsDateTime", (await $.mv((await $.wcall([$t1], "fieldByName", ["CLOSEDATE"], C)), "AsDateTime")));

@@ -32,7 +32,7 @@ export default function define($) {
   const L0 = {"column": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["column"]);
   {
-    const $t1 = (await $.v(C, "DataModule_bussProc"));
+    const $t1 = (await $.wobj(C, "DataModule_bussProc"));
     const $t2 = (await $.wv([$t1], "DepozDset", C, false));
     await $.stmt($.wcall([$t1, $t2], "close", [], C));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t1, $t2], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {

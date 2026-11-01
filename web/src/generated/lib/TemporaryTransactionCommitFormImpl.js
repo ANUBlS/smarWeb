@@ -27,7 +27,7 @@ export default function define($) {
   await $.fixArgs(L0, ["tempid", "title", "stepbystep", "apply", "filters"]);
   await $.set(C, "Caption", L0["title"]);
   {
-    const $t1 = (await $.v(C, "TempTransactionsData"));
+    const $t1 = (await $.wobj(C, "TempTransactionsData"));
     await $.stmt($.wcall([$t1], "Close", [], C));
     {
       const $t2 = (await $.wv([$t1], "Variables", C, false));

@@ -98,7 +98,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "DMproperties"));
+    const $t7 = (await $.wobj(C, "DMproperties"));
     const $t8 = (await $.wv([$t7], "DataSetPropIns", C, false));
     await $.stmt($.wcall([$t7, $t8], "open", [], C));
     await $.mcall((await $.wv([$t7, $t8], "OracleDataSet1", C, false)), "open", []);
@@ -118,7 +118,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "DMproperties"));
+    const $t9 = (await $.wobj(C, "DMproperties"));
     await $.mcall((await $.wv([$t9], "dataset_taypcal", C, false)), "close", []);
     await $.mcall((await $.wv([$t9], "ClientAccs", C, false)), "close", []);
     await $.mcall((await $.wv([$t9], "CreditAccs", C, false)), "close", []);
@@ -174,7 +174,7 @@ export default function define($) {
   L0["str_field"] = $.add(L0["str_field"], " Seçilməyib! ");
   if ($.truthy($.eq(L0["cnt"], 0))) {
     {
-      const $t10 = (await $.v(C, "DMproperties"));
+      const $t10 = (await $.wobj(C, "DMproperties"));
       const $t11 = (await $.wv([$t10], "DataSetPropIns", C, false));
       await $.stmt($.wcall([$t10, $t11], "post", [], C));
       await $.stmt($.wcall([$t10, $t11], "close", [], C));

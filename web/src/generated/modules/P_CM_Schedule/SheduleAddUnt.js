@@ -52,7 +52,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.not((await $.v(C, "CheckOperation"))))) {
     {
-      const $t1 = (await $.v(C, "ScheduleDataModule"));
+      const $t1 = (await $.wobj(C, "ScheduleDataModule"));
       const $t2 = (await $.wv([$t1], "ScheduleData", C, false));
       await $.stmt($.wcall([$t1, $t2], "CancelUpdates", [], C));
     }

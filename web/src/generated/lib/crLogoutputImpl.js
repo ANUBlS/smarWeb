@@ -57,7 +57,7 @@ export default function define($) {
   await $.fixArgs(L0, ["outputmsg", "msgtype", "makevisible"]);
   L0["message"] = $.add($.add($.add("*** ", (await $.call(C, "TimeToStr", [(await $.v(C, "Now"))]))), " - "), L0["outputmsg"]);
   {
-    const $t2 = (await $.v(C, "LogListBox"));
+    const $t2 = (await $.wobj(C, "LogListBox"));
     const $t3 = (await $.wv([$t2], "Items", C, false));
     { const $t4 = (await $.wv([$t2, $t3], "Msgtype", { get: async () => L0["msgtype"], set: async (v) => { L0["msgtype"] = v; }, local: true }, false));
       if ($.eq($t4, (await $.wv([$t2, $t3], "lmWarning", C, false)))) {

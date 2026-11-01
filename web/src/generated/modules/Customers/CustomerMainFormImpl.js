@@ -484,7 +484,7 @@ export default function define($) {
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     await $.mset((await $.v(C, "EditNAME1")), "Text", (await $.mv((await $.v(C, "EditName")), "Text")));
     {
-      const $t5 = (await $.v(C, "EditNAME1"));
+      const $t5 = (await $.wobj(C, "EditNAME1"));
       await $.wset([$t5], "Text", (await $.wcall([$t5], "StringReplace", [(await $.wv([$t5], "Text", C, false)), "i", "`", [(await $.wv([$t5], "rfReplaceAll", C, false))]], C)), C);
       await $.wset([$t5], "Text", (await $.wcall([$t5], "StringReplace", [(await $.wv([$t5], "Text", C, false)), "I", "`", [(await $.wv([$t5], "rfReplaceAll", C, false))]], C)), C);
       await $.wset([$t5], "Text", (await $.wcall([$t5], "StringReplace", [(await $.wv([$t5], "Text", C, false)), "İ", "`", [(await $.wv([$t5], "rfReplaceAll", C, false))]], C)), C);
@@ -520,7 +520,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t6 = (await $.v(C, "ActiveAccountList"));
+    const $t6 = (await $.wobj(C, "ActiveAccountList"));
     await $.stmt($.wcall([$t6], "Close", [], C));
     {
       const $t7 = (await $.wv([$t6], "SQL", C, false));

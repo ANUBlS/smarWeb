@@ -39,7 +39,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "AdministrationData"));
+    const $t4 = (await $.wobj(C, "AdministrationData"));
     const $t5 = (await $.wv([$t4], "Evanescence1", C, false));
     await $.mset((await $.mv((await $.wv([$t4, $t5], "ODSQuery", C, false)), "SQL")), "text", $.add($.add($.add($.add("delete from sba_balance_acc where optype=", (await $.mv((await $.wv([$t4, $t5], "ODSOpTypesID", C, false)), "AsString"))), " and username='"), (await $.mv((await $.wv([$t4, $t5], "UsersDataname", C, false)), "asstring"))), "'"));
     await $.mcall((await $.wv([$t4, $t5], "ODSQuery", C, false)), "ExecSQL", []);
@@ -78,7 +78,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.staticConst(L0, "sqls", "ubalaccs.tfrmbalaccs.dblookupcombobox1click.sqls", async () => "select bal_cn bal_acc, nvl(bal_acc, 0) hav from (select bal_acc from sba_balance_acc where upper(username)=upper('%s') and optype=%d) s, bal_spr1 b where s.bal_acc(+)=b.bal_cn");
   {
-    const $t8 = (await $.v(C, "AdministrationData"));
+    const $t8 = (await $.wobj(C, "AdministrationData"));
     const $t9 = (await $.wv([$t8], "ODSBalAcc", C, false));
     await $.mcall((await $.wv([$t8, $t9], "ODSBalAcc", C, false)), "Close", []);
     await $.mset((await $.wv([$t8, $t9], "sql", C, false)), "Text", (await $.wcall([$t8, $t9], "format", [(await $.wv([$t8, $t9], "sqls", { get: async () => L0["sqls"], set: async (v) => { L0["sqls"] = v; }, local: true }, false)), [(await $.mv((await $.wv([$t8, $t9], "usersdataname", C, false)), "asstring")), (await $.mv((await $.wv([$t8, $t9], "ODSOpTypesid", C, false)), "asinteger"))]], C)));

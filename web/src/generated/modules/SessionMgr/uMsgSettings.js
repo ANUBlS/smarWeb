@@ -34,7 +34,7 @@ export default function define($) {
     await $.set(C, "frmMsgAddEdit", (await $.mcall((await $.v(C, "TfrmMsgAddEdit")), "Create", [Self])));
   }
   {
-    const $t1 = (await $.v(C, "frmMsgAddEdit"));
+    const $t1 = (await $.wobj(C, "frmMsgAddEdit"));
     const $t2 = (await $.wv([$t1], "ODSMessages", C, false));
     await $.stmt($.wcall([$t1, $t2], "Insert", [], C));
     await $.stmt($.wcall([$t1, $t2], "ShowModal", [], C));
@@ -49,7 +49,7 @@ export default function define($) {
     await $.set(C, "frmMsgAddEdit", (await $.mcall((await $.v(C, "TfrmMsgAddEdit")), "Create", [Self])));
   }
   {
-    const $t3 = (await $.v(C, "frmMsgAddEdit"));
+    const $t3 = (await $.wobj(C, "frmMsgAddEdit"));
     const $t4 = (await $.wv([$t3], "ODSMessages", C, false));
     await $.stmt($.wcall([$t3, $t4], "Edit", [], C));
     await $.stmt($.wcall([$t3, $t4], "ShowModal", [], C));

@@ -60,7 +60,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "CLBExportList"));
+    const $t7 = (await $.wobj(C, "CLBExportList"));
     const $t8 = (await $.wv([$t7], "CreditsExporter", C, false));
     await $.mcall((await $.wv([$t7, $t8], "ExportList", C, false)), "Clear", []);
     { const $t9 = $.sub((await $.wv([$t7, $t8], "ExportedFieldsCount", C, false)), 1);

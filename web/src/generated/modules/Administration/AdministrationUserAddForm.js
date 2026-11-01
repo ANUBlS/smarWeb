@@ -40,7 +40,7 @@ export default function define($) {
   L0["checkforchange"] = $.fn(async function CheckForChange() {
   const L1 = {result: undefined};
   {
-    const $t2 = (await $.v(C, "pcAddUser"));
+    const $t2 = (await $.wobj(C, "pcAddUser"));
     { const $t3 = (await $.wv([$t2], "ActivePageIndex", C, false));
       if ($.eq($t3, 0)) {
         if ($.truthy($.eq((await $.mv((await $.wv([$t2], "edUsName", C, false)), "Text")), (await $.wv([$t2], "EmptyStr", C, false))))) {
@@ -67,7 +67,7 @@ export default function define($) {
   await $.fixArgs(L1, ["pc"]);
   await $.mset((await $.v(C, "btBack")), "Enabled", $.not(($.eq(L1["pc"], 0))));
   {
-    const $t4 = (await $.v(C, "pcAddUser"));
+    const $t4 = (await $.wobj(C, "pcAddUser"));
     if ($.truthy($.eq((await $.wv([$t4], "ActivePage", C, false)), (await $.wv([$t4], "tbsFinish", C, false))))) {
       await $.mset((await $.wv([$t4], "btNext", C, false)), "Caption", "Qəbul");
     } else {
@@ -77,7 +77,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t5 = (await $.v(C, "pcAddUser"));
+    const $t5 = (await $.wobj(C, "pcAddUser"));
     await $.mset((await $.wv([$t5], "hbErrorBx", C, false)), "Visible", (await $.wv([$t5], "False", C, false)));
     try {
       if ($.truthy($.eq(((await $.wv([$t5], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), (await $.wv([$t5], "btNext", C, false))))) {
@@ -172,7 +172,7 @@ export default function define($) {
   await $.fixArgs(L0, ["username", "cascade"]);
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t10 = (await $.v(C, "AdministrationData"));
+    const $t10 = (await $.wobj(C, "AdministrationData"));
     const $t11 = (await $.mv((await $.wv([$t10], "AdministrationData", C, false)), "pcADM"));
     try {
       await $.mset((await $.wv([$t10, $t11], "BrForm", { get: async () => L0["brform"], set: async (v) => { L0["brform"] = v; }, local: true }, false)), "Position", (await $.wv([$t10, $t11], "poOwnerFormCenter", C, false)));
@@ -203,7 +203,7 @@ export default function define($) {
   await $.fixArgs(L0, ["classnam", "description"]);
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t12 = (await $.v(C, "AdministrationData"));
+    const $t12 = (await $.wobj(C, "AdministrationData"));
     const $t13 = (await $.mv((await $.wv([$t12], "AdministrationData", C, false)), "pcADM"));
     try {
       await $.mset((await $.wv([$t12, $t13], "BrForm", { get: async () => L0["brform"], set: async (v) => { L0["brform"] = v; }, local: true }, false)), "Position", (await $.wv([$t12, $t13], "poOwnerFormCenter", C, false)));
@@ -231,7 +231,7 @@ export default function define($) {
   await $.fixArgs(L0, ["classnam"]);
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t14 = (await $.v(C, "AdministrationData"));
+    const $t14 = (await $.wobj(C, "AdministrationData"));
     const $t15 = (await $.mv((await $.wv([$t14], "AdministrationData", C, false)), "pcADM"));
     try {
       await $.mset((await $.wv([$t14, $t15], "BrForm", { get: async () => L0["brform"], set: async (v) => { L0["brform"] = v; }, local: true }, false)), "Position", (await $.wv([$t14, $t15], "poOwnerFormCenter", C, false)));
@@ -256,7 +256,7 @@ export default function define($) {
   await $.fixArgs(L0, ["groupname", "descrp", "grtype"]);
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t16 = (await $.v(C, "AdministrationData"));
+    const $t16 = (await $.wobj(C, "AdministrationData"));
     const $t17 = (await $.mv((await $.wv([$t16], "AdministrationData", C, false)), "pcADM"));
     try {
       await $.mset((await $.wv([$t16, $t17], "BrForm", { get: async () => L0["brform"], set: async (v) => { L0["brform"] = v; }, local: true }, false)), "Position", (await $.wv([$t16, $t17], "poOwnerFormCenter", C, false)));
@@ -284,7 +284,7 @@ export default function define($) {
   await $.fixArgs(L0, ["groupname"]);
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t18 = (await $.v(C, "AdministrationData"));
+    const $t18 = (await $.wobj(C, "AdministrationData"));
     const $t19 = (await $.mv((await $.wv([$t18], "AdministrationData", C, false)), "pcADM"));
     try {
       await $.mset((await $.wv([$t18, $t19], "BrForm", { get: async () => L0["brform"], set: async (v) => { L0["brform"] = v; }, local: true }, false)), "Position", (await $.wv([$t18, $t19], "poOwnerFormCenter", C, false)));
@@ -368,7 +368,7 @@ export default function define($) {
   L0["preparegroupcreate"] = $.fn(async function PrepareGroupCreate() {
   const L1 = {result: undefined, "tempint": 0};
   {
-    const $t22 = (await $.v(C, "dbGroupType"));
+    const $t22 = (await $.wobj(C, "dbGroupType"));
     const $t23 = (await $.mv((await $.wv([$t22], "ListSource", C, false)), "DataSet"));
     if ($.truthy((await $.wv([$t22, $t23], "Active", C, false)))) {
       await $.wset([$t22, $t23], "TempInt", (await $.wv([$t22, $t23], "KeyValue", C, false)), { get: async () => L1["tempint"], set: async (v) => { L1["tempint"] = v; }, local: true });

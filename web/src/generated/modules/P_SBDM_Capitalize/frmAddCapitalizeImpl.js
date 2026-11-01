@@ -38,7 +38,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["rstransactionswillprocessed"] = "Depozitin karitallaşdırılması ...";
   {
-    const $t1 = (await $.v(C, "frmCapitalize"));
+    const $t1 = (await $.wobj(C, "frmCapitalize"));
     const $t2 = (await $.wv([$t1], "sbcm_payment", C, false));
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["Capitalization", ["ContractID", (await $.wv([$t1, $t2], "Get_SelectedContID", C, false)), "HDate", (await $.wv([$t1, $t2], "Get_BankDate", C, false)), "Total", (await $.mv((await $.wv([$t1, $t2], "EdCapital", C, false)), "Value")), "UseTransactions", (await $.wv([$t1, $t2], "True", C, false))]], C)));
   }

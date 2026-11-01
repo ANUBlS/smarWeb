@@ -22,5 +22,7 @@
   "ProfitClosing",
   "RepairNew",
   "CloseDay",
-  "QueryExporter"
+  "QueryExporter",
+  "PCustService",
+  "P_Customers"
 ]

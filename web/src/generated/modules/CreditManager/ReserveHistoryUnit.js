@@ -25,7 +25,7 @@ export default function define($) {
   await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
   try {
     {
-      const $t1 = (await $.v(C, "HistoryExporter"));
+      const $t1 = (await $.wobj(C, "HistoryExporter"));
       const $t2 = (await $.wcall([$t1], "TOracleDataSet", [(await $.mv((await $.wv([$t1], "ExportSource", C, false)), "DataSet"))], C));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
         await $.stmt($.wcall([$t1, $t2], "CloseAll", [], C));

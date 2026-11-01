@@ -81,7 +81,7 @@ export default function define($) {
   await $.set(C, "v_filial", (await $.mv((await $.v(C, "DBLookupComboBox1")), "KeyValue")));
   if ($.truthy((await $.or_(($.ne((await $.call(C, "Trim", [(await $.mv((await $.v(C, "Edit_ex_no")), "Text"))])), "0")), async () => ($.ne((await $.call(C, "Trim", [(await $.mv((await $.v(C, "Edit_ex_no")), "Text"))])), "")))))) {
     {
-      const $t1 = (await $.v(C, "DataModExch"));
+      const $t1 = (await $.wobj(C, "DataModExch"));
       const $t2 = (await $.mv((await $.wv([$t1], "DataModExch", C, false)), "OPExchMgr"));
       await $.wset([$t1, $t2], "T", (await $.wcall([$t1, $t2], "CallIntegerFunction", ["ex_office_add", [(await $.wv([$t1, $t2], "v_ex_no", C, false)), (await $.wv([$t1, $t2], "v_ex_name", C, false)), (await $.wv([$t1, $t2], "v_ex_address", C, false)), (await $.wv([$t1, $t2], "v_ex_worker_name", C, false)), (await $.wv([$t1, $t2], "v_ex_check_no", C, false)), (await $.wv([$t1, $t2], "v_filial", C, false))]], C)), C);
       await $.mcall((await $.wv([$t1, $t2], "ODSExchOffice", C, false)), "Refresh", []);

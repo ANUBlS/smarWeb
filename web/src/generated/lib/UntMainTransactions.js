@@ -67,7 +67,7 @@ export default function define($) {
   await $.stmt((await $.call(C, "ExecuteFilter", [(await $.v(C, "ODSMainGroups")), "Name", "ID", (await $.v(C, "CBGroupFilter"))])));
   await $.mset((await $.v(C, "CBGroupFilter")), "Itemindex", 0);
   {
-    const $t7 = (await $.v(C, "OPTransactions"));
+    const $t7 = (await $.wobj(C, "OPTransactions"));
     await $.mset((await $.wv([$t7], "DTPBeginDate", C, false)), "DateTime", (await $.wcall([$t7], "CallDateFunction", ["GetPresentDate", []], C)));
     await $.mset((await $.wv([$t7], "EBeginDate", C, false)), "Text", (await $.wcall([$t7], "FormatDateTime", ["dd-mmm-yyyy", (await $.wcall([$t7], "CallDateFunction", ["GetPresentDate", []], C))], C)));
     await $.mset((await $.wv([$t7], "DTPEndDate", C, false)), "DateTime", (await $.wcall([$t7], "CallDateFunction", ["GetPresentDate", []], C)));
@@ -82,11 +82,11 @@ export default function define($) {
   L0["begindate"] = (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPBeginDate")), "DateTime"))]));
   L0["enddate"] = (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPEndDate")), "DateTime"))]));
   {
-    const $t8 = (await $.v(C, "OPTransactions"));
+    const $t8 = (await $.wobj(C, "OPTransactions"));
     await $.wset([$t8], "SqlStr", (await $.wcall([$t8], "CallStringFunction", ["GetTransactions", [(await $.idx((await $.wv([$t8], "Rate", C, false)), [(await $.mv((await $.wv([$t8], "CBGroupFilter", C, false)), "ItemIndex"))])), (await $.wv([$t8], "BeginDate", { get: async () => L0["begindate"], set: async (v) => { L0["begindate"] = v; }, local: true }, false)), (await $.wv([$t8], "EndDate", { get: async () => L0["enddate"], set: async (v) => { L0["enddate"] = v; }, local: true }, false))]], C)), { get: async () => L0["sqlstr"], set: async (v) => { L0["sqlstr"] = v; }, local: true });
   }
   {
-    const $t9 = (await $.v(C, "ODSTransactions"));
+    const $t9 = (await $.wobj(C, "ODSTransactions"));
     if ($.truthy($.eq((await $.wv([$t9], "Active", C, false)), (await $.wv([$t9], "True", C, false))))) {
       await $.stmt($.wcall([$t9], "CloseAll", [], C));
     }
@@ -136,11 +136,11 @@ export default function define($) {
   L0["begindate"] = (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPBeginDate")), "DateTime"))]));
   L0["enddate"] = (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPEndDate")), "DateTime"))]));
   {
-    const $t12 = (await $.v(C, "OPTransactions"));
+    const $t12 = (await $.wobj(C, "OPTransactions"));
     await $.wset([$t12], "SqlStr", (await $.wcall([$t12], "CallStringFunction", ["GetTransactions", [(await $.idx((await $.wv([$t12], "Rate", C, false)), [(await $.mv((await $.wv([$t12], "CBGroupFilter", C, false)), "ItemIndex"))])), (await $.wv([$t12], "BeginDate", { get: async () => L0["begindate"], set: async (v) => { L0["begindate"] = v; }, local: true }, false)), (await $.wv([$t12], "EndDate", { get: async () => L0["enddate"], set: async (v) => { L0["enddate"] = v; }, local: true }, false))]], C)), { get: async () => L0["sqlstr"], set: async (v) => { L0["sqlstr"] = v; }, local: true });
   }
   {
-    const $t13 = (await $.v(C, "ODSTransactions"));
+    const $t13 = (await $.wobj(C, "ODSTransactions"));
     if ($.truthy((await $.wv([$t13], "Active", C, false)))) {
       await $.stmt($.wcall([$t13], "CloseAll", [], C));
     }

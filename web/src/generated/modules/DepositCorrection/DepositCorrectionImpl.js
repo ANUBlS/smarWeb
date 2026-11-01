@@ -340,7 +340,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "Deposits"));
+    const $t1 = (await $.wobj(C, "Deposits"));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["OrderKind", "ContractNo"], C)));
     await $.stmt($.wcall([$t1], "Open", [], C));
   }
@@ -388,7 +388,7 @@ export default function define($) {
   await $.fixArgs(L0, ["column"]);
   L0["orderkind"] = (await $.call(C, "copy", [(await $.mv((await $.mv(L0["column"], "Field")), "Name")), 9, (await $.call(C, "length", [(await $.mv((await $.mv(L0["column"], "Field")), "Name"))]))]));
   {
-    const $t2 = (await $.v(C, "Deposits"));
+    const $t2 = (await $.wobj(C, "Deposits"));
     await $.stmt((await $.wcall([$t2], "SetVariable", ["OrderKind", (await $.wv([$t2], "OrderKind", { get: async () => L0["orderkind"], set: async (v) => { L0["orderkind"] = v; }, local: true }, false))], C)));
     await $.stmt($.wcall([$t2], "Refresh", [], C));
   }

@@ -12,7 +12,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "frminfo"));
+    const $t1 = (await $.wobj(C, "frminfo"));
     await $.wset([$t1], "frminfo", (await $.mcall((await $.wv([$t1], "Tfrminfo", C, false)), "Create", [null])), C);
     await $.stmt($.wcall([$t1], "Show", [], C));
   }

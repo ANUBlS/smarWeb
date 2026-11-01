@@ -369,7 +369,7 @@ export default function define($) {
   L0["csdelete"] = "Delete_Commision_Trans";
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Are you sure to delete this setting?", (await $.v(C, "mtConfirmation")), (await $.v(C, "mbYesNoCancel")), 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t2 = (await $.v(C, "TuningDataModule"));
+      const $t2 = (await $.wobj(C, "TuningDataModule"));
       const $t3 = (await $.wv([$t2], "ODSSettings", C, false));
       const $t4 = (await $.wv([$t2, $t3], "OPMainSettings", C, false));
       await $.wset([$t2, $t3, $t4], "SettingID", (await $.mv((await $.wcall([$t2, $t3, $t4], "FieldbyName", ["ID"], C)), "AsInteger")), { get: async () => L0["settingid"], set: async (v) => { L0["settingid"] = v; }, local: true });

@@ -231,7 +231,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "acc": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataMod_CARDS"));
+    const $t1 = (await $.wobj(C, "DataMod_CARDS"));
     const $t2 = (await $.wv([$t1], "HESAB", C, false));
     const $t3 = (await $.wv([$t1, $t2], "mushteriler", C, false));
     await $.stmt((await $.wcall([$t1, $t2, $t3], "SetVariable", ["CID", (await $.wv([$t1, $t2, $t3], "null", C, false))], C)));
@@ -425,7 +425,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "acc": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "DataMod_CARDS"));
+    const $t4 = (await $.wobj(C, "DataMod_CARDS"));
     const $t5 = (await $.wv([$t4], "HESAB", C, false));
     await $.stmt((await $.wcall([$t4, $t5], "SetVariable", ["CID", (await $.wv([$t4, $t5], "null", C, false))], C)));
     await $.stmt((await $.wcall([$t4, $t5], "SetVariable", ["p_AccNO", $.add((await $.mv((await $.wv([$t4, $t5], "dblookupcombobox6", C, false)), "Text")), "%")], C)));
@@ -441,7 +441,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t6 = (await $.v(C, "DataMod_CARDS"));
+      const $t6 = (await $.wobj(C, "DataMod_CARDS"));
       const $t7 = (await $.wv([$t6], "HESAB", C, false));
       await $.stmt($.wcall([$t6, $t7], "Close", [], C));
       await $.stmt((await $.wcall([$t6, $t7], "SetVariable", ["CID", (await $.wv([$t6, $t7], "null", C, false))], C)));
@@ -458,7 +458,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t8 = (await $.v(C, "DataMod_CARDS"));
+      const $t8 = (await $.wobj(C, "DataMod_CARDS"));
       const $t9 = (await $.wv([$t8], "HESAB", C, false));
       await $.stmt((await $.wcall([$t8, $t9], "SetVariable", ["CID", (await $.wv([$t8, $t9], "null", C, false))], C)));
       await $.stmt((await $.wcall([$t8, $t9], "SetVariable", ["p_AccNO", $.add((await $.mv((await $.wv([$t8, $t9], "dblookupcombobox6", C, false)), "Text")), "%")], C)));
@@ -707,7 +707,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t12 = (await $.v(C, "Customer_new"));
+    const $t12 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t12], "Edit31", C, false)), "Visible", (await $.wv([$t12], "False", C, false)));
     await $.mset((await $.wv([$t12], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t12], "Button3", C, false)), "Enabled", (await $.wv([$t12], "True", C, false)));
@@ -731,7 +731,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t13 = (await $.v(C, "Customer_new"));
+    const $t13 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t13], "Edit31", C, false)), "Visible", (await $.wv([$t13], "False", C, false)));
     await $.mset((await $.wv([$t13], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t13], "Button3", C, false)), "Enabled", (await $.wv([$t13], "False", C, false)));
@@ -755,7 +755,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t14 = (await $.v(C, "Customer_new"));
+    const $t14 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t14], "Edit31", C, false)), "Visible", (await $.wv([$t14], "False", C, false)));
     await $.mset((await $.wv([$t14], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t14], "Button3", C, false)), "Enabled", (await $.wv([$t14], "True", C, false)));
@@ -779,7 +779,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t15 = (await $.v(C, "Customer_new"));
+    const $t15 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t15], "Edit31", C, false)), "Visible", (await $.wv([$t15], "False", C, false)));
     await $.mset((await $.wv([$t15], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t15], "Button3", C, false)), "Enabled", (await $.wv([$t15], "True", C, false)));
@@ -803,7 +803,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t16 = (await $.v(C, "Customer_new"));
+    const $t16 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t16], "Edit31", C, false)), "Visible", (await $.wv([$t16], "False", C, false)));
     await $.mset((await $.wv([$t16], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t16], "Button3", C, false)), "Enabled", (await $.wv([$t16], "True", C, false)));
@@ -827,7 +827,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t17 = (await $.v(C, "Customer_new"));
+    const $t17 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t17], "Edit31", C, false)), "Visible", (await $.wv([$t17], "False", C, false)));
     await $.mset((await $.wv([$t17], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t17], "Button3", C, false)), "Enabled", (await $.wv([$t17], "True", C, false)));
@@ -851,7 +851,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t18 = (await $.v(C, "Customer_new"));
+    const $t18 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t18], "Edit31", C, false)), "Visible", (await $.wv([$t18], "False", C, false)));
     await $.mset((await $.wv([$t18], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t18], "Button3", C, false)), "Enabled", (await $.wv([$t18], "True", C, false)));
@@ -875,7 +875,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t19 = (await $.v(C, "Customer_new"));
+    const $t19 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t19], "Edit31", C, false)), "Visible", (await $.wv([$t19], "False", C, false)));
     await $.mset((await $.wv([$t19], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t19], "Button3", C, false)), "Enabled", (await $.wv([$t19], "True", C, false)));
@@ -899,7 +899,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t20 = (await $.v(C, "Customer_new"));
+    const $t20 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t20], "Edit31", C, false)), "Visible", (await $.wv([$t20], "False", C, false)));
     await $.mset((await $.wv([$t20], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t20], "Button3", C, false)), "Enabled", (await $.wv([$t20], "True", C, false)));
@@ -923,7 +923,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t21 = (await $.v(C, "Customer_new"));
+    const $t21 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t21], "Edit31", C, false)), "Visible", (await $.wv([$t21], "False", C, false)));
     await $.mset((await $.wv([$t21], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t21], "Button3", C, false)), "Enabled", (await $.wv([$t21], "True", C, false)));
@@ -947,7 +947,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t22 = (await $.v(C, "Customer_new"));
+    const $t22 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t22], "Edit31", C, false)), "Visible", (await $.wv([$t22], "False", C, false)));
     await $.mset((await $.wv([$t22], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t22], "Button3", C, false)), "Enabled", (await $.wv([$t22], "True", C, false)));
@@ -971,7 +971,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t23 = (await $.v(C, "Customer_new"));
+    const $t23 = (await $.wobj(C, "Customer_new"));
     await $.mset((await $.wv([$t23], "Edit31", C, false)), "Visible", (await $.wv([$t23], "False", C, false)));
     await $.mset((await $.wv([$t23], "Edit32", C, false)), "Text", "1");
     await $.mset((await $.wv([$t23], "Button3", C, false)), "Enabled", (await $.wv([$t23], "True", C, false)));

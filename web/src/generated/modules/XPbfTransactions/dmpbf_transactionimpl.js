@@ -18,7 +18,7 @@ export default function define($) {
   await $.mcall((await $.v(C, "kindofaccs")), "open", []);
   await $.mcall((await $.v(C, "PBFOpertionTypes")), "open", []);
   {
-    const $t1 = (await $.v(C, "PBFTransactions"));
+    const $t1 = (await $.wobj(C, "PBFTransactions"));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["TransactionDate", (await $.mv((await $.mcall((await $.wv([$t1], "CurrDat", C, false)), "FieldByName", ["TEK_DAT"])), "AsDateTime"))], C)));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["orderfield", "id"], C)));
     await $.stmt($.wcall([$t1], "open", [], C));
@@ -39,7 +39,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined};
   await $.fixArgs(L0, ["sender", "action"]);
   {
-    const $t2 = (await $.v(C, "PBFTransaction"));
+    const $t2 = (await $.wobj(C, "PBFTransaction"));
     const $t3 = ((await $.wv([$t2], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)));
     { const $t4 = (await $.wv([$t2, $t3], "Action", { get: async () => L0["action"], set: async (v) => { L0["action"] = v; }, local: true }, false));
       if ($.eq($t4, "I")) {
@@ -67,7 +67,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t5 = (await $.v(C, "PBFReportDs"));
+    const $t5 = (await $.wobj(C, "PBFReportDs"));
     await $.mset((await $.wcall([$t5], "fieldbyname", ["pee_krno"], C)), "asstring", (await $.mv((await $.wcall([$t5], "fieldbyname", ["PE_KRNO"], C)), "asstring")));
   }
   return L0.result;

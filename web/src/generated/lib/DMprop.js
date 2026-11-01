@@ -26,7 +26,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataSetPropIns"));
+    const $t1 = (await $.wobj(C, "DataSetPropIns"));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["OrderField", "id"], C)));
     { const $t2 = await $.iset((await $.wv([$t1], "SQL", C, false)), [5], ""); if ($t2 !== undefined) { await $.wset([$t1], "SQL", $t2, C); } }
     { const $t3 = await $.iset((await $.wv([$t1], "SQL", C, false)), [5], " and a.status=0"); if ($t3 !== undefined) { await $.wset([$t1], "SQL", $t3, C); } }

@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "AdministrationData"));
+    const $t1 = (await $.wobj(C, "AdministrationData"));
     const $t2 = (await $.wv([$t1], "odsClsBalAcc", C, false));
     await $.stmt($.wcall([$t1, $t2], "Close", [], C));
     await $.mcall((await $.wv([$t1, $t2], "evBalAccs", C, false)), "Close", []);
@@ -41,7 +41,7 @@ export default function define($) {
   const L0 = {"optyp": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["optyp"]);
   {
-    const $t6 = (await $.v(C, "AdministrationData"));
+    const $t6 = (await $.wobj(C, "AdministrationData"));
     await $.stmt((await $.mcall((await $.wv([$t6], "pcADM", C, false)), "CallProcedure", ["delclassbalacc", [(await $.mv((await $.mcall((await $.wv([$t6], "Classesdata", C, false)), "FieldByName", ["obj"])), "AsString")), (await $.wv([$t6], "optyp", { get: async () => L0["optyp"], set: async (v) => { L0["optyp"] = v; }, local: true }, false))]])));
     { const $t7 = $.sub((await $.mv((await $.mv((await $.wv([$t6], "evBalAccs", C, false)), "Items")), "Count")), 1);
       await $.wset([$t6], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
@@ -63,7 +63,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0};
   {
-    const $t9 = (await $.v(C, "AdministrationData"));
+    const $t9 = (await $.wobj(C, "AdministrationData"));
     await $.stmt((await $.mcall((await $.wv([$t9], "pcADM", C, false)), "CallProcedure", ["delclassflag", [(await $.mv((await $.mcall((await $.wv([$t9], "Classesdata", C, false)), "FieldByName", ["obj"])), "AsString"))]])));
     { const $t10 = $.sub((await $.mv((await $.mv((await $.wv([$t9], "evFlags", C, false)), "Items")), "Count")), 1);
       await $.wset([$t9], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });

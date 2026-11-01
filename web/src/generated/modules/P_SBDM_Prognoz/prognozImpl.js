@@ -84,7 +84,7 @@ export default function define($) {
   await $.mset((await $.v(C, "Animate1")), "Visible", true);
   await $.mset((await $.v(C, "Animate1")), "Active", true);
   {
-    const $t3 = (await $.v(C, "prognoz"));
+    const $t3 = (await $.wobj(C, "prognoz"));
     if ($.truthy((await $.wv([$t3], "Active", C, false)))) {
       await $.stmt($.wcall([$t3], "CloseAll", [], C));
     }
@@ -93,7 +93,7 @@ export default function define($) {
     await $.stmt($.wcall([$t3], "open", [], C));
   }
   {
-    const $t5 = (await $.v(C, "ExcelExport"));
+    const $t5 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t5], "Connect", [], C));
     await $.stmt((await $.wcall([$t5], "ExportDataset", [(await $.wv([$t5], "prognoz", C, false)), "Report", (await $.wv([$t5], "true", C, false))], C)));
     await $.stmt($.wcall([$t5], "Disconnect", [], C));

@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ExpFormNew"));
+    const $t1 = (await $.wobj(C, "ExpFormNew"));
     {
       const $t2 = (await $.mv((await $.mv((await $.wv([$t1], "DBGrid1", C, false)), "DataSource")), "DataSet"));
       { const $t3 = (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["cust_type"], C)), "AsInteger"));

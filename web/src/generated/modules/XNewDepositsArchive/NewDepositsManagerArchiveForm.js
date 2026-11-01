@@ -280,7 +280,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t3 = (await $.v(C, "NewDepositDataModule"));
+    const $t3 = (await $.wobj(C, "NewDepositDataModule"));
     await $.mset((await $.wv([$t3], "DBLookupComboboxEh1", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t3], "Valutes", C, false)), "fieldByName", ["Valute"])), "AsInteger")));
     await $.mset((await $.wv([$t3], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t3], "Filials", C, false)), "fieldByName", ["id"])), "AsInteger")));
     await $.mset((await $.wv([$t3], "DBLookupComboboxEh3", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t3], "dm_types", C, false)), "fieldByName", ["id"])), "AsInteger")));
@@ -295,7 +295,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "EExport"));
+    const $t4 = (await $.wobj(C, "EExport"));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.mv((await $.wv([$t4], "MainGrid", C, false)), "DataSource")), "DataSet")), "RecordCount")), 0))) {
       await $.stmt((await $.wcall([$t4], "ShowMessage", ["Heç bir məlümat yoxdur!!!.."], C)));
       return L0.result;
@@ -378,7 +378,7 @@ export default function define($) {
   await $.set(C, "CommonApplication", (await $.v(C, "Application")));
   await $.set(C, "CommonGrid", (await $.v(C, "MainGrid")));
   {
-    const $t15 = (await $.v(C, "NewDepositDataModule"));
+    const $t15 = (await $.wobj(C, "NewDepositDataModule"));
     await $.wset([$t15], "Get_FilialID", (await $.mv((await $.mcall((await $.wv([$t15], "FilialID", C, false)), "FieldByname", ["kod_fil"])), "AsInteger")), C);
     await $.wset([$t15], "Get_BankDate", (await $.mv((await $.mcall((await $.wv([$t15], "BankDate", C, false)), "FieldByname", ["Tek_Dat"])), "AsDateTime")), C);
   }
@@ -399,12 +399,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "MainGrid"));
+    const $t16 = (await $.wobj(C, "MainGrid"));
     const $t17 = (await $.wv([$t16], "SelectedRows", C, false));
     await $.stmt($.wcall([$t16, $t17], "Clear", [], C));
   }
   {
-    const $t18 = (await $.v(C, "MainGrid"));
+    const $t18 = (await $.wobj(C, "MainGrid"));
     const $t19 = (await $.mv((await $.wv([$t18], "DataSource", C, false)), "DataSet"));
     await $.wset([$t18, $t19], "Cursor", (await $.wv([$t18, $t19], "crSqlWait", C, false)), C);
     await $.wset([$t18, $t19], "Filtered", (await $.wv([$t18, $t19], "False", C, false)), C);
@@ -729,7 +729,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t20 = (await $.v(C, "NewDepositDataModule"));
+    const $t20 = (await $.wobj(C, "NewDepositDataModule"));
     await $.mcall((await $.wv([$t20], "DmDataSetArchive", C, false)), "Refresh", []);
   }
   return L0.result;

@@ -116,7 +116,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "DataModCustOrders"));
+    const $t7 = (await $.wobj(C, "DataModCustOrders"));
     await $.mcall((await $.wv([$t7], "Bankm", C, false)), "open", []);
     await $.mcall((await $.wv([$t7], "bank_info", C, false)), "open", []);
     await $.mcall((await $.mv((await $.wv([$t7], "DataModCustOrders", C, false)), "cust_orders")), "open", []);

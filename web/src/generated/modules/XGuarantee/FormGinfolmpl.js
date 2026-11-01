@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "FormGua_credit"));
+    const $t1 = (await $.wobj(C, "FormGua_credit"));
     const $t2 = (await $.wv([$t1], "DatamGuarante", C, false));
     if ($.truthy($.gt((await $.mv((await $.wv([$t1, $t2], "DataSGuacredit", C, false)), "RecordCount")), 0))) {
       await $.mcall((await $.wv([$t1, $t2], "AddOtherPAPERNO", C, false)), "RefreshList", []);

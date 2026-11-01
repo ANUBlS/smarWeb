@@ -1615,7 +1615,12 @@ class Gen:
             for o in s[1]:
                 v = self.t()
                 # Delphi: each object in `with A, B do` is evaluated in the scope of the previous ones
-                out += p + '  const %s = %s;\n' % (v, self.expr(o, sc))
+                ox = self.expr(o, sc)
+                # a unit variable: when it is nil, members of its declared class raise EAccessViolation (Delphi)
+                mm = re.fullmatch(r'\(await \$\.v\(C, ("\w+")\)\)', ox)
+                if mm:
+                    ox = '(await $.wobj(C, %s))' % mm.group(1)
+                out += p + '  const %s = %s;\n' % (v, ox)
                 names.append(v)
                 self.with_stack = self.with_stack + [v]
             self.with_stack = saved + names

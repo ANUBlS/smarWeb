@@ -257,7 +257,7 @@ export default function define($) {
   await $.mset((await $.v(C, "DateTimePicker1")), "date", (await $.v(C, "now")));
   await $.mset((await $.v(C, "DateTimePicker2")), "date", (await $.v(C, "now")));
   {
-    const $t1 = (await $.v(C, "WS_PAYDataModule"));
+    const $t1 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t2 = (await $.wv([$t1], "Ods_wspayment", C, false));
     await $.stmt($.wcall([$t1, $t2], "close", [], C));
     { const $t3 = await $.iset((await $.wv([$t1, $t2], "SQL", C, false)), [5], ""); if ($t3 !== undefined) { await $.wset([$t1, $t2], "SQL", $t3, C); } }
@@ -282,7 +282,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "WS_PAYDataModule"));
+    const $t7 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t8 = (await $.wv([$t7], "Ods_wspayment", C, false));
     { const $t9 = await $.iset((await $.wv([$t7, $t8], "SQL", C, false)), [5], ""); if ($t9 !== undefined) { await $.wset([$t7, $t8], "SQL", $t9, C); } }
     { const $t10 = await $.iset((await $.wv([$t7, $t8], "SQL", C, false)), [5], " where 1=1 "); if ($t10 !== undefined) { await $.wset([$t7, $t8], "SQL", $t10, C); } }
@@ -295,7 +295,7 @@ export default function define($) {
     await $.stmt($.wcall([$t7, $t8], "refresh", [], C));
   }
   {
-    const $t14 = (await $.v(C, "WS_PAYDataModule"));
+    const $t14 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t15 = (await $.wv([$t14], "ods_sum", C, false));
     await $.stmt($.wcall([$t14, $t15], "close", [], C));
     { const $t16 = await $.iset((await $.wv([$t14, $t15], "SQL", C, false)), [5], ""); if ($t16 !== undefined) { await $.wset([$t14, $t15], "SQL", $t16, C); } }
@@ -316,7 +316,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "p_date": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t21 = (await $.v(C, "WS_PAYDataModule"));
+    const $t21 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t22 = (await $.wv([$t21], "Ods_wspaymentarch", C, false));
     await $.stmt($.wcall([$t21, $t22], "close", [], C));
     { const $t23 = await $.iset((await $.wv([$t21, $t22], "SQL", C, false)), [6], ""); if ($t23 !== undefined) { await $.wset([$t21, $t22], "SQL", $t23, C); } }
@@ -580,7 +580,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "p_date": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t28 = (await $.v(C, "WS_PAYDataModule"));
+    const $t28 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t29 = (await $.wv([$t28], "Ods_wspaymentarch", C, false));
     await $.stmt($.wcall([$t28, $t29], "close", [], C));
     { const $t30 = await $.iset((await $.wv([$t28, $t29], "SQL", C, false)), [7], ""); if ($t30 !== undefined) { await $.wset([$t28, $t29], "SQL", $t30, C); } }
@@ -603,7 +603,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t33 = (await $.v(C, "CMExcelExport1"));
+    const $t33 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t33], "Connect", [], C));
     await $.stmt((await $.wcall([$t33], "ExportDataset", [(await $.mv((await $.wv([$t33], "WS_PAYDataModule", C, false)), "Ods_wspaymentarch")), "Terminalpayment", (await $.wv([$t33], "True", C, false))], C)));
     await $.stmt($.wcall([$t33], "Disconnect", [], C));
@@ -616,7 +616,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.mv((await $.v(C, "XFRadioButton1")), "Checked")))) {
     {
-      const $t34 = (await $.v(C, "WS_PAYDataModule"));
+      const $t34 = (await $.wobj(C, "WS_PAYDataModule"));
       const $t35 = (await $.wv([$t34], "Ods_wspayment", C, false));
       { const $t36 = await $.iset((await $.wv([$t34, $t35], "SQL", C, false)), [5], ""); if ($t36 !== undefined) { await $.wset([$t34, $t35], "SQL", $t36, C); } }
       { const $t37 = await $.iset((await $.wv([$t34, $t35], "SQL", C, false)), [5], " where 1=1 "); if ($t37 !== undefined) { await $.wset([$t34, $t35], "SQL", $t37, C); } }
@@ -641,7 +641,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t41 = (await $.v(C, "CMExcelExport1"));
+    const $t41 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t41], "Connect", [], C));
     await $.stmt((await $.wcall([$t41], "ExportDataset", [(await $.mv((await $.wv([$t41], "WS_PAYDataModule", C, false)), "Ods_wspayment")), "Terminalpayment", (await $.wv([$t41], "True", C, false))], C)));
     await $.stmt($.wcall([$t41], "Disconnect", [], C));
@@ -653,7 +653,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "trid": 0, "parentid": 0, "selectrow": 0, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t42 = (await $.v(C, "XDBGrid1"));
+    const $t42 = (await $.wobj(C, "XDBGrid1"));
     const $t43 = (await $.mv((await $.wv([$t42], "DataSource", C, false)), "DataSet"));
     await $.wset([$t42, $t43], "selectrow", (await $.mv((await $.wv([$t42, $t43], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectrow"], set: async (v) => { L0["selectrow"] = v; }, local: true });
     { const $t44 = $.sub((await $.wv([$t42, $t43], "selectrow", { get: async () => L0["selectrow"], set: async (v) => { L0["selectrow"] = v; }, local: true }, false)), 1);
@@ -681,7 +681,7 @@ export default function define($) {
   await $.mcall((await $.mv((await $.v(C, "WS_PAYDataModule")), "Payment")), "close", []);
   await $.mcall((await $.mv((await $.v(C, "WS_PAYDataModule")), "Payment")), "Open", []);
   {
-    const $t46 = (await $.v(C, "CMExcelExport1"));
+    const $t46 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t46], "Connect", [], C));
     await $.stmt((await $.wcall([$t46], "ExportDataset", [(await $.mv((await $.wv([$t46], "WS_PAYDataModule", C, false)), "Payment")), "Ödənişlər", (await $.wv([$t46], "True", C, false))], C)));
     await $.stmt($.wcall([$t46], "Disconnect", [], C));
@@ -695,7 +695,7 @@ export default function define($) {
   await $.mset((await $.v(C, "XFLabel2")), "Visible", false);
   await $.mset((await $.v(C, "CurrencyEdit1")), "Visible", false);
   {
-    const $t47 = (await $.v(C, "WS_PAYDataModule"));
+    const $t47 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t48 = (await $.wv([$t47], "Ods_wspayment", C, false));
     await $.stmt($.wcall([$t47, $t48], "close", [], C));
     { const $t49 = await $.iset((await $.wv([$t47, $t48], "SQL", C, false)), [5], ""); if ($t49 !== undefined) { await $.wset([$t47, $t48], "SQL", $t49, C); } }
@@ -713,7 +713,7 @@ export default function define($) {
   await $.mset((await $.v(C, "XFLabel2")), "Visible", true);
   await $.mset((await $.v(C, "CurrencyEdit1")), "Visible", true);
   {
-    const $t53 = (await $.v(C, "WS_PAYDataModule"));
+    const $t53 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t54 = (await $.wv([$t53], "Ods_wspayment", C, false));
     await $.stmt($.wcall([$t53, $t54], "close", [], C));
     { const $t55 = await $.iset((await $.wv([$t53, $t54], "SQL", C, false)), [5], ""); if ($t55 !== undefined) { await $.wset([$t53, $t54], "SQL", $t55, C); } }
@@ -723,7 +723,7 @@ export default function define($) {
     await $.stmt($.wcall([$t53, $t54], "open", [], C));
   }
   {
-    const $t59 = (await $.v(C, "WS_PAYDataModule"));
+    const $t59 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t60 = (await $.wv([$t59], "ods_sum", C, false));
     await $.stmt($.wcall([$t59, $t60], "close", [], C));
     { const $t61 = await $.iset((await $.wv([$t59, $t60], "SQL", C, false)), [5], ""); if ($t61 !== undefined) { await $.wset([$t59, $t60], "SQL", $t61, C); } }
@@ -742,7 +742,7 @@ export default function define($) {
   await $.mset((await $.v(C, "XFLabel2")), "Visible", false);
   await $.mset((await $.v(C, "CurrencyEdit1")), "Visible", false);
   {
-    const $t65 = (await $.v(C, "WS_PAYDataModule"));
+    const $t65 = (await $.wobj(C, "WS_PAYDataModule"));
     const $t66 = (await $.wv([$t65], "Ods_wspayment", C, false));
     await $.stmt($.wcall([$t65, $t66], "close", [], C));
     { const $t67 = await $.iset((await $.wv([$t65, $t66], "SQL", C, false)), [5], ""); if ($t67 !== undefined) { await $.wset([$t65, $t66], "SQL", $t67, C); } }

@@ -380,7 +380,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "EExport"));
+    const $t5 = (await $.wobj(C, "EExport"));
     await $.mcall((await $.mv((await $.mv((await $.wv([$t5], "MainGrid", C, false)), "DataSource")), "DataSet")), "Last", []);
     await $.stmt($.wcall([$t5], "Connect", [], C));
     await $.stmt((await $.wcall([$t5], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t5], "MainGrid", C, false)), "DataSource")), "DataSet")), "Depozitlər", (await $.wv([$t5], "True", C, false)), (await $.wv([$t5], "False", C, false))], C)));
@@ -453,7 +453,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t16 = (await $.v(C, "NewDepsitDataModule"));
+    const $t16 = (await $.wobj(C, "NewDepsitDataModule"));
     await $.mset((await $.wv([$t16], "DBLookupComboboxEh1", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t16], "Valutes", C, false)), "fieldByName", ["Valute"])), "AsInteger")));
     await $.mset((await $.wv([$t16], "DBLookupComboboxEh2", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t16], "Filials", C, false)), "fieldByName", ["id"])), "AsInteger")));
     await $.mset((await $.wv([$t16], "DBLookupComboboxEh3", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t16], "dm_types", C, false)), "fieldByName", ["id"])), "AsInteger")));
@@ -473,7 +473,7 @@ export default function define($) {
   await $.set(C, "CommonApplication", (await $.v(C, "Application")));
   await $.set(C, "CommonGrid", (await $.v(C, "MainGrid")));
   {
-    const $t17 = (await $.v(C, "NewDepsitDataModule"));
+    const $t17 = (await $.wobj(C, "NewDepsitDataModule"));
     await $.wset([$t17], "Get_FilialID", (await $.mv((await $.mcall((await $.wv([$t17], "FilialID", C, false)), "FieldByname", ["kod_fil"])), "AsInteger")), C);
     await $.wset([$t17], "Get_BankDate", (await $.mv((await $.mcall((await $.wv([$t17], "BankDate", C, false)), "FieldByname", ["Tek_Dat"])), "AsDateTime")), C);
   }
@@ -494,12 +494,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t18 = (await $.v(C, "MainGrid"));
+    const $t18 = (await $.wobj(C, "MainGrid"));
     const $t19 = (await $.wv([$t18], "SelectedRows", C, false));
     await $.stmt($.wcall([$t18, $t19], "Clear", [], C));
   }
   {
-    const $t20 = (await $.v(C, "MainGrid"));
+    const $t20 = (await $.wobj(C, "MainGrid"));
     const $t21 = (await $.mv((await $.wv([$t20], "DataSource", C, false)), "DataSet"));
     await $.wset([$t20, $t21], "Cursor", (await $.wv([$t20, $t21], "crSqlWait", C, false)), C);
     await $.wset([$t20, $t21], "Filtered", (await $.wv([$t20, $t21], "False", C, false)), C);
@@ -654,7 +654,7 @@ export default function define($) {
   L0["cfmsg"] = "Müqavilə bağlannır, əminsinizmi?";
   L0["cfselmsg"] = "Seçilmiş müqavilələr bağlanır, əminsinizmi?";
   {
-    const $t22 = (await $.v(C, "MainGrid"));
+    const $t22 = (await $.wobj(C, "MainGrid"));
     const $t23 = (await $.wv([$t22], "SelectedRows", C, false));
     if ($.truthy($.gt((await $.wv([$t22, $t23], "Count", C, false)), 1))) {
       await $.wset([$t22, $t23], "Cf", (await $.wv([$t22, $t23], "CfSelMsg", { get: async () => L0["cfselmsg"], set: async (v) => { L0["cfselmsg"] = v; }, local: true }, false)), { get: async () => L0["cf"], set: async (v) => { L0["cf"] = v; }, local: true });
@@ -666,7 +666,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t24 = (await $.v(C, "MainGrid"));
+    const $t24 = (await $.wobj(C, "MainGrid"));
     const $t25 = (await $.wv([$t24], "SelectedRows", C, false));
     const $t26 = (await $.mv((await $.wv([$t24, $t25], "DataSource", C, false)), "DataSet"));
     await $.stmt((await $.mcall((await $.mv((await $.wv([$t24, $t25, $t26], "NewDepsitDataModule", C, false)), "dm_stored_programs")), "CallProcedure", ["CloseDeposit", ["ContractID", (await $.mv((await $.wcall([$t24, $t25, $t26], "FieldByName", ["ID"], C)), "AsInteger"))]])));
@@ -679,7 +679,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "calculationenabled": false, "confmsg": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t27 = (await $.v(C, "NewDepsitDataModule"));
+    const $t27 = (await $.wobj(C, "NewDepsitDataModule"));
     const $t28 = (await $.wv([$t27], "dm_stored_programs", C, false));
     await $.wset([$t27, $t28], "CalculationEnabled", (await $.wcall([$t27, $t28], "CallBooleanFunction", ["IsCalculationEnabled", ["ContractID", (await $.wv([$t27, $t28], "get_SelectedContID", C, false))]], C)), { get: async () => L0["calculationenabled"], set: async (v) => { L0["calculationenabled"] = v; }, local: true });
   }
@@ -690,7 +690,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [L0["confmsg"], (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t29 = (await $.v(C, "NewDepsitDataModule"));
+      const $t29 = (await $.wobj(C, "NewDepsitDataModule"));
       const $t30 = (await $.wv([$t29], "dm_stored_programs", C, false));
       if ($.truthy((await $.wv([$t29, $t30], "CalculationEnabled", { get: async () => L0["calculationenabled"], set: async (v) => { L0["calculationenabled"] = v; }, local: true }, false)))) {
         await $.stmt((await $.wcall([$t29, $t30], "CallProcedure", ["DisableCalculation", ["ContractID", (await $.wv([$t29, $t30], "get_SelectedContID", C, false))]], C)));
@@ -736,7 +736,7 @@ export default function define($) {
   if ($.truthy($.gt((await $.mv((await $.mv((await $.v(C, "NewDepsitDataModule")), "DmDataSet")), "RecordCount")), 0))) {
     await $.mcall((await $.mv((await $.v(C, "MainGrid")), "SelectedRows")), "Clear", []);
     {
-      const $t31 = (await $.v(C, "NewDepsitDataModule"));
+      const $t31 = (await $.wobj(C, "NewDepsitDataModule"));
       const $t32 = (await $.wv([$t31], "DmDataSet", C, false));
       await $.wset([$t31, $t32], "SaveID", (await $.wv([$t31, $t32], "Get_SelectedContID", C, false)), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
       await $.stmt($.wcall([$t31, $t32], "Close", [], C));

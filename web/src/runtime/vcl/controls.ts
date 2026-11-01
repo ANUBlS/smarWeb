@@ -762,10 +762,44 @@ export class TRadioGroup extends TWinControl {
     }
     return super.pset(lname, v);
   }
-  async userSelect(i: number) { if (i === this._itemIndex) return; this._itemIndex = i; invalidate(); await this.fire('OnClick', this); }
-  get Buttons() { return new Indexed((i) => ({ Enabled: true, Checked: this._itemIndex === num(i[0]) })); }
+  async userSelect(i: number) {
+    if (i === this._itemIndex || this.button(i)?.Enabled === false) return;
+    this._itemIndex = i; invalidate(); await this.fire('OnClick', this);
+  }
+  /* VCL TCustomRadioGroup owns one TGroupButton per item: Controls[i] / Buttons[i] (Enabled, Visible, Caption …) */
+  private buttons: TGroupButton[] = [];
+  button(i: number): TGroupButton | null {
+    if (i < 0 || i >= this.Items.Count) return null;
+    while (this.buttons.length <= i) this.buttons.push(new TGroupButton(this, this.buttons.length));
+    return this.buttons[i];
+  }
+  get Buttons() { return new Indexed((i) => this.button(num(i[0]))); }
+  override get Controls() { return new Indexed((i) => this.button(num(i[0])) ?? this.children[num(i[0]) - this.Items.Count] ?? null); }
+  override get ControlCount() { return this.Items.Count + this.children.length; }
 }
 registerBuiltin('TRadioGroup', TRadioGroup);
+
+/** One item of a radio group (VCL TGroupButton, a TRadioButton the group creates for each item). */
+export class TGroupButton extends TObject {
+  private _enabled = true;
+  private _visible = true;
+  Tag = 0;
+  constructor(private group: TRadioGroup, private index: number) { super(); }
+  get Name() { return ''; }
+  get Parent() { return this.group; }
+  get Enabled() { return this._enabled; }
+  set Enabled(v: boolean) { this._enabled = !!v; invalidate(); }
+  get Visible() { return this._visible; }
+  set Visible(v: boolean) { this._visible = !!v; invalidate(); }
+  get Caption() { return this.group.Items.Get(this.index) ?? ''; }
+  set Caption(v: string) { this.group.Items.Put(this.index, String(v)); invalidate(); }
+  get Checked() { return this.group.ItemIndex === this.index; }
+  set Checked(v: boolean) { if (v) this.group.ItemIndex = this.index; else if (this.Checked) this.group.ItemIndex = -1; }
+  get Hint() { return ''; }
+  set Hint(_v: string) { /* */ }
+  SetFocus() { /* */ }
+}
+registerBuiltin('TGroupButton', TGroupButton);
 
 /* ------------------------------------------------------------------ date/time */
 

@@ -359,7 +359,7 @@ export default function define($) {
     L0["aa"] = (await $.mv((await $.v(C, "DBLookupComboBox2")), "Text"));
   }
   {
-    const $t1 = (await $.v(C, "PaymentDataMod"));
+    const $t1 = (await $.wobj(C, "PaymentDataMod"));
     await $.mcall((await $.wv([$t1], "Ods_Acc_Vall", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t1], "Ods_Acc_Vall", C, false)), "SetVariable", ["acc_no", (await $.wv([$t1], "aa", { get: async () => L0["aa"], set: async (v) => { L0["aa"] = v; }, local: true }, false))])));
     await $.mcall((await $.wv([$t1], "Ods_Acc_Vall", C, false)), "Open", []);
@@ -496,7 +496,7 @@ export default function define($) {
   await $.set(C, "QRCommonReport", (await $.mcall((await $.v(C, "TQRCommonReport")), "Create", [Self])));
   await $.set(C, "FormAccounts", (await $.mcall((await $.v(C, "TFormAccounts")), "Create", [Self])));
   {
-    const $t15 = (await $.v(C, "PaymentDataMod"));
+    const $t15 = (await $.wobj(C, "PaymentDataMod"));
     await $.mcall((await $.wv([$t15], "ODSAccounts", C, false)), "Open", []);
     await $.mcall((await $.wv([$t15], "ODSBankInfo", C, false)), "Open", []);
     await $.mcall((await $.wv([$t15], "ODSBankM", C, false)), "Open", []);
@@ -813,7 +813,7 @@ export default function define($) {
   { const $t31 = (await $.mv((L0["sender"]), "Checked"));
     if ($.eq($t31, true)) {
       {
-        const $t32 = (await $.v(C, "QRMainReport"));
+        const $t32 = (await $.wobj(C, "QRMainReport"));
         const $t33 = (await $.wv([$t32], "QRCommonReport", C, false));
         await $.mset((await $.wv([$t32, $t33], "QRDBACCNAME1", C, false)), "DataField", "DACCNAME");
         await $.mset((await $.wv([$t32, $t33], "QRDBACCNAME2", C, false)), "DataField", "DACCNAME");
@@ -825,7 +825,7 @@ export default function define($) {
     }
     else if ($.eq($t31, false)) {
       {
-        const $t34 = (await $.v(C, "QRMainReport"));
+        const $t34 = (await $.wobj(C, "QRMainReport"));
         const $t35 = (await $.wv([$t34], "QRCommonReport", C, false));
         await $.mset((await $.wv([$t34, $t35], "QRDBACCNAME1", C, false)), "DataField", "DBNAME");
         await $.mset((await $.wv([$t34, $t35], "QRDBACCNAME2", C, false)), "DataField", "DBNAME");

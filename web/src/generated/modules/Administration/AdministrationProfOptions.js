@@ -37,7 +37,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0};
   {
-    const $t2 = (await $.v(C, "GroupBox1"));
+    const $t2 = (await $.wobj(C, "GroupBox1"));
     { const $t3 = $.sub((await $.wv([$t2], "ControlCount", C, false)), 1);
       await $.wset([$t2], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t4 = true;
@@ -59,7 +59,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0};
   {
-    const $t5 = (await $.v(C, "GroupBox1"));
+    const $t5 = (await $.wobj(C, "GroupBox1"));
     { const $t6 = $.sub((await $.wv([$t5], "ControlCount", C, false)), 1);
       await $.wset([$t5], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t7 = true;
@@ -82,7 +82,7 @@ export default function define($) {
   const L0 = {result: false};
   L0["result"] = false;
   {
-    const $t8 = (await $.v(C, "AdministrationData"));
+    const $t8 = (await $.wobj(C, "AdministrationData"));
     if ($.truthy((await $.mcall((await $.wv([$t8], "pcAca", C, false)), "CallBooleanFunction", ["isadm", [(await $.wcall([$t8], "UpperCase", [(await $.wv([$t8], "get_UserName", C, false))], C))]])))) {
       await $.wset([$t8], "Result", (await $.wv([$t8], "true", C, false)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
     }
@@ -93,7 +93,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0};
   {
-    const $t9 = (await $.v(C, "GroupBox1"));
+    const $t9 = (await $.wobj(C, "GroupBox1"));
     { const $t10 = $.sub((await $.wv([$t9], "ControlCount", C, false)), 1);
       await $.wset([$t9], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t11 = true;
@@ -126,7 +126,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0};
   {
-    const $t14 = (await $.v(C, "GroupBox1"));
+    const $t14 = (await $.wobj(C, "GroupBox1"));
     { const $t15 = $.sub((await $.wv([$t14], "ControlCount", C, false)), 1);
       await $.wset([$t14], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t16 = true;
@@ -199,7 +199,7 @@ export default function define($) {
   const L0 = {result: false, "i": 0};
   L0["result"] = true;
   {
-    const $t21 = (await $.v(C, "GroupBox1"));
+    const $t21 = (await $.wobj(C, "GroupBox1"));
     { const $t22 = $.sub((await $.wv([$t21], "ControlCount", C, false)), 1);
       await $.wset([$t21], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t23 = true;

@@ -55,7 +55,7 @@ export default function define($) {
   L0["first_date"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.mv((await $.v(C, "FormDat")), "DTPBegin")), "DateTime"))]))]));
   L0["last_date"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.mv((await $.v(C, "FormDat")), "DTPEnd")), "DateTime"))]))]));
   {
-    const $t4 = (await $.v(C, "DataModWares"));
+    const $t4 = (await $.wobj(C, "DataModWares"));
     await $.wset([$t4], "BStrParam", (await $.mcall((await $.wv([$t4], "SB_MAIN_RESOURCE", C, false)), "CallStringFunction", ["get_view_turn_sql", [(await $.wv([$t4], "First_Date", { get: async () => L0["first_date"], set: async (v) => { L0["first_date"] = v; }, local: true }, false)), (await $.wv([$t4], "Last_Date", { get: async () => L0["last_date"], set: async (v) => { L0["last_date"] = v; }, local: true }, false))]])), { get: async () => L0["bstrparam"], set: async (v) => { L0["bstrparam"] = v; }, local: true });
     {
       const $t5 = (await $.wv([$t4], "ODSGroupXLS", C, false));
@@ -266,7 +266,7 @@ export default function define($) {
     await $.stmt($.call(C, "ExportDataTable", []));
     L0["k"] = 0;
     {
-      const $t38 = (await $.v(C, "DataModWares"));
+      const $t38 = (await $.wobj(C, "DataModWares"));
       if ($.truthy($.eq((await $.wv([$t38], "status", { get: async () => L0["status"], set: async (v) => { L0["status"] = v; }, local: true }, false)), "NB"))) {
         await $.stmt((await $.wcall([$t38], "ExcelFormat", ["NB"], C)));
         await $.mset((await $.idx((await $.mv((await $.idx((await $.mv((await $.wv([$t38], "Exl", C, false)), "WorkBooks")), [1])), "WorkSheets")), [1])), "name", " Milli Bank ");

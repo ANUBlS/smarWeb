@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModExch"));
+    const $t1 = (await $.wobj(C, "DataModExch"));
     await $.stmt((await $.mcall((await $.wv([$t1], "OPExchMgr", C, false)), "CallProcedure", ["Ex_Admin_In_Add", [(await $.mv((await $.mcall((await $.wv([$t1], "ODSParametr", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t1], "ODSExOffice", C, false)), "FieldByName", ["Filial"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t1], "ODSParametr", C, false)), "FieldByName", ["NAME"])), "AsString")), (await $.mv((await $.mcall((await $.wv([$t1], "ODSExOffice", C, false)), "FieldByName", ["EX_NO"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t1], "ODSExOffice", C, false)), "FieldByName", ["EX_NAME"])), "AsString"))]])));
     await $.mcall((await $.wv([$t1], "ODSExAdminIn", C, false)), "Refresh", []);
   }
@@ -38,7 +38,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "DataModExch"));
+    const $t2 = (await $.wobj(C, "DataModExch"));
     await $.stmt((await $.mcall((await $.wv([$t2], "OPExchMgr", C, false)), "CallProcedure", ["Ex_Admin_in_Del", [(await $.mv((await $.mcall((await $.wv([$t2], "ODSExAdminIn", C, false)), "FieldByName", ["USER_ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t2], "ODSExAdminIn", C, false)), "FieldByName", ["USER_NAME"])), "AsString")), (await $.mv((await $.mcall((await $.wv([$t2], "ODSExAdminIn", C, false)), "FieldByName", ["EX_ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t2], "ODSExAdminIn", C, false)), "FieldByName", ["EX_NAME"])), "AsString"))]])));
     await $.mcall((await $.wv([$t2], "ODSExAdminIn", C, false)), "Refresh", []);
   }

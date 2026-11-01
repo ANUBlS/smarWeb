@@ -125,7 +125,7 @@ export default function define($) {
     await $.mset((await $.v(C, "DBDateTimeEditEh1")), "Color", (await $.v(C, "clGradientInactiveCaption")));
   } else {
     {
-      const $t3 = (await $.v(C, "DataModExch"));
+      const $t3 = (await $.wobj(C, "DataModExch"));
       if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t3], "ODSResurs", C, false)), "FieldByName", ["nextstatus"])), "AsInteger")), 1))) {
         await $.mset((await $.wv([$t3], "CheckBox1", C, false)), "Checked", (await $.wv([$t3], "True", C, false)));
         await $.mset((await $.mv((await $.wv([$t3], "Panel17", C, false)), "Font")), "Style", $.add((await $.mv((await $.mv((await $.wv([$t3], "Panel17", C, false)), "Font")), "Style")), [(await $.wv([$t3], "fsBold", C, false))]));

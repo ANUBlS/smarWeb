@@ -70,7 +70,7 @@ export default function define($) {
   await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t7) => { L0["result"] = $t7; }), "cont.CUSTOMERID", (await $.mv((await $.v(C, "CBCodCust")), "Checked")), (await $.mv((await $.v(C, "LCBCodCust")), "KeyValue"))])));
   await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t8) => { L0["result"] = $t8; }), "cont.id", (await $.mv((await $.v(C, "CBAccno")), "Checked")), (await $.mv((await $.v(C, "LCBAccno")), "KeyValue"))])));
   {
-    const $t9 = (await $.v(C, "CLBStatus"));
+    const $t9 = (await $.wobj(C, "CLBStatus"));
     if ($.truthy((await $.idx((await $.wv([$t9], "Checked", C, false)), [0])))) {
       await $.wset([$t9], "FStatus1", "(h.calculationenabled = 1)", { get: async () => L0["fstatus1"], set: async (v) => { L0["fstatus1"] = v; }, local: true });
     } else {
@@ -85,7 +85,7 @@ export default function define($) {
     await $.stmt((await $.wcall([$t9], "ConcatFilter1", [$.ref(async () => (await $.wv([$t9], "FStatus", { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true }, false)), async ($t12) => { await $.wset([$t9], "FStatus", $t12, { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t9], "FStatus2", { get: async () => L0["fstatus2"], set: async (v) => { L0["fstatus2"] = v; }, local: true }, false)), async ($t13) => { await $.wset([$t9], "FStatus2", $t13, { get: async () => L0["fstatus2"], set: async (v) => { L0["fstatus2"] = v; }, local: true }); }), (await $.wv([$t9], "false", C, false))], { get: async () => L0["concatfilter1"], set: async (v) => { L0["concatfilter1"] = v; }, local: true })));
   }
   {
-    const $t14 = (await $.v(C, "CLBTypes"));
+    const $t14 = (await $.wobj(C, "CLBTypes"));
     if ($.truthy((await $.idx((await $.wv([$t14], "Checked", C, false)), [0])))) {
       await $.wset([$t14], "FType1", "(cont.type# = 3)", { get: async () => L0["ftype1"], set: async (v) => { L0["ftype1"] = v; }, local: true });
     } else {
@@ -151,12 +151,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t27 = (await $.v(C, "CLBTypes"));
+    const $t27 = (await $.wobj(C, "CLBTypes"));
     { const $t28 = await $.iset((await $.wv([$t27], "Checked", C, false)), [0], (await $.wv([$t27], "True", C, false))); if ($t28 !== undefined) { await $.wset([$t27], "Checked", $t28, C); } }
     { const $t29 = await $.iset((await $.wv([$t27], "Checked", C, false)), [1], (await $.wv([$t27], "True", C, false))); if ($t29 !== undefined) { await $.wset([$t27], "Checked", $t29, C); } }
   }
   {
-    const $t30 = (await $.v(C, "CLBStatus"));
+    const $t30 = (await $.wobj(C, "CLBStatus"));
     { const $t31 = await $.iset((await $.wv([$t30], "Checked", C, false)), [0], (await $.wv([$t30], "True", C, false))); if ($t31 !== undefined) { await $.wset([$t30], "Checked", $t31, C); } }
     { const $t32 = await $.iset((await $.wv([$t30], "Checked", C, false)), [1], (await $.wv([$t30], "True", C, false))); if ($t32 !== undefined) { await $.wset([$t30], "Checked", $t32, C); } }
   }
@@ -173,7 +173,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["dat"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPReport")), "DateTime"))]))]));
   {
-    const $t33 = (await $.v(C, "NewDepositsDmReport"));
+    const $t33 = (await $.wobj(C, "NewDepositsDmReport"));
     const $t34 = (await $.wv([$t33], "ReportData", C, false));
     if ($.truthy((await $.wv([$t33, $t34], "Active", C, false)))) {
       await $.stmt($.wcall([$t33, $t34], "CloseAll", [], C));
@@ -184,7 +184,7 @@ export default function define($) {
   }
   if ($.truthy($.gt((await $.mv((await $.mv((await $.v(C, "NewDepositsDmReport")), "ReportData")), "RecordCount")), 0))) {
     {
-      const $t36 = (await $.v(C, "EExport"));
+      const $t36 = (await $.wobj(C, "EExport"));
       await $.stmt($.wcall([$t36], "Connect", [], C));
       await $.stmt((await $.wcall([$t36], "ExportDataset", [(await $.mv((await $.wv([$t36], "NewDepositsDmReport", C, false)), "ReportData")), "Mis hesabatı", (await $.wv([$t36], "true", C, false))], C)));
     }

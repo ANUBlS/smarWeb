@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "dmpbf_transaction"));
+    const $t1 = (await $.wobj(C, "dmpbf_transaction"));
     await $.wset([$t1], "OperType1", (await $.mv((await $.wv([$t1], "ComboBox1", C, false)), "text")), C);
   }
   return L0.result;
@@ -24,7 +24,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "dmpbf_transaction"));
+    const $t2 = (await $.wobj(C, "dmpbf_transaction"));
     const $t3 = (await $.wv([$t2], "PBFOperations", C, false));
     await $.wset([$t2, $t3], "OperType1", (await $.mv((await $.wv([$t2, $t3], "ComboBox1", C, false)), "text")), C);
     await $.wset([$t2, $t3], "TrDat", (await $.wcall([$t2, $t3], "integer", [(await $.wcall([$t2, $t3], "trunc", [(await $.mv((await $.wv([$t2, $t3], "DateTimePicker1", C, false)), "datetime"))], C))], C)), C);
@@ -38,7 +38,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "dmpbf_transaction"));
+    const $t4 = (await $.wobj(C, "dmpbf_transaction"));
     const $t5 = (await $.wv([$t4], "PBFOperations", C, false));
     await $.stmt($.wcall([$t4, $t5], "Cancel", [], C));
   }
@@ -58,7 +58,7 @@ export default function define($) {
   await $.mset((await $.v(C, "DateTimePicker1")), "DateTime", (await $.mv((await $.mcall((await $.mv((await $.v(C, "dmpbf_transaction")), "CurrDat")), "FieldByName", ["TEK_DAT"])), "AsDateTime")));
   await $.mcall((await $.mv((await $.v(C, "ComboBox1")), "Items")), "Clear", []);
   {
-    const $t6 = (await $.v(C, "dmpbf_transaction"));
+    const $t6 = (await $.wobj(C, "dmpbf_transaction"));
     const $t7 = (await $.wv([$t6], "PBFOpertionTypes", C, false));
     await $.stmt($.wcall([$t6, $t7], "first", [], C));
     while ($.truthy($.not((await $.wv([$t6, $t7], "eof", C, false))))) {

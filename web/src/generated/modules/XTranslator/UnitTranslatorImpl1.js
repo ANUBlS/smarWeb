@@ -347,7 +347,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "OS_SL_Translates"));
+    const $t1 = (await $.wobj(C, "OS_SL_Translates"));
     if ($.truthy((await $.mv((await $.wv([$t1], "RBtnTranslated", C, false)), "Checked")))) {
       await $.stmt((await $.wcall([$t1], "SetVariable", ["Filt", "and (WRD_ENG is not null) and (ID<>1)"], C)));
     }
@@ -360,7 +360,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "OS_SL_Translates"));
+    const $t2 = (await $.wobj(C, "OS_SL_Translates"));
     if ($.truthy((await $.mv((await $.wv([$t2], "RBtnUntranslated", C, false)), "Checked")))) {
       await $.stmt((await $.wcall([$t2], "SetVariable", ["Filt", "and (WRD_ENG is null) and (ID<>1)"], C)));
     }
@@ -373,7 +373,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "OS_SL_Translates"));
+    const $t3 = (await $.wobj(C, "OS_SL_Translates"));
     if ($.truthy((await $.mv((await $.wv([$t3], "RBtnAll", C, false)), "Checked")))) {
       await $.stmt((await $.wcall([$t3], "SetVariable", ["Filt", "and ID <> 1"], C)));
     }
@@ -386,7 +386,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "OS_SL_Translates"));
+    const $t4 = (await $.wobj(C, "OS_SL_Translates"));
     if ($.truthy((await $.mv((await $.wv([$t4], "RBtnHidden", C, false)), "Checked")))) {
       await $.stmt((await $.wcall([$t4], "SetVariable", ["Filt", "and ID = 1"], C)));
     }

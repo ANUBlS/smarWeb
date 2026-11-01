@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"contractid": $.copyArg(p0), "hdate": $.copyArg(p1), "maindebtwithdraw": $.copyArg(p2), "interestdebtwithdraw": $.copyArg(p3), "usetransations": $.copyArg(p4), result: undefined};
   await $.fixArgs(L0, ["contractid", "hdate", "maindebtwithdraw", "interestdebtwithdraw", "usetransations"]);
   {
-    const $t1 = (await $.v(C, "WithdrawPackage"));
+    const $t1 = (await $.wobj(C, "WithdrawPackage"));
     await $.stmt((await $.wcall([$t1], "CallProcedure", ["WithDrawMoney", [(await $.wv([$t1], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false)), (await $.wv([$t1], "HDate", { get: async () => L0["hdate"], set: async (v) => { L0["hdate"] = v; }, local: true }, false)), (await $.wv([$t1], "MainDebtWithdraw", { get: async () => L0["maindebtwithdraw"], set: async (v) => { L0["maindebtwithdraw"] = v; }, local: true }, false)), (await $.wv([$t1], "InterestDebtWithdraw", { get: async () => L0["interestdebtwithdraw"], set: async (v) => { L0["interestdebtwithdraw"] = v; }, local: true }, false)), (await $.wv([$t1], "UseTransations", { get: async () => L0["usetransations"], set: async (v) => { L0["usetransations"] = v; }, local: true }, false))]], C)));
   }
   return L0.result;

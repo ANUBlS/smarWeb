@@ -52,20 +52,20 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["creditid"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "DatModConstruction")), "Credits")), "FieldByName", ["ID"])), "AsInteger"));
   {
-    const $t2 = (await $.v(C, "Creditsinfo"));
+    const $t2 = (await $.wobj(C, "Creditsinfo"));
     await $.stmt($.wcall([$t2], "close", [], C));
     await $.stmt((await $.wcall([$t2], "SetVariable", ["CRDID", (await $.wv([$t2], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false))], C)));
     await $.stmt($.wcall([$t2], "Open", [], C));
     await $.wset([$t2], "BayerID", (await $.mv((await $.wcall([$t2], "FieldByName", ["ClientID"], C)), "AsInteger")), { get: async () => L0["bayerid"], set: async (v) => { L0["bayerid"] = v; }, local: true });
   }
   {
-    const $t3 = (await $.v(C, "BayerInfo"));
+    const $t3 = (await $.wobj(C, "BayerInfo"));
     await $.stmt($.wcall([$t3], "close", [], C));
     await $.stmt((await $.wcall([$t3], "SetVariable", ["BID", (await $.wv([$t3], "BayerID", { get: async () => L0["bayerid"], set: async (v) => { L0["bayerid"] = v; }, local: true }, false))], C)));
     await $.stmt($.wcall([$t3], "open", [], C));
   }
   {
-    const $t4 = (await $.v(C, "PlanInfo"));
+    const $t4 = (await $.wobj(C, "PlanInfo"));
     await $.stmt($.wcall([$t4], "close", [], C));
     await $.stmt((await $.wcall([$t4], "SetVariable", ["CrdID", (await $.wv([$t4], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false))], C)));
     await $.stmt($.wcall([$t4], "open", [], C));
@@ -87,7 +87,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "saveplace": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "PlanInfo"));
+    const $t5 = (await $.wobj(C, "PlanInfo"));
     await $.stmt($.wcall([$t5], "Insert", [], C));
     await $.mset((await $.wcall([$t5], "FieldByName", ["ID#"], C)), "AsInteger", (await $.wv([$t5], "CreditID", C, false)));
     await $.mset((await $.wcall([$t5], "FieldByName", ["ID"], C)), "AsInteger", 0);
@@ -118,14 +118,14 @@ export default function define($) {
   { const $t7 = L0["action"];
     if ($.eq($t7, "I") || $.eq($t7, "U")) {
       {
-        const $t8 = (await $.v(C, "DatModConstruction"));
+        const $t8 = (await $.wobj(C, "DatModConstruction"));
         const $t9 = (await $.wv([$t8], "sbcm_construction", C, false));
         await $.wset([$t8, $t9], "ID", (await $.wcall([$t8, $t9], "CallIntegerFunction", ["PaymentPlane_AddEdit", ["p_ID", (await $.wv([$t8, $t9], "ID", { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true }, false)), "p_CreditID", (await $.wv([$t8, $t9], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), "p_PayDate", (await $.wv([$t8, $t9], "PayDate", { get: async () => L0["paydate"], set: async (v) => { L0["paydate"] = v; }, local: true }, false)), "p_Principial", (await $.wv([$t8, $t9], "Principial", { get: async () => L0["principial"], set: async (v) => { L0["principial"] = v; }, local: true }, false)), "p_Interest", (await $.wv([$t8, $t9], "Interest", { get: async () => L0["interest"], set: async (v) => { L0["interest"] = v; }, local: true }, false))]], C)), { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true });
       }
     }
     else if ($.eq($t7, "D")) {
       {
-        const $t10 = (await $.v(C, "DatModConstruction"));
+        const $t10 = (await $.wobj(C, "DatModConstruction"));
         const $t11 = (await $.wv([$t10], "sbcm_construction", C, false));
         await $.stmt((await $.wcall([$t10, $t11], "CallProcedure", ["DeletePaymentPlane", ["p_ID", (await $.wv([$t10, $t11], "ID", { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true }, false))]], C)));
       }
@@ -138,7 +138,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "PlanInfo"));
+    const $t12 = (await $.wobj(C, "PlanInfo"));
     await $.stmt($.wcall([$t12], "Edit", [], C));
   }
   await $.mcall((await $.v(C, "PayPlanAddEditForm")), "showmodal", []);
@@ -157,7 +157,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Silinməsinə əminsinizmi?", (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t13 = (await $.v(C, "SchduleGrid"));
+      const $t13 = (await $.wobj(C, "SchduleGrid"));
       { const $t14 = 0;
         await $.wset([$t13], "I", $.sub((await $.mv((await $.wv([$t13], "SelectedRows", C, false)), "Count")), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
         let $t15 = true;
@@ -183,7 +183,7 @@ export default function define($) {
   L0["d2"] = (await $.mv((await $.mcall((await $.v(C, "Creditsinfo")), "FieldByName", ["CloseDate"])), "AsDateTime"));
   await $.set(C, "AutoPayPlaneForm", (await $.mcall((await $.v(C, "TAutoPayPlaneForm")), "Create", [Self])));
   {
-    const $t16 = (await $.v(C, "AutoPayPlaneForm"));
+    const $t16 = (await $.wobj(C, "AutoPayPlaneForm"));
     await $.mset((await $.wv([$t16], "DTPStartDate", C, false)), "DateTime", (await $.mv((await $.mcall((await $.wv([$t16], "Creditsinfo", C, false)), "FieldByName", ["OpenDate"])), "AsDateTime")));
     await $.mset((await $.wv([$t16], "AmountEdit", C, false)), "Text", (await $.wcall([$t16], "FloatToStr", [(await $.mv((await $.mcall((await $.wv([$t16], "Creditsinfo", C, false)), "FieldByName", ["CREDITAMOUNT"])), "AsFloat"))], C)));
     await $.mset((await $.wv([$t16], "CmbBoxPeriodRate", C, false)), "ItemIndex", 0);
@@ -200,7 +200,7 @@ export default function define($) {
     await $.set(C, "RepSedule", (await $.mcall((await $.v(C, "TRepSedule")), "Create", [(await $.v(C, "application"))])));
   }
   {
-    const $t17 = (await $.v(C, "RepSedule"));
+    const $t17 = (await $.wobj(C, "RepSedule"));
     const $t18 = (await $.wv([$t17], "PlanInfo", C, false));
     await $.stmt($.wcall([$t17, $t18], "ClearVariables", [], C));
     await $.stmt($.wcall([$t17, $t18], "close", [], C));
@@ -208,7 +208,7 @@ export default function define($) {
     await $.stmt($.wcall([$t17, $t18], "Open", [], C));
   }
   {
-    const $t19 = (await $.v(C, "RepSedule"));
+    const $t19 = (await $.wobj(C, "RepSedule"));
     const $t20 = (await $.wv([$t19], "ReportPayShedData", C, false));
     await $.stmt($.wcall([$t19, $t20], "ClearVariables", [], C));
     await $.stmt($.wcall([$t19, $t20], "close", [], C));
@@ -231,7 +231,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t21 = (await $.v(C, "SchduleGrid"));
+    const $t21 = (await $.wobj(C, "SchduleGrid"));
     const $t22 = (await $.wv([$t21], "SelectedRows", C, false));
     const $t23 = (await $.mv((await $.wv([$t21, $t22], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t21, $t22, $t23], "DisableControls", [], C));

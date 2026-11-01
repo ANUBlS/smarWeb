@@ -169,7 +169,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "DataCustNom"));
+    const $t16 = (await $.wobj(C, "DataCustNom"));
     const $t17 = (await $.wv([$t16], "ODS_risk", C, false));
     { const $t18 = (await $.mv((await $.mcall((await $.wv([$t16, $t17], "ODS_risk", C, false)), "FieldByName", ["id"])), "AsInteger"));
       if ($.eq($t18, 1)) {

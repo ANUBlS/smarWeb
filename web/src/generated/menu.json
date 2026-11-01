@@ -58,6 +58,18 @@
        "action": 78,
        "params": {},
        "children": []
+      },
+      {
+       "caption": "Müştəri xidməti",
+       "action": 1045,
+       "params": {},
+       "children": []
+      },
+      {
+       "caption": "Fiziki şəxslər üzrə əməliyyatlar",
+       "action": 1091,
+       "params": {},
+       "children": []
       }
      ]
     },
@@ -973,12 +985,6 @@
        "children": []
       },
       {
-       "caption": "Müştəri xidməti",
-       "action": 1045,
-       "params": {},
-       "children": []
-      },
-      {
        "caption": "Müştərilərin sərəncamları",
        "action": 1042,
        "params": {},
@@ -1370,7 +1376,7 @@
   "1042": "XCustomersOrders",
   "1043": "XCustAnalysis",
   "1044": "XRelatedPersons",
-  "1045": "XPCustService",
+  "1045": "PCustService",
   "1046": "XGoAml",
   "1047": "XBlackList",
   "1048": "XThomson",
@@ -1415,7 +1421,8 @@
   "1087": "XBusinessProcesses",
   "1088": "XTranslator",
   "1089": "XTickets",
-  "1090": "XPutyovka"
+  "1090": "XPutyovka",
+  "1091": "P_Customers"
  },
  "reportActions": [
   9,
@@ -1533,7 +1540,7 @@
   "{C29EB42A-A3F8-42A4-BF32-DC0E36FCD439}": "XCustomersOrders",
   "{18447368-6F96-4C01-80A9-F23AD7A74033}": "XCustAnalysis",
   "{96919B45-D5AD-4863-9427-081A29253957}": "XRelatedPersons",
-  "{7B18F01A-D60D-406F-9A5B-8F191106E786}": "XPCustService",
+  "{7B18F01A-D60D-406F-9A5B-8F191106E786}": "PCustService",
   "{C7C3806E-88D5-4E4F-872E-F283AD0371E1}": "XGoAml",
   "{BE26E111-019B-4CC8-9E52-4FF97E109AA3}": "XBlackList",
   "{65621610-5C38-4A87-B362-BDF143347FB0}": "XThomson",
@@ -1578,31 +1585,16 @@
   "{5C5A59BF-8727-456B-AE49-EFE239287938}": "XBusinessProcesses",
   "{5184707F-B3A7-496B-BA1D-E3AB0942D6A3}": "XTranslator",
   "{2063A59A-7AFB-4C93-BC54-05983CA3C713}": "XTickets",
-  "{91EC7FA8-C520-42DB-ADCC-B568BE39D4CD}": "XPutyovka"
+  "{91EC7FA8-C520-42DB-ADCC-B568BE39D4CD}": "XPutyovka",
+  "{831E1831-3FE1-41EA-9D02-ED1F8BB5C6ED}": "P_Customers"
  },
  "plugins": {
-  "filereport.bpl": "P_FileReport",
   "cm_conclusion.bpl": "P_CM_Conclusion",
-  "cm_guarantee.bpl": "P_Cm_Guarantee",
-  "cm_payment.bpl": "P_CM_Payment",
-  "cm_retil.bpl": "P_CM_RETIL",
-  "cm_schedule.bpl": "P_CM_Schedule",
-  "cm_statement.bpl": "P_CM_Statement",
-  "cm_tranche.bpl": "P_CM_Tranche",
-  "cm_wreport.bpl": "P_CM_WReport",
   "cu_conclusion.bpl": "P_CU_Conclusion",
   "cu_payment.bpl": "P_CU_Payment",
-  "cu_paymentcompany.bpl": "P_CU_Paymentcompany",
   "cu_schedule.bpl": "P_CU_Schedule",
   "cu_statement.bpl": "P_cu_Statement",
   "cu_wreport.bpl": "P_cu_WReport",
-  "newdepositsapplymoney.bpl": "P_NewDepositsApplyMoney",
-  "newdepositscontract.bpl": "P_NewDepositsContract",
-  "newdepositsextractmoney.bpl": "P_NewDepositsExtractMoney",
-  "newdepositswreport.bpl": "P_NewDepositsWReport",
-  "nominalcustomers.bpl": "P_NominalCustomers",
-  "open_account.bpl": "P_Open_account",
-  "pcustxohks.bpl": "P_PcustXohks",
   "sb_general.bpl": "P_Sb_General",
   "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
   "sbdm_contract.bpl": "P_SBDM_Contract",
@@ -1611,6 +1603,22 @@
   "transinfopack.bpl": "P_TransInfoPack",
   "sbdm_transactionviewer.bpl": "P_SBDM_TransactionViewer",
   "cm_customer.bpl": "P_CM_Customer",
+  "filereport.bpl": "P_FileReport",
+  "cm_guarantee.bpl": "P_Cm_Guarantee",
+  "cm_payment.bpl": "P_CM_Payment",
+  "cm_retil.bpl": "P_CM_RETIL",
+  "cm_schedule.bpl": "P_CM_Schedule",
+  "cm_statement.bpl": "P_CM_Statement",
+  "cm_tranche.bpl": "P_CM_Tranche",
+  "cm_wreport.bpl": "P_CM_WReport",
+  "cu_paymentcompany.bpl": "P_CU_Paymentcompany",
+  "newdepositsapplymoney.bpl": "P_NewDepositsApplyMoney",
+  "newdepositscontract.bpl": "P_NewDepositsContract",
+  "newdepositsextractmoney.bpl": "P_NewDepositsExtractMoney",
+  "newdepositswreport.bpl": "P_NewDepositsWReport",
+  "nominalcustomers.bpl": "P_NominalCustomers",
+  "open_account.bpl": "P_Open_account",
+  "pcustxohks.bpl": "P_PcustXohks",
   "investisiya_contracts.bpl": "P_Investisiya_Contracts",
   "investisiya_settings.bpl": "P_Investisiya_settings",
   "investment_payment.bpl": "P_Investment_payment",

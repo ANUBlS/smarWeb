@@ -1,7 +1,7 @@
 // Generated module manifest
 export default {
  "name": "P_PcustXohks",
- "dir": "Packages/PCustService/PCUST_Xohks",
+ "dir": "Packages/PCustService2026/PCUST_Xohks",
  "mainForm": null,
  "units": [
   {
@@ -14,7 +14,7 @@ export default {
    "classes": [
     "TFormAcceptTransaction"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/AcceptTrans_Unit.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/AcceptTrans_Unit.pas"
   },
   {
    "unit": "DataXohks",
@@ -26,7 +26,7 @@ export default {
    "classes": [
     "TDataModXhoks"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/DataXohks.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/DataXohks.pas"
   },
   {
    "unit": "Get_to_shablonunit",
@@ -38,7 +38,7 @@ export default {
    "classes": [
     "TForm_get_to_shablon"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/Get_to_shablonunit.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/Get_to_shablonunit.pas"
   },
   {
    "unit": "MainXhoksFormImpl",
@@ -50,7 +50,7 @@ export default {
    "classes": [
     "TMainXohksForm"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/MainXhoksFormImpl.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/MainXhoksFormImpl.pas"
   },
   {
    "unit": "ReceiveMessDetalsUnit",
@@ -62,7 +62,7 @@ export default {
    "classes": [
     "TRecMessDet_Form"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/ReceiveMessDetalsUnit.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/ReceiveMessDetalsUnit.pas"
   },
   {
    "unit": "TransType_Unit",
@@ -74,7 +74,7 @@ export default {
    "classes": [
     "TTransCodeForm"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/TransType_Unit.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/TransType_Unit.pas"
   },
   {
    "unit": "Unit_Report",
@@ -86,7 +86,7 @@ export default {
    "classes": [
     "TForm_Report"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/Unit_Report.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/Unit_Report.pas"
   },
   {
    "unit": "Unit_ReportX",
@@ -98,7 +98,7 @@ export default {
    "classes": [
     "TReportX"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/Unit_ReportX.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/Unit_ReportX.pas"
   },
   {
    "unit": "Unit_Report_in",
@@ -110,7 +110,7 @@ export default {
    "classes": [
     "TForm_Report_in"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/Unit_Report_in.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/Unit_Report_in.pas"
   },
   {
    "unit": "Unit_ReportinX",
@@ -122,7 +122,7 @@ export default {
    "classes": [
     "TReportinX"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/Unit_ReportinX.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/Unit_ReportinX.pas"
   },
   {
    "unit": "Witch",
@@ -134,7 +134,7 @@ export default {
    "classes": [
     "TFormWitch"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/Witch.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/Witch.pas"
   },
   {
    "unit": "XohksMain",
@@ -146,7 +146,7 @@ export default {
    "classes": [
     "TFormXohks"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/XohksMain.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/XohksMain.pas"
   },
   {
    "unit": "XohksPayment_Det",
@@ -158,7 +158,7 @@ export default {
    "classes": [
     "TFormPayment_Det"
    ],
-   "source": "Packages/PCustService/PCUST_Xohks/XohksPayment_Det.pas"
+   "source": "Packages/PCustService2026/PCUST_Xohks/XohksPayment_Det.pas"
   }
  ],
  "lib": [

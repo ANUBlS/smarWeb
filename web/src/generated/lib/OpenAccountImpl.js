@@ -98,7 +98,7 @@ export default function define($) {
     await $.set(C, "Form_Close", "DB_Hesab");
     await $.set(C, "phys_cust_DbHesabID", L0["custid"]);
     {
-      const $t1 = (await $.v(C, "Transaction_DataModule"));
+      const $t1 = (await $.wobj(C, "Transaction_DataModule"));
       const $t2 = (await $.wv([$t1], "TransactionForm", C, false));
       const $t3 = (await $.wv([$t1, $t2], "Transactions", C, false));
       if ($.truthy((await $.wv([$t1, $t2, $t3], "Active", C, false)))) {
@@ -119,7 +119,7 @@ export default function define($) {
     await $.set(C, "Form_Close", "CR_Hesab");
     await $.set(C, "phys_cust_CrHesabID", L0["custid"]);
     {
-      const $t4 = (await $.v(C, "Transaction_DataModule"));
+      const $t4 = (await $.wobj(C, "Transaction_DataModule"));
       const $t5 = (await $.wv([$t4], "TransactionForm", C, false));
       const $t6 = (await $.wv([$t4, $t5], "Transactions", C, false));
       if ($.truthy((await $.wv([$t4, $t5, $t6], "Active", C, false)))) {
@@ -139,7 +139,7 @@ export default function define($) {
     }
     await $.set(C, "trid", "");
     {
-      const $t7 = (await $.v(C, "Transaction_DataModule"));
+      const $t7 = (await $.wobj(C, "Transaction_DataModule"));
       const $t8 = (await $.wv([$t7], "TransactionForm", C, false));
       const $t9 = (await $.wv([$t7, $t8], "Transactions", C, false));
       if ($.truthy((await $.wv([$t7, $t8, $t9], "Active", C, false)))) {
@@ -159,7 +159,7 @@ export default function define($) {
     }
     await $.set(C, "trid", L0["custid"]);
     {
-      const $t10 = (await $.v(C, "Transaction_DataModule"));
+      const $t10 = (await $.wobj(C, "Transaction_DataModule"));
       const $t11 = (await $.wv([$t10], "TransactionForm", C, false));
       if ($.truthy($.eq((await $.mv((await $.mcall((await $.mv((await $.wv([$t10, $t11], "Transaction_DataModule", C, false)), "Transactions")), "FieldByName", ["status"])), "AsInteger")), 1))) {
         await $.stmt((await $.mcall((await $.mv((await $.wv([$t10, $t11], "Transaction_DataModule", C, false)), "SB_ACA")), "CallProcedure", ["checkadvancedobjectaccess", ["DELAYEDEDIT"]])));
@@ -191,7 +191,7 @@ export default function define($) {
   }
   if ($.truthy($.eq(L0["s"], "depozit_stetment"))) {
     {
-      const $t14 = (await $.v(C, "DataModule_bussProc"));
+      const $t14 = (await $.wobj(C, "DataModule_bussProc"));
       if ($.truthy($.not((await $.wcall([$t14], "assigned", [(await $.wv([$t14], "Form_Statement", C, false))], C))))) {
         await $.wset([$t14], "Form_Statement", (await $.mcall((await $.wv([$t14], "TForm_Statement", C, false)), "create", [(await $.wv([$t14], "Application", C, false))])), C);
       }
@@ -277,7 +277,7 @@ export default function define($) {
   await $.set(C, "FormAccounFlags", (await $.mcall((await $.v(C, "TFormAccounFlags")), "Create", [Self])));
   try {
     {
-      const $t16 = (await $.v(C, "FormAccounFlags"));
+      const $t16 = (await $.wobj(C, "FormAccounFlags"));
       const $t17 = (await $.mv((await $.wv([$t16], "DataAcc", C, false)), "Accflags"));
       if ($.truthy((await $.and_(($.eq((await $.wv([$t16, $t17], "ShowModal", C, false)), (await $.wv([$t16, $t17], "mrOk", C, false)))), async () => ($.in_((await $.wv([$t16, $t17], "State", C, false)), [(await $.wv([$t16, $t17], "dsInsert", C, false)), (await $.wv([$t16, $t17], "dsEdit", C, false))])))))) {
         await $.mset((await $.wcall([$t16, $t17], "FieldByName", ["Tipacc"], C)), "AsString", (await $.wv([$t16, $t17], "FlagMap", C, false)));
@@ -358,7 +358,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "accept": $.copyArg(p1), result: undefined};
   await $.fixArgs(L0, ["sender", "accept"]);
   {
-    const $t18 = (await $.v(C, "DataAcc"));
+    const $t18 = (await $.wobj(C, "DataAcc"));
     const $t19 = (await $.wv([$t18], "ODS_Bal_spr", C, false));
     if ($.truthy($.eq((await $.wv([$t18, $t19], "RecordCount", C, false)), 1))) {
       await $.mset((await $.wv([$t18, $t19], "Edit4", C, false)), "Text", (await $.mv((await $.wcall([$t18, $t19], "FieldByName", ["bal_cn"], C)), "AsString")));
@@ -368,7 +368,7 @@ export default function define($) {
     }
   }
   {
-    const $t20 = (await $.v(C, "DataAcc"));
+    const $t20 = (await $.wobj(C, "DataAcc"));
     const $t21 = (await $.wv([$t20], "ODS_Bal_spr1", C, false));
   }
   return L0.result;
@@ -667,7 +667,7 @@ export default function define($) {
   }
   await $.mset((await $.v(C, "DBLookupComboBoxBranchName")), "KeyValue", (await $.mcall((await $.mv((await $.v(C, "DataAcc")), "sb_aca")), "CallIntegerFunction", ["getuserfilial", []])));
   {
-    const $t22 = (await $.v(C, "DataAcc"));
+    const $t22 = (await $.wobj(C, "DataAcc"));
     const $t23 = (await $.wv([$t22], "customers", C, false));
     if ($.truthy((await $.wv([$t22, $t23], "Active", C, false)))) {
       await $.stmt($.wcall([$t22, $t23], "close", [], C));
@@ -745,7 +745,7 @@ export default function define($) {
     await $.mset((await $.wv([$t22, $t23], "DBLookupSFERA_DEY", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.mv((await $.wv([$t22, $t23], "DataAcc", C, false)), "Customers")), "FieldByName", ["SFERA_DEY"])), "AsString")));
   }
   {
-    const $t30 = (await $.v(C, "DataAcc"));
+    const $t30 = (await $.wobj(C, "DataAcc"));
     await $.mset((await $.wv([$t30], "DTPOpenDate", C, false)), "DateTime", (await $.mv((await $.mcall((await $.wv([$t30], "Sysdat", C, false)), "FieldByName", ["Tek_dat"])), "AsDateTime")));
     if ($.truthy($.not((await $.mv((await $.wv([$t30], "Customers", C, false)), "Active"))))) {
       await $.mcall((await $.wv([$t30], "Customers", C, false)), "Open", []);
@@ -886,7 +886,7 @@ export default function define($) {
     await $.mcall((await $.mv((await $.v(C, "DataAcc")), "customers")), "Refresh", []);
   }
   {
-    const $t32 = (await $.v(C, "DataAcc"));
+    const $t32 = (await $.wobj(C, "DataAcc"));
     const $t33 = (await $.wv([$t32], "customers", C, false));
     { const $t34 = (await $.mv((await $.mcall((await $.wv([$t32, $t33], "customers", C, false)), "FieldByName", ["cust_type"])), "AsInteger"));
       if ($.eq($t34, 0)) {

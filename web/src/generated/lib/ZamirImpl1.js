@@ -508,7 +508,7 @@ export default function define($) {
   const L0 = {result: undefined};
   await $.mcall((await $.v(C, "cmbbookname")), "clear", []);
   {
-    const $t7 = (await $.v(C, "oradatbook"));
+    const $t7 = (await $.wobj(C, "oradatbook"));
     await $.stmt($.wcall([$t7], "close", [], C));
     await $.stmt($.wcall([$t7], "open", [], C));
     while ($.truthy($.not((await $.wv([$t7], "eof", C, false))))) {
@@ -523,7 +523,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t8 = (await $.v(C, "oradatcell"));
+    const $t8 = (await $.wobj(C, "oradatcell"));
     await $.stmt($.wcall([$t8], "Close", [], C));
     await $.mcall((await $.wv([$t8], "sql", C, false)), "Clear", []);
     await $.mset((await $.wv([$t8], "Sql", C, false)), "Text", $.add($.add($.add($.add("select s.rowid,s.* from CELL s where sheet_id=", (await $.mv((await $.mcall((await $.wv([$t8], "oradatsheet", C, false)), "fieldbyname", ["sheet_id"])), "Asstring"))), "and Book_Caption='"), (await $.mv((await $.mcall((await $.wv([$t8], "oradatbook", C, false)), "fieldbyname", ["Caption"])), "AsString"))), "'"));
@@ -535,7 +535,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t9 = (await $.v(C, "oradatprovcell"));
+    const $t9 = (await $.wobj(C, "oradatprovcell"));
     await $.stmt($.wcall([$t9], "Close", [], C));
     await $.mcall((await $.wv([$t9], "sql", C, false)), "clear", []);
     await $.mset((await $.wv([$t9], "sql", C, false)), "text", $.add($.add($.add($.add("select s.rowid,s.* from ProvCELL s where sheet_id=", (await $.mv((await $.mcall((await $.wv([$t9], "oradatsheet", C, false)), "fieldbyname", ["sheet_id"])), "AsString"))), "and Book_Caption='"), (await $.mv((await $.mcall((await $.wv([$t9], "oradatbook", C, false)), "fieldbyname", ["Caption"])), "AsString"))), "'"));
@@ -547,7 +547,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t10 = (await $.v(C, "oradatdepcell"));
+    const $t10 = (await $.wobj(C, "oradatdepcell"));
     await $.stmt($.wcall([$t10], "Close", [], C));
     await $.mcall((await $.wv([$t10], "sql", C, false)), "clear", []);
     await $.mset((await $.wv([$t10], "sql", C, false)), "text", $.add($.add($.add($.add("select s.rowid,s.* from DepCELL s where sheet_id=", (await $.mv((await $.mcall((await $.wv([$t10], "oradatsheet", C, false)), "fieldbyname", ["sheet_id"])), "AsString"))), "and Book_Caption='"), (await $.mv((await $.mcall((await $.wv([$t10], "oradatbook", C, false)), "fieldbyname", ["Caption"])), "AsString"))), "'"));
@@ -559,7 +559,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t11 = (await $.v(C, "oradatkrecell"));
+    const $t11 = (await $.wobj(C, "oradatkrecell"));
     await $.stmt($.wcall([$t11], "Close", [], C));
     await $.mcall((await $.wv([$t11], "Sql", C, false)), "clear", []);
     await $.mset((await $.wv([$t11], "sql", C, false)), "text", $.add($.add($.add($.add("select s.rowid,s.* from krecell s where sheet_id=", (await $.mv((await $.mcall((await $.wv([$t11], "oradatsheet", C, false)), "fieldbyname", ["sheet_id"])), "AsString"))), "and Book_Caption='"), (await $.mv((await $.mcall((await $.wv([$t11], "oradatbook", C, false)), "fieldbyname", ["Caption"])), "AsString"))), "'"));
@@ -583,7 +583,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t13 = (await $.v(C, "oraloadfilial"));
+    const $t13 = (await $.wobj(C, "oraloadfilial"));
     await $.mcall((await $.mv((await $.idx((await $.mv((await $.wv([$t13], "dbgrid3", C, false)), "Columns")), [10])), "PickList")), "Clear", []);
     await $.stmt($.wcall([$t13], "open", [], C));
     await $.stmt((await $.mcall((await $.mv((await $.idx((await $.mv((await $.wv([$t13], "dbgrid3", C, false)), "Columns")), [10])), "PickList")), "Add", ["Bütün filiallar"])));
@@ -599,7 +599,7 @@ export default function define($) {
   }
   await $.mcall((await $.v(C, "application")), "ProcessMessages", []);
   {
-    const $t15 = (await $.v(C, "oraloadsimvol"));
+    const $t15 = (await $.wobj(C, "oraloadsimvol"));
     await $.stmt($.wcall([$t15], "open", [], C));
     await $.mcall((await $.mv((await $.idx((await $.mv((await $.wv([$t15], "dbgrid3", C, false)), "Columns")), [6])), "PickList")), "Clear", []);
     while ($.truthy($.not((await $.wv([$t15], "eof", C, false))))) {
@@ -624,7 +624,7 @@ export default function define($) {
   L0["oradatcnvrt"] = (await $.mcall((await $.v(C, "ToracleDataset")), "Create", [Self]));
   await $.mset(L0["oradatcnvrt"], "Session", (await $.mv((await $.v(C, "sboapiDataModule")), "SBSession")));
   {
-    const $t17 = (await $.v(C, "oraloadfilial"));
+    const $t17 = (await $.wobj(C, "oraloadfilial"));
     await $.mcall((await $.mv((await $.idx((await $.mv((await $.wv([$t17], "dbgrid5", C, false)), "Columns")), [7])), "PickList")), "Clear", []);
     await $.mcall((await $.mv((await $.idx((await $.mv((await $.wv([$t17], "dbgrid5", C, false)), "Columns")), [13])), "PickList")), "Clear", []);
     await $.stmt($.wcall([$t17], "open", [], C));
@@ -651,7 +651,7 @@ export default function define($) {
   }
   await $.mcall((await $.v(C, "application")), "ProcessMessages", []);
   {
-    const $t20 = (await $.v(C, "oraloadsimvol"));
+    const $t20 = (await $.wobj(C, "oraloadsimvol"));
     await $.stmt($.wcall([$t20], "open", [], C));
     await $.mcall((await $.mv((await $.idx((await $.mv((await $.wv([$t20], "dbgrid5", C, false)), "Columns")), [5])), "PickList")), "Clear", []);
     await $.mcall((await $.mv((await $.idx((await $.mv((await $.wv([$t20], "dbgrid5", C, false)), "Columns")), [11])), "PickList")), "Clear", []);
@@ -742,14 +742,14 @@ export default function define($) {
   await $.fixArgs(L0, ["key", "shift"]);
   if ($.truthy((await $.and_(($.eq(L0["key"], (await $.v(C, "vk_f5")))), async () => ($.eq(L0["shift"], [])))))) {
     {
-      const $t29 = (await $.v(C, "oradatcell"));
+      const $t29 = (await $.wobj(C, "oradatcell"));
       await $.stmt($.wcall([$t29], "close", [], C));
       await $.mcall((await $.wv([$t29], "sql", C, false)), "Clear", []);
       await $.mset((await $.wv([$t29], "Sql", C, false)), "Text", $.add($.add($.add($.add("select s.rowid,s.* from v_CELL s where sheet_id=", (await $.mv((await $.mcall((await $.wv([$t29], "oradatsheet", C, false)), "fieldbyname", ["sheet_id"])), "AsString"))), "and Book_Caption='"), (await $.mv((await $.mcall((await $.wv([$t29], "oradatbook", C, false)), "fieldbyname", ["Caption"])), "AsString"))), "'"));
       await $.stmt($.wcall([$t29], "open", [], C));
     }
     {
-      const $t30 = (await $.v(C, "oradatprovcell"));
+      const $t30 = (await $.wobj(C, "oradatprovcell"));
       await $.stmt($.wcall([$t30], "close", [], C));
       await $.mcall((await $.wv([$t30], "sql", C, false)), "Clear", []);
       await $.mset((await $.wv([$t30], "Sql", C, false)), "Text", $.add($.add($.add($.add("select s.rowid,s.* from v_ProvCELL s where sheet_id=", (await $.mv((await $.mcall((await $.wv([$t30], "oradatsheet", C, false)), "fieldbyname", ["sheet_id"])), "AsString"))), "and Book_Caption='"), (await $.mv((await $.mcall((await $.wv([$t30], "oradatbook", C, false)), "fieldbyname", ["Caption"])), "AsString"))), "'"));
@@ -790,7 +790,7 @@ export default function define($) {
     await $.set(C, "va", "");
   }
   {
-    const $t31 = (await $.v(C, "oradatgetsum"));
+    const $t31 = (await $.wobj(C, "oradatgetsum"));
     await $.stmt($.wcall([$t31], "Close", [], C));
     await $.mcall((await $.wv([$t31], "Sql", C, false)), "Clear", []);
     await $.mset((await $.wv([$t31], "sql", C, false)), "Text", $.add($.add($.add($.add($.add($.add($.add($.add("Select sum(ostat) as ost,sum(pok_ostat) as post ,sum(obr_d) as od,sum(obr_k) as ok ,sum(pok_obr_d) as pobrd ,sum(pok_obr_k) as pobrk from archost ar,account ac where acc_no like'", (await $.mv((await $.wv([$t31], "edacc_no", C, false)), "text"))), "%"), (await $.wv([$t31], "ba", C, false))), (await $.wv([$t31], "ti", C, false))), (await $.wv([$t31], "da", C, false))), (await $.wv([$t31], "va", C, false))), "'"), "and ac.id=ar.acc_id"));
@@ -823,7 +823,7 @@ export default function define($) {
   await $.set(C, "mypotstart", false);
   await $.set(C, "stopFlag", false);
   {
-    const $t68 = (await $.v(C, "orapak"));
+    const $t68 = (await $.wobj(C, "orapak"));
     await $.mset((await $.wv([$t68], "pagecontrol1", C, false)), "Visible", (await $.wv([$t68], "true", C, false)));
   }
   await $.stmt($.call(C, "readbookname", []));
@@ -860,7 +860,7 @@ export default function define($) {
     await $.stmt((await $.mcall((await $.v(C, "dbgrid1")), "OnCellClick", [(await $.idx((await $.mv((await $.v(C, "dbgrid1")), "Columns")), [1]))])));
   }
   {
-    const $t69 = (await $.v(C, "orasmartdate"));
+    const $t69 = (await $.wobj(C, "orasmartdate"));
     await $.stmt($.wcall([$t69], "Close", [], C));
     await $.mcall((await $.wv([$t69], "Sql", C, false)), "Clear", []);
     await $.mset((await $.wv([$t69], "sql", C, false)), "Text", "select tek_dat from sysdat");
@@ -913,7 +913,7 @@ export default function define($) {
       await $.set(C, "va", "");
     }
     {
-      const $t71 = (await $.v(C, "oradatviewresult"));
+      const $t71 = (await $.wobj(C, "oradatviewresult"));
       await $.stmt($.wcall([$t71], "Close", [], C));
       await $.mcall((await $.wv([$t71], "Sql", C, false)), "Clear", []);
       await $.mset((await $.wv([$t71], "sql", C, false)), "Text", $.add($.add($.add($.add($.add($.add($.add("Select s.rowid,s.* from temparchost s where acc_no like'", (await $.mv((await $.wv([$t71], "edacc_no", C, false)), "text"))), "%"), (await $.wv([$t71], "ba", C, false))), (await $.wv([$t71], "ti", C, false))), (await $.wv([$t71], "da", C, false))), (await $.wv([$t71], "va", C, false))), "'"));
@@ -1084,7 +1084,7 @@ export default function define($) {
       }
     }
     {
-      const $t73 = (await $.v(C, "oradatsheet"));
+      const $t73 = (await $.wobj(C, "oradatsheet"));
       await $.stmt($.wcall([$t73], "Close", [], C));
       await $.mcall((await $.wv([$t73], "Sql", C, false)), "Clear", []);
       await $.mset((await $.wv([$t73], "sql", C, false)), "Text", $.add($.add("select s.rowid, s.* from sheet s where Book_caption='", (await $.wcall([$t73], "trim", [(await $.mv((await $.mcall((await $.wv([$t73], "oradatbook", C, false)), "FieldByName", ["Caption"])), "asstring"))], C))), "'"));
@@ -1134,7 +1134,7 @@ export default function define($) {
           $.abort();
         }
         {
-          const $t78 = (await $.v(C, "orapak"));
+          const $t78 = (await $.wobj(C, "orapak"));
           if ($.truthy($.eq((await $.wcall([$t78], "CallBooleanFunction", ["check_unique", [(await $.wv([$t78], "book_cap", { get: async () => L0["book_cap"], set: async (v) => { L0["book_cap"] = v; }, local: true }, false)), (await $.wv([$t78], "sheet_i", { get: async () => L0["sheet_i"], set: async (v) => { L0["sheet_i"] = v; }, local: true }, false)), (await $.wv([$t78], "param", { get: async () => L0["param"], set: async (v) => { L0["param"] = v; }, local: true }, false))]], C)), (await $.wv([$t78], "false", C, false))))) {
             await $.stmt((await $.wcall([$t78], "Yenile", [(await $.wv([$t78], "vk_f5", C, false)), []], C)));
             if ($.truthy($.eq((await $.mv((await $.wv([$t78], "btncelladd", C, false)), "Caption")), "Təsdiqlə"))) {
@@ -1161,7 +1161,7 @@ export default function define($) {
           $.abort();
         }
         {
-          const $t81 = (await $.v(C, "orapak"));
+          const $t81 = (await $.wobj(C, "orapak"));
           if ($.truthy($.eq((await $.wcall([$t81], "CallBooleanFunction", ["check_unique", [(await $.wv([$t81], "book_cap", { get: async () => L0["book_cap"], set: async (v) => { L0["book_cap"] = v; }, local: true }, false)), (await $.wv([$t81], "sheet_i", { get: async () => L0["sheet_i"], set: async (v) => { L0["sheet_i"] = v; }, local: true }, false)), (await $.wv([$t81], "param", { get: async () => L0["param"], set: async (v) => { L0["param"] = v; }, local: true }, false))]], C)), (await $.wv([$t81], "false", C, false))))) {
             await $.stmt((await $.wcall([$t81], "Yenile", [(await $.wv([$t81], "vk_f5", C, false)), []], C)));
             if ($.truthy($.eq((await $.mv((await $.wv([$t81], "btncelladd", C, false)), "Caption")), "Təsdiqlə"))) {
@@ -1246,7 +1246,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t88 = (await $.v(C, "oradatsheet"));
+      const $t88 = (await $.wobj(C, "oradatsheet"));
       await $.stmt($.wcall([$t88], "Edit", [], C));
       await $.mset((await $.wcall([$t88], "FieldByName", ["Nisbat"], C)), "AsString", (await $.mv((await $.wcall([$t88], "FieldByName", ["Nisbat"], C)), "AsString")));
       await $.mset((await $.mcall((await $.wv([$t88], "oradatsheet", C, false)), "FieldByName", ["sheet_id"])), "AsString", (await $.wv([$t88], "clip_shid", C, false)));
@@ -1341,7 +1341,7 @@ export default function define($) {
         await $.mset((await $.mcall((await $.v(C, "oradatcell")), "FieldByName", ["filial"])), "Asstring", "Bütün Filiallar");
       }
       {
-        const $t91 = (await $.v(C, "oradatcell"));
+        const $t91 = (await $.wobj(C, "oradatcell"));
         if ($.truthy((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_(((await $.mv((await $.wcall([$t91], "fieldbyname", ["sell"], C)), "IsNull"))), async () => ((await $.mv((await $.wcall([$t91], "fieldbyname", ["Debet"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t91], "fieldbyname", ["Kredit"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t91], "fieldbyname", ["Lcell"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t91], "fieldbyname", ["Cell_Balance"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t91], "fieldbyname", ["Cell_Account"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t91], "fieldbyname", ["Cell_Symbol"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t91], "fieldbyname", ["Reznorez"], C)), "IsNull"))))))) {
           await $.mset((await $.wv([$t91], "btncelladd", C, false)), "Caption", "");
           await $.mset((await $.wv([$t91], "btncelladd", C, false)), "Caption", "Əlavə Et");
@@ -1398,7 +1398,7 @@ export default function define($) {
     }
     else if ($.eq($t92, 1)) {
       {
-        const $t93 = (await $.v(C, "OradatCell"));
+        const $t93 = (await $.wobj(C, "OradatCell"));
         await $.mset((await $.wcall([$t93], "FieldByName", ["sell"], C)), "AsString", (await $.wcall([$t93], "uppercase", [(await $.mv((await $.wcall([$t93], "FieldByName", ["sell"], C)), "AsString"))], C)));
         await $.mset((await $.wcall([$t93], "FieldByName", ["debet"], C)), "AsString", (await $.wcall([$t93], "uppercase", [(await $.mv((await $.wcall([$t93], "FieldByName", ["debet"], C)), "AsString"))], C)));
         await $.mset((await $.wcall([$t93], "FieldByName", ["kredit"], C)), "AsString", (await $.wcall([$t93], "uppercase", [(await $.mv((await $.wcall([$t93], "FieldByName", ["kredit"], C)), "AsString"))], C)));
@@ -1708,7 +1708,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.mv((await $.v(C, "odialog")), "Execute")))) {
     {
-      const $t105 = (await $.v(C, "oradatbook"));
+      const $t105 = (await $.wobj(C, "oradatbook"));
       await $.stmt($.wcall([$t105], "close", [], C));
       await $.stmt($.wcall([$t105], "open", [], C));
       { const $t106 = (await $.wv([$t105], "recordcount", C, false));
@@ -1761,7 +1761,7 @@ export default function define($) {
         $t110 = false;
         if (!($.ord(L0["j"]) <= $.ord($t109))) break;
         {
-          const $t111 = (await $.v(C, "oradatsheet"));
+          const $t111 = (await $.wobj(C, "oradatsheet"));
           await $.stmt($.wcall([$t111], "close", [], C));
           await $.stmt($.wcall([$t111], "open", [], C));
           await $.stmt($.wcall([$t111], "insert", [], C));
@@ -1803,7 +1803,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t114 = (await $.v(C, "oradatbook"));
+    const $t114 = (await $.wobj(C, "oradatbook"));
     await $.stmt($.wcall([$t114], "delete", [], C));
   }
   return L0.result;
@@ -1848,7 +1848,7 @@ export default function define($) {
         await $.mset((await $.mcall((await $.v(C, "oradatprovcell")), "FieldByName", ["kre_filial"])), "Asstring", "Bütün filiallar");
       }
       {
-        const $t116 = (await $.v(C, "oradatprovcell"));
+        const $t116 = (await $.wobj(C, "oradatprovcell"));
         if ($.truthy((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_(((await $.mv((await $.wcall([$t116], "FieldByName", ["deb_val"], C)), "IsNull"))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["kre_val"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["ekv"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["deb_balcn1"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "FieldByName", ["deb_accno"], C)), "Isnull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["deb_simvol"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["deb_rez"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["deb_filial"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["deb_valyuta"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["kre_balcn1"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "FieldByName", ["kre_accno"], C)), "Isnull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["kre_simvol"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["kre_rez"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["kre_filial"], C)), "IsNull"))))), async () => ((await $.mv((await $.wcall([$t116], "Fieldbyname", ["kre_valyuta"], C)), "IsNull"))))))) {
           await $.mset((await $.wv([$t116], "btnprovcelladd", C, false)), "Caption", "");
           await $.mset((await $.wv([$t116], "btnprovcelladd", C, false)), "Caption", "?lav? Et");
@@ -1930,7 +1930,7 @@ export default function define($) {
     }
     else if ($.eq($t117, 1)) {
       {
-        const $t118 = (await $.v(C, "OradatProvCell"));
+        const $t118 = (await $.wobj(C, "OradatProvCell"));
         await $.mcall((await $.wv([$t118], "oradatprovcell", C, false)), "edit", []);
         await $.mset((await $.wcall([$t118], "FieldByName", ["deb_val"], C)), "AsString", (await $.wcall([$t118], "uppercase", [(await $.mv((await $.mcall((await $.wv([$t118], "oradatprovCell", C, false)), "FieldByName", ["deb_val"])), "AsString"))], C)));
         await $.mset((await $.wcall([$t118], "FieldByName", ["kre_val"], C)), "AsString", (await $.wcall([$t118], "uppercase", [(await $.mv((await $.mcall((await $.wv([$t118], "oradatprovCell", C, false)), "FieldByName", ["kre_val"])), "AsString"))], C)));
@@ -2107,7 +2107,7 @@ export default function define($) {
   await $.set(C, "StartDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP")), "DateTime"))]))])));
   await $.set(C, "FinDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP1")), "DateTime"))]))])));
   {
-    const $t124 = (await $.v(C, "SBCM_REPORT"));
+    const $t124 = (await $.wobj(C, "SBCM_REPORT"));
     await $.stmt((await $.wcall([$t124], "CallProcedure", ["prepare_sddata", [(await $.wv([$t124], "StartDate", C, false)), (await $.wv([$t124], "FinDate", C, false)), (await $.wv([$t124], "v_StartDate", C, false)), (await $.wv([$t124], "v_FinDate", C, false))]], C)));
     await $.wset([$t124], "r_StartDate", (await $.wcall([$t124], "GetParameter", [2], C)), C);
     await $.wset([$t124], "r_FinDate", (await $.wcall([$t124], "GetParameter", [3], C)), C);
@@ -2246,7 +2246,7 @@ export default function define($) {
   await $.set(C, "StartDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP")), "DateTime"))]))])));
   await $.set(C, "FinDate", (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTP1")), "DateTime"))]))])));
   {
-    const $t128 = (await $.v(C, "cm_sd"));
+    const $t128 = (await $.wobj(C, "cm_sd"));
     await $.stmt((await $.wcall([$t128], "CallProcedure", ["prepare_sddata", [(await $.wv([$t128], "StartDate", C, false)), (await $.wv([$t128], "FinDate", C, false)), (await $.wv([$t128], "v_StartDate", C, false)), (await $.wv([$t128], "v_FinDate", C, false))]], C)));
     await $.wset([$t128], "r_StartDate", (await $.wcall([$t128], "GetParameter", [2], C)), C);
     await $.wset([$t128], "r_FinDate", (await $.wcall([$t128], "GetParameter", [3], C)), C);
@@ -2424,7 +2424,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t132 = (await $.v(C, "oradatbook"));
+    const $t132 = (await $.wobj(C, "oradatbook"));
     await $.stmt($.wcall([$t132], "close", [], C));
     await $.mcall((await $.wv([$t132], "sql", C, false)), "Clear", []);
     await $.mset((await $.wv([$t132], "sql", C, false)), "Text", $.add($.add("select * from book where caption='", (await $.mv((await $.wv([$t132], "cmbbookname", C, false)), "text"))), "'"));
@@ -2480,7 +2480,7 @@ export default function define($) {
     }
     else if ($.eq($t135, 0)) {
       {
-        const $t136 = (await $.v(C, "oradatsheet"));
+        const $t136 = (await $.wobj(C, "oradatsheet"));
         await $.stmt($.wcall([$t136], "Close", [], C));
         await $.mcall((await $.wv([$t136], "Sql", C, false)), "Clear", []);
         await $.mset((await $.wv([$t136], "Sql", C, false)), "Text", $.add($.add("Select s.rowid,s.* from sheet s where book_caption ='", (await $.wv([$t136], "S", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))), "'"));
@@ -2595,7 +2595,7 @@ export default function define($) {
     }
     else if ($.eq($t144, 1)) {
       {
-        const $t145 = (await $.v(C, "OraDatSheet"));
+        const $t145 = (await $.wobj(C, "OraDatSheet"));
         await $.mset((await $.wcall([$t145], "FieldByName", ["NISBAT"], C)), "AsString", (await $.wcall([$t145], "uppercase", [(await $.mv((await $.wcall([$t145], "FieldByName", ["NISBAT"], C)), "AsString"))], C)));
         await $.stmt($.wcall([$t145], "Post", [], C));
         await $.stmt((await $.wcall([$t145], "Yenile", [(await $.wv([$t145], "vk_f5", C, false)), []], C)));

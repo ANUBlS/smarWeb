@@ -263,7 +263,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "Gridout3")), "SetFocus", []);
   }
   {
-    const $t9 = (await $.v(C, "Gridout3"));
+    const $t9 = (await $.wobj(C, "Gridout3"));
     const $t10 = (await $.wv([$t9], "SelectedRows", C, false));
     const $t11 = (await $.mv((await $.wv([$t9, $t10], "DataSource", C, false)), "DataSet"));
     const $t12 = (await $.wv([$t9, $t10, $t11], "SWDataModule", C, false));
@@ -1516,7 +1516,7 @@ export default function define($) {
   if ($.truthy($.gt((await $.mv((await $.mv((await $.v(C, "SWDataModule")), "sw_out")), "RecordCount")), 0))) {
     await $.set(C, "OUT_FORM", (await $.mcall((await $.v(C, "Tout_form")), "Create", [Self])));
     {
-      const $t72 = (await $.v(C, "OUT_FORM"));
+      const $t72 = (await $.wobj(C, "OUT_FORM"));
       await $.mset((await $.wv([$t72], "fin", C, false)), "Style", (await $.wv([$t72], "csDropDown", C, false)));
       await $.mset((await $.wv([$t72], "FIN", C, false)), "Text", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t72], "grid_out", C, false)), "DataSource")), "DataSet")), "fieldbyname", ["MESSAGETYPE"])), "asstring")));
       await $.mset((await $.wv([$t72], "fin", C, false)), "Enabled", (await $.wv([$t72], "False", C, false)));
@@ -1743,7 +1743,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t77 = (await $.v(C, "SWDataModule"));
+    const $t77 = (await $.wobj(C, "SWDataModule"));
     if ($.truthy((await $.mv((await $.wv([$t77], "sw_out", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t77], "sw_out", C, false)), "Refresh", []);
     } else {
@@ -2443,7 +2443,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "Gridin")), "SetFocus", []);
   }
   {
-    const $t115 = (await $.v(C, "Gridin"));
+    const $t115 = (await $.wobj(C, "Gridin"));
     const $t116 = (await $.wv([$t115], "SelectedRows", C, false));
     const $t117 = (await $.mv((await $.wv([$t115, $t116], "DataSource", C, false)), "DataSet"));
     const $t118 = (await $.wv([$t115, $t116, $t117], "SWDataModule", C, false));
@@ -2539,7 +2539,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "GRIDOUT2")), "SetFocus", []);
   }
   {
-    const $t124 = (await $.v(C, "GRIDOUT2"));
+    const $t124 = (await $.wobj(C, "GRIDOUT2"));
     const $t125 = (await $.wv([$t124], "SelectedRows", C, false));
     const $t126 = (await $.mv((await $.wv([$t124, $t125], "DataSource", C, false)), "DataSet"));
     const $t127 = (await $.wv([$t124, $t125, $t126], "SWDataModule", C, false));
@@ -2604,7 +2604,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "Grid_out")), "SetFocus", []);
   }
   {
-    const $t131 = (await $.v(C, "Grid_out"));
+    const $t131 = (await $.wobj(C, "Grid_out"));
     const $t132 = (await $.wv([$t131], "SelectedRows", C, false));
     const $t133 = (await $.mv((await $.wv([$t131, $t132], "DataSource", C, false)), "DataSet"));
     const $t134 = (await $.wv([$t131, $t132, $t133], "SWDataModule", C, false));
@@ -2668,7 +2668,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "Gridout3")), "SetFocus", []);
   }
   {
-    const $t138 = (await $.v(C, "Gridout3"));
+    const $t138 = (await $.wobj(C, "Gridout3"));
     const $t139 = (await $.wv([$t138], "SelectedRows", C, false));
     const $t140 = (await $.mv((await $.wv([$t138, $t139], "DataSource", C, false)), "DataSet"));
     const $t141 = (await $.wv([$t138, $t139, $t140], "SWDataModule", C, false));
@@ -3048,7 +3048,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "Grid_out")), "SetFocus", []);
   }
   {
-    const $t151 = (await $.v(C, "Grid_out"));
+    const $t151 = (await $.wobj(C, "Grid_out"));
     const $t152 = (await $.wv([$t151], "SelectedRows", C, false));
     const $t153 = (await $.mv((await $.wv([$t151, $t152], "DataSource", C, false)), "DataSet"));
     const $t154 = (await $.wv([$t151, $t152, $t153], "SWDataModule", C, false));
@@ -3130,7 +3130,7 @@ export default function define($) {
   await $.set(C, "form5", (await $.mcall((await $.v(C, "Tform5")), "Create", [Self])));
   await $.mcall((await $.v(C, "form5")), "showmodal", []);
   {
-    const $t161 = (await $.v(C, "form5"));
+    const $t161 = (await $.wobj(C, "form5"));
     await $.mset((await $.wv([$t161], "FIN2", C, false)), "Text", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t161], "grid_out", C, false)), "DataSource")), "DataSet")), "fieldbyname", ["MESSAGETYPE"])), "asstring")));
     await $.mset((await $.wv([$t161], "sendertype", C, false)), "Text", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t161], "grid_out", C, false)), "DataSource")), "DataSet")), "fieldbyname", ["SENDERTYPE"])), "asstring")));
     await $.mset((await $.wv([$t161], "reciverbic", C, false)), "Text", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t161], "grid_out", C, false)), "DataSource")), "DataSet")), "fieldbyname", ["RECEIVERBIC"])), "asstring")));
@@ -3820,7 +3820,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "GRIDOUT2")), "SetFocus", []);
   }
   {
-    const $t190 = (await $.v(C, "GRIDOUT2"));
+    const $t190 = (await $.wobj(C, "GRIDOUT2"));
     const $t191 = (await $.wv([$t190], "SelectedRows", C, false));
     const $t192 = (await $.mv((await $.wv([$t190, $t191], "DataSource", C, false)), "DataSet"));
     const $t193 = (await $.wv([$t190, $t191, $t192], "SWDataModule", C, false));
@@ -4044,7 +4044,7 @@ export default function define($) {
   await $.fixArgs(L0, ["accountid", "v_amount"]);
   L0["st3"] = "SMARTBANK.EXE";
   {
-    const $t203 = (await $.v(C, "SwDataModule"));
+    const $t203 = (await $.wobj(C, "SwDataModule"));
     await $.mcall((await $.wv([$t203], "get_cr_acc", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t203], "get_cr_acc", C, false)), "SetVariable", ["vaccid", (await $.wv([$t203], "accountid", { get: async () => L0["accountid"], set: async (v) => { L0["accountid"] = v; }, local: true }, false))])));
     await $.mcall((await $.wv([$t203], "get_cr_acc", C, false)), "Open", []);
@@ -4163,7 +4163,7 @@ export default function define($) {
   L0["ids"] = "";
   L0["trcount"] = 0;
   {
-    const $t204 = (await $.v(C, "GridIn"));
+    const $t204 = (await $.wobj(C, "GridIn"));
     const $t205 = (await $.wv([$t204], "SelectedRows", C, false));
     const $t206 = (await $.mv((await $.wv([$t204, $t205], "DataSource", C, false)), "DataSet"));
     if ($.truthy($.eq((await $.wv([$t204, $t205, $t206], "Count", C, false)), 0))) {

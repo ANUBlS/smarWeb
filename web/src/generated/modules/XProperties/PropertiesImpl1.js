@@ -164,7 +164,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DMproperties"));
+    const $t1 = (await $.wobj(C, "DMproperties"));
     const $t2 = (await $.wv([$t1], "DataSetPropIns", C, false));
     if ($.truthy($.eq((await $.mv((await $.wv([$t1, $t2], "CheckBoxFilials", C, false)), "Checked")), (await $.wv([$t1, $t2], "true", C, false))))) {
       await $.stmt($.wcall([$t1, $t2], "Close", [], C));
@@ -174,7 +174,7 @@ export default function define($) {
     }
   }
   {
-    const $t5 = (await $.v(C, "DMproperties"));
+    const $t5 = (await $.wobj(C, "DMproperties"));
     const $t6 = (await $.wv([$t5], "DataSetPropIns", C, false));
     if ($.truthy($.eq((await $.mv((await $.wv([$t5, $t6], "CheckBoxFilials", C, false)), "Checked")), (await $.wv([$t5, $t6], "false", C, false))))) {
       await $.stmt($.wcall([$t5, $t6], "Close", [], C));
@@ -395,7 +395,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "FrmPropAdd")), "Caption", "Əmlak barədə məlumatın yığılması");
   {
-    const $t8 = (await $.v(C, "DMproperties"));
+    const $t8 = (await $.wobj(C, "DMproperties"));
     const $t9 = (await $.wv([$t8], "DataSetPropIns", C, false));
     await $.stmt($.wcall([$t8, $t9], "insert", [], C));
   }
@@ -408,7 +408,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "FrmPropAdd")), "Caption", "Əmlak barədə məlumatın redaktə olunması");
   {
-    const $t10 = (await $.v(C, "DMproperties"));
+    const $t10 = (await $.wobj(C, "DMproperties"));
     const $t11 = (await $.wv([$t10], "DataSetPropIns", C, false));
     await $.stmt($.wcall([$t10, $t11], "edit", [], C));
   }
@@ -428,7 +428,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "DMproperties"));
+    const $t12 = (await $.wobj(C, "DMproperties"));
     const $t13 = (await $.wv([$t12], "DataSetPropIns", C, false));
     if ($.truthy($.eq((await $.mv((await $.wv([$t12, $t13], "RadioGrpCont", C, false)), "ItemIndex")), 0))) {
       await $.stmt($.wcall([$t12, $t13], "Close", [], C));
@@ -463,7 +463,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "FrmPropAdd")), "Caption", "Əmlak barədə məlumatların yazılması");
   {
-    const $t19 = (await $.v(C, "DMproperties"));
+    const $t19 = (await $.wobj(C, "DMproperties"));
     const $t20 = (await $.wv([$t19], "DataSetPropIns", C, false));
     await $.stmt($.wcall([$t19, $t20], "insert", [], C));
   }
@@ -476,7 +476,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "FrmPropAdd")), "Caption", "Əmlak barədə məlumatların redaktə olunması");
   {
-    const $t21 = (await $.v(C, "DMproperties"));
+    const $t21 = (await $.wobj(C, "DMproperties"));
     const $t22 = (await $.wv([$t21], "DataSetPropIns", C, false));
     await $.stmt($.wcall([$t21, $t22], "open", [], C));
     await $.stmt($.wcall([$t21, $t22], "edit", [], C));
@@ -515,7 +515,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "FrmPropAdd")), "Caption", "Əmlak barədə məlumatın redaktə olunması");
   {
-    const $t23 = (await $.v(C, "DMproperties"));
+    const $t23 = (await $.wobj(C, "DMproperties"));
     const $t24 = (await $.wv([$t23], "DataSetPropIns", C, false));
     await $.stmt($.wcall([$t23, $t24], "edit", [], C));
   }
@@ -619,7 +619,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t31 = (await $.v(C, "DMproperties"));
+    const $t31 = (await $.wobj(C, "DMproperties"));
     const $t32 = (await $.wv([$t31], "ReportDataSet", C, false));
     await $.stmt($.wcall([$t31, $t32], "close", [], C));
     await $.stmt($.wcall([$t31, $t32], "open", [], C));
@@ -628,7 +628,7 @@ export default function define($) {
     await $.set(C, "PropQReport", (await $.mcall((await $.v(C, "TPropQReport")), "Create", [Self])));
   }
   {
-    const $t33 = (await $.v(C, "PropQReport"));
+    const $t33 = (await $.wobj(C, "PropQReport"));
     await $.stmt($.wcall([$t33], "Preview", [], C));
   }
   return L0.result;
@@ -744,14 +744,14 @@ export default function define($) {
     await $.set(C, "PropQReport", (await $.mcall((await $.v(C, "TPropQReport")), "Create", [Self])));
   }
   {
-    const $t37 = (await $.v(C, "DMproperties"));
+    const $t37 = (await $.wobj(C, "DMproperties"));
     const $t38 = (await $.wv([$t37], "ReportDataSet", C, false));
     await $.stmt($.wcall([$t37, $t38], "close", [], C));
     { const $t39 = await $.iset((await $.wv([$t37, $t38], "sql", C, false)), [22], $.add("and a.id =", (await $.wcall([$t37, $t38], "inttostr", [(await $.wv([$t37, $t38], "propid", { get: async () => L0["propid"], set: async (v) => { L0["propid"] = v; }, local: true }, false))], C)))); if ($t39 !== undefined) { await $.wset([$t37, $t38], "sql", $t39, C); } }
     await $.stmt($.wcall([$t37, $t38], "open", [], C));
   }
   {
-    const $t40 = (await $.v(C, "PropQReport"));
+    const $t40 = (await $.wobj(C, "PropQReport"));
     await $.stmt($.wcall([$t40], "Preview", [], C));
   }
   return L0.result;

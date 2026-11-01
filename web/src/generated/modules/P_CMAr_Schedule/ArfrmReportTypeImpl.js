@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {result: 0};
   L0["result"] = 0;
   {
-    const $t1 = (await $.v(C, "ArScheduleDataModule"));
+    const $t1 = (await $.wobj(C, "ArScheduleDataModule"));
     const $t2 = (await $.wv([$t1], "ScheduleData", C, false));
     await $.stmt($.wcall([$t1, $t2], "First", [], C));
     while ($.truthy($.not((await $.wv([$t1, $t2], "EOF", C, false))))) {
@@ -29,13 +29,13 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "factint": 0, "s": ''};
   {
-    const $t3 = (await $.v(C, "ArScheduleDataModule"));
+    const $t3 = (await $.wobj(C, "ArScheduleDataModule"));
     const $t4 = (await $.wv([$t3], "CreditInfo", C, false));
     await $.wset([$t3, $t4], "factint", $.mul(($.fdiv((await $.wv([$t3, $t4], "CalcFullIntpayment", C, false)), (await $.mv((await $.wcall([$t3, $t4], "FieldByName", ["CREDITLINEAMOUNT"], C)), "AsFloat")))), 100), { get: async () => L0["factint"], set: async (v) => { L0["factint"] = v; }, local: true });
     await $.wset([$t3, $t4], "s", (await $.wcall([$t3, $t4], "FloatToStr", [(await $.mv((await $.wcall([$t3, $t4], "FieldByName", ["ANNUALYINTERESTRATE"], C)), "AsFloat"))], C)), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
   }
   {
-    const $t5 = (await $.v(C, "ReportForm"));
+    const $t5 = (await $.wobj(C, "ReportForm"));
     await $.mset((await $.wv([$t5], "ANNUALYINTERESTRATE", C, false)), "Caption", $.add((await $.wv([$t5], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)), "%"));
     await $.mset((await $.wv([$t5], "FullIntPayment", C, false)), "Caption", (await $.wcall([$t5], "FloatToStr", [(await $.wv([$t5], "CalcFullIntpayment", C, false))], C)));
     await $.wset([$t5], "s", (await $.wcall([$t5], "Floattostr", [(await $.wv([$t5], "factint", { get: async () => L0["factint"], set: async (v) => { L0["factint"] = v; }, local: true }, false))], C)), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
@@ -48,7 +48,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t6 = (await $.v(C, "ArScheduleDataModule"));
+    const $t6 = (await $.wobj(C, "ArScheduleDataModule"));
     const $t7 = (await $.wv([$t6], "ExportData", C, false));
     if ($.truthy((await $.wv([$t6, $t7], "Active", C, false)))) {
       await $.stmt($.wcall([$t6, $t7], "close", [], C));
@@ -92,7 +92,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "RGReport"));
+    const $t9 = (await $.wobj(C, "RGReport"));
     { const $t10 = (await $.wv([$t9], "ItemIndex", C, false));
       if ($.eq($t10, 0)) {
         await $.stmt($.wcall([$t9], "exportreport", [], C));

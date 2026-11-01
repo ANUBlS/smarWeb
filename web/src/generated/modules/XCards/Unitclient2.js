@@ -274,7 +274,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "acc": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "DataMod_CARDS"));
+    const $t3 = (await $.wobj(C, "DataMod_CARDS"));
     const $t4 = (await $.wv([$t3], "HESAB", C, false));
     await $.stmt((await $.wcall([$t3, $t4], "SetVariable", ["CID", (await $.wv([$t3, $t4], "null", C, false))], C)));
     await $.stmt((await $.wcall([$t3, $t4], "SetVariable", ["p_AccNO", $.add((await $.mv((await $.wv([$t3, $t4], "dblookupcombobox6", C, false)), "Text")), "%")], C)));
@@ -1332,7 +1332,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "handled": $.asRef(p1), result: undefined, "acc": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "DataMod_CARDS"));
+    const $t11 = (await $.wobj(C, "DataMod_CARDS"));
     const $t12 = (await $.wv([$t11], "HESAB", C, false));
     await $.stmt((await $.wcall([$t11, $t12], "SetVariable", ["CID", (await $.wv([$t11, $t12], "null", C, false))], C)));
     await $.stmt((await $.wcall([$t11, $t12], "SetVariable", ["p_AccNO", $.add((await $.mv((await $.wv([$t11, $t12], "dblookupcombobox6", C, false)), "Text")), "%")], C)));
@@ -1347,7 +1347,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "acc": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "DataMod_CARDS"));
+    const $t13 = (await $.wobj(C, "DataMod_CARDS"));
     const $t14 = (await $.wv([$t13], "HESAB", C, false));
     await $.stmt((await $.wcall([$t13, $t14], "SetVariable", ["CID", (await $.wv([$t13, $t14], "null", C, false))], C)));
     await $.stmt((await $.wcall([$t13, $t14], "SetVariable", ["p_AccNO", $.add((await $.mv((await $.wv([$t13, $t14], "dblookupcombobox6", C, false)), "Text")), "%")], C)));
@@ -1365,7 +1365,7 @@ export default function define($) {
   await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
   if ($.truthy($.gt((await $.mv((await $.mv((await $.v(C, "DataMod_CARDS")), "hesab")), "RecordCount")), 0))) {
     {
-      const $t15 = (await $.v(C, "DataMod_CARDS"));
+      const $t15 = (await $.wobj(C, "DataMod_CARDS"));
       const $t16 = (await $.wv([$t15], "HESAB", C, false));
       if ($.truthy($.eq((await $.mv((await $.wv([$t15, $t16], "edit14", C, false)), "text")), ""))) {
         await $.stmt((await $.wcall([$t15, $t16], "SetVariable", ["CID", (await $.wv([$t15, $t16], "null", C, false))], C)));

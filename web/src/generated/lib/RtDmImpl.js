@@ -47,7 +47,7 @@ export default function define($) {
       }
       else if ($.eq($t1, "U")) {
         {
-          const $t2 = (await $.v(C, "PgRetel"));
+          const $t2 = (await $.wobj(C, "PgRetel"));
           const $t3 = (await $.wv([$t2], "SavedCredit", C, false));
           await $.wset([$t2, $t3], "Result", (await $.wcall([$t2, $t3], "CallIntegerFunction", ["cred_add", ["CreditID", (await $.mv((await $.mcall((await $.wv([$t2, $t3], "PersonLink", C, false)), "FieldByName", ["id"])), "AsInteger")), "boorowerid", (await $.wv([$t2, $t3], "boorowerid", C, false)), "Currency", (await $.wv([$t2, $t3], "Currency", C, false)), "CreditLineAmount", (await $.mv((await $.mv((await $.wv([$t2, $t3], "MainForm", C, false)), "DBEdit2")), "text")), "AnnualyInterestRate", (await $.wv([$t2, $t3], "AnnualyInterestRate", C, false)), "AnnualyOverdueRate", (await $.wv([$t2, $t3], "AnnualyOverdueRate", C, false)), "AnnualyPenaltyRate", (await $.wv([$t2, $t3], "AnnualyPenaltyRate", C, false)), "DateOfConclusion", (await $.wv([$t2, $t3], "DateOfConclusion", C, false)), "DueDateFirstContract", (await $.wv([$t2, $t3], "DueDateFirstContract", C, false)), "NumberOfCredit", (await $.wv([$t2, $t3], "NumberOfCredit", C, false)), "PurposeOfCredit", (await $.wv([$t2, $t3], "PurposeOfCredit", C, false)), "BranchID", (await $.wv([$t2, $t3], "BranchID", C, false)), "pldgid_t", (await $.wv([$t2, $t3], "pldgid_t", C, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
         }

@@ -345,7 +345,7 @@ export default function define($) {
   L0["stdate"] = (await $.mv((await $.v(C, "DTPickBegin")), "DateTime"));
   L0["enddate"] = (await $.mv((await $.v(C, "DTPickEnd")), "DateTime"));
   {
-    const $t1 = (await $.v(C, "DataModBBPayings"));
+    const $t1 = (await $.wobj(C, "DataModBBPayings"));
     await $.stmt((await $.mcall((await $.wv([$t1], "ODS_ABNServices", C, false)), "SetVariable", ["StDate", (await $.wv([$t1], "StDate", { get: async () => L0["stdate"], set: async (v) => { L0["stdate"] = v; }, local: true }, false))])));
     await $.stmt((await $.mcall((await $.wv([$t1], "ODS_ABNServices", C, false)), "SetVariable", ["EndDate", (await $.wv([$t1], "EndDate", { get: async () => L0["enddate"], set: async (v) => { L0["enddate"] = v; }, local: true }, false))])));
     await $.mcall((await $.wv([$t1], "ODS_ABNServices", C, false)), "Open", []);
@@ -399,7 +399,7 @@ export default function define($) {
     await $.set(C, "FormBBPayingAdd", (await $.mcall((await $.v(C, "TFormBBPayingAdd")), "Create", [Self])));
   }
   {
-    const $t4 = (await $.v(C, "FormBBPayingAdd"));
+    const $t4 = (await $.wobj(C, "FormBBPayingAdd"));
     await $.mset((await $.wv([$t4], "DTPicker", C, false)), "Date", (await $.wv([$t4], "sb_GetSystemDate", C, false)));
     await $.mset((await $.wv([$t4], "DBEditAbonentName", C, false)), "Text", "");
     await $.mset((await $.wv([$t4], "CBoxContractNum", C, false)), "KeyValue", 0);
@@ -422,7 +422,7 @@ export default function define($) {
     await $.set(C, "FormBBPayingAdd", (await $.mcall((await $.v(C, "TFormBBPayingAdd")), "Create", [Self])));
   }
   {
-    const $t5 = (await $.v(C, "FormBBPayingAdd"));
+    const $t5 = (await $.wobj(C, "FormBBPayingAdd"));
     const $t6 = (await $.mv((await $.wv([$t5], "DataModBBPayings", C, false)), "ODS_ABNServices"));
     await $.mset((await $.wv([$t5, $t6], "DTPicker", C, false)), "Date", (await $.mv((await $.wcall([$t5, $t6], "FieldByName", ["Done_Time"], C)), "AsVariant")));
     await $.mset((await $.wv([$t5, $t6], "DBEditAbonentName", C, false)), "Text", (await $.mv((await $.wcall([$t5, $t6], "FieldByName", ["ABN_Name"], C)), "AsString")));
@@ -476,7 +476,7 @@ export default function define($) {
           continue;
         } else {
           {
-            const $t9 = (await $.v(C, "DataModBBPayings"));
+            const $t9 = (await $.wobj(C, "DataModBBPayings"));
             await $.stmt((await $.mcall((await $.wv([$t9], "OrPack_CableManager", C, false)), "CallProcedure", ["AbnServCommit", [(await $.mv((await $.mcall((await $.wv([$t9], "ODS_ABNServices", C, false)), "FieldByName", ["ID"])), "AsVariant"))]])));
           }
         }
@@ -524,7 +524,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "ExcelExport"));
+    const $t12 = (await $.wobj(C, "ExcelExport"));
     if ($.truthy($.not((await $.wv([$t12], "Connected", C, false))))) {
       await $.stmt($.wcall([$t12], "Connect", [], C));
     }

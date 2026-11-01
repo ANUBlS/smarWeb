@@ -57,7 +57,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.gt((await $.mv((await $.v(C, "ods_in")), "RecordCount")), 0))) {
     {
-      const $t7 = (await $.v(C, "CMExcelExport1"));
+      const $t7 = (await $.wobj(C, "CMExcelExport1"));
       await $.stmt($.wcall([$t7], "Connect", [], C));
       await $.stmt((await $.wcall([$t7], "ExportDataset", [(await $.wv([$t7], "ods_in", C, false)), "Tax", (await $.wv([$t7], "True", C, false))], C)));
       await $.stmt($.wcall([$t7], "Disconnect", [], C));
@@ -313,7 +313,7 @@ export default function define($) {
   L0["a"] = (await $.call(C, "formatdatetime", ["DD/MM/YYYY", (await $.mv((await $.v(C, "DateTimePicker3")), "DateTime"))]));
   L0["b"] = (await $.call(C, "formatdatetime", ["DD/MM/YYYY", (await $.mv((await $.v(C, "DateTimePicker2")), "DateTime"))]));
   {
-    const $t8 = (await $.v(C, "ods_in"));
+    const $t8 = (await $.wobj(C, "ods_in"));
     await $.stmt($.wcall([$t8], "close", [], C));
     await $.stmt((await $.wcall([$t8], "SetVariable", ["begin_dat", (await $.wv([$t8], "a", { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t8], "SetVariable", ["end_dat", (await $.wv([$t8], "b", { get: async () => L0["b"], set: async (v) => { L0["b"] = v; }, local: true }, false))], C)));
@@ -348,7 +348,7 @@ export default function define($) {
       await $.set(C, "rep", (await $.mcall((await $.v(C, "trep")), "Create", [Self])));
     }
     {
-      const $t9 = (await $.v(C, "rep"));
+      const $t9 = (await $.wobj(C, "rep"));
       { const $t10 = (await $.mv((await $.wv([$t9], "OracleDataSet1", C, false)), "RecordCount"));
         await $.wset([$t9], "I", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
         let $t11 = true;
@@ -410,7 +410,7 @@ export default function define($) {
   L0["b"] = (await $.call(C, "formatdatetime", ["DD/MM/YYYY", (await $.mv((await $.v(C, "DateTimePicker2")), "DateTime"))]));
   await $.stmt((await $.call(C, "showmessage", [(L0["a"])])));
   {
-    const $t14 = (await $.v(C, "ods_in"));
+    const $t14 = (await $.wobj(C, "ods_in"));
     await $.stmt($.wcall([$t14], "close", [], C));
     await $.stmt((await $.wcall([$t14], "SetVariable", ["begin_dat", (await $.wv([$t14], "a", { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t14], "SetVariable", ["end_dat", (await $.wv([$t14], "b", { get: async () => L0["b"], set: async (v) => { L0["b"] = v; }, local: true }, false))], C)));
@@ -666,7 +666,7 @@ export default function define($) {
   L0["end_dat"] = (await $.call(C, "formatdatetime", ["DD/MM/YYYY", (await $.mv((await $.v(C, "DateTimePicker2")), "DateTime"))]));
   L0["sert"] = "and";
   {
-    const $t15 = (await $.v(C, "ods_in"));
+    const $t15 = (await $.wobj(C, "ods_in"));
     await $.stmt($.wcall([$t15], "close", [], C));
     await $.stmt((await $.wcall([$t15], "SetVariable", ["begin_dat", (await $.wv([$t15], "begin_dat", { get: async () => L0["begin_dat"], set: async (v) => { L0["begin_dat"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t15], "SetVariable", ["end_dat", (await $.wv([$t15], "end_dat", { get: async () => L0["end_dat"], set: async (v) => { L0["end_dat"] = v; }, local: true }, false))], C)));

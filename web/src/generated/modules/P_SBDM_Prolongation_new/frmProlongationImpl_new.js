@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["s"]);
   L0["contid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "frmProlongation_new"));
+    const $t1 = (await $.wobj(C, "frmProlongation_new"));
     {
       const $t2 = (await $.wv([$t1], "prolongations", C, false));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
@@ -41,7 +41,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "frmProlongation_new"));
+    const $t4 = (await $.wobj(C, "frmProlongation_new"));
     const $t5 = (await $.wv([$t4], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t4, $t5], "CallProcedure", ["checkadvancedobjectaccess", ["INSERT_SBCM_PROLONGATION"]], C)));
   }
@@ -53,7 +53,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "frmProlongation_new"));
+    const $t6 = (await $.wobj(C, "frmProlongation_new"));
     const $t7 = (await $.wv([$t6], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t6, $t7], "CallProcedure", ["checkadvancedobjectaccess", ["DELETE_SBCM_PROLONGATION"]], C)));
   }
@@ -61,7 +61,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t8 = (await $.v(C, "sbcm_prolongation"));
+    const $t8 = (await $.wobj(C, "sbcm_prolongation"));
     await $.stmt((await $.wcall([$t8], "CallProcedure", ["DelLastProlongation", [(await $.wv([$t8], "Get_SelectedContID", C, false))]], C)));
   }
   await $.mcall((await $.v(C, "prolongations")), "refresh", []);
@@ -83,12 +83,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "frmProlongation_new"));
+    const $t10 = (await $.wobj(C, "frmProlongation_new"));
     const $t11 = (await $.wv([$t10], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t10, $t11], "CallProcedure", ["checkadvancedobjectaccess", ["EXCEL_SBCM__PROLONGATION"]], C)));
   }
   {
-    const $t12 = (await $.v(C, "EExporter"));
+    const $t12 = (await $.wobj(C, "EExporter"));
     await $.stmt($.wcall([$t12], "Connect", [], C));
     await $.stmt((await $.wcall([$t12], "ExportDataset", [(await $.wv([$t12], "prolongations", C, false)), "Prolonqasiya", (await $.wv([$t12], "True", C, false))], C)));
     await $.stmt($.wcall([$t12], "Disconnect", [], C));

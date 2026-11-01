@@ -32,7 +32,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "RtDataModule"));
+    const $t1 = (await $.wobj(C, "RtDataModule"));
     await $.mset((await $.mcall((await $.wv([$t1], "PersonLink", C, false)), "FieldByName", ["numberofcredit"])), "asstring", $.add((await $.mv((await $.mcall((await $.wv([$t1], "OracleDataSet2", C, false)), "FieldByName", ["num"])), "asstring")), (await $.wcall([$t1], "inttostr", [(await $.mv((await $.mcall((await $.wv([$t1], "Branches", C, false)), "FieldByName", ["id"])), "AsInteger"))], C))));
   }
   return L0.result;
@@ -53,7 +53,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.ne((await $.mv((await $.v(C, "DBEdit2")), "Text")), ""))) {
     {
-      const $t3 = (await $.v(C, "RtDataModule"));
+      const $t3 = (await $.wobj(C, "RtDataModule"));
       const $t4 = (await $.wv([$t3], "perodcurr", C, false));
       if ($.truthy((await $.wv([$t3, $t4], "Active", C, false)))) {
         await $.stmt($.wcall([$t3, $t4], "close", [], C));
@@ -63,7 +63,7 @@ export default function define($) {
       await $.stmt($.wcall([$t3, $t4], "open", [], C));
     }
     {
-      const $t5 = (await $.v(C, "RtDataModule"));
+      const $t5 = (await $.wobj(C, "RtDataModule"));
       const $t6 = (await $.wv([$t5], "Percent", C, false));
       if ($.truthy((await $.wv([$t5, $t6], "Active", C, false)))) {
         await $.stmt($.wcall([$t5, $t6], "close", [], C));
@@ -95,7 +95,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.stmt((await $.call(C, "ShowMessage", [(await $.mv((await $.mcall((await $.mv((await $.v(C, "RtDataModule")), "PersonLink")), "FieldByName", ["PeriodContracts"])), "asstring"))])));
   {
-    const $t7 = (await $.v(C, "RtDataModule"));
+    const $t7 = (await $.wobj(C, "RtDataModule"));
     const $t8 = (await $.wv([$t7], "OracleDataSet1", C, false));
     if ($.truthy((await $.wv([$t7, $t8], "Active", C, false)))) {
       await $.stmt($.wcall([$t7, $t8], "close", [], C));
@@ -120,7 +120,7 @@ export default function define($) {
   if ($.truthy($.ne((await $.mv((await $.v(C, "DBEdit2")), "Text")), ""))) {
     await $.mcall((await $.v(C, "DBEdit2")), "Clear", []);
     {
-      const $t9 = (await $.v(C, "RtDataModule"));
+      const $t9 = (await $.wobj(C, "RtDataModule"));
       const $t10 = (await $.wv([$t9], "Percent", C, false));
       if ($.truthy((await $.wv([$t9, $t10], "Active", C, false)))) {
         await $.stmt($.wcall([$t9, $t10], "close", [], C));
@@ -137,7 +137,7 @@ export default function define($) {
   }
   if ($.truthy($.ne((await $.mv((await $.v(C, "DBNumberEditEh1")), "text")), (await $.v(C, "null"))))) {
     {
-      const $t11 = (await $.v(C, "RtDataModule"));
+      const $t11 = (await $.wobj(C, "RtDataModule"));
       const $t12 = (await $.wv([$t11], "OracleDataSet1", C, false));
       if ($.truthy((await $.wv([$t11, $t12], "Active", C, false)))) {
         await $.stmt($.wcall([$t11, $t12], "close", [], C));
@@ -247,7 +247,7 @@ export default function define($) {
   const L0 = {result: 0};
   L0["result"] = 0;
   {
-    const $t19 = (await $.v(C, "RtDataModule"));
+    const $t19 = (await $.wobj(C, "RtDataModule"));
     const $t20 = (await $.wv([$t19], "ScheduleData", C, false));
     await $.stmt($.wcall([$t19, $t20], "First", [], C));
     while ($.truthy($.not((await $.wv([$t19, $t20], "EOF", C, false))))) {
@@ -263,7 +263,7 @@ export default function define($) {
   const L0 = {"creditid": $.copyArg(p0), result: undefined, "factint": 0, "s": ''};
   await $.fixArgs(L0, ["creditid"]);
   {
-    const $t21 = (await $.v(C, "RtDataModule"));
+    const $t21 = (await $.wobj(C, "RtDataModule"));
     {
       const $t22 = (await $.wv([$t21], "ScheduleData", C, false));
       await $.stmt($.wcall([$t21, $t22], "ClearVariables", [], C));
@@ -297,13 +297,13 @@ export default function define($) {
     }
   }
   {
-    const $t25 = (await $.v(C, "RtDataModule"));
+    const $t25 = (await $.wobj(C, "RtDataModule"));
     const $t26 = (await $.wv([$t25], "CreditInfo", C, false));
     await $.wset([$t25, $t26], "factint", $.mul(($.fdiv((await $.wv([$t25, $t26], "CalcFullIntpayment", C, false)), (await $.mv((await $.wcall([$t25, $t26], "FieldByName", ["CREDITLINEAMOUNT"], C)), "AsFloat")))), 100), { get: async () => L0["factint"], set: async (v) => { L0["factint"] = v; }, local: true });
     await $.wset([$t25, $t26], "s", (await $.wcall([$t25, $t26], "FloatToStr", [(await $.mv((await $.wcall([$t25, $t26], "FieldByName", ["ANNUALYINTERESTRATE"], C)), "AsFloat"))], C)), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
   }
   {
-    const $t27 = (await $.v(C, "FormReport"));
+    const $t27 = (await $.wobj(C, "FormReport"));
     await $.mset((await $.wv([$t27], "ANNUALYINTERESTRATE", C, false)), "Caption", $.add((await $.wv([$t27], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false)), "%"));
     await $.mset((await $.wv([$t27], "FullIntPayment", C, false)), "Caption", (await $.wcall([$t27], "FloatToStr", [(await $.wv([$t27], "CalcFullIntpayment", C, false))], C)));
     await $.wset([$t27], "s", (await $.wcall([$t27], "Floattostr", [(await $.wv([$t27], "factint", { get: async () => L0["factint"], set: async (v) => { L0["factint"] = v; }, local: true }, false))], C)), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
@@ -348,7 +348,7 @@ export default function define($) {
   await $.mcall((await $.mv((await $.mv((await $.v(C, "RtDataModule")), "PersonLink")), "Session")), "Commit", []);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [$.add($.add("     Əməliyyat uğrla yerinə yetrildi   ", "\r"), "Kredit müqaviləsini çap etmək istəyirsinizmi ?"), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t29 = (await $.v(C, "RtDataModule"));
+      const $t29 = (await $.wobj(C, "RtDataModule"));
       await $.mcall((await $.wv([$t29], "TemplatesDataSet", C, false)), "close", []);
       await $.stmt((await $.mcall((await $.wv([$t29], "TemplatesDataSet", C, false)), "SetVariable", ["mehid", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t29], "XDBGrid1", C, false)), "DataSource")), "DataSet")), "FieldByName", ["id"])), "AsInteger"))])));
       await $.mcall((await $.wv([$t29], "TemplatesDataSet", C, false)), "open", []);
@@ -404,7 +404,7 @@ export default function define($) {
     await $.mset((await $.mv((await $.mv((await $.v(C, "WordDocument")), "Application")), "Get_ActiveWindow")), "Caption", (await $.v(C, "Caption")));
     try {
       {
-        const $t31 = (await $.v(C, "RtDataModule"));
+        const $t31 = (await $.wobj(C, "RtDataModule"));
         const $t32 = (await $.wv([$t31], "ReplaceDataSet", C, false));
         const $t33 = (await $.wv([$t31, $t32], "WordDocument", C, false));
         { const $t34 = (await $.mv((await $.wv([$t31, $t32, $t33], "Bookmarks", C, false)), "Count"));
@@ -471,7 +471,7 @@ export default function define($) {
   await $.set(C, "Caption", "Smart");
   await $.mset((await $.v(C, "panel19")), "Visible", true);
   {
-    const $t38 = (await $.v(C, "RtDataModule"));
+    const $t38 = (await $.wobj(C, "RtDataModule"));
     { const $t39 = await $.iset((await $.mv((await $.wv([$t38], "PersonLink", C, false)), "SQL")), [3], ""); if ($t39 !== undefined) { await $.mset((await $.wv([$t38], "PersonLink", C, false)), "SQL", $t39); } }
     await $.mcall((await $.wv([$t38], "PersonLink", C, false)), "Refresh", []);
   }
@@ -487,7 +487,7 @@ export default function define($) {
   await $.set(C, "Caption", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "XDBGrid1")), "DataSource")), "DataSet")), "FieldByName", ["name"])), "asstring")));
   L0["s"] = (await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "XDBGrid1")), "DataSource")), "DataSet")), "FieldByName", ["id"])), "AsInteger"));
   {
-    const $t40 = (await $.v(C, "RtDataModule"));
+    const $t40 = (await $.wobj(C, "RtDataModule"));
     if ($.truthy((await $.mv((await $.wv([$t40], "PersonLink", C, false)), "active")))) {
       await $.mcall((await $.wv([$t40], "PersonLink", C, false)), "close", []);
     }

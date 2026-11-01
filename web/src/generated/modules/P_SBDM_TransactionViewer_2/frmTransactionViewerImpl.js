@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["trid"]);
   L0["transid"] = (await $.call(C, "StrToInt", [L0["trid"]]));
   {
-    const $t1 = (await $.v(C, "dmTransactionViewer"));
+    const $t1 = (await $.wobj(C, "dmTransactionViewer"));
     {
       const $t2 = (await $.wv([$t1], "TransactionData", C, false));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
@@ -133,7 +133,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "dmTransactionViewer"));
+    const $t13 = (await $.wobj(C, "dmTransactionViewer"));
     {
       const $t14 = (await $.wv([$t13], "RestDebit", C, false));
       await $.mset((await $.wv([$t13, $t14], "LblDebitOstat", C, false)), "Caption", (await $.wcall([$t13, $t14], "FloatToStr", [(await $.mv((await $.wcall([$t13, $t14], "FieldByName", ["Ostat"], C)), "AsFloat"))], C)));

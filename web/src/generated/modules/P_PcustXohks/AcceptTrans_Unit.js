@@ -31,7 +31,7 @@ export default function define($) {
       await $.mcall((await $.mv((await $.v(C, "DataModXhoks")), "XS_BATCHS")), "RefreshRecord", []);
     } else {
       {
-        const $t1 = (await $.v(C, "MainXohksForm"));
+        const $t1 = (await $.wobj(C, "MainXohksForm"));
         await $.wset([$t1], "AcceptTransForCreated", (await $.wv([$t1], "True", C, false)), C);
       }
     }
@@ -46,7 +46,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "MainXohksForm"));
+    const $t2 = (await $.wobj(C, "MainXohksForm"));
     await $.wset([$t2], "AcceptTransForCreated", (await $.wv([$t2], "False", C, false)), C);
   }
   await $.stmt($.call(C, "close", []));

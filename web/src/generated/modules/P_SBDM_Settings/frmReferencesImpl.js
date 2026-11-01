@@ -88,7 +88,7 @@ export default function define($) {
 });
   L0["targetitemid"] = (await $.call(C, "Integer", [(await $.idx((await $.mv((await $.v(C, "TreeItems")), "Items")), [(await $.mv(L0["node"], "AbsoluteIndex"))]))]));
   {
-    const $t3 = (await $.v(C, "DataModReferences"));
+    const $t3 = (await $.wobj(C, "DataModReferences"));
     {
       const $t4 = (await $.wv([$t3], "ReferLink", C, false));
       await $.stmt((await $.wcall([$t3, $t4], "Locate", ["ID", (await $.wv([$t3, $t4], "TargetItemID", { get: async () => L0["targetitemid"], set: async (v) => { L0["targetitemid"] = v; }, local: true }, false)), []], C)));
@@ -122,7 +122,7 @@ export default function define($) {
     L0["newvalue"] = (await $.mv((await $.v(C, "ValuesEdit")), "Text"));
   }
   {
-    const $t5 = (await $.v(C, "DataModReferences"));
+    const $t5 = (await $.wobj(C, "DataModReferences"));
     {
       const $t6 = (await $.wv([$t5], "ReferLink", C, false));
       const $t7 = (await $.wv([$t5, $t6], "ReferPackage", C, false));

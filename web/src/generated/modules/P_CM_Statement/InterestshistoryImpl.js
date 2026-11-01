@@ -44,7 +44,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "EExport"));
+    const $t1 = (await $.wobj(C, "EExport"));
     await $.mcall((await $.mv((await $.mv((await $.wv([$t1], "DBGridEh1", C, false)), "DataSource")), "DataSet")), "Last", []);
     await $.stmt($.wcall([$t1], "Connect", [], C));
     await $.stmt((await $.wcall([$t1], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t1], "DBGridEh1", C, false)), "DataSource")), "DataSet")), "hesablanmish faiz", (await $.wv([$t1], "True", C, false))], C)));

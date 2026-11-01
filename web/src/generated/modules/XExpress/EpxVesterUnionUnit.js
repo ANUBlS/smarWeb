@@ -14,7 +14,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "accno": ''};
   {
-    const $t1 = (await $.v(C, "ExpDataModule"));
+    const $t1 = (await $.wobj(C, "ExpDataModule"));
     await $.wset([$t1], "Accno", (await $.mcall((await $.wv([$t1], "EXPESSPAC", C, false)), "CallStringFunction", ["ExpAccountOpen", ["custid", (await $.mv((await $.wv([$t1], "EditCustid", C, false)), "Text")), "vfilial", (await $.mv((await $.wv([$t1], "EditFilial", C, false)), "Text")), "valname", (await $.mv((await $.wv([$t1], "Valname", C, false)), "Text"))]])), { get: async () => L0["accno"], set: async (v) => { L0["accno"] = v; }, local: true });
     await $.mset((await $.wv([$t1], "AccNameEdit", C, false)), "Text", (await $.wv([$t1], "Accno", { get: async () => L0["accno"], set: async (v) => { L0["accno"] = v; }, local: true }, false)));
     await $.mcall((await $.wv([$t1], "Accountid", C, false)), "Close", []);
@@ -68,7 +68,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "ekvusd": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "ExpDataModule"));
+    const $t2 = (await $.wobj(C, "ExpDataModule"));
     if ($.truthy($.eq((await $.wv([$t2], "FInsert", C, false)), 0))) {
       await $.mcall((await $.wv([$t2], "FilialDataSet", C, false)), "Close", []);
       { const $t3 = await $.iset((await $.mv((await $.wv([$t2], "FilialDataSet", C, false)), "SQL")), [1], ""); if ($t3 !== undefined) { await $.mset((await $.wv([$t2], "FilialDataSet", C, false)), "SQL", $t3); } }

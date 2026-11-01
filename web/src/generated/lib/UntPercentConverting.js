@@ -64,7 +64,7 @@ export default function define($) {
   L0["resultitle"] = "  : Errors Found On Convertion Percents";
   await $.stmt($.call(C, "SelectAllRows", []));
   {
-    const $t3 = (await $.v(C, "LazyPercentViewer"));
+    const $t3 = (await $.wobj(C, "LazyPercentViewer"));
     const $t4 = (await $.wv([$t3], "SelectedRows", C, false));
     const $t5 = (await $.mv((await $.wv([$t3, $t4], "DataSource", C, false)), "DataSet"));
     await $.wset([$t3, $t4, $t5], "Aborted", 0, { get: async () => L0["aborted"], set: async (v) => { L0["aborted"] = v; }, local: true });
@@ -133,7 +133,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t13 = (await $.v(C, "LazyPercentViewer"));
+    const $t13 = (await $.wobj(C, "LazyPercentViewer"));
     const $t14 = (await $.wv([$t13], "SelectedRows", C, false));
     const $t15 = (await $.mv((await $.wv([$t13, $t14], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t13, $t14, $t15], "DisableControls", [], C));

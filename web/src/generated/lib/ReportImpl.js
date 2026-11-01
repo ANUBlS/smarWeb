@@ -34,7 +34,7 @@ export default function define($) {
     }
   }
   {
-    const $t7 = (await $.v(C, "ExcelExport"));
+    const $t7 = (await $.wobj(C, "ExcelExport"));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t7], "DMproperties", C, false)), "ReportDataSet")), "RecordCount")), 0))) {
       await $.stmt((await $.wcall([$t7], "ShowMessage", ["Heç bir məlumat tapılmadı "], C)));
       return L0.result;

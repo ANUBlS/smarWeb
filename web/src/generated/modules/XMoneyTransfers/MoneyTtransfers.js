@@ -296,7 +296,7 @@ export default function define($) {
   L0["sheet"] = (await $.mcall((await $.mv(L0["v"], "WorkBooks")), "add", [$.add((await $.call(C, "ExtractFilePath", [(await $.call(C, "ExtractFilePath", [(await $.call(C, "ParamStr", [0]))]))])), "PulKöçürmələri.xlsx")]));
   await $.mcall((await $.v(C, "ODSMoneyTransfer")), "First", []);
   {
-    const $t2 = (await $.v(C, "ODSMoneyTransfer"));
+    const $t2 = (await $.wobj(C, "ODSMoneyTransfer"));
     while ($.truthy($.not((await $.wv([$t2], "Eof", C, false))))) {
       if ($.truthy($.eq((await $.mv((await $.wv([$t2], "ODSMoneyTransferID", C, false)), "AsInteger")), 78))) {
         if ($.truthy($.eq((await $.mv((await $.wv([$t2], "ODSMoneyTransferTRANSFERTYPEID", C, false)), "AsInteger")), 0))) {
@@ -3295,7 +3295,7 @@ export default function define($) {
     }
   }
   {
-    const $t899 = (await $.v(C, "ODSKurs"));
+    const $t899 = (await $.wobj(C, "ODSKurs"));
     await $.stmt($.wcall([$t899], "Close", [], C));
     await $.stmt((await $.wcall([$t899], "SetVariable", ["dat", (await $.mv((await $.wv([$t899], "Edate", C, false)), "DateTime"))], C)));
     await $.stmt($.wcall([$t899], "Open", [], C));
@@ -3356,7 +3356,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t914 = (await $.v(C, "ODSMoneyTransfer"));
+    const $t914 = (await $.wobj(C, "ODSMoneyTransfer"));
     await $.stmt($.wcall([$t914], "Close", [], C));
     await $.stmt((await $.wcall([$t914], "SetVariable", ["bdat", (await $.mv((await $.wv([$t914], "Bdate", C, false)), "DateTime"))], C)));
     await $.stmt((await $.wcall([$t914], "SetVariable", ["edat", (await $.mv((await $.wv([$t914], "Edate", C, false)), "DateTime"))], C)));

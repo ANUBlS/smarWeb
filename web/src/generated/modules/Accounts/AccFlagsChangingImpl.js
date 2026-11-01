@@ -24,7 +24,7 @@ export default function define($) {
   const L1 = {result: '', "i": 0, "s": ''};
   L1["result"] = "";
   {
-    const $t1 = (await $.v(C, "CLBAccFlags"));
+    const $t1 = (await $.wobj(C, "CLBAccFlags"));
     { const $t2 = $.sub((await $.mv((await $.wv([$t1], "Items", C, false)), "Count")), 1);
       await $.wset([$t1], "I", 0, { get: async () => L1["i"], set: async (v) => { L1["i"] = v; }, local: true });
       let $t3 = true;

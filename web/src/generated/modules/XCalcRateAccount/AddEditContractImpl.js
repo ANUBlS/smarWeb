@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "CRADatMod"));
+    const $t1 = (await $.wobj(C, "CRADatMod"));
     const $t2 = (await $.wv([$t1], "Purpose", C, false));
     await $.stmt($.wcall([$t1, $t2], "Post", [], C));
   }
@@ -27,7 +27,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "CRADatMod"));
+    const $t3 = (await $.wobj(C, "CRADatMod"));
     const $t4 = (await $.wv([$t3], "Purpose", C, false));
     await $.stmt($.wcall([$t3, $t4], "Cancel", [], C));
   }

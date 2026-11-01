@@ -82,7 +82,7 @@ export default function define($) {
   }
   if ($.truthy(L0["savetype"])) {
     {
-      const $t3 = (await $.v(C, "CommonGrid"));
+      const $t3 = (await $.wobj(C, "CommonGrid"));
       await $.mcall((await $.wv([$t3], "SelectedRows", C, false)), "Clear", []);
     }
   }

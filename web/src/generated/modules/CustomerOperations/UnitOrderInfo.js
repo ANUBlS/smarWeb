@@ -58,7 +58,7 @@ export default function define($) {
   }
   if ($.truthy((await $.mcall((await $.v(C, "BrowseCashInfo")), "Locate", ["ID", (await $.mv((await $.mcall((await $.mv((await $.v(C, "CO_DataMod")), "Transactions")), "FieldByName", ["ID"])), "AsInteger")), [(await $.v(C, "loCaseInsensitive")), (await $.v(C, "loPartialKey"))]])))) {
     {
-      const $t4 = (await $.v(C, "BrowseCashInfo"));
+      const $t4 = (await $.wobj(C, "BrowseCashInfo"));
       await $.mset((await $.wv([$t4], "EPersonDoc", C, false)), "Text", (await $.mv((await $.wcall([$t4], "FieldByName", ["Person_doc"], C)), "AsWideString")));
       await $.mset((await $.wv([$t4], "EIssuedBy", C, false)), "Text", (await $.mv((await $.wcall([$t4], "FieldByName", ["IssuedBy"], C)), "AsWideString")));
       await $.mset((await $.wv([$t4], "ESeria", C, false)), "Text", (await $.mv((await $.wcall([$t4], "FieldByName", ["Seria"], C)), "AsWideString")));

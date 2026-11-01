@@ -20,7 +20,7 @@ export default function define($) {
     L0["headerkey"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "datamod")), "OracleDataSet1")), "FieldByName", ["headerkey"])), "AsString"));
     L0["endpars"] = $.add($.add($.add((await $.mv((await $.mcall((await $.mv((await $.v(C, "datamod")), "OracleDataSet1")), "FieldByName", ["endpointapp"])), "AsString")), "/"), (await $.mv((await $.v(C, "edit6")), "Text"))), (await $.mv((await $.mcall((await $.mv((await $.v(C, "datamod")), "OracleDataSet1")), "FieldByName", ["endpointreject"])), "AsString")));
     {
-      const $t2 = (await $.v(C, "IdHTTP1"));
+      const $t2 = (await $.wobj(C, "IdHTTP1"));
       await $.mcall((await $.mv((await $.wv([$t2], "Request", C, false)), "CustomHeaders")), "Clear", []);
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t2], "Request", C, false)), "CustomHeaders")), "AddValue", ["key", (await $.wv([$t2], "headerkey", { get: async () => L0["headerkey"], set: async (v) => { L0["headerkey"] = v; }, local: true }, false))])));
       await $.mset((await $.wv([$t2], "Request", C, false)), "ContentType", "application/json");

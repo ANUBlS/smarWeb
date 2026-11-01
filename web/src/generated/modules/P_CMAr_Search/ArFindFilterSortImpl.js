@@ -38,7 +38,7 @@ export default function define($) {
   L0["rsnothingtosearch"] = "Axtarılmalı olanı daxil edin!";
   await $.mset((await $.v(C, "Edit1")), "Text", (await $.mv((await $.v(C, "CmbBoxFindWhat")), "Text")));
   {
-    const $t2 = (await $.v(C, "Edit1"));
+    const $t2 = (await $.wobj(C, "Edit1"));
     await $.wset([$t2], "Text", (await $.wcall([$t2], "StringReplace", [(await $.wv([$t2], "Text", C, false)), "i", "`", [(await $.wv([$t2], "rfReplaceAll", C, false))]], C)), C);
     await $.wset([$t2], "Text", (await $.wcall([$t2], "StringReplace", [(await $.wv([$t2], "Text", C, false)), "I", "`", [(await $.wv([$t2], "rfReplaceAll", C, false))]], C)), C);
     await $.wset([$t2], "Text", (await $.wcall([$t2], "StringReplace", [(await $.wv([$t2], "Text", C, false)), "İ", "`", [(await $.wv([$t2], "rfReplaceAll", C, false))]], C)), C);

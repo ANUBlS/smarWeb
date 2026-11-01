@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModCable"));
+    const $t1 = (await $.wobj(C, "DataModCable"));
     { const $t2 = $.sub((await $.wv([$t1], "componentcount", C, false)), 1);
       await $.wset([$t1], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t3 = true;
@@ -46,7 +46,7 @@ export default function define($) {
     await $.set(C, "frmAcc", (await $.mcall((await $.v(C, "TfrmAcc")), "Create", [Self])));
   }
   {
-    const $t4 = (await $.v(C, "DataModCable"));
+    const $t4 = (await $.wobj(C, "DataModCable"));
     const $t5 = (await $.wv([$t4], "frmAcc", C, false));
     if ($.truthy($.eq((await $.wv([$t4, $t5], "ShowModal", C, false)), 1))) {
       await $.wset([$t4, $t5], "AcID", (await $.mcall((await $.wv([$t4, $t5], "CABLE", C, false)), "CallIntegerFunction", ["open_account", [(await $.mv((await $.wv([$t4, $t5], "AccNoEdit", C, false)), "Text")), (await $.mv((await $.idx((await $.mv((await $.wv([$t4, $t5], "odsAbonents", C, false)), "Fields")), [1])), "AsString")), (await $.mv((await $.idx((await $.mv((await $.wv([$t4, $t5], "odsValutes", C, false)), "Fields")), [0])), "AsInteger"))]])), { get: async () => L0["acid"], set: async (v) => { L0["acid"] = v; }, local: true });

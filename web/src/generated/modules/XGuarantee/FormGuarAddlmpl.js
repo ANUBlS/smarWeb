@@ -33,7 +33,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
   {
-    const $t2 = (await $.v(C, "DataMGuarante"));
+    const $t2 = (await $.wobj(C, "DataMGuarante"));
     await $.mcall((await $.wv([$t2], "Gura_taypcal", C, false)), "open", []);
   }
   await $.mcall((await $.v(C, "CompanySet")), "open", []);
@@ -44,7 +44,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "DataMGuarante"));
+    const $t3 = (await $.wobj(C, "DataMGuarante"));
     await $.mcall((await $.wv([$t3], "Gura_taypcal", C, false)), "closeall", []);
   }
   await $.mcall((await $.v(C, "CompanySet")), "closeall", []);
@@ -64,7 +64,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "DataMGuarante"));
+    const $t4 = (await $.wobj(C, "DataMGuarante"));
     const $t5 = (await $.wv([$t4], "DataSetGuarantee", C, false));
     await $.stmt($.wcall([$t4, $t5], "open", [], C));
   }
@@ -72,7 +72,7 @@ export default function define($) {
     await $.set(C, "edNewName", (await $.mcall((await $.v(C, "TEdit")), "Create", [Self])));
   }
   {
-    const $t6 = (await $.v(C, "edNewName"));
+    const $t6 = (await $.wobj(C, "edNewName"));
     await $.wset([$t6], "Parent", (await $.wv([$t6], "Panel16", C, false)), C);
     await $.wset([$t6], "OnKeyDown", (await $.wv([$t6], "edNewNameClick", C, true)), C);
     await $.wset([$t6], "Visible", (await $.wv([$t6], "False", C, false)), C);
@@ -173,7 +173,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["datasetname"] = (await $.call(C, "Copy", [(await $.mv((L0["sender"]), "Name")), 4, $.sub((await $.call(C, "length", [(await $.mv((L0["sender"]), "Name"))])), 3)]));
   {
-    const $t15 = (await $.v(C, "edNewName"));
+    const $t15 = (await $.wobj(C, "edNewName"));
     await $.wset([$t15], "Text", "", C);
     await $.wset([$t15], "width", 216, C);
     await $.wset([$t15], "Left", 31, C);
@@ -217,7 +217,7 @@ export default function define($) {
   L0["checkfieldbynames"] = $.fn(async function CheckFieldByNames() {
   const L1 = {result: undefined};
   {
-    const $t18 = (await $.v(C, "DataMGuarante"));
+    const $t18 = (await $.wobj(C, "DataMGuarante"));
   }
   return L1.result;
 });

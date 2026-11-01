@@ -21,14 +21,14 @@ export default function define($) {
   L0["p_accid"] = (await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "DBLookupComboboxEh1")), "ListSource")), "DataSet")), "FieldByName", ["ACCID"])), "AsInteger"));
   L0["trprocess"] = (await $.mv((await $.v(C, "CBPrcessTransactions")), "Checked"));
   {
-    const $t1 = (await $.v(C, "TrancheDataModule"));
+    const $t1 = (await $.wobj(C, "TrancheDataModule"));
     await $.stmt((await $.mcall((await $.wv([$t1], "CM_TRANCHE", C, false)), "CallProcedure", ["Tranche_Add", ["p_CreditID", (await $.wv([$t1], "CrdID", { get: async () => L0["crdid"], set: async (v) => { L0["crdid"] = v; }, local: true }, false)), "p_TrchDate", (await $.wv([$t1], "TrchDate", { get: async () => L0["trchdate"], set: async (v) => { L0["trchdate"] = v; }, local: true }, false)), "p_CustAccID", (await $.wv([$t1], "CustAccID", { get: async () => L0["custaccid"], set: async (v) => { L0["custaccid"] = v; }, local: true }, false)), "p_TrchAmount", (await $.wv([$t1], "TrchAmount", { get: async () => L0["trchamount"], set: async (v) => { L0["trchamount"] = v; }, local: true }, false)), "p_ProcessTransactions", (await $.wv([$t1], "TrProcess", { get: async () => L0["trprocess"], set: async (v) => { L0["trprocess"] = v; }, local: true }, false)), "p_micacca", (await $.wv([$t1], "p_accid", { get: async () => L0["p_accid"], set: async (v) => { L0["p_accid"] = v; }, local: true }, false))]])));
   }
   try {
     L0["committranche"] = (await $.call(C, "TrDelayed_Show", [Self, L0["rstransactionswillprocessed"]]));
     await $.stmt($.call(C, "Update", []));
     {
-      const $t3 = (await $.v(C, "TrancheDataModule"));
+      const $t3 = (await $.wobj(C, "TrancheDataModule"));
       await $.stmt((await $.mcall((await $.wv([$t3], "CM_TRANCHE", C, false)), "CallProcedure", ["CommitTranche", ["DoCommit", (await $.wv([$t3], "CommitTranche", { get: async () => L0["committranche"], set: async (v) => { L0["committranche"] = v; }, local: true }, false))]])));
     }
     if ($.truthy(L0["committranche"])) {
@@ -39,7 +39,7 @@ export default function define($) {
     $.rethrowControl($t2);
     $.handled($t2);
     {
-      const $t4 = (await $.v(C, "TrancheDataModule"));
+      const $t4 = (await $.wobj(C, "TrancheDataModule"));
       await $.stmt((await $.mcall((await $.wv([$t4], "CM_TRANCHE", C, false)), "CallProcedure", ["CommitTranche", ["DoCommit", (await $.wv([$t4], "False", C, false))]])));
     }
     throw $t2;

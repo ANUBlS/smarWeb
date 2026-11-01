@@ -256,7 +256,7 @@ export default function define($) {
   await $.set(C, "ProblemCreditMgr", Self);
   await $.set(C, "PrCmDM", (await $.mcall((await $.v(C, "TPrCmDM")), "Create", [Self])));
   {
-    const $t1 = (await $.v(C, "PrCmDM"));
+    const $t1 = (await $.wobj(C, "PrCmDM"));
     await $.mcall((await $.wv([$t1], "BonsFilterSet", C, false)), "Open", []);
     if ($.truthy($.gt((await $.mv((await $.wv([$t1], "BonsFilterSet", C, false)), "RecordCount")), 0))) {
       { const $t2 = await $.iset((await $.mv((await $.mv((await $.wv([$t1], "PrCmDM", C, false)), "IntCache")), "SQL")), [45], " and p.bonus_user=user"); if ($t2 !== undefined) { await $.mset((await $.mv((await $.wv([$t1], "PrCmDM", C, false)), "IntCache")), "SQL", $t2); } }
@@ -432,7 +432,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "PrCmDM"));
+    const $t9 = (await $.wobj(C, "PrCmDM"));
     if ($.truthy((await $.mv((await $.wv([$t9], "Schedule", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t9], "Schedule", C, false)), "close", []);
     }
@@ -748,7 +748,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "ExcelExport"));
+    const $t12 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t12], "Connect", [], C));
     await $.stmt((await $.wcall([$t12], "ExportDataset", [(await $.mv((await $.wv([$t12], "PrCmDM", C, false)), "IntCache")), "Problemli", (await $.wv([$t12], "True", C, false))], C)));
     await $.stmt($.wcall([$t12], "Disconnect", [], C));
@@ -809,7 +809,7 @@ export default function define($) {
   const L0 = {"column": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["column"]);
   {
-    const $t14 = (await $.v(C, "PrCmDM"));
+    const $t14 = (await $.wobj(C, "PrCmDM"));
     const $t15 = (await $.wv([$t14], "IntCache", C, false));
     await $.stmt($.wcall([$t14, $t15], "Close", [], C));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t14, $t15], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {

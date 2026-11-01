@@ -378,7 +378,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "rect": $.copyArg(p1), "datacol": $.copyArg(p2), "column": $.copyArg(p3), "state": $.copyArg(p4), result: undefined};
   await $.fixArgs(L0, ["sender", "rect", "datacol", "column", "state"]);
   {
-    const $t2 = (await $.v(C, "DBGridWaresNB"));
+    const $t2 = (await $.wobj(C, "DBGridWaresNB"));
     if ($.truthy(($.eq((await $.wv([$t2], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 4)))) {
       if ($.truthy($.eq((await $.mv((await $.mcall((await $.mv((await $.wv([$t2], "DataModWares", C, false)), "ODSWares")), "FieldByName", ["close_format"])), "AsFloat")), 0))) {
         await $.stmt((await $.mcall((await $.wv([$t2], "ImageList", C, false)), "Draw", [(await $.wv([$t2], "Canvas", C, false)), (await $.mv((await $.wv([$t2], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "left")), (await $.mv((await $.wv([$t2], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "top")), 28, (await $.wv([$t2], "true", C, false))])));
@@ -404,7 +404,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "rect": $.copyArg(p1), "datacol": $.copyArg(p2), "column": $.copyArg(p3), "state": $.copyArg(p4), result: undefined};
   await $.fixArgs(L0, ["sender", "rect", "datacol", "column", "state"]);
   {
-    const $t3 = (await $.v(C, "DBGridEhWaresNL"));
+    const $t3 = (await $.wobj(C, "DBGridEhWaresNL"));
     if ($.truthy(($.eq((await $.wv([$t3], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 4)))) {
       if ($.truthy($.eq((await $.mv((await $.mcall((await $.mv((await $.wv([$t3], "DataModWares", C, false)), "ODSWares")), "FieldByName", ["tax_close_format"])), "AsFloat")), 0))) {
         await $.stmt((await $.mcall((await $.wv([$t3], "ImageList", C, false)), "Draw", [(await $.wv([$t3], "Canvas", C, false)), (await $.mv((await $.wv([$t3], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "left")), (await $.mv((await $.wv([$t3], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "top")), 28, (await $.wv([$t3], "true", C, false))])));
@@ -911,7 +911,7 @@ export default function define($) {
   L0["dd"] = 2;
   try {
     {
-      const $t31 = (await $.v(C, "DataModWares"));
+      const $t31 = (await $.wobj(C, "DataModWares"));
       if ($.truthy($.ne((await $.mv((await $.wv([$t31], "ODSGroups", C, false)), "Filter")), ""))) {
         await $.mset((await $.wv([$t31], "ODSGroupXLS", C, false)), "Filtered", (await $.wv([$t31], "false", C, false)));
         await $.mset((await $.wv([$t31], "ODSGroupXLS", C, false)), "Filter", (await $.mv((await $.wv([$t31], "ODSGroups", C, false)), "Filter")));
@@ -931,7 +931,7 @@ export default function define($) {
     await $.stmt($.call(C, "CreateSheet", []));
     L0["k"] = 0;
     {
-      const $t32 = (await $.v(C, "DataModWares"));
+      const $t32 = (await $.wobj(C, "DataModWares"));
       await $.mset((await $.idx((await $.mv((await $.idx((await $.mv((await $.wv([$t32], "Exl", C, false)), "WorkBooks")), [1])), "WorkSheets")), [1])), "name", " Milli Bank ");
       { const $t33 = (await $.mv((await $.wv([$t32], "ODSGroupXLS", C, false)), "RecordCount"));
         await $.wset([$t32], "i", 1, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
@@ -1140,7 +1140,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   try {
     {
-      const $t77 = (await $.v(C, "DataModWares"));
+      const $t77 = (await $.wobj(C, "DataModWares"));
       if ($.truthy($.eq((await $.wcall([$t77], "MessageDlg", [$.add($.add($.add($.add("Hesablamanı ləğv etməyə əminsiniz?", "\r"), (await $.wcall([$t77], "FormatDateTime", ["dd-mmm-yyyy", (await $.mcall((await $.wv([$t77], "SB_MAIN_RESOURCE", C, false)), "CallDateFunction", ["first_amort_date", []]))], C))), " -"), "tarixinə qayıdacaq!!!!"), (await $.wv([$t77], "mtConfirmation", C, false)), (await $.wv([$t77], "mbYesNoCancel", C, false)), 0], C)), (await $.wv([$t77], "mrYes", C, false))))) {
         await $.mset((await $.wv([$t77], "Screen", C, false)), "Cursor", (await $.wv([$t77], "crSQLWait", C, false)));
         await $.mcall((await $.wv([$t77], "Application", C, false)), "ProcessMessages", []);
@@ -1262,7 +1262,7 @@ export default function define($) {
   try {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
     {
-      const $t81 = (await $.v(C, "DataModWares"));
+      const $t81 = (await $.wobj(C, "DataModWares"));
       { const $t82 = $.sub((await $.wv([$t81], "ComponentCount", C, false)), 1);
         await $.wset([$t81], "a", 0, { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true });
         let $t83 = true;
@@ -1290,7 +1290,7 @@ export default function define($) {
   try {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
     {
-      const $t84 = (await $.v(C, "DataModWares"));
+      const $t84 = (await $.wobj(C, "DataModWares"));
       { const $t85 = $.sub((await $.wv([$t84], "ComponentCount", C, false)), 1);
         await $.wset([$t84], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
         let $t86 = true;

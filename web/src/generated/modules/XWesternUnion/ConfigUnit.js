@@ -24,7 +24,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t1 = (await $.v(C, "DataModWU"));
+    const $t1 = (await $.wobj(C, "DataModWU"));
     await $.stmt((await $.mcall((await $.wv([$t1], "TempPack", C, false)), "CallProcedure", ["wu_accounts_add", [(await $.mv((await $.mcall((await $.wv([$t1], "DataAccount", C, false)), "FieldByName", ["id"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t1], "DataValute", C, false)), "FieldByName", ["Valute"])), "AsInteger")), (await $.wcall([$t1], "Copy", [(await $.idx((await $.mv((await $.wv([$t1], "P_ComboDC", C, false)), "Items")), [(await $.mv((await $.wv([$t1], "P_ComboDC", C, false)), "ItemIndex"))])), 0, 1], C)), 0, (await $.mv((await $.mcall((await $.wv([$t1], "DataBranch", C, false)), "FieldByName", ["branchID"])), "AsInteger"))]])));
   }
   await $.mcall((await $.v(C, "Principial")), "Clear", []);
@@ -46,7 +46,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t2 = (await $.v(C, "DataModWU"));
+    const $t2 = (await $.wobj(C, "DataModWU"));
     await $.stmt((await $.mcall((await $.wv([$t2], "TempPack", C, false)), "CallProcedure", ["wu_accounts_add", [(await $.mv((await $.mcall((await $.wv([$t2], "DataAccount", C, false)), "FieldByName", ["id"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t2], "DataValute", C, false)), "FieldByName", ["Valute"])), "AsInteger")), (await $.wcall([$t2], "Copy", [(await $.idx((await $.mv((await $.wv([$t2], "R_ComboDC", C, false)), "Items")), [(await $.mv((await $.wv([$t2], "R_ComboDC", C, false)), "ItemIndex"))])), 0, 1], C)), 1, (await $.mv((await $.mcall((await $.wv([$t2], "DataBranch", C, false)), "FieldByName", ["BRANCHID"])), "AsInteger"))]])));
   }
   await $.mcall((await $.v(C, "Revenue")), "Clear", []);
@@ -64,7 +64,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "DataModWU"));
+    const $t3 = (await $.wobj(C, "DataModWU"));
     await $.stmt((await $.mcall((await $.wv([$t3], "TempPack", C, false)), "CallProcedure", ["PrincipialTrans", [(await $.wcall([$t3], "Ord", [(await $.mv((await $.wcall([$t3], "TCheckBox", [(await $.wv([$t3], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)), "Checked"))], C))]])));
     await $.mcall((await $.wv([$t3], "DataConfig", C, false)), "Refresh", []);
   }

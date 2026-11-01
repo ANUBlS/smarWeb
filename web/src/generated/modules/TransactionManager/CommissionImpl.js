@@ -45,7 +45,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "TransactionManagerForm"));
+    const $t2 = (await $.wobj(C, "TransactionManagerForm"));
     const $t3 = (await $.wv([$t2], "TransactionDataModule", C, false));
     await $.wset([$t2, $t3], "OperationMode", (await $.wv([$t2, $t3], "omCommission", C, false)), C);
     await $.mcall((await $.wv([$t2, $t3], "Transactions", C, false)), "Insert", []);
@@ -94,7 +94,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "TransactionManagerForm"));
+    const $t7 = (await $.wobj(C, "TransactionManagerForm"));
     await $.stmt((await $.wcall([$t7], "ActionRefreshExecute", [(await $.wv([$t7], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)));
   }
   return L0.result;

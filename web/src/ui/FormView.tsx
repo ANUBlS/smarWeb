@@ -298,11 +298,16 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
         <div {...p} className="vc v-group v-radiogroup" style={{ ...p.style, top: r.top + 6, height: r.height - 6, ...fontStyle(c) }}>
           {g.Caption ? <div className="legend">{g.Caption}</div> : null}
           <div className="items" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, top: 10 }}>
-            {items.map((it, i) => (
-              <label key={i} className={`v-check${dis ? ' disabled' : ''}`}>
-                <input type="radio" checked={g.ItemIndex === i} disabled={dis} onChange={() => run(g.userSelect(i), g.Name)} />{it}
-              </label>
-            ))}
+            {items.map((it, i) => {
+              const b = g.button(i);
+              if (b && !b.Visible) return <span key={i} />;
+              const off = dis || b?.Enabled === false;
+              return (
+                <label key={i} className={`v-check${off ? ' disabled' : ''}`}>
+                  <input type="radio" checked={g.ItemIndex === i} disabled={off} onChange={() => run(g.userSelect(i), g.Name)} />{it}
+                </label>
+              );
+            })}
           </div>
         </div>
       );
@@ -498,7 +503,8 @@ function LookupView({ c, p }: { c: TDBLookupComboBox; p: Common }) {
     <div {...p}>
       <select className="v-input" value={cur} disabled={!c.Enabled || c.ReadOnly} style={{ ...bgStyle(c), ...fontStyle(c) }}
         onChange={(e) => { const o = opts[Number(e.target.value)]; if (o) run(c.userSelect(o.key), c.Name); }} {...focusHandlers(c)}>
-        {cur < 0 ? <option value={-1}>{key !== null && key !== undefined && key !== '' ? String(key) : ''}</option> : null}
+        {/* VCL: a KeyValue that matches no row of the list shows an empty text */}
+        {cur < 0 ? <option value={-1}></option> : null}
         {opts.map((o, i) => <option key={i} value={i}>{o.cols.join('   ')}</option>)}
       </select>
     </div>
@@ -674,6 +680,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
   const first = Math.max(0, Math.floor(scroll / ROW_H) - 5);
   const last = Math.min(total, first + Math.ceil(viewH / ROW_H) + 12);
   const rowsKey = active ? ds!.rows : null;
+  const gridBg = g.ParentColor ? undefined : explicitRgb((g as any)._color);
   // in-place cell editor (dgEditing), as TDBGrid's InplaceEditor
   const [ed, setEd] = useState<{ row: number; col: number; text: string } | null>(null);
   const editRow = insertAt >= 0 ? insertAt : cur;
@@ -764,7 +771,8 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           const st = styles?.get(ci);
           const isNum = f ? f.fieldType === 'float' || f.fieldType === 'integer' : typeof v === 'number';
           const align = col.Alignment ? (col.Alignment === 'tarightjustify' ? 'right' : col.Alignment === 'tacenter' ? 'center' : 'left') : undefined;
-          const colBgN = explicitRgb(col.Color);
+          // TColumn.Color defaults to the grid's Color
+          const colBgN = explicitRgb(col.Color) ?? gridBg;
           const cellBg = isCur ? undefined : st?.bg !== undefined ? explicitRgb(st.bg) : colBgN;
           // text readable on the cell's background (light Delphi colours under the dark theme and vice versa)
           const cellFg = isCur ? undefined : readableText(st?.fg !== undefined && st.fg !== 0 ? explicitRgb(st.fg) : undefined, cellBg);

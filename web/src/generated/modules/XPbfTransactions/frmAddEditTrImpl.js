@@ -44,7 +44,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "dmpbf_transaction"));
+    const $t1 = (await $.wobj(C, "dmpbf_transaction"));
     const $t2 = (await $.wv([$t1], "PBFOperations", C, false));
     await $.wset([$t1, $t2], "TrDat", (await $.wcall([$t1, $t2], "integer", [(await $.wcall([$t1, $t2], "trunc", [(await $.mv((await $.wv([$t1, $t2], "DateTimePicker1", C, false)), "datetime"))], C))], C)), C);
     await $.stmt($.wcall([$t1, $t2], "Post", [], C));
@@ -57,7 +57,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "dmpbf_transaction"));
+    const $t3 = (await $.wobj(C, "dmpbf_transaction"));
     const $t4 = (await $.wv([$t3], "PBFOperations", C, false));
     await $.stmt($.wcall([$t3, $t4], "Cancel", [], C));
   }

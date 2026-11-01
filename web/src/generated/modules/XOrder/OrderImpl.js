@@ -432,7 +432,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t1 = (await $.v(C, "OrderRpt"));
+    const $t1 = (await $.wobj(C, "OrderRpt"));
     await $.mset((await $.mv((await $.wv([$t1], "QRMemo", C, false)), "Lines")), "Text", (await $.wv([$t1], "ReportDataAsStr", { get: async () => L0["reportdataasstr"], set: async (v) => { L0["reportdataasstr"] = v; }, local: true }, false)));
     await $.mset((await $.wv([$t1], "QRLContractNum", C, false)), "Caption", (await $.mv((await $.wv([$t1], "ContractNumEdit", C, false)), "Text")));
     await $.mset((await $.wv([$t1], "Chef", C, false)), "Caption", (await $.mv((await $.wv([$t1], "Edit1", C, false)), "Text")));

@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.mv((await $.v(C, "ODExport")), "Execute")))) {
     {
-      const $t1 = (await $.v(C, "DataModuleCourt"));
+      const $t1 = (await $.wobj(C, "DataModuleCourt"));
       await $.mcall((await $.wv([$t1], "ODSPdf", C, false)), "Open", []);
       await $.mcall((await $.wv([$t1], "ODSPdf", C, false)), "insert", []);
       await $.mset((await $.mcall((await $.wv([$t1], "ODSPdf", C, false)), "FieldByName", ["name"])), "AsString", $.add((await $.wcall([$t1], "ChangeFileExt", [(await $.wcall([$t1], "ExtractFileName", [(await $.mv((await $.wv([$t1], "ODExport", C, false)), "Filename"))], C)), ""], C)), ".pdf"));

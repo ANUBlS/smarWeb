@@ -45,7 +45,7 @@ TABLE_COLS: dict[str, set[str]] = {}
 
 
 def from_table(sql: str):
-    m = re.search(r'\sfrom\s+([\w$#.]+)\s*(?:\w+\s*)?(?:where|order|group|$|\))', sql, re.I)
+    m = re.search(r'[\s*]from\s+([\w$#.]+)\s*(?:\w+\s*)?(?:where|order|group|$|\))', sql, re.I)
     return m.group(1).split('.')[-1].upper() if m else None
 
 
@@ -89,15 +89,20 @@ def learn_dfm_fields():
     import glob
     import json
     root = Path(__file__).resolve().parents[2] / 'web' / 'src' / 'generated'
+    # grid → DataSource → DataSet may cross forms of one module (a grid on the form, its dataset on the data module)
+    mod_sqls: dict[str, dict[str, str]] = {}
+    mod_sources: dict[str, dict[str, str]] = {}
+    mod_grids: dict[str, list[tuple[str, list[str]]]] = {}
     for f in glob.glob(str(root / '**' / '*.dfm.json'), recursive=True):
         try:
             tree = json.load(open(f, encoding='utf-8'))
         except (OSError, ValueError):
             continue
+        mod = str(Path(f).parent)
         # grid columns name the columns too: grid → DataSource → DataSet → table
-        sqls: dict[str, str] = {}
-        sources: dict[str, str] = {}
-        grids: list[tuple[str, list[str]]] = []
+        sqls = mod_sqls.setdefault(mod, {})
+        sources = mod_sources.setdefault(mod, {})
+        grids = mod_grids.setdefault(mod, [])
         walk = [tree]
         while walk:
             o = walk.pop()
@@ -109,11 +114,6 @@ def learn_dfm_fields():
                 sources[o.get('name', '')] = p['DataSet']['i']
             if isinstance(p.get('Columns'), list) and isinstance(p.get('DataSource'), dict):
                 grids.append((p['DataSource'].get('i', ''), [c.get('FieldName') for c in p['Columns'] if isinstance(c, dict)]))
-        for src, cols in grids:
-            sql = sqls.get(sources.get(src.split('.')[-1], ''), '')
-            t = from_table(sql) if sql and not re.search(r'\bjoin\b|\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I) else None
-            if t:
-                TABLE_COLS.setdefault(t, set()).update(n.upper() for n in cols if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
         stack = [tree]
         while stack:
             o = stack.pop()
@@ -122,14 +122,28 @@ def learn_dfm_fields():
             if not sql or re.search(r'\bjoin\b', sql, re.I):
                 continue
             t = from_table(sql)
+            # `select*from countries order by id`: the sort columns exist too
+            om = re.search(r'\border\s+by\s+([\w$#,\s]+?)\s*$', sql, re.I)
+            if t and om and not re.search(r'\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I):
+                TABLE_COLS.setdefault(t, set()).update(c.split()[0].upper() for c in om.group(1).split(',')
+                                                       if c.strip() and re.fullmatch(r'[A-Za-z_][\w$#]*', c.split()[0]))
             names = [c.get('props', {}).get('FieldName') for c in o.get('children', []) if c.get('class', '').endswith('Field')]
             if t and names and not re.search(r'\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I):
                 TABLE_COLS.setdefault(t, set()).update(n.upper() for n in names if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
+    for mod, grids in mod_grids.items():
+        sqls, sources = mod_sqls[mod], mod_sources[mod]
+        for src, cols in grids:
+            sql = sqls.get(sources.get(src.split('.')[-1], ''), '')
+            t = from_table(sql) if sql and not re.search(r'\bjoin\b|\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I) else None
+            if t:
+                TABLE_COLS.setdefault(t, set()).update(n.upper() for n in cols if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
 
 
 def select_list(sql: str) -> list[str]:
     s = re.sub(r'--[^\n]*|/\*.*?\*/', ' ', sql, flags=re.S)
     s = re.sub(r'^\s*\(+', '', s)  # (select filialid from …)
+    s = re.sub(r'(?i)\bselect\*', 'select *', s)  # select*from countries
+    s = re.sub(r'(?i)\*from\b', '* from', s)
     m = re.search(r'^\s*select\s+(distinct\s+)?(.*?)\s+from\s', s, re.I | re.S)
     if not m:
         return []
@@ -165,7 +179,8 @@ def guess(name: str) -> str:
         return 'ROWID'
     if re.search(r'DAT|DATE|TIME', n):
         return 'DATE'
-    if re.search(r'ID$|^ID|_ID|NO$|COUNT|CNT|KOD|CODE|VALUTE|VAL_ACC|STATUS|FLAG|TYPE|FIL', n):
+    # BAL_CN, BAL_CN1 … are balance account numbers (integers), not balances
+    if re.search(r'ID$|^ID|_ID|NO$|COUNT|CNT|KOD|CODE|VALUTE|VAL_ACC|STATUS|FLAG|TYPE|FIL|^BAL_CN', n):
         return 'INT'
     if re.search(r'AMM|AMOUNT|SUM|OSTAT|RATE|KURS|PERCENT|FAIZ|QALIQ|BAL', n):
         return 'NUMBER'

@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["s"]);
   L0["contractid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "FormPercentChange"));
+    const $t1 = (await $.wobj(C, "FormPercentChange"));
     await $.mcall((await $.wv([$t1], "OracleDataSet1", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t1], "OracleDataSet1", C, false)), "SetVariable", ["contid", (await $.wv([$t1], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))])));
     await $.mcall((await $.wv([$t1], "OracleDataSet1", C, false)), "Open", []);

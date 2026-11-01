@@ -40,7 +40,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "CheckListBox"));
+    const $t3 = (await $.wobj(C, "CheckListBox"));
     if ($.truthy((await $.idx((await $.wv([$t3], "Checked", C, false)), [(await $.wv([$t3], "ItemIndex", C, false))])))) {
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t3], "Memo1", C, false)), "Lines")), "Add", [(await $.idx((await $.wv([$t3], "Items", C, false)), [(await $.wv([$t3], "ItemIndex", C, false))]))])));
     }

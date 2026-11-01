@@ -91,7 +91,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "CMExcelExport1"));
+    const $t1 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t1], "Connect", [], C));
     await $.stmt((await $.wcall([$t1], "ExportDataset", [(await $.mv((await $.mv((await $.mv((await $.wv([$t1], "FrmMainTrans", C, false)), "DBInvest")), "DataSource")), "DataSet")), "Yatirim Müqavilələri", (await $.wv([$t1], "True", C, false)), (await $.wv([$t1], "false", C, false))], C)));
     await $.stmt($.wcall([$t1], "Disconnect", [], C));

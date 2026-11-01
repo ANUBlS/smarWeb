@@ -349,7 +349,7 @@ export default function define($) {
   L0["strorder"] = " order by dat,id";
   L0["strsql"] = $.add($.add($.add(L0["str1"], L0["str2"]), L0["str3"]), L0["strorder"]);
   {
-    const $t1 = (await $.v(C, "dataMod"));
+    const $t1 = (await $.wobj(C, "dataMod"));
     await $.mcall((await $.wv([$t1], "Transactions", C, false)), "Close", []);
     await $.mcall((await $.mv((await $.wv([$t1], "Transactions", C, false)), "SQL")), "Clear", []);
     await $.stmt((await $.mcall((await $.mv((await $.wv([$t1], "Transactions", C, false)), "SQL")), "Add", [(await $.wv([$t1], "StrSql", { get: async () => L0["strsql"], set: async (v) => { L0["strsql"] = v; }, local: true }, false))])));
@@ -365,7 +365,7 @@ export default function define($) {
   await $.set(C, "DataMod", (await $.mcall((await $.v(C, "TDataMod")), "Create", [null])));
   await $.set(C, "frmTransaction", (await $.mcall((await $.v(C, "TfrmTransaction")), "Create", [null])));
   {
-    const $t2 = (await $.v(C, "datamod"));
+    const $t2 = (await $.wobj(C, "datamod"));
     await $.mset((await $.wv([$t2], "BegDate", C, false)), "DateTime", (await $.mv((await $.mcall((await $.wv([$t2], "BankDay", C, false)), "FieldByName", ["tek_dat"])), "AsDateTime")));
     await $.mset((await $.wv([$t2], "EndDate", C, false)), "DateTime", (await $.mv((await $.mcall((await $.wv([$t2], "BankDay", C, false)), "FieldByName", ["tek_dat"])), "AsDateTime")));
   }
@@ -378,7 +378,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "TrMode", "U");
   {
-    const $t3 = (await $.v(C, "frmTransaction"));
+    const $t3 = (await $.wobj(C, "frmTransaction"));
     {
       const $t4 = (await $.wv([$t3], "datamod", C, false));
       await $.mset((await $.wv([$t3, $t4], "TransactionDateEdit", C, false)), "DateTime", (await $.mv((await $.mcall((await $.wv([$t3, $t4], "Transactions", C, false)), "FieldByName", ["dat"])), "asdatetime")));
@@ -418,7 +418,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "result": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "datamod"));
+    const $t5 = (await $.wobj(C, "datamod"));
     await $.wset([$t5], "Result", (await $.mcall((await $.wv([$t5], "p_correct", C, false)), "CallIntegerFunction", ["Main", ["Flag", 0, "CorMode", 0, "TransactionID", (await $.mv((await $.mcall((await $.wv([$t5], "Transactions", C, false)), "fieldbyname", ["id"])), "asstring"))]])), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   if ($.truthy($.eq(L0["result"], 0))) {
@@ -447,7 +447,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "TrMode", "N");
   {
-    const $t6 = (await $.v(C, "frmTransaction"));
+    const $t6 = (await $.wobj(C, "frmTransaction"));
     await $.mset((await $.wv([$t6], "TransactionDateEdit", C, false)), "DateTime", (await $.mv((await $.mv((await $.wv([$t6], "RepairMainForm", C, false)), "EndDate")), "Date")));
     await $.stmt((await $.wcall([$t6], "SetNull", ["N"], C)));
     await $.stmt($.wcall([$t6], "show", [], C));
@@ -485,7 +485,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "strfilt": '', "s1": '', "s2": '', "s3": '', "s4": '', "s5": '', "s6": '', "s7": '', "s8": '', "s9": '', "s10": '', "s11": '', "s12": ''};
   {
-    const $t7 = (await $.v(C, "RepairMainForm"));
+    const $t7 = (await $.wobj(C, "RepairMainForm"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t7], "NationalCurrency", C, false)), "Checked")), (await $.wv([$t7], "true", C, false))))) {
       await $.wset([$t7], "S1", "1", { get: async () => L0["s1"], set: async (v) => { L0["s1"] = v; }, local: true });
     } else {

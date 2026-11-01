@@ -459,7 +459,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "DataModuleCourt"));
+    const $t11 = (await $.wobj(C, "DataModuleCourt"));
     if ($.truthy((await $.mv((await $.wv([$t11], "ScheduleCourt", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t11], "ScheduleCourt", C, false)), "close", []);
     }
@@ -489,7 +489,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "DataModuleCourt"));
+    const $t12 = (await $.wobj(C, "DataModuleCourt"));
     if ($.truthy((await $.mv((await $.wv([$t12], "ScheduleCourt", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t12], "ScheduleCourt", C, false)), "close", []);
     }
@@ -519,7 +519,7 @@ export default function define($) {
   const L0 = {"column": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["column"]);
   {
-    const $t13 = (await $.v(C, "DataModuleCourt"));
+    const $t13 = (await $.wobj(C, "DataModuleCourt"));
     const $t14 = (await $.wv([$t13], "ODSCourt", C, false));
     await $.stmt($.wcall([$t13, $t14], "Close", [], C));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t13, $t14], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {
@@ -799,7 +799,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "ExcelExport"));
+    const $t16 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t16], "Connect", [], C));
     await $.stmt((await $.wcall([$t16], "ExportDataset", [(await $.mv((await $.wv([$t16], "DataModuleCourt", C, false)), "ODSCourt")), "Məhkəmə", (await $.wv([$t16], "True", C, false))], C)));
     await $.stmt($.wcall([$t16], "Disconnect", [], C));
@@ -811,7 +811,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "DataModuleCourt"));
+    const $t17 = (await $.wobj(C, "DataModuleCourt"));
     await $.mcall((await $.wv([$t17], "ODSCourt", C, false)), "Refresh", []);
   }
   return L0.result;

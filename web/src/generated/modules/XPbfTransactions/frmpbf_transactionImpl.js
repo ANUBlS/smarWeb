@@ -444,7 +444,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "c": 0, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "dmpbf_transaction"));
+    const $t8 = (await $.wobj(C, "dmpbf_transaction"));
     const $t9 = (await $.wv([$t8], "PBFOperations", C, false));
     if ($.truthy((await $.wv([$t8, $t9], "active", C, false)))) {
       await $.stmt($.wcall([$t8, $t9], "CloseAll", [], C));
@@ -484,7 +484,7 @@ export default function define($) {
   await $.mcall((await $.mv((await $.v(C, "MainGridPBF")), "SelectedRows")), "Clear", []);
   L0["dat"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPCurrentDate")), "DateTime"))]))]));
   {
-    const $t13 = (await $.v(C, "dmpbf_transaction"));
+    const $t13 = (await $.wobj(C, "dmpbf_transaction"));
     const $t14 = (await $.wv([$t13], "PBFTransactions", C, false));
     await $.wset([$t13, $t14], "SaveID", (await $.mv((await $.wcall([$t13, $t14], "FieldbyName", ["ID"], C)), "AsInteger")), { get: async () => L0["saveid"], set: async (v) => { L0["saveid"] = v; }, local: true });
     await $.stmt($.wcall([$t13, $t14], "close", [], C));
@@ -503,7 +503,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t15 = (await $.v(C, "dmpbf_transaction"));
+    const $t15 = (await $.wobj(C, "dmpbf_transaction"));
     const $t16 = (await $.wv([$t15], "PBFTransaction", C, false));
     const $t17 = (await $.wv([$t15, $t16], "PBFTransactions", C, false));
     await $.stmt((await $.wcall([$t15, $t16, $t17], "CallProcedure", ["del_Operation", ["v_operid", (await $.mv((await $.wcall([$t15, $t16, $t17], "FieldByName", ["num"], C)), "AsInteger"))]], C)));
@@ -516,7 +516,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t18 = (await $.v(C, "dmpbf_transaction"));
+    const $t18 = (await $.wobj(C, "dmpbf_transaction"));
     const $t19 = (await $.wv([$t18], "PBFOperations", C, false));
     await $.wset([$t18, $t19], "OperType", "KREDIT", C);
     if ($.truthy((await $.wv([$t18, $t19], "active", C, false)))) {
@@ -542,7 +542,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t20 = (await $.v(C, "dmpbf_transaction"));
+    const $t20 = (await $.wobj(C, "dmpbf_transaction"));
     const $t21 = (await $.wv([$t20], "PBFOperations", C, false));
     await $.wset([$t20, $t21], "OperType", "OTHERS", C);
     if ($.truthy((await $.wv([$t20, $t21], "active", C, false)))) {
@@ -621,7 +621,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t27 = (await $.v(C, "PBFExcelExport"));
+    const $t27 = (await $.wobj(C, "PBFExcelExport"));
     await $.stmt($.wcall([$t27], "Connect", [], C));
     await $.stmt((await $.wcall([$t27], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t27], "MainGridPBF", C, false)), "DataSource")), "DataSet")), "Operations", (await $.wv([$t27], "true", C, false))], C)));
     await $.stmt($.wcall([$t27], "Disconnect", [], C));
@@ -640,7 +640,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "atype": '', "atype1": '', "desc": '', "str": '', "str1": '', "str2": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t28 = (await $.v(C, "dmpbf_transaction"));
+    const $t28 = (await $.wobj(C, "dmpbf_transaction"));
     const $t29 = (await $.wv([$t28], "PBFReportDs", C, false));
     if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t28, $t29], "PBFTransactions", C, false)), "fieldbyname", ["optype"])), "AsString")), "KREDIT"))) {
       await $.wset([$t28, $t29], "str1", "(select BANK as re_BANK,KOD_B as re_KOD_B,INN as re_inn,to_char(KRNO) as re_KRNO,SWIFT as re_SWIFT, ' ' as rc_inn", { get: async () => L0["str1"], set: async (v) => { L0["str1"] = v; }, local: true });

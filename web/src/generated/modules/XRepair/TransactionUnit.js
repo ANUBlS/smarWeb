@@ -128,7 +128,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "result": 0, "cormode": 0, "flag": 0, "recordnumber": 0, "trdate": '', "trid": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataMod"));
+    const $t1 = (await $.wobj(C, "DataMod"));
     await $.wset([$t1], "TrDate", (await $.wcall([$t1], "FormatDateTime", ["dd-mmm-yy", (await $.mv((await $.wv([$t1], "TransactionDateEdit", C, false)), "Date"))], C)), { get: async () => L0["trdate"], set: async (v) => { L0["trdate"] = v; }, local: true });
     if ($.truthy($.eq((await $.wv([$t1], "TrMode", C, false)), "N"))) {
       await $.wset([$t1], "flag", 1, { get: async () => L0["flag"], set: async (v) => { L0["flag"] = v; }, local: true });

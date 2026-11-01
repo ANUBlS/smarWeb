@@ -58,7 +58,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "NewDepositsSBWRSetupDataMod"));
+    const $t4 = (await $.wobj(C, "NewDepositsSBWRSetupDataMod"));
     await $.mcall((await $.wv([$t4], "SBWRBookmarksDSet", C, false)), "Open", []);
     await $.mcall((await $.wv([$t4], "SBWRFieldsDSet", C, false)), "Open", []);
   }
@@ -70,7 +70,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "NewDepositsSBWRSetupDataMod"));
+    const $t5 = (await $.wobj(C, "NewDepositsSBWRSetupDataMod"));
     await $.mcall((await $.wv([$t5], "SBWRBookmarksDSet", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t5], "SBWRFieldsDSet", C, false)), "CloseAll", []);
   }

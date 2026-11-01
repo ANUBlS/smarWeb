@@ -6,7 +6,9 @@ canonical, non-dated folder is used), packages already in the menu were dropped,
 report packages (statements, balances, turnover, control tape … — reports are out of scope),
 the host program, plugin plumbing and abandoned "---" folders.
 
-(module name, package dir, category, caption)
+(module name, package dir, category, caption) — a category '@Root/Sub' puts the item into that existing branch of
+the SmartBank.ini tree (OCX modules the bank registers in its own SmartBank.ini, AddActiveX2SmartBank.txt, that the
+repository's INI does not list). New entries go at the end: the list position is the menu action number.
 """
 EXTRA_ROOT = 'Əlavə modullar'
 
@@ -61,7 +63,7 @@ EXTRA = [
     ('XCustomersOrders', 'Packages/CustomersOrders', 'Müştərilər və uyğunluq', 'Müştərilərin sərəncamları'),
     ('XCustAnalysis', 'Packages/Cust_Analiz', 'Müştərilər və uyğunluq', 'Müştəri analizi'),
     ('XRelatedPersons', 'Packages/RelatedPersons', 'Müştərilər və uyğunluq', 'Banka aidiyyəti olan şəxslər'),
-    ('XPCustService', 'Packages/PCustService', 'Müştərilər və uyğunluq', 'Müştəri xidməti'),
+    ('PCustService', 'Packages/PCustService2026', '@Balans/Müştərilər', 'Müştəri xidməti'),  # PCustService.ocx
     ('XGoAml', 'Packages/PCUST_Servic', 'Müştərilər və uyğunluq', 'GoAML xidməti'),
     ('XBlackList', 'Packages/Black_Inst', 'Müştərilər və uyğunluq', 'Qara siyahı'),
     ('XThomson', 'Packages/Thomson', 'Müştərilər və uyğunluq', 'Thomson Reuters yoxlaması'),
@@ -112,6 +114,8 @@ EXTRA = [
     ('XTickets', 'Packages/TicketsMan', 'İdarəetmə', 'Biletlər'),
     ('XPutyovka', 'Packages/Putyovka', 'İdarəetmə', 'Putyovkalar'),
     # --- Sığorta: removed (not used; 30.10.2026)
+    # --- appended at the end so the action numbers above stay the same
+    ('P_Customers', 'Packages/P_Customers', '@Balans/Müştərilər', 'Fiziki şəxslər üzrə əməliyyatlar'),  # P_Customers.ocx
 ]
 
 CATEGORY_ORDER = ['Kreditlər', 'Depozitlər', 'Ödənişlər və köçürmələr', 'Kartlar', 'Müştərilər və uyğunluq',

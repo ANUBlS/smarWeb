@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "NewDepositsFrmAddEditDepositTypes"));
+    const $t1 = (await $.wobj(C, "NewDepositsFrmAddEditDepositTypes"));
     await $.wset([$t1], "FIns", 0, C);
     await $.wset([$t1], "Caption", "Yeni", C);
     await $.stmt($.wcall([$t1], "ShowModal", [], C));
@@ -68,7 +68,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t2 = (await $.v(C, "dm_stored_programs"));
+    const $t2 = (await $.wobj(C, "dm_stored_programs"));
     await $.stmt((await $.wcall([$t2], "CallProcedure", ["DelDepositTypes", [(await $.mv((await $.mcall((await $.wv([$t2], "DepositTypes", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], C)));
   }
   await $.mcall((await $.v(C, "DepositTypes")), "Refresh", []);
@@ -92,7 +92,7 @@ export default function define($) {
   if ($.truthy($.gt((await $.mv((await $.mv((await $.mv((await $.mv((await $.v(C, "NewDepositsFrmDepositTypes")), "DBGridEh1")), "DataSource")), "DataSet")), "RecordCount")), 0))) {
     await $.set(C, "Dtpid", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "DBGridEh1")), "DataSource")), "DataSet")), "FieldByName", ["id"])), "AsInteger")));
     {
-      const $t3 = (await $.v(C, "NewDepositsFrmAddEditDepositTypes"));
+      const $t3 = (await $.wobj(C, "NewDepositsFrmAddEditDepositTypes"));
       await $.wset([$t3], "FIns", 1, C);
       await $.wset([$t3], "Caption", "Redaktə", C);
       await $.stmt($.wcall([$t3], "ShowModal", [], C));

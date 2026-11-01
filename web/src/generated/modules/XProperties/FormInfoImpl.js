@@ -25,7 +25,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "Frmproperties_credit"));
+    const $t1 = (await $.wobj(C, "Frmproperties_credit"));
     const $t2 = (await $.wv([$t1], "DMproperties", C, false));
     if ($.truthy($.gt((await $.mv((await $.wv([$t1, $t2], "DataSetCredit", C, false)), "RecordCount")), 0))) {
       await $.mcall((await $.wv([$t1, $t2], "AddOtherPAPERNO", C, false)), "RefreshList", []);
@@ -79,7 +79,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "Frmproperties_creditDel"));
+    const $t4 = (await $.wobj(C, "Frmproperties_creditDel"));
     const $t5 = (await $.wv([$t4], "DMproperties", C, false));
     if ($.truthy($.gt((await $.mv((await $.wv([$t4, $t5], "DSet_Prop_Kredit", C, false)), "RecordCount")), 0))) {
       await $.mcall((await $.wv([$t4, $t5], "DSet_Prop_Kredit", C, false)), "refresh", []);

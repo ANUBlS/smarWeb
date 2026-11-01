@@ -61,7 +61,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Ödəniş ləğv olunsun?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t1 = (await $.v(C, "DBGridEh1"));
+      const $t1 = (await $.wobj(C, "DBGridEh1"));
       const $t2 = (await $.mv((await $.wv([$t1], "DataSource", C, false)), "DataSet"));
       await $.wset([$t1, $t2], "SelectedRowsCnt", (await $.mv((await $.wv([$t1, $t2], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true });
       if ($.truthy($.gt((await $.wv([$t1, $t2], "SelectedRowsCnt", { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true }, false)), 1))) {
@@ -98,7 +98,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "Payments"));
+    const $t9 = (await $.wobj(C, "Payments"));
     if ($.truthy((await $.wv([$t9], "Active", C, false)))) {
       await $.stmt($.wcall([$t9], "close", [], C));
     }
@@ -106,7 +106,7 @@ export default function define($) {
     await $.stmt($.wcall([$t9], "open", [], C));
   }
   {
-    const $t10 = (await $.v(C, "ozzun"));
+    const $t10 = (await $.wobj(C, "ozzun"));
     await $.stmt($.wcall([$t10], "Connect", [], C));
     await $.stmt((await $.wcall([$t10], "ExportDataset", [(await $.wv([$t10], "Payments", C, false)), "Ödənişlər özzün", (await $.wv([$t10], "true", C, false))], C)));
     await $.stmt($.wcall([$t10], "Disconnect", [], C));
@@ -118,14 +118,14 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "cc_buyer_flats"));
+    const $t11 = (await $.wobj(C, "cc_buyer_flats"));
     await $.stmt($.wcall([$t11], "ClearVariables", [], C));
     await $.stmt($.wcall([$t11], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t11], "SetVariable", ["PayID", (await $.mv((await $.mcall((await $.wv([$t11], "Payments", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
     await $.stmt($.wcall([$t11], "Open", [], C));
   }
   {
-    const $t12 = (await $.v(C, "ReportPayOrderData"));
+    const $t12 = (await $.wobj(C, "ReportPayOrderData"));
     await $.stmt($.wcall([$t12], "ClearVariables", [], C));
     await $.stmt($.wcall([$t12], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t12], "SetVariable", ["PayID", (await $.mv((await $.mcall((await $.wv([$t12], "Payments", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
@@ -134,7 +134,7 @@ export default function define($) {
   await $.mcall((await $.v(C, "AboutBank")), "open", []);
   if ($.truthy($.gt((await $.mv((await $.v(C, "ReportPayOrderData")), "RecordCount")), 0))) {
     {
-      const $t13 = (await $.v(C, "OrderPaymentRepForm"));
+      const $t13 = (await $.wobj(C, "OrderPaymentRepForm"));
       await $.mcall((await $.wv([$t13], "ReportOrder", C, false)), "Preview", []);
     }
   }
@@ -163,14 +163,14 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.v(C, "Cash")), "open", []);
   {
-    const $t14 = (await $.v(C, "PayData"));
+    const $t14 = (await $.wobj(C, "PayData"));
     await $.stmt($.wcall([$t14], "close", [], C));
     await $.stmt((await $.wcall([$t14], "SetVariable", ["CrdID", (await $.mv((await $.mcall((await $.mv((await $.wv([$t14], "DatModConstruction", C, false)), "Credits")), "FieldbyName", ["ID"])), "AsInteger"))], C)));
     await $.stmt($.wcall([$t14], "open", [], C));
   }
   await $.mcall((await $.v(C, "SysDat")), "open", []);
   {
-    const $t15 = (await $.v(C, "Payments"));
+    const $t15 = (await $.wobj(C, "Payments"));
     await $.stmt($.wcall([$t15], "close", [], C));
     await $.stmt((await $.wcall([$t15], "SetVariable", ["CrdID", (await $.mv((await $.mcall((await $.mv((await $.wv([$t15], "DatModConstruction", C, false)), "Credits")), "FieldbyName", ["ID"])), "AsInteger"))], C)));
     await $.stmt($.wcall([$t15], "open", [], C));

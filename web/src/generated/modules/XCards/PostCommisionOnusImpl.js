@@ -43,7 +43,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DBGrid1"));
+    const $t1 = (await $.wobj(C, "DBGrid1"));
     const $t2 = (await $.wv([$t1], "SelectedRows", C, false));
     const $t3 = (await $.mv((await $.wv([$t1, $t2], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t1, $t2, $t3], "DisableControls", [], C));
@@ -65,7 +65,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "DBGrid2"));
+    const $t4 = (await $.wobj(C, "DBGrid2"));
     const $t5 = (await $.wv([$t4], "SelectedRows", C, false));
     const $t6 = (await $.mv((await $.wv([$t4, $t5], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t4, $t5, $t6], "DisableControls", [], C));
@@ -93,7 +93,7 @@ export default function define($) {
   }
   L0["countbefo"] = (await $.mv((await $.mv((await $.mv((await $.v(C, "DBGrid2")), "DataSource")), "DataSet")), "RecordCount"));
   {
-    const $t7 = (await $.v(C, "DBGrid2"));
+    const $t7 = (await $.wobj(C, "DBGrid2"));
     const $t8 = (await $.wv([$t7], "SelectedRows", C, false));
     const $t9 = (await $.mv((await $.wv([$t7, $t8], "DataSource", C, false)), "DataSet"));
     const $t10 = (await $.wv([$t7, $t8, $t9], "DataMod_CARDS", C, false));
@@ -149,7 +149,7 @@ export default function define($) {
   }
   L0["countbefo"] = (await $.mv((await $.mv((await $.mv((await $.v(C, "DBGrid1")), "DataSource")), "DataSet")), "RecordCount"));
   {
-    const $t13 = (await $.v(C, "DBGrid1"));
+    const $t13 = (await $.wobj(C, "DBGrid1"));
     const $t14 = (await $.wv([$t13], "SelectedRows", C, false));
     const $t15 = (await $.mv((await $.wv([$t13, $t14], "DataSource", C, false)), "DataSet"));
     const $t16 = (await $.wv([$t13, $t14, $t15], "DataMod_CARDS", C, false));
@@ -209,7 +209,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "DBGrid1")), "SetFocus", []);
   }
   {
-    const $t19 = (await $.v(C, "DBGrid1"));
+    const $t19 = (await $.wobj(C, "DBGrid1"));
     const $t20 = (await $.wv([$t19], "SelectedRows", C, false));
     const $t21 = (await $.mv((await $.wv([$t19, $t20], "DataSource", C, false)), "DataSet"));
     const $t22 = (await $.wv([$t19, $t20, $t21], "DataMod_CARDS", C, false));
@@ -271,7 +271,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t25 = (await $.v(C, "DataMod_CARDS"));
+    const $t25 = (await $.wobj(C, "DataMod_CARDS"));
     const $t26 = (await $.wv([$t25], "card_commission_our_pos_onus", C, false));
     await $.stmt((await $.wcall([$t25, $t26], "CallProcedure", ["ins_card_messages_c_commision", []], C)));
   }

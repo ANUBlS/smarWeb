@@ -82,7 +82,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t5 = (await $.v(C, "TransactionEditForm"));
+    const $t5 = (await $.wobj(C, "TransactionEditForm"));
     const $t6 = (await $.wv([$t5], "DebitAccData", C, false));
     await $.wset([$t5, $t6], "DebitCurrencyID", (await $.mv((await $.mcall((await $.wv([$t5, $t6], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false)), "FieldByName", ["ID"])), "AsInteger")), C);
     await $.mset((await $.mcall((await $.wv([$t5, $t6], "Transactions", C, false)), "FieldByName", ["DebitRate"])), "AsFloat", (await $.mv((await $.mcall((await $.wv([$t5, $t6], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false)), "FieldByName", ["Rate"])), "AsFloat")));
@@ -99,7 +99,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t7 = (await $.v(C, "TransactionEditForm"));
+    const $t7 = (await $.wobj(C, "TransactionEditForm"));
     const $t8 = (await $.wv([$t7], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
     await $.mset((await $.mcall((await $.wv([$t7, $t8], "Transactions", C, false)), "FieldByName", ["DebitID"])), "AsInteger", (await $.mv((await $.wcall([$t7, $t8], "FieldByName", ["ID"], C)), "AsInteger")));
     if ($.truthy($.not((await $.mv((await $.wv([$t7, $t8], "DebtAccSearchEdit", C, false)), "Focused"))))) {
@@ -116,7 +116,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t9 = (await $.v(C, "TransactionEditForm"));
+    const $t9 = (await $.wobj(C, "TransactionEditForm"));
     const $t10 = (await $.wv([$t9], "CreditAccData", C, false));
     await $.wset([$t9, $t10], "CreditCurrencyID", (await $.mv((await $.mcall((await $.wv([$t9, $t10], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false)), "FieldByName", ["ID"])), "AsInteger")), C);
     await $.mset((await $.mcall((await $.wv([$t9, $t10], "Transactions", C, false)), "FieldByName", ["CreditRate"])), "AsFloat", (await $.mv((await $.mcall((await $.wv([$t9, $t10], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false)), "FieldByName", ["Rate"])), "AsFloat")));
@@ -133,7 +133,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t11 = (await $.v(C, "TransactionEditForm"));
+    const $t11 = (await $.wobj(C, "TransactionEditForm"));
     const $t12 = (await $.wv([$t11], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
     await $.mset((await $.mcall((await $.wv([$t11, $t12], "Transactions", C, false)), "FieldByName", ["CreditID"])), "AsInteger", (await $.mv((await $.wcall([$t11, $t12], "FieldByName", ["ID"], C)), "AsInteger")));
     if ($.truthy($.not((await $.mv((await $.wv([$t11, $t12], "CreditAccSearchEdit", C, false)), "Focused"))))) {
@@ -147,7 +147,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "TransactionManagerForm"));
+    const $t13 = (await $.wobj(C, "TransactionManagerForm"));
     const $t14 = (await $.wv([$t13], "CLBCurrency", C, false));
     const $t15 = (await $.wv([$t13, $t14], "Items", C, false));
     await $.stmt((await $.wcall([$t13, $t14, $t15], "Add", [(await $.mcall((await $.wv([$t13, $t14, $t15], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Field", ["valu_name"]))], C)));
@@ -161,7 +161,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "TransactionManagerForm"));
+    const $t17 = (await $.wobj(C, "TransactionManagerForm"));
     const $t18 = (await $.wv([$t17], "CLBOperationTypes", C, false));
     const $t19 = (await $.wv([$t17, $t18], "Items", C, false));
     await $.stmt((await $.wcall([$t17, $t18, $t19], "Add", [(await $.mcall((await $.wv([$t17, $t18, $t19], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Field", ["name"]))], C)));
@@ -197,7 +197,7 @@ export default function define($) {
   const L0 = {"transactionid": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["transactionid"]);
   {
-    const $t23 = (await $.v(C, "SBTransaction"));
+    const $t23 = (await $.wobj(C, "SBTransaction"));
     await $.stmt((await $.wcall([$t23], "CallProcedure", [(await $.wv([$t23], "cs_del_transaction", C, false)), ["TransactionID", (await $.wv([$t23], "TransactionID", { get: async () => L0["transactionid"], set: async (v) => { L0["transactionid"] = v; }, local: true }, false))]], C)));
   }
   return L0.result;
@@ -207,7 +207,7 @@ export default function define($) {
   const L0 = {"transactionids": $.copyArg(p0), result: 0};
   await $.fixArgs(L0, ["transactionids"]);
   {
-    const $t24 = (await $.v(C, "SBTransaction"));
+    const $t24 = (await $.wobj(C, "SBTransaction"));
     await $.wset([$t24], "Result", (await $.wcall([$t24], "CallIntegerFunction", [(await $.wv([$t24], "cs_commit_delayed_transactions", C, false)), ["OverloadIDsStr", (await $.wv([$t24], "TransactionIDs", { get: async () => L0["transactionids"], set: async (v) => { L0["transactionids"] = v; }, local: true }, false)), "CommitTemp", (await $.wv([$t24], "True", C, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;
@@ -217,7 +217,7 @@ export default function define($) {
   const L0 = {"transactionid": $.copyArg(p0), result: 0};
   await $.fixArgs(L0, ["transactionid"]);
   {
-    const $t25 = (await $.v(C, "SBTransaction"));
+    const $t25 = (await $.wobj(C, "SBTransaction"));
     await $.wset([$t25], "Result", (await $.wcall([$t25], "CallIntegerFunction", [(await $.wv([$t25], "cs_commit_transaction", C, false)), ["TransactionID", (await $.wv([$t25], "TransactionID", { get: async () => L0["transactionid"], set: async (v) => { L0["transactionid"] = v; }, local: true }, false)), "CommitTemp", (await $.wv([$t25], "True", C, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;
@@ -226,7 +226,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: 0};
   {
-    const $t26 = (await $.v(C, "SBTransaction"));
+    const $t26 = (await $.wobj(C, "SBTransaction"));
     await $.wset([$t26], "Result", (await $.wcall([$t26], "CallIntegerFunction", [(await $.wv([$t26], "cs_generateid", C, false)), []], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;
@@ -236,7 +236,7 @@ export default function define($) {
   const L0 = {"transactionid": $.copyArg(p0), "rejectreason": $.copyArg(p1), result: 0};
   await $.fixArgs(L0, ["transactionid", "rejectreason"]);
   {
-    const $t27 = (await $.v(C, "SBTransaction"));
+    const $t27 = (await $.wobj(C, "SBTransaction"));
     await $.wset([$t27], "Result", (await $.wcall([$t27], "CallIntegerFunction", [(await $.wv([$t27], "cs_reject_transaction", C, false)), ["TransactionID", (await $.wv([$t27], "TransactionID", { get: async () => L0["transactionid"], set: async (v) => { L0["transactionid"] = v; }, local: true }, false)), "RejectReason", (await $.wv([$t27], "RejectReason", { get: async () => L0["rejectreason"], set: async (v) => { L0["rejectreason"] = v; }, local: true }, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;
@@ -248,14 +248,14 @@ export default function define($) {
   L0["iscommission"] = $.fn(async function IsCommission() {
   const L1 = {result: false};
   {
-    const $t28 = (await $.v(C, "TransactionManagerForm"));
+    const $t28 = (await $.wobj(C, "TransactionManagerForm"));
     await $.wset([$t28], "Result", $.eq((await $.wv([$t28], "OperationMode", C, false)), (await $.wv([$t28], "omCommission", C, false))), { get: async () => L1["result"], set: async (v) => { L1["result"] = v; }, local: true });
   }
   return L1.result;
 });
   if ($.truthy(L0["iscommission"])) {
     {
-      const $t29 = (await $.v(C, "SBComplexTrans"));
+      const $t29 = (await $.wobj(C, "SBComplexTrans"));
       await $.stmt((await $.wcall([$t29], "CallProcedure", [(await $.wv([$t29], "cs_commission_execute", C, false)), ["CommisionID", (await $.wv([$t29], "CommissionID", { get: async () => L0["commissionid"], set: async (v) => { L0["commissionid"] = v; }, local: true }, false)), "DebitID", (await $.wv([$t29], "DebitID", { get: async () => L0["debitid"], set: async (v) => { L0["debitid"] = v; }, local: true }, false)), "CreditID", (await $.wv([$t29], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), "DebitAmmount", (await $.wv([$t29], "DebitAmmount", { get: async () => L0["debitammount"], set: async (v) => { L0["debitammount"] = v; }, local: true }, false)), "CreditAmmount", (await $.wv([$t29], "CreditAmmount", { get: async () => L0["creditammount"], set: async (v) => { L0["creditammount"] = v; }, local: true }, false)), "TransDate", (await $.wv([$t29], "TransDate", { get: async () => L0["transdate"], set: async (v) => { L0["transdate"] = v; }, local: true }, false))]], C)));
     }
   }

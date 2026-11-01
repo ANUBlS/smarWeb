@@ -41,7 +41,7 @@ export default function define($) {
   L0["rstransactionswillprocessed"] = "Əmanətin ödənilməsi ...";
   L0["p_accid"] = (await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "AccountListCB")), "ListSource")), "DataSet")), "FieldByName", ["ID"])), "AsInteger"));
   {
-    const $t1 = (await $.v(C, "CRADMExtractMoney"));
+    const $t1 = (await $.wobj(C, "CRADMExtractMoney"));
     const $t2 = (await $.wv([$t1], "cra_contract", C, false));
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["WithDrawMoney", ["ContractID", (await $.wv([$t1, $t2], "Get_SelectedContID", C, false)), "P_AccID", (await $.wv([$t1, $t2], "p_accid", { get: async () => L0["p_accid"], set: async (v) => { L0["p_accid"] = v; }, local: true }, false)), "HDate", (await $.wv([$t1, $t2], "Get_BankDate", C, false)), "InterestDebtWithdraw", (await $.mv((await $.wv([$t1, $t2], "EdIntDebit", C, false)), "value")), "UseTransactions", (await $.wv([$t1, $t2], "True", C, false)), "showTransaction", (await $.wv([$t1, $t2], "True", C, false))]], C)));
   }

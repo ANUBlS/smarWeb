@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModuleTicketMan"));
+    const $t1 = (await $.wobj(C, "DataModuleTicketMan"));
     if ($.truthy((await $.mv((await $.wv([$t1], "ODSAccount", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t1], "ODSAccount", C, false)), "Close", []);
     }
@@ -31,7 +31,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "DataModuleTicketMan"));
+    const $t2 = (await $.wobj(C, "DataModuleTicketMan"));
     await $.stmt((await $.mcall((await $.wv([$t2], "ODSAccount", C, false)), "Locate", ["ACC_NO", (await $.mv((await $.wcall([$t2], "TEdit", [(await $.wv([$t2], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)), "Text")), [(await $.wv([$t2], "loCaseInsensitive", C, false)), (await $.wv([$t2], "loPartialKey", C, false))]])));
     await $.mset((await $.wv([$t2], "edAccINN", C, false)), "Text", (await $.mv((await $.wv([$t2], "ODSAccountINN", C, false)), "AsString")));
     await $.mset((await $.wv([$t2], "edAccName", C, false)), "Text", (await $.mv((await $.wv([$t2], "ODSAccountNAME", C, false)), "AsString")));
@@ -80,7 +80,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "DataModuleTicketMan"));
+    const $t3 = (await $.wobj(C, "DataModuleTicketMan"));
     await $.mset((await $.wv([$t3], "ODSAllTicketsDACCNAME", C, false)), "Value", (await $.mv((await $.wv([$t3], "ODSAccountNAME", C, false)), "AsString")));
     await $.mset((await $.wv([$t3], "ODSAllTicketsDACCINN", C, false)), "Value", (await $.mv((await $.wv([$t3], "ODSAccountINN", C, false)), "AsString")));
   }
@@ -91,7 +91,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "DataModuleTicketMan"));
+    const $t4 = (await $.wobj(C, "DataModuleTicketMan"));
     await $.mset((await $.wv([$t4], "ODSAllTicketsDACCNAME", C, false)), "AsString", (await $.wcall([$t4], "ConvertCyrToAzeri", [(await $.mv((await $.wv([$t4], "ODSAllTicketsDACCNAME", C, false)), "AsString"))], C)));
     await $.mset((await $.wv([$t4], "ODSAllTicketsKACCNAME", C, false)), "AsString", (await $.wcall([$t4], "ConvertCyrToAzeri", [(await $.mv((await $.wv([$t4], "ODSAllTicketsKACCNAME", C, false)), "AsString"))], C)));
     await $.mcall((await $.wv([$t4], "ODSAllTickets", C, false)), "Post", []);
@@ -133,7 +133,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "DataModuleTicketMan"));
+    const $t5 = (await $.wobj(C, "DataModuleTicketMan"));
     if ($.truthy($.not((await $.mv((await $.wv([$t5], "ODSAccount", C, false)), "Active"))))) {
       await $.mcall((await $.wv([$t5], "ODSAccount", C, false)), "Open", []);
     }

@@ -66,7 +66,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "ExcelExport"));
+    const $t3 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t3], "Connect", [], C));
     await $.stmt((await $.wcall([$t3], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t3], "DBGrid1", C, false)), "DataSource")), "DataSet")), "Investisiya Müqavilələri", (await $.wv([$t3], "True", C, false)), (await $.wv([$t3], "false", C, false))], C)));
     await $.stmt($.wcall([$t3], "Disconnect", [], C));
@@ -389,7 +389,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "ExcelExport"));
+    const $t4 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t4], "Connect", [], C));
     await $.stmt((await $.wcall([$t4], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t4], "DBGrid1", C, false)), "DataSource")), "DataSet")), "Investisiya Müqavilələri", (await $.wv([$t4], "True", C, false)), (await $.wv([$t4], "false", C, false))], C)));
     await $.stmt($.wcall([$t4], "Disconnect", [], C));

@@ -361,7 +361,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.and_(($.eq((await $.mv((await $.mv((await $.v(C, "TransDataModule")), "Transactions")), "Active")), true)), async () => ($.gt((await $.mv((await $.mv((await $.v(C, "TransDataModule")), "Transactions")), "RecordCount")), 0)))))) {
     {
-      const $t1 = (await $.v(C, "TransactionsRpt"));
+      const $t1 = (await $.wobj(C, "TransactionsRpt"));
       await $.stmt($.wcall([$t1], "Preview", [], C));
     }
   }
@@ -759,7 +759,7 @@ export default function define($) {
   await $.mcall((await $.v(C, "CLBCurrency")), "Clear", []);
   await $.mcall((await $.call(C, "TStringList", [(await $.call(C, "Pointer", [(await $.mv((await $.v(C, "CLBCurrency")), "Tag"))]))])), "Clear", []);
   {
-    const $t16 = (await $.v(C, "TransDataModule"));
+    const $t16 = (await $.wobj(C, "TransDataModule"));
     await $.mcall((await $.wv([$t16], "OperationTypes", C, false)), "Execute", []);
     await $.mcall((await $.wv([$t16], "Currency", C, false)), "Execute", []);
   }
@@ -862,7 +862,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t21 = (await $.v(C, "TransactionsViewer"));
+    const $t21 = (await $.wobj(C, "TransactionsViewer"));
     await $.mset((await $.idx((await $.wv([$t21], "Columns", C, false)), [10])), "Visible", (await $.mv((await $.wcall([$t21], "TCheckBox", [(await $.wv([$t21], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)), "Checked")));
     await $.mset((await $.idx((await $.wv([$t21], "Columns", C, false)), [10])), "Width", 100);
   }

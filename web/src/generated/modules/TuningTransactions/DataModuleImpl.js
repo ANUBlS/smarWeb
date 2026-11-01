@@ -24,7 +24,7 @@ export default function define($) {
   await $.fixArgs(L0, ["settings"]);
   L0["csinsert"] = "Insert_Commision_Trans";
   {
-    const $t1 = (await $.v(C, "OPMainSettings"));
+    const $t1 = (await $.wobj(C, "OPMainSettings"));
     const $t2 = (await $.wv([$t1], "Settings", { get: async () => L0["settings"], set: async (v) => { L0["settings"] = v; }, local: true }, false));
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", [(await $.wv([$t1, $t2], "csInsert", { get: async () => L0["csinsert"], set: async (v) => { L0["csinsert"] = v; }, local: true }, false)), [(await $.wv([$t1, $t2], "name", C, false)), (await $.wv([$t1, $t2], "debt", C, false)), (await $.wv([$t1, $t2], "credit", C, false)), (await $.wv([$t1, $t2], "additionalDebt", C, false)), (await $.wv([$t1, $t2], "additionalCredit", C, false)), (await $.wv([$t1, $t2], "assignment", C, false)), (await $.wv([$t1, $t2], "commisionassignment", C, false)), (await $.wv([$t1, $t2], "isCommonSetting", C, false))]], C)));
   }
@@ -36,7 +36,7 @@ export default function define($) {
   await $.fixArgs(L0, ["settings"]);
   L0["csupdate"] = "update_commision_trans";
   {
-    const $t3 = (await $.v(C, "OPMainSettings"));
+    const $t3 = (await $.wobj(C, "OPMainSettings"));
     const $t4 = (await $.wv([$t3], "Settings", { get: async () => L0["settings"], set: async (v) => { L0["settings"] = v; }, local: true }, false));
     await $.stmt((await $.wcall([$t3, $t4], "CallProcedure", [(await $.wv([$t3, $t4], "csUpdate", { get: async () => L0["csupdate"], set: async (v) => { L0["csupdate"] = v; }, local: true }, false)), [(await $.wv([$t3, $t4], "ID", C, false)), (await $.wv([$t3, $t4], "name", C, false)), (await $.wv([$t3, $t4], "debt", C, false)), (await $.wv([$t3, $t4], "credit", C, false)), (await $.wv([$t3, $t4], "additionalDebt", C, false)), (await $.wv([$t3, $t4], "additionalCredit", C, false)), (await $.wv([$t3, $t4], "assignment", C, false)), (await $.wv([$t3, $t4], "commisionassignment", C, false)), (await $.wv([$t3, $t4], "isCommonSetting", C, false))]], C)));
   }
@@ -132,7 +132,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   if ($.truthy((await $.and_(((await $.call(C, "Assigned", [(await $.v(C, "FormOperations"))]))), async () => ($.ne((await $.call(C, "Trim", [(await $.mv((await $.v(C, "FormOperations")), "SearchField"))])), "")))))) {
     {
-      const $t10 = (await $.v(C, "FormOperations"));
+      const $t10 = (await $.wobj(C, "FormOperations"));
       const $t11 = (await $.wv([$t10], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
       await $.wset([$t10, $t11], "FoundField", (await $.mv((await $.wcall([$t10, $t11], "FieldByName", ["ACC_NO"], C)), "AsString")), { get: async () => L0["foundfield"], set: async (v) => { L0["foundfield"] = v; }, local: true });
       if ($.truthy($.eq((await $.mv((await $.wv([$t10, $t11], "CurrentEdit", C, false)), "Tag")), 0))) {

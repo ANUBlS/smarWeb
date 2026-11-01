@@ -45,7 +45,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "propid", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DMproperties")), "DataSetPropIns")), "FieldByname", ["id"])), "asinteger")));
   {
-    const $t1 = (await $.v(C, "DMproperties"));
+    const $t1 = (await $.wobj(C, "DMproperties"));
     const $t2 = (await $.wv([$t1], "DelOtherPAPERNO", C, false));
     { const $t3 = $.sub((await $.mv((await $.wv([$t1, $t2], "Items", C, false)), "Count")), 1);
       await $.wset([$t1, $t2], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });

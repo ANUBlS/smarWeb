@@ -35,7 +35,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "xy": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "DataModule_bussProc"));
+    const $t2 = (await $.wobj(C, "DataModule_bussProc"));
     const $t3 = (await $.wv([$t2], "Ods_cust_proc", C, false));
     await $.stmt($.wcall([$t2, $t3], "close", [], C));
     await $.stmt((await $.wcall([$t2, $t3], "SetVariable", ["custid", (await $.wv([$t2, $t3], "phys_jur_custid", C, false))], C)));

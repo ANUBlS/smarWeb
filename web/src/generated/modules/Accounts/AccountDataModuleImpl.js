@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "accountinfo": $.rec("taccount")};
   await $.fixArgs(L0, ["sender", "action"]);
   {
-    const $t1 = (await $.v(C, "AccountsData"));
+    const $t1 = (await $.wobj(C, "AccountsData"));
     const $t2 = (await $.wv([$t1], "AccountInfo", { get: async () => L0["accountinfo"], set: async (v) => { L0["accountinfo"] = v; }, local: true }, false));
     await $.wset([$t1, $t2], "AccNo", (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["AccNo"], C)), "AsString")), C);
     await $.wset([$t1, $t2], "Name", (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["AccName"], C)), "AsString")), C);

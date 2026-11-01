@@ -48,7 +48,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "CRADatMod"));
+    const $t2 = (await $.wobj(C, "CRADatMod"));
     await $.mcall((await $.wv([$t2], "Corrector", C, false)), "Open", []);
   }
   await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
@@ -59,7 +59,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "CRADatMod"));
+    const $t3 = (await $.wobj(C, "CRADatMod"));
     await $.mcall((await $.wv([$t3], "Corrector", C, false)), "CloseAll", []);
   }
   return L0.result;

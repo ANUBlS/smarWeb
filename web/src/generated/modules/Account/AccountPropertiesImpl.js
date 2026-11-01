@@ -85,7 +85,7 @@ export default function define($) {
     await $.mset((await $.v(C, "DBLookupComboBoxBranchName")), "KeyValue", (await $.mv((await $.mcall((await $.mv((await $.v(C, "AccDataModule")), "user_Branches")), "FieldByName", ["id"])), "AsInteger")));
   }
   {
-    const $t3 = (await $.v(C, "AccDataModule"));
+    const $t3 = (await $.wobj(C, "AccDataModule"));
     const $t4 = (await $.wv([$t3], "Currency", C, false));
     if ($.truthy($.eq((await $.wv([$t3, $t4], "RecordCount", C, false)), 1))) {
       await $.mset((await $.wv([$t3, $t4], "DBEditCurrID", C, false)), "Text", (await $.wcall([$t3, $t4], "inttostr", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t3, $t4], "AccDataModule", C, false)), "Currency")), "FieldByName", ["VALUTE"])), "AsInteger"))], C)));
@@ -94,7 +94,7 @@ export default function define($) {
     }
   }
   {
-    const $t5 = (await $.v(C, "AccountForm"));
+    const $t5 = (await $.wobj(C, "AccountForm"));
     const $t6 = (await $.wv([$t5], "AccDataModule", C, false));
     if ($.truthy($.eq((await $.wv([$t5, $t6], "OperationMode", C, false)), (await $.wv([$t5, $t6], "omInsert", C, false))))) {
       await $.mset((await $.wv([$t5, $t6], "DTPOpenDate", C, false)), "DateTime", (await $.mv((await $.mcall((await $.wv([$t5, $t6], "Sysdat", C, false)), "FieldByName", ["Tek_dat"])), "AsDateTime")));
@@ -144,7 +144,7 @@ export default function define($) {
     await $.mset((await $.v(C, "DBText1")), "Visible", true);
   }
   {
-    const $t7 = (await $.v(C, "AccountForm"));
+    const $t7 = (await $.wobj(C, "AccountForm"));
     const $t8 = (await $.wv([$t7], "AccDataModule", C, false));
     if ($.truthy($.eq((await $.wv([$t7, $t8], "OperationMode", C, false)), (await $.wv([$t7, $t8], "omEdit", C, false))))) {
       if ($.truthy($.in_((await $.mv((await $.mv((await $.wv([$t7, $t8], "AccDataModule", C, false)), "CustomersCUST_TYPE")), "AsInteger")), [0]))) {
@@ -172,7 +172,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "AccDataModule"));
+    const $t9 = (await $.wobj(C, "AccDataModule"));
     const $t10 = (await $.wv([$t9], "Account", C, false));
     if ($.truthy($.in_((await $.wv([$t9, $t10], "State", C, false)), [(await $.wv([$t9, $t10], "dsInsert", C, false)), (await $.wv([$t9, $t10], "dsEdit", C, false))]))) {
       await $.stmt($.wcall([$t9, $t10], "Cancel", [], C));
@@ -242,7 +242,7 @@ export default function define($) {
   await $.set(C, "FormAccFlags", (await $.mcall((await $.v(C, "TFormAccFlags")), "Create", [Self])));
   try {
     {
-      const $t12 = (await $.v(C, "FormAccFlags"));
+      const $t12 = (await $.wobj(C, "FormAccFlags"));
       const $t13 = (await $.mv((await $.wv([$t12], "AccDataModule", C, false)), "Account"));
       if ($.truthy((await $.and_(($.eq((await $.wv([$t12, $t13], "ShowModal", C, false)), (await $.wv([$t12, $t13], "mrOk", C, false)))), async () => ($.in_((await $.wv([$t12, $t13], "State", C, false)), [(await $.wv([$t12, $t13], "dsInsert", C, false)), (await $.wv([$t12, $t13], "dsEdit", C, false))])))))) {
         await $.mset((await $.wcall([$t12, $t13], "FieldByName", ["Tipacc"], C)), "AsString", (await $.wv([$t12, $t13], "FlagMap", C, false)));
@@ -260,7 +260,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "AccDataModule"));
+    const $t14 = (await $.wobj(C, "AccDataModule"));
     await $.stmt((await $.wcall([$t14], "Refresh_", ["Account"], C)));
   }
   return L0.result;
@@ -271,7 +271,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["c_name"] = "GenerateAccountNumber";
   {
-    const $t15 = (await $.v(C, "AccDataModule"));
+    const $t15 = (await $.wobj(C, "AccDataModule"));
     const $t16 = (await $.wv([$t15], "Account", C, false));
     if ($.truthy($.in_((await $.wv([$t15, $t16], "State", C, false)), [(await $.wv([$t15, $t16], "dsInsert", C, false)), (await $.wv([$t15, $t16], "dsEdit", C, false))]))) {
       await $.mset((await $.wcall([$t15, $t16], "FieldByName", ["acc_no"], C)), "AsString", (await $.mcall((await $.wv([$t15, $t16], "SBOP", C, false)), "CallStringFunction", [(await $.wv([$t15, $t16], "c_name", { get: async () => L0["c_name"], set: async (v) => { L0["c_name"] = v; }, local: true }, false)), ["BalCn", (await $.mv((await $.wcall([$t15, $t16], "FieldByName", ["bal_cn1"], C)), "AsVariant")), "CurrencyID", (await $.mv((await $.wcall([$t15, $t16], "FieldByName", ["val_acc"], C)), "AsVariant")), "CustomerID", (await $.mv((await $.wcall([$t15, $t16], "FieldByName", ["kli_id"], C)), "AsVariant")), "BranchID", (await $.mv((await $.mcall((await $.mv((await $.wv([$t15, $t16], "AccDataModule", C, false)), "user_Branches")), "FieldByName", ["id"])), "AsVariant")), "AnalitKod", (await $.mv((await $.wcall([$t15, $t16], "FieldByName", ["SIM_OTCET"], C)), "AsVariant")), "NoteCode", (await $.mv((await $.wv([$t15, $t16], "EditNoteCode", C, false)), "Text")), "BalCn2", (await $.mv((await $.wcall([$t15, $t16], "FieldByName", ["bal_cn2"], C)), "AsVariant")), "MehKod", (await $.mv((await $.wcall([$t15, $t16], "FieldByName", ["TEMPID"], C)), "AsVariant"))]])));

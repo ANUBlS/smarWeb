@@ -35,7 +35,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t1 = (await $.v(C, "ExpTypeAccountsDataSet"));
+    const $t1 = (await $.wobj(C, "ExpTypeAccountsDataSet"));
     await $.stmt($.wcall([$t1], "Delete", [], C));
     await $.stmt($.wcall([$t1], "Refresh", [], C));
   }
@@ -53,7 +53,7 @@ export default function define($) {
   }
   await $.mcall((await $.v(C, "ExpTypeAccountsDataSet")), "Edit", []);
   {
-    const $t2 = (await $.v(C, "ExpAccType"));
+    const $t2 = (await $.wobj(C, "ExpAccType"));
     await $.wset([$t2], "Caption", "Redaktə", C);
     await $.stmt($.wcall([$t2], "ShowModal", [], C));
   }

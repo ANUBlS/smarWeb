@@ -19,7 +19,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "rect", "datacol", "column", "state"]);
   L0["marked"] = false;
   {
-    const $t1 = (await $.v(C, "Grid"));
+    const $t1 = (await $.wobj(C, "Grid"));
     if ($.truthy((await $.and_(($.in_((await $.wv([$t1], "dgMultiSelect", C, false)), (await $.wv([$t1], "Options", C, false)))), async () => (await $.mv((await $.mv((await $.wcall([$t1], "TMyDBGrid", [(await $.wv([$t1], "Grid", C, false))], C)), "Datalink")), "Active")))))) {
       await $.wset([$t1], "Marked", (await $.mcall((await $.wv([$t1], "SelectedRows", C, false)), "Find", [(await $.mv((await $.mv((await $.mv((await $.mv((await $.wcall([$t1], "TMyDBGrid", [(await $.wv([$t1], "Grid", C, false))], C)), "Datalink")), "Datasource")), "Dataset")), "Bookmark")), (await $.wv([$t1], "Index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))])), { get: async () => L0["marked"], set: async (v) => { L0["marked"] = v; }, local: true });
     }
@@ -76,7 +76,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "newtab": $.copyArg(p1), "allowchange": $.asRef(p2), result: undefined};
   await $.fixArgs(L0, ["sender", "newtab"]);
   {
-    const $t3 = (await $.v(C, "dbgOwner"));
+    const $t3 = (await $.wobj(C, "dbgOwner"));
     const $t4 = (await $.wv([$t3], "DataSource", C, false));
     { const $t5 = (await $.wv([$t3, $t4], "NewTab", { get: async () => L0["newtab"], set: async (v) => { L0["newtab"] = v; }, local: true }, false));
       if ($.eq($t5, 0)) {
@@ -146,7 +146,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "dbgOwner"));
+    const $t8 = (await $.wobj(C, "dbgOwner"));
     const $t9 = (await $.wcall([$t8], "TOracleDataSet", [(await $.mv((await $.wv([$t8], "DataSource", C, false)), "DataSet"))], C));
     if ($.truthy($.ne((await $.mv((await $.wv([$t8, $t9], "dtDat", C, false)), "DateTime")), (await $.wcall([$t8, $t9], "GetVariable", ["DAT"], C))))) {
       await $.stmt((await $.wcall([$t8, $t9], "SetVariable", ["DAT", (await $.mv((await $.wv([$t8, $t9], "dtDat", C, false)), "DateTime"))], C)));
@@ -218,7 +218,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0, "edleft": 0, "tempedit": null};
   {
-    const $t15 = (await $.v(C, "dbgOwner"));
+    const $t15 = (await $.wobj(C, "dbgOwner"));
     await $.wset([$t15], "edLeft", 4, { get: async () => L0["edleft"], set: async (v) => { L0["edleft"] = v; }, local: true });
     { const $t16 = $.sub((await $.mv((await $.wv([$t15], "Columns", C, false)), "Count")), 1);
       await $.wset([$t15], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });

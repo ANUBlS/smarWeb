@@ -283,7 +283,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "MainGrid"));
+    const $t4 = (await $.wobj(C, "MainGrid"));
     const $t5 = (await $.wv([$t4], "SelectedRows", C, false));
     const $t6 = (await $.mv((await $.wv([$t4, $t5], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t4, $t5, $t6], "DisableControls", [], C));
@@ -481,7 +481,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "OracleDataSet1"));
+    const $t10 = (await $.wobj(C, "OracleDataSet1"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t10], "RadioGrpCont", C, false)), "ItemIndex")), 1))) {
       await $.stmt($.wcall([$t10], "Close", [], C));
       { const $t11 = await $.iset((await $.wv([$t10], "SQL", C, false)), [1], ""); if ($t11 !== undefined) { await $.wset([$t10], "SQL", $t11, C); } }
@@ -685,7 +685,7 @@ export default function define($) {
   L0["rsconfirmforall"] = "%d - sayda əməliyyat %s. Əminsiniz?";
   L0["rscalcpercent"] = "Günün sənədlərinə göndərləcək";
   {
-    const $t16 = (await $.v(C, "MainGrid"));
+    const $t16 = (await $.wobj(C, "MainGrid"));
     const $t17 = (await $.mv((await $.wv([$t16], "DataSource", C, false)), "DataSet"));
     await $.wset([$t16, $t17], "SelectedRowsCnt", (await $.mv((await $.wv([$t16, $t17], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true });
     if ($.truthy($.gt((await $.wv([$t16, $t17], "SelectedRowsCnt", { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true }, false)), 1))) {
@@ -748,7 +748,7 @@ export default function define($) {
   L0["rsconfirmforall"] = "%d - sayda əməliyyat %s. Əminsiniz?";
   L0["rscalcpercent"] = "Silnəcək";
   {
-    const $t20 = (await $.v(C, "MainGrid"));
+    const $t20 = (await $.wobj(C, "MainGrid"));
     const $t21 = (await $.mv((await $.wv([$t20], "DataSource", C, false)), "DataSet"));
     await $.wset([$t20, $t21], "SelectedRowsCnt", (await $.mv((await $.wv([$t20, $t21], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true });
     if ($.truthy($.gt((await $.wv([$t20, $t21], "SelectedRowsCnt", { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true }, false)), 1))) {

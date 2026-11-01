@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"v_amort_date": $.copyArg(p0), "v_groups_id": $.copyArg(p1), "v_sum_first_price": $.asRef(p2), "v_sum_remainder": $.asRef(p3), "v_sum_all_amort": $.asRef(p4), "v_sum_amort": $.asRef(p5), "v_sum_tax_first_price": $.asRef(p6), "v_sum_tax_remainder": $.asRef(p7), "v_sum_tax_all_amort": $.asRef(p8), "v_sum_tax_amort": $.asRef(p9), result: undefined};
   await $.fixArgs(L0, ["v_amort_date", "v_groups_id"]);
   {
-    const $t1 = (await $.v(C, "DataModWares"));
+    const $t1 = (await $.wobj(C, "DataModWares"));
     await $.stmt((await $.mcall((await $.wv([$t1], "SB_MAIN_RESOURCE", C, false)), "CallProcedure", ["Sum_For_Group_Params", [(await $.wv([$t1], "v_amort_date", { get: async () => L0["v_amort_date"], set: async (v) => { L0["v_amort_date"] = v; }, local: true }, false)), (await $.wv([$t1], "v_groups_id", { get: async () => L0["v_groups_id"], set: async (v) => { L0["v_groups_id"] = v; }, local: true }, false)), 0, 0, 0, 0, 0, 0, 0, 0]])));
     await $.wset([$t1], "v_sum_first_price", (await $.mcall((await $.wv([$t1], "SB_MAIN_RESOURCE", C, false)), "GetParameter", [2])), { get: async () => await L0["v_sum_first_price"].get(), set: async (v) => { await L0["v_sum_first_price"].set(v); }, local: true });
     await $.wset([$t1], "v_sum_remainder", (await $.mcall((await $.wv([$t1], "SB_MAIN_RESOURCE", C, false)), "GetParameter", [3])), { get: async () => await L0["v_sum_remainder"].get(), set: async (v) => { await L0["v_sum_remainder"].set(v); }, local: true });
@@ -33,7 +33,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["v_amort_date"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTP_Dat")), "DateTime"))]))]));
   {
-    const $t2 = (await $.v(C, "DataModWares"));
+    const $t2 = (await $.wobj(C, "DataModWares"));
     await $.mcall((await $.wv([$t2], "ODSViewGroups", C, false)), "Open", []);
     await $.mcall((await $.wv([$t2], "ODSViewWares", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t2], "ODSViewWares", C, false)), "SetVariable", ["v_amort_date", (await $.wv([$t2], "v_amort_date", { get: async () => L0["v_amort_date"], set: async (v) => { L0["v_amort_date"] = v; }, local: true }, false))])));
@@ -60,7 +60,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["v_amort_date"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTP_Dat")), "DateTime"))]))]));
   {
-    const $t4 = (await $.v(C, "DataModWares"));
+    const $t4 = (await $.wobj(C, "DataModWares"));
     await $.mcall((await $.wv([$t4], "ODSViewGroups", C, false)), "Open", []);
     await $.mcall((await $.wv([$t4], "ODSViewWares", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t4], "ODSViewWares", C, false)), "SetVariable", ["v_amort_date", (await $.wv([$t4], "v_amort_date", { get: async () => L0["v_amort_date"], set: async (v) => { L0["v_amort_date"] = v; }, local: true }, false))])));

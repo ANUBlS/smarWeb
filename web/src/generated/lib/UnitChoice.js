@@ -26,7 +26,7 @@ export default function define($) {
       await $.stmt($.wcall([$t1], "open", [], C));
     }
     {
-      const $t2 = (await $.v(C, "CMExcelExport1"));
+      const $t2 = (await $.wobj(C, "CMExcelExport1"));
       await $.stmt($.wcall([$t2], "Connect", [], C));
       await $.stmt((await $.wcall([$t2], "ExportDataset", [(await $.mv((await $.wv([$t2], "DataModWares", C, false)), "OracleDataSet2")), "Maliyye", (await $.wv([$t2], "True", C, false))], C)));
       await $.stmt($.wcall([$t2], "Disconnect", [], C));
@@ -41,7 +41,7 @@ export default function define($) {
         await $.stmt($.wcall([$t3], "open", [], C));
       }
       {
-        const $t4 = (await $.v(C, "CMExcelExport1"));
+        const $t4 = (await $.wobj(C, "CMExcelExport1"));
         await $.stmt($.wcall([$t4], "Connect", [], C));
         await $.stmt((await $.wcall([$t4], "ExportDataset", [(await $.mv((await $.wv([$t4], "DataModWares", C, false)), "OracleDataSet3")), "Vergi", (await $.wv([$t4], "True", C, false))], C)));
         await $.stmt($.wcall([$t4], "Disconnect", [], C));

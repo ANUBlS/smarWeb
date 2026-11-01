@@ -30,7 +30,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModExch"));
+    const $t1 = (await $.wobj(C, "DataModExch"));
     const $t2 = (await $.mv((await $.wv([$t1], "DataModExch", C, false)), "OPExchMgr"));
     await $.wset([$t1, $t2], "v_id", (await $.mv((await $.mcall((await $.wv([$t1, $t2], "ODSExchOffice", C, false)), "FieldByName", ["id"])), "AsInteger")), C);
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["get_ex_office_out_params", [(await $.wv([$t1, $t2], "v_id", C, false)), (await $.wv([$t1, $t2], "parInteger", C, false)), (await $.wv([$t1, $t2], "parString", C, false)), (await $.wv([$t1, $t2], "parString", C, false)), (await $.wv([$t1, $t2], "parString", C, false)), (await $.wv([$t1, $t2], "parString", C, false)), (await $.wv([$t1, $t2], "parinteger", C, false))]], C)));
@@ -72,7 +72,7 @@ export default function define($) {
   await $.set(C, "v_filial", (await $.mv((await $.v(C, "DBLookupComboBox1")), "KeyValue")));
   if ($.truthy((await $.or_(($.ne((await $.call(C, "Trim", [(await $.mv((await $.v(C, "Edit_ex_no")), "Text"))])), "0")), async () => ($.ne((await $.call(C, "Trim", [(await $.mv((await $.v(C, "Edit_ex_no")), "Text"))])), "")))))) {
     {
-      const $t3 = (await $.v(C, "DataModExch"));
+      const $t3 = (await $.wobj(C, "DataModExch"));
       const $t4 = (await $.mv((await $.wv([$t3], "DataModExch", C, false)), "OPExchMgr"));
       await $.stmt((await $.wcall([$t3, $t4], "CallProcedure", ["ex_office_edit", [(await $.wv([$t3, $t4], "v_id", C, false)), (await $.wv([$t3, $t4], "v_ex_no", C, false)), (await $.wv([$t3, $t4], "v_ex_name", C, false)), (await $.wv([$t3, $t4], "v_ex_address", C, false)), (await $.wv([$t3, $t4], "v_ex_worker_name", C, false)), (await $.wv([$t3, $t4], "v_ex_check_no", C, false)), (await $.wv([$t3, $t4], "v_filial", C, false))]], C)));
       await $.mcall((await $.wv([$t3, $t4], "ODSExchOffice", C, false)), "Refresh", []);

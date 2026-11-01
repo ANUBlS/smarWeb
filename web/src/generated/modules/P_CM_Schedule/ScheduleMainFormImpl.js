@@ -23,7 +23,7 @@ export default function define($) {
   await $.set(C, "Caption", (await $.call(C, "Format", [L0["rsscheludecaption"], [(await $.v(C, "Get_SelectedCrdNo"))]])));
   await $.set(C, "CreditID", (await $.v(C, "Get_SelectedCrdID")));
   {
-    const $t1 = (await $.v(C, "ScheduleDataModule"));
+    const $t1 = (await $.wobj(C, "ScheduleDataModule"));
     {
       const $t2 = (await $.wv([$t1], "ScheduleData", C, false));
       await $.stmt($.wcall([$t1, $t2], "ClearVariables", [], C));
@@ -76,7 +76,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "ScheduleDataModule"));
+    const $t5 = (await $.wobj(C, "ScheduleDataModule"));
     {
       const $t6 = (await $.mv((await $.wv([$t5], "ScheduleData", C, false)), "Session"));
       await $.stmt($.wcall([$t5, $t6], "Rollback", [], C));
@@ -156,7 +156,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["rs_delshedulepayments"] = " Silinməsinə əminsinizmi? ";
   {
-    const $t11 = (await $.v(C, "ScheduleDataModule"));
+    const $t11 = (await $.wobj(C, "ScheduleDataModule"));
     const $t12 = (await $.wv([$t11], "adm", C, false));
     await $.wset([$t11, $t12], "count", (await $.wcall([$t11, $t12], "CallIntegerFunction", ["getadmaddition", ["PAYMENTSHE"]], C)), { get: async () => L0["count"], set: async (v) => { L0["count"] = v; }, local: true });
   }
@@ -168,7 +168,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t13 = (await $.v(C, "SchduleGrid"));
+    const $t13 = (await $.wobj(C, "SchduleGrid"));
     { const $t14 = 0;
       await $.wset([$t13], "I", $.sub((await $.mv((await $.wv([$t13], "SelectedRows", C, false)), "Count")), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t15 = true;
@@ -199,7 +199,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "ScheduleDataModule"));
+    const $t17 = (await $.wobj(C, "ScheduleDataModule"));
     const $t18 = (await $.mv((await $.wv([$t17], "ScheduleData", C, false)), "Session"));
     await $.stmt((await $.wcall([$t17, $t18], "ApplyUpdates", [[(await $.wv([$t17, $t18], "ScheduleData", C, false))], (await $.wv([$t17, $t18], "True", C, false))], C)));
     await $.stmt($.wcall([$t17, $t18], "Commit", [], C));
@@ -227,7 +227,7 @@ export default function define($) {
     await $.wset([$t20], "CreditID", (await $.mv((await $.wcall([$t20], "FieldByName", ["ID"], C)), "AsInteger")), { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true });
   }
   {
-    const $t21 = (await $.v(C, "AnnutyForm"));
+    const $t21 = (await $.wobj(C, "AnnutyForm"));
     if ($.truthy($.not((await $.wcall([$t21], "AnnutyPayment_Get", [$.ref(async () => (await $.wv([$t21], "Payment", { get: async () => L0["payment"], set: async (v) => { L0["payment"] = v; }, local: true }, false)), async ($t22) => { await $.wset([$t21], "Payment", $t22, { get: async () => L0["payment"], set: async (v) => { L0["payment"] = v; }, local: true }); })], C))))) {
       return L0.result;
     }
@@ -270,7 +270,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t26 = (await $.v(C, "ScheduleDataModule"));
+    const $t26 = (await $.wobj(C, "ScheduleDataModule"));
     const $t27 = (await $.wv([$t26], "ExportData", C, false));
     if ($.truthy((await $.wv([$t26, $t27], "Active", C, false)))) {
       await $.stmt($.wcall([$t26, $t27], "close", [], C));
@@ -293,7 +293,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "ord", [(await L0["key"].get())])), 1))) {
     {
-      const $t28 = (await $.v(C, "SchduleGrid"));
+      const $t28 = (await $.wobj(C, "SchduleGrid"));
       const $t29 = (await $.wv([$t28], "SelectedRows", C, false));
       const $t30 = (await $.mv((await $.wv([$t28, $t29], "DataSource", C, false)), "DataSet"));
       await $.stmt($.wcall([$t28, $t29, $t30], "DisableControls", [], C));
@@ -328,7 +328,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t31 = (await $.v(C, "ScheduleDataModule"));
+    const $t31 = (await $.wobj(C, "ScheduleDataModule"));
     const $t32 = (await $.wv([$t31], "ScheduleData", C, false));
     await $.mset((await $.wv([$t31, $t32], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Enabled", (await $.and_((await $.wv([$t31, $t32], "Active", C, false)), async () => ($.gt((await $.wv([$t31, $t32], "RecordCount", C, false)), 0)))));
   }

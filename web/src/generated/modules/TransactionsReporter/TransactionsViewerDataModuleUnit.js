@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "FrmTransactionsViewer"));
+    const $t1 = (await $.wobj(C, "FrmTransactionsViewer"));
     const $t2 = (await $.wv([$t1], "CBOperationTypes", C, false));
     const $t3 = (await $.wv([$t1, $t2], "Items", C, false));
     await $.stmt((await $.wcall([$t1, $t2, $t3], "Add", [(await $.mcall((await $.wv([$t1, $t2, $t3], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Field", ["name"]))], C)));
@@ -28,7 +28,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "FrmTransactionsViewer"));
+    const $t5 = (await $.wobj(C, "FrmTransactionsViewer"));
     const $t6 = (await $.wv([$t5], "CLBCurrency", C, false));
     const $t7 = (await $.wv([$t5, $t6], "Items", C, false));
     await $.stmt((await $.wcall([$t5, $t6, $t7], "Add", [(await $.mcall((await $.wv([$t5, $t6, $t7], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Field", ["valu_name"]))], C)));
@@ -42,7 +42,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "FrmTransactionsViewer"));
+    const $t9 = (await $.wobj(C, "FrmTransactionsViewer"));
     await $.stmt((await $.wcall([$t9], "ActionFilterExecute", [(await $.wv([$t9], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)));
   }
   return L0.result;

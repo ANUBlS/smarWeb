@@ -363,7 +363,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ExcelExport"));
+    const $t1 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t1], "Connect", [], C));
     await $.stmt((await $.wcall([$t1], "ExportDataset", [(await $.mv((await $.wv([$t1], "DataMGuarante", C, false)), "DataSetGuarantee")), "Girov", (await $.wv([$t1], "true", C, false)), (await $.wv([$t1], "false", C, false))], C)));
     await $.stmt($.wcall([$t1], "Disconnect", [], C));
@@ -376,7 +376,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "FormGuarAdd")), "Caption", "Girov barədə məlumatın yığılması");
   {
-    const $t2 = (await $.v(C, "DataMGuarante"));
+    const $t2 = (await $.wobj(C, "DataMGuarante"));
     const $t3 = (await $.wv([$t2], "DataSetGuarantee", C, false));
     await $.stmt($.wcall([$t2, $t3], "insert", [], C));
   }
@@ -417,7 +417,7 @@ export default function define($) {
       await $.mset((await $.mv((await $.wv([$t5], "FormGuarAdd", C, false)), "MaskEdit2")), "Text", (await $.mv((await $.wcall([$t5], "FieldByName", ["AFTONO"], C)), "Asstring")));
     }
     {
-      const $t6 = (await $.v(C, "FrmDashinmaz"));
+      const $t6 = (await $.wobj(C, "FrmDashinmaz"));
       if ($.truthy($.eq((await $.mv((await $.mcall((await $.mv((await $.wv([$t6], "DataMGuarante", C, false)), "DataSetGuarantee")), "FieldByName", ["mkt"])), "AsInteger")), 1))) {
         { const $t7 = await $.iset((await $.mv((await $.wv([$t6], "CheckListBox1", C, false)), "Checked")), [0], (await $.wv([$t6], "true", C, false))); if ($t7 !== undefined) { await $.mset((await $.wv([$t6], "CheckListBox1", C, false)), "Checked", $t7); } }
       }
@@ -447,7 +447,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "FormGuarAdd")), "Caption", "Girov barədə məlumatın redaktə olunması");
   {
-    const $t9 = (await $.v(C, "DataMGuarante"));
+    const $t9 = (await $.wobj(C, "DataMGuarante"));
     const $t10 = (await $.wv([$t9], "DataSetGuarantee", C, false));
     await $.wset([$t9, $t10], "xx", 2, C);
     await $.mset((await $.mv((await $.wv([$t9, $t10], "FormGuarAdd", C, false)), "InUse_rg")), "ItemIndex", (await $.mv((await $.wcall([$t9, $t10], "FieldByName", ["PLEDGEINUSE"], C)), "AsInteger")));
@@ -600,7 +600,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "editCONTRACTNUM"));
+    const $t14 = (await $.wobj(C, "editCONTRACTNUM"));
     if ($.truthy($.ne((await $.wv([$t14], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t14], "DataMGuarante", C, false)), "DataSorcGuaranttee")), "DataSet")), "Locate", ["NUMBEROFGUR", (await $.mv((await $.wv([$t14], "editCONTRACTNUM", C, false)), "Text")), [(await $.wv([$t14], "loPartialKey", C, false))]])));
     }
@@ -612,7 +612,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "editname"));
+    const $t15 = (await $.wobj(C, "editname"));
     if ($.truthy($.ne((await $.wv([$t15], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t15], "DataMGuarante", C, false)), "DataSorcGuaranttee")), "DataSet")), "Locate", ["PLEDGENAME", (await $.mv((await $.wv([$t15], "editname", C, false)), "Text")), [(await $.wv([$t15], "loPartialKey", C, false))]])));
     }
@@ -624,7 +624,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "editvalue"));
+    const $t16 = (await $.wobj(C, "editvalue"));
     if ($.truthy($.ne((await $.wv([$t16], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t16], "DataMGuarante", C, false)), "DataSorcGuaranttee")), "DataSet")), "Locate", ["PLEDGEPRICE", (await $.mv((await $.wv([$t16], "editvalue", C, false)), "Text")), [(await $.wv([$t16], "loPartialKey", C, false))]])));
     }
@@ -637,7 +637,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "FormGuarAdd")), "Caption", "Daşınar əmlak barədə məlumatın yığılması");
   {
-    const $t17 = (await $.v(C, "DataMGuarante"));
+    const $t17 = (await $.wobj(C, "DataMGuarante"));
     const $t18 = (await $.wv([$t17], "MainDSet", C, false));
     await $.wset([$t17, $t18], "xx", 1, C);
     if ($.truthy((await $.wv([$t17, $t18], "Active", C, false)))) {
@@ -656,7 +656,7 @@ export default function define($) {
   await $.mset((await $.v(C, "FrmDashinmaz")), "Caption", "Daşınmaz əmlak barədə məlumatın yığılması");
   await $.set(C, "form_edit_ins", false);
   {
-    const $t19 = (await $.v(C, "DataMGuarante"));
+    const $t19 = (await $.wobj(C, "DataMGuarante"));
     const $t20 = (await $.wv([$t19], "MainDset_d", C, false));
     await $.wset([$t19, $t20], "xx", 1, C);
     if ($.truthy((await $.wv([$t19, $t20], "Active", C, false)))) {
@@ -673,7 +673,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t21 = (await $.v(C, "DateTimePicker1"));
+    const $t21 = (await $.wobj(C, "DateTimePicker1"));
     if ($.truthy($.ne((await $.wv([$t21], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t21], "DataMGuarante", C, false)), "DataSorcGuaranttee")), "DataSet")), "Locate", ["DAT", (await $.mv((await $.wv([$t21], "DateTimePicker1", C, false)), "datetime")), [(await $.wv([$t21], "loPartialKey", C, false))]])));
     }

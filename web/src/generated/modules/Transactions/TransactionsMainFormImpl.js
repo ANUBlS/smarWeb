@@ -398,7 +398,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "TransactionPropertiesForm"));
+    const $t4 = (await $.wobj(C, "TransactionPropertiesForm"));
     await $.wset([$t4], "TransactionDate", (await $.mv((await $.wv([$t4], "ToDateEdit", C, false)), "DateTime")), C);
     if ($.truthy((await $.wv([$t4], "New", C, false)))) {
       await $.stmt($.wcall([$t4], "UpdateToDate", [], C));
@@ -423,7 +423,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["deleted"] = false;
   {
-    const $t6 = (await $.v(C, "BrowseGrid"));
+    const $t6 = (await $.wobj(C, "BrowseGrid"));
     const $t7 = (await $.wv([$t6], "SelectedRows", C, false));
     const $t8 = (await $.mv((await $.wv([$t6, $t7], "DataSource", C, false)), "DataSet"));
     if ($.truthy($.eq((await $.wv([$t6, $t7, $t8], "Count", C, false)), 0))) {
@@ -478,7 +478,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "TransactionPropertiesForm"));
+    const $t14 = (await $.wobj(C, "TransactionPropertiesForm"));
     if ($.truthy((await $.wcall([$t14], "View", [(await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t14], "TransactionsDataModule", C, false)), "Transactions")), "DataSet")), "FieldByName", ["ID"])), "AsInteger")), $.not((await $.wv([$t14], "AllowTransactionUpdate", C, false)))], C)))) {
       await $.stmt($.wcall([$t14], "UpdateToDate", [], C));
       await $.mcall((await $.wv([$t14], "RefreshAction", C, false)), "Execute", []);
@@ -672,7 +672,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "tempid": 0, "ids": [], "idindex": 0, "index": 0, "status": 0, "commited": false};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t22 = (await $.v(C, "BrowseGrid"));
+    const $t22 = (await $.wobj(C, "BrowseGrid"));
     const $t23 = (await $.wv([$t22], "SelectedRows", C, false));
     const $t24 = (await $.mv((await $.wv([$t22, $t23], "DataSource", C, false)), "DataSet"));
     if ($.truthy($.eq((await $.wv([$t22, $t23, $t24], "Count", C, false)), 0))) {
@@ -754,7 +754,7 @@ export default function define($) {
     L0["updated"] = false;
     try {
       {
-        const $t38 = (await $.v(C, "BrowseGrid"));
+        const $t38 = (await $.wobj(C, "BrowseGrid"));
         const $t39 = (await $.wv([$t38], "SelectedRows", C, false));
         const $t40 = (await $.mv((await $.wv([$t38, $t39], "DataSource", C, false)), "DataSet"));
         if ($.truthy($.eq((await $.wv([$t38, $t39, $t40], "Count", C, false)), 0))) {
@@ -792,7 +792,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t43 = (await $.v(C, "BrowseGrid"));
+    const $t43 = (await $.wobj(C, "BrowseGrid"));
     const $t44 = (await $.wv([$t43], "SelectedRows", C, false));
     const $t45 = (await $.mv((await $.wv([$t43, $t44], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t43, $t44, $t45], "DisableControls", [], C));
@@ -1273,7 +1273,7 @@ export default function define($) {
 });
   if ($.truthy((await $.idx((await $.v(C, "FSelectionChanged")), [L0["flagset"]])))) {
     {
-      const $t79 = (await $.v(C, "BrowseGrid"));
+      const $t79 = (await $.wobj(C, "BrowseGrid"));
       const $t80 = (await $.mv((await $.wv([$t79], "DataSource", C, false)), "DataSet"));
       const $t81 = (await $.wv([$t79, $t80], "SelectedRows", C, false));
       if ($.truthy((await $.or_(($.eq((await $.wv([$t79, $t80, $t81], "Count", C, false)), 1)), async () => ($.eq((await $.wv([$t79, $t80, $t81], "Count", C, false)), 0)))))) {
@@ -1348,7 +1348,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t88 = (await $.v(C, "TransactionPropertiesForm"));
+    const $t88 = (await $.wobj(C, "TransactionPropertiesForm"));
     await $.mset((await $.wv([$t88], "ToDateEdit", C, false)), "DateTime", (await $.wv([$t88], "TransactionDate", C, false)));
     await $.wset([$t88], "FToDate", (await $.wv([$t88], "TransactionDate", C, false)), C);
   }
@@ -1413,7 +1413,7 @@ export default function define($) {
   if ($.truthy((await $.v(C, "FUpdateChangeMode")))) {
     L0["result"] = true;
     {
-      const $t94 = (await $.v(C, "BrowseGrid"));
+      const $t94 = (await $.wobj(C, "BrowseGrid"));
       const $t95 = (await $.mv((await $.wv([$t94], "DataSource", C, false)), "DataSet"));
       const $t96 = (await $.wv([$t94, $t95], "SelectedRows", C, false));
       if ($.truthy((await $.or_(($.eq((await $.wv([$t94, $t95, $t96], "Count", C, false)), 0)), async () => ($.eq((await $.wv([$t94, $t95, $t96], "Count", C, false)), 1)))))) {
@@ -1470,7 +1470,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.not(((await $.mv((await $.mv((await $.mv((L0["sender"]), "DataSource")), "DataSet")), "IsEmpty")))))) {
     {
-      const $t99 = (await $.v(C, "TransactionPropertiesForm"));
+      const $t99 = (await $.wobj(C, "TransactionPropertiesForm"));
       const $t100 = (await $.wv([$t99], "TransactionsDataModule", C, false));
       await $.wset([$t99, $t100], "TempDebit", (await $.mv((await $.mcall((await $.wv([$t99, $t100], "ODSCommisionTrans", C, false)), "FieldByName", ["Debt"])), "AsInteger")), { get: async () => L0["tempdebit"], set: async (v) => { L0["tempdebit"] = v; }, local: true });
       await $.wset([$t99, $t100], "TempCredit", (await $.mv((await $.mcall((await $.wv([$t99, $t100], "ODSCommisionTrans", C, false)), "FieldByName", ["Credit"])), "AsInteger")), { get: async () => L0["tempcredit"], set: async (v) => { L0["tempcredit"] = v; }, local: true });

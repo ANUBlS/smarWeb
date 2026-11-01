@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["s"]);
   L0["contractid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "frmCapitalize"));
+    const $t1 = (await $.wobj(C, "frmCapitalize"));
     {
       const $t2 = (await $.wv([$t1], "DepositInfo", C, false));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
@@ -93,7 +93,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t4 = (await $.v(C, "Capitals"));
+    const $t4 = (await $.wobj(C, "Capitals"));
     const $t5 = (await $.wv([$t4], "sbcm_payment", C, false));
     await $.stmt((await $.wcall([$t4, $t5], "CallProcedure", ["DeleteCapitalization", ["p_capitalizationID", (await $.mv((await $.wcall([$t4, $t5], "FieldByName", ["ID"], C)), "AsInteger"))]], C)));
     await $.stmt($.wcall([$t4, $t5], "Refresh", [], C));
@@ -105,7 +105,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "ExcelExp"));
+    const $t6 = (await $.wobj(C, "ExcelExp"));
     await $.stmt($.wcall([$t6], "Connect", [], C));
     await $.stmt((await $.wcall([$t6], "ExportDataset", [(await $.wv([$t6], "Capitals", C, false)), "karitallaşdırma", (await $.wv([$t6], "true", C, false)), (await $.wv([$t6], "false", C, false))], C)));
     await $.stmt($.wcall([$t6], "DisConnect", [], C));

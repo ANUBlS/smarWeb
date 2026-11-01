@@ -52,7 +52,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "DMproperties"));
+    const $t2 = (await $.wobj(C, "DMproperties"));
     await $.mcall((await $.wv([$t2], "DataSetPropIns", C, false)), "open", []);
     await $.mcall((await $.wv([$t2], "CreditAccs", C, false)), "open", []);
     await $.mcall((await $.wv([$t2], "OracleDataSet1", C, false)), "open", []);
@@ -66,7 +66,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "DMproperties"));
+    const $t3 = (await $.wobj(C, "DMproperties"));
     await $.mcall((await $.wv([$t3], "DataSetPropIns", C, false)), "closeall", []);
     await $.mcall((await $.wv([$t3], "CreditAccs", C, false)), "close", []);
     await $.mcall((await $.wv([$t3], "OracleDataSet1", C, false)), "close", []);

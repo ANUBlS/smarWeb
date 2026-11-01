@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "SDHesabat"));
+    const $t1 = (await $.wobj(C, "SDHesabat"));
     { const $t2 = (await $.wv([$t1], "confirm", C, false));
       if ($.eq($t2, 1)) {
         await $.mcall((await $.wv([$t1], "Application", C, false)), "ProcessMessages", []);

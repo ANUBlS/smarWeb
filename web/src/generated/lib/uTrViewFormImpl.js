@@ -20,7 +20,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "odsTr"));
+    const $t1 = (await $.wobj(C, "odsTr"));
     await $.stmt($.wcall([$t1], "ClearVariables", [], C));
     await $.stmt($.wcall([$t1], "Close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["trid", (await $.wv([$t1], "FTrID", C, false))], C)));

@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "pname": '', "numberofarticle": ''};
   await $.fixArgs(L0, ["sender", "action"]);
   {
-    const $t1 = (await $.v(C, "AddArt"));
+    const $t1 = (await $.wobj(C, "AddArt"));
     await $.wset([$t1], "pname", (await $.mv((await $.wcall([$t1], "FieldbyName", ["name"], C)), "AsString")), { get: async () => L0["pname"], set: async (v) => { L0["pname"] = v; }, local: true });
     await $.wset([$t1], "numberofarticle", (await $.mv((await $.wcall([$t1], "FieldbyName", ["numberofarticle"], C)), "AsString")), { get: async () => L0["numberofarticle"], set: async (v) => { L0["numberofarticle"] = v; }, local: true });
   }
@@ -59,7 +59,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "pname": '', "numberofarticle": ''};
   await $.fixArgs(L0, ["sender", "action"]);
   {
-    const $t3 = (await $.v(C, "AddArt"));
+    const $t3 = (await $.wobj(C, "AddArt"));
     await $.wset([$t3], "pname", (await $.mv((await $.wcall([$t3], "FieldbyName", ["name"], C)), "AsString")), { get: async () => L0["pname"], set: async (v) => { L0["pname"] = v; }, local: true });
     await $.wset([$t3], "numberofarticle", (await $.mv((await $.wcall([$t3], "FieldbyName", ["numberofarticle"], C)), "AsString")), { get: async () => L0["numberofarticle"], set: async (v) => { L0["numberofarticle"] = v; }, local: true });
   }
@@ -96,7 +96,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined, "pname": '', "numberofarticle": '', "pstatus": 0};
   await $.fixArgs(L0, ["sender", "action"]);
   {
-    const $t5 = (await $.v(C, "ArticlesDST"));
+    const $t5 = (await $.wobj(C, "ArticlesDST"));
     await $.wset([$t5], "pname", (await $.mv((await $.wcall([$t5], "FieldbyName", ["name"], C)), "AsString")), { get: async () => L0["pname"], set: async (v) => { L0["pname"] = v; }, local: true });
     await $.wset([$t5], "pstatus", (await $.mv((await $.wcall([$t5], "FieldbyName", ["status"], C)), "Asinteger")), { get: async () => L0["pstatus"], set: async (v) => { L0["pstatus"] = v; }, local: true });
     await $.wset([$t5], "numberofarticle", (await $.mv((await $.wcall([$t5], "FieldbyName", ["numberofarticle"], C)), "AsString")), { get: async () => L0["numberofarticle"], set: async (v) => { L0["numberofarticle"] = v; }, local: true });
@@ -131,7 +131,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t7 = (await $.v(C, "ItmDataSet"));
+    const $t7 = (await $.wobj(C, "ItmDataSet"));
     await $.mset((await $.wcall([$t7], "FieldByName", ["sumamount"], C)), "asFloat", $.add($.add($.add((await $.mv((await $.wcall([$t7], "FieldByName", ["AMOUNTOFFIRSTQUARTER"], C)), "asFloat")), (await $.mv((await $.wcall([$t7], "FieldByName", ["AMOUNTOFSECONDQUARTER"], C)), "asFloat"))), (await $.mv((await $.wcall([$t7], "FieldByName", ["AMOUNTOFTHRIDQUARTER"], C)), "asFloat"))), (await $.mv((await $.wcall([$t7], "FieldByName", ["AMOUNTOFFOURTHQUARTER"], C)), "asFloat"))));
     await $.mset((await $.wcall([$t7], "FieldByName", ["reate"], C)), "asFloat", $.sub((await $.mv((await $.wcall([$t7], "FieldByName", ["sumamount"], C)), "asFloat")), (await $.mv((await $.wcall([$t7], "FieldByName", ["r"], C)), "asFloat"))));
     await $.mset((await $.wcall([$t7], "FieldByName", ["difference"], C)), "asFloat", $.sub((await $.mv((await $.wcall([$t7], "FieldByName", ["AMOUNTOFENDYEAR"], C)), "asFloat")), (await $.mv((await $.wcall([$t7], "FieldByName", ["sumamount"], C)), "asFloat"))));

@@ -34,7 +34,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "ArGurDm"));
+    const $t3 = (await $.wobj(C, "ArGurDm"));
     const $t4 = (await $.wv([$t3], "LookFilGrp", C, false));
     { const $t5 = $.sub((await $.mv((await $.wv([$t3, $t4], "Items", C, false)), "Count")), 1);
       await $.wset([$t3, $t4], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });

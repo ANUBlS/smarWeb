@@ -424,7 +424,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ODS_Settings"));
+    const $t1 = (await $.wobj(C, "ODS_Settings"));
     await $.stmt($.wcall([$t1], "Edit", [], C));
     await $.mset((await $.wcall([$t1], "FieldByName", ["Value"], C)), "AsInteger", (await $.mv((await $.wv([$t1], "RGroupTransCommit", C, false)), "ItemIndex")));
     await $.stmt($.wcall([$t1], "Post", [], C));

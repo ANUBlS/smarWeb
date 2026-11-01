@@ -436,7 +436,7 @@ export default function define($) {
   { const $t1 = L0["action"];
     if ($.eq($t1, "I")) {
       {
-        const $t2 = (await $.v(C, "P_avalute"));
+        const $t2 = (await $.wobj(C, "P_avalute"));
         const $t3 = (await $.wv([$t2], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false));
         await $.stmt((await $.wcall([$t2, $t3], "CallProcedure", ["add_avalute", ["v_VALUTE", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VALUTE"], C)), "AsString")), "v_VAL_NAME", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VAL_NAME"], C)), "AsString")), "v_VALU_NAME", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VALU_NAME"], C)), "AsString")), "v_VALU_SHORT", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VALU_SHORT"], C)), "AsString")), "v_USTORG", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["USTORG"], C)), "AsString")), "v_USTPOK", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["USTPOK"], C)), "AsString")), "v_VALU_GEN", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VALU_GEN"], C)), "AsString")), "v_VALU_AZ", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VALU_AZ"], C)), "AsString")), "v_USING", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["USING"], C)), "AsString")), "v_VALU_OTHER", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VALU_OTHER"], C)), "AsString")), "v_VALU_INTER", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VALU_INTER"], C)), "AsString")), "v_VALU_BALA", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["VALU_BALA"], C)), "AsString")), "v_PRISTAVKA", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["PRISTAVKA"], C)), "AsString")), "v_COUNTRY", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["COUNTRY"], C)), "AsString")), "v_UST_POK1", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["UST_POK1"], C)), "AsString")), "v_OFFICAL", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["OFFICAL"], C)), "AsString")), "v_LIMIT", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["LIMIT"], C)), "AsString")), "v_DEBET", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["DEBET"], C)), "AsString")), "v_KREDIT", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["KREDIT"], C)), "AsString")), "v_F5501P", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["F5501P"], C)), "AsString")), "v_F5501V", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["F5501V"], C)), "AsString")), "v_SDEBET", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["SDEBET"], C)), "AsString")), "v_SCREDIT", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["SCREDIT"], C)), "AsString"))]], C)));
       }
@@ -456,7 +456,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t4 = (await $.v(C, "OrDS_ValuteSettings"));
+    const $t4 = (await $.wobj(C, "OrDS_ValuteSettings"));
     await $.stmt($.wcall([$t4], "Close", [], C));
     await $.stmt((await $.wcall([$t4], "SetVariable", ["Val", (await $.mv((await $.mcall((await $.wv([$t4], "OrDS_Avalute_T", C, false)), "FieldByName", ["Valute"])), "AsInteger"))], C)));
     await $.stmt($.wcall([$t4], "Open", [], C));

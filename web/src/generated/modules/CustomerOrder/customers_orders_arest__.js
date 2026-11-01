@@ -128,7 +128,7 @@ export default function define($) {
       $t9 = false;
       if (!($.ord(L0["xxx"]) <= $.ord($t8))) break;
       {
-        const $t10 = (await $.v(C, "editval"));
+        const $t10 = (await $.wobj(C, "editval"));
         await $.stmt((await $.mcall((await $.wv([$t10], "Items", C, false)), "Add", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t10], "DataModCustOrders", C, false)), "valute")), "FieldByName", ["val_name"])), "AsString"))])));
       }
       await $.mcall((await $.mv((await $.v(C, "DataModCustOrders")), "valute")), "Next", []);
@@ -243,7 +243,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t20 = (await $.v(C, "DataModCustOrders"));
+    const $t20 = (await $.wobj(C, "DataModCustOrders"));
     await $.mcall((await $.wv([$t20], "Bankm", C, false)), "open", []);
     await $.mcall((await $.wv([$t20], "bank_info", C, false)), "open", []);
     await $.stmt($.wcall([$t20], "addvalute", [], C));

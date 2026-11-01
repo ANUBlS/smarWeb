@@ -16,7 +16,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "CMExcelReport"));
+    const $t1 = (await $.wobj(C, "CMExcelReport"));
     const $t2 = (await $.wv([$t1], "PrCmDM", C, false));
     if ($.truthy($.eq((await $.mv((await $.wv([$t1, $t2], "RadioGroupHesabat", C, false)), "ItemIndex")), 0))) {
       await $.mcall((await $.wv([$t1, $t2], "ReportDelays", C, false)), "close", []);
