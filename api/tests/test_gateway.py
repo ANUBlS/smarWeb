@@ -41,7 +41,9 @@ def test_query_binds_only_used_variables_with_types(client, conn, session):
 def test_oracle_error_is_mapped(client, conn, session):
     conn.on(r'from secret', error=(942, 'ORA-00942: table or view does not exist'))
     r = client.post('/api/query', headers=session, json={'sql': 'select * from secret'})
-    assert r.status_code == 400 and r.json() == {'errorCode': 942, 'message': 'ORA-00942: table or view does not exist'}
+    # code and Oracle's text unchanged (EOracleError handlers), the missing object named on the next line
+    assert r.status_code == 400 and r.json() == {'errorCode': 942, 'message': 'ORA-00942: table or view does not exist\n'
+                                                 'Tapılmayan cədvəl/görünüş (və ya ona icazə yoxdur): SECRET'}
 
 
 def test_execute_plsql_returns_in_out_variables(client, conn, session):

@@ -34,11 +34,122 @@ class GatewayError(Exception):
         self.code, self.message, self.status = code, message, status
 
 
-def oracle_error(e: Exception) -> GatewayError:
+def oracle_error(e: Exception, s: Session | None = None, sql: str | None = None, table: str | None = None) -> GatewayError:
     err = e.args[0] if e.args else None
     code = getattr(err, 'code', 0) or 0
-    msg = getattr(err, 'message', None) or str(e)
-    return GatewayError(int(code), str(msg).strip())
+    msg = str(getattr(err, 'message', None) or str(e)).strip()
+    # ORA-00942 does not say which table or view: find it and name it (code and text stay as Oracle's)
+    if 'ORA-00942' in msg and s is not None:
+        try:
+            missing = table and _missing_names(s, [table]) or (sql and missing_object(s, sql, getattr(err, 'offset', 0) or 0, msg))
+        except Exception:  # noqa: BLE001 - the explanation must never hide the original error
+            missing = None
+        if missing:
+            names = ', '.join(missing)
+            note = f'Tapılmayan cədvəl/görünüş (və ya ona icazə yoxdur): {names}'
+            head, sep, helpline = msg.partition('\nHelp:')
+            msg = f'{head}\n{note}{sep}{helpline}'
+    return GatewayError(int(code), msg)
+
+
+# --------------------------------------------------------------------------- ORA-00942: which object
+
+_NAME = r'(?:"[^"]+"|[A-Za-z][\w$#]*)(?:\s*\.\s*(?:"[^"]+"|[A-Za-z][\w$#]*))?(?:@[\w$#.]+)?'
+_OBJ_AFTER = re.compile(r'\b(?:from|join|into|update|table|using)\s+(' + _NAME + r')', re.I)
+_FROM_LIST = re.compile(r'\bfrom\s+(.*?)(?=\bwhere\b|\bgroup\b|\border\b|\bconnect\b|\bstart\b|\bunion\b|\bminus\b|'
+                        r'\bintersect\b|\bhaving\b|\bfor\b|\)|;|$)', re.I | re.S)
+_NOT_OBJECTS = {'DUAL', 'SELECT', 'TABLE', 'THE', 'LATERAL', 'ONLY'}
+
+
+def _strip_literals(sql: str) -> str:
+    """Comments and string literals blanked (same length, so offsets keep pointing at the same text)."""
+    sql = re.sub(r'--[^\n]*', lambda m: ' ' * len(m.group(0)), sql)
+    sql = re.sub(r'/\*.*?\*/', lambda m: ' ' * len(m.group(0)), sql, flags=re.S)
+    return re.sub(r"'(?:[^']|'')*'", lambda m: "'" + ' ' * (len(m.group(0)) - 2) + "'", sql)
+
+
+def _candidates(sql: str) -> list[str]:
+    text = _strip_literals(sql)
+    names: list[str] = []
+    for m in _OBJ_AFTER.finditer(text):
+        names.append(m.group(1))
+    # comma lists: from a, b x, c
+    for m in _FROM_LIST.finditer(text):
+        for part in m.group(1).split(','):
+            mm = re.match(r'\s*(' + _NAME + r')', part)
+            if mm and not part.strip().startswith('('):
+                names.append(mm.group(1))
+    out, seen = [], set()
+    for n in names:
+        key = re.sub(r'\s+', '', n).upper()
+        if key.split('.')[-1].strip('"') in _NOT_OBJECTS or key in seen:
+            continue
+        seen.add(key)
+        out.append(re.sub(r'\s+', '', n))
+    return out
+
+
+def _missing_names(s: Session, names: list[str]) -> list[str]:
+    """The names Oracle cannot resolve for this user (parsed, never executed; same rules as the statement)."""
+    out = []
+    for n in names:
+        if not re.fullmatch(_NAME, n):
+            continue
+        cur = s.conn.cursor()
+        try:
+            cur.parse(f'select * from {n} where 1 = 0')
+        except oracledb.DatabaseError as e:
+            ge = oracle_error(e)
+            if ge.code in (942, 4043) or 'ORA-00942' in ge.message:
+                out.append(n.upper() if '"' not in n else n)
+        finally:
+            cur.close()
+    return out
+
+
+def missing_object(s: Session, sql: str, offset: int, msg: str) -> list[str]:
+    """The table / view an ORA-00942 is about: at Oracle's error offset (SQL) or line/column (PL/SQL, ORA-06550),
+    checked by parsing; otherwise every table or view the statement names is checked."""
+    text = _strip_literals(sql)
+    at = None
+    m = re.search(r'ORA-06550: line (\d+), column (\d+):[^\n]*\n?[^\n]*ORA-00942', msg)
+    if m:
+        lines = text.split('\n')
+        ln, col = int(m.group(1)), int(m.group(2))
+        if 1 <= ln <= len(lines):
+            at = sum(len(x) + 1 for x in lines[:ln - 1]) + max(0, col - 1)
+    elif offset:
+        at = offset
+    if at is not None and 0 <= at < len(text):
+        mm = re.compile(_NAME).match(text, at) or re.compile(_NAME).match(text, max(0, at - 1))
+        if mm:
+            hit = _missing_names(s, [re.sub(r'\s+', '', mm.group(0))])
+            if hit:
+                return hit
+    hit = _missing_names(s, _candidates(sql)) if sql else []
+    return hit or _missing_in_source(s, msg)
+
+
+def _missing_in_source(s: Session, msg: str) -> list[str]:
+    """ORA-00942 raised inside a package / procedure / trigger (ORA-06512: at "OWNER.NAME", line N): the names
+    on that source line (and the few before it — a statement spans lines) are checked."""
+    for m in re.finditer(r'ORA-06512: at "([\w$#]+)\.([\w$#]+)", line (\d+)', msg):
+        owner, name, line = m.group(1), m.group(2), int(m.group(3))
+        cur = s.conn.cursor()
+        try:
+            cur.execute("""select text from all_source where owner = :o and name = :n
+                             and type in ('PACKAGE BODY', 'PROCEDURE', 'FUNCTION', 'TRIGGER', 'TYPE BODY')
+                             and line between :a and :b order by type, line""", o=owner, n=name, a=max(1, line - 6), b=line + 2)
+            src = ''.join(r[0] or '' for r in cur.fetchall())
+        except oracledb.DatabaseError:
+            src = ''
+        finally:
+            cur.close()
+        if src:
+            hit = _missing_names(s, _candidates(src))
+            if hit:
+                return hit
+    return []
 
 
 def _check_ident(name: str, what: str) -> str:
@@ -200,7 +311,7 @@ def query(s: Session, sql: str, variables: list[dict], max_rows: int | None = No
             res = _with_partitions(s, sql, lambda q: _query(s, q, variables, max_rows, fetch))
             return res
         except oracledb.DatabaseError as e:
-            ge = oracle_error(e)
+            ge = oracle_error(e, s, sql)
             err = ge.message
             raise ge from e
         finally:
@@ -282,7 +393,7 @@ def execute(s: Session, sql: str, variables: list[dict], source: str = '') -> di
         try:
             return _with_partitions(s, sql, lambda q: _execute(s, q, variables))
         except oracledb.DatabaseError as e:
-            ge = oracle_error(e)
+            ge = oracle_error(e, s, sql)
             err = ge.message
             raise ge from e
         finally:
@@ -455,7 +566,7 @@ def call_package(s: Session, package: str, name: str, kind: str, mode: str, para
             out = {i: convert.to_json(binds[f'p{i}'].getvalue()) for i in range(len(pairs))}
             return {'result': result, 'outParams': out}
         except oracledb.DatabaseError as e:
-            raise oracle_error(e) from e
+            raise oracle_error(e, s) from e
 
 
 def _pick_overload(overloads: list[list[dict]], pairs, is_function: bool) -> list[dict]:
@@ -563,7 +674,7 @@ def apply_record(s: Session, req: dict) -> dict:
                 return {'rowid': rowid, 'values': _reselect(cur, table, rowid)}
             raise GatewayError(20000, f'Unknown action {action!r}')
         except oracledb.DatabaseError as e:
-            raise oracle_error(e) from e
+            raise oracle_error(e, s, req.get('sql'), locals().get('table')) from e
 
 
 # --------------------------------------------------------------------------- logon

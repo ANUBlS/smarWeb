@@ -39,8 +39,8 @@ class Rule:
 
 
 class FakeError:
-    def __init__(self, code, message):
-        self.code, self.message, self.full_code = code, message, f'ORA-{code:05d}'
+    def __init__(self, code, message, offset=0):
+        self.code, self.message, self.full_code, self.offset = code, message, f'ORA-{code:05d}', offset
 
 
 class FakeCursor:
@@ -55,6 +55,13 @@ class FakeCursor:
     # oracledb API -------------------------------------------------------------
     def prepare(self, sql):
         self._sql = sql
+
+    def parse(self, sql):
+        """Cursor.parse: only the error rules apply (nothing is executed)."""
+        self.conn.log.append((' '.join(sql.split()), {'parse': True}))
+        for r in self.conn.rules:
+            if r.error and r.pattern.search(sql):
+                raise oracledb.DatabaseError(FakeError(*r.error))
 
     def bindnames(self):
         clean = re.sub(r"'(?:[^']|'')*'", "''", re.sub(r'--[^\n]*|/\*.*?\*/', ' ', self._sql, flags=re.S))
