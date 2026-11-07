@@ -3,7 +3,7 @@
  * forms the way the SmartBank shell's plugin host did:
  *   create ActiveForm (OnCreate) → Set_Params(name, value)… → InstanceInitialize → UIObjectActivate
  */
-import { audit } from './audit';
+import { audit, inModule } from './audit';
 import { Env, ClassDef } from './env';
 import { makeDollar } from './pascal';
 import { rootLookup, defineGlobal, registerEnumNames, getSettingGlobal, setGlobal } from './stdlib';
@@ -173,9 +173,9 @@ export async function openModule(name: string, params: Record<string, string>, c
   if (!manifest.mainForm) { logger.error(`${name}: no ActiveForm found`); return null; }
   const def = env.findClass(manifest.mainForm) as ClassDef;
   let form: TCustomForm | null = null;
-  await runGuarded(async () => {
+  await inModule(name, () => runGuarded(async () => {
     form = (await env.createInstance(def, [null])) as TCustomForm;
-  }, `${name}.Create`);
+  }, `${name}.Create`));
   if (!form) return null;
   const f = form as TCustomForm;
   f.isModuleForm = true;
@@ -235,7 +235,7 @@ export async function showModuleModal(guid: unknown, params: unknown): Promise<n
   if (!manifest.mainForm) return 2;
   const def = env.findClass(manifest.mainForm) as ClassDef;
   let form: TCustomForm | null = null;
-  await runGuarded(async () => { form = (await env.createInstance(def, [null])) as TCustomForm; }, `${name}.Create`);
+  await inModule(name, () => runGuarded(async () => { form = (await env.createInstance(def, [null])) as TCustomForm; }, `${name}.Create`));
   if (!form) return 2;
   const f = form as TCustomForm;
   f.isModuleForm = true;
