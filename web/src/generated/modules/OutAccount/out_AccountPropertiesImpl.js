@@ -28,7 +28,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "AccountForm"));
+    const $t2 = (await $.wobj(C, "AccountForm"));
     const $t3 = (await $.wv([$t2], "AccDataModule", C, false));
     if ($.truthy($.eq((await $.wv([$t2, $t3], "OperationMode", C, false)), (await $.wv([$t2, $t3], "omInsert", C, false))))) {
       await $.mset((await $.wv([$t2, $t3], "DTPOpenDate", C, false)), "DateTime", (await $.mv((await $.mcall((await $.wv([$t2, $t3], "Sysdat", C, false)), "FieldByName", ["Tek_dat"])), "AsDateTime")));
@@ -49,7 +49,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "AccDataModule"));
+    const $t4 = (await $.wobj(C, "AccDataModule"));
     const $t5 = (await $.wv([$t4], "Account", C, false));
     if ($.truthy($.in_((await $.wv([$t4, $t5], "State", C, false)), [(await $.wv([$t4, $t5], "dsInsert", C, false)), (await $.wv([$t4, $t5], "dsEdit", C, false))]))) {
       await $.stmt($.wcall([$t4, $t5], "Cancel", [], C));
@@ -93,7 +93,7 @@ export default function define($) {
   await $.set(C, "FormAccFlags", (await $.mcall((await $.v(C, "TFormAccFlags")), "Create", [Self])));
   try {
     {
-      const $t7 = (await $.v(C, "FormAccFlags"));
+      const $t7 = (await $.wobj(C, "FormAccFlags"));
       const $t8 = (await $.mv((await $.wv([$t7], "AccDataModule", C, false)), "Account"));
       if ($.truthy((await $.and_(($.eq((await $.wv([$t7, $t8], "ShowModal", C, false)), (await $.wv([$t7, $t8], "mrOk", C, false)))), async () => ($.in_((await $.wv([$t7, $t8], "State", C, false)), [(await $.wv([$t7, $t8], "dsInsert", C, false)), (await $.wv([$t7, $t8], "dsEdit", C, false))])))))) {
         await $.mset((await $.wcall([$t7, $t8], "FieldByName", ["Tipacc"], C)), "AsString", (await $.wv([$t7, $t8], "FlagMap", C, false)));
@@ -111,7 +111,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "AccDataModule"));
+    const $t9 = (await $.wobj(C, "AccDataModule"));
     await $.stmt((await $.wcall([$t9], "Refresh_", ["Account"], C)));
   }
   return L0.result;
@@ -122,7 +122,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["c_name"] = "GenerateAccountNumber";
   {
-    const $t10 = (await $.v(C, "AccDataModule"));
+    const $t10 = (await $.wobj(C, "AccDataModule"));
     const $t11 = (await $.wv([$t10], "Account", C, false));
     if ($.truthy($.in_((await $.wv([$t10, $t11], "State", C, false)), [(await $.wv([$t10, $t11], "dsInsert", C, false)), (await $.wv([$t10, $t11], "dsEdit", C, false))]))) {
       await $.mset((await $.wcall([$t10, $t11], "FieldByName", ["acc_no"], C)), "AsString", (await $.mcall((await $.wv([$t10, $t11], "OUT_SBOP", C, false)), "CallStringFunction", [(await $.wv([$t10, $t11], "c_name", { get: async () => L0["c_name"], set: async (v) => { L0["c_name"] = v; }, local: true }, false)), ["BalCn", (await $.mv((await $.wcall([$t10, $t11], "FieldByName", ["bal_cn1"], C)), "AsString")), "CurrencyID", (await $.mv((await $.wcall([$t10, $t11], "FieldByName", ["val_acc"], C)), "AsString")), "CustomerID", (await $.mv((await $.wcall([$t10, $t11], "FieldByName", ["kli_id"], C)), "AsString")), "BranchID", (await $.mv((await $.wcall([$t10, $t11], "FieldByName", ["filial"], C)), "AsString"))]])));

@@ -31,7 +31,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), "shift": $.copyArg(p2), result: undefined, "deb_rate": 0, "kred_rate": 0, "debitammount": 0, "creditammount": 0, "lammount": 0};
   await $.fixArgs(L0, ["sender", "shift"]);
   {
-    const $t1 = (await $.v(C, "DataModule_bussProc"));
+    const $t1 = (await $.wobj(C, "DataModule_bussProc"));
     if ($.truthy((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_(((await $.mv((await $.wv([$t1], "ODS_AccNO_A", C, false)), "active"))), async () => ($.ne((await $.mv((await $.wv([$t1], "ODS_AccNO_A", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t1], "ODS_AccNO_A", C, false)), "FieldByName", ["id"])), "IsNull"))))))), async () => ((await $.mv((await $.wv([$t1], "ODS_AccNO_B", C, false)), "active"))))), async () => ($.ne((await $.mv((await $.wv([$t1], "ODS_AccNO_B", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t1], "ODS_AccNO_B", C, false)), "FieldByName", ["id"])), "IsNull"))))))), async () => ($.gt((await $.mv((await $.wv([$t1], "CurrencyEdit1", C, false)), "Value")), 0)))))) {
       await $.wset([$t1], "v_ostat", (await $.mcall((await $.wv([$t1], "PG_PCustService", C, false)), "CallFloatFunction", ["get_rate", [(-(1)), (await $.mv((await $.mcall((await $.wv([$t1], "ODS_AccNO_A", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t1], "ODS_AccNO_B", C, false)), "FieldByName", ["ID"])), "AsInteger")), "-1", "-1"]])), C);
       await $.mset((await $.wv([$t1], "XFBitBtn5", C, false)), "Enabled", (await $.wv([$t1], "True", C, false)));
@@ -70,7 +70,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), "shift": $.copyArg(p2), result: undefined, "deb_rate": 0, "kred_rate": 0};
   await $.fixArgs(L0, ["sender", "shift"]);
   {
-    const $t2 = (await $.v(C, "DataModule_bussProc"));
+    const $t2 = (await $.wobj(C, "DataModule_bussProc"));
     if ($.truthy((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_(((await $.mv((await $.wv([$t2], "ODS_AccNO_A", C, false)), "active"))), async () => ($.ne((await $.mv((await $.wv([$t2], "ODS_AccNO_A", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t2], "ODS_AccNO_A", C, false)), "FieldByName", ["id"])), "IsNull"))))))), async () => ((await $.mv((await $.wv([$t2], "ODS_AccNO_B", C, false)), "active"))))), async () => ($.ne((await $.mv((await $.wv([$t2], "ODS_AccNO_B", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t2], "ODS_AccNO_B", C, false)), "FieldByName", ["id"])), "IsNull"))))))), async () => ($.gt((await $.mv((await $.wv([$t2], "CurrencyEdit2", C, false)), "Value")), 0)))))) {
       await $.wset([$t2], "v_ostat", (await $.mcall((await $.wv([$t2], "PG_PCustService", C, false)), "CallFloatFunction", ["get_rate", [(-(1)), (await $.mv((await $.mcall((await $.wv([$t2], "ODS_AccNO_A", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t2], "ODS_AccNO_B", C, false)), "FieldByName", ["ID"])), "AsInteger")), "-1", "-1"]])), C);
       await $.mset((await $.wv([$t2], "XFBitBtn5", C, false)), "Enabled", (await $.wv([$t2], "True", C, false)));
@@ -109,7 +109,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), "shift": $.copyArg(p2), result: undefined, "deb_rate": 0, "kred_rate": 0};
   await $.fixArgs(L0, ["sender", "shift"]);
   {
-    const $t3 = (await $.v(C, "DataModule_bussProc"));
+    const $t3 = (await $.wobj(C, "DataModule_bussProc"));
     if ($.truthy((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_(((await $.mv((await $.wv([$t3], "ODS_AccNO_A", C, false)), "active"))), async () => ($.ne((await $.mv((await $.wv([$t3], "ODS_AccNO_A", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t3], "ODS_AccNO_A", C, false)), "FieldByName", ["id"])), "IsNull"))))))), async () => ((await $.mv((await $.wv([$t3], "ODS_AccNO_B", C, false)), "active"))))), async () => ($.ne((await $.mv((await $.wv([$t3], "ODS_AccNO_B", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t3], "ODS_AccNO_B", C, false)), "FieldByName", ["id"])), "IsNull"))))))), async () => ($.gt((await $.mv((await $.wv([$t3], "CurrencyEdit3", C, false)), "Value")), 0)))))) {
       await $.wset([$t3], "v_ostat", (await $.mcall((await $.wv([$t3], "PG_PCustService", C, false)), "CallFloatFunction", ["get_rate", [(-(1)), (await $.mv((await $.mcall((await $.wv([$t3], "ODS_AccNO_A", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t3], "ODS_AccNO_B", C, false)), "FieldByName", ["ID"])), "AsInteger")), "-1", "-1"]])), C);
       await $.mset((await $.wv([$t3], "XFBitBtn5", C, false)), "Enabled", (await $.wv([$t3], "True", C, false)));
@@ -132,7 +132,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "deb_rate": 0, "kred_rate": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "DataModule_bussProc"));
+    const $t4 = (await $.wobj(C, "DataModule_bussProc"));
     await $.mcall((await $.wv([$t4], "Ods_Tenostat_A", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t4], "Ods_Tenostat_A", C, false)), "SetVariable", ["id", (await $.mv((await $.mcall((await $.wv([$t4], "ODS_AccNO_A", C, false)), "FieldByName", ["id"])), "AsInteger"))])));
     await $.mcall((await $.wv([$t4], "Ods_Tenostat_A", C, false)), "Open", []);
@@ -142,7 +142,7 @@ export default function define($) {
   await $.mset((await $.v(C, "EditRate_A")), "Text", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModule_bussProc")), "ODS_AccNO_A")), "FieldByName", ["ostat"])), "AsString")));
   await $.mset((await $.v(C, "Edit_AccName_A")), "Text", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModule_bussProc")), "ODS_AccNO_A")), "FieldByName", ["name"])), "AsString")));
   {
-    const $t5 = (await $.v(C, "DataModule_bussProc"));
+    const $t5 = (await $.wobj(C, "DataModule_bussProc"));
     if ($.truthy((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_(($.ne((await $.mv((await $.wv([$t5], "DBCBoxAccNo_A", C, false)), "KeyValue")), "")), async () => ($.gt((await $.mv((await $.wv([$t5], "CurrencyEdit1", C, false)), "Value")), 0)))), async () => ($.ne((await $.mv((await $.wv([$t5], "ODS_AccNO_A", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t5], "ODS_AccNO_A", C, false)), "FieldByName", ["id"])), "IsNull"))))))), async () => ((await $.mv((await $.wv([$t5], "ODS_AccNO_B", C, false)), "active"))))), async () => ($.ne((await $.mv((await $.wv([$t5], "ODS_AccNO_B", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t5], "ODS_AccNO_B", C, false)), "FieldByName", ["id"])), "IsNull"))))))))) {
       await $.wset([$t5], "v_ostat", (await $.mcall((await $.wv([$t5], "PG_PCustService", C, false)), "CallFloatFunction", ["get_rate", [(-(1)), (await $.mv((await $.mcall((await $.wv([$t5], "ODS_AccNO_A", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t5], "ODS_AccNO_B", C, false)), "FieldByName", ["ID"])), "AsInteger")), "-1", "-1"]])), C);
       await $.mset((await $.wv([$t5], "XFBitBtn5", C, false)), "Enabled", (await $.wv([$t5], "True", C, false)));
@@ -181,7 +181,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "deb_rate": 0, "kred_rate": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "DataModule_bussProc"));
+    const $t6 = (await $.wobj(C, "DataModule_bussProc"));
     await $.mcall((await $.wv([$t6], "Ods_Tenostat_B", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t6], "Ods_Tenostat_B", C, false)), "SetVariable", ["id", (await $.mv((await $.mcall((await $.wv([$t6], "ODS_AccNO_B", C, false)), "FieldByName", ["id"])), "AsInteger"))])));
     await $.mcall((await $.wv([$t6], "Ods_Tenostat_B", C, false)), "Open", []);
@@ -191,7 +191,7 @@ export default function define($) {
   await $.mset((await $.v(C, "EditRate_B")), "Text", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModule_bussProc")), "ODS_AccNO_B")), "FieldByName", ["ostat"])), "AsString")));
   await $.mset((await $.v(C, "Edit_AccName_B")), "Text", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModule_bussProc")), "ODS_AccNO_B")), "FieldByName", ["name"])), "AsString")));
   {
-    const $t7 = (await $.v(C, "DataModule_bussProc"));
+    const $t7 = (await $.wobj(C, "DataModule_bussProc"));
     if ($.truthy((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_((await $.and_(($.ne((await $.mv((await $.wv([$t7], "DBCBoxAccNo_A", C, false)), "KeyValue")), "")), async () => ($.gt((await $.mv((await $.wv([$t7], "CurrencyEdit1", C, false)), "Value")), 0)))), async () => ($.ne((await $.mv((await $.wv([$t7], "ODS_AccNO_A", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t7], "ODS_AccNO_A", C, false)), "FieldByName", ["id"])), "IsNull"))))))), async () => ((await $.mv((await $.wv([$t7], "ODS_AccNO_A", C, false)), "active"))))), async () => ($.ne((await $.mv((await $.wv([$t7], "ODS_AccNO_B", C, false)), "RecordCount")), 0)))), async () => ($.not(((await $.mv((await $.mcall((await $.wv([$t7], "ODS_AccNO_B", C, false)), "FieldByName", ["id"])), "IsNull"))))))))) {
       await $.wset([$t7], "v_ostat", (await $.mcall((await $.wv([$t7], "PG_PCustService", C, false)), "CallFloatFunction", ["get_rate", [(-(1)), (await $.mv((await $.mcall((await $.wv([$t7], "ODS_AccNO_A", C, false)), "FieldByName", ["ID"])), "AsInteger")), (await $.mv((await $.mcall((await $.wv([$t7], "ODS_AccNO_B", C, false)), "FieldByName", ["ID"])), "AsInteger")), "-1", "-1"]])), C);
       await $.mset((await $.wv([$t7], "XFBitBtn5", C, false)), "Enabled", (await $.wv([$t7], "True", C, false)));
@@ -232,7 +232,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "accept"]);
   if ($.truthy(($.ne((await $.mv((await $.v(C, "DBLookupComboboxEh_A1")), "KeyValue")), "")))) {
     {
-      const $t9 = (await $.v(C, "DataModule_bussProc"));
+      const $t9 = (await $.wobj(C, "DataModule_bussProc"));
       const $t10 = (await $.wv([$t9], "ODS_AccNO_A", C, false));
       await $.wset([$t9, $t10], "s", "", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
       await $.wset([$t9, $t10], "a", (await $.mv((await $.wv([$t9, $t10], "DBLookupComboboxEh_A1", C, false)), "KeyValue")), { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true });
@@ -256,7 +256,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "accept"]);
   if ($.truthy(($.ne((await $.mv((await $.v(C, "DBLookupComboboxEh_B1")), "KeyValue")), "")))) {
     {
-      const $t12 = (await $.v(C, "DataModule_bussProc"));
+      const $t12 = (await $.wobj(C, "DataModule_bussProc"));
       const $t13 = (await $.wv([$t12], "ODS_AccNO_B", C, false));
       await $.wset([$t12, $t13], "s", "", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
       await $.wset([$t12, $t13], "a", (await $.mv((await $.wv([$t12, $t13], "DBLookupComboboxEh_B1", C, false)), "KeyValue")), { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true });
@@ -286,7 +286,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "accept"]);
   if ($.truthy(($.ne((await $.mv((await $.v(C, "DBLookupComboboxEh_A1")), "KeyValue")), "")))) {
     {
-      const $t15 = (await $.v(C, "DataModule_bussProc"));
+      const $t15 = (await $.wobj(C, "DataModule_bussProc"));
       const $t16 = (await $.wv([$t15], "ODS_AccNO_A", C, false));
       await $.wset([$t15, $t16], "s", "", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
       await $.wset([$t15, $t16], "a", (await $.mv((await $.wv([$t15, $t16], "DBLookupComboboxEh_A1", C, false)), "KeyValue")), { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true });
@@ -315,7 +315,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "accept"]);
   if ($.truthy(($.ne((await $.mv((await $.v(C, "DBLookupComboboxEh_B1")), "KeyValue")), "")))) {
     {
-      const $t18 = (await $.v(C, "DataModule_bussProc"));
+      const $t18 = (await $.wobj(C, "DataModule_bussProc"));
       const $t19 = (await $.wv([$t18], "ODS_AccNO_B", C, false));
       await $.wset([$t18, $t19], "s", "", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
       await $.wset([$t18, $t19], "a", (await $.mv((await $.wv([$t18, $t19], "DBLookupComboboxEh_B1", C, false)), "KeyValue")), { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true });
@@ -332,7 +332,7 @@ export default function define($) {
     }
   }
   {
-    const $t21 = (await $.v(C, "DataModule_bussProc"));
+    const $t21 = (await $.wobj(C, "DataModule_bussProc"));
     const $t22 = (await $.wv([$t21], "ODS_AccNO_B", C, false));
     if ($.truthy($.eq((await $.wv([$t21, $t22], "RecordCount", C, false)), 1))) {
       await $.mset((await $.wv([$t21, $t22], "DBCBoxAccNo_B", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.mv((await $.wv([$t21, $t22], "DataModule_bussProc", C, false)), "ODS_AccNO_B")), "FieldByName", ["acc_no"])), "AsString")));
@@ -667,7 +667,7 @@ export default function define($) {
   await $.mset((await $.v(C, "DBLookupComboboxEh3")), "KeyValue", (-(1)));
   if ($.truthy(($.ne((await $.mv((await $.v(C, "DBLookupComboboxEh_A1")), "KeyValue")), "")))) {
     {
-      const $t36 = (await $.v(C, "DataModule_bussProc"));
+      const $t36 = (await $.wobj(C, "DataModule_bussProc"));
       const $t37 = (await $.wv([$t36], "ODS_AccNO_A", C, false));
       await $.wset([$t36, $t37], "s", "", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
       await $.wset([$t36, $t37], "a", (await $.mv((await $.wv([$t36, $t37], "DBLookupComboboxEh_A1", C, false)), "KeyValue")), { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true });
@@ -699,7 +699,7 @@ export default function define($) {
     }
   }
   {
-    const $t40 = (await $.v(C, "DataModule_bussProc"));
+    const $t40 = (await $.wobj(C, "DataModule_bussProc"));
     const $t41 = (await $.wv([$t40], "ODS_AccNO_B", C, false));
     if ($.truthy($.eq((await $.wv([$t40, $t41], "RecordCount", C, false)), 1))) {
       await $.mset((await $.wv([$t40, $t41], "DBCBoxAccNo_B", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.mv((await $.wv([$t40, $t41], "DataModule_bussProc", C, false)), "ODS_AccNO_B")), "FieldByName", ["acc_no"])), "AsString")));
@@ -722,7 +722,7 @@ export default function define($) {
     }
   }
   {
-    const $t43 = (await $.v(C, "DataModule_bussProc"));
+    const $t43 = (await $.wobj(C, "DataModule_bussProc"));
     const $t44 = (await $.wv([$t43], "ODS_AccNO_B", C, false));
     if ($.truthy($.eq((await $.wv([$t43, $t44], "RecordCount", C, false)), 1))) {
       await $.mset((await $.wv([$t43, $t44], "DBCBoxAccNo_B", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.mv((await $.wv([$t43, $t44], "DataModule_bussProc", C, false)), "ODS_AccNO_B")), "FieldByName", ["acc_no"])), "AsString")));

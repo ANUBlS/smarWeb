@@ -15,7 +15,7 @@ export default function define($) {
   try {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
     {
-      const $t1 = (await $.v(C, "DataModExch"));
+      const $t1 = (await $.wobj(C, "DataModExch"));
       if ($.truthy($.gt((await $.mv((await $.wv([$t1], "ODSExchRate", C, false)), "RecordCount")), 0))) {
         await $.mcall((await $.wv([$t1], "ODSExchRatearchive", C, false)), "Close", []);
         await $.stmt((await $.mcall((await $.wv([$t1], "ODSExchRatearchive", C, false)), "SetVariable", ["dat", (await $.wcall([$t1], "Integer", [(await $.wcall([$t1], "Trunc", [(await $.mv((await $.wv([$t1], "DTP_Rate_Date", C, false)), "Date"))], C))], C))])));
@@ -61,7 +61,7 @@ export default function define($) {
   try {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
     {
-      const $t4 = (await $.v(C, "DataModExch"));
+      const $t4 = (await $.wobj(C, "DataModExch"));
       await $.mcall((await $.wv([$t4], "ODSExRemainderInsert", C, false)), "First", []);
       { const $t5 = (await $.mv((await $.wv([$t4], "ODSExRemainderInsert", C, false)), "RecordCount"));
         await $.wset([$t4], "i", 1, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });

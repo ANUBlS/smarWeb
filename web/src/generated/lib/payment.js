@@ -42,7 +42,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "dbgrid1"));
+    const $t1 = (await $.wobj(C, "dbgrid1"));
     const $t2 = (await $.wv([$t1], "SelectedRows", C, false));
     const $t3 = (await $.mv((await $.wv([$t1, $t2], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t1, $t2, $t3], "DisableControls", [], C));

@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "Edit1"));
+    const $t1 = (await $.wobj(C, "Edit1"));
     if ($.truthy($.ne((await $.wv([$t1], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t1], "DmBlack", C, false)), "DataSource1")), "DataSet")), "Locate", ["CNTR_CODE", (await $.mv((await $.wv([$t1], "Edit1", C, false)), "Text")), [(await $.wv([$t1], "loPartialKey", C, false))]])));
     }
@@ -26,7 +26,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "Edit2"));
+    const $t2 = (await $.wobj(C, "Edit2"));
     if ($.truthy($.ne((await $.wv([$t2], "Text", C, false)), ""))) {
       await $.stmt((await $.mcall((await $.mv((await $.mv((await $.wv([$t2], "DmBlack", C, false)), "DataSource1")), "DataSet")), "Locate", ["count_name", (await $.mv((await $.wv([$t2], "Edit2", C, false)), "Text")), [(await $.wv([$t2], "loPartialKey", C, false))]])));
     }

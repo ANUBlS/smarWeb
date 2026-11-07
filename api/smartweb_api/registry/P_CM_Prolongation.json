@@ -1,0 +1,171 @@
+{
+ "name": "P_CM_Prolongation",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Prolongation",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ProlongsData",
+   "source": "TProlongDataMod.ProlongsData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, creditid, prolongdate, newclosedate, oldclosedate, newtrance, newoblication\n  FROM cm_prolongations\nWHERE CreditID=:CreditID\nOrder By ProlongDate Desc",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ProlongDataModuleImpl"
+  },
+  {
+   "name": "CreditInfo",
+   "source": "TProlongDataMod.CreditInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select BOOROWERID,credittype,\n  NVL(DUEDATELASTCONTRACT,DUEDATEFIRSTCONTRACT) as DUEDATE\nfrom\n  CM_ACTIVE_CREDITS\nwhere ID =:ID  ",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ProlongDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TProlongDataMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "update cm_curr_state set  OBLIGATION =:OBLIGATION\nwhere creditid=:creditid",
+   "variables": [
+    {
+     "name": "OBLIGATION",
+     "type": "float"
+    },
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ProlongDataModuleImpl"
+  },
+  {
+   "name": "TrancheAccounts",
+   "source": "TProlongDataMod.TrancheAccounts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   id AS accid, kli_id, acc_no AS accountnumber, NAME AS accountname\n    FROM account\n   WHERE (    kli_id = :kli_id\n          AND bal_cn1 IN (SELECT accountnumber\n                            FROM cm_aginfo\n                           WHERE groupid = (SELECT g.id\n                                              FROM cm_accountgroups g\n                                             WHERE g.iname = 'ClientAccs'))\n         )\nUNION ALL\nSELECT   id AS accid, kli_id, acc_no AS accountnumber, NAME AS accountname\n    FROM account\n   WHERE ((bal_cn1 IN (SELECT accountnumber\n                         FROM cm_aginfo\n                        WHERE groupid = (SELECT g.id\n                                           FROM cm_accountgroups g\n                                          WHERE g.iname = 'InternalBankAccs'))\n          )\n         )\nORDER BY kli_id, accountnumber\n",
+   "variables": [
+    {
+     "name": "KLI_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ProlongDataModuleImpl"
+  },
+  {
+   "name": "CustAccount",
+   "source": "TProlongDataMod.CustAccount",
+   "kind": "TOracleDataSet",
+   "sql": "select \n      BOOROWERACCID \n   from \n      CM_ACCOUNTS\n where CreditID=:CreditID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ProlongDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TProlongDataMod.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from sysdat",
+   "variables": [],
+   "unit": "ProlongDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TProlongDataMod.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select 3 id,'3-Ay' name from dual\nunion\nselect 4 id,'4-Ay' name from dual\nunion\nselect 5 id,'5-Ay' name from dual\nunion\nselect 6 id,'6-Ay' name from dual\nunion\nselect 7 id,'7-Ay' name from dual\nunion\nselect 8 id,'8-Ay' name from dual\nunion\nselect 9 id,'9-Ay' name from dual\nunion\nselect 10 id,'10-Ay' name from dual\nunion\nselect 11 id,'11-Ay' name from dual\nunion\nselect 12 id,'12-Ay' name from dual",
+   "variables": [],
+   "unit": "ProlongDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_PROLONGATION",
+   "package": "CM_PROLONGATION",
+   "mode": "positional",
+   "source": "TProlongDataMod.CM_PROLONGATION",
+   "routines": [
+    {
+     "name": "CommitTMaxi",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DelLastProlongation",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Prolongation_Add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "maxi_expire",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "CM_TRANCHE",
+   "package": "CM_TRANCHE",
+   "mode": "named",
+   "source": "TProlongDataMod.CM_TRANCHE",
+   "routines": [
+    {
+     "name": "CommitTranche",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Tranche_Add",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

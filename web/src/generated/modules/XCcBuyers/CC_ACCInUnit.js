@@ -184,7 +184,7 @@ export default function define($) {
   L0["p_amount"] = (await $.mv((await $.v(C, "DebtValue")), "Value"));
   L0["p_transname"] = (await $.mv((await $.v(C, "EditTransName")), "Text"));
   {
-    const $t13 = (await $.v(C, "DataMod_Buyers"));
+    const $t13 = (await $.wobj(C, "DataMod_Buyers"));
     await $.stmt((await $.mcall((await $.wv([$t13], "CC_GENERAL", C, false)), "CallProcedure", ["set_Transaction", [(await $.wv([$t13], "p_DebitID", { get: async () => L0["p_debitid"], set: async (v) => { L0["p_debitid"] = v; }, local: true }, false)), (await $.wv([$t13], "p_CreditID", { get: async () => L0["p_creditid"], set: async (v) => { L0["p_creditid"] = v; }, local: true }, false)), (await $.wv([$t13], "p_Amount", { get: async () => L0["p_amount"], set: async (v) => { L0["p_amount"] = v; }, local: true }, false)), (await $.wv([$t13], "p_TransName", { get: async () => L0["p_transname"], set: async (v) => { L0["p_transname"] = v; }, local: true }, false))]])));
   }
   await $.stmt($.call(C, "Close", []));

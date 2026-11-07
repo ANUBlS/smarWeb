@@ -43,7 +43,7 @@ export default function define($) {
   await $.set(C, "Caption", (await $.call(C, "Format", [L0["rspaymentcaption"], [L0["crdno"]]])));
   await $.set(C, "RefreshBeforeClose", false);
   {
-    const $t1 = (await $.v(C, "ArPaymentDataModule"));
+    const $t1 = (await $.wobj(C, "ArPaymentDataModule"));
     {
       const $t2 = (await $.wv([$t1], "PaymentInfo", C, false));
       await $.stmt((await $.wcall([$t1, $t2], "SetVariable", ["CreditID", (await $.wv([$t1, $t2], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false))], C)));
@@ -92,7 +92,7 @@ export default function define($) {
     }
   }
   {
-    const $t10 = (await $.v(C, "PaymentAddForm"));
+    const $t10 = (await $.wobj(C, "PaymentAddForm"));
     await $.wset([$t10], "crdid", (await $.wv([$t10], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), C);
   }
   await $.mcall((await $.v(C, "PaymentForm")), "ShowModal", []);
@@ -107,7 +107,7 @@ export default function define($) {
   await $.set(C, "Caption", (await $.call(C, "Format", [L0["rspaymentcaption"], [L0["crdno"]]])));
   await $.set(C, "RefreshBeforeClose", false);
   {
-    const $t11 = (await $.v(C, "ArPaymentDataModule"));
+    const $t11 = (await $.wobj(C, "ArPaymentDataModule"));
     {
       const $t12 = (await $.wv([$t11], "PaymentInfo", C, false));
       await $.stmt((await $.wcall([$t11, $t12], "SetVariable", ["CreditID", (await $.wv([$t11, $t12], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false))], C)));
@@ -156,7 +156,7 @@ export default function define($) {
     }
   }
   {
-    const $t20 = (await $.v(C, "PaymentAddForm"));
+    const $t20 = (await $.wobj(C, "PaymentAddForm"));
     await $.wset([$t20], "crdid", (await $.wv([$t20], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), C);
   }
   await $.stmt($.call(C, "ShowModal", []));
@@ -193,7 +193,7 @@ export default function define($) {
   if ($.truthy($.eq((await $.mv((await $.v(C, "PaymentAddForm")), "ShowModal")), (await $.v(C, "mrOk"))))) {
     await $.set(C, "RefreshBeforeClose", true);
     {
-      const $t21 = (await $.v(C, "ArPaymentDataModule"));
+      const $t21 = (await $.wobj(C, "ArPaymentDataModule"));
       await $.wset([$t21], "Temp", (await $.mv((await $.mcall((await $.wv([$t21], "PaymentAccounts", C, false)), "FieldByName", ["ACCID"])), "AsInteger")), { get: async () => L0["temp"], set: async (v) => { L0["temp"] = v; }, local: true });
       await $.mcall((await $.wv([$t21], "PaymentAccounts", C, false)), "Refresh", []);
       if ($.truthy($.not((await $.mcall((await $.wv([$t21], "PaymentAccounts", C, false)), "Locate", ["ACCID", (await $.wv([$t21], "Temp", { get: async () => L0["temp"], set: async (v) => { L0["temp"] = v; }, local: true }, false)), []]))))) {
@@ -237,7 +237,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t23 = (await $.v(C, "ArPaymentDataModule"));
+    const $t23 = (await $.wobj(C, "ArPaymentDataModule"));
     {
       const $t24 = (await $.wv([$t23], "PaymentInfo", C, false));
       await $.stmt($.wcall([$t23, $t24], "Close", [], C));
@@ -285,7 +285,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t33 = (await $.v(C, "ExcelExporter"));
+    const $t33 = (await $.wobj(C, "ExcelExporter"));
     await $.stmt($.wcall([$t33], "Connect", [], C));
     await $.stmt((await $.wcall([$t33], "ExportDataset", [(await $.mv((await $.wv([$t33], "ArPaymentDataModule", C, false)), "PaymentInfo")), "Payment", (await $.wv([$t33], "True", C, false)), (await $.wv([$t33], "false", C, false))], C)));
     await $.stmt($.wcall([$t33], "Disconnect", [], C));
@@ -301,7 +301,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t34 = (await $.v(C, "ArPaymentDataModule"));
+    const $t34 = (await $.wobj(C, "ArPaymentDataModule"));
     await $.wset([$t34], "PaymentID", (await $.mv((await $.mcall((await $.wv([$t34], "PaymentInfo", C, false)), "FieldByName", ["ID"])), "AsInteger")), { get: async () => L0["paymentid"], set: async (v) => { L0["paymentid"] = v; }, local: true });
     {
       const $t35 = (await $.wv([$t34], "CM_PAYMENT", C, false));

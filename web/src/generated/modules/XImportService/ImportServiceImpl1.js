@@ -416,7 +416,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.v(C, "OrDSXLS_Example_File")), "Open", []);
   {
-    const $t3 = (await $.v(C, "ExcelExporter"));
+    const $t3 = (await $.wobj(C, "ExcelExporter"));
     if ($.truthy($.not((await $.wv([$t3], "Connected", C, false))))) {
       await $.stmt($.wcall([$t3], "Connect", [], C));
     }

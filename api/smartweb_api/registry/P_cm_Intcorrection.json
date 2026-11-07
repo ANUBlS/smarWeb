@@ -1,0 +1,78 @@
+{
+ "name": "P_cm_Intcorrection",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_interest_correction",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TFrmCorrection.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.numberofcredit,b.name from cm_active_credits p,CM_BOOROWERINFO b\nwhere p.id=b.creditid",
+   "variables": [],
+   "unit": "correctionImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFrmCorrection.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.* from cm_interests  a\nwhere \ncreditid=:creditid\norder by hdate",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "correctionImpl"
+  },
+  {
+   "name": "CorrectData",
+   "source": "TFrmCorrection.CorrectData",
+   "kind": "TOracleDataSet",
+   "sql": "/* Formatted on 2007/03/27 15:25 (Formatter Plus v4.7.0) */\nSELECT s.ROWID, cm_correct.crdnumber_get (creditid) AS num,\n       cm_correct.crdborrname_get (creditid) AS NAME, rest, interestrest,\n       duerest, dueinterestrest, givenamount, obligation, penaltyrest\n  FROM cm_curr_state s\norder by  :orderfield",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "correctionImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

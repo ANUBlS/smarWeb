@@ -254,7 +254,7 @@ export default function define($) {
   L0["dat1"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DateTimePicker1")), "datetime"))]))]));
   L0["dat2"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DateTimePicker2")), "datetime"))]))]));
   {
-    const $t1 = (await $.v(C, "BKT1"));
+    const $t1 = (await $.wobj(C, "BKT1"));
     await $.stmt($.wcall([$t1], "ClearVariables", [], C));
     await $.stmt($.wcall([$t1], "CloseAll", [], C));
     await $.mcall((await $.wv([$t1], "SQL", C, false)), "Clear", []);
@@ -273,7 +273,7 @@ export default function define($) {
   L0["dat1"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DateTimePicker1")), "datetime"))]))]));
   L0["dat2"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DateTimePicker2")), "datetime"))]))]));
   {
-    const $t2 = (await $.v(C, "BKT1"));
+    const $t2 = (await $.wobj(C, "BKT1"));
     await $.stmt($.wcall([$t2], "ClearVariables", [], C));
     await $.stmt($.wcall([$t2], "CloseAll", [], C));
     await $.mcall((await $.wv([$t2], "SQL", C, false)), "Clear", []);

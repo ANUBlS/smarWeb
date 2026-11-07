@@ -110,7 +110,7 @@ export default function define($) {
   }
   if ($.truthy(L0["clearselectedrows"])) {
     {
-      const $t4 = (await $.v(C, "CuCommonDBGrid"));
+      const $t4 = (await $.wobj(C, "CuCommonDBGrid"));
       await $.mcall((await $.wv([$t4], "SelectedRows", C, false)), "Clear", []);
     }
   }

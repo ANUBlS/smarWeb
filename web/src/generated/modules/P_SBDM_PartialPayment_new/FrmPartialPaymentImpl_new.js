@@ -73,7 +73,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "DataModPartialPayment_new"));
+    const $t7 = (await $.wobj(C, "DataModPartialPayment_new"));
     const $t8 = (await $.wv([$t7], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t7, $t8], "CallProcedure", ["checkadvancedobjectaccess", ["DELETE_SBCM_PARTIAL_PEYMENT"]], C)));
   }
@@ -84,7 +84,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "DataModPartialPayment_new"));
+    const $t9 = (await $.wobj(C, "DataModPartialPayment_new"));
     const $t10 = (await $.wv([$t9], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t9, $t10], "CallProcedure", ["checkadvancedobjectaccess", ["EXCEL_SBCM_PARTIAL_PEYMENT"]], C)));
   }
@@ -102,7 +102,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "DataModPartialPayment_new"));
+    const $t11 = (await $.wobj(C, "DataModPartialPayment_new"));
     const $t12 = (await $.wv([$t11], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t11, $t12], "CallProcedure", ["checkadvancedobjectaccess", ["INSERT_SBCM_PARTIAL_PEYMENT"]], C)));
   }

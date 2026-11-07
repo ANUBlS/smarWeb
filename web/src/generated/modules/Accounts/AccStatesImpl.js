@@ -31,7 +31,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "shift"]);
   if ($.truthy($.eq((await L0["key"].get()), (await $.v(C, "VK_F3"))))) {
     {
-      const $t1 = (await $.v(C, "AccStateExporter"));
+      const $t1 = (await $.wobj(C, "AccStateExporter"));
       if ($.truthy((await $.and_((await $.mv((await $.mv((await $.wv([$t1], "ExportSource", C, false)), "DataSet")), "Active")), async () => ($.gt((await $.mv((await $.mv((await $.wv([$t1], "ExportSource", C, false)), "DataSet")), "RecordCount")), 0)))))) {
         await $.stmt($.wcall([$t1], "Report", [], C));
       }

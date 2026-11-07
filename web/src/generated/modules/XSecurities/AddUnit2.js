@@ -60,7 +60,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.v(C, "edit_insert")), false))) {
     {
-      const $t1 = (await $.v(C, "Dmexpired_sec"));
+      const $t1 = (await $.wobj(C, "Dmexpired_sec"));
       const $t2 = (await $.wv([$t1], "dsexp_sec_ins", C, false));
       await $.mset((await $.wv([$t1, $t2], "edit1", C, false)), "Text", (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["name"], C)), "AsString")));
       await $.mset((await $.wv([$t1, $t2], "edit2", C, false)), "Text", (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["acc_bal"], C)), "AsString")));

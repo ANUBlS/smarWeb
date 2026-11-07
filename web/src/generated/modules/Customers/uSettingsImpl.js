@@ -23,7 +23,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ODSSets"));
+    const $t1 = (await $.wobj(C, "ODSSets"));
     await $.stmt($.wcall([$t1], "close", [], C));
     await $.mset((await $.wv([$t1], "SQL", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t1], "ODSSettings", C, false)), "fieldbyname", ["QUERY"])), "AsString")));
     await $.stmt($.wcall([$t1], "open", [], C));

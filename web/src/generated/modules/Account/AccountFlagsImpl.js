@@ -73,7 +73,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "index": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "AccDataModule"));
+    const $t7 = (await $.wobj(C, "AccDataModule"));
     await $.mcall((await $.wv([$t7], "AccFlags", C, false)), "Refresh", []);
     await $.mcall((await $.wv([$t7], "AccFlags", C, false)), "First", []);
     while ($.truthy($.not((await $.mv((await $.wv([$t7], "AccFlags", C, false)), "Eof"))))) {

@@ -1,0 +1,140 @@
+{
+ "name": "P_CM_Message",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Message",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SystemState",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "UsrGrpDataSet",
+   "source": "TFrmMsg.UsrGrpDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT id, description\n    FROM creditsmgr.cm_usergroups",
+   "variables": [],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "PersonelTypeDataSet",
+   "source": "TFrmMsg.PersonelTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT id, description\n  FROM creditsmgr.cm_categories",
+   "variables": [],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "PersonTypes",
+   "source": "TFrmMsg.PersonTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  ID,\n  DESCRIPION\nfrom\n  CM_PERSONS\n\norder by id",
+   "variables": [],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFrmMsg.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct\n  c.description,a.name,\n   CM_COMMON.get_CustCartIpNum(cipinf.idcust )as dd,\n   cipinf.name||' '|| cipinf.soname||' '||cipinf.lastname as  \"Birge borc alan\",\n  CREDITLINEAMOUNT,ROUND(months_between ( p.duedatefirstcontract,p.dateofconclusion)) as period,\nnumberofcredit,DATEOFCONCLUSION ,ic.description as in_description,i.insuranceno,i.insurancedate,\n     ic.description  as \"sığorta şirkətin adı \",\n    i.INSURANCENO       as \"Sığorta polisinin nömrəsi\",\n   i.INSURANCEDATE     as \"sığorta polisinin tarixi\",\n   i.INSURANCEAMOUNT   as \"Sığorta haqqının məbləği\",\n   i.PLEDGEINSLASTDATE as \"G sıortasının bitmə vaxtı\" ,h.rest \"Qalıq\",ca.description \"Müştərinin tipi\"\n from\ncm_ip_info i,CM_PORTFOLIO p,CM_USERGROUPS c, smart.customers a,cm_ip_insurances ic,smart.customers cu,\nsmart.custinfo cipinf,cm_history h,cm_categories ca\nwhere\ni.creditid=p.id and ca.id=p.customertype and\np.usrgroup=c.id and\np.boorowerid=a.id and\ni.insurancecompany=ic.id and\ni.INSURANCEDATE  between :dat and :dat+60 and\ncipinf.idcust = cu.id  and\nP.boorowerid= cu.id \nand p.id =h.creditid and h.hdate=:dat and h.rest+h.duerest>0\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFrmMsg.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select distinct\n c.description,a.name,CREDITLINEAMOUNT,ROUND(months_between ( p.duedatefirstcontract,p.dateofconclusion)) as period,\nnumberofcredit,DATEOFCONCLUSION ,ic.description as in_description,i.insuranceno,i.insurancedate,\n\n   i.INSURANCENO       as \"Sığorta polisinin nömrəsi\",\n   i.INSURANCEDATE     as \"sığorta polisinin tarixi\",\n   i.INSURANCEAMOUNT   as \"Sığorta haqqının məbləği\",\n   i.PLEDGEINSLASTDATE as \"G sıortasının bitmə vaxtı\" ,ca.description \"Müştərinin tipi\"\n from \ncm_ip_info i,CM_PORTFOLIO p,CM_USERGROUPS c, smart.customers a,cm_ip_insurances ic,smart.customers cu,\n(select custid,UNIQUEINSID,BB_INN,MONTHLYPROFIT,PASSTYPE,MARRIAGE,INSPOLICNUM,INSPERIODID,insamount,INSCONTRACTDATE,INSCONTRACTPREIOD,INSCONTRLASTDATE,bb_familystatus\n,INSURANCECOMP,cardid  from smart.custipinfo \nunion\nselect  custid,null as UNIQUEINSID, null as BB_INN,null as MONTHLYPROFIT,null as PASSTYPE ,null as MARRIAGE,null as INSPOLICNUM,null as bb_familystatus,\nnull as insamount,null as INSCONTRACTDATE,null as INSCONTRLASTDATE, null as INSCONTRACTPREIOD,null as INSPERIODID,null as INSURANCECOMP, null as cardid\nfrom (\n select id as custid from smart.customers\n minus \n select custid from smart.custipinfo \n))cipinf,cm_categories ca\nwhere\ni.creditid=p.id and ca.id=p.customertype and\np.usrgroup=c.id and\np.boorowerid=a.id and\ni.insurancecompany=ic.id and\ni.PLEDGEINSLASTDATE < (SELECT SYSDATE FROM DUAL)  and\ncipinf.custid = cu.id  and\nP.boorowerid= cu.id \nand  p.id  in(\n select creditid\n from creditsmgr.cm_curr_state where \n (REST<>0 or INTERESTREST<>0))\n\n\n\n\n\n ",
+   "variables": [],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TFrmMsg.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TFrmMsg.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": " select rownum as \"№\",p.numberofcredit as \"Müqavilə №\",c.description as \"MKT\",a.name as \"Borj alanın adı\",\n  CM_COMMON.get_CustCartIpNum(cipinf.id )as \"birge borc\",\ncipinf.name||' '|| cipinf.soname||' '||cipinf.lastname as  \"Birge borc alan\",\ni.ownername as \"Ipoteka predmetinin adi\",i.predaddress as \" predmetinin unvani\",\n   ic.description  as \"sığorta şirkətin adı \",\n   i.INSURANCENO       as \"Sığorta polisinin nömrəsi\",\n   i.INSURANCEDATE     as \"sığorta polisinin tarixi\",\n   i.INSURANCEAMOUNT   as \"Sığorta haqqının məbləği\",\n   i.PLEDGEINSLASTDATE as \"G sıortasının bitmə vaxtı\" ,\n  h.rest \" Kreditin qalığı\",ca.description \"Müştərinin tipi\"\n\n\n  from \n  cm_active_credits p,\n  CM_USERGROUPS c,cm_history h,\n  smart.customers a,cm_ip_info i,cm_ip_insurances ic,\n   smart.custinfo cipinf,cm_categories ca\n,smart.customers cu\n  where \n  p.usrgroup=c.id   and \n  p.boorowerid=a.id and ca.id=p.customertype and\n  i.creditid=p.id   and\n  i.insurancecompany=ic.id and\n  cipinf.idcust = cu.id  and\n  P.boorowerid= cu.id and\n  h.creditid=p.id and h.hdate=(select tek_dat from smart.sysdat )\n\n\n\n\n  /*33*/\n  /*34*/\n \n \n",
+   "variables": [],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TFrmMsg.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": " select rownum ,p.numberofcredit,c.description,a.name,\n  CM_COMMON.get_CustCartIpNum(cipinf.cardid )as dd,/*i.ownername,i.predaddress,*/\n   ic.description   as \"sığorta şirkətin adı \",\n   cipinf.INSPOLICNUM       as \"Sığorta polisinin nömrəsi\",\n   cipinf.insamount         as \"Sığorta məbləği\",\n   cipinf.INSCONTRACTDATE   as \"Sığorta müqaviləsinin tarixi\",\n   cipinf.INSCONTRLASTDATE  as \"Sığorta müqa bitmə tarixi\" ,\n   cipinf.INSCONTRACTPREIOD as \"Sığorta müqaviləsinin müddəti\",\n  h.rest \" Kreditin qalığı\",ca.description \"Müştərinin tipi\"\n  from \n  cm_active_credits p,\n  CM_USERGROUPS c,cm_history h,\n  smart.customers a,cm_ip_info i,cm_ip_insurances ic,\n  (select custid,UNIQUEINSID,BB_INN,MONTHLYPROFIT,PASSTYPE,MARRIAGE,INSPOLICNUM,INSPERIODID,insamount,INSCONTRACTDATE,INSCONTRACTPREIOD,INSCONTRLASTDATE,bb_familystatus\n,INSURANCECOMP,cardid  from smart.custipinfo\nunion\nselect  custid,null as UNIQUEINSID, null as BB_INN,null as MONTHLYPROFIT,null as PASSTYPE ,null as MARRIAGE,null as INSPOLICNUM,null as bb_familystatus,\nnull as insamount,null as INSCONTRACTDATE,null as INSCONTRLASTDATE, null as INSCONTRACTPREIOD,null as INSPERIODID,null as INSURANCECOMP, null as cardid\nfrom (\n select id as custid from smart.customers\n minus\n select custid from smart.custipinfo\n))cipinf\n,smart.customers cu,cm_categories ca\n  where \n  p.usrgroup=c.id   and i.insurancecompany=ic.id and  i.creditid=p.id  and\n  p.boorowerid=a.id and ca.id=p.customertype and\n  cipinf.custid = cu.id  and\n  P.boorowerid= cu.id and\n  h.creditid=p.id and h.hdate=(select tek_dat from smart.sysdat)  \n\n\n\n\n\n\n /*31*/\norder by rownum \n/*32*/ ",
+   "variables": [],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TFrmMsg.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": " select rownum as \"№\",p.numberofcredit as \"Müqavilə №\",c.description as \"MKT\",a.name as \"Borj alanın adı\",\n  CM_COMMON.get_CustCartIpNum(cipinf.cardid )as dd,/*i.ownername,i.predaddress,*/\n   ic.description     as \"sığorta şirkətin adı \",\n   cipinf.INSPOLICNUM       as \"Sığorta polisinin nömrəsi\",\n   cipinf.insamount         as \"Sığorta məbləği\",\n   cipinf.INSCONTRACTDATE   as \"Sığorta müqaviləsinin tarixi\",\n   cipinf.INSCONTRLASTDATE  as \"Sığorta müqa bitmə tarixi\" ,\n   cipinf.INSCONTRACTPREIOD as \"Sığorta müqaviləsinin müddəti\",\n  h.rest \" Kreditin qalığı\",ca.description \"Müştərinin tipi\"\n  from \n  cm_active_credits p,\n  CM_USERGROUPS c,cm_history h,\n  smart.customers a,cm_ip_info i,cm_ip_insurances ic,\n  (select custid,UNIQUEINSID,BB_INN,MONTHLYPROFIT,PASSTYPE,MARRIAGE,INSPOLICNUM,INSPERIODID,insamount,INSCONTRACTDATE,INSCONTRACTPREIOD,INSCONTRLASTDATE,bb_familystatus\n,INSURANCECOMP,cardid  from smart.custipinfo\nunion\nselect  custid,null as UNIQUEINSID, null as BB_INN,null as MONTHLYPROFIT,null as PASSTYPE ,null as MARRIAGE,null as INSPOLICNUM,null as bb_familystatus,\nnull as insamount,null as INSCONTRACTDATE,null as INSCONTRLASTDATE, null as INSCONTRACTPREIOD,null as INSPERIODID,null as INSURANCECOMP, null as cardid\nfrom (\n select id as custid from smart.customers\n minus\n select custid from smart.custipinfo\n))cipinf,cm_categories ca \n,smart.customers cu\n  where \n  p.usrgroup=c.id   and cipinf.INSCONTRLASTDATE  between :dat and :dat+60 and\n  p.boorowerid=a.id and  ca.id=p.customertype and\n  i.creditid=p.id   and\n  i.insurancecompany=ic.id and\n  cipinf.custid = cu.id  and\n  P.boorowerid= cu.id and\n  h.creditid=p.id and h.hdate=(select tek_dat from smart.sysdat )\n/*33*/\n\n/*34*/\n\n ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "FrmMsgImpl"
+  },
+  {
+   "name": "OracleDataSet7",
+   "source": "TFrmMsg.OracleDataSet7",
+   "kind": "TOracleDataSet",
+   "sql": " select rownum as \"№\",p.numberofcredit as \"Müqavilə №\",c.description as \"MKT\",a.name as \"Borj alanın adı\",\n  CM_COMMON.get_CustCartIpNum(cipinf.cardid )as dd,/*i.ownername,i.predaddress,*/\n   ic.description   as \"sığorta şirkətin adı \",\n   cipinf.INSPOLICNUM       as \"Sığorta polisinin nömrəsi\",\n   cipinf.insamount         as \"Sığorta məbləği\",\n   cipinf.INSCONTRACTDATE   as \"Sığorta müqaviləsinin tarixi\",\n   cipinf.INSCONTRLASTDATE  as \"Sığorta müqa bitmə tarixi\" ,\n   cipinf.INSCONTRACTPREIOD as \"Sığorta müqaviləsinin müddəti\",\n  h.rest \" Kreditin qalığı\",ca.description \"Müştərinin tipi\"\n  from\n  cm_active_credits p,\n  CM_USERGROUPS c,cm_history h,\n  smart.customers a,cm_ip_info i,cm_ip_insurances ic,\n  (select custid,UNIQUEINSID,BB_INN,MONTHLYPROFIT,PASSTYPE,MARRIAGE,INSPOLICNUM,INSPERIODID,insamount,INSCONTRACTDATE,INSCONTRACTPREIOD,INSCONTRLASTDATE,bb_familystatus\n,INSURANCECOMP,cardid  from smart.custipinfo\nunion\nselect  custid,null as UNIQUEINSID, null as BB_INN,null as MONTHLYPROFIT,null as PASSTYPE ,null as MARRIAGE,null as INSPOLICNUM,null as bb_familystatus,\nnull as insamount,null as INSCONTRACTDATE,null as INSCONTRLASTDATE, null as INSCONTRACTPREIOD,null as INSPERIODID,null as INSURANCECOMP, null as cardid\nfrom (\n select id as custid from smart.customers\n minus\n select custid from smart.custipinfo\n))cipinf,cm_categories ca \n,smart.customers cu\n  where\n  p.usrgroup=c.id   and ca.id=p.customertype and\n  p.boorowerid=a.id and cipinf.INSCONTRLASTDATE<(select tek_dat from smart.sysdat ) and\n  i.creditid=p.id   and\n  i.insurancecompany=ic.id and\n  cipinf.custid = cu.id  and\n  P.boorowerid= cu.id and\n  h.creditid=p.id and h.hdate=(select tek_dat from smart.sysdat ) \n /*33*/\n\n /*34*/\n",
+   "variables": [],
+   "unit": "FrmMsgImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

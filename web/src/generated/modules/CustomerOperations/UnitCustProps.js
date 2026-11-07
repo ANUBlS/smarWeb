@@ -78,7 +78,7 @@ export default function define($) {
   await $.fixArgs(L0, ["customer"]);
   await $.set(C, "FCustomerParams", L0["customer"]);
   {
-    const $t2 = (await $.v(C, "CustomerParams"));
+    const $t2 = (await $.wobj(C, "CustomerParams"));
     await $.mset((await $.wv([$t2], "OpenDateEdit", C, false)), "DateTime", (await $.wv([$t2], "OpenDate", C, false)));
     await $.mset((await $.wv([$t2], "CloseDateEdit", C, false)), "DateTime", (await $.wv([$t2], "CloseDate", C, false)));
     await $.wset([$t2], "ClientClosed", $.ne((await $.wv([$t2], "CloseDate", C, false)), (await $.wv([$t2], "NullDate", C, false))), C);
@@ -341,7 +341,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "j": 0, "aa": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "CO_DataMod"));
+    const $t7 = (await $.wobj(C, "CO_DataMod"));
     await $.mcall((await $.wv([$t7], "Customers", C, false)), "Open", []);
     await $.mcall((await $.wv([$t7], "RelationData", C, false)), "Open", []);
     await $.mcall((await $.wv([$t7], "ClientGroupData", C, false)), "Open", []);
@@ -465,7 +465,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "Formid_quality", (await $.mcall((await $.v(C, "TFormid_quality")), "create", [Self])));
   {
-    const $t8 = (await $.v(C, "CO_DataMod"));
+    const $t8 = (await $.wobj(C, "CO_DataMod"));
     await $.mcall((await $.wv([$t8], "Ods_cust_id_quality1", C, false)), "close", []);
     await $.mcall((await $.wv([$t8], "Ods_custid_quality", C, false)), "close", []);
     await $.stmt((await $.mcall((await $.wv([$t8], "Ods_custid_quality", C, false)), "SetVariable", ["custid", (await $.mv((await $.mcall((await $.wv([$t8], "Customers", C, false)), "FieldByName", ["id"])), "AsInteger"))])));
@@ -506,7 +506,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "CO_DataMod"));
+    const $t9 = (await $.wobj(C, "CO_DataMod"));
     const $t10 = (await $.wv([$t9], "Customers", C, false));
     await $.mset((await $.wcall([$t9, $t10], "FieldByName", [$.add("dat", ((await $.wcall([$t9, $t10], "copy", [(await $.mv(((await $.wv([$t9, $t10], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "name")), 4, 10], C))))], C)), "Value", (await $.mv(((await $.wv([$t9, $t10], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "DateTime")));
   }

@@ -1,0 +1,52 @@
+{
+ "name": "P_CM_Fizler",
+ "caption": "",
+ "dir": "Packages/SB_Credit/cm_faizler",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditProps",
+   "source": "TMainFrm.CreditProps",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, a.* from cm_Faizler a",
+   "variables": [],
+   "unit": "MainImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

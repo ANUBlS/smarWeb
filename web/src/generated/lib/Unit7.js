@@ -24,7 +24,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "printband": $.asRef(p1), result: undefined, "name": '', "text": '', "tarx": '', "acc_no": '', "i": 0, "s": null, "s1": null, "s2": null, "s3": null, "s4": null, "s5": null, "s6": null, "s7": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "oracledataset1"));
+    const $t1 = (await $.wobj(C, "oracledataset1"));
     await $.stmt($.wcall([$t1], "close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["v_id", (await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "DataModSTX", C, false)), "ODSMainState")), "FieldByName", ["CUSTOMERID"])), "AsInteger"))], C)));
     await $.stmt($.wcall([$t1], "open", [], C));

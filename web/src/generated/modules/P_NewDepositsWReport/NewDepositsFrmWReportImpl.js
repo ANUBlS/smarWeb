@@ -22,7 +22,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["filenotfound"] = "Fayl tapılmadı";
   {
-    const $t1 = (await $.v(C, "NewDepositsDMWReport"));
+    const $t1 = (await $.wobj(C, "NewDepositsDMWReport"));
     await $.mcall((await $.wv([$t1], "DMGroups", C, false)), "First", []);
     { const $t2 = $.sub((await $.mv((await $.wv([$t1], "DMGroups", C, false)), "RecordCount")), 1);
       await $.wset([$t1], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
@@ -144,7 +144,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "NewDepositsDMWReport"));
+    const $t10 = (await $.wobj(C, "NewDepositsDMWReport"));
     const $t11 = (await $.wv([$t10], "DepositInfoDataSet", C, false));
     await $.stmt($.wcall([$t10, $t11], "Close", [], C));
     await $.stmt((await $.wcall([$t10, $t11], "SetVariable", ["ContractID", (await $.wv([$t10, $t11], "Get_SelectedContID", C, false))], C)));

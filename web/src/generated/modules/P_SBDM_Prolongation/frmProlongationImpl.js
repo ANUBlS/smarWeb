@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["s"]);
   L0["contid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "frmProlongation"));
+    const $t1 = (await $.wobj(C, "frmProlongation"));
     {
       const $t2 = (await $.wv([$t1], "prolongations", C, false));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
@@ -82,7 +82,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t4 = (await $.v(C, "sbcm_prolongation"));
+    const $t4 = (await $.wobj(C, "sbcm_prolongation"));
     await $.stmt((await $.wcall([$t4], "CallProcedure", ["DelLastProlongation", [(await $.wv([$t4], "Get_SelectedContID", C, false))]], C)));
   }
   await $.mcall((await $.v(C, "prolongations")), "refresh", []);
@@ -94,7 +94,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "EExporter"));
+    const $t5 = (await $.wobj(C, "EExporter"));
     await $.stmt($.wcall([$t5], "Connect", [], C));
     await $.stmt((await $.wcall([$t5], "ExportDataset", [(await $.wv([$t5], "prolongations", C, false)), "Prolonqasiya", (await $.wv([$t5], "True", C, false))], C)));
     await $.stmt($.wcall([$t5], "Disconnect", [], C));

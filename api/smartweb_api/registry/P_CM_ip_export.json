@@ -1,0 +1,178 @@
+{
+ "name": "P_CM_ip_export",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_ip_export",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SystemState",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "Tdmipexp.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select case \nwhen cipinf.MARRIAGE=0 \n   then 'Evli' \n   else 'Subay'\n   end as new_MARRIAGE,\n   case \n   when cipinf.PASSTYPE=0\n   then 'Şəxsiyyət vəsiqəsi' \n   else 'Hərbi bilet'\n   end as new_PASSTYPE,\n   P.id ,\n   cust.name as custname,\n   cust.OPEN_DAT,\n   custinf.LastName as custinfname,\n   custinf.name as sorname,\n   custinf.soname as fatherName,\n   custinf.birthday,\n   custinf.birthplace,\n   custinf.address,\n   custinf.city,\n   custinf.work,\n   custinf.workplace,\n   custinf.phone_m as \"Tel mob\",\n   custinf.Phone_h,\n   custinf.Phone_w,\n   custinf.e_mail,\n   custinf.url,\n   custinf.Garanted,\n   custinf.PasSer,\n   custinf.PaspNum,\n   custinf.PaspDate,\n   custinf.PaspPlace,\n   custinf.Note,\n   cipinf.MARRIAGE,\n   cipinf.MONTHLYPROFIT,\n   cipinf.PASSTYPE,\n   cipinf.UNIQUEINSID,\n   cipinf.BB_INN,\n   cipinf.bb_familystatus,\n   cipinf.INSURANCECOMP,\n   cipinf.INSPERIODID,\n   cipinf.INSPOLICNUM       as \"Sığorta polisinin nömrəsi\",\n   cipinf.insamount         as \"Sığorta məbləği\",\n   cipinf.INSCONTRACTDATE   as \"Sığorta müqaviləsinin tarixi\",\n   cipinf.INSCONTRLASTDATE  as \"Sığorta müqa bitmə tarixi\" ,\n   cipinf.INSCONTRACTPREIOD as \"Sığorta müqaviləsinin müddəti\"\n   \nfrom \n (select custid,UNIQUEINSID,BB_INN,MONTHLYPROFIT,PASSTYPE,MARRIAGE,INSPOLICNUM,INSPERIODID,insamount,INSCONTRACTDATE,INSCONTRACTPREIOD,INSCONTRLASTDATE,bb_familystatus\n,INSURANCECOMP\n\n from smart.custipinfo \nunion\nselect  custid,null as UNIQUEINSID, null as BB_INN,null as MONTHLYPROFIT,null as PASSTYPE ,null as MARRIAGE,null as INSPOLICNUM,null as bb_familystatus,\n\nnull as insamount,null as INSCONTRACTDATE,null as INSCONTRLASTDATE, null as INSCONTRACTPREIOD,null as INSPERIODID,null as INSURANCECOMP\n\nfrom (\n select id as custid from smart.customers\n minus \n select custid from smart.custipinfo \n))cipinf,\n\n  smart.customers cust,\n  smart.custinfo custinf,\n  cm_portfolio P\n\nwhere\n   cust.id = custinf.idcust    and \n   cipinf.custid = cust.id     and\n   P.boorowerid= cust.id     \n \n  \n\norder by P.id\n",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "DataSetKredit",
+   "source": "Tdmipexp.DataSetKredit",
+   "kind": "TOracleDataSet",
+   "sql": " SELECT p.id,p.NUMBEROFCREDIT,p.currency, p.boorowerid, p.creditlineamount,a.name ,\n       p.annualyinterestrate, p.annualyoverduerate, p.annualypenaltyrate,\n       p.dateofconclusion, p.duedatefirstcontract, p.numberofcredit,p.duedatefirstcontract as now_duedatefirstcontract,\n       p.purposeofcredit, p.customertype, p.credittype, p.personaltype,\n       p.autopayment, p.autoexpire, p.usrgroup, p.branchid,p.annualbankrate,p.newfinanceamount, \n       p.numberofbankcredit,c.description, ROUND(months_between ( p.duedatefirstcontract,p.dateofconclusion)) as dd\n from   cm_active_credits p,  CM_USERGROUPS c, smart.customers a\nwhere \np.usrgroup=c.id and p.boorowerid=a.id\n\n\norder by p.id\n\n\n \n \n \n\n",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "Tdmipexp.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  id,\ndescription\nfrom\n  CM_USERGROUPS",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "DataSetIP",
+   "source": "Tdmipexp.DataSetIP",
+   "kind": "TOracleDataSet",
+   "sql": "select b.creditid,p.NUMBEROFCREDIT,a.name, b.predaddress, b.predplatz, b.ownername,\n       b.predcost, b.proplawno, b.proplawregno, b.contractno,\n       b.contractdate, b.contractnot, b.paperno, b.paperdate,\n       b.insuranceamount,\n       b.insuranceno, b.insurancedate, b.bankopendate, b.bankclosedate,\n       b.givenflatamt, b.handingactdate, b.handingactno, b.resortdate,\n       b.alevpredaddress, b.alevpredtype, b.alevpredplatz,\n       b.alevownername, b.alevpredcost, b.alevproplawno,\n       b.alevproplawregno, b.alevcontractno, b.alevcontractdate,\n       b.alevcontractnot, b.alevpaperno, b.alevpaperdate,\n       b.alevevaluater, b.alevinsurancecompany, b.alevinsuranceamount,\n       b.alevinsuranceno, b.alevinsurancedate, b.regionid,\n       b.alevregionid, b.cardid, b.pledgeinslastdate, b.yqiymdate,\n       b.paperreregdate,  b.predarea,b.BANKOPENDATE,b.BANKCLOSEDATE,\n       b.alevpredarea, b.tickno, t.description, i.description as in_description ,\n       q.description as qiy_description, pa.interest,pa.ipinterest,\n       CM_COMMON.accountnumber_get(LOANACCID)as Ssuda,\n       CM_COMMON.accountnumber_get(PRIMARYRESERVEACCID)as AdiEhtiyat,\n       CM_COMMON.accountnumber_get(SECONDARYRESERVEACCID)as MeqsedliEhtiyat,\n       CM_COMMON.accountnumber_get(DUELOANACCID)as GEcikmishSsdahes,\n       CM_COMMON.accountnumber_get(DUEINTERESTACCID)as Gecikmishfaiz,\n       p.id,\n       p.currency,\n       p.usrgroup,\n       p.customertype,\n       p.branchid\n       from \n     cm_ip_info  b,cm_ip_types t,cm_ip_insurances i, smart.customers a,\n      cm_ip_qiyms q,cm_accounts ac,cm_portfolio p,\n       (select creditid,0 as interest,0 as ipinterest\n from( select id as creditid\nfrom cm_portfolio\nminus\nSELECT creditid\n  FROM cm_payment_schedule \n  group by creditid )\n  \nunion\nSELECT creditid, nvl(sum(interest),0) as interest,\n       nvl(sum(ipinterest),0) as ipinterest\n  FROM cm_payment_schedule \n  group by creditid\n\n) pa\nwhere\nb.predtype=t.id\nand\nb.insurancecompany=i.id\nand\nb.evaluater=q.id\nand\nb.creditid=pa.creditid\nand\nb.creditid=ac.creditid\nand\nb.creditid=p.id\nand\np.BOOROWERID=a.id\n\n\n\norder by id\n",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "ValuteDataSet",
+   "source": "Tdmipexp.ValuteDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT VALUTE, VALU_NAME\n    FROM SMART.AVALUTE\nORDER BY VALUTE",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "BranchDataSet",
+   "source": "Tdmipexp.BranchDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM sb_filial",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "UsrGrpDataSet",
+   "source": "Tdmipexp.UsrGrpDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT id, description\n    FROM creditsmgr.cm_usergroups",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "PersonelTypeDataSet",
+   "source": "Tdmipexp.PersonelTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT id, description\n  FROM creditsmgr.cm_categories",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "ODSInsurance",
+   "source": "Tdmipexp.ODSInsurance",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.ip_insurances\norder by id",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "ODSFamily",
+   "source": "Tdmipexp.ODSFamily",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.custfamily\norder by id",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "ODSPeriods",
+   "source": "Tdmipexp.ODSPeriods",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.ip_insperiods\norder by name",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "DSetUustinfo1",
+   "source": "Tdmipexp.DSetUustinfo1",
+   "kind": "TOracleDataSet",
+   "sql": "select \n\n   P.id ,\n   cust.name as custname,\n   cust.OPEN_DAT,\n   CM_COMMON.F('LastName',cust.id) as custinfname,\n   CM_COMMON.F('name',cust.id) as sorname,\n   CM_COMMON.F('soname',cust.id) as fatherName,\n   CM_COMMON.F('birthday',cust.id)as birthday,\n   CM_COMMON.F('address',cust.id) as address,\n   CM_COMMON.F('city',cust.id)      as city,\n   CM_COMMON.F('work',cust.id)      as work,\n   CM_COMMON.F('workplace',cust.id) as workplace,\n   CM_COMMON.F('phone_m',cust.id)   as \"Tel mob\",\n   CM_COMMON.F('Phone_h',cust.id)   as Phone_h,\n   CM_COMMON.F('Phone_w',cust.id)   as Phone_w,\n   CM_COMMON.F('e_mail',cust.id)    as e_mail ,\n   CM_COMMON.F('url',cust.id)       as url,\n   CM_COMMON.F('Garanted',cust.id)  as Garanted,\n   CM_COMMON.F('PasSer',cust.id)    as PasSer,\n   CM_COMMON.F('PaspNum',cust.id )  as PaspNum,\n   CM_COMMON.F('PaspDate',cust.id)  as PaspDate,\n   CM_COMMON.F('PaspPlace',cust.id) as PaspPlace\n \n \nfrom \n\n  smart.customers cust,\n cm_portfolio P\n\nwhere\n  P.boorowerid= cust.id   \n\n  \n\norder by P.id",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "DSetCustipinfo1",
+   "source": "Tdmipexp.DSetCustipinfo1",
+   "kind": "TOracleDataSet",
+   "sql": "select \n      P.id ,\n   cust.name as custname,\n   CM_COMMON.F1('new_MARRIAGE',cust.id) as   MARRIAGE,\n   CM_COMMON.F1('new_PASSTYPE',cust.id)      as PASSTYPE ,\n   CM_COMMON.F1('MONTHLYPROFIT',cust.id)     as MONTHLYPROFIT,\n  CM_COMMON.F1('UNIQUEINSID',cust.id)       as UNIQUEINSID,\n   CM_COMMON.F1('BB_INN',cust.id)            as BB_INN,\n --  CM_COMMON.F1('bb_familystatus',cust.id)    as bb_familystatus,\n --  CM_COMMON.F1('INSURANCECOMP',cust.id)     as INSURANCECOMP,\n  -- CM_COMMON.F1('INSPERIODID',cust.id)       as  INSPERIODID,\n   CM_COMMON.F1('INSPOLICNUM',cust.id)       as \"Sığorta polisinin nömrəsi\",\n   CM_COMMON.F1('insamount',cust.id)         as \"Sığorta məbləği\",\n   CM_COMMON.F1('INSCONTRACTDATE',cust.id)   as \"Sığorta müqaviləsinin tarixi\",\n   CM_COMMON.F1('INSCONTRLASTDATE',cust.id)  as \"Sığorta müqa bitmə tarixi\", \n   CM_COMMON.F1('INSCONTRACTPREIOD',cust.id)  as \"Sığorta müqaviləsinin müddəti\"\n \nfrom \n\n  smart.customers cust,\n cm_portfolio P\n\nwhere\n\n  P.boorowerid= cust.id     \n\n  \n\norder by P.id\n",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "Tdmipexp.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select *from smart.sysdat",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "DSetUustinfo",
+   "source": "Tdmipexp.DSetUustinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\n   P.id ,\n   p.NUMBEROFCREDIT,\n   cm_common.get_CustCartNum( custinf.id)as Filter,\n   cust.name as custname,\n   cust.OPEN_DAT,\n   custinf.LastName as custinfname,\n   custinf.name as sorname,\n   custinf.soname as fatherName,\n   custinf.birthday,\n   custinf.birthplace,\n   custinf.address,\n   custinf.city,\n   custinf.work,\n   custinf.workplace,\n   custinf.phone_m as \"Tel mob\",\n   custinf.Phone_h,\n   custinf.Phone_w,\n   custinf.e_mail,\n   custinf.url,\n   custinf.Garanted,\n   custinf.PasSer,\n   custinf.PaspNum,\n   custinf.PaspDate,\n   custinf.PaspPlace,\n   custinf.Note\n   \nfrom \n  smart.customers cust,\n  smart.custinfo custinf,\n  /*cm_portfolio*/ cm_active_credits P\n\nwhere\n   cust.id = custinf.idcust    and \n   P.boorowerid= cust.id     \n \n  \n\norder by P.id,filter\n\n",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  },
+  {
+   "name": "DSetCustipinfo",
+   "source": "Tdmipexp.DSetCustipinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\nP.id ,p.NUMBEROFCREDIT,CM_COMMON.get_CustCartIpNum(cipinf.cardid )as aa, case \nwhen cipinf.MARRIAGE=0 \n   then 'Evli' \n   else 'Subay'\n   end as new_MARRIAGE,\n   case \n   when cipinf.PASSTYPE=0\n   then 'Şəxsiyyət vəsiqəsi' \n   else 'Hərbi bilet'\n   end as new_PASSTYPE,\n   a.name as custname,\n   a.OPEN_DAT,\n   cipinf.MARRIAGE,\n   cipinf.MONTHLYPROFIT,\n   cipinf.PASSTYPE,\n   cipinf.UNIQUEINSID,\n   cipinf.BB_INN,\n   cipinf.bb_familystatus,\n   cipinf.INSURANCECOMP,\n   cipinf.INSPERIODID,\n   cipinf.INSPOLICNUM       as \"Sığorta polisinin nömrəsi\",\n   cipinf.insamount         as \"Sığorta məbləği\",\n   cipinf.INSCONTRACTDATE   as \"Sığorta müqaviləsinin tarixi\",\n   cipinf.INSCONTRLASTDATE  as \"Sığorta müqa bitmə tarixi\" ,\n   cipinf.INSCONTRACTPREIOD as \"Sığorta müqaviləsinin müddəti\"\n   \nfrom \n (select custid,UNIQUEINSID,BB_INN,MONTHLYPROFIT,PASSTYPE,MARRIAGE,INSPOLICNUM,INSPERIODID,insamount,INSCONTRACTDATE,INSCONTRACTPREIOD,INSCONTRLASTDATE,bb_familystatus\n,INSURANCECOMP,cardid\n\n from smart.custipinfo \nunion\nselect  custid,null as UNIQUEINSID, null as BB_INN,null as MONTHLYPROFIT,null as PASSTYPE ,null as MARRIAGE,null as INSPOLICNUM,null as bb_familystatus,\n\nnull as insamount,null as INSCONTRACTDATE,null as INSCONTRLASTDATE, null as INSCONTRACTPREIOD,null as INSPERIODID,null as INSURANCECOMP, null as cardid\n\nfrom (\n select id as custid from smart.customers\n minus \n select custid from smart.custipinfo \n))cipinf,\n\n  smart.customers a,\n /* cm_portfolio*/ cm_active_credits P\n\nwhere\n   cipinf.custid = a.id     and\n   P.boorowerid= a.id     \n \n  \n\norder by P.id,aa\n\n       ",
+   "variables": [],
+   "unit": "dmipexpImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

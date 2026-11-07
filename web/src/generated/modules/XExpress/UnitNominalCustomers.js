@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sum"]);
   L0["text"] = "";
   {
-    const $t1 = (await $.v(C, "FormNominalCustomers"));
+    const $t1 = (await $.wobj(C, "FormNominalCustomers"));
     { const $t2 = $.sub((await $.wv([$t1], "ComponentCount", C, false)), 1);
       await $.wset([$t1], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t3 = true;
@@ -218,7 +218,7 @@ export default function define($) {
   const L0 = {result: undefined};
   if ($.truthy($.not(((await $.mv((await $.v(C, "ExpFormNew")), "Rk")))))) {
     {
-      const $t4 = (await $.v(C, "FormPaymentsCredit"));
+      const $t4 = (await $.wobj(C, "FormPaymentsCredit"));
       const $t5 = (await $.wv([$t4], "ExpressVariables", C, false));
       await $.wset([$t4, $t5], "contractno", (await $.mv((await $.wv([$t4, $t5], "Searchnumberofcredit", C, false)), "Text")), C);
       await $.wset([$t4, $t5], "doc_type", (await $.mv((await $.wv([$t4, $t5], "CBoxPassPlace", C, false)), "KeyValue")), C);
@@ -282,7 +282,7 @@ export default function define($) {
     }
   } else {
     {
-      const $t6 = (await $.v(C, "ExpFormNew"));
+      const $t6 = (await $.wobj(C, "ExpFormNew"));
       const $t7 = (await $.wv([$t6], "ExpressVariables", C, false));
       await $.wset([$t6, $t7], "doc_country", (await $.mv((await $.wv([$t6, $t7], "issue_country", C, false)), "KeyValue")), C);
       await $.wset([$t6, $t7], "paspplace", (await $.mv((await $.wv([$t6, $t7], "DBCBox_DocTYPE", C, false)), "Text")), C);
@@ -362,7 +362,7 @@ export default function define($) {
         L0["s"] = $.add($.add($.add($.add($.add($.add("(", L0["s"]), "="), "'"), (await $.mv((L0["sender"]), "text"))), "'"), ")");
       }
       {
-        const $t8 = (await $.v(C, "ExpDataModule"));
+        const $t8 = (await $.wobj(C, "ExpDataModule"));
         const $t9 = (await $.wv([$t8], "SearchCustDataSet1", C, false));
         await $.stmt($.wcall([$t8, $t9], "Close", [], C));
         { const $t10 = await $.iset((await $.wv([$t8, $t9], "SQL", C, false)), [47], (await $.wv([$t8, $t9], "S", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))); if ($t10 !== undefined) { await $.wset([$t8, $t9], "SQL", $t10, C); } }
@@ -550,7 +550,7 @@ export default function define($) {
         return L0.result;
       }
       {
-        const $t12 = (await $.v(C, "ExpDataModule"));
+        const $t12 = (await $.wobj(C, "ExpDataModule"));
         const $t13 = (await $.wv([$t12], "SearchContractno", C, false));
         await $.stmt($.wcall([$t12, $t13], "Close", [], C));
         { const $t14 = await $.iset((await $.wv([$t12, $t13], "SQL", C, false)), [1], (await $.wv([$t12, $t13], "S", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))); if ($t14 !== undefined) { await $.wset([$t12, $t13], "SQL", $t14, C); } }

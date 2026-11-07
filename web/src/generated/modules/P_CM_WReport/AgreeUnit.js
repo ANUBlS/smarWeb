@@ -134,7 +134,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.mv((await $.v(C, "WordDocument")), "Application")), "Get_ActiveWindow")), "Caption", (await $.v(C, "Caption")));
   try {
     {
-      const $t5 = (await $.v(C, "AgreeDataModule"));
+      const $t5 = (await $.wobj(C, "AgreeDataModule"));
       const $t6 = (await $.wv([$t5], "ReplaceDataSet", C, false));
       const $t7 = (await $.wv([$t5, $t6], "WordDocument", C, false));
       { const $t8 = (await $.mv((await $.wv([$t5, $t6, $t7], "Bookmarks", C, false)), "Count"));
@@ -192,7 +192,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0, "activ": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "AgreeDataModule"));
+    const $t10 = (await $.wobj(C, "AgreeDataModule"));
     await $.mcall((await $.wv([$t10], "ods_portfolio", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t10], "ods_portfolio", C, false)), "SetVariable", ["v_id", (await $.wv([$t10], "Get_SelectedCrdID", C, false))])));
     await $.mcall((await $.wv([$t10], "ods_portfolio", C, false)), "Open", []);
@@ -268,7 +268,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.mv((await $.v(C, "WordDocument")), "Application")), "Get_ActiveWindow")), "Caption", (await $.v(C, "Caption")));
   try {
     {
-      const $t14 = (await $.v(C, "AgreeDataModule"));
+      const $t14 = (await $.wobj(C, "AgreeDataModule"));
       const $t15 = (await $.wv([$t14], "ReplaceDataSet", C, false));
       const $t16 = (await $.wv([$t14, $t15], "WordDocument", C, false));
       { const $t17 = (await $.mv((await $.wv([$t14, $t15, $t16], "Bookmarks", C, false)), "Count"));

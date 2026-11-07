@@ -345,7 +345,7 @@ export default function define($) {
     { const $t3 = await $.iset((await $.mv((await $.v(C, "FStatusList")), "Values")), [(await $.mv((await $.mcall((await $.v(C, "Accs")), "FieldByName", ["ID"])), "AsString"))], "Error"); if ($t3 !== undefined) { await $.mset((await $.v(C, "FStatusList")), "Values", $t3); } }
   }
   {
-    const $t4 = (await $.v(C, "Accs"));
+    const $t4 = (await $.wobj(C, "Accs"));
     await $.stmt($.wcall([$t4], "DisableControls", [], C));
     try {
       await $.wset([$t4], "Pos", (await $.wv([$t4], "GetBookmark", C, false)), { get: async () => L0["pos"], set: async (v) => { L0["pos"] = v; }, local: true });
@@ -362,7 +362,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "Accs"));
+    const $t5 = (await $.wobj(C, "Accs"));
     if ($.truthy($.not((await $.wcall([$t5], "Locate", ["AccountNo", (await $.mv(((await $.wv([$t5], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "Text")), [(await $.wv([$t5], "loCaseInsensitive", C, false)), (await $.wv([$t5], "loPartialKey", C, false))]], C))))) {
       await $.stmt($.wcall([$t5], "Beep", [], C));
     }
@@ -375,7 +375,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "FStatusList"))])))) {
     {
-      const $t6 = (await $.v(C, "Accs"));
+      const $t6 = (await $.wobj(C, "Accs"));
       await $.mset((await $.wcall([$t6], "FieldByname", ["Status"], C)), "AsString", (await $.idx((await $.mv((await $.wv([$t6], "FStatusList", C, false)), "Values")), [(await $.mv((await $.wcall([$t6], "FieldByName", ["ID"], C)), "AsString"))])));
     }
   }
@@ -408,7 +408,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "Accs"));
+    const $t7 = (await $.wobj(C, "Accs"));
     await $.stmt($.wcall([$t7], "First", [], C));
     while ($.truthy($.not((await $.wv([$t7], "Eof", C, false))))) {
       await $.mcall((await $.wv([$t7], "CheckAccount", C, false)), "Execute", []);

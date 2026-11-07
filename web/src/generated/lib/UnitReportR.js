@@ -59,7 +59,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.mv(L0["sender"], "ControlCount")), 0))) {
     {
-      const $t1 = (await $.v(C, "QRBandDetail"));
+      const $t1 = (await $.wobj(C, "QRBandDetail"));
       while ($.truthy($.gt((await $.wv([$t1], "ControlCount", C, false)), 0))) {
         await $.mset((await $.idx((await $.wv([$t1], "Controls", C, false)), [0])), "Parent", (await $.wv([$t1], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)));
         await $.tick();

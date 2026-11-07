@@ -1,0 +1,62 @@
+{
+ "name": "P_CM_IP_SETTINGS",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_IP_SETTINGS",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSSettings",
+   "source": "TfrmSettings.ODSSettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM smart.ip_settings",
+   "variables": [],
+   "unit": "uSettingsImpl"
+  },
+  {
+   "name": "ODSSets",
+   "source": "TfrmSettings.ODSSets",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "uSettingsImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

@@ -37,7 +37,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "frmAccountTurning"));
+    const $t1 = (await $.wobj(C, "frmAccountTurning"));
     await $.mset((await $.mcall((await $.wv([$t1], "settings", C, false)), "FieldByName", ["CurrencyID"])), "AsInteger", (await $.mv((await $.mcall((await $.wv([$t1], "valute", C, false)), "FieldByName", ["Valute"])), "AsInteger")));
     await $.mcall((await $.wv([$t1], "settings", C, false)), "Post", []);
   }
@@ -49,7 +49,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "frmAccountTurning"));
+    const $t2 = (await $.wobj(C, "frmAccountTurning"));
     const $t3 = (await $.wv([$t2], "settings", C, false));
     await $.stmt($.wcall([$t2, $t3], "Cancel", [], C));
   }

@@ -52,7 +52,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mcall((await $.mv((await $.idx((await $.mv((await $.v(C, "DBGridEh2")), "Columns")), [1])), "PickList")), "Clear", []);
   {
-    const $t1 = (await $.v(C, "dmpbf_transaction"));
+    const $t1 = (await $.wobj(C, "dmpbf_transaction"));
     const $t2 = (await $.wv([$t1], "kindofaccs", C, false));
     await $.stmt($.wcall([$t1, $t2], "first", [], C));
     while ($.truthy($.not((await $.mv((await $.wv([$t1, $t2], "kindofaccs", C, false)), "eof"))))) {

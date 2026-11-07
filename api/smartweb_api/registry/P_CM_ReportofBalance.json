@@ -1,0 +1,118 @@
+{
+ "name": "P_CM_ReportofBalance",
+ "caption": "",
+ "dir": "Packages/SB_credit_AQro/SB_Credit/CM_ReportofBalance",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Valutes",
+   "source": "TFrmrep.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "frmRepBalanceimpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TFrmrep.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "frmRepBalanceimpl"
+  },
+  {
+   "name": "CustomerTypes",
+   "source": "TFrmrep.CustomerTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description from cm_categories",
+   "variables": [],
+   "unit": "frmRepBalanceimpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TFrmrep.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_persons",
+   "variables": [],
+   "unit": "frmRepBalanceimpl"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TFrmrep.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select *from cm_credittypes",
+   "variables": [],
+   "unit": "frmRepBalanceimpl"
+  },
+  {
+   "name": "Results",
+   "source": "TFrmrep.Results",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       p.numberofcredit,b.name,\n       p.dateofconclusion,\n       p.duedatefirstcontract,\n       p.annualyinterestrate,\n       cm_sd.get_creditbalance (p.ID) AS balance ,av.val_name ,per.descripion\n    ,t.rest_debit dovrunevveli,t.erest_debit dovrunsonu,t.rest_credit odenish,t.erest_credit transhe,\n    trunc(months_between(p.duedatefirstcontract, p.dateofconclusion))||' aya qeder' period\nfrom cm_portfolio p,cm_boorowerinfo b,  sb_avalute av, cm_persons per, cm_turnover t\nwhere p.id=b.creditid\nand p.currency=av.valute  and per.id = p.personaltype and p.id=t.creditid",
+   "variables": [],
+   "unit": "frmRepBalanceimpl"
+  },
+  {
+   "name": "Active",
+   "source": "TFrmrep.Active",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id from cm_portfolio p where nvl(p.duedatelastcontract,p.duedatefirstcontract)>:dat\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "frmRepBalanceimpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "cm_sd",
+   "package": "cm_sd",
+   "mode": "named",
+   "source": "TFrmrep.cm_sd",
+   "routines": [
+    {
+     "name": "prepare_sddata",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

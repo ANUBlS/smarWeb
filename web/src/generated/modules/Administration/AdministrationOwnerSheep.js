@@ -22,7 +22,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "FmOwnerSheep"));
+    const $t1 = (await $.wobj(C, "FmOwnerSheep"));
     const $t2 = (await $.mv((await $.wv([$t1], "AdministrationData", C, false)), "pcADM"));
     await $.stmt((await $.wcall([$t1, $t2], "Synchronize", [(await $.wv([$t1, $t2], "IncBar", C, false))], C)));
     await $.stmt((await $.wcall([$t1, $t2], "CallBooleanFunction", ["changeownerincustomers", [(await $.wcall([$t1, $t2], "StrToInt", [(await $.mv((await $.wv([$t1, $t2], "edID1", C, false)), "Text"))], C)), (await $.wcall([$t1, $t2], "StrToInt", [(await $.mv((await $.wv([$t1, $t2], "edID2", C, false)), "Text"))], C))]], C)));

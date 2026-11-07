@@ -375,7 +375,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "branchindex": 0};
   {
-    const $t1 = (await $.v(C, "DataSetBranch"));
+    const $t1 = (await $.wobj(C, "DataSetBranch"));
     try {
       await $.stmt($.wcall([$t1], "Open", [], C));
       await $.stmt((await $.wcall([$t1], "SetLength", [$.ref(async () => (await $.wv([$t1], "Branch", C, false)), async ($t2) => { await $.wset([$t1], "Branch", $t2, C); }), $.add((await $.wv([$t1], "RecordCount", C, false)), 1)], C)));
@@ -405,7 +405,7 @@ export default function define($) {
   await $.stmt($.call(C, "FillBranch", []));
   await $.mset((await $.v(C, "CBBranch")), "ItemIndex", 0);
   {
-    const $t5 = (await $.v(C, "sboapiDataModule"));
+    const $t5 = (await $.wobj(C, "sboapiDataModule"));
     await $.wset([$t5], "CurrentDate", (await $.mcall((await $.wv([$t5], "SBOperationDay", C, false)), "CallDateFunction", ["get_date", []])), { get: async () => L0["currentdate"], set: async (v) => { L0["currentdate"] = v; }, local: true });
   }
   await $.mset((await $.v(C, "DTPMin")), "DateTime", L0["currentdate"]);

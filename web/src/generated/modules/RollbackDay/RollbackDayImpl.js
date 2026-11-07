@@ -363,7 +363,7 @@ export default function define($) {
       await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crHourGlass")));
       try {
         {
-          const $t2 = (await $.v(C, "SBSystem"));
+          const $t2 = (await $.wobj(C, "SBSystem"));
           await $.stmt((await $.wcall([$t2], "CallProcedure", [(await $.wv([$t2], "csRollback", { get: async () => L0["csrollback"], set: async (v) => { L0["csrollback"] = v; }, local: true }, false)), [(await $.wv([$t2], "RDate", { get: async () => L0["rdate"], set: async (v) => { L0["rdate"] = v; }, local: true }, false))]], C)));
         }
         await $.mcall((await $.v(C, "Sysdat")), "Refresh", []);

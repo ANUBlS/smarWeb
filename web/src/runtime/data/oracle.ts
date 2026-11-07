@@ -12,6 +12,7 @@ import { synthesizeColumn } from '../../api/mock';
 import { api, OracleError, BindValue, OraType, PackageCallKind, ColumnDef } from '../../api';
 import { toDelphi, fromDelphi } from '../datetime';
 import { logger } from '../log';
+import { audit } from '../audit';
 
 /* ------------------------------------------------------------------ connection state */
 
@@ -202,6 +203,11 @@ export class TOracleDataSet extends TDataSet {
   LockingMode = 'lmcheckimmediate';
   QueryAllRecords = true;
   CountAllRecords = false;
+  ReadBuffer = 25;
+  /** Server cursor of a QueryAllRecords = False dataset with rows still to fetch. */
+  private cursorId: string | null = null;
+  private fetchCols: ColumnDef[] = [];
+  private fetching: Promise<boolean> | null = null;
   CommitOnPost = true;
   UpdatingTable = '';
   UniqueFields = '';
@@ -224,7 +230,7 @@ export class TOracleDataSet extends TDataSet {
     super();
     this.SQL = new TStrings();
     this.SQL.onChange = () => {
-      if (this.Active) { this._state = 'dsinactive'; this.rows = []; this.view = []; this.cur = -1; this._bof = this._eof = true; invalidate(); }
+      if (this.Active) { this.dropCursor(); this._state = 'dsinactive'; this.rows = []; this.view = []; this.cur = -1; this._bof = this._eof = true; invalidate(); }
     };
   }
   initFromDfm() { initVarsFromDfm(this.vars, this.dfm); }
@@ -263,10 +269,48 @@ export class TOracleDataSet extends TDataSet {
         type: f.fieldType === 'datetime' || f.fieldType === 'time' ? 'date' : f.fieldType === 'memo' ? 'clob' : (f.fieldType as OraType),
         size: f.Size,
       }));
-      const r = await api.query({ source: this.sourceId(), sql, variables: this.vars.binds(sql), fieldHints: hints });
+      this.dropCursor();
+      // DOA QueryAllRecords = False: the first records now, the rest as the grid scrolls / Next / Last / Locate need them
+      const fetch = !this.QueryAllRecords && api.fetchRows ? this.readBuffer : undefined;
+      const r = await api.query({ source: this.sourceId(), sql, variables: this.vars.binds(sql), fieldHints: hints, fetch });
       this.loadRows(r.columns, r.rows);
       this.RowsProcessed = r.rows.length;
+      if (r.more && r.cursorId) { this.cursorId = r.cursorId; this.fetchCols = r.columns; }
+      if (r.truncated) {
+        const msg = `${this.sourceId()}: nəticə ${r.rows.length} sətirdə kəsildi (API SB_MAX_ROWS) — siyahı natamamdır`;
+        logger.warn(msg);
+        audit('error', msg);
+      }
     } catch (e) { toOracleError(e); }
+  }
+
+  override get moreRows() { return this.cursorId !== null; }
+  /** At least a screenful per round trip (the desktop fetched ReadBuffer = 25 rows per OCI call). */
+  override get readBuffer() { return Math.max(this.ReadBuffer, 100); }
+  override async fetchMore(count: number): Promise<boolean> {
+    if (this.fetching) return this.fetching;
+    if (!this.cursorId || !api.fetchRows) return false;
+    const id = this.cursorId;
+    this.fetching = (async () => {
+      try {
+        const r = await api.fetchRows!(id, count);
+        if (this.cursorId !== id) return false;  // closed or reopened meanwhile
+        if (!r.more) this.cursorId = null;
+        await this.appendRows(this.fetchCols, r.rows);
+        this.RowsProcessed += r.rows.length;
+        return r.rows.length > 0;
+      } catch (e) { this.cursorId = null; toOracleError(e); return false; }
+      finally { this.fetching = null; }
+    })();
+    return this.fetching;
+  }
+  private dropCursor() {
+    if (this.cursorId && api.closeCursor) void api.closeCursor(this.cursorId).catch(() => undefined);
+    this.cursorId = null;
+  }
+  override async Close() {
+    this.dropCursor();
+    await super.Close();
   }
 
   protected override missingField(name: string): TField | null {

@@ -22,7 +22,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DMBudget"));
+    const $t1 = (await $.wobj(C, "DMBudget"));
     { const $t2 = (await $.mv((await $.wv([$t1], "combobox", C, false)), "ItemIndex"));
       if ($.eq($t2, 0)) {
         await $.wset([$t1], "status", 0, C);

@@ -718,7 +718,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t53 = (await $.v(C, "DmBlack"));
+    const $t53 = (await $.wobj(C, "DmBlack"));
     {
       const $t54 = (await $.wv([$t53], "ExcelExport", C, false));
       const $t55 = (await $.wv([$t53, $t54], "MainDSet", C, false));
@@ -900,7 +900,7 @@ export default function define($) {
   L0["verable"] = "";
   L0["verable"] = (await $.mv((await $.v(C, "DBLookupComboBox2")), "Text"));
   {
-    const $t56 = (await $.v(C, "ods_hms"));
+    const $t56 = (await $.wobj(C, "ods_hms"));
     await $.stmt($.wcall([$t56], "close", [], C));
     { const $t57 = await $.iset((await $.wv([$t56], "SQL", C, false)), [16], ""); if ($t57 !== undefined) { await $.wset([$t56], "SQL", $t57, C); } }
     if ($.truthy($.eq((await $.wv([$t56], "verable", { get: async () => L0["verable"], set: async (v) => { L0["verable"] = v; }, local: true }, false)), "Hamsı"))) {
@@ -1117,7 +1117,7 @@ export default function define($) {
   L0["p_date2"] = (await $.mv((await $.v(C, "DBDateTimeEditEh2")), "Value"));
   await $.set(C, "EnableColoring", false);
   {
-    const $t62 = (await $.v(C, "ods_hms"));
+    const $t62 = (await $.wobj(C, "ods_hms"));
     await $.stmt($.wcall([$t62], "close", [], C));
     await $.stmt((await $.wcall([$t62], "SetVariable", ["dat1", (await $.wv([$t62], "p_date1", { get: async () => L0["p_date1"], set: async (v) => { L0["p_date1"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t62], "SetVariable", ["dat2", (await $.wv([$t62], "p_date2", { get: async () => L0["p_date2"], set: async (v) => { L0["p_date2"] = v; }, local: true }, false))], C)));
@@ -1307,7 +1307,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t71 = (await $.v(C, "DmBlack"));
+    const $t71 = (await $.wobj(C, "DmBlack"));
     const $t72 = (await $.wv([$t71], "ods_search", C, false));
     if ($.truthy($.not((await $.wv([$t71, $t72], "Active", C, false))))) {
       await $.stmt($.wcall([$t71, $t72], "Open", [], C));
@@ -1338,7 +1338,7 @@ export default function define($) {
   L0["p_date1"] = (await $.mv((await $.v(C, "DateTi_samelydate1")), "Value"));
   L0["p_date2"] = (await $.mv((await $.v(C, "DateTi_samelydate2")), "Value"));
   {
-    const $t74 = (await $.v(C, "OracleDataSet3"));
+    const $t74 = (await $.wobj(C, "OracleDataSet3"));
     await $.stmt($.wcall([$t74], "close", [], C));
     await $.stmt((await $.wcall([$t74], "SetVariable", ["dat1", (await $.wv([$t74], "p_date1", { get: async () => L0["p_date1"], set: async (v) => { L0["p_date1"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t74], "SetVariable", ["dat2", (await $.wv([$t74], "p_date2", { get: async () => L0["p_date2"], set: async (v) => { L0["p_date2"] = v; }, local: true }, false))], C)));
@@ -1788,7 +1788,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "x", 1);
   {
-    const $t107 = (await $.v(C, "InsForm"));
+    const $t107 = (await $.wobj(C, "InsForm"));
     await $.mset((await $.wv([$t107], "edit1", C, false)), "text", "");
     await $.mset((await $.wv([$t107], "edit2", C, false)), "text", "");
     await $.mset((await $.wv([$t107], "edit3", C, false)), "text", "");
@@ -1969,7 +1969,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "x", 1);
   {
-    const $t116 = (await $.v(C, "InsForm"));
+    const $t116 = (await $.wobj(C, "InsForm"));
     await $.mset((await $.wv([$t116], "edit1", C, false)), "text", "");
     await $.mset((await $.wv([$t116], "edit2", C, false)), "text", "");
     await $.mset((await $.wv([$t116], "edit3", C, false)), "text", "");

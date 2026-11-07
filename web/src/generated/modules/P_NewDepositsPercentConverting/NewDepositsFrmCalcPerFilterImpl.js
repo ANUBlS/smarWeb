@@ -81,13 +81,13 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "NewDepositsFrmPercentConverting"));
+    const $t10 = (await $.wobj(C, "NewDepositsFrmPercentConverting"));
     const $t11 = (await $.wv([$t10], "calcPerGrid", C, false));
     const $t12 = (await $.wv([$t10, $t11], "SelectedRows", C, false));
     await $.stmt($.wcall([$t10, $t11, $t12], "Clear", [], C));
   }
   {
-    const $t13 = (await $.v(C, "NewDepositsDMPercentConverting"));
+    const $t13 = (await $.wobj(C, "NewDepositsDMPercentConverting"));
     const $t14 = (await $.wv([$t13], "CalcedDeposits", C, false));
     await $.wset([$t13, $t14], "Filtered", (await $.wv([$t13, $t14], "False", C, false)), C);
     await $.wset([$t13, $t14], "Filter", (await $.wv([$t13, $t14], "BuildFilterString", C, false)), C);
@@ -100,7 +100,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "NewDepositsDMPercentConverting"));
+    const $t15 = (await $.wobj(C, "NewDepositsDMPercentConverting"));
     const $t16 = (await $.wv([$t15], "CalcedDeposits", C, false));
     await $.wset([$t15, $t16], "Filtered", (await $.wv([$t15, $t16], "False", C, false)), C);
     await $.wset([$t15, $t16], "Filter", "", C);

@@ -2367,7 +2367,7 @@ export default function define($) {
   const L0 = {"column": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["column"]);
   {
-    const $t98 = (await $.v(C, "CustNomData"));
+    const $t98 = (await $.wobj(C, "CustNomData"));
     const $t99 = (await $.wv([$t98], "ODS_CUSTOMERS_PHYS_FS", C, false));
     await $.stmt($.wcall([$t98, $t99], "Close", [], C));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t98, $t99], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {

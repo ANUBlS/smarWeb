@@ -42,7 +42,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DebtAccSearchEdit"));
+    const $t1 = (await $.wobj(C, "DebtAccSearchEdit"));
     const $t2 = (await $.wv([$t1], "CO_Datamod", C, false));
     await $.mset((await $.mv((await $.wv([$t1, $t2], "DataSource", C, false)), "DataSet")), "Filtered", (await $.wv([$t1, $t2], "False", C, false)));
     await $.mset((await $.mv((await $.wv([$t1, $t2], "DataSource", C, false)), "DataSet")), "Filter", $.add("val_acc= ", (await $.mv((await $.mcall((await $.wv([$t1, $t2], "DebitCurrencyData", C, false)), "FieldByName", ["ID"])), "AsString"))));
@@ -175,7 +175,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "CreditAccSearchEdit"));
+    const $t10 = (await $.wobj(C, "CreditAccSearchEdit"));
     const $t11 = (await $.wv([$t10], "CO_Datamod", C, false));
     await $.mset((await $.mv((await $.wv([$t10, $t11], "DataSource", C, false)), "DataSet")), "Filtered", (await $.wv([$t10, $t11], "False", C, false)));
     await $.mset((await $.mv((await $.wv([$t10, $t11], "DataSource", C, false)), "DataSet")), "Filter", $.add("val_acc= ", (await $.mv((await $.mcall((await $.wv([$t10, $t11], "CreditCurrencyData", C, false)), "FieldByName", ["ID"])), "AsString"))));

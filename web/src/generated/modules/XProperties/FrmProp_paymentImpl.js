@@ -85,7 +85,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t3 = (await $.v(C, "DMproperties"));
+    const $t3 = (await $.wobj(C, "DMproperties"));
     const $t4 = (await $.wv([$t3], "OraclePackage2", C, false));
     const $t5 = (await $.wv([$t3, $t4], "DataSetproperties_payments", C, false));
     await $.stmt((await $.wcall([$t3, $t4, $t5], "CallProcedure", ["DeleteTranche_pay", ["P_Prop_PayId", (await $.mv((await $.wcall([$t3, $t4, $t5], "FieldByName", ["ID"], C)), "AsInteger"))]], C)));
@@ -98,7 +98,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "ExcelExport"));
+    const $t6 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t6], "Connect", [], C));
     await $.stmt((await $.wcall([$t6], "ExportDataset", [(await $.mv((await $.wv([$t6], "DMproperties", C, false)), "DataSetproperties_payments")), "Tranşlar", (await $.wv([$t6], "True", C, false))], C)));
     await $.stmt($.wcall([$t6], "Disconnect", [], C));

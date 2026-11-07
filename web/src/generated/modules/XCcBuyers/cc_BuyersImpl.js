@@ -481,7 +481,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["table_name"] = "cc_Buyers";
   {
-    const $t14 = (await $.v(C, "DataMod_Buyers"));
+    const $t14 = (await $.wobj(C, "DataMod_Buyers"));
     await $.wset([$t14], "v_id", (await $.mv((await $.mcall((await $.wv([$t14], "ODSBuyers", C, false)), "FieldByName", ["Id"])), "AsInteger")), { get: async () => L0["v_id"], set: async (v) => { L0["v_id"] = v; }, local: true });
     await $.wset([$t14], "v_name", (await $.mv((await $.mcall((await $.wv([$t14], "ODSBuyers", C, false)), "Fieldbyname", ["byr_name"])), "asstring")), { get: async () => L0["v_name"], set: async (v) => { L0["v_name"] = v; }, local: true });
     if ($.truthy($.eq((await $.wcall([$t14], "MessageDlg", [(await $.wcall([$t14], "Format", ["%s adlı alıcı silinsin?", [(await $.wv([$t14], "v_name", { get: async () => L0["v_name"], set: async (v) => { L0["v_name"] = v; }, local: true }, false))]], C)), (await $.wv([$t14], "mtConfirmation", C, false)), (await $.wv([$t14], "mbYesNoCancel", C, false)), 0], C)), (await $.wv([$t14], "mrYes", C, false))))) {
@@ -505,7 +505,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "DataMod_Buyers"));
+    const $t15 = (await $.wobj(C, "DataMod_Buyers"));
     { const $t16 = await $.iset((await $.mv((await $.wv([$t15], "ODSBuyers", C, false)), "Sql")), [5], ""); if ($t16 !== undefined) { await $.mset((await $.wv([$t15], "ODSBuyers", C, false)), "Sql", $t16); } }
     await $.mcall((await $.wv([$t15], "ODSBuyers", C, false)), "close", []);
     await $.mcall((await $.wv([$t15], "ODSBuyers", C, false)), "Open", []);
@@ -844,7 +844,7 @@ export default function define($) {
     await $.set(C, "FrmContract", (await $.mcall((await $.v(C, "TFrmContract")), "Create", [Self])));
   }
   {
-    const $t29 = (await $.v(C, "DatModConstr"));
+    const $t29 = (await $.wobj(C, "DatModConstr"));
     const $t30 = (await $.wv([$t29], "FrmContract", C, false));
     {
       const $t31 = (await $.wv([$t29, $t30], "CreditPurpose", C, false));

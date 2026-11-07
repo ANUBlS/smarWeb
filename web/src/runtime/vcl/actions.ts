@@ -6,6 +6,7 @@ import { invalidate } from '../ui';
 import { TComponent, isStreaming } from './component';
 import { logger } from '../log';
 import { Indexed } from './classes';
+import { runPlugin, iconUrl, rsUnassigned, type PluginRec } from './plugins';
 
 export class TBasicAction extends TComponent {
   ActionComponent: TComponent | null = null;
@@ -203,11 +204,89 @@ export class TPopupMenu extends TMenu {
 }
 registerBuiltin('TPopupMenu', TPopupMenu);
 registerBuiltin('TPopupActionBar', TPopupMenu);
-/** PluginPopupMenu.pas: items come from an INI file that is not in the repository (see TMenuIni). */
+/** PluginPopupMenu.pas: items come from an installation INI file (see TMenuIni, binfiles.ts):
+ *  [<IniSection>\MenuItems] Count=n, [<IniSection>\MenuItems\MenuItem<i>] Caption/ShortCut/Plugin/PluginParam/Icon,
+ *  sub-items under …\MenuItem<i>\MenuItem<j>. */
+export class TPluginPopupMenuItem extends TMenuItem {
+  AbsoluteIndex = 0;
+  iconUrl: string | null = null;
+  override async Click() {
+    await super.Click();
+    const m = this.GetParentMenu();
+    if (m instanceof TPluginPopupMenu) await m.PluginMenuItemClick(this);
+  }
+}
+registerBuiltin('TPluginPopupMenuItem', TPluginPopupMenuItem);
+
 export class TPluginPopupMenu extends TPopupMenu {
-  MenuIni: unknown = null;
-  Active = false;
-  LoadPlugins() { /* */ }
-  UnLoadPlugins() { /* */ }
+  private _menuIni: any = null;
+  private _active = false;
+  plugins: PluginRec[] = [];
+  PluginDir = '';
+  private seq = 0;
+  get MenuIni() { return this._menuIni; }
+  set MenuIni(v: any) {
+    this._menuIni = v;
+    if (!isStreaming() && v && v.Active) this.Active = this._active;
+  }
+  get Active() { return this._active; }
+  set Active(v: boolean) {
+    this._active = !!v;
+    if (isStreaming()) return;
+    if (this._active && this._menuIni && this._menuIni.Active) this.LoadPlugins(null);
+    else this.FreePlugins();
+  }
+  private sectionOf(item: TMenuItem | null) {
+    let r = '';
+    let m: TMenuItem | null = item;
+    while (m && m.Parent) { r = `MenuItem${m.MenuIndex}\\${r}`; m = m.Parent; }
+    r = `${this._menuIni.IniSection}\\MenuItems\\${r}`;
+    return r.slice(0, -1);
+  }
+  LoadPlugins(item: TPluginPopupMenuItem | null) {
+    const ini = this._menuIni.Location;
+    const cur = this.sectionOf(item);
+    const n = num(ini.ReadInteger(cur, 'Count', 0));
+    for (let i = 0; i < n; i++) {
+      const sec = `${cur}\\MenuItem${i}`;
+      const it = new TPluginPopupMenuItem();
+      it.Create(item ?? this);
+      it.AbsoluteIndex = this.seq++;
+      it.Caption = str(ini.ReadString(sec, 'Caption', rsUnassigned));
+      it.ShortCut = textToShortCut(str(ini.ReadString(sec, 'ShortCut', '')));
+      it.iconUrl = iconUrl(str(ini.ReadString(sec, 'Icon', '')));
+      const dir = this.PluginDir ? this.PluginDir + '\\' : '';
+      this.plugins.push({ module: dir + str(ini.ReadString(sec, 'Plugin', '')), param: str(ini.ReadString(sec, 'PluginParam', '')), handle: 0 });
+      (item ?? this.Items).Add(it);
+      this.LoadPlugins(it);
+    }
+  }
+  FreePlugins() { this.Items.Clear(); }
+  async PluginMenuItemClick(item: TPluginPopupMenuItem) {
+    const rec = this.plugins[item.AbsoluteIndex];
+    if (!rec) return;
+    const r = await runPlugin(this, rec);
+    if (r) item.Checked = r.checked;
+  }
+  UnLoadPlugins() { this.FreePlugins(); }
 }
 registerBuiltin('TPluginPopupMenu', TPluginPopupMenu);
+
+/** Menus.TextToShortCut for the forms used in the INI files ('Ctrl+F5', 'F9', 'Shift+Del' …). */
+function textToShortCut(t: string): number {
+  if (!t) return 0;
+  let v = 0; let rest = t.trim();
+  for (;;) {
+    const m = /^(ctrl|shift|alt)\+/i.exec(rest);
+    if (!m) break;
+    v |= { ctrl: 0x4000, shift: 0x2000, alt: 0x8000 }[m[1].toLowerCase() as 'ctrl'];
+    rest = rest.slice(m[0].length);
+  }
+  const keys: Record<string, number> = { ins: 45, del: 46, enter: 13, esc: 27, space: 32, home: 36, end: 35, pgup: 33, pgdn: 34, tab: 9, bksp: 8 };
+  let k = 0;
+  const f = /^f(\d{1,2})$/i.exec(rest);
+  if (f) k = 111 + Number(f[1]);
+  else if (keys[rest.toLowerCase()]) k = keys[rest.toLowerCase()];
+  else if (rest.length === 1) k = rest.toUpperCase().charCodeAt(0);
+  return k ? v | k : 0;
+}

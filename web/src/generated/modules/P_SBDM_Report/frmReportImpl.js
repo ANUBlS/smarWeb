@@ -70,7 +70,7 @@ export default function define($) {
   await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t8) => { L0["result"] = $t8; }), "cont.CUSTOMERID", (await $.mv((await $.v(C, "CBCodCust")), "Checked")), (await $.mv((await $.v(C, "LCBCodCust")), "KeyValue"))])));
   await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t9) => { L0["result"] = $t9; }), "cont.id", (await $.mv((await $.v(C, "CBAccno")), "Checked")), (await $.mv((await $.v(C, "LCBAccno")), "KeyValue"))])));
   {
-    const $t10 = (await $.v(C, "CLBStatus"));
+    const $t10 = (await $.wobj(C, "CLBStatus"));
     if ($.truthy((await $.idx((await $.wv([$t10], "Checked", C, false)), [0])))) {
       await $.wset([$t10], "FStatus1", "(h.calculationenabled = 1)", { get: async () => L0["fstatus1"], set: async (v) => { L0["fstatus1"] = v; }, local: true });
     } else {
@@ -85,7 +85,7 @@ export default function define($) {
     await $.stmt((await $.wcall([$t10], "ConcatFilter1", [$.ref(async () => (await $.wv([$t10], "FStatus", { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true }, false)), async ($t13) => { await $.wset([$t10], "FStatus", $t13, { get: async () => L0["fstatus"], set: async (v) => { L0["fstatus"] = v; }, local: true }); }), $.ref(async () => (await $.wv([$t10], "FStatus2", { get: async () => L0["fstatus2"], set: async (v) => { L0["fstatus2"] = v; }, local: true }, false)), async ($t14) => { await $.wset([$t10], "FStatus2", $t14, { get: async () => L0["fstatus2"], set: async (v) => { L0["fstatus2"] = v; }, local: true }); }), (await $.wv([$t10], "false", C, false))], { get: async () => L0["concatfilter1"], set: async (v) => { L0["concatfilter1"] = v; }, local: true })));
   }
   {
-    const $t15 = (await $.v(C, "CLBTypes"));
+    const $t15 = (await $.wobj(C, "CLBTypes"));
     if ($.truthy((await $.idx((await $.wv([$t15], "Checked", C, false)), [0])))) {
       await $.wset([$t15], "FType1", "(cont.type# = 3)", { get: async () => L0["ftype1"], set: async (v) => { L0["ftype1"] = v; }, local: true });
     } else {
@@ -159,7 +159,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["dat"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTPReport")), "DateTime"))]))]));
   {
-    const $t28 = (await $.v(C, "dmReport"));
+    const $t28 = (await $.wobj(C, "dmReport"));
     const $t29 = (await $.wv([$t28], "ReportData", C, false));
     if ($.truthy((await $.wv([$t28, $t29], "Active", C, false)))) {
       await $.stmt($.wcall([$t28, $t29], "CloseAll", [], C));
@@ -169,7 +169,7 @@ export default function define($) {
     await $.stmt($.wcall([$t28, $t29], "Open", [], C));
   }
   {
-    const $t31 = (await $.v(C, "EExport"));
+    const $t31 = (await $.wobj(C, "EExport"));
     await $.stmt($.wcall([$t31], "Connect", [], C));
     await $.stmt((await $.wcall([$t31], "ExportDataset", [(await $.mv((await $.wv([$t31], "dmReport", C, false)), "ReportData")), "Mis şesabatı", (await $.wv([$t31], "true", C, false))], C)));
   }
@@ -180,12 +180,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t32 = (await $.v(C, "CLBTypes"));
+    const $t32 = (await $.wobj(C, "CLBTypes"));
     { const $t33 = await $.iset((await $.wv([$t32], "Checked", C, false)), [0], (await $.wv([$t32], "True", C, false))); if ($t33 !== undefined) { await $.wset([$t32], "Checked", $t33, C); } }
     { const $t34 = await $.iset((await $.wv([$t32], "Checked", C, false)), [1], (await $.wv([$t32], "True", C, false))); if ($t34 !== undefined) { await $.wset([$t32], "Checked", $t34, C); } }
   }
   {
-    const $t35 = (await $.v(C, "CLBStatus"));
+    const $t35 = (await $.wobj(C, "CLBStatus"));
     { const $t36 = await $.iset((await $.wv([$t35], "Checked", C, false)), [0], (await $.wv([$t35], "True", C, false))); if ($t36 !== undefined) { await $.wset([$t35], "Checked", $t36, C); } }
     { const $t37 = await $.iset((await $.wv([$t35], "Checked", C, false)), [1], (await $.wv([$t35], "True", C, false))); if ($t37 !== undefined) { await $.wset([$t35], "Checked", $t37, C); } }
   }

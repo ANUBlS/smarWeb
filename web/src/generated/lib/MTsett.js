@@ -181,7 +181,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "SWDataModule"));
+    const $t4 = (await $.wobj(C, "SWDataModule"));
     await $.mcall((await $.wv([$t4], "mbacc", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t4], "comm_acc", C, false)), "CloseAll", []);
     if ($.truthy($.eq((await $.mv((await $.wv([$t4], "DBLookupComboBox4", C, false)), "Text")), "AZN"))) {
@@ -210,7 +210,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t5 = (await $.v(C, "SWDataModule"));
+    const $t5 = (await $.wobj(C, "SWDataModule"));
     await $.mcall((await $.wv([$t5], "mbacc", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t5], "comm_acc", C, false)), "CloseAll", []);
     if ($.truthy($.eq((await $.mv((await $.wv([$t5], "DBLookupComboBox4", C, false)), "Text")), "AZN"))) {
@@ -234,7 +234,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "j": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "SWDataModule"));
+    const $t6 = (await $.wobj(C, "SWDataModule"));
     await $.mcall((await $.wv([$t6], "all_banks", C, false)), "close", []);
     await $.stmt((await $.mcall((await $.wv([$t6], "all_banks", C, false)), "setvariable", ["valute", (await $.mv((await $.wv([$t6], "DBLookupComboBox6", C, false)), "Text"))])));
     await $.mcall((await $.wv([$t6], "all_banks", C, false)), "open", []);
@@ -270,7 +270,7 @@ export default function define($) {
   } else {
     if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
       {
-        const $t9 = (await $.v(C, "SWDataModule"));
+        const $t9 = (await $.wobj(C, "SWDataModule"));
         await $.mcall((await $.wv([$t9], "Main_acc", C, false)), "Close", []);
         await $.stmt((await $.mcall((await $.wv([$t9], "Main_acc", C, false)), "SetVariable", ["valcode", (await $.mv((await $.wv([$t9], "DBLookupComboBox6", C, false)), "KeyValue"))])));
         await $.stmt((await $.mcall((await $.wv([$t9], "Main_acc", C, false)), "SetVariable", ["bal1", (await $.wcall([$t9], "strtoint", [(await $.mv((await $.wv([$t9], "edit1", C, false)), "Text"))], C))])));
@@ -290,7 +290,7 @@ export default function define($) {
   } else {
     if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
       {
-        const $t10 = (await $.v(C, "SWDataModule"));
+        const $t10 = (await $.wobj(C, "SWDataModule"));
         await $.mcall((await $.wv([$t10], "alter_acc", C, false)), "Close", []);
         await $.stmt((await $.mcall((await $.wv([$t10], "alter_acc", C, false)), "SetVariable", ["valcode", (await $.mv((await $.wv([$t10], "DBLookupComboBox6", C, false)), "KeyValue"))])));
         await $.stmt((await $.mcall((await $.wv([$t10], "alter_acc", C, false)), "SetVariable", ["bal2", (await $.wcall([$t10], "strtoint", [(await $.mv((await $.wv([$t10], "edit2", C, false)), "Text"))], C))])));
@@ -318,7 +318,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "j": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "SWDataModule"));
+    const $t12 = (await $.wobj(C, "SWDataModule"));
     await $.mcall((await $.wv([$t12], "b_proc", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t12], "azpsettings", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t12], "AzpFilial", C, false)), "CloseAll", []);

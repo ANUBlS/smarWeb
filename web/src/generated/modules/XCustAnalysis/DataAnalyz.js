@@ -14,14 +14,14 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "DataModCustAnalyz"));
+    const $t1 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t1], "Ods_portfol", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t1], "Ods_portfol", C, false)), "SetVariable", ["v_boorowerid", (await $.mv((await $.wv([$t1], "Ods_custID", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t1], "Ods_portfol", C, false)), "open", []);
     await $.mcall((await $.wv([$t1], "Ods_portfol", C, false)), "First", []);
   }
   {
-    const $t2 = (await $.v(C, "DataModCustAnalyz"));
+    const $t2 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t2], "Ods_Custinfo", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t2], "Ods_Custinfo", C, false)), "SetVariable", ["v_id", (await $.mv((await $.wv([$t2], "Ods_custID", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t2], "Ods_Custinfo", C, false)), "open", []);
@@ -43,25 +43,25 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t4 = (await $.v(C, "DataModCustAnalyz"));
+    const $t4 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t4], "Ods_zamin", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t4], "Ods_zamin", C, false)), "SetVariable", ["v_creditid", (await $.mv((await $.wv([$t4], "Ods_portfolid", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t4], "Ods_zamin", C, false)), "open", []);
   }
   {
-    const $t5 = (await $.v(C, "DataModCustAnalyz"));
+    const $t5 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t5], "Ods_girov", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t5], "Ods_girov", C, false)), "SetVariable", ["v_creditid", (await $.mv((await $.wv([$t5], "Ods_portfolid", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t5], "Ods_girov", C, false)), "open", []);
   }
   {
-    const $t6 = (await $.v(C, "DataModCustAnalyz"));
+    const $t6 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t6], "Ods_sedule", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t6], "Ods_sedule", C, false)), "SetVariable", ["v_creditid", (await $.mv((await $.wv([$t6], "Ods_portfolid", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t6], "Ods_sedule", C, false)), "open", []);
   }
   {
-    const $t7 = (await $.v(C, "DataModCustAnalyz"));
+    const $t7 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t7], "Ods_payments", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t7], "Ods_payments", C, false)), "SetVariable", ["v_creditid", (await $.mv((await $.wv([$t7], "Ods_portfolid", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t7], "Ods_payments", C, false)), "open", []);

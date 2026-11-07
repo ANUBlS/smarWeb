@@ -230,7 +230,7 @@ export default function define($) {
     if ($.eq($t3, 0) || $.eq($t3, 2) || $.eq($t3, 3)) {
       await $.mcall((await $.v(C, "OracleDataSet1")), "open", []);
       {
-        const $t4 = (await $.v(C, "CMExcelExport1"));
+        const $t4 = (await $.wobj(C, "CMExcelExport1"));
         await $.stmt($.wcall([$t4], "Connect", [], C));
         await $.stmt((await $.wcall([$t4], "ExportDataset", [(await $.wv([$t4], "OracleDataSet1", C, false)), "FileReport", (await $.wv([$t4], "True", C, false))], C)));
         await $.stmt($.wcall([$t4], "Disconnect", [], C));
@@ -239,7 +239,7 @@ export default function define($) {
     else if ($.eq($t3, 1)) {
       await $.mcall((await $.v(C, "OracleDataSet3")), "open", []);
       {
-        const $t5 = (await $.v(C, "CMExcelExport1"));
+        const $t5 = (await $.wobj(C, "CMExcelExport1"));
         await $.stmt($.wcall([$t5], "Connect", [], C));
         await $.stmt((await $.wcall([$t5], "ExportDataset", [(await $.wv([$t5], "OracleDataSet3", C, false)), "FileReport", (await $.wv([$t5], "True", C, false))], C)));
         await $.stmt($.wcall([$t5], "Disconnect", [], C));
@@ -248,7 +248,7 @@ export default function define($) {
     else if ($.eq($t3, 4)) {
       await $.mcall((await $.v(C, "OracleDataSet2")), "open", []);
       {
-        const $t6 = (await $.v(C, "CMExcelExport1"));
+        const $t6 = (await $.wobj(C, "CMExcelExport1"));
         await $.stmt($.wcall([$t6], "Connect", [], C));
         await $.stmt((await $.wcall([$t6], "ExportDataset", [(await $.wv([$t6], "OracleDataSet2", C, false)), "FileReport", (await $.wv([$t6], "True", C, false))], C)));
         await $.stmt($.wcall([$t6], "Disconnect", [], C));

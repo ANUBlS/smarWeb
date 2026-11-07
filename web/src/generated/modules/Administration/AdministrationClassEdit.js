@@ -102,7 +102,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "button", "shift", "x", "y"]);
   L0["brform"] = (await $.mcall((await $.v(C, "TBarForm")), "Create", [Self]));
   {
-    const $t3 = (await $.v(C, "AdministrationData"));
+    const $t3 = (await $.wobj(C, "AdministrationData"));
     const $t4 = (await $.mv((await $.mv((await $.wv([$t3], "cgClassEdit", C, false)), "DataSource")), "DataSet"));
     try {
       await $.stmt((await $.mcall((await $.wv([$t3, $t4], "BrForm", { get: async () => L0["brform"], set: async (v) => { L0["brform"] = v; }, local: true }, false)), "Execute", ["Class Access", "Sinfin hüquqları", "Yerinə yetirilməsi...", 10, 40])));
@@ -215,7 +215,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t19 = (await $.v(C, "AdministrationData"));
+    const $t19 = (await $.wobj(C, "AdministrationData"));
     await $.stmt((await $.wcall([$t19], "SelAlll", [(await $.wv([$t19], "ModEditData", C, false)), "ACC", $.eq((await $.wv([$t19], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), (await $.wv([$t19], "miSelAll", C, false)))], C)));
   }
   return L0.result;
@@ -225,7 +225,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t20 = (await $.v(C, "AdministrationData"));
+    const $t20 = (await $.wobj(C, "AdministrationData"));
     const $t21 = (await $.wv([$t20], "odsAccFlags", C, false));
     const $t22 = (await $.wv([$t20, $t21], "frmClassesAdvInfo", C, false));
     await $.wset([$t20, $t21, $t22], "Caption", $.add($.add("Sinif: \"", (await $.mv((await $.mcall((await $.wv([$t20, $t21, $t22], "Classesdata", C, false)), "FieldByName", ["obj"])), "AsString"))), "\""), C);
@@ -291,7 +291,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0, "mid": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t30 = (await $.v(C, "AdministrationData"));
+    const $t30 = (await $.wobj(C, "AdministrationData"));
     const $t31 = (await $.wv([$t30], "odsClsModAdvGrant", C, false));
     const $t32 = (await $.wv([$t30, $t31], "frmClassGrants", C, false));
     await $.mcall((await $.wv([$t30, $t31, $t32], "evAdvGrants", C, false)), "Close", []);

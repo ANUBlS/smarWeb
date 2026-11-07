@@ -27,7 +27,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "CUDataModuleConcl"));
+    const $t1 = (await $.wobj(C, "CUDataModuleConcl"));
     await $.mcall((await $.wv([$t1], "DepozitDSet", C, false)), "close", []);
     if ($.truthy($.ne((await $.mv((await $.wv([$t1], "Edit1", C, false)), "Text")), ""))) {
       { const $t2 = await $.iset((await $.mv((await $.wv([$t1], "DepozitDSet", C, false)), "SQL")), [28], $.add($.add($.add($.add("and cont.customerid in(", (await $.wcall([$t1], "inttostr", [(await $.mv((await $.mv((await $.wv([$t1], "ConclusionForm", C, false)), "DBLookupComboboxEh19")), "KeyValue"))], C))), ","), (await $.mv((await $.wv([$t1], "Edit1", C, false)), "Text"))), ")")); if ($t2 !== undefined) { await $.mset((await $.wv([$t1], "DepozitDSet", C, false)), "SQL", $t2); } }
@@ -45,7 +45,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["kredqaliq"] = 0;
   {
-    const $t4 = (await $.v(C, "XDBGrid1"));
+    const $t4 = (await $.wobj(C, "XDBGrid1"));
     { const $t5 = 0;
       await $.wset([$t4], "I", $.sub((await $.mv((await $.wv([$t4], "SelectedRows", C, false)), "Count")), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t6 = true;

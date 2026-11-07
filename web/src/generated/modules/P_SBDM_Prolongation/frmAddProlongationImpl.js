@@ -59,7 +59,7 @@ export default function define($) {
     await $.stmt((await $.call(C, "MessageDlg", [L0["rsinvaliddate"], (await $.v(C, "mtWarning")), [(await $.v(C, "mbOK"))], 0])));
   } else {
     {
-      const $t1 = (await $.v(C, "frmProlongation"));
+      const $t1 = (await $.wobj(C, "frmProlongation"));
       const $t2 = (await $.wv([$t1], "sbcm_prolongation", C, false));
       await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["AddProlongation", [(await $.wv([$t1, $t2], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false)), (await $.wv([$t1, $t2], "Get_BankDate", C, false)), (await $.wv([$t1, $t2], "ProlongDate", { get: async () => L0["prolongdate"], set: async (v) => { L0["prolongdate"] = v; }, local: true }, false))]], C)));
       await $.mcall((await $.wv([$t1, $t2], "prolongations", C, false)), "Refresh", []);

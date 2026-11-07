@@ -78,7 +78,7 @@ export default function define($) {
   await $.fixArgs(L1, ["passwd"]);
   L1["result"] = false;
   {
-    const $t2 = (await $.v(C, "pcADM"));
+    const $t2 = (await $.wobj(C, "pcADM"));
     if ($.truthy((await $.wcall([$t2], "CallBooleanFunction", ["verify_password", [(await $.wcall([$t2], "trim", [(await $.wv([$t2], "passwd", { get: async () => L1["passwd"], set: async (v) => { L1["passwd"] = v; }, local: true }, false))], C))]], C)))) {
       await $.wset([$t2], "Result", (await $.wv([$t2], "true", C, false)), { get: async () => L1["result"], set: async (v) => { L1["result"] = v; }, local: true });
     }

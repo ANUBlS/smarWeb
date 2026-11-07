@@ -32,13 +32,13 @@ export default function define($) {
   { const $t2 = L0["action"];
     if ($.eq($t2, "I") || $.eq($t2, "U")) {
       {
-        const $t3 = (await $.v(C, "CM_SCHEDULE"));
+        const $t3 = (await $.wobj(C, "CM_SCHEDULE"));
         await $.wset([$t3], "ID", (await $.wcall([$t3], "CallIntegerFunction", ["PaymentSchedule_AddEdit", ["p_ID", (await $.wv([$t3], "ID", { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true }, false)), "p_CreditID", (await $.wv([$t3], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), "p_PayDate", (await $.wv([$t3], "PayDate", { get: async () => L0["paydate"], set: async (v) => { L0["paydate"] = v; }, local: true }, false)), "p_Principial", (await $.wv([$t3], "Principial", { get: async () => L0["principial"], set: async (v) => { L0["principial"] = v; }, local: true }, false)), "p_Interest", (await $.wv([$t3], "Interest", { get: async () => L0["interest"], set: async (v) => { L0["interest"] = v; }, local: true }, false))]], C)), { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true });
       }
     }
     else if ($.eq($t2, "D")) {
       {
-        const $t4 = (await $.v(C, "CM_SCHEDULE"));
+        const $t4 = (await $.wobj(C, "CM_SCHEDULE"));
         await $.stmt((await $.wcall([$t4], "CallProcedure", ["PaymentSchedule_Delete", ["p_ID", (await $.wv([$t4], "ID", { get: async () => L0["id"], set: async (v) => { L0["id"] = v; }, local: true }, false))]], C)));
       }
     }

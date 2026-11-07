@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"modid": $.copyArg(p0), "usnam": $.copyArg(p1), result: undefined};
   await $.fixArgs(L0, ["modid", "usnam"]);
   {
-    const $t1 = (await $.v(C, "AdministrationData"));
+    const $t1 = (await $.wobj(C, "AdministrationData"));
     const $t2 = (await $.mv((await $.wv([$t1], "AdministrationData", C, false)), "ModAdvancedGrantsData"));
     if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
       await $.stmt($.wcall([$t1, $t2], "Close", [], C));
@@ -69,7 +69,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0};
   {
-    const $t7 = (await $.v(C, "Administrationdata"));
+    const $t7 = (await $.wobj(C, "Administrationdata"));
     const $t8 = (await $.mv((await $.wv([$t7], "Administrationdata", C, false)), "ModAdvancedGrantsData"));
     await $.stmt($.wcall([$t7, $t8], "First", [], C));
     { const $t9 = $.sub((await $.wv([$t7, $t8], "RecordCount", C, false)), 1);
@@ -118,7 +118,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "frmAddEditAdvGrants"));
+    const $t13 = (await $.wobj(C, "frmAddEditAdvGrants"));
     const $t14 = (await $.wv([$t13], "AdministrationData", C, false));
     await $.wset([$t13, $t14], "NewRecord", (await $.wv([$t13, $t14], "True", C, false)), C);
     await $.mset((await $.wv([$t13, $t14], "edGrantName", C, false)), "Enabled", (await $.wv([$t13, $t14], "True", C, false)));
@@ -139,7 +139,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "frmAddEditAdvGrants"));
+    const $t15 = (await $.wobj(C, "frmAddEditAdvGrants"));
     const $t16 = (await $.wv([$t15], "AdministrationData", C, false));
     await $.wset([$t15, $t16], "NewRecord", (await $.wv([$t15, $t16], "False", C, false)), C);
     await $.mset((await $.wv([$t15, $t16], "edGrantName", C, false)), "Enabled", (await $.wv([$t15, $t16], "False", C, false)));
@@ -168,7 +168,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "AdministrationData"));
+    const $t17 = (await $.wobj(C, "AdministrationData"));
     await $.stmt((await $.mcall((await $.wv([$t17], "ModAdvancedGrantsData", C, false)), "Locate", ["Description", (await $.idx((await $.mv((await $.wv([$t17], "clbAdvancedMain", C, false)), "Items")), [(await $.mv((await $.wv([$t17], "clbAdvancedMain", C, false)), "ItemIndex"))])), []])));
     if ($.truthy($.eq((await $.wcall([$t17], "messagedlg", ["Hüquq ləğv olunsun?", (await $.wv([$t17], "mtWarning", C, false)), [(await $.wv([$t17], "mbyes", C, false)), (await $.wv([$t17], "mbno", C, false))], 0], C)), (await $.wv([$t17], "idyes", C, false))))) {
       await $.stmt((await $.mcall((await $.wv([$t17], "pcADM", C, false)), "CallProcedure", ["deladvancedgrant", [(await $.mv((await $.wv([$t17], "ModAdvancedGrantsDataID", C, false)), "Value"))]])));

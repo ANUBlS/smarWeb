@@ -1,12 +1,53 @@
 {
  "name": "TransactionManager",
  "caption": "Balans / Əməliyyat günü / Günün sənədləri",
- "dir": "Utils/TransactionManager",
+ "dir": "Packages/TransactionManager_Mahmud_GoAm",
  "mainForm": "TTransactionManagerForm",
  "plugin": false,
- "plugins": {},
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cu_conclusion.bpl": "P_CU_Conclusion",
+  "cu_payment.bpl": "P_CU_Payment",
+  "cu_schedule.bpl": "P_CU_Schedule",
+  "cu_statement.bpl": "P_cu_Statement",
+  "cu_wreport.bpl": "P_cu_WReport",
+  "sb_general.bpl": "P_Sb_General",
+  "sbdm_applymoney.bpl": "P_SBDM_ApplyMoney",
+  "sbdm_contract.bpl": "P_SBDM_Contract",
+  "sbdm_extractmoney.bpl": "P_SBDM_ExtractMoney",
+  "sbdm_wreport.bpl": "P_SBDM_WReport",
+  "transinfopack.bpl": "P_TransInfoPack"
+ },
  "lib": [
+  "AccounFlagsLmpl",
+  "Account_edit_Unit",
+  "BProc_Trans",
+  "CULogoutputImpl",
+  "CommonDeclsImpl",
+  "Creditİmpl",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "Cust_contactUnit",
+  "CustomersImpl",
+  "DataCustNomImpl",
+  "DepozLmpl",
+  "Form1_BalCnImpl",
+  "FormBalCnImpl",
+  "FormCustNomImpl",
+  "FormCustNom_GridImpl",
+  "FormOperationShow1Lmpl",
+  "FormOperationShowLmpl",
+  "FormOperationbplLmpl",
+  "FormTransaction1Lmpl",
+  "FormTransaction2Lmpl",
+  "FormTransaction3Lmpl",
+  "Form_AccountsImpl",
+  "Form_BalCnImpl",
+  "Form_Statmentlmpl",
+  "OpenAccdataImpl",
+  "OpenAccountImpl",
   "OraVariables",
+  "Payment_DataModul",
   "SBAccount",
   "SBAlert",
   "SBAppInfo",
@@ -30,11 +71,79 @@
   "SBSystem",
   "SBTransaction",
   "SBUtils",
+  "SMSUnit",
+  "TemporaryTransactionsFormImpl",
+  "Transaction_DataModuleUnit",
+  "Transaction_DestinationImpl",
+  "Transaction_PropertiesImpl",
   "UnitChangePasswordForm",
+  "UnitDataBussProc",
+  "UnitNote",
+  "UnitPayment_order",
+  "UnitProc_type",
   "UnitSBOraLogOn",
+  "UnitTransaction",
+  "Unit_Archive",
+  "Unit_Rekvezit",
+  "Unit_Report",
+  "Unit_ReportR",
+  "Unit_TransView",
+  "UnitbussProc",
+  "UntIntervalRpt",
+  "UntMain_Report",
+  "UntSecond_Report",
+  "WorldCheckProc",
+  "accserch",
+  "addcombobox1",
+  "cap_UntMainReport",
+  "cap_UntSecondReport",
+  "cuCommonDecls",
+  "cuTemporaryTransactionsViewFormImpl",
   "sboapiDataModuleImpl"
  ],
  "datasets": [
+  {
+   "name": "ODS_CUSTOMERS",
+   "source": "TFormCust.ODS_CUSTOMERS",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id,c.name fullname,ci.soname,ci.name,ci.lastname \nfrom customers c,custinfo ci \nwhere c.cust_type <>0 and c.close_dat is null and c.id=ci.idcust\n\norder by c.id",
+   "variables": [
+    {
+     "name": "P_VALU",
+     "type": "subst"
+    }
+   ],
+   "unit": "CustUnit"
+  },
+  {
+   "name": "ods_dat",
+   "source": "TForminsurance.ods_dat",
+   "kind": "TOracleDataSet",
+   "sql": "select trunc(to_date(tek_dat),'MM') dat from sysdat",
+   "variables": [],
+   "unit": "Insurance"
+  },
+  {
+   "name": "ods_schedule",
+   "source": "TForminsurance.ods_schedule",
+   "kind": "TOracleDataSet",
+   "sql": "select  rowid,a.*   from cm_payshedule_insurance a \nwhere paymentdate>=:v_dat and paymentdate<=last_day(:v_dat)\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "V_DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "Insurance"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TForminsurance.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no, acc_no||'  '||name acc from account where kli_id =283\nand bal_cn1=45270",
+   "variables": [],
+   "unit": "Insurance"
+  },
   {
    "name": "Sysdat",
    "source": "TTransactionDataModule.Sysdat",
@@ -63,16 +172,26 @@
    "name": "DebitAccData",
    "source": "TTransactionDataModule.DebitAccData",
    "kind": "TOracleDataSet",
-   "sql": "SELECT\n  ID,\n  ACC_NO,\n  VAL_ACC,\n  NAME,\n  ISCASHBALANCE(BAL_CN1) AS ISCACHEACCOUNT\nFROM\n  ACCOUNT PARTITION ( ACTIVACC ) \nORDER BY ACC_NO\n",
-   "variables": [],
+   "sql": "SELECT\n  A.ID,c.id as cust_id,c.name as cust_name,\n  A.kli_id,\n  A.ACC_NO,\n  A.VAL_ACC,\n  A.NAME,\n  B.BAL_CN,\n  B.CASHINCOMING AS ISCACHEACCOUNT,\n  T.Ostat,\n  T.Pok_OSTAT,\n  nvl(b.fromTrans,0) fromTrans,\n  i.name as custName,i.lastname,i.soname,i.citizenship,co.cntr_name\nFROM\n  ACCOUNT A, customers c,custinfo i,countries co\n ,BAL_SPR1 B\n ,Tenostat T \nWHERE\n  A.BAL_CN1 = B.BAL_CN and a.kli_id=c.id\n  AND\n  A.CLOSE_DAT IS NULL and c.id=i.idcust and  decode(i.citizenship,null,0,-1,0,0,0)=co.id(+) and \n  A.id=T.ACC_ID and a.id=:v_id\nORDER BY ACC_NO \n",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
    "unit": "TransactionDataModuleUnit"
   },
   {
    "name": "CreditAccData",
    "source": "TTransactionDataModule.CreditAccData",
    "kind": "TOracleDataSet",
-   "sql": "SELECT\n  ID,\n  ACC_NO,\n  VAL_ACC,\n  NAME,\n  ISCASHBALANCE(BAL_CN1) AS ISCACHEACCOUNT\nFROM\n  ACCOUNT PARTITION ( ACTIVACC ) \nORDER BY ACC_NO\n",
-   "variables": [],
+   "sql": "SELECT\n  A.ID,c.id as cust_id,c.name as cust_name,\n  A.kli_id,\n  A.ACC_NO,\n  A.VAL_ACC,\n  A.NAME,\n  B.BAL_CN,\n  B.CASHINCOMING AS ISCACHEACCOUNT,\n  T.Ostat,\n  T.Pok_OSTAT,\n  nvl(b.fromTrans,0) fromTrans,\n  i.name as custName,i.lastname,i.soname ,i.citizenship,co.cntr_name\nFROM\n  ACCOUNT A, customers c,custinfo i,countries co\n ,BAL_SPR1 B\n ,Tenostat T \nWHERE\n  A.BAL_CN1 = B.BAL_CN and a.kli_id=c.id and\n  A.CLOSE_DAT IS NULL and c.id=i.idcust and  decode(i.citizenship,null,0,-1,0,0,0)=co.id(+) and \n  A.id=T.ACC_ID and a.id=:v_id\nORDER BY ACC_NO",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
    "unit": "TransactionDataModuleUnit"
   },
   {
@@ -111,11 +230,15 @@
    "name": "Transactions",
    "source": "TTransactionDataModule.Transactions",
    "kind": "TOracleDataSet",
-   "sql": "SELECT\n  p.ID,\n  P.rowid,\n  p.OP_ID as OperatorID,\n  p.no_prov as OperationNo,\n  p.dat as TransactionDate,\n  p.DEBT as DebitID,\n  ad.ACC_NO as DebitAccNo,\n  p.VAL_ACC as DebitCurrencyID,\n  dc.val_name as DebitCurrencySName,\n  ad.filial as DebitBranch,\n  p.KREDIT as CreditID,\n  ac.ACC_NO as CreditAccNo,\n  p.CurrencyID_C as CreditCurrencyID,\n  cc.val_name as CreditCurrencySName,\n  ac.filial as CreditBranch,\n  p.ammount as DebitAmount,\n  p.Ammount_C as CreditAmount,\n  p.LAmmount as LAmount,\n  p.Rate_D as DebitRate,\n  p.Rate_C as CreditRate,\n  p.Bank_D as DebitBank,\n  p.Bank_K as CreditBank,\n  p.NO_PACK as PackageNumber,\n  p.SHIFR as CYPHERCODE,\n  sb_expertanalyse.getoperationtype(p.vid_op, p.val_acc, p.currencyID_c) as OPERATIONCODE,\n  p.Kassa_B as INBALANCECHAR,\n  p.Kassa_Z as OUTBALANCECHAR,\n  p.NO_FILIAL as FilialID,\n  ad.bal_cn1 as DebitBalance,\n  p.Name,\n  0 as Flags,\n  2 as status,\n  '' as REJECT_REASON\nFROM\n    account ad,\n    account ac,\n    avalute dc,\n    avalute cc,\n    provarch p\nwhere\n    p.dat =:TransactionDate\n    and (ad.ID = p.DEBT)\n    and (ac.ID = p.KREDIT)\n    and (ad.val_acc = p.val_acc)\n    and (ac.val_acc = p.CurrencyID_C)\n    and (dc.VALUTE = p.val_acc)\n    and (cc.VALUTE = p.CurrencyID_C)\n--    and ((P.OP_ID<>-1 and\n  --        not EXISTS(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0)))\n    --      or\n      --    (P.OP_ID in(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0))))\n\nunion all\n\nSELECT\n  p.ID,\n  P.rowid,\n  p.OP_ID as OperatorID,\n  p.no_prov as OperationNo,\n  p.dat as TransactionDate,\n  p.DEBT as DebitID,\n  ad.ACC_NO as DebitAccNo,\n  p.VAL_ACC as DebitCurrencyID,\n  dc.val_name as DebitCurrencySName,\n  ad.filial as DebitBranch,\n  p.KREDIT as CreditID,\n  ac.ACC_NO as CreditAccNo,\n  p.CurrencyID_C as CreditCurrencyID,\n  cc.val_name as CreditCurrencySName,\n  ac.filial as CreditBranch,\n  p.ammount as DebitAmount,\n  p.Ammount_C as CreditAmount,\n  p.LAmmount as LAmount,\n  p.Rate_D as DebitRate,\n  p.Rate_C as CreditRate,\n  p.Bank_D as DebitBank,\n  p.Bank_K as CreditBank,\n  p.NO_PACK as PackageNumber,\n  p.SHIFR as CYPHERCODE,\n  sb_expertanalyse.getoperationtype(p.vid_op, p.val_acc, p.currencyID_c) as OPERATIONCODE,\n  p.Kassa_B as INBALANCECHAR,\n  p.Kassa_Z as OUTBALANCECHAR,\n  p.NO_FILIAL as FilialID,\n  ad.bal_cn1 as DebitBalance,\n  p.Name,\n  0 as Flags,\n  decode(Rejected, 0, 1, 3) as status,\n  RejectReason as REJECT_REASON\nFROM\n    account ad,\n    account ac,\n    avalute dc,\n    avalute cc,\n    LAZYTRANSACTION p\nwhere\n    p.dat =:TransactionDate\n    and (ad.ID = p.DEBT)\n    and (ac.ID = p.KREDIT)\n    and (dc.VALUTE = p.val_acc)\n    and (cc.VALUTE = p.CurrencyID_C)\n  --  and ((P.OP_ID<>-1 and\n    --      not EXISTS(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0)))\n      --    or\n        --  (P.OP_ID in(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0))))\n\n--Order by :Title\n\n\n\n\n\n\n\n\n\n\n \n \n \n \n ",
+   "sql": "SELECT\n  p.ID,\n  P.rowid,\n  p.OP_ID as OperatorID,\n  p.no_prov as OperationNo,\n  p.dat as TransactionDate,\n  p.DEBT as DebitID,\n  ad.ACC_NO as DebitAccNo,SUBSTR (ad.ACC_NO, 9, 20) AS D_Accno, --(select substr(ad.ACC_NO,9,20) from dual)as D_Accno,\n  p.VAL_ACC as DebitCurrencyID,\n  ad.CurrencyName as DebitCurrencySName, --dc.val_name as DebitCurrencySName,\n  ad.filial as DebitBranch,\n  p.KREDIT as CreditID,\n  ac.ACC_NO as CreditAccNo,SUBSTR (ac.ACC_NO, 9, 20)  AS C_Accno, --(select substr(ac.ACC_NO,9,20) from dual)as C_Accno,\n  p.CurrencyID_C as CreditCurrencyID,\n  ac.CurrencyName as CreditCurrencySName, --cc.val_name as CreditCurrencySName,\n  ac.filial as CreditBranch,\n  p.ammount as DebitAmount,\n  p.Ammount_C as CreditAmount,\n  p.LAmmount as LAmount,\n  p.Rate_D as DebitRate,\n  p.Rate_C as CreditRate,\n  p.Bank_D as DebitBank,\n  p.Bank_K as CreditBank,\n  p.NO_PACK as PackageNumber,\n  p.SHIFR as CYPHERCODE,\n  sb_expertanalyse.getoperationtype(p.vid_op, p.val_acc, p.currencyID_c) as OPERATIONCODE,\n  p.Kassa_B as INBALANCECHAR,\n  p.Kassa_Z as OUTBALANCECHAR,\n  p.NO_FILIAL as FilialID,\n  ad.bal_cn1 as DebitBalance,ac.bal_cn1 as KreditBalance,\n  p.Name,\n  p.userinsert as usr, --sb_aca.getuserbyid(p.op_id) as usr ,\n  '' as usrcommit ,\n\n  0 as Flags,\n  decode(Rejected, 0, 1, 3) as status,\n  RejectReason as REJECT_REASON,\n  p.reportid,\n  p.countrid,\n  p.bdg_code,\n  p.d1\n\n\nFROM\n    account ad,\n    account ac,\n    --avalute_t dc,\n    --avalute_t cc,\n    LAZYTRANSACTION p\nwhere \n    nvl(p.k1,0) not in(1,3)and\n    p.dat =:TransactionDate\n    and (ad.ID = p.DEBT)\n    and (ac.ID = p.KREDIT)\n    --and (dc.VALUTE = p.val_acc)\n    --and (cc.VALUTE = p.CurrencyID_C)\n  and ((P.OP_ID<>-1 and\n        not EXISTS(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0)))\n        or\n        (P.OP_ID in(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0))))\n\nunion all\n\nSELECT\n  p.ID,\n  P.rowid,\n  p.OP_ID as OperatorID,\n  p.no_prov as OperationNo,\n  p.dat as TransactionDate,\n  p.DEBT as DebitID,\n  ad.ACC_NO as DebitAccNo,SUBSTR (ad.ACC_NO, 9, 20) AS D_Accno, --(select substr(ad.ACC_NO,9,20) from dual)as D_Accno,\n  p.VAL_ACC as DebitCurrencyID,\n  ad.CurrencyName as DebitCurrencySName, --dc.val_name as DebitCurrencySName,\n  ad.filial as DebitBranch,\n  p.KREDIT as CreditID,\n  ac.ACC_NO as CreditAccNo,SUBSTR (ac.ACC_NO, 9, 20)  AS C_Accno, --(select substr(ac.ACC_NO,9,20) from dual)as C_Accno,\n  p.CurrencyID_C as CreditCurrencyID,\n  ac.CurrencyName as CreditCurrencySName, --cc.val_name as CreditCurrencySName,\n  ac.filial as CreditBranch,\n  p.ammount as DebitAmount,\n  p.Ammount_C as CreditAmount,\n  p.LAmmount as LAmount,\n  p.Rate_D as DebitRate,\n  p.Rate_C as CreditRate,\n  p.Bank_D as DebitBank,\n  p.Bank_K as CreditBank,\n  p.NO_PACK as PackageNumber,\n  p.SHIFR as CYPHERCODE,\n  sb_expertanalyse.getoperationtype(p.vid_op, p.val_acc, p.currencyID_c) as OPERATIONCODE,\n  p.Kassa_B as INBALANCECHAR,\n  p.Kassa_Z as OUTBALANCECHAR,\n  p.NO_FILIAL as FilialID,\n  ad.bal_cn1 as DebitBalance,ac.bal_cn1 as KreditBalance,\n  p.Name,\n  p.userinsert as usr, --sb_aca.getuserbyid(p.op_id) as usr ,\n  p.usercommit as usrcommit, --sb_aca.getuserbyid(p.commit_opid) as usrcommit ,\n  0 as Flags,\n  2 as status,\n  '' as REJECT_REASON,\n  p.reportid,\n  p.countrid,\n  p.bdg_code,\n  p.d1\n\nFROM\n    account ad,\n    account ac,\n    --avalute_t dc,\n    --avalute_t cc,\n    provarch p\nwhere\n    p.dat =:TransactionDate\n    and (ad.ID = p.DEBT)\n    and (ac.ID = p.KREDIT)\n    --and (ad.val_acc = p.val_acc)\n    --and (ac.val_acc = p.CurrencyID_C)\n    --and (dc.VALUTE = p.val_acc)\n    --and (cc.VALUTE = p.CurrencyID_C)\n    and ((P.OP_ID<>-1 and\n          not EXISTS(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0)))\n          or\n          (P.OP_ID in(select SUSER from sba_userman where MUSER=uid and (type#=1 or type#=0))))\n\nOrder by :Title desc",
    "variables": [
     {
      "name": "TRANSACTIONDATE",
      "type": "date"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
     }
    ],
    "unit": "TransactionDataModuleUnit"
@@ -140,7 +263,7 @@
    "name": "Users",
    "source": "TTransactionDataModule.Users",
    "kind": "TOracleDataSet",
-   "sql": "select * from user$",
+   "sql": "select * from user$\nwhere sb_aca.checkLockUser_num(name)=0\n      order by name",
    "variables": [],
    "unit": "TransactionDataModuleUnit"
   },
@@ -203,15 +326,549 @@
    "unit": "TransactionDataModuleUnit"
   },
   {
+   "name": "ReportDesc",
+   "source": "TTransactionDataModule.ReportDesc",
+   "kind": "TOracleDataSet",
+   "sql": "select d.*, d.rowid from reportdescs d\norder by id",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "Country",
+   "source": "TTransactionDataModule.Country",
+   "kind": "TOracleDataSet",
+   "sql": "select ID, name, rrr from\n(select d.*, d.rowid rrr, 1 orr from provcountries d\nwhere id = (select value from settings where name = 'Self_Country')\nunion\nselect d.*, d.rowid, 2 orr from provcountries d\nwhere upper(d.name)<>upper('yox')\n)\norder by orr, name\n\n/*\nselect d.*, d.rowid from provcountries d\nwhere upper(d.name)<>upper('yox')\norder by name\n*/",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "BProcData",
+   "source": "TTransactionDataModule.BProcData",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_business_processes\norder by name",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "BPTransData",
+   "source": "TTransactionDataModule.BPTransData",
+   "kind": "TOracleDataSet",
+   "sql": "select b.trdate , ad.acc_no debtacc, ac.acc_no kredacc, b.natamount, b.trdescription\n  from sb_business_proc_trans b, account ad, account ac\n where ((ad.id = b.debitaccid) and (ac.id = b.creditaccid))",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_StatusT",
+   "source": "TTransactionDataModule.ODS_StatusT",
+   "kind": "TOracleDataSet",
+   "sql": "select s.RowID, s.* from Settings s\nwhere upper(name)='TRANSACTION_STATUST'",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_VidOPTrDel",
+   "source": "TTransactionDataModule.ODS_VidOPTrDel",
+   "kind": "TOracleDataSet",
+   "sql": "select count(0) Cnt from vid_OP\nwhere ID =:v_ID and TrDelete =1",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_Settings",
+   "source": "TTransactionDataModule.ODS_Settings",
+   "kind": "TOracleDataSet",
+   "sql": "select value from settings\n where name='AccNoSearchPos'",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "DEBT_BAL_SPR1",
+   "source": "TTransactionDataModule.DEBT_BAL_SPR1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bal_spr1 \n--where inter_valute in (:valute)\n order by bal_cn",
+   "variables": [
+    {
+     "name": "VALUTE",
+     "type": "subst"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_Account",
+   "source": "TTransactionDataModule.ODS_Account",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  A.ID,\n  A.ACC_NO,\n  SUBSTR(acc_no,(select value from settings where name='AccNoSearchPos'),30) as ACC_No_Search,\n  A.VAL_ACC,\n  A.NAME,\n  B.CASHINCOMING AS ISCACHEACCOUNT,\n  A.KLI_ID\nFROM\n  ACCOUNT A\n ,BAL_SPR1 B \nWHERE\n  A.BAL_CN1 = B.BAL_CN\n  AND\n  A.CLOSE_DAT IS NULL\n  AND B.BAL_CN=:v_BalCn and A.VAL_ACC=:v_Val and a.kli_ID :v_kliID\norder by :title\n ",
+   "variables": [
+    {
+     "name": "V_BALCN",
+     "type": "string"
+    },
+    {
+     "name": "V_VAL",
+     "type": "integer"
+    },
+    {
+     "name": "V_KLIID",
+     "type": "subst"
+    },
+    {
+     "name": "TITLE",
+     "type": "subst"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "KREDT_BAL_SPR1",
+   "source": "TTransactionDataModule.KREDT_BAL_SPR1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from bal_spr1 \n--where inter_valute in (:valute)\n order by bal_cn",
+   "variables": [
+    {
+     "name": "VALUTE",
+     "type": "subst"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_MMX_CUSTOMERS",
+   "source": "TTransactionDataModule.ODS_MMX_CUSTOMERS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.cust_id, a.tarix, a.reportcode, a.ammount\n  FROM mmx_customers a where a.cust_id=(select kli_id from account where id=:v_acc_id) and a.tarix=:v_tarix and a.ammount+:v_ammount>=20000",
+   "variables": [
+    {
+     "name": "V_TARIX",
+     "type": "date"
+    },
+    {
+     "name": "V_AMMOUNT",
+     "type": "float"
+    },
+    {
+     "name": "V_ACC_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_MMX_TRANSMODE",
+   "source": "TTransactionDataModule.ODS_MMX_TRANSMODE",
+   "kind": "TOracleDataSet",
+   "sql": "select * from mmx_transmode",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_TransInfo",
+   "source": "TTransactionDataModule.ODS_TransInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,report_code,reason,transmode_code,\n      transmode_comment,from_funds_code,from_funds_comment,\n      transid,item_type,item_make,description,\n      previously_registered_to,presently_registered_to,\n      estimated_value,status_code,status_comments,\n      disposed_value,item_size,item_size_uom,\n      item_registration_date,item_registration_number,\n      item_identification_number,item_comments,contact_type,\n      itemcountry,itemcity,itemstate,itemadress,itemzip,\n      submission_code,entity_reference,fiu_ref_number,\n      to_funds_code,to_funds_comment, nvl((dcustid),0) as dcustid, nvl((ccustid),0)as ccustid,\n      citizenship_db,citizenship_cr,nvl((nomdcustid),0)as nomdcustid , nvl((nomccustid),0)as nomccustid,\n      nom_citizenship_db,nom_citizenship_cr\n  FROM mmx_transinfo  where transid=:v_trId",
+   "variables": [
+    {
+     "name": "V_TRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_DebtCustomer",
+   "source": "TTransactionDataModule.ODS_DebtCustomer",
+   "kind": "TOracleDataSet",
+   "sql": "select c.ID,nvl((select name from cust_monex where id=c.id),c.name )as NAME,ci.citizenship,co.cntr_name ,ci.name as custName,ci.lastname,ci.soname from customers c ,custinfo ci,countries co \nwhere  c.id=ci.idcust and ci.citizenship=co.id(+) and c.id=:v_custid\nunion \nselect c.ID, c.NAME,null as citizenship,''  cntr_name ,'' as custName,''as lastname,'' as soname from cust_monex c where c.id=:v_custid\n\n\n",
+   "variables": [
+    {
+     "name": "V_CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "NonCustBalCnC",
+   "source": "TTransactionDataModule.NonCustBalCnC",
+   "kind": "TOracleDataSet",
+   "sql": "select * from noncustbalcn where balcn=:v_balcn",
+   "variables": [
+    {
+     "name": "V_BALCN",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "NonCustBalCnD",
+   "source": "TTransactionDataModule.NonCustBalCnD",
+   "kind": "TOracleDataSet",
+   "sql": "select * from noncustbalcn where balcn=:v_balcn",
+   "variables": [
+    {
+     "name": "V_BALCN",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ODS_CredCustomer",
+   "source": "TTransactionDataModule.ODS_CredCustomer",
+   "kind": "TOracleDataSet",
+   "sql": "select c.ID,nvl((select name from cust_monex where id=c.id),c.name )as NAME,ci.citizenship,co.cntr_name ,ci.name as custName,ci.lastname,ci.soname from customers c ,custinfo ci,countries co \nwhere  c.id=ci.idcust and ci.citizenship=co.id(+) and c.id=:v_custid\nunion \nselect c.ID, c.NAME,null as citizenship,''  cntr_name ,'' as custName,''as lastname,'' as soname from cust_monex c where c.id=:v_custid\n\n\n\n",
+   "variables": [
+    {
+     "name": "V_CUSTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "Ods_budce",
+   "source": "TTransactionDataModule.Ods_budce",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,id,code, name from bc_account_code s where \nbc_accid in( select id from bc_account where accid=:debtid  or accid=:creditid )",
+   "variables": [
+    {
+     "name": "DEBTID",
+     "type": "integer"
+    },
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "Ods_budce_copy",
+   "source": "TTransactionDataModule.Ods_budce_copy",
+   "kind": "TOracleDataSet",
+   "sql": "select a.rowid,a.*from  bc_accountcode_copy a\nwhere username =user",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "Insert_OracleQuery",
+   "source": "TTransactionDataModule.Insert_OracleQuery",
+   "kind": "TOracleQuery",
+   "sql": "\n\n\n\n",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "Delete_OracleQuery",
+   "source": "TTransactionDataModule.Delete_OracleQuery",
+   "kind": "TOracleQuery",
+   "sql": "delete bc_accountcode_copy where username=user",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "Ods_budce_subdivision",
+   "source": "TTransactionDataModule.Ods_budce_subdivision",
+   "kind": "TOracleDataSet",
+   "sql": "select code,name from bc_subdivision",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "Ods_budce_copy_cum",
+   "source": "TTransactionDataModule.Ods_budce_copy_cum",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(ammount) as ammount from  bc_accountcode_copy where username=user",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "DS_DbtCustNom",
+   "source": "TTransactionDataModule.DS_DbtCustNom",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  A.ID,\n  A.ACC_NO,\n  A.KLI_ID,\n  ci.citizenship,\n  co.cntr_name\nFROM\n  ACCOUNT A,custinfo ci ,countries co\n\nWHERE\n a.kli_id=ci.idcust and ci.citizenship=co.id(+) and A.ACC_NO=:ACC_NO",
+   "variables": [
+    {
+     "name": "ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "DS_CreCustNom",
+   "source": "TTransactionDataModule.DS_CreCustNom",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  A.ID,\n  A.ACC_NO,\n  A.KLI_ID,\n  ci.citizenship,\n  co.cntr_name\nFROM\n  ACCOUNT A,custinfo ci ,countries co\n\nWHERE\n a.kli_id=ci.idcust and ci.citizenship=co.id(+) and A.ACC_NO=:ACC_NO",
+   "variables": [
+    {
+     "name": "ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "Ods_mmx_reportcode",
+   "source": "TTransactionDataModule.Ods_mmx_reportcode",
+   "kind": "TOracleDataSet",
+   "sql": "select*from mmx_reportcode order by id",
+   "variables": [],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
+   "name": "ods_vidopUser",
+   "source": "TTransactionDataModule.ods_vidopUser",
+   "kind": "TOracleDataSet",
+   "sql": "select *from vid_opUser where usid=uid and  vid_op=:v_vidop",
+   "variables": [
+    {
+     "name": "V_VIDOP",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionDataModuleUnit"
+  },
+  {
    "name": "TrDest",
    "source": "TTransactionDestinationForm.TrDest",
    "kind": "TOracleDataSet",
    "sql": "select d.*, d.rowid from TRDESTINATION d\norder by ID\n",
    "variables": [],
    "unit": "TransactionDestinationImpl"
+  },
+  {
+   "name": "ODS_DEBIT_ACCNO",
+   "source": "TTransactionEditForm.ODS_DEBIT_ACCNO",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  A.ID,\n  A.ACC_NO,\n  SUBSTR(acc_no,(select value from settings where name='AccNoSearchPos'),30) as ACC_No_Search,\n  A.VAL_ACC,\n  A.NAME,\n  B.CASHINCOMING AS ISCACHEACCOUNT,\n  A.KLI_ID\nFROM\n  ACCOUNT A\n ,BAL_SPR1 B \nWHERE\n  A.BAL_CN1 = B.BAL_CN\n  AND\n  A.CLOSE_DAT IS NULL\n  AND  A.VAL_ACC=:v_Val \n\n\n\n--order by id",
+   "variables": [
+    {
+     "name": "V_VAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionPropertiesImpl"
+  },
+  {
+   "name": "ODS_CREDIT_ACCNO",
+   "source": "TTransactionEditForm.ODS_CREDIT_ACCNO",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n  A.ID,\n  A.ACC_NO,\n  SUBSTR(acc_no,(select value from settings where name='AccNoSearchPos'),30) as ACC_No_Search,\n  A.VAL_ACC,\n  A.NAME,\n  B.CASHINCOMING AS ISCACHEACCOUNT,\n  A.KLI_ID\nFROM\n  ACCOUNT A\n ,BAL_SPR1 B \nWHERE\n  A.BAL_CN1 = B.BAL_CN\n  AND\n  A.CLOSE_DAT IS NULL\n  AND  A.VAL_ACC=:v_Val \n--order by id",
+   "variables": [
+    {
+     "name": "V_VAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionPropertiesImpl"
+  },
+  {
+   "name": "Ods_reportCode",
+   "source": "TTransactionEditForm.Ods_reportCode",
+   "kind": "TOracleDataSet",
+   "sql": "select id,kli_id from account where acc_no=:v_accno",
+   "variables": [
+    {
+     "name": "V_ACCNO",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionPropertiesImpl"
+  },
+  {
+   "name": "ods_blr",
+   "source": "TTransactionEditForm.ods_blr",
+   "kind": "TOracleDataSet",
+   "sql": " select  contid  from black_countries\n where contid=:p_contid ",
+   "variables": [
+    {
+     "name": "P_CONTID",
+     "type": "integer"
+    }
+   ],
+   "unit": "TransactionPropertiesImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TTransactionEditForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select kli_id ,bal_cn1 from account where acc_no=:v_acc_no",
+   "variables": [
+    {
+     "name": "V_ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionPropertiesImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TTransactionEditForm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select kli_id ,bal_cn1 from account where acc_no=:v_acc_no",
+   "variables": [
+    {
+     "name": "V_ACC_NO",
+     "type": "string"
+    }
+   ],
+   "unit": "TransactionPropertiesImpl"
+  },
+  {
+   "name": "ods_bankinfo",
+   "source": "TTransactionEditForm.ods_bankinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select swift from bankinfo",
+   "variables": [],
+   "unit": "TransactionPropertiesImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFormGo.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select  i.report_code,i.transmode_code ,m.\"ID\",m.DEBITBALANCE,m.CREDITBALANCE,m.DEBITACCNO,m.CREDITACCNO,m.DEBITAMOUNT,m.CREDITAMOUNT,m.DEBITRATE,m.CREDITRATE from MMMM m,mmx_transinfo  i where m.id=i.transid",
+   "variables": [],
+   "unit": "UnitGoaml"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFormGo.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select*from mmx_reportcode",
+   "variables": [],
+   "unit": "UnitGoaml"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFormReportCode.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select*from mmx_reportcode",
+   "variables": [],
+   "unit": "UnitReportCode"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFormReportCode.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select*from mmx_transmode",
+   "variables": [],
+   "unit": "UnitReportCode"
+  },
+  {
+   "name": "ODS_Monxs",
+   "source": "TFormMonxs.ODS_Monxs",
+   "kind": "TOracleDataSet",
+   "sql": "Select *from cust_monex \norder by id desc",
+   "variables": [],
+   "unit": "Unitmonxs"
   }
  ],
  "packages": [
+  {
+   "component": "cm_schedule",
+   "package": "cm_schedule",
+   "mode": "positional",
+   "source": "TForminsurance.cm_schedule",
+   "routines": [
+    {
+     "name": "Tr_Add",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OP_MMX",
+   "package": "MMX",
+   "mode": "positional",
+   "source": "TTransactionDataModule.OP_MMX",
+   "routines": [
+    {
+     "name": "get_report",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "ins_mmx_transinfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "mmx_transaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "up_mmx_transfers",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "up_mmx_transinfo",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "PG_PCustService",
+   "mode": "positional",
+   "source": "TTransactionDataModule.OraclePackage1",
+   "routines": []
+  },
+  {
+   "component": "PACKBPROC",
+   "package": "P_BUSINESS_PROC",
+   "mode": "positional",
+   "source": "TTransactionDataModule.PACKBPROC",
+   "routines": []
+  },
+  {
+   "component": "PG_PCustService",
+   "package": "PG_PCustService",
+   "mode": "positional",
+   "source": "TTransactionDataModule.PG_PCustService",
+   "routines": [
+    {
+     "name": "add_cust_monxs",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "get_Messaj",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "get_Modle_comp",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "SB_ACA",
+   "package": "SB_ACA",
+   "mode": "positional",
+   "source": "TTransactionDataModule.SB_ACA",
+   "routines": [
+    {
+     "name": "CheckObjectAccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallBooleanFunction"
+    },
+    {
+     "name": "checkadvancedobjectaccess",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "isadm",
+     "call": "CallBooleanFunction"
+    }
+   ]
+  },
   {
    "component": "SBComplexTrans",
    "package": "SB_COMPLEX_TRANSACTIONS",
@@ -230,6 +887,10 @@
    "mode": "named",
    "source": "TTransactionDataModule.SBTransaction",
    "routines": [
+    {
+     "name": "CheckUserUpdate",
+     "call": "CallProcedure"
+    },
     {
      "name": "GenerateID",
      "call": "CallIntegerFunction"
@@ -255,7 +916,21 @@
      "call": "CallIntegerFunction"
     }
    ]
+  },
+  {
+   "component": "SBTransaction1",
+   "package": "SB_TRANSACTION",
+   "mode": "positional",
+   "source": "TTransactionDataModule.SBTransaction1",
+   "routines": [
+    {
+     "name": "transaction_add",
+     "call": "CallIntegerFunction"
+    }
+   ]
   }
  ],
- "sql": []
+ "sql": [
+  "select id,bc_accid,code, name,user,0 from bc_account_code s where"
+ ]
 }

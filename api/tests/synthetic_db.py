@@ -9,6 +9,7 @@ DML reports one processed row; PL/SQL leaves variables unchanged. Every statemen
 from __future__ import annotations
 
 import datetime as dt
+import os
 import re
 
 import oracledb
@@ -16,6 +17,12 @@ from pathlib import Path
 import sys
 
 from tests.fake_oracle import FakeConnection, FakeCursor
+
+# rows per SELECT (SB_SYNTH_ROWS=500 to try incremental fetching of big grids)
+SYNTH_ROWS = int(os.environ.get('SB_SYNTH_ROWS', '3'))
+# SELECTs matching SB_SYNTH_BIG (regex) get SB_SYNTH_BIG_ROWS rows: big lookup lists without making every query big
+SYNTH_BIG = re.compile(os.environ['SB_SYNTH_BIG'], re.I | re.S) if os.environ.get('SB_SYNTH_BIG') else None
+SYNTH_BIG_ROWS = int(os.environ.get('SB_SYNTH_BIG_ROWS', '100000'))
 
 
 def split_top(s: str, sep=',') -> list[str]:
@@ -41,7 +48,7 @@ TABLE_COLS: dict[str, set[str]] = {}
 
 
 def from_table(sql: str):
-    m = re.search(r'\sfrom\s+([\w$#.]+)\s*(?:\w+\s*)?(?:where|order|group|$|\))', sql, re.I)
+    m = re.search(r'[\s*]from\s+([\w$#.]+)\s*(?:\w+\s*)?(?:where|order|group|$|\))', sql, re.I)
     return m.group(1).split('.')[-1].upper() if m else None
 
 
@@ -85,15 +92,20 @@ def learn_dfm_fields():
     import glob
     import json
     root = Path(__file__).resolve().parents[2] / 'web' / 'src' / 'generated'
+    # grid → DataSource → DataSet may cross forms of one module (a grid on the form, its dataset on the data module)
+    mod_sqls: dict[str, dict[str, str]] = {}
+    mod_sources: dict[str, dict[str, str]] = {}
+    mod_grids: dict[str, list[tuple[str, list[str]]]] = {}
     for f in glob.glob(str(root / '**' / '*.dfm.json'), recursive=True):
         try:
             tree = json.load(open(f, encoding='utf-8'))
         except (OSError, ValueError):
             continue
+        mod = str(Path(f).parent)
         # grid columns name the columns too: grid → DataSource → DataSet → table
-        sqls: dict[str, str] = {}
-        sources: dict[str, str] = {}
-        grids: list[tuple[str, list[str]]] = []
+        sqls = mod_sqls.setdefault(mod, {})
+        sources = mod_sources.setdefault(mod, {})
+        grids = mod_grids.setdefault(mod, [])
         walk = [tree]
         while walk:
             o = walk.pop()
@@ -105,11 +117,6 @@ def learn_dfm_fields():
                 sources[o.get('name', '')] = p['DataSet']['i']
             if isinstance(p.get('Columns'), list) and isinstance(p.get('DataSource'), dict):
                 grids.append((p['DataSource'].get('i', ''), [c.get('FieldName') for c in p['Columns'] if isinstance(c, dict)]))
-        for src, cols in grids:
-            sql = sqls.get(sources.get(src.split('.')[-1], ''), '')
-            t = from_table(sql) if sql and not re.search(r'\bjoin\b|\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I) else None
-            if t:
-                TABLE_COLS.setdefault(t, set()).update(n.upper() for n in cols if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
         stack = [tree]
         while stack:
             o = stack.pop()
@@ -118,14 +125,48 @@ def learn_dfm_fields():
             if not sql or re.search(r'\bjoin\b', sql, re.I):
                 continue
             t = from_table(sql)
+            # `select*from countries order by id`: the sort columns exist too
+            om = re.search(r'\border\s+by\s+([\w$#,\s]+?)\s*$', sql, re.I)
+            if t and om and not re.search(r'\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I):
+                TABLE_COLS.setdefault(t, set()).update(c.split()[0].upper() for c in om.group(1).split(',')
+                                                       if c.strip() and re.fullmatch(r'[A-Za-z_][\w$#]*', c.split()[0]))
             names = [c.get('props', {}).get('FieldName') for c in o.get('children', []) if c.get('class', '').endswith('Field')]
             if t and names and not re.search(r'\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I):
                 TABLE_COLS.setdefault(t, set()).update(n.upper() for n in names if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
+    for mod, grids in mod_grids.items():
+        sqls, sources = mod_sqls[mod], mod_sources[mod]
+        for src, cols in grids:
+            sql = sqls.get(sources.get(src.split('.')[-1], ''), '')
+            t = from_table(sql) if sql and not re.search(r'\bjoin\b|\bfrom\s+[\w$#.]+\s*\w*\s*,', sql, re.I) else None
+            if t:
+                TABLE_COLS.setdefault(t, set()).update(n.upper() for n in cols if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
 
+
+
+def top_select(sql: str) -> str:
+    """The outermost select list (text between SELECT and its FROM at parenthesis depth 0): aggregates in
+    sub-selects (… (select count(*) …) as n …) do not make a one-row result."""
+    m = re.search(r'\bselect\b', sql, re.I)
+    if not m:
+        return ''
+    depth, i = 0, m.end()
+    low = sql.lower()
+    while i < len(sql):
+        ch = sql[i]
+        if ch == '(':
+            depth += 1
+        elif ch == ')':
+            depth -= 1
+        elif depth == 0 and low.startswith('from', i) and (i == 0 or not (low[i - 1].isalnum() or low[i - 1] == '_')):
+            return sql[m.end():i]
+        i += 1
+    return sql[m.end():]
 
 def select_list(sql: str) -> list[str]:
     s = re.sub(r'--[^\n]*|/\*.*?\*/', ' ', sql, flags=re.S)
     s = re.sub(r'^\s*\(+', '', s)  # (select filialid from …)
+    s = re.sub(r'(?i)\bselect\*', 'select *', s)  # select*from countries
+    s = re.sub(r'(?i)\*from\b', '* from', s)
     m = re.search(r'^\s*select\s+(distinct\s+)?(.*?)\s+from\s', s, re.I | re.S)
     if not m:
         return []
@@ -161,7 +202,8 @@ def guess(name: str) -> str:
         return 'ROWID'
     if re.search(r'DAT|DATE|TIME', n):
         return 'DATE'
-    if re.search(r'ID$|^ID|_ID|NO$|COUNT|CNT|KOD|CODE|VALUTE|VAL_ACC|STATUS|FLAG|TYPE|FIL', n):
+    # BAL_CN, BAL_CN1 … are balance account numbers (integers), not balances
+    if re.search(r'ID$|^ID|_ID|NO$|COUNT|CNT|KOD|CODE|VALUTE|VAL_ACC|STATUS|FLAG|TYPE|FIL|^BAL_CN', n):
         return 'INT'
     if re.search(r'AMM|AMOUNT|SUM|OSTAT|RATE|KURS|PERCENT|FAIZ|QALIQ|BAL', n):
         return 'NUMBER'
@@ -179,6 +221,9 @@ def value(name: str, t: str, i: int):
         return dt.datetime.combine(dt.date.today(), dt.time()) - dt.timedelta(days=7 * i)
     if t == 'INT':
         return i + 1
+    # column lists of grids (cm_fields_list: FieldName → the grid column of that field): common field names
+    if name.upper() == 'FIELDNAME':
+        return ('ID', 'NAME', 'STATUS')[i % 3]
     if t == 'NUMBER':
         return round(1250.75 * (i + 1), 2)
     # as in web/src/api/mock.ts: unclassified columns are mostly NUMBER in this schema (read with StrToFloat)
@@ -201,11 +246,19 @@ class SyntheticCursor(FakeCursor):
             names = select_list(sql) or ['VALUE']
             types = [guess(n) for n in names]
             cols = [(n, {'INT': 'NUMBER', 'ROWID': 'ROWID'}.get(t, t)) + ((10, 0) if t == 'INT' else ()) for n, t in zip(names, types)]
-            one = bool(re.search(r'\bfrom\s+dual\b', sql, re.I)) or re.search(r'\b(count|sum|max|min)\s*\(', sql, re.I)
+            head = top_select(sql)
+            rest = sql[sql.find(head) + len(head):] if head else sql
+            one = bool(re.match(r'\s*from\s+dual\b', rest, re.I)) or bool(re.search(r'\b(count|sum|max|min)\s*\(', head, re.I))
             # -1 is the code's "nothing" key (MedioCrity = :AccountSide with -1 …): real tables have no such rows
             vals = [getattr(v, 'value', v) for v in dict(binds or {}, **kw).values()]
-            n = 0 if any(v == -1 for v in vals) else 1 if one else 3
-            self._set(cols, [tuple(value(n_, t, i) for n_, t in zip(names, types)) for i in range(n)])
+            n = 0 if any(v == -1 for v in vals) else 1 if one else SYNTH_ROWS
+            big = bool(n and not one and SYNTH_BIG and SYNTH_BIG.search(sql))
+            if big:
+                n = SYNTH_BIG_ROWS
+            # in a big list, currency columns repeat (1..3) as in a real account table: filters keep large subsets
+            cyc = {k for k, n_ in enumerate(names) if big and re.fullmatch(r'VAL_ACC|VALUTE|CURRENCY|VAL_KOD', n_.upper())}
+            self._set(cols, [tuple((i % 3) + 1 if k in cyc else value(n_, t, i) for k, (n_, t) in enumerate(zip(names, types)))
+                             for i in range(n)])
             self.rowcount = len(self._rows)
             return
         shown = {k: (v.getvalue() if hasattr(v, 'getvalue') else getattr(v, 'value', v)) for k, v in dict(binds or {}, **kw).items()}
@@ -232,6 +285,12 @@ class SyntheticCursor(FakeCursor):
             b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
             if b is not None and hasattr(b, 'setvalue'):
                 b.setvalue(0, 'SELECT p.rowid, p.* FROM TRANSACTIONS p ORDER BY p.ID')
+        # module/plugin access checks (CM_ADMINISTRATION.pluginaccess …) allow the test user
+        m = re.search(r':(\w+)\s*:=\s*case when \w+\.(\w*access)\b', sql or '', re.I)
+        if m:
+            b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
+            if b is not None and hasattr(b, 'setvalue'):
+                b.setvalue(0, 1)
         # the operational day is open while people work (SBSYS.is_day_opened …)
         m = re.search(r':(\w+)\s*:=\s*case when \w+\.(is_?day_?opened)\b', sql or '', re.I)
         if m:

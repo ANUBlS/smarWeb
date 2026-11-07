@@ -318,7 +318,7 @@ export default function define($) {
   L0["titlename"] = (await $.mv(L0["column"], "FieldName"));
   try {
     {
-      const $t3 = (await $.v(C, "paymentdata"));
+      const $t3 = (await $.wobj(C, "paymentdata"));
       if ($.truthy($.eq((await $.wv([$t3], "sort", { get: async () => L0["sort"], set: async (v) => { L0["sort"] = v; }, local: true }, false)), (await $.wv([$t3], "true", C, false))))) {
         await $.stmt($.wcall([$t3], "close", [], C));
         { const $t4 = await $.iset((await $.wv([$t3], "sql", C, false)), [5], ""); if ($t4 !== undefined) { await $.wset([$t3], "sql", $t4, C); } }

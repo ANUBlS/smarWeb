@@ -32,7 +32,7 @@ export default function define($) {
   const L0 = {result: undefined};
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairNewMain"))])))) {
     {
-      const $t1 = (await $.v(C, "RepairNewMain"));
+      const $t1 = (await $.wobj(C, "RepairNewMain"));
       if ($.truthy($.gt((await $.mv((await $.wv([$t1], "dtpOpDat", C, false)), "DateTime")), (await $.mv((await $.wv([$t1], "dtOpDatEnd", C, false)), "DateTime"))))) {
         await $.stmt((await $.wcall([$t1], "MessageDlg", ["Əməliyyat tarixini düzgün daxil edin", (await $.wv([$t1], "mtError", C, false)), [(await $.wv([$t1], "mbOk", C, false))], 0], C)));
         $.abort();
@@ -90,12 +90,12 @@ export default function define($) {
     await $.stmt((await $.mcall((await $.v(C, "TransactionData")), "SetVariable", ["DAT", (await $.mv((await $.mv((await $.v(C, "RepairNewMain")), "dtpOpDat")), "DateTime"))])));
     await $.stmt((await $.mcall((await $.v(C, "TransactionData")), "SetVariable", ["DAT2", (await $.mv((await $.mv((await $.v(C, "RepairNewMain")), "dtOpDatEnd")), "DateTime"))])));
     {
-      const $t7 = (await $.v(C, "CreditRateData"));
+      const $t7 = (await $.wobj(C, "CreditRateData"));
       await $.stmt((await $.wcall([$t7], "SetVariable", ["DAT", (await $.mv((await $.mv((await $.wv([$t7], "RepairNewMain", C, false)), "dtpOpDat")), "DateTime"))], C)));
       await $.stmt((await $.wcall([$t7], "OpenData", [(await $.wv([$t7], "CreditRateData", C, false))], { get: async () => L0["opendata"], set: async (v) => { L0["opendata"] = v; }, local: true })));
     }
     {
-      const $t8 = (await $.v(C, "DebetRateData"));
+      const $t8 = (await $.wobj(C, "DebetRateData"));
       await $.stmt((await $.wcall([$t8], "SetVariable", ["DAT", (await $.mv((await $.mv((await $.wv([$t8], "RepairNewMain", C, false)), "dtpOpDat")), "DateTime"))], C)));
       await $.stmt((await $.wcall([$t8], "OpenData", [(await $.wv([$t8], "DebetRateData", C, false))], { get: async () => L0["opendata"], set: async (v) => { L0["opendata"] = v; }, local: true })));
     }
@@ -127,7 +127,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairEdit"))])))) {
     {
-      const $t9 = (await $.v(C, "RepairEdit"));
+      const $t9 = (await $.wobj(C, "RepairEdit"));
       const $t10 = (await $.wv([$t9], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
       await $.stmt((await $.mcall((await $.wv([$t9, $t10], "DebetRateData", C, false)), "Locate", ["id", (await $.mv((await $.wcall([$t9, $t10], "FieldByName", ["VALUTE"], C)), "AsInteger")), [(await $.wv([$t9, $t10], "loCaseInsensitive", C, false)), (await $.wv([$t9, $t10], "loPartialKey", C, false))]])));
       if ($.truthy($.ne((await $.mv((await $.wv([$t9, $t10], "dblcCurDebet", C, false)), "KeyValue")), (await $.mv((await $.wcall([$t9, $t10], "FieldByName", ["VALUTE"], C)), "AsInteger"))))) {
@@ -143,7 +143,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairEdit"))])))) {
     {
-      const $t11 = (await $.v(C, "RepairEdit"));
+      const $t11 = (await $.wobj(C, "RepairEdit"));
       const $t12 = (await $.wv([$t11], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
       await $.stmt((await $.mcall((await $.wv([$t11, $t12], "CreditRateData", C, false)), "Locate", ["id", (await $.mv((await $.wcall([$t11, $t12], "FieldByName", ["VALUTE"], C)), "AsInteger")), [(await $.wv([$t11, $t12], "loCaseInsensitive", C, false)), (await $.wv([$t11, $t12], "loPartialKey", C, false))]])));
       if ($.truthy($.ne((await $.mv((await $.wv([$t11, $t12], "dblcCurKredit", C, false)), "KeyValue")), (await $.mv((await $.wcall([$t11, $t12], "FieldByName", ["VALUTE"], C)), "AsInteger"))))) {
@@ -179,7 +179,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairEdit"))])))) {
     {
-      const $t14 = (await $.v(C, "RepairEdit"));
+      const $t14 = (await $.wobj(C, "RepairEdit"));
       const $t15 = (await $.wv([$t14], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
       if ($.truthy(((await $.mv((await $.wv([$t14, $t15], "edDebitAccNo", C, false)), "Focused"))))) {
         await $.stmt((await $.wcall([$t14, $t15], "RefreshAccounts", [(await $.wv([$t14, $t15], "aoDebet", C, false))], C)));
@@ -195,7 +195,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairEdit"))])))) {
     {
-      const $t16 = (await $.v(C, "RepairEdit"));
+      const $t16 = (await $.wobj(C, "RepairEdit"));
       const $t17 = (await $.wv([$t16], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
       if ($.truthy(((await $.mv((await $.wv([$t16, $t17], "edKreditAccNo", C, false)), "Focused"))))) {
         await $.stmt((await $.wcall([$t16, $t17], "RefreshAccounts", [(await $.wv([$t16, $t17], "aoCredit", C, false))], C)));
@@ -211,7 +211,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairEdit"))])))) {
     {
-      const $t18 = (await $.v(C, "RepairEdit"));
+      const $t18 = (await $.wobj(C, "RepairEdit"));
       const $t19 = (await $.wv([$t18], "Dataset", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
       if ($.truthy($.not(((await $.mv((await $.wv([$t18, $t19], "dlbcBalance", C, false)), "Focused")))))) {
         if ($.truthy($.ne((await $.mv((await $.wv([$t18, $t19], "dlbcBalance", C, false)), "Text")), (await $.mv((await $.wcall([$t18, $t19], "FieldByName", ["SYMBOL"], C)), "AsString"))))) {
@@ -295,7 +295,7 @@ export default function define($) {
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairNewMain"))])))) {
     try {
       {
-        const $t24 = (await $.v(C, "RepairNewMain"));
+        const $t24 = (await $.wobj(C, "RepairNewMain"));
         await $.mcall((await $.wv([$t24], "scUser", C, false)), "Refresh", []);
       }
     } catch ($t23) {
@@ -312,7 +312,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairNewMain"))])))) {
     {
-      const $t25 = (await $.v(C, "RepairNewMain"));
+      const $t25 = (await $.wobj(C, "RepairNewMain"));
       const $t26 = (await $.wv([$t25], "clbValute", C, false));
       const $t27 = (await $.wv([$t25, $t26], "Items", C, false));
       await $.stmt((await $.wcall([$t25, $t26, $t27], "Add", [(await $.mcall((await $.wv([$t25, $t26, $t27], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Field", ["valu_name"]))], C)));
@@ -328,7 +328,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairNewMain"))])))) {
     {
-      const $t29 = (await $.v(C, "RepairNewMain"));
+      const $t29 = (await $.wobj(C, "RepairNewMain"));
       const $t30 = (await $.wv([$t29], "clbOperation", C, false));
       const $t31 = (await $.wv([$t29, $t30], "Items", C, false));
       await $.stmt((await $.wcall([$t29, $t30, $t31], "Add", [(await $.mcall((await $.wv([$t29, $t30, $t31], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Field", ["name"]))], C)));
@@ -344,7 +344,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "RepairNewMain"))])))) {
     {
-      const $t33 = (await $.v(C, "RepairNewMain"));
+      const $t33 = (await $.wobj(C, "RepairNewMain"));
       const $t34 = (await $.wv([$t33], "clbValute", C, false));
       const $t35 = (await $.wv([$t33, $t34], "Items", C, false));
       await $.stmt((await $.wcall([$t33, $t34, $t35], "Add", ["Multivalyuta"], C)));

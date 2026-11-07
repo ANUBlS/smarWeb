@@ -468,7 +468,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "DataModC"));
+    const $t16 = (await $.wobj(C, "DataModC"));
     await $.wset([$t16], "OrderbyAD", " desc", C);
     await $.stmt((await $.wcall([$t16], "OrderByColumn", [(await $.wv([$t16], "odsContracts", C, false)), (await $.idx((await $.mv((await $.wv([$t16], "DBGrid1", C, false)), "Columns")), [0]))], C)));
     await $.mcall((await $.wv([$t16], "odsAccs", C, false)), "Close", []);
@@ -494,7 +494,7 @@ export default function define($) {
     await $.set(C, "frmContractAddEdit", (await $.mcall((await $.v(C, "TfrmContractAddEdit")), "Create", [Self])));
   }
   {
-    const $t17 = (await $.v(C, "DataModC"));
+    const $t17 = (await $.wobj(C, "DataModC"));
     const $t18 = (await $.wv([$t17], "frmContractAddEdit", C, false));
     const $t19 = (await $.wv([$t17, $t18], "odsContracts", C, false));
     await $.mset((await $.wv([$t17, $t18, $t19], "edcontract_num", C, false)), "Text", "");
@@ -530,7 +530,7 @@ export default function define($) {
     await $.set(C, "frmContractAddEdit", (await $.mcall((await $.v(C, "TfrmContractAddEdit")), "Create", [Self])));
   }
   {
-    const $t20 = (await $.v(C, "DataModC"));
+    const $t20 = (await $.wobj(C, "DataModC"));
     const $t21 = (await $.wv([$t20], "frmContractAddEdit", C, false));
     const $t22 = (await $.wv([$t20, $t21], "odsContracts", C, false));
     await $.mset((await $.wv([$t20, $t21, $t22], "edcontract_num", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t20, $t21, $t22], "odsContracts", C, false)), "FieldByName", ["CONTRACT_NUM"])), "AsString")));
@@ -566,7 +566,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy(($.eq((await $.call(C, "MessageDlg", ["Yazı silinəck. Əminsiniz?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "idyes")))))) {
     {
-      const $t23 = (await $.v(C, "DataModC"));
+      const $t23 = (await $.wobj(C, "DataModC"));
       const $t24 = (await $.wv([$t23], "frmContractAddEdit", C, false));
       await $.stmt((await $.mcall((await $.wv([$t23, $t24], "CABLE", C, false)), "CallProcedure", ["contractdel", [(await $.mv((await $.idx((await $.mv((await $.wv([$t23, $t24], "odsContracts", C, false)), "fields")), [0])), "AsVariant"))]])));
       await $.stmt((await $.wcall([$t23, $t24], "actRefreshExecute", [(await $.wv([$t23, $t24], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)));
@@ -579,7 +579,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t25 = (await $.v(C, "dbgrid1"));
+    const $t25 = (await $.wobj(C, "dbgrid1"));
     const $t26 = (await $.wv([$t25], "SelectedRows", C, false));
     const $t27 = (await $.mv((await $.wv([$t25, $t26], "DataSource", C, false)), "DataSet"));
     const $t28 = (await $.wv([$t25, $t26, $t27], "DataModC", C, false));
@@ -605,7 +605,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t32 = (await $.v(C, "DataModC"));
+    const $t32 = (await $.wobj(C, "DataModC"));
     const $t33 = (await $.wv([$t32], "CABLE", C, false));
     await $.stmt((await $.wcall([$t32, $t33], "CallProcedure", ["calccontracts", [0]], C)));
     await $.stmt((await $.wcall([$t32, $t33], "actRefreshExecute", [(await $.wv([$t32, $t33], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)));
@@ -617,7 +617,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t34 = (await $.v(C, "ExcelExp"));
+    const $t34 = (await $.wobj(C, "ExcelExp"));
     await $.stmt($.wcall([$t34], "Connect", [], C));
     await $.stmt((await $.wcall([$t34], "ExportDataset", [(await $.mv((await $.wv([$t34], "DataModC", C, false)), "odsContracts")), "Contracts", (await $.wv([$t34], "True", C, false))], C)));
   }
@@ -646,7 +646,7 @@ export default function define($) {
   await $.mset((await $.v(C, "chf4")), "Checked", false);
   await $.mset((await $.v(C, "chf5")), "Checked", false);
   {
-    const $t35 = (await $.v(C, "DataModC"));
+    const $t35 = (await $.wobj(C, "DataModC"));
     const $t36 = (await $.wv([$t35], "odsContracts", C, false));
     await $.wset([$t35, $t36], "Filtered", (await $.wv([$t35, $t36], "False", C, false)), C);
     await $.stmt((await $.wcall([$t35, $t36], "OrderByColumn", [(await $.wv([$t35, $t36], "odsContracts", C, false)), (await $.idx((await $.mv((await $.wv([$t35, $t36], "DBGrid1", C, false)), "Columns")), [0]))], C)));
@@ -658,7 +658,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "filt": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t37 = (await $.v(C, "DataModC"));
+    const $t37 = (await $.wobj(C, "DataModC"));
     const $t38 = (await $.wv([$t37], "odsContracts", C, false));
     await $.wset([$t37, $t38], "Filt", "1=1", { get: async () => L0["filt"], set: async (v) => { L0["filt"] = v; }, local: true });
     if ($.truthy((await $.mv((await $.wv([$t37, $t38], "chf1", C, false)), "Checked")))) {
@@ -715,7 +715,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t40 = (await $.v(C, "dbgrid1"));
+    const $t40 = (await $.wobj(C, "dbgrid1"));
     const $t41 = (await $.wv([$t40], "SelectedRows", C, false));
     const $t42 = (await $.mv((await $.wv([$t40, $t41], "DataSource", C, false)), "DataSet"));
     const $t43 = (await $.wv([$t40, $t41, $t42], "DataModC", C, false));
@@ -741,7 +741,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t47 = (await $.v(C, "DataModC"));
+    const $t47 = (await $.wobj(C, "DataModC"));
     const $t48 = (await $.wv([$t47], "CABLE", C, false));
     await $.stmt((await $.wcall([$t47, $t48], "CallProcedure", ["calccontracts", [1]], C)));
     await $.stmt((await $.wcall([$t47, $t48], "actRefreshExecute", [(await $.wv([$t47, $t48], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))], C)));
@@ -753,7 +753,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "nt": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t49 = (await $.v(C, "DataModC"));
+    const $t49 = (await $.wobj(C, "DataModC"));
     await $.wset([$t49], "nt", (await $.mv((await $.idx((await $.mv((await $.wv([$t49], "odsContracts", C, false)), "fields")), [0])), "AsVariant")), { get: async () => L0["nt"], set: async (v) => { L0["nt"] = v; }, local: true });
     await $.stmt((await $.mcall((await $.wv([$t49], "CABLE", C, false)), "CallProcedure", ["contractsetlastdate", [(await $.mv((await $.idx((await $.mv((await $.wv([$t49], "odsContracts", C, false)), "fields")), [0])), "AsVariant"))]])));
     await $.mcall((await $.wv([$t49], "odsContracts", C, false)), "Close", []);

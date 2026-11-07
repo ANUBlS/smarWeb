@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["s"]);
   L0["contractid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "NewDepositsFrmCapitalize"));
+    const $t1 = (await $.wobj(C, "NewDepositsFrmCapitalize"));
     {
       const $t2 = (await $.wv([$t1], "DepositInfo", C, false));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
@@ -61,7 +61,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "NewDepositsFrmCapitalize"));
+    const $t6 = (await $.wobj(C, "NewDepositsFrmCapitalize"));
     const $t7 = (await $.wv([$t6], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t6, $t7], "CallProcedure", ["checkadvancedobjectaccess", ["INSERT_SBCM_CAPITALIZATION"]], C)));
   }
@@ -107,12 +107,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "NewDepositsFrmCapitalize"));
+    const $t8 = (await $.wobj(C, "NewDepositsFrmCapitalize"));
     const $t9 = (await $.wv([$t8], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t8, $t9], "CallProcedure", ["checkadvancedobjectaccess", ["EXCEL_SBCM_CAPITALIZATION"]], C)));
   }
   {
-    const $t10 = (await $.v(C, "ExcelExp"));
+    const $t10 = (await $.wobj(C, "ExcelExp"));
     await $.stmt($.wcall([$t10], "Connect", [], C));
     await $.stmt((await $.wcall([$t10], "ExportDataset", [(await $.wv([$t10], "Capitals", C, false)), "Kapitallaşdırma", (await $.wv([$t10], "true", C, false)), (await $.wv([$t10], "false", C, false))], C)));
     await $.stmt($.wcall([$t10], "DisConnect", [], C));
@@ -124,7 +124,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "NewDepositsFrmCapitalize"));
+    const $t11 = (await $.wobj(C, "NewDepositsFrmCapitalize"));
     const $t12 = (await $.wv([$t11], "sb_aca", C, false));
     await $.stmt((await $.wcall([$t11, $t12], "CallProcedure", ["checkadvancedobjectaccess", ["DELETE_SBCM_CAPITALIZATION"]], C)));
   }
@@ -132,7 +132,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t13 = (await $.v(C, "Capitals"));
+    const $t13 = (await $.wobj(C, "Capitals"));
     const $t14 = (await $.wv([$t13], "dm_payment", C, false));
     await $.stmt((await $.wcall([$t13, $t14], "CallProcedure", ["DeleteCapitalization", ["p_capitalizationID", (await $.mv((await $.wcall([$t13, $t14], "FieldByName", ["ID"], C)), "AsInteger"))]], C)));
     await $.stmt($.wcall([$t13, $t14], "Refresh", [], C));

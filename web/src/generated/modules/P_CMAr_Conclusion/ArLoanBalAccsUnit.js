@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ArDataModuleConcl"));
+    const $t1 = (await $.wobj(C, "ArDataModuleConcl"));
     const $t2 = (await $.wv([$t1], "IUPackage", C, false));
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["account_no", ["p_custid", (await $.mv((await $.mcall((await $.wv([$t1, $t2], "Customer", C, false)), "FieldByName", ["ID"])), "Asinteger")), "p_val", (await $.mv((await $.mcall((await $.wv([$t1, $t2], "CurrencysData", C, false)), "FieldByName", ["CURRID"])), "AsInteger")), "p_fil", (await $.mv((await $.mcall((await $.wv([$t1, $t2], "Branches", C, false)), "FieldByName", ["ID"])), "Asinteger")), "p_analtik", (await $.mv((await $.wv([$t1, $t2], "DBLookupComboboxEh1", C, false)), "KeyValue")), "p_note", (await $.mv((await $.wv([$t1, $t2], "edit1", C, false)), "Text")), "p_meh", (await $.mv((await $.mv((await $.wv([$t1, $t2], "ArConclusionForm", C, false)), "DBLookupComboboxEh26")), "KeyValue")), "p_bdat", (await $.mv((await $.mv((await $.wv([$t1, $t2], "ArConclusionForm", C, false)), "DBDateTimeEditEh1")), "Value")), "p_edat", (await $.mv((await $.mv((await $.wv([$t1, $t2], "ArConclusionForm", C, false)), "DBDateTimeEditEh2")), "Value"))]], C)));
     if ($.truthy((await $.mv((await $.wv([$t1, $t2], "OracleDataSet1", C, false)), "Active")))) {
@@ -43,7 +43,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "ArDataModuleConcl"));
+    const $t3 = (await $.wobj(C, "ArDataModuleConcl"));
     if ($.truthy((await $.mv((await $.wv([$t3], "OracleDataSet3", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t3], "OracleDataSet3", C, false)), "close", []);
     }

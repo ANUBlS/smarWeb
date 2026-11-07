@@ -1,0 +1,472 @@
+{
+ "name": "P_CM_SETUP",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Setup",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "AccGroups",
+   "source": "TAccGrpForm.AccGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, iname, description\n  FROM cm_accountgroups",
+   "variables": [],
+   "unit": "AccGroupsImpl"
+  },
+  {
+   "name": "AccGrInfo",
+   "source": "TAccGrpForm.AccGrInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT agi.RowID,agi.groupid, agi.accountnumber\n  FROM cm_aginfo agi\nWHERE agi.GROUPID=:GROUPID\n\norder by agi.accountnumber",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AccGroupsImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TAddReserve.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial",
+   "variables": [],
+   "unit": "AddReserveImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TAddReserve.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n    WHERE val_acc = 0 and close_dat is null and ac.filial=:filial\n     AND (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cm_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cm_accountgroups g\n                                            WHERE g.iname = 'SReserveAccs'))\n         )\nORDER BY accno,kli_id",
+   "variables": [
+    {
+     "name": "FILIAL",
+     "type": "integer"
+    }
+   ],
+   "unit": "AddReserveImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TAddReserve.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "",
+   "variables": [],
+   "unit": "AddReserveImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TAddReserve.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,tesid, (select name from filial where id= fil_id) fil, \n(select acc_no from account  where id= int_res_accid) hes,(select acc_no from account  where id= fxercacc_id) xerhes\n  FROM cm_reserve_turan_filial where tesid=:tesid",
+   "variables": [
+    {
+     "name": "TESID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AddReserveImpl"
+  },
+  {
+   "name": "IEAccountList",
+   "source": "TAddReserve.IEAccountList",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   id,Acc_No,Val_Acc,Name,FILIAL\n  FROM ACCOUNT\n WHERE (bal_cn1 IN (SELECT accountnumber\n                           FROM smart.cm_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM smart.cm_accountgroups g\n                                            WHERE g.iname = 'IncExpAccounts')))\nand (Close_Dat is Null) and FILIAL in (select id from sb_filial)\nand FILIAL in(select id from filial)\n",
+   "variables": [],
+   "unit": "AddReserveImpl"
+  },
+  {
+   "name": "CrdTypesData",
+   "source": "TCreditTypeTuning.CrdTypesData",
+   "kind": "TOracleDataSet",
+   "sql": "Select T.ROWID , T.*        \n  From CM_CREDITTYPES T\nOrder By ID",
+   "variables": [],
+   "unit": "CreditTypesReferImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFrmSiqorta.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid ,a.*\n  FROM cm_insuranceagency a",
+   "variables": [],
+   "unit": "FrmSiqortaimpl"
+  },
+  {
+   "name": "LinkValuesData",
+   "source": "TIETuningDataMod.LinkValuesData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT l.RowID,\n       l.linkid, \n       l.branchid, \n       l.currencyid, \n       l.accountid\n  FROM cm_link_values l\n  where   l.linkid=:linkid\nORDER BY l.branchid,l.currencyid\n ",
+   "variables": [
+    {
+     "name": "LINKID",
+     "type": "integer"
+    }
+   ],
+   "unit": "IETuningDataModuleImpl"
+  },
+  {
+   "name": "CategoriesData",
+   "source": "TIETuningDataMod.CategoriesData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "IETuningDataModuleImpl"
+  },
+  {
+   "name": "LinksData",
+   "source": "TIETuningDataMod.LinksData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, categoryid, description\n   FROM cm_links\n WHERE  categoryid=:categoryid\nORDER BY id",
+   "variables": [
+    {
+     "name": "CATEGORYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "IETuningDataModuleImpl"
+  },
+  {
+   "name": "IEAccountList",
+   "source": "TIETuningDataMod.IEAccountList",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   id,Acc_No,Val_Acc,Name\n  FROM CM_SB_ALL_ACCOUNTS\n WHERE (bal_cn1 IN (SELECT accountnumber\n                           FROM cm_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cm_accountgroups g\n                                            WHERE g.iname = 'IncExpAccounts')))\nand (Close_Dat is Null)\nORDER BY ACC_NO",
+   "variables": [],
+   "unit": "IETuningDataModuleImpl"
+  },
+  {
+   "name": "BranchList",
+   "source": "TIETuningDataMod.BranchList",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM SB_filial",
+   "variables": [],
+   "unit": "IETuningDataModuleImpl"
+  },
+  {
+   "name": "CurrencyList",
+   "source": "TIETuningDataMod.CurrencyList",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT VAlute,Val_Name\n  FROM SB_AVALUTE",
+   "variables": [],
+   "unit": "IETuningDataModuleImpl"
+  },
+  {
+   "name": "Countries",
+   "source": "TfrmOtherSetup.Countries",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,code, name\n  FROM cm_countrys ",
+   "variables": [],
+   "unit": "OtherSetupImpl"
+  },
+  {
+   "name": "insagency",
+   "source": "TfrmOtherSetup.insagency",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, name\n  FROM cm_insuranceagency ",
+   "variables": [],
+   "unit": "OtherSetupImpl"
+  },
+  {
+   "name": "Plegds",
+   "source": "TPledgForm.Plegds",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT Rowid,a.*\n  FROM cm_pledges a\n",
+   "variables": [],
+   "unit": "PledgImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TPledgForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid ,a.* from CM_PLEDGSORTS a where pldid = :pldid",
+   "variables": [
+    {
+     "name": "PLDID",
+     "type": "float"
+    }
+   ],
+   "unit": "PledgImpl"
+  },
+  {
+   "name": "Refers",
+   "source": "TMainReferForm.Refers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, parentid, iname, description, integervalue, charvalue,\n       availablevalues\n  FROM cm_references\norder by id",
+   "variables": [],
+   "unit": "ReferencesImpl"
+  },
+  {
+   "name": "Temp",
+   "source": "TMainReferForm.Temp",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, parentid, iname, description, integervalue, charvalue,\n       availablevalues\n  FROM cm_references\nwhere ParentID=:AParentID\n",
+   "variables": [],
+   "unit": "ReferencesImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFrmReserve.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id ,'Adi ehtiyatlar üzre hesablar'as name from dual\nunion\nselect 2 as id ,'Məqsədli ehtiyatlar üzre hesablar'as name from dual",
+   "variables": [],
+   "unit": "ReserveImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFrmReserve.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id ,'Adi ehtiyatlar üzre hesablar'as name from dual\nunion\nselect 2 as id ,'Məqsədli ehtiyatlar üzre hesablar'as name from dual",
+   "variables": [],
+   "unit": "ReserveImpl"
+  },
+  {
+   "name": "TrDescData",
+   "source": "TTrDescTuningForm.TrDescData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT RowID,iname, description, trdescription\n  FROM cm_trdescriptions",
+   "variables": [],
+   "unit": "TrDescTuningFormImpl"
+  },
+  {
+   "name": "DataSrcList",
+   "source": "TVFListForm.DataSrcList",
+   "kind": "TOracleDataSet",
+   "sql": "select VF.RowID,VF.* from CM_FIELDS_LIST VF\norder by vf.seqno",
+   "variables": [],
+   "unit": "VilibleFieldsListImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TExpert.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,t.* from cm_expert t",
+   "variables": [],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TExpert.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_filial",
+   "variables": [],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TExpert.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,t.* from cm_qovluq t",
+   "variables": [],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TExpert.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,t.* from cm_usergroups t--CM_PARTNIYOR t\norder by id asc",
+   "variables": [],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "ProblemliDSet",
+   "source": "TExpert.ProblemliDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,t.* from cm_folder_dueday\n t",
+   "variables": [],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "ProbUserDSet",
+   "source": "TExpert.ProbUserDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,t.* from cm_dueday_user_list\n t \nwhere due_id = :due_id",
+   "variables": [
+    {
+     "name": "DUE_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "UserDSet",
+   "source": "TExpert.UserDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name  from user$ where name in(select name from cm_adm_users)",
+   "variables": [],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TExpert.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,t.* from cm_folderusers\n t \nwhere qovid = :qovid",
+   "variables": [
+    {
+     "name": "QOVID",
+     "type": "float"
+    }
+   ],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TExpert.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,t.* from cm_partnerperiods t\nwhere partner_id=:partner_id\norder by beg_period",
+   "variables": [
+    {
+     "name": "PARTNER_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "expertImpl"
+  },
+  {
+   "name": "CatDataSet",
+   "source": "TUsrGrDataMod.CatDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select C.Rowid,c.*\nfrom cm_Categories C\norder by person",
+   "variables": [],
+   "unit": "uUsrGroupDMImpl"
+  },
+  {
+   "name": "PersonsDataSet",
+   "source": "TUsrGrDataMod.PersonsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select p.rowid,p.*\nfrom cm_persons p",
+   "variables": [],
+   "unit": "uUsrGroupDMImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TUsrGrDataMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,a.*\n  FROM cm_aim_cred a\n",
+   "variables": [],
+   "unit": "uUsrGroupDMImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TUsrGrDataMod.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id,'Qeyri iş günləri qrafikə təsir etsin' name from dual\nunion\nselect 2 id,'Qeyri iş günləri qrafikə təsir etməsin' name from dual",
+   "variables": [],
+   "unit": "uUsrGroupDMImpl"
+  },
+  {
+   "name": "UserGroupsDataSet",
+   "source": "TUsrGrDataMod.UserGroupsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,T.*\nfrom cm_usergroups T\norder by t.id",
+   "variables": [],
+   "unit": "uUsrGroupDMImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_SETUP",
+   "package": "CM_SETUP",
+   "mode": "positional",
+   "source": "TUsrGrDataMod.CM_SETUP",
+   "routines": [
+    {
+     "name": "CategoriesAdd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CategoriesDelete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CategoriesEdit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UsrGroupAdd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UsrGroupDelete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UsrGroupEdit",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SetupPackage",
+   "package": "CM_SETUP",
+   "mode": "named",
+   "source": "TMainReferForm.SetupPackage",
+   "routines": [
+    {
+     "name": "SetSetupIntValue",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "SetVFList",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "SetupPackg",
+   "package": "CM_SETUP",
+   "mode": "named",
+   "source": "TCreditTypeTuning.SetupPackg",
+   "routines": [
+    {
+     "name": "CreditType_Add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CreditType_Delete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CreditType_Edit",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": [
+  "delete cm_reserve_turan_filial where id="
+ ]
+}

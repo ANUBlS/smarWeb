@@ -32,23 +32,23 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "p_depositid": 0, "p_periodid": 0, "p_capitalperid": 0, "p_currencyid": 0};
   {
-    const $t1 = (await $.v(C, "DepositTypes"));
+    const $t1 = (await $.wobj(C, "DepositTypes"));
     await $.wset([$t1], "P_DepositID", (await $.mv((await $.wcall([$t1], "FieldByName", ["ID"], C)), "AsInteger")), { get: async () => L0["p_depositid"], set: async (v) => { L0["p_depositid"] = v; }, local: true });
   }
   {
-    const $t2 = (await $.v(C, "depcapitalperiods"));
+    const $t2 = (await $.wobj(C, "depcapitalperiods"));
     await $.wset([$t2], "P_CapitalPerID", (await $.mv((await $.wcall([$t2], "FieldByName", ["ID"], C)), "AsInteger")), { get: async () => L0["p_capitalperid"], set: async (v) => { L0["p_capitalperid"] = v; }, local: true });
   }
   {
-    const $t3 = (await $.v(C, "depperiods"));
+    const $t3 = (await $.wobj(C, "depperiods"));
     await $.wset([$t3], "P_PeriodID", (await $.mv((await $.wcall([$t3], "FieldByName", ["ID"], C)), "AsInteger")), { get: async () => L0["p_periodid"], set: async (v) => { L0["p_periodid"] = v; }, local: true });
   }
   {
-    const $t4 = (await $.v(C, "Valutes"));
+    const $t4 = (await $.wobj(C, "Valutes"));
     await $.wset([$t4], "P_CurrencyID", (await $.mv((await $.wcall([$t4], "FieldByName", ["VALUTE"], C)), "AsInteger")), { get: async () => L0["p_currencyid"], set: async (v) => { L0["p_currencyid"] = v; }, local: true });
   }
   {
-    const $t5 = (await $.v(C, "DepositPerSetting"));
+    const $t5 = (await $.wobj(C, "DepositPerSetting"));
     if ($.truthy((await $.wv([$t5], "Active", C, false)))) {
       await $.stmt($.wcall([$t5], "close", [], C));
     }
@@ -119,7 +119,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "DepositPerSetting"));
+    const $t7 = (await $.wobj(C, "DepositPerSetting"));
     if ($.truthy($.in_((await $.wv([$t7], "UpdateStatus", C, false)), [(await $.wv([$t7], "usInserted", C, false)), (await $.wv([$t7], "usModified", C, false))]))) {
       await $.mset((await $.wcall([$t7], "FieldByName", ["DepID"], C)), "AsInteger", (await $.mv((await $.mcall((await $.wv([$t7], "DepositTypes", C, false)), "FieldByName", ["ID"])), "AsInteger")));
       await $.mset((await $.wcall([$t7], "FieldByName", ["PeriodID"], C)), "AsInteger", (await $.mv((await $.mcall((await $.wv([$t7], "Depperiods", C, false)), "FieldByName", ["ID"])), "AsInteger")));
@@ -140,7 +140,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "Depositdatsettings"));
+    const $t8 = (await $.wobj(C, "Depositdatsettings"));
     if ($.truthy($.in_((await $.wv([$t8], "UpdateStatus", C, false)), [(await $.wv([$t8], "usInserted", C, false)), (await $.wv([$t8], "usModified", C, false))]))) {
       await $.mset((await $.wcall([$t8], "FieldByName", ["Depsetid"], C)), "AsInteger", (await $.mv((await $.mcall((await $.wv([$t8], "DepositPerSetting", C, false)), "FieldByName", ["ID"])), "AsInteger")));
       await $.mset((await $.wcall([$t8], "FieldByName", ["Depid"], C)), "AsInteger", (await $.mv((await $.mcall((await $.wv([$t8], "DepositTypes", C, false)), "FieldByName", ["Depid"])), "AsInteger")));

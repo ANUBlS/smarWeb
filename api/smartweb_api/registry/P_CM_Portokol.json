@@ -1,0 +1,99 @@
+{
+ "name": "P_CM_Portokol",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Protokol",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "DMprop",
+  "LogoutputImpl",
+  "OraVariables",
+  "ReportImpl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Erize",
+   "source": "TERizeFrm.Erize",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_active\nwhere status=2",
+   "variables": [],
+   "unit": "ErizeImpl"
+  },
+  {
+   "name": "sysdat",
+   "source": "Tmainform.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "Protokolimpl"
+  },
+  {
+   "name": "prot1",
+   "source": "TProtFrm.prot1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid ,a.* from cm_protokol1 a",
+   "variables": [],
+   "unit": "protImpl"
+  },
+  {
+   "name": "prot2",
+   "source": "TProtFrm.prot2",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid ,a.* from cm_protokol2 a",
+   "variables": [],
+   "unit": "protImpl"
+  },
+  {
+   "name": "Erize1",
+   "source": "TProtFrm.Erize1",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum,trunc(months_between(a.duedatefirstcontract,a.dateofconclusion)) muddet ,a.* from cm_active a\n\n\n\n\n",
+   "variables": [],
+   "unit": "protImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "Protokol",
+   "package": "CM_COMMON",
+   "mode": "positional",
+   "source": "Tmainform.Protokol",
+   "routines": [
+    {
+     "name": "up_port_protokol",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

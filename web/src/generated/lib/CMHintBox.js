@@ -31,14 +31,14 @@ export default function define($) {
   await $.set(C, "AutoSize", true);
   await $.set(C, "FShape", (await $.mcall((await $.v(C, "TShape")), "Create", [Self])));
   {
-    const $t1 = (await $.v(C, "FShape"));
+    const $t1 = (await $.wobj(C, "FShape"));
     await $.wset([$t1], "Parent", Self, C);
     await $.wset([$t1], "Align", (await $.wv([$t1], "alClient", C, false)), C);
     await $.stmt((await $.mcall((await $.wv([$t1], "Brush", C, false)), "Assign", [(await $.mv(Self, "Brush"))])));
   }
   await $.set(C, "FHintImage", (await $.mcall((await $.v(C, "TImage")), "Create", [Self])));
   {
-    const $t2 = (await $.v(C, "FHintImage"));
+    const $t2 = (await $.wobj(C, "FHintImage"));
     await $.wset([$t2], "Parent", Self, C);
     await $.wset([$t2], "Left", 1, C);
     await $.wset([$t2], "Top", 1, C);
@@ -48,7 +48,7 @@ export default function define($) {
   }
   await $.set(C, "FHintLabel", (await $.mcall((await $.v(C, "TLabel")), "Create", [Self])));
   {
-    const $t3 = (await $.v(C, "FHintLabel"));
+    const $t3 = (await $.wobj(C, "FHintLabel"));
     await $.wset([$t3], "Parent", Self, C);
     await $.wset([$t3], "Left", $.add((await $.mv((await $.wv([$t3], "FHintImage", C, false)), "Width")), 1), C);
     await $.wset([$t3], "Top", 1, C);
@@ -57,7 +57,7 @@ export default function define($) {
   }
   await $.set(C, "FHideTimer", (await $.mcall((await $.v(C, "TTimer")), "Create", [Self])));
   {
-    const $t4 = (await $.v(C, "FHideTimer"));
+    const $t4 = (await $.wobj(C, "FHideTimer"));
     await $.wset([$t4], "OnTimer", (await $.wv([$t4], "OnHideTimer", C, true)), C);
   }
   await $.set(C, "HintStyle", (await $.v(C, "DefaultHintStyle")));
@@ -98,7 +98,7 @@ export default function define($) {
   }
   await $.set(C, "FTimeout", L0["value"]);
   {
-    const $t6 = (await $.v(C, "FHideTimer"));
+    const $t6 = (await $.wobj(C, "FHideTimer"));
     if ($.truthy($.ne((await $.wv([$t6], "Value", { get: async () => L0["value"], set: async (v) => { L0["value"] = v; }, local: true }, false)), (-(1))))) {
       await $.wset([$t6], "Interval", (await $.wv([$t6], "Value", { get: async () => L0["value"], set: async (v) => { L0["value"] = v; }, local: true }, false)), C);
       await $.wset([$t6], "Enabled", (await $.wv([$t6], "True", C, false)), C);

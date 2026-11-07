@@ -1,0 +1,342 @@
+{
+ "name": "P_CM_ADM",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_ADM",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "cFileListComboBox",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "PluginsDataSet",
+   "source": "TadmDM.PluginsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id, pluginname, paramname, description, typeid, name\n  FROM cm_adm_plugins p, cm_adm_plugintypes t\n WHERE typeid=t.id\nORDER BY pluginname",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "CredUsersDataSet",
+   "source": "TadmDM.CredUsersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   c.ID, cm_administration.getuserid (c.NAME) systemid, c.NAME,\n         o.createdate, o.description, o.fullname, f.name filial, c.typeid\n    FROM cm_adm_users c, sb_usersinfo o, filial f\n   WHERE c.NAME = o.obj\n     and o.filialid = f.id\nORDER BY c.NAME",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "SmartUsersDataSet",
+   "source": "TadmDM.SmartUsersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ID, NAME\n    FROM cm_all_users\n   WHERE NAME NOT IN (SELECT NAME\n                        FROM cm_adm_users) AND NAME NOT IN (SELECT NAME\n                                                              FROM cm_adm_roots)\nORDER BY NAME",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "LAZIM",
+   "source": "TadmDM.LAZIM",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT description, pluginname, paramname, decode(userid, null, 0, 1) as granthav\n  FROM cm_adm_plugins p, (SELECT userid, pluginid\n                            FROM cm_adm_usergrants\n                           WHERE userid = :userid) g\n WHERE p.ID = g.pluginid(+)",
+   "variables": [
+    {
+     "name": "USERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "OtherGrantsDataSet",
+   "source": "TadmDM.OtherGrantsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  id, description\n    FROM cm_adm_plugins\n   WHERE ID NOT IN (SELECT pluginid\n                      FROM cm_adm_usergrants\n                     WHERE userid = :USID)\nORDER BY description",
+   "variables": [
+    {
+     "name": "USID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "UserGrantsDataSet",
+   "source": "TadmDM.UserGrantsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ID, description\n    FROM cm_adm_usergrants g, cm_adm_plugins p\n   WHERE g.pluginid = p.ID AND userid = :usid\nORDER BY description",
+   "variables": [
+    {
+     "name": "USID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "GroupsDataSet",
+   "source": "TadmDM.GroupsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   g.ID, g.NAME, t.NAME grouptype, g.description\n    FROM cm_adm_groups g, cm_adm_grouptypes t\n   WHERE g.typeid = t.ID\nORDER BY g.NAME",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "GroupManagerDataSet",
+   "source": "TadmDM.GroupManagerDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT userid, groupid, usertype\n  FROM cm_adm_groupmanager",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "UserInGroupDataSet",
+   "source": "TadmDM.UserInGroupDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.description usertype, g.NAME groupname, gt.NAME grouptype,\n       g.description groupdesc, userid\n  FROM cm_adm_groupmanager m,\n       cm_adm_groups g,\n       cm_adm_groupusertypes t,\n       cm_adm_grouptypes gt\n WHERE userid = :userid\n   AND m.groupid = g.ID\n   AND m.usertype = t.ID\n   AND g.typeid = gt.ID",
+   "variables": [
+    {
+     "name": "USERID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "GroupTypeDataSet",
+   "source": "TadmDM.GroupTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ID, NAME\n    FROM cm_adm_grouptypes\nORDER BY ID",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "GroupUsersDataSet",
+   "source": "TadmDM.GroupUsersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   u.NAME, t.description, m.groupid\n    FROM cm_adm_groupmanager m, cm_adm_users u, cm_adm_groupusertypes t\n   WHERE m.groupid = :GROUPID\n     AND m.userid = cm_administration.getuserid (u.NAME)\n     AND t.ID = m.usertype\nORDER BY m.usertype",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "GrMasterUsers",
+   "source": "TadmDM.GrMasterUsers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT u.NAME, m.groupid\n  FROM cm_adm_groupmanager m, cm_all_users u\n WHERE m.usertype = 1 AND m.userid = u.ID AND groupid = :groupid",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "GrSlaveUsers",
+   "source": "TadmDM.GrSlaveUsers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT u.NAME, m.groupid\n  FROM cm_adm_groupmanager m, cm_all_users u\n WHERE m.usertype = 2 AND m.userid = u.ID AND groupid = :groupid",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "GrNeutralUsers",
+   "source": "TadmDM.GrNeutralUsers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT u.NAME, m.groupid\n  FROM cm_adm_groupmanager m, cm_all_users u\n WHERE m.usertype = 3 AND m.userid = u.ID AND groupid = :groupid",
+   "variables": [
+    {
+     "name": "GROUPID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "PluginTypesDataSet",
+   "source": "TadmDM.PluginTypesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name\n  from cm_adm_plugintypes",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "UserTypeDataSet",
+   "source": "TadmDM.UserTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select typeid, name\n  from cm_adm_users\n where name = :name",
+   "variables": [
+    {
+     "name": "NAME",
+     "type": "string"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "AdditionSrcGRDSet",
+   "source": "TadmDM.AdditionSrcGRDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM cm_adm_addition a ,cm_adm_additiongr g\n  where a.id=g.additionid \n and g.userid = :USID",
+   "variables": [
+    {
+     "name": "USID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "AdditionDSet",
+   "source": "TadmDM.AdditionDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM cm_adm_addition \n  WHERE ID NOT IN (SELECT additionid\n                  FROM cm_adm_additiongr  WHERE userid = :USID)\n order by id        ",
+   "variables": [
+    {
+     "name": "USID",
+     "type": "integer"
+    }
+   ],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "sysdat",
+   "source": "TadmDM.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sysdat",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TadmDM.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "Select -1 id,'Bütün filiallar' name from filial_t\nunion\nSelect id,name from filial_t\n\norder by id",
+   "variables": [],
+   "unit": "admDataModule"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TadmDM.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select (select numberofcredit from cm_portfolio where id=a.creditid) num,(select dateofconclusion from cm_portfolio where id=a.creditid) muqdat, a.* from CM_PORTFOLIO_UPDATE a\nwhere hdate between :bdat and :edat\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "admDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_ADMIN",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TadmDM.CM_ADMIN",
+   "routines": [
+    {
+     "name": "addAdditionusergrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addcontroltype",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addcredituser",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addplugin",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "addusergrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deleteplugin",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deluser",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "deluserAdditio",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delusergrant",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "grmaddgroup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "grmcleargroup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "grmdelgroup",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "grmuseraddingroupbyname",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updateplugin",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

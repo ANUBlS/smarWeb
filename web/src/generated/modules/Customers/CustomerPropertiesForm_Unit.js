@@ -69,7 +69,7 @@ export default function define($) {
   await $.fixArgs(L0, ["customer"]);
   await $.set(C, "FCustomerParams", L0["customer"]);
   {
-    const $t3 = (await $.v(C, "CustomerParams"));
+    const $t3 = (await $.wobj(C, "CustomerParams"));
     await $.mset((await $.wv([$t3], "OpenDateEdit", C, false)), "DateTime", (await $.wv([$t3], "OpenDate", C, false)));
     await $.mset((await $.wv([$t3], "CloseDateEdit", C, false)), "DateTime", (await $.wv([$t3], "CloseDate", C, false)));
     await $.wset([$t3], "ClientClosed", $.ne((await $.wv([$t3], "CloseDate", C, false)), (await $.wv([$t3], "NullDate", C, false))), C);

@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sid": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sid"]);
   {
-    const $t1 = (await $.v(C, "UsersData"));
+    const $t1 = (await $.wobj(C, "UsersData"));
     await $.stmt($.wcall([$t1], "Close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["SID", (await $.wv([$t1], "Sid", { get: async () => L0["sid"], set: async (v) => { L0["sid"] = v; }, local: true }, false))], C)));
     await $.stmt($.wcall([$t1], "Open", [], C));
@@ -39,7 +39,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "index": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "UsersGrid"));
+    const $t2 = (await $.wobj(C, "UsersGrid"));
     { const $t3 = $.sub((await $.mv((await $.wv([$t2], "SelectedRows", C, false)), "Count")), 1);
       await $.wset([$t2], "Index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
       let $t4 = true;

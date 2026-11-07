@@ -275,7 +275,7 @@ export default function define($) {
   await $.set(C, "TrData", (await $.mcall((await $.v(C, "TTrData")), "create", [Self])));
   await $.set(C, "FormImage", (await $.mcall((await $.v(C, "TFormImage")), "create", [Self])));
   {
-    const $t1 = (await $.v(C, "TrData"));
+    const $t1 = (await $.wobj(C, "TrData"));
     await $.mset((await $.wv([$t1], "DTPCurrentDate_laz", C, false)), "Date", (await $.mv((await $.mcall((await $.wv([$t1], "ods_sys", C, false)), "FieldByName", ["TEK_DAT"])), "AsDateTime")));
     await $.mset((await $.wv([$t1], "DTPCurrentDate_pro", C, false)), "Date", (await $.mv((await $.mcall((await $.wv([$t1], "ods_sys", C, false)), "FieldByName", ["TEK_DAT"])), "AsDateTime")));
     await $.wset([$t1], "CurrentDate", (await $.mv((await $.wv([$t1], "ods_sysTEK_DAT", C, false)), "AsDateTime")), { get: async () => L0["currentdate"], set: async (v) => { L0["currentdate"] = v; }, local: true });
@@ -290,7 +290,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "currentdate": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "TrData"));
+    const $t2 = (await $.wobj(C, "TrData"));
     await $.mcall((await $.wv([$t2], "Transactions_lazytr", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t2], "Transactions_lazytr", C, false)), "SetVariable", ["TransactionDate", (await $.wcall([$t2], "Trunc", [(await $.mv((await $.wv([$t2], "DTPCurrentDate_laz", C, false)), "DateTime"))], C))])));
     await $.mcall((await $.wv([$t2], "Transactions_lazytr", C, false)), "Open", []);
@@ -302,7 +302,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "currentdate": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "TrData"));
+    const $t3 = (await $.wobj(C, "TrData"));
     await $.mcall((await $.wv([$t3], "Transactions_provarch", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t3], "Transactions_provarch", C, false)), "SetVariable", ["TransactionDate", (await $.wcall([$t3], "Trunc", [(await $.mv((await $.wv([$t3], "DTPCurrentDate_pro", C, false)), "DateTime"))], C))])));
     await $.mcall((await $.wv([$t3], "Transactions_provarch", C, false)), "Open", []);
@@ -316,7 +316,7 @@ export default function define($) {
   L0["commitedcount"] = 0;
   L0["errorcount"] = 0;
   {
-    const $t4 = (await $.v(C, "TrData"));
+    const $t4 = (await $.wobj(C, "TrData"));
     const $t5 = (await $.wv([$t4], "GridTransactions", C, false));
     const $t6 = (await $.wv([$t4, $t5], "SelectedRows", C, false));
     const $t7 = (await $.mv((await $.wv([$t4, $t5, $t6], "DataSource", C, false)), "DataSet"));

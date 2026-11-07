@@ -515,6 +515,18 @@ export default [
   "source": "Packages/Cards_New/cards_azericard/cfile_addi.pas"
  },
  {
+  "unit": "cFileListComboBox",
+  "file": "cFileListComboBox",
+  "form": null,
+  "ok": 6,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TFileListComboBox"
+  ],
+  "source": "Packages/VCL/cFileListComboBox.pas"
+ },
+ {
   "unit": "cfilepas",
   "file": "cfilepas",
   "form": "Tcfile",
@@ -585,6 +597,187 @@ export default [
    "TCMDataModule"
   ],
   "source": "Packages/SB_Credit/CMOracleAPI/CMOracleAPIDataModuleImpl.pas"
+ },
+ {
+  "unit": "CO_Choose_unit",
+  "file": "CO_Choose_unit",
+  "form": "TCO_Choose",
+  "ok": 7,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_Choose"
+  ],
+  "source": "Packages/Customer_Operations/CO_Choose_unit.pas"
+ },
+ {
+  "unit": "co_commission_unit",
+  "file": "co_commission_unit",
+  "form": "TCO_Commission",
+  "ok": 9,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_Commission"
+  ],
+  "source": "Packages/Customer_Operations/co_commission_unit.pas"
+ },
+ {
+  "unit": "CO_datamod_impl",
+  "file": "CO_datamod_impl",
+  "form": "TCO_DataMod",
+  "ok": 15,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_DataMod"
+  ],
+  "source": "Packages/Customer_Operations/CO_datamod_impl.pas"
+ },
+ {
+  "unit": "CO_In_Unit",
+  "file": "CO_In_Unit",
+  "form": "TCO_In_Form",
+  "ok": 5,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_In_Form"
+  ],
+  "source": "Packages/CashDeskLast/CO_In_Unit.pas"
+ },
+ {
+  "unit": "co_info_unit",
+  "file": "co_info_unit",
+  "form": "TCO_Infoform",
+  "ok": 11,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_Infoform"
+  ],
+  "source": "Packages/Customer_Operations/co_info_unit.pas"
+ },
+ {
+  "unit": "CO_Interval_unit",
+  "file": "CO_Interval_unit",
+  "form": "TFormInterval",
+  "ok": 8,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TFormInterval"
+  ],
+  "source": "Packages/Customer_Operations/CO_Interval_unit.pas"
+ },
+ {
+  "unit": "co_memorial",
+  "file": "co_memorial",
+  "form": "TCO_MemorialForm",
+  "ok": 12,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_MemorialForm"
+  ],
+  "source": "Packages/Customer_Operations/co_memorial.pas"
+ },
+ {
+  "unit": "CO_MemorialRep1_unit",
+  "file": "CO_MemorialRep1_unit",
+  "form": "TCO_MemorialRep1",
+  "ok": 1,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_MemorialRep1"
+  ],
+  "source": "Packages/Customer_Operations/CO_MemorialRep1_unit.pas"
+ },
+ {
+  "unit": "CO_Out_Unit",
+  "file": "CO_Out_Unit",
+  "form": "TCO_Out_Form",
+  "ok": 5,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_Out_Form"
+  ],
+  "source": "Packages/CashDeskLast/CO_Out_Unit.pas"
+ },
+ {
+  "unit": "co_properties_unit",
+  "file": "co_properties_unit",
+  "form": "TCO_PropertiesForm",
+  "ok": 4,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "ERecordNotFound",
+   "TCO_PropertiesForm"
+  ],
+  "source": "Packages/Customer_Operations/co_properties_unit.pas"
+ },
+ {
+  "unit": "CO_reportUnit",
+  "file": "CO_reportUnit",
+  "form": "TCO_Report",
+  "ok": 1,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_Report"
+  ],
+  "source": "Packages/Customer_Operations/CO_reportUnit.pas"
+ },
+ {
+  "unit": "co_st_check",
+  "file": "co_st_check",
+  "form": "TCO_St_Form",
+  "ok": 7,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_St_Form"
+  ],
+  "source": "Packages/Customer_Operations/co_st_check.pas"
+ },
+ {
+  "unit": "CO_Statement_impl",
+  "file": "CO_Statement_impl",
+  "form": "TCO_Statement_Form",
+  "ok": 21,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_Statement_Form"
+  ],
+  "source": "Packages/Customer_Operations/CO_Statement_impl.pas"
+ },
+ {
+  "unit": "CO_transact_unit",
+  "file": "CO_transact_unit",
+  "form": "TCO_Transact",
+  "ok": 23,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_Transact"
+  ],
+  "source": "Packages/Customer_Operations/CO_transact_unit.pas"
+ },
+ {
+  "unit": "CO_TransactionPropertiesImpl",
+  "file": "CO_TransactionPropertiesImpl",
+  "form": "TCO_Transaction",
+  "ok": 44,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TCO_Transaction"
+  ],
+  "source": "Packages/Customer_Operations/CO_TransactionPropertiesImpl.pas"
  },
  {
   "unit": "CollectionDataModUnit",
@@ -789,6 +982,18 @@ export default [
   "source": "Packages/Cr_Credit/CR_COMMON/crTemporaryTransactionsViewFormImpl.pas"
  },
  {
+  "unit": "CtagoriesImpl",
+  "file": "CtagoriesImpl",
+  "form": "TFrmCatagories",
+  "ok": 6,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TFrmCatagories"
+  ],
+  "source": "Packages/SB_Credit/CM_AutoPayment/CM_Balisrc/CtagoriesImpl.pas"
+ },
+ {
   "unit": "cuCommonDataModuleImpl",
   "file": "CUCommonDataModuleImpl",
   "form": "TCUCommonDataModule",
@@ -987,6 +1192,18 @@ export default [
    "Tfreportdatamod"
   ],
   "source": "Packages/Cards_New/FileReprt/datamodsUnit.pas"
+ },
+ {
+  "unit": "DataModTM",
+  "file": "DataModTM",
+  "form": "TDataModuleTicketMan",
+  "ok": 1,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TDataModuleTicketMan"
+  ],
+  "source": "Packages/TicketsMan/DataModTM.pas"
  },
  {
   "unit": "DataModuleStoredPrograms",
@@ -1412,6 +1629,30 @@ export default [
   "source": "Packages/SWIFT_MANAGER_IBAN_NEW/insett.pas"
  },
  {
+  "unit": "inv_ArchiveImpl",
+  "file": "inv_ArchiveImpl",
+  "form": "Tinv_Archive",
+  "ok": 7,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "Tinv_Archive"
+  ],
+  "source": "Packages/PaymentDecree/inv_ArchiveImpl.pas"
+ },
+ {
+  "unit": "KeyListBox",
+  "file": "KeyListBox",
+  "form": null,
+  "ok": 4,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TKeyListBox"
+  ],
+  "source": "Packages/VCL/KeyListBox.pas"
+ },
+ {
   "unit": "klirinqUnit",
   "file": "klirinqUnit",
   "form": "TKlirinq_form",
@@ -1687,6 +1928,30 @@ export default [
   "source": "Packages/SBGeneral/Payment_DataModul.pas"
  },
  {
+  "unit": "PaymentDataModul",
+  "file": "PaymentDataModul",
+  "form": "TPaymentDataMod",
+  "ok": 2,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TPaymentDataMod"
+  ],
+  "source": "Packages/PaymentDecree/PaymentDataModul.pas"
+ },
+ {
+  "unit": "PaymentDecreeImpl",
+  "file": "PaymentDecreeImpl",
+  "form": "TPaymentDecree",
+  "ok": 76,
+  "fail": 0,
+  "activeForm": "TPaymentDecree",
+  "classes": [
+   "TPaymentDecree"
+  ],
+  "source": "Packages/PaymentDecree/PaymentDecreeImpl.pas"
+ },
+ {
   "unit": "paymentsett",
   "file": "paymentsett",
   "form": "TPaymentset",
@@ -1794,6 +2059,18 @@ export default [
    "TPostCommisionOnus"
   ],
   "source": "Packages/Cards_New/cards_azericard/PostCommisionOnusImpl.pas"
+ },
+ {
+  "unit": "ProgressFormImpl",
+  "file": "ProgressFormImpl",
+  "form": "TProgressForm",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TProgressForm"
+  ],
+  "source": "Packages/SB_Credit/CM_FolderPlace/ProgressFormImpl.pas"
  },
  {
   "unit": "qrp1",
@@ -3490,6 +3767,18 @@ export default [
   "source": "Packages/MainResource/Uniybuysellwares.pas"
  },
  {
+  "unit": "UntArchive",
+  "file": "UntArchive",
+  "form": "TFrmArchive",
+  "ok": 14,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TFrmArchive"
+  ],
+  "source": "Packages/PaymentDecree/UntArchive.pas"
+ },
+ {
   "unit": "UntConclusionDataModule",
   "file": "UntConclusionDataModule",
   "form": "TDataModContract",
@@ -3609,6 +3898,18 @@ export default [
    "TQRMainReport"
   ],
   "source": "Packages/SBGeneral/UntMain_Report.pas"
+ },
+ {
+  "unit": "UntMainReport",
+  "file": "UntMainReport",
+  "form": "TQRMainReport",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TQRMainReport"
+  ],
+  "source": "Packages/TicketsMan/UntMainReport.pas"
  },
  {
   "unit": "UntMainTransactions",
@@ -3731,6 +4032,18 @@ export default [
   "source": "Packages/SBGeneral/UntSecond_Report.pas"
  },
  {
+  "unit": "UntSecondReport",
+  "file": "UntSecondReport",
+  "form": "TQRCommonReport",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TQRCommonReport"
+  ],
+  "source": "Packages/TicketsMan/UntSecondReport.pas"
+ },
+ {
   "unit": "UserSelectFormImpl",
   "file": "UserSelectFormImpl",
   "form": "TUserSelectForm",
@@ -3765,6 +4078,16 @@ export default [
    "TFrmWithDraw"
   ],
   "source": "DepozitAqroinvest_neftfondu/SBDM_WithDraw/WithDrawUnit.pas"
+ },
+ {
+  "unit": "WorldCheckProc",
+  "file": "WorldCheckProc",
+  "form": null,
+  "ok": 3,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [],
+  "source": "Packages/WorldCheck/WorldCheckProc.pas"
  },
  {
   "unit": "yoxp",

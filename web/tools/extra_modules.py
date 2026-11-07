@@ -6,7 +6,9 @@ canonical, non-dated folder is used), packages already in the menu were dropped,
 report packages (statements, balances, turnover, control tape … — reports are out of scope),
 the host program, plugin plumbing and abandoned "---" folders.
 
-(module name, package dir, category, caption)
+(module name, package dir, category, caption) — a category '@Root/Sub' puts the item into that existing branch of
+the SmartBank.ini tree (OCX modules the bank registers in its own SmartBank.ini, AddActiveX2SmartBank.txt, that the
+repository's INI does not list). New entries go at the end: the list position is the menu action number.
 """
 EXTRA_ROOT = 'Əlavə modullar'
 
@@ -14,8 +16,8 @@ EXTRA = [
     # --- Kreditlər
     ('XCreditsConstruction', 'Packages/CreditsManagerConstruction', 'Kreditlər', 'Tikinti kreditlərinin idarə olunması'),
     ('XCreditsMgr', 'Packages/CreditsManger', 'Kreditlər', 'Kreditlər (sadə menecer)'),
-    ('XCreditsMgrSB', 'Packages/SB_Credit/Sm_creditsmgr', 'Kreditlər', 'Kredit menecer (SB)'),
-    ('XCreditArchive', 'Packages/ArCive_Credit/Archve_Credit', 'Kreditlər', 'Kreditlərin arxivi'),
+    ('CreditManager', 'Packages/CreditManager', 'Kreditlər', 'Kredit menecer (CreditManager, SBCM_*)'),  # was menu action 29
+    ('CreditsArchive', 'Packages/SBCM_CreditsArchive', 'Kreditlər', 'Kreditlərin arxivi (SBCM_*)'),  # was menu action 34
     ('XGuaranty', 'Packages/Cr_Credit/Guaranty', 'Kreditlər', 'Zəmanətlər'),
     ('XGuarantee', 'Packages/Guarantee', 'Kreditlər', 'Bank zəmanətlərinin idarə olunması'),
     ('XProblemCredits', 'Packages/ProblemCreditMgrs', 'Kreditlər', 'Problemli kreditlər'),
@@ -61,7 +63,7 @@ EXTRA = [
     ('XCustomersOrders', 'Packages/CustomersOrders', 'Müştərilər və uyğunluq', 'Müştərilərin sərəncamları'),
     ('XCustAnalysis', 'Packages/Cust_Analiz', 'Müştərilər və uyğunluq', 'Müştəri analizi'),
     ('XRelatedPersons', 'Packages/RelatedPersons', 'Müştərilər və uyğunluq', 'Banka aidiyyəti olan şəxslər'),
-    ('XPCustService', 'Packages/PCustService', 'Müştərilər və uyğunluq', 'Müştəri xidməti'),
+    ('PCustService', 'Packages/PCustService2026', '@Balans/Müştərilər', 'Müştəri xidməti'),  # PCustService.ocx
     ('XGoAml', 'Packages/PCUST_Servic', 'Müştərilər və uyğunluq', 'GoAML xidməti'),
     ('XBlackList', 'Packages/Black_Inst', 'Müştərilər və uyğunluq', 'Qara siyahı'),
     ('XThomson', 'Packages/Thomson', 'Müştərilər və uyğunluq', 'Thomson Reuters yoxlaması'),
@@ -112,6 +114,8 @@ EXTRA = [
     ('XTickets', 'Packages/TicketsMan', 'İdarəetmə', 'Biletlər'),
     ('XPutyovka', 'Packages/Putyovka', 'İdarəetmə', 'Putyovkalar'),
     # --- Sığorta: removed (not used; 30.10.2026)
+    # --- appended at the end so the action numbers above stay the same
+    ('P_Customers', 'Packages/P_Customers', '@Balans/Müştərilər', 'Fiziki şəxslər üzrə əməliyyatlar'),  # P_Customers.ocx
 ]
 
 CATEGORY_ORDER = ['Kreditlər', 'Depozitlər', 'Ödənişlər və köçürmələr', 'Kartlar', 'Müştərilər və uyğunluq',
@@ -125,7 +129,16 @@ FIRST_ACTION = 1000
 # SmartBank.ini menu nodes removed from the web menu (caption path); the module itself stays available
 INI_MENU_HIDDEN = {
     ('Balans', 'Əməliyyat günü', 'Əməliyyatlar'),  # Transactions: replaced by Günün sənədləri (TransactionManager)
+    ('Balans', 'Əməliyyat günü', 'Hesablar'),  # Accounts: not needed, Yeni hesablar (Account) is used (01.11.2026)
 }
 
 MENU_HIDDEN = {
+}
+
+# Modules with plugin menus (TPluginToolBar / TPluginPopupMenu): their buttons name BPL packages in
+# installation INI files (web/bin). Every package of these folders is built for the module, so the
+# bank's INI files work as they are; packages named in web/bin/*.ini are built as well.
+PLUGIN_FAMILIES = {
+    'XCreditsMgrSB': ['Packages/SB_Credit'],
+    'XCreditArchive': ['Packages/ArCive_Credit'],
 }

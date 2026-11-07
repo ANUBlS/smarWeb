@@ -1,0 +1,81 @@
+{
+ "name": "P_CM_PortFel_Filials",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_PortFel_Filial",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Branches",
+   "source": "TPFDataMod.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,name from filial",
+   "variables": [],
+   "unit": "PortfelFilialsDatModImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TPFDataMod.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,descripion from cm_persons",
+   "variables": [],
+   "unit": "PortfelFilialsDatModImpl"
+  },
+  {
+   "name": "Results",
+   "source": "TPFDataMod.Results",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT personsname, filialname, facticalrest, rest, restdue, tramt,\n       payamt, paydue, expamt, lastfacticalrest, lastrest, lastduerest,\n       percentexp, tranchplamt, payplamt\n  FROM cm_port_filials  ORDER BY filialname\n /* where personsname='Физики şəxs'\n  \n  union all\n  \n  SELECT personsname, filialname, facticalrest, rest, restdue, tramt,\n       payamt, paydue, expamt, lastfacticalrest, lastrest, lastduerest,\n       percentexp, tranchplamt, payplamt\n  FROM cm_port_filials  \n  where personsname='Hüquqi şəxs'*/",
+   "variables": [],
+   "unit": "PortfelFilialsDatModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_AK_REPORTS",
+   "package": "CM_AK_REPORTS",
+   "mode": "positional",
+   "source": "TPFDataMod.CM_AK_REPORTS",
+   "routines": [
+    {
+     "name": "Portfel_Filials",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

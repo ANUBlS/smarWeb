@@ -20,7 +20,7 @@ export default function define($) {
   const L0 = {"act": $.copyArg(p0), result: null};
   await $.fixArgs(L0, ["act"]);
   {
-    const $t1 = (await $.v(C, "btApply"));
+    const $t1 = (await $.wobj(C, "btApply"));
     { const $t2 = (await $.wcall([$t1], "Ord", [(await $.wv([$t1], "Act", { get: async () => L0["act"], set: async (v) => { L0["act"] = v; }, local: true }, false))], C));
       if ($.eq($t2, 1)) {
         await $.wset([$t1], "Caption", "Əlavə", C);
@@ -134,7 +134,7 @@ export default function define($) {
     }
   }
   {
-    const $t8 = (await $.v(C, "AdministrationData"));
+    const $t8 = (await $.wobj(C, "AdministrationData"));
     const $t9 = ((await $.mv((await $.mv((await $.wv([$t8], "grModules", C, false)), "DataSource")), "DataSet")));
     if ($.truthy($.not(((await $.wv([$t8, $t9], "ACTIVE", C, false)))))) {
       await $.stmt((await $.wcall([$t8, $t9], "SetVariable", ["MODULE", $.add("SBR_", (await $.mv((await $.mcall((await $.wv([$t8, $t9], "ModulesData", C, false)), "FieldByName", ["Description"])), "AsString")))], C)));
@@ -162,7 +162,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "objpriv": ''};
   {
-    const $t10 = (await $.v(C, "AdministrationData"));
+    const $t10 = (await $.wobj(C, "AdministrationData"));
     const $t11 = (await $.mv((await $.wv([$t10], "AdministrationData", C, false)), "ObjectsData"));
     const $t12 = (await $.mcall((await $.mv((await $.wv([$t10, $t11], "AdministrationData", C, false)), "ObjectsData")), "FieldByName", ["OBJECT_TYPE"]));
     if ($.truthy((await $.or_(($.eq((await $.wv([$t10, $t11, $t12], "AsString", C, false)), "VIEW")), async () => ($.eq((await $.wv([$t10, $t11, $t12], "AsString", C, false)), "TABLE")))))) {
@@ -191,7 +191,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "AdministrationData"));
+    const $t13 = (await $.wobj(C, "AdministrationData"));
     await $.mcall((await $.wv([$t13], "ModPrivsData", C, false)), "Close", []);
     await $.mcall((await $.wv([$t13], "ModPrivsData", C, false)), "Open", []);
     await $.mcall((await $.wv([$t13], "ObjectsData", C, false)), "Refresh", []);
@@ -203,7 +203,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), "shift": $.copyArg(p2), result: undefined};
   await $.fixArgs(L0, ["sender", "shift"]);
   {
-    const $t14 = (await $.v(C, "AdministrationData"));
+    const $t14 = (await $.wobj(C, "AdministrationData"));
     if ($.truthy($.eq((await $.wv([$t14], "Key", { get: async () => await L0["key"].get(), set: async (v) => { await L0["key"].set(v); }, local: true }, false)), (await $.wv([$t14], "vk_delete", C, false))))) {
       if ($.truthy($.eq((await $.wcall([$t14], "MessageDlg", ["Ləğv olunsun?", (await $.wv([$t14], "mtConfirmation", C, false)), [(await $.wv([$t14], "mbYes", C, false)), (await $.wv([$t14], "mbNo", C, false))], 0], C)), (await $.wv([$t14], "mrYes", C, false))))) {
         await $.mcall((await $.wv([$t14], "ModPrivsData", C, false)), "Delete", []);
@@ -220,7 +220,7 @@ export default function define($) {
   const L1 = {"isenabled": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L1, ["isenabled"]);
   {
-    const $t15 = (await $.v(C, "gbObjPrivs"));
+    const $t15 = (await $.wobj(C, "gbObjPrivs"));
     { const $t16 = $.sub((await $.wv([$t15], "ControlCount", C, false)), 1);
       await $.wset([$t15], "i", 0, { get: async () => L1["i"], set: async (v) => { L1["i"] = v; }, local: true });
       let $t17 = true;
@@ -239,7 +239,7 @@ export default function define($) {
 });
   L0["isenable"] = false;
   {
-    const $t18 = (await $.v(C, "gbObjPrivs"));
+    const $t18 = (await $.wobj(C, "gbObjPrivs"));
     { const $t19 = $.sub((await $.wv([$t18], "ControlCount", C, false)), 1);
       await $.wset([$t18], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t20 = true;

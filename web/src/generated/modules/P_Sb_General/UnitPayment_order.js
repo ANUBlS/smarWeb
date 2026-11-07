@@ -247,7 +247,7 @@ export default function define($) {
   await $.set(C, "QRMainReport_cap", (await $.mcall((await $.v(C, "TQRMainReport_cap")), "Create", [Self])));
   await $.set(C, "QRCommonReport_cap", (await $.mcall((await $.v(C, "TQRCommonReport_cap")), "Create", [Self])));
   {
-    const $t17 = (await $.v(C, "PaymentOrderDataMod"));
+    const $t17 = (await $.wobj(C, "PaymentOrderDataMod"));
     await $.mcall((await $.wv([$t17], "ODSAccounts_PyaOrder", C, false)), "Open", []);
     await $.mcall((await $.wv([$t17], "ODSBankInfo", C, false)), "Open", []);
     await $.mcall((await $.wv([$t17], "ODSBankM", C, false)), "Open", []);
@@ -278,7 +278,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.ne((await $.v(C, "odeme_trid")), ""))) {
     {
-      const $t20 = (await $.v(C, "PaymentOrderDataMod"));
+      const $t20 = (await $.wobj(C, "PaymentOrderDataMod"));
       const $t21 = (await $.wv([$t20], "ODS_DEBIT", C, false));
       await $.stmt($.wcall([$t20, $t21], "close", [], C));
       await $.wset([$t20, $t21], "a", (await $.wcall([$t20, $t21], "strtoint", [(await $.wv([$t20, $t21], "odeme_trid", C, false))], C)), { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true });
@@ -298,7 +298,7 @@ export default function define($) {
       }
     }
     {
-      const $t23 = (await $.v(C, "PaymentOrderDataMod"));
+      const $t23 = (await $.wobj(C, "PaymentOrderDataMod"));
       const $t24 = (await $.wv([$t23], "ODS_Kredit", C, false));
       await $.stmt($.wcall([$t23, $t24], "close", [], C));
       await $.wset([$t23, $t24], "a", (await $.wcall([$t23, $t24], "strtoint", [(await $.wv([$t23, $t24], "odeme_trid", C, false))], C)), { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true });
@@ -323,7 +323,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0, "a": 0, "s": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t26 = (await $.v(C, "QRMainReport_cap"));
+    const $t26 = (await $.wobj(C, "QRMainReport_cap"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t26], "EPNum", C, false)), "Text")), ""))) {
       await $.stmt((await $.wcall([$t26], "showmessage", ["Ödəmə tapşırığının № -ni daxil edin  !"], C)));
       return L0.result;
@@ -522,7 +522,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0, "a": 0, "s": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t36 = (await $.v(C, "QRCommonReport_cap"));
+    const $t36 = (await $.wobj(C, "QRCommonReport_cap"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t36], "EPNum", C, false)), "Text")), ""))) {
       await $.stmt((await $.wcall([$t36], "showmessage", ["Ödəmə tapşırığının № -ni daxil edin  !"], C)));
       return L0.result;

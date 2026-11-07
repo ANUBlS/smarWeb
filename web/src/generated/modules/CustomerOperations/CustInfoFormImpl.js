@@ -24,7 +24,7 @@ export default function define($) {
   const L0 = {"customerid": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["customerid"]);
   {
-    const $t1 = (await $.v(C, "CustInfoData"));
+    const $t1 = (await $.wobj(C, "CustInfoData"));
     if ($.truthy($.eq((await $.wv([$t1], "RecordCount", C, false)), 0))) {
       await $.mcall((await $.wv([$t1], "ToolButton2", C, false)), "Click", []);
     }
@@ -181,7 +181,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "custids": '', "i": 0};
   {
-    const $t13 = (await $.v(C, "CustomerInfoForm"));
+    const $t13 = (await $.wobj(C, "CustomerInfoForm"));
     await $.mcall((await $.mv((await $.wv([$t13], "CO_DataMod", C, false)), "Customers_relations")), "Close", []);
     await $.stmt((await $.mcall((await $.mv((await $.wv([$t13], "CO_DataMod", C, false)), "Customers_relations")), "SetVariable", ["v_custid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t13], "CO_DataMod", C, false)), "Customers")), "FieldByName", ["ID"])), "AsInteger"))])));
     await $.mcall((await $.mv((await $.wv([$t13], "CO_DataMod", C, false)), "Customers_relations")), "Open", []);

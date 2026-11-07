@@ -19,12 +19,14 @@ ACTIONS = {
     26: ('AboutBanks', 'Packages/AboutBanks'),
     27: ('LastRates', 'Packages/LastRates'),
     28: ('RepairNew', 'Packages/Repair New'),
-    29: ('CreditManager', 'Packages/CreditManager'),
+    # the bank's SmartBank.ini: Kreditlərin idarə olunması = Creditsmgr.ocx (CM_* tables); the bank's build is the
+    # _nbc variant (the list opens at once, tool bar shown), Sm_creditsmgr opens with both hidden
+    29: ('XCreditsMgrSB', 'Packages/SB_Credit/SM_Creditsmgr_nbc/Sm_creditsmgr'),
     30: ('ContractCorrection', 'Packages/SBCM_ContractCorrection'),
     31: ('MainFacilities', 'Packages/MainFacilities'),
     32: ('DepositManager', 'DepozitAqroinvest_neftfondu/DepositManager__'),
     33: ('DepositCorrection', 'DepositsManager/SBDM_DepositCorrection'),
-    34: ('CreditsArchive', 'Packages/SBCM_CreditsArchive'),
+    34: ('XCreditArchive', 'Packages/ArCive_Credit/Archve_Credit'),  # the bank's SmartBank.ini: Arxiv kreditlər = Archive_Credit.ocx
     35: ('DepositsArchive', 'Packages/SBDM_DepositsArchive'),
     36: ('SessionMgr', 'Packages/SessionMgr'),
     37: ('TransactionsReporter', 'Packages/TransactionsReporter'),
@@ -39,7 +41,7 @@ ACTIONS = {
     53: ('TuningAccTypes', 'Packages/TuningAccTypes'),
     54: ('Administration', 'Packages/Administration'),
     55: ('RollbackDay', 'Packages/RollbackDay'),
-    60: ('TransactionManager', 'Utils/TransactionManager'),
+    60: ('TransactionManager', 'Packages/TransactionManager_Mahmud_GoAm'),  # the copy the bank runs: Verifikasiya, Daxil edən / Təsdiq edən / Yoxlayan, status icons
     61: ('Account', 'Packages/Account'),
     64: ('Account', 'Packages/Account'),
     67: ('CustomerOrder', "Packages/Customer's_orders(new)/Ocx"),

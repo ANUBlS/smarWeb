@@ -53,7 +53,7 @@ export default function define($) {
       $t5 = false;
       if (!($.ord(L0["xxx"]) <= $.ord($t4))) break;
       {
-        const $t6 = (await $.v(C, "editvalute"));
+        const $t6 = (await $.wobj(C, "editvalute"));
         await $.stmt((await $.mcall((await $.wv([$t6], "Items", C, false)), "Add", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t6], "DataMod_Buyers", C, false)), "avalute")), "FieldByName", ["valu_name"])), "AsString"))])));
       }
       await $.mcall((await $.mv((await $.v(C, "DataMod_Buyers")), "avalute")), "Next", []);

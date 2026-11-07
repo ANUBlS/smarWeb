@@ -150,7 +150,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "shift"]);
   if ($.truthy($.eq((await L0["key"].get()), (await $.v(C, "VK_F3"))))) {
     {
-      const $t6 = (await $.v(C, "AccTrExport"));
+      const $t6 = (await $.wobj(C, "AccTrExport"));
       if ($.truthy($.eq((await $.mv((await $.wv([$t6], "TransactionsPageControl", C, false)), "ActivePageIndex")), 0))) {
         await $.wset([$t6], "ExportSource", (await $.wv([$t6], "DebitTransactions", C, false)), C);
       } else {

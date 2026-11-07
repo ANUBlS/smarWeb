@@ -141,7 +141,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .v-panel { overflow: hidden; overflow: clip; }
 .v-panel.raised { background: var(--surface); }
 .v-panel.bordered { border: 1px solid var(--rule); }
-.v-panel .pcap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--ink-2); pointer-events: none; padding: 0 6px; }
+.v-panel .pcap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--ink-2); pointer-events: none; padding: 0 6px; white-space: pre; } /* VCL keeps leading spaces (room for a button on the panel) */
 .v-panel .pcap.left { justify-content: flex-start; }
 .v-panel .pcap.right { justify-content: flex-end; }
 .v-group { border: 1px solid var(--rule); border-radius: var(--radius); }
@@ -151,7 +151,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .v-input[readonly] { background: var(--sunken); }
 .v-input:disabled { background: var(--sunken); color: var(--muted); }
 .v-input.num { text-align: right; }
-.v-input.db-edit { background: var(--edit-soft); border-color: var(--edit); }
 textarea.v-input { resize: none; padding: 3px 5px; }
 select.v-input { padding: 0 2px; }
 .v-btn { border: 1px solid var(--rule-strong); border-radius: var(--radius); background: var(--surface); display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 0 8px; white-space: nowrap; overflow: hidden; }
@@ -216,7 +215,9 @@ select.v-input { padding: 0 2px; }
 .v-grid tr.cur td { background: var(--accent-soft); }
 .v-grid tr.cur td.cell-sel { box-shadow: inset 0 0 0 1px var(--accent); }
 .v-grid tr.rowsel td { background: var(--accent); color: var(--accent-fg); }
-.v-grid tr.msel td { background: #0d6b6633; }
+/* VCL: selected rows of a dgMultiSelect grid are painted clHighlight / clHighlightText */
+.v-grid tr.msel td { background: var(--accent); color: var(--accent-fg); }
+.v-grid tr.cur.msel:not(.rowsel) td { background: var(--accent); }
 .v-grid tr.editing td { background: var(--edit-soft); }
 .v-grid .empty { padding: 18px; color: var(--muted); text-align: center; }
 
@@ -297,3 +298,19 @@ body.busy, body.busy * { cursor: progress !important; }
 .logset-viewbar { display: flex; gap: 6px; padding: 6px; border-bottom: 1px solid var(--rule); }
 .logset-viewbar .v-input { flex: 1; height: 26px; }
 .logset-view pre { flex: 1; margin: 0; overflow: auto; padding: 8px; font: 11.5px/1.45 ui-monospace, Consolas, monospace; white-space: pre; background: var(--paper); }
+
+/* TDBLookupComboBox: closed box + virtual drop-down list */
+.v-lookup { display: flex; align-items: center; gap: 4px; cursor: default; user-select: none; overflow: hidden; height: 100%; }
+.v-lookup .txt { flex: 1; overflow: hidden; white-space: pre; text-overflow: ellipsis; }
+.v-lookup .arrow { flex: none; opacity: .7; }
+.v-lookup.disabled { opacity: .6; }
+.v-lookup-drop { z-index: 10000; overflow-y: auto; overflow-x: hidden; background: var(--surface); color: var(--ink); border: 1px solid var(--line-2, var(--line));
+  box-shadow: 0 6px 18px rgba(0,0,0,.35); font-size: 12px; }
+.v-lookup-drop .li { position: absolute; left: 0; right: 0; display: flex; gap: 12px; padding: 0 6px; line-height: 18px; white-space: pre; overflow: hidden; cursor: default; }
+.v-lookup-drop .li span { overflow: hidden; text-overflow: ellipsis; }
+.v-lookup-drop .li span:first-child { flex: none; min-width: 40%; }
+.v-lookup-drop .li.sel { font-weight: 600; }
+.v-lookup-drop .li.hi { background: var(--accent); color: var(--accent-fg); }
+
+/* image drawn by OnDrawColumnCell (ImageList.Draw on the cell canvas) */
+.v-grid td .cell-img { display: inline-block; vertical-align: middle; background-repeat: no-repeat; }

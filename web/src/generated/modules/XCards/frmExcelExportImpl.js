@@ -55,7 +55,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["ischecked"] = (await $.mv((await $.call(C, "TCheckBox", [L0["sender"]])), "Checked"));
   {
-    const $t6 = (await $.v(C, "CheckExportList"));
+    const $t6 = (await $.wobj(C, "CheckExportList"));
     await $.wset([$t6], "icount", (await $.mv((await $.wv([$t6], "Items", C, false)), "Count")), { get: async () => L0["icount"], set: async (v) => { L0["icount"] = v; }, local: true });
     { const $t7 = $.sub((await $.wv([$t6], "icount", { get: async () => L0["icount"], set: async (v) => { L0["icount"] = v; }, local: true }, false)), 1);
       await $.wset([$t6], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });

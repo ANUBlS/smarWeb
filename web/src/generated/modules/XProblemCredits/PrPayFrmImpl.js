@@ -31,7 +31,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "ExcelExport"));
+    const $t2 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t2], "Connect", [], C));
     await $.stmt((await $.wcall([$t2], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t2], "DBGridEh1", C, false)), "DataSource")), "DataSet")), "Odenishler", (await $.wv([$t2], "True", C, false))], C)));
   }

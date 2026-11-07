@@ -1,0 +1,101 @@
+{
+ "name": "P_CM_AEBeforeOneDay",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_AEBeforeOneDay",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DatSetValute",
+   "source": "TFrmOneDay.DatSetValute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "FrmOneDayImpl"
+  },
+  {
+   "name": "DatSetFilials",
+   "source": "TFrmOneDay.DatSetFilials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sb_filial",
+   "variables": [],
+   "unit": "FrmOneDayImpl"
+  },
+  {
+   "name": "DatSetPersons",
+   "source": "TFrmOneDay.DatSetPersons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,descripion from cm_persons",
+   "variables": [],
+   "unit": "FrmOneDayImpl"
+  },
+  {
+   "name": "Reserves",
+   "source": "TFrmOneDay.Reserves",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    ID,\n    Percent ,\n    Description\n  from\n    CM_RESERVES",
+   "variables": [],
+   "unit": "FrmOneDayImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFrmOneDay.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select p.numberofcredit,psh.PRINCIPAL,psh.INTEREST,psh.PRINCIPAL+psh.INTEREST odcem,psh.PAYMENTDATE,v.val_name,cm_common.get_accname(ac.CONTRACTACCID)  as name ,e.name exname, l.phonenumber ,cm_utils.Get_PlanPrincipal(p.ID, sbop.get_date) eo,interestrest,penaltyrest,cm_utils.Get_PlanPrincipal(p.ID, sbop.get_date) +interestrest+penaltyrest  cem \n,interestrest+((h.rest*annualyinterestrate/36000)*(:dat1-:dat)) proq from\ncm_active_credits p,cm_history h,CM_PAYMENT_SCHEDULE psh,smart.avalute_t v,cm_accounts ac,cm_expert e,cm_boorowerinfo l\nwhere p.id=h.creditid and ac.creditid=p.id and p.id=l.creditid and\n     h.hdate =sbop.get_date and h.rest+h.duerest>0\n     and psh.creditid=p.id and p.expertid=e.id(+) and (((h.rest+h.duerest)>psh.rest) or(psh.PRINCIPAL=0))  and\n     psh.PAYMENTDATE between :dat and :dat1 and\n     p.currency=v.valute\n\n/*8gh*/ \n\n\norder by p.numberofcredit",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "DAT1",
+     "type": "date"
+    }
+   ],
+   "unit": "FrmOneDayImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFrmOneDay.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_expert",
+   "variables": [],
+   "unit": "FrmOneDayImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

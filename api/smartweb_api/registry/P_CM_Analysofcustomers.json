@@ -1,0 +1,252 @@
+{
+ "name": "P_CM_Analysofcustomers",
+ "caption": "",
+ "dir": "Packages/CM_Analysofcustomers",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "DateIntervalUnit",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "UntReferencesDataMod",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditAnalysDataSet",
+   "source": "TCustAnalysDataModule.CreditAnalysDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.boorowerid, p.id creditid, p.branchid, p.currency, p.numberofcredit,\n       p.customertype, p.credittype, p.usrgroup, p.usid, p.personaltype,\n       p.dateofconclusion,p.duedatefirstcontract,p.closedate,\n       h.rest, h.interestrest, h.duerest, h.dueinterestrest, v.val_name,\n       v.valute, cm_common.accountnumber_get (a.contractaccid) AS contractaccno\n  FROM cm_portfolio p, cm_curr_state h, sb_avalute v, cm_accounts a\n WHERE (h.creditid = p.id)\n   AND (v.valute = p.currency)\n   AND (p.boorowerid = :boorowerid)\n   AND (a.creditid = p.id)\nORDER BY :orderfield",
+   "variables": [
+    {
+     "name": "BOOROWERID",
+     "type": "integer"
+    },
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "UsersDataSet",
+   "source": "TCustAnalysDataModule.UsersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name\nfrom SB_user$",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TCustAnalysDataModule.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name\nfrom sb_filial",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CategoriesDataSet",
+   "source": "TCustAnalysDataModule.CategoriesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description\nfrom cm_categories",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CurrencysDataSet",
+   "source": "TCustAnalysDataModule.CurrencysDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name\nfrom sb_avalute",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "PersonsDataSet",
+   "source": "TCustAnalysDataModule.PersonsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,descripion\nfrom cm_persons",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "UserGroupsDataSet",
+   "source": "TCustAnalysDataModule.UserGroupsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description\nfrom cm_usergroups",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CreditTypeDataSet",
+   "source": "TCustAnalysDataModule.CreditTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description \nfrom cm_credittypes",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CustomersDataSet",
+   "source": "TCustAnalysDataModule.CustomersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name\nfrom cm_sb_customers\norder by name",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CustAnalysDataSet",
+   "source": "TCustAnalysDataModule.CustAnalysDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT DISTINCT c.id boorowerid, c.NAME boorowername\n           FROM cm_sb_customers c\n          WHERE EXISTS ( SELECT p.boorowerid\n                           FROM cm_portfolio p\n                          WHERE p.boorowerid = c.id)\n       --c.ID in (select P.BoorowerID from CM_Portfolio P )    \n   ORDER BY :orderfield",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "TrancheDataSet",
+   "source": "TCustAnalysDataModule.TrancheDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select T.trancheamount,T.tranchedate\nfrom cm_tranches T\nwhere creditid =:CrdID\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "PaymentsDataSet",
+   "source": "TCustAnalysDataModule.PaymentsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, creditid, paydate, payedamt, payedintamt, payeddueamt,\n       payeddueintamt, payedpenaltyamt\n  FROM cm_payments\nWHERE CreditID=:CrdID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CreditsinDateDataSet",
+   "source": "TCustAnalysDataModule.CreditsinDateDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT hdate,rest, interestrest,\n       duerest, dueinterestrest\n  FROM cm_history\n  where creditid=:crdid \n    and hdate between :D1 and :D2 \norder by hdate desc\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    },
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "ScheduleDataSet",
+   "source": "TCustAnalysDataModule.ScheduleDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, creditid, paymentdate, principal, interest\n  FROM cm_payment_schedule\n WHERE CreditID=:CrdID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "ProlongationDataSet",
+   "source": "TCustAnalysDataModule.ProlongationDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  prolongdate, newclosedate\n  FROM cm_prolongations\nwhere creditid =:CrdID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "SumSheDataSet",
+   "source": "TCustAnalysDataModule.SumSheDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  creditid,sum(principal),sum(interest)\n  FROM cm_payment_schedule\n WHERE CreditID=:CrdID\ngroup by CreditID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "SumPayDataSet",
+   "source": "TCustAnalysDataModule.SumPayDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT creditid,  sum(payedamt), sum(payedintamt), sum(payeddueamt),\n       sum(payeddueintamt), sum(payedpenaltyamt)\n  FROM cm_payments\nWHERE CreditID=:CrdID\nGroup by creditid\n\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "ReportDataSet",
+   "source": "TCustAnalysDataModule.ReportDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select \n      p.numberofcredit,\n      p.dateofconclusion,\n      p.closedate,\n      p.purposeofcredit,\n      p.creditlineamount,\n      p.annualyinterestrate,\n      p.annualyoverduerate,\n      p.annualypenaltyrate,\n      per.descripion,\n      cat.description,\n      crd.description,\n      usrgr.description,\n      val.val_name,\n      plg.pledgename,\n      GET_RESERVES_NAME(h.reserveid) as resrevename,\n      GET_RESERVES_NAME(h.duereserveid) as dueresrevename,\n      h.pledgeprice\nfrom \n    cm_portfolio p,\n    cm_persons per,\n    cm_categories cat,\n    cm_credittypes crd,\n    cm_usergroups usrgr,\n    sb_avalute val,\n    cm_guarantee plg,\n    cm_curr_state h\nwhere \n    p.personaltype = per.id and    \n    p.customertype = cat.id and\n    p.credittype = crd.id and\n    p.usrgroup = usrgr.id and\n    p.currency = val.valute and\n    p.id = h.creditid and\n    p.id = plg.creditid and\n    p.id = :CrdID      \n      \n      ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

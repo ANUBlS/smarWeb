@@ -53,7 +53,7 @@ export default function define($) {
   const L0 = {"aindex": $.copyArg(p0), result: 0};
   await $.fixArgs(L0, ["aindex"]);
   {
-    const $t4 = (await $.v(C, "CurrencyData"));
+    const $t4 = (await $.wobj(C, "CurrencyData"));
     await $.wset([$t4], "RecNo", (await $.wv([$t4], "AIndex", { get: async () => L0["aindex"], set: async (v) => { L0["aindex"] = v; }, local: true }, false)), C);
     await $.wset([$t4], "Result", (await $.mv((await $.wcall([$t4], "FieldByName", ["VALUTE"], C)), "AsInteger")), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }

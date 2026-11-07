@@ -1,6 +1,6 @@
 {
  "name": "CreditsArchive",
- "caption": "Balans / Kreditlər / Arxiv Kreditlər",
+ "caption": "Əlavə modullar / Kreditlər / Kreditlərin arxivi (SBCM_*)",
  "dir": "Packages/SBCM_CreditsArchive",
  "mainForm": "TFrmCreditsArcive",
  "plugin": false,

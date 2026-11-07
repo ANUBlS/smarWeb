@@ -115,7 +115,7 @@ export default function define($) {
   await $.set(C, "v_date2", (await $.mv((await $.v(C, "Date_end")), "Date")));
   await $.mcall((await $.mv((await $.mv((await $.v(C, "DM_goAml")), "Ods_subheli")), "Session")), "Commit", []);
   {
-    const $t11 = (await $.v(C, "DM_goAml"));
+    const $t11 = (await $.wobj(C, "DM_goAml"));
     await $.mcall((await $.wv([$t11], "ods_sub1", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t11], "ods_sub1", C, false)), "SetVariable", ["v_dat1", (await $.wcall([$t11], "trunc", [(await $.mv((await $.wv([$t11], "Date_begin", C, false)), "DateTime"))], C))])));
     await $.stmt((await $.mcall((await $.wv([$t11], "ods_sub1", C, false)), "SetVariable", ["v_dat2", (await $.wcall([$t11], "trunc", [(await $.mv((await $.wv([$t11], "Date_end", C, false)), "DateTime"))], C))])));
@@ -156,7 +156,7 @@ export default function define($) {
     await $.mcall((await $.wv([$t11], "ods_sub11", C, false)), "Open", []);
   }
   {
-    const $t12 = (await $.v(C, "DM_goAml"));
+    const $t12 = (await $.wobj(C, "DM_goAml"));
     await $.mcall((await $.wv([$t12], "ods_sub1", C, false)), "first", []);
     { const $t13 = $.sub((await $.mv((await $.wv([$t12], "ods_sub1", C, false)), "RecordCount")), 1);
       await $.wset([$t12], "I1", 0, { get: async () => L0["i1"], set: async (v) => { L0["i1"] = v; }, local: true });
@@ -405,7 +405,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t36 = (await $.v(C, "DM_goAml"));
+    const $t36 = (await $.wobj(C, "DM_goAml"));
     const $t37 = (await $.wv([$t36], "ods_incoming", C, false));
     await $.stmt((await $.wcall([$t36, $t37], "WriteLnString", ["<t_from>"], C)));
     await $.stmt((await $.wcall([$t36, $t37], "WriteString", ["<from_funds_code>"], C)));
@@ -452,7 +452,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t38 = (await $.v(C, "DM_goAml"));
+    const $t38 = (await $.wobj(C, "DM_goAml"));
     const $t39 = (await $.wv([$t38], "ods_incoming", C, false));
     await $.stmt((await $.wcall([$t38, $t39], "WriteLnString", ["<t_to>"], C)));
     await $.stmt((await $.wcall([$t38, $t39], "WriteString", ["<to_funds_code>"], C)));
@@ -2076,7 +2076,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t75 = (await $.v(C, "CMExcelExport1"));
+    const $t75 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t75], "Connect", [], C));
     await $.stmt((await $.wcall([$t75], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t75], "DBGridTransactions1", C, false)), "DataSource")), "DataSet")), "GoAml", (await $.wv([$t75], "true", C, false)), (await $.wv([$t75], "true", C, false))], C)));
     await $.stmt($.wcall([$t75], "Disconnect", [], C));
@@ -2089,7 +2089,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.gt((await $.mv((await $.mv((await $.v(C, "DM_goAml")), "ods_subtrans")), "RecordCount")), 0))) {
     {
-      const $t76 = (await $.v(C, "CMExcelExport2"));
+      const $t76 = (await $.wobj(C, "CMExcelExport2"));
       await $.stmt($.wcall([$t76], "Connect", [], C));
       await $.stmt((await $.wcall([$t76], "ExportDataset", [(await $.mv((await $.wv([$t76], "DM_goAml", C, false)), "ods_subtrans")), "Tax", (await $.wv([$t76], "True", C, false))], C)));
       await $.stmt($.wcall([$t76], "Disconnect", [], C));
@@ -2439,14 +2439,14 @@ export default function define($) {
     await $.set(C, "repF", (await $.mcall((await $.v(C, "TrepF")), "Create", [Self])));
   }
   {
-    const $t85 = (await $.v(C, "DM_goAml"));
+    const $t85 = (await $.wobj(C, "DM_goAml"));
     await $.mcall((await $.wv([$t85], "odsc_custSube", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t85], "odsc_custSube", C, false)), "SetVariable", ["v_id", (await $.mv((await $.mv((await $.wv([$t85], "DM_goAml", C, false)), "Ods_subheliCUSTID")), "AsInteger"))])));
     await $.mcall((await $.wv([$t85], "odsc_custSube", C, false)), "Open", []);
   }
   if ($.truthy($.ne((await $.mv((await $.mv((await $.v(C, "DM_goAml")), "odsc_custSubeCUST_TYPE")), "AsInteger")), 0))) {
     {
-      const $t86 = (await $.v(C, "repF"));
+      const $t86 = (await $.wobj(C, "repF"));
       await $.mset((await $.wv([$t86], "QRLabel18", C, false)), "Caption", (await $.mv((await $.mv((await $.wv([$t86], "DM_goAml", C, false)), "odsc_custSubeNAME")), "AsString")));
       await $.mset((await $.wv([$t86], "QRLabel19", C, false)), "Caption", (await $.mv((await $.mv((await $.wv([$t86], "DM_goAml", C, false)), "odsc_custSubeLASTNAME")), "AsString")));
       await $.mset((await $.wv([$t86], "QRLabel20", C, false)), "Caption", (await $.mv((await $.mv((await $.wv([$t86], "DM_goAml", C, false)), "odsc_custSubeSONAME")), "AsString")));
@@ -2458,7 +2458,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.mv((await $.mv((await $.v(C, "DM_goAml")), "odsc_custSubeCUST_TYPE")), "AsInteger")), 0))) {
     {
-      const $t87 = (await $.v(C, "repH"));
+      const $t87 = (await $.wobj(C, "repH"));
       await $.mset((await $.wv([$t87], "QRLabel18", C, false)), "Caption", (await $.mv((await $.mv((await $.wv([$t87], "DM_goAml", C, false)), "odsc_custSubeH_NAME")), "AsString")));
       await $.mset((await $.wv([$t87], "QRLabel19", C, false)), "Caption", (await $.mv((await $.mv((await $.wv([$t87], "DM_goAml", C, false)), "odsc_custSubeINN")), "AsString")));
       await $.mset((await $.wv([$t87], "QRLabel20", C, false)), "Caption", (await $.mv((await $.mv((await $.wv([$t87], "DM_goAml", C, false)), "odsc_custSubeDAT_NAL")), "AsString")));
@@ -2472,7 +2472,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t88 = (await $.v(C, "DM_goAml"));
+    const $t88 = (await $.wobj(C, "DM_goAml"));
     await $.mcall((await $.wv([$t88], "odsc_custSube", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t88], "odsc_custSube", C, false)), "SetVariable", ["v_id", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.wv([$t88], "DBGrid2", C, false)), "DataSource")), "DataSet")), "FieldByName", ["custid"])), "AsInteger"))])));
     await $.mcall((await $.wv([$t88], "odsc_custSube", C, false)), "Open", []);
@@ -2481,7 +2481,7 @@ export default function define($) {
   if ($.truthy($.ne((await $.mv((await $.mv((await $.v(C, "DM_goAml")), "odsc_custSubeCUST_TYPE")), "AsInteger")), 0))) {
     await $.set(C, "word_type", 2);
     {
-      const $t89 = (await $.v(C, "DM_goAml"));
+      const $t89 = (await $.wobj(C, "DM_goAml"));
       await $.mcall((await $.wv([$t89], "Templates", C, false)), "Close", []);
       await $.stmt((await $.mcall((await $.wv([$t89], "Templates", C, false)), "SetVariable", ["v_custtype", (await $.wv([$t89], "word_type", C, false))])));
       await $.mcall((await $.wv([$t89], "Templates", C, false)), "Open", []);
@@ -2489,7 +2489,7 @@ export default function define($) {
   } else {
     await $.set(C, "word_type", 3);
     {
-      const $t90 = (await $.v(C, "DM_goAml"));
+      const $t90 = (await $.wobj(C, "DM_goAml"));
       await $.mcall((await $.wv([$t90], "Templates", C, false)), "Close", []);
       await $.stmt((await $.mcall((await $.wv([$t90], "Templates", C, false)), "SetVariable", ["v_custtype", (await $.wv([$t90], "word_type", C, false))])));
       await $.mcall((await $.wv([$t90], "Templates", C, false)), "Open", []);
@@ -2737,7 +2737,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.mv((await $.v(C, "WordDocument")), "Application")), "Get_ActiveWindow")), "Caption", (await $.v(C, "Caption")));
   try {
     {
-      const $t103 = (await $.v(C, "DM_goAml"));
+      const $t103 = (await $.wobj(C, "DM_goAml"));
       const $t104 = (await $.wv([$t103], "ReplaceCustDataSet", C, false));
       const $t105 = (await $.wv([$t103, $t104], "WordDocument", C, false));
       { const $t106 = (await $.mv((await $.wv([$t103, $t104, $t105], "Bookmarks", C, false)), "Count"));
@@ -2780,7 +2780,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["filenotfound"] = "Fayl tapılmadı";
   {
-    const $t108 = (await $.v(C, "DM_goAml"));
+    const $t108 = (await $.wobj(C, "DM_goAml"));
     await $.mcall((await $.wv([$t108], "Templates", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t108], "Templates", C, false)), "SetVariable", ["v_custtype", (await $.wv([$t108], "word_type", C, false))])));
     await $.mcall((await $.wv([$t108], "Templates", C, false)), "Open", []);
@@ -2809,7 +2809,7 @@ export default function define($) {
   await $.stmt((await $.mcall((await $.v(C, "WordDocument")), "ConnectTo", [(await $.mcall((await $.mv((await $.v(C, "WordApplication")), "Documents")), "Item", [L0["itemindex"]]))])));
   try {
     {
-      const $t110 = (await $.v(C, "DM_goAml"));
+      const $t110 = (await $.wobj(C, "DM_goAml"));
       const $t111 = (await $.wv([$t110], "ReplaceCustDataSet", C, false));
       const $t112 = (await $.wv([$t110, $t111], "WordDocument", C, false));
       { const $t113 = (await $.mv((await $.wv([$t110, $t111, $t112], "Bookmarks", C, false)), "Count"));
@@ -2851,7 +2851,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t115 = (await $.v(C, "DM_goAml"));
+    const $t115 = (await $.wobj(C, "DM_goAml"));
     await $.mcall((await $.wv([$t115], "odsc_custSube", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t115], "odsc_custSube", C, false)), "SetVariable", ["v_id", (await $.mv((await $.mv((await $.wv([$t115], "DM_goAml", C, false)), "Ods_subheliCUSTID")), "AsInteger"))])));
     await $.mcall((await $.wv([$t115], "odsc_custSube", C, false)), "Open", []);
@@ -2860,7 +2860,7 @@ export default function define($) {
   if ($.truthy($.ne((await $.mv((await $.mv((await $.v(C, "DM_goAml")), "odsc_custSubeCUST_TYPE")), "AsInteger")), 0))) {
     await $.set(C, "word_type", 1);
     {
-      const $t116 = (await $.v(C, "DM_goAml"));
+      const $t116 = (await $.wobj(C, "DM_goAml"));
       await $.mcall((await $.wv([$t116], "Templates", C, false)), "Close", []);
       await $.stmt((await $.mcall((await $.wv([$t116], "Templates", C, false)), "SetVariable", ["v_custtype", (await $.wv([$t116], "word_type", C, false))])));
       await $.mcall((await $.wv([$t116], "Templates", C, false)), "Open", []);
@@ -2868,7 +2868,7 @@ export default function define($) {
   } else {
     await $.set(C, "word_type", 0);
     {
-      const $t117 = (await $.v(C, "DM_goAml"));
+      const $t117 = (await $.wobj(C, "DM_goAml"));
       await $.mcall((await $.wv([$t117], "Templates", C, false)), "Close", []);
       await $.stmt((await $.mcall((await $.wv([$t117], "Templates", C, false)), "SetVariable", ["v_custtype", (await $.wv([$t117], "word_type", C, false))])));
       await $.mcall((await $.wv([$t117], "Templates", C, false)), "Open", []);

@@ -360,7 +360,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "OracleDataSet2")), "Open", []);
     await $.mcall((await $.v(C, "OracleDataSet1")), "Refresh", []);
     {
-      const $t1 = (await $.v(C, "OracleDataSet1"));
+      const $t1 = (await $.wobj(C, "OracleDataSet1"));
       { const $t2 = (await $.mv((await $.mv((await $.mv((await $.mv((await $.wv([$t1], "Sheet", { get: async () => L0["sheet"], set: async (v) => { L0["sheet"] = v; }, local: true }, false)), "Cells")), "CurrentRegion")), "Rows")), "Count"));
         await $.wset([$t1], "i", 3, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
         let $t3 = true;

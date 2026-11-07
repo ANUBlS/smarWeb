@@ -28,7 +28,7 @@ export default function define($) {
     }
   }
   {
-    const $t3 = (await $.v(C, "ODSIpInfo"));
+    const $t3 = (await $.wobj(C, "ODSIpInfo"));
     await $.stmt($.wcall([$t3], "ClearVariables", [], C));
     await $.stmt($.wcall([$t3], "Close", [], C));
     await $.stmt((await $.wcall([$t3], "SetVariable", ["custid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t3], "CustomerDataModule", C, false)), "ActiveCustomerList")), "FieldByName", ["ID"])), "AsVariant"))], C)));
@@ -74,7 +74,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "ODSIpInfo"));
+    const $t4 = (await $.wobj(C, "ODSIpInfo"));
     if ($.truthy($.eq((await $.mv((await $.wcall([$t4], "FieldByName", ["CUSTID"], C)), "AsString")), ""))) {
       await $.mset((await $.wcall([$t4], "FieldByName", ["CUSTID"], C)), "AsInteger", (await $.mv((await $.mcall((await $.mv((await $.wv([$t4], "CustomerDataModule", C, false)), "ActiveCustomerList")), "FieldByName", ["ID"])), "AsInteger")));
     }
@@ -102,7 +102,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "ODSIpInfo"));
+    const $t6 = (await $.wobj(C, "ODSIpInfo"));
     if ($.truthy($.eq((await $.mv((await $.wcall([$t6], "FieldByName", ["BDATE"], C)), "AsString")), ""))) {
       await $.mset((await $.wv([$t6], "cb_BDATE", C, false)), "Date", (await $.wv([$t6], "Date", C, false)));
     } else {

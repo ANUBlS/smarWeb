@@ -52,7 +52,7 @@ export default function define($) {
     await $.mset((await $.v(C, "EdIntDebit")), "Value", 0);
   }
   {
-    const $t2 = (await $.v(C, "DataModPartialPayment_new"));
+    const $t2 = (await $.wobj(C, "DataModPartialPayment_new"));
     await $.wset([$t2], "VID", (await $.mv((await $.wv([$t2], "PaymentsID", C, false)), "AsInteger")), { get: async () => L0["vid"], set: async (v) => { L0["vid"] = v; }, local: true });
     await $.wset([$t2], "Vdate", (await $.wcall([$t2], "trunc", [(await $.wcall([$t2], "StrToDateTime", [(await $.mv((await $.wv([$t2], "DBEdit3", C, false)), "Text"))], C))], C)), { get: async () => L0["vdate"], set: async (v) => { L0["vdate"] = v; }, local: true });
     await $.wset([$t2], "Amount", (await $.mv((await $.wv([$t2], "EdMainDebit", C, false)), "Value")), { get: async () => L0["amount"], set: async (v) => { L0["amount"] = v; }, local: true });

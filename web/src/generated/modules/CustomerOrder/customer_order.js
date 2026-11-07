@@ -720,7 +720,7 @@ export default function define($) {
   }
   try {
     {
-      const $t32 = (await $.v(C, "QRepCustOrders"));
+      const $t32 = (await $.wobj(C, "QRepCustOrders"));
       const $t33 = (await $.mv((await $.wv([$t32], "DataModCustOrders", C, false)), "search_order"));
       await $.wset([$t32, $t33], "Filtered", (await $.wv([$t32, $t33], "false", C, false)), C);
       await $.wset([$t32, $t33], "Filter", $.add(" ID= ", (await $.wcall([$t32, $t33], "IntToStr", [(await $.wv([$t32, $t33], "p_ID", { get: async () => L0["p_id"], set: async (v) => { L0["p_id"] = v; }, local: true }, false))], C))), C);

@@ -28,7 +28,7 @@ export default function define($) {
       if ($.truthy((await $.or_(($.ne((await $.mv((await $.v(C, "DBLC_Curr_Other")), "KeyValue")), 0)), async () => (($.ne((await $.mv((await $.v(C, "DBLC_Curr_Other")), "KeyValue")), 0))))))) {
         if ($.truthy((await $.or_(($.ne((await $.call(C, "Trim", [(await $.mv((await $.v(C, "Edit_Exchange_Amount")), "Text"))])), "")), async () => ($.gt((await $.call(C, "StrToFloat", [(await $.mv((await $.v(C, "Edit_Exchange_Amount")), "Text"))])), 0)))))) {
           {
-            const $t1 = (await $.v(C, "DataModExch"));
+            const $t1 = (await $.wobj(C, "DataModExch"));
             await $.wset([$t1], "v_id", (await $.mv((await $.mcall((await $.wv([$t1], "ODSExchProvarch", C, false)), "FieldByName", ["id"])), "AsInteger")), { get: async () => L0["v_id"], set: async (v) => { L0["v_id"] = v; }, local: true });
             await $.mset((await $.wv([$t1], "Trans", C, false)), "status", (await $.wv([$t1], "ex_status", { get: async () => L0["ex_status"], set: async (v) => { L0["ex_status"] = v; }, local: true }, false)));
             await $.mset((await $.wv([$t1], "Trans", C, false)), "operator_id", (await $.mcall((await $.wv([$t1], "OPExchMgr", C, false)), "CallIntegerFunction", ["UserID", []])));
@@ -242,7 +242,7 @@ export default function define($) {
   await $.mset((await $.v(C, "DTP_Date")), "Date", (await $.v(C, "Date")));
   await $.mset((await $.v(C, "DTP_System_Time")), "Time", (await $.v(C, "Time")));
   {
-    const $t11 = (await $.v(C, "DataModExch"));
+    const $t11 = (await $.wobj(C, "DataModExch"));
     const $t12 = (await $.mv((await $.wv([$t11], "DataModExch", C, false)), "ODSExchProvarch"));
     await $.mcall((await $.wv([$t11, $t12], "ODSRateInsert", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t11, $t12], "ODSRateInsert", C, false)), "SetVariable", ["dat", (await $.wcall([$t11, $t12], "Integer", [(await $.wcall([$t11, $t12], "Trunc", [(await $.mv((await $.wv([$t11, $t12], "DTP_Date", C, false)), "DateTime"))], C))], C))])));

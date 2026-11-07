@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from dfm2json import parse_file as parse_dfm  # noqa: E402
 from source_fixes import fixed_path  # noqa: E402
 from modules import ACTIONS, REPORT_ACTIONS  # noqa: E402
-from extra_modules import EXTRA, EXTRA_ROOT, CATEGORY_ORDER, FIRST_ACTION, MENU_HIDDEN, INI_MENU_HIDDEN  # noqa: E402
+from extra_modules import EXTRA, EXTRA_ROOT, CATEGORY_ORDER, FIRST_ACTION, MENU_HIDDEN, INI_MENU_HIDDEN, PLUGIN_FAMILIES  # noqa: E402
 from pas2js import parse_unit_file, collect_sigs, gen_unit, PasError  # noqa: E402
 
 REPO = os.environ.get('SMARWEB_REPO') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')) + '/'
@@ -139,6 +139,38 @@ def attach_imagelists(dfm_path, tree, outdir, base):
             fh.write(png)
         node['props'].update({'Bitmap.Sprite': os.path.relpath(os.path.join(outdir, fname), OUT).replace(os.sep, '/'),
                               'Bitmap.Count': count, 'Bitmap.Cx': cx, 'Bitmap.Cy': cy})
+
+
+def attach_glyphs(dfm_path, tree, outdir, base):
+    """Button glyphs (Glyph.Data of TSpeedButton, TBitBtn, TXFBitBtn …) -> <Unit>.<Button>.glyph.png; the node gets
+    `GlyphSprite` (path under generated/), `GlyphWidth`, `GlyphHeight`."""
+    from imagelist import dfm_glyphs, glyph_png
+    try:
+        text = open(dfm_path, 'rb').read().decode('cp1251', 'replace')
+    except OSError:
+        return
+    if 'Glyph.Data' not in text:
+        return
+    glyphs = dfm_glyphs(text)
+    stack = [tree]
+    while stack:
+        node = stack.pop()
+        stack.extend(node['children'])
+        data = glyphs.get(node.get('name'))
+        if data is None:
+            continue
+        try:
+            r = glyph_png(data, int(node['props'].get('NumGlyphs', 1) or 1))
+        except Exception:  # noqa: BLE001 — an unreadable glyph leaves the button without picture
+            r = None
+        if not r:
+            continue
+        png, w, h = r
+        fname = f'{base}.{node["name"]}.glyph.png'
+        with open(os.path.join(outdir, fname), 'wb') as fh:
+            fh.write(png)
+        node['props'].update({'GlyphSprite': os.path.relpath(os.path.join(outdir, fname), OUT).replace(os.sep, '/'),
+                              'GlyphWidth': w, 'GlyphHeight': h})
 
 
 def strip_binary(node):
@@ -320,6 +352,34 @@ def main():
             n += 1
         return n
 
+    # installation INI files (web/bin): Plugin=X.bpl of the plugin tool bars / popup menus
+    bin_refs = {}
+    for f in glob.glob(os.path.join(os.path.dirname(OUT.rstrip('/')), '..', 'bin', '*')):
+        if f.lower().endswith('.ini'):
+            raw = open(f, 'rb').read()
+            if raw[:2] in (b'\xff\xfe', b'\xfe\xff'):
+                txt = raw.decode('utf-16')
+            else:
+                try:
+                    txt = raw.decode('utf-8')
+                except UnicodeDecodeError:
+                    txt = raw.decode('cp1251', 'replace')
+            bin_refs.setdefault(os.path.basename(f).lower(), set()).update(x.strip().replace('\\', '/').split('/')[-1].lower()
+                            for x in re.findall(r'(?im)^\s*Plugin\s*=\s*([^\r\n]*?)\.bpl\s*$', txt))
+
+    def family_refs(name):
+        # plugin packages only (a unit exports InitPlugin …); run-time libraries such as CM_COMMON are
+        # shared units of the module already
+        out = set()
+        for fam in PLUGIN_FAMILIES.get(name, []):
+            for f in glob.glob(REPO + fam + '/**/*.dpk', recursive=True):
+                base = os.path.basename(f)[:-4]
+                if SKIP_DIR_RE.search('/' + f[len(REPO):].lower()) or not re.match(r'^[\w.\-]+$', base):
+                    continue
+                if any(re.search(r'^\s*exports\b', src_of(u), re.I | re.M) for u in dpk_units(f)):
+                    out.add(base.lower())
+        return out
+
     plugin_name_of = {}
     module_plugins = {}
     plugin_exports = {}
@@ -329,7 +389,13 @@ def main():
         near = modules[name]
         refs = set()
         for pth in closure_paths(module_units[name]):
-            refs.update(x.lower() for x in re.findall(r"'([\w\-. ]+)\.bpl'", src_of(pth), re.I))
+            src = src_of(pth)
+            refs.update(x.lower() for x in re.findall(r"'([\w\-. ]+)\.bpl'", src, re.I))
+            # the installation INI files this unit names ('CMPopupMenu.ini')
+            for ini, names in bin_refs.items():
+                if ("'" + ini) in src.lower():
+                    refs |= names
+        refs |= family_refs(name)
         for ref in sorted(refs):
             cands = dpk_index.get(ref)
             if not cands:
@@ -390,6 +456,7 @@ def main():
             try:
                 tree = strip_binary(parse_dfm(fixed_path(dfm, REPO)))
                 attach_imagelists(dfm, tree, outdir, base)
+                attach_glyphs(dfm, tree, outdir, base)
                 with open(os.path.join(outdir, base + '.dfm.json'), 'w', encoding='utf-8') as fh:
                     json.dump(tree, fh, ensure_ascii=False, separators=(',', ':'))
                 form = tree['class']
@@ -473,6 +540,26 @@ def main():
     enum_names = sorted(n for n in enum_names if n.lower() not in defined)
     with open(OUT + 'enums.json', 'w', encoding='utf-8') as fh:
         json.dump(enum_names, fh)
+    # event properties (OnClick, OnShow …): every On* property of the forms plus the events the runtime fires.
+    # An On* name that is none of them is not an event (a method OnLogoutputShow named inside `with Form do`).
+    events = set()
+    for f in glob.glob(OUT + '**/*.dfm.json', recursive=True):
+        stack = [json.load(open(f, encoding='utf-8'))]
+        while stack:
+            o = stack.pop()
+            if isinstance(o, dict):
+                for k, v in o.items():
+                    if re.match(r'^On[A-Z]\w*$', k):
+                        events.add(k.lower())
+                    stack.append(v)
+            elif isinstance(o, list):
+                stack.extend(o)
+    rt = os.path.join(os.path.dirname(OUT.rstrip('/')), 'runtime')
+    for f in glob.glob(rt + '/**/*.ts', recursive=True):
+        src = open(f, encoding='utf-8').read()
+        events.update(m.lower() for m in re.findall(r"(?:fire|fireRaw|hasHandler)\(\s*'(On\w+)'", src))
+    with open(OUT + 'events.json', 'w', encoding='utf-8') as fh:
+        json.dump(sorted(events), fh)
 
     tree = decode_menu()
 
@@ -518,7 +605,14 @@ def main():
             continue
         act = FIRST_ACTION + i
         actions[str(act)] = name
-        cats.setdefault(cat, []).append({'caption': cap, 'action': act, 'params': {}, 'children': []})
+        item = {'caption': cap, 'action': act, 'params': {}, 'children': []}
+        if cat.startswith('@'):
+            branch = {'children': tree}
+            for part in cat[1:].split('/'):
+                branch = next(n for n in branch['children'] if n['caption'] == part)
+            branch['children'].append(item)
+            continue
+        cats.setdefault(cat, []).append(item)
     if cats:
         tree.append({'caption': EXTRA_ROOT, 'action': 0, 'params': {}, 'extra': True, 'children': [
             {'caption': c, 'action': 0, 'params': {}, 'children': sorted(cats[c], key=lambda n: n['caption'])}

@@ -56,7 +56,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.copyArg(p1), "applied": $.asRef(p2), "newrowid": $.asRef(p3), result: undefined};
   await $.fixArgs(L0, ["sender", "action"]);
   {
-    const $t1 = (await $.v(C, "SaveDeposit"));
+    const $t1 = (await $.wobj(C, "SaveDeposit"));
     const $t2 = (await $.wv([$t1], "sbcm_contract", C, false));
     { const $t3 = (await $.wv([$t1, $t2], "Action", { get: async () => L0["action"], set: async (v) => { L0["action"] = v; }, local: true }, false));
       if ($.eq($t3, "I")) {
@@ -86,7 +86,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "frmDepositContract_new"));
+    const $t5 = (await $.wobj(C, "frmDepositContract_new"));
     await $.stmt($.wcall([$t5], "ShowAccounts", [], C));
   }
   return L0.result;

@@ -68,7 +68,7 @@ export default function define($) {
   L0["rstransactionswillprocessed"] = "Depozitin ödənilməsi ...";
   L0["p_accid"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "DMArchiveExtractMoney")), "CustAcc")), "FieldByName", ["CLIENTACCID"])), "AsInteger"));
   {
-    const $t1 = (await $.v(C, "DMArchiveExtractMoney"));
+    const $t1 = (await $.wobj(C, "DMArchiveExtractMoney"));
     const $t2 = (await $.wv([$t1], "dm_payment", C, false));
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["WithDrawMoney", ["ContractID", (await $.wv([$t1, $t2], "Get_SelectedContID", C, false)), "HDate", (await $.wv([$t1, $t2], "Get_BankDate", C, false)), "FacticalDebtWithdraw", (await $.mv((await $.wv([$t1, $t2], "EdMainDebit", C, false)), "Value")), "InterestDebtWithdraw", (await $.mv((await $.wv([$t1, $t2], "EdIntDebit", C, false)), "value")), "ClientDebtWithdraw", (await $.mv((await $.wv([$t1, $t2], "EdClientDebit", C, false)), "Value")), "showTransaction", 3]], C)));
   }

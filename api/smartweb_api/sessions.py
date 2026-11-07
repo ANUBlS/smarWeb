@@ -72,6 +72,10 @@ class Session:
     # per-session caches (column lists of updating tables, PL/SQL argument lists)
     table_cols: dict = field(default_factory=dict)
     arguments: dict = field(default_factory=dict)
+    # open cursors of datasets with QueryAllRecords = False (fetched further on demand), by cursor id
+    cursors: dict = field(default_factory=dict)
+    # set after ORA-14109: here the partitioned tables are views, partition clauses are rewritten
+    no_partitions: bool = False
 
     def touch(self):
         self.last_used = time.monotonic()
@@ -108,6 +112,9 @@ class SessionStore:
         if s:
             try:
                 with s.lock:
+                    for c in s.cursors.values():
+                        c['cur'].close()
+                    s.cursors.clear()
                     s.conn.rollback()
                     s.conn.close()
             except Exception:  # noqa: BLE001 - connection may already be gone

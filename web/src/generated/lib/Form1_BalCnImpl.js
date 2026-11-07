@@ -31,7 +31,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "OpenAccount")), "DBLookupComboboxEh6")), "ListSource", (await $.mv((await $.v(C, "DataAcc")), "Dsrc_bal_spr3")));
   await $.mcall((await $.mv((await $.v(C, "DataAcc")), "ODS_Bal_spr3")), "open", []);
   {
-    const $t2 = (await $.v(C, "DataAcc"));
+    const $t2 = (await $.wobj(C, "DataAcc"));
     const $t3 = (await $.wv([$t2], "ODS_Bal_spr3", C, false));
     if ($.truthy($.ne((await $.wv([$t2, $t3], "RecordCount", C, false)), 0))) {
       await $.mset((await $.mv((await $.wv([$t2, $t3], "OpenAccount", C, false)), "Edit2")), "Text", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["bal_cn"], C)), "AsString")));
@@ -48,7 +48,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.v(C, "OpenAccount")), "DBLookupComboboxEh6")), "ListSource", (await $.mv((await $.v(C, "DataAcc")), "Dsrc_bal_spr3")));
   await $.mcall((await $.mv((await $.v(C, "DataAcc")), "ODS_Bal_spr3")), "open", []);
   {
-    const $t4 = (await $.v(C, "DataAcc"));
+    const $t4 = (await $.wobj(C, "DataAcc"));
     const $t5 = (await $.wv([$t4], "ODS_Bal_spr3", C, false));
     if ($.truthy($.ne((await $.wv([$t4, $t5], "RecordCount", C, false)), 0))) {
       await $.mset((await $.mv((await $.wv([$t4, $t5], "OpenAccount", C, false)), "Edit2")), "Text", (await $.mv((await $.wcall([$t4, $t5], "FieldByName", ["bal_cn"], C)), "AsString")));

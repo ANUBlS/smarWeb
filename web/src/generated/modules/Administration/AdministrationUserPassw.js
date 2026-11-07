@@ -45,7 +45,7 @@ export default function define($) {
 });
   try {
     {
-      const $t3 = (await $.v(C, "edPassw"));
+      const $t3 = (await $.wobj(C, "edPassw"));
       if ($.truthy($.eq((await $.wv([$t3], "Text", C, false)), (await $.wv([$t3], "EmptyStr", C, false))))) {
         throw $.raise((await $.mcall((await $.wv([$t3], "EPassError", C, false)), "Create", ["Şifrəni daxil edin"])));
       }

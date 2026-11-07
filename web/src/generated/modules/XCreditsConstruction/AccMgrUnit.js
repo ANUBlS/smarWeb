@@ -342,7 +342,7 @@ export default function define($) {
   L0["ownid"] = (await $.mv((await $.mcall((await $.mv((await $.mv((await $.mv((await $.v(C, "AddEditContractForm")), "DBLookupComboboxEh6")), "listSource")), "Dataset")), "FieldByName", ["ID"])), "AsInteger"));
   await $.stmt((await $.mcall((await $.mv((await $.v(C, "DatModConstruction")), "sbcm_construction")), "CallIntegerFunction", ["add_account", ["p_CustID", L0["customerid"], "p_AccNo", L0["accno"], "p_Curr", L0["currencyid"], "p_Name", L0["name"], "p_OpenDate", L0["open_dat"], "p_BalCn", L0["balcn"], "p_OwnID", L0["ownid"]]])));
   {
-    const $t23 = (await $.v(C, "AddEditContractForm"));
+    const $t23 = (await $.wobj(C, "AddEditContractForm"));
     {
       const $t24 = (await $.wv([$t23], "DatModConstruction", C, false));
       const $t25 = (await $.wv([$t23, $t24], "Accounts", C, false));

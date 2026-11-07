@@ -51,7 +51,7 @@ export default function define($) {
     await $.wset([$t2], "OInterestAccID", (await $.mv((await $.wcall([$t2], "FieldByName", ["OverdueInterestAccID"], C)), "AsInteger")), { get: async () => L0["ointerestaccid"], set: async (v) => { L0["ointerestaccid"] = v; }, local: true });
   }
   {
-    const $t3 = (await $.v(C, "DataModPayments"));
+    const $t3 = (await $.wobj(C, "DataModPayments"));
     {
       const $t4 = (await $.wv([$t3], "AccountRests", C, false));
       await $.stmt((await $.wcall([$t3, $t4], "SetVariable", ["AccID", (await $.wv([$t3, $t4], "ClientAccID", { get: async () => L0["clientaccid"], set: async (v) => { L0["clientaccid"] = v; }, local: true }, false))], C)));

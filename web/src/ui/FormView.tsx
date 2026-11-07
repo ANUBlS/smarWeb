@@ -1,17 +1,18 @@
 /* Renders a VCL form's component tree at its DFM coordinates with modern styling. */
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronDown, ChevronRight, Play, Circle } from 'lucide-react';
 import { useTick } from '../runtime/ui';
 import { layoutChildren, type Rect } from './layout';
 import { iconFor } from './icons';
-import { toCss } from '../runtime/vcl/colors';
+import { toCss, explicitRgb, readableText } from '../runtime/vcl/colors';
 import { ValueRef } from '../runtime/core';
 import { runGuarded } from '../runtime/vcl/component';
 import type { TControl, TWinControl } from '../runtime/vcl/controls';
 import {
   TPageControl, TTabSheet, TToolButton, TToolBar, TCustomEdit, TCheckBox, TRadioButton, TComboBox, TListBox,
   TCheckListBox, TRadioGroup, TDateTimePicker, TTabControl, TStatusBar, TTreeView, TTreeNode, TListView, TStringGrid,
-  TSplitter, TSpeedButton, TButtonControl, TMemo, THeaderControl,
+  TSplitter, TSpeedButton, TButtonControl, TMemo, THeaderControl, GEN_BASE,
 } from '../runtime/vcl/controls';
 import {
   TDBGrid, TColumn, TDBLookupComboBox, TDBViewComboBox, TDBNavigator, TDBText, TDBDateTimeEditEh, TDBEdit,
@@ -25,12 +26,32 @@ import { formatDateTime, fromDelphi, toDelphi, settings } from '../runtime/datet
 
 const run = (p: Promise<unknown> | unknown, where: string) => { void runGuarded(async () => { await p; }, where); };
 
+/* Controls that paint their own background (the theme's input / button surface) rather than their parent's. */
+const OPAQUE = new Set(['edit', 'dbedit', 'currency', 'spin', 'memo', 'dbmemo', 'combo', 'lookup', 'viewcombo', 'button', 'datetime',
+  'dbdate', 'listbox', 'checklist', 'listview', 'treeview', 'stringgrid', 'dbgrid']);
+/** The explicit RGB colour behind a control: its own Color, or for transparent controls (labels, check boxes …) the
+ *  nearest parent's; undefined when the theme surface shows through. */
+function backgroundOf(c: TControl): number | undefined {
+  // VCL buttons paint the button face whatever their Color says
+  if (c.kind === 'button' || c.kind === 'speedbutton' || c.kind === 'toolbutton') return undefined;
+  if (!c.ParentColor) {
+    const own = explicitRgb((c as any)._color);
+    if (own !== undefined || OPAQUE.has(c.kind)) return own;
+  } else if (OPAQUE.has(c.kind)) return undefined;
+  for (let x: TControl | null = c.Parent; x; x = x.Parent) {
+    if ((x as any).isRootContainer) return explicitRgb((x as any)._color ?? (x as any).Color);
+    if (!x.ParentColor) return explicitRgb((x as any)._color);
+  }
+  return undefined;
+}
 function fontStyle(c: TControl): CSSProperties {
   const s: CSSProperties = {};
   const f = c.Font;
+  // clBlack (0) is how older DFMs store the default text colour: treated like clWindowText (theme text)
+  const fg = f && !c.ParentFont && f.Color !== 0 ? explicitRgb(f.Color) : undefined;
+  const color = readableText(fg, backgroundOf(c));
+  if (color) s.color = color;
   if (!f || c.ParentFont) return s;
-  const fg = toCss(f.Color);
-  if (fg && f.Color !== 0) s.color = fg;
   const st = (f.Style ?? []).map((x) => String(x).toLowerCase());
   if (st.includes('fsbold')) s.fontWeight = 600;
   if (st.includes('fsitalic')) s.fontStyle = 'italic';
@@ -51,7 +72,8 @@ function popupOf(c: TControl): TPopupMenu | null {
 function onContext(c: TControl) {
   const pm = popupOf(c);
   if (!pm) return undefined;
-  return (e: React.MouseEvent) => { e.preventDefault(); pm.PopupComponent = c; run(pm.Popup(e.clientX, e.clientY), pm.Name); };
+  // the control's own menu; one without a menu leaves the click to its parent (WM_CONTEXTMENU), up to the form's
+  return (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); pm.PopupComponent = c; run(pm.Popup(e.clientX, e.clientY), pm.Name); };
 }
 function rootForm(c: TControl): TCustomForm | null {
   let x: TControl | null = c;
@@ -251,7 +273,8 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
         <div {...p}>
           <button className={`v-btn${b.Flat ? ' flat' : ''}${b.Down ? ' down' : ''}`} style={{ width: '100%', height: '100%', padding: 0, ...fontStyle(c) }} disabled={dis}
             onClick={() => run(b.Click(), b.Name)} aria-pressed={b.GroupIndex ? b.Down : undefined} onMouseDown={noFocus} tabIndex={-1}>
-            {b.Caption ? b.Caption.replace(/&(?!&)/g, '') : Ic ? <Ic size={14} /> : null}
+            {b.GlyphSprite ? <Glyph c={b} disabled={dis} /> : null}
+            {b.Caption ? b.Caption.replace(/&(?!&)/g, '') : b.GlyphSprite ? null : Ic ? <Ic size={14} /> : null}
           </button>
         </div>
       );
@@ -278,11 +301,16 @@ function renderKind(c: TControl, r: Rect, p: Common): ReactNode {
         <div {...p} className="vc v-group v-radiogroup" style={{ ...p.style, top: r.top + 6, height: r.height - 6, ...fontStyle(c) }}>
           {g.Caption ? <div className="legend">{g.Caption}</div> : null}
           <div className="items" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, top: 10 }}>
-            {items.map((it, i) => (
-              <label key={i} className={`v-check${dis ? ' disabled' : ''}`}>
-                <input type="radio" checked={g.ItemIndex === i} disabled={dis} onChange={() => run(g.userSelect(i), g.Name)} />{it}
-              </label>
-            ))}
+            {items.map((it, i) => {
+              const b = g.button(i);
+              if (b && !b.Visible) return <span key={i} />;
+              const off = dis || b?.Enabled === false;
+              return (
+                <label key={i} className={`v-check${off ? ' disabled' : ''}`}>
+                  <input type="radio" checked={g.ItemIndex === i} disabled={off} onChange={() => run(g.userSelect(i), g.Name)} />{it}
+                </label>
+              );
+            })}
           </div>
         </div>
       );
@@ -395,7 +423,6 @@ function EditView({ c, p }: { c: TCustomEdit; p: Common }) {
   const isNum = c.kind === 'currency' || c.kind === 'spin';
   const db = c instanceof TDBEdit;
   const field = db ? (c as TDBEdit).Field : null;
-  const editingDs = !!field?.DataSet?.isEditing();
   const [draft, setDraft] = useState<string | null>(null);
   const value = draft ?? c.Text;
   const ro = c.ReadOnly || (db && (!!field?.ReadOnly || !field));
@@ -403,9 +430,9 @@ function EditView({ c, p }: { c: TCustomEdit; p: Common }) {
   const right = isNum || (field && (field.fieldType === 'float' || field.fieldType === 'integer'));
   return (
     <div {...p}>
-      <input className={`v-input${right ? ' num' : ''}${editingDs && !ro ? ' db-edit' : ''}`} value={value} readOnly={ro} disabled={!c.Enabled}
+      <input className={`v-input${right ? ' num' : ''}`} value={value} readOnly={ro} disabled={!c.Enabled}
         type={c.PasswordChar && c.PasswordChar !== '#0' && c.PasswordChar !== '\0' ? 'password' : 'text'}
-        maxLength={c.MaxLength || undefined} style={fontStyle(c)} spellCheck={false}
+        maxLength={c.MaxLength || undefined} style={{ ...bgStyle(c), ...fontStyle(c) }} spellCheck={false}
         onChange={(e) => { if (db && field && field.fieldType !== 'string') setDraft(e.target.value); else commit(e.target.value); }}
         onKeyDown={inputKeyHandler(c, () => value, (v) => commit(v))} onKeyUp={keyUpHandler(c)}
         onFocus={(e) => { focusHandlers(c).onFocus(); if (c.AutoSelect) e.currentTarget.select(); }}
@@ -427,6 +454,14 @@ function MemoView({ c, p }: { c: TMemo; p: Common }) {
   );
 }
 
+/** A button's DFM glyph (TSpeedButton / TBitBtn Glyph.Data, converted at build time). */
+function Glyph({ c, disabled }: { c: TControl; disabled: boolean }) {
+  const g = c as unknown as { GlyphSprite?: string; GlyphWidth?: number; GlyphHeight?: number };
+  if (!g.GlyphSprite) return null;
+  return <img src={GEN_BASE + g.GlyphSprite} width={g.GlyphWidth || 16} height={g.GlyphHeight || 16} alt="" draggable={false}
+    style={{ flex: 'none', opacity: disabled ? 0.4 : 1, filter: disabled ? 'grayscale(1)' : undefined }} />;
+}
+
 function ButtonView({ c, p }: { c: TButtonControl; p: Common }) {
   const Ic = iconFor((c as any).Kind === 'bkok' ? 'ok' : (c as any).Kind === 'bkcancel' ? 'cancel' : (c as any).Kind === 'bkclose' ? 'close' : '', c.Caption, c.Name);
   const cap = c.Caption.replace(/&(?!&)/g, '');
@@ -436,7 +471,7 @@ function ButtonView({ c, p }: { c: TButtonControl; p: Common }) {
     <div {...p}>
       <button className={`v-btn${c.Default ? ' default' : ''}`} style={{ width: '100%', height: '100%', ...fontStyle(c) }} disabled={!c.Enabled}
         onClick={() => run(c.Click(), c.Name)} {...focusHandlers(c)}>
-        {Ic && p.style.width as number > 60 ? <Ic size={14} /> : null}{caption}
+        {(c as any).GlyphSprite ? <Glyph c={c} disabled={!c.Enabled} /> : Ic && p.style.width as number > 60 ? <Ic size={14} /> : null}{caption}
       </button>
     </div>
   );
@@ -449,7 +484,7 @@ function ComboView({ c, p }: { c: TComboBox; p: Common }) {
   if (dropList) {
     return (
       <div {...p}>
-        <select className="v-input" value={idx} disabled={!c.Enabled} style={fontStyle(c)}
+        <select className="v-input" value={idx} disabled={!c.Enabled} style={{ ...bgStyle(c), ...fontStyle(c) }}
           onChange={(e) => run(c.userSelect(Number(e.target.value)), c.Name)} {...focusHandlers(c)}>
           {idx < 0 ? <option value={-1} /> : null}
           {items.map((s, i) => <option key={i} value={i}>{s}</option>)}
@@ -460,7 +495,7 @@ function ComboView({ c, p }: { c: TComboBox; p: Common }) {
   const listId = `dl-${c.Name}-${(c as any).__uid ??= Math.random().toString(36).slice(2)}`;
   return (
     <div {...p}>
-      <input className="v-input" list={listId} value={c.Text} disabled={!c.Enabled} style={fontStyle(c)}
+      <input className="v-input" list={listId} value={c.Text} disabled={!c.Enabled} style={{ ...bgStyle(c), ...fontStyle(c) }}
         onChange={(e) => {
           const i = items.indexOf(e.target.value);
           run(i >= 0 ? c.userSelect(i) : c.userText(e.target.value), c.Name);
@@ -471,17 +506,106 @@ function ComboView({ c, p }: { c: TComboBox; p: Common }) {
   );
 }
 
+/**
+ * TDBLookupComboBox. The list source can hold every active account (hundreds of thousands of rows): the closed box
+ * shows only the current text, the drop-down renders only the rows in view (DropDownRows high), with VCL's
+ * incremental search on the first list field and the arrow keys moving the selection while closed.
+ */
+const LOOKUP_ROW = 18;
 function LookupView({ c, p }: { c: TDBLookupComboBox; p: Common }) {
-  const opts = c.options();
-  const key = c.KeyValue;
-  const cur = opts.findIndex((o) => String(o.key) === String(key));
+  const box = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [hi, setHi] = useState(-1);
+  const [top, setTop] = useState(0);
+  const search = useRef({ text: '', at: 0 });
+  const count = c.listCount();
+  const cur = c.indexOfKey(c.KeyValue);
+  const curOpt = c.optionAt(cur);
+  const off = !c.Enabled || c.ReadOnly;
+  const rows = Math.max(1, Math.min(Number(c.DropDownRows) || 7, count || 1));
+  const select = (i: number) => { const o = c.optionAt(i); if (o) run(c.userSelect(o.key), c.Name); };
+  const show = () => {
+    if (off) return;
+    const i = cur >= 0 ? cur : 0;
+    setHi(i); setTop(Math.max(0, i - Math.floor(rows / 2)) * LOOKUP_ROW); setOpen(true);
+    void runGuarded(() => c.fire('OnDropDown', c), c.Name);
+  };
+  const close = () => setOpen(false);
+  const keep = (i: number) => {   // keep row i inside the drop-down's viewport
+    const y = i * LOOKUP_ROW;
+    setTop((t0) => (y < t0 ? y : y + LOOKUP_ROW > t0 + rows * LOOKUP_ROW ? y + LOOKUP_ROW - rows * LOOKUP_ROW : t0));
+  };
+  const move = (to: number) => {
+    const i = Math.max(0, Math.min(count - 1, to));
+    if (open) { setHi(i); keep(i); } else if (i !== cur) select(i);
+  };
+  // incremental search (VCL: typed characters search the first list field, prefix match, case-insensitive)
+  const typeAhead = (ch: string) => {
+    const now = Date.now();
+    const s = search.current;
+    s.text = (now - s.at < 1500 ? s.text : '') + ch.toLowerCase();
+    s.at = now;
+    const from = open ? Math.max(0, hi) : Math.max(0, cur);
+    for (let k = 0; k < count; k++) {
+      const i = (from + k) % count;
+      const o = c.optionAt(i);
+      if (o && String(o.cols[0] ?? '').toLowerCase().startsWith(s.text)) { move(i); return; }
+    }
+  };
+  const onKey = (e: KeyboardEvent) => {
+    if (off) return;
+    const k = e.key;
+    if ((k === 'ArrowDown' && e.altKey) || k === 'F4') { e.preventDefault(); if (open) close(); else show(); return; }
+    if (k === 'ArrowDown') { e.preventDefault(); move((open ? hi : cur) + 1); }
+    else if (k === 'ArrowUp') { e.preventDefault(); move((open ? hi : cur) - 1); }
+    else if (k === 'PageDown') { e.preventDefault(); move((open ? hi : cur) + rows); }
+    else if (k === 'PageUp') { e.preventDefault(); move((open ? hi : cur) - rows); }
+    else if (k === 'Home' && open) { e.preventDefault(); move(0); }
+    else if (k === 'End' && open) { e.preventDefault(); move(count - 1); }
+    else if (k === 'Enter' && open) { e.preventDefault(); e.stopPropagation(); close(); if (hi >= 0 && hi !== cur) select(hi); }
+    else if (k === 'Escape' && open) { e.preventDefault(); e.stopPropagation(); close(); }
+    else if (k.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) { e.preventDefault(); typeAhead(k); }
+  };
+  // the drop-down lives in document.body (window bodies clip their content) at the box's screen position
+  const r = open ? box.current?.getBoundingClientRect() : undefined;
+  const width = Math.max(r?.width ?? 0, Number(c.DropDownWidth) || 0);
+  const below = r ? window.innerHeight - r.bottom > rows * LOOKUP_ROW + 8 : true;
+  const first = Math.floor(top / LOOKUP_ROW);
+  const visible: number[] = [];
+  for (let i = first; i < Math.min(count, first + rows + 1); i++) visible.push(i);
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: MouseEvent) => { if (!box.current?.contains(e.target as Node) && !(e.target as HTMLElement).closest?.('.v-lookup-drop')) close(); };
+    window.addEventListener('mousedown', away, true);
+    return () => window.removeEventListener('mousedown', away, true);
+  }, [open]);
   return (
     <div {...p}>
-      <select className="v-input" value={cur} disabled={!c.Enabled || c.ReadOnly} style={fontStyle(c)}
-        onChange={(e) => { const o = opts[Number(e.target.value)]; if (o) run(c.userSelect(o.key), c.Name); }} {...focusHandlers(c)}>
-        {cur < 0 ? <option value={-1}>{key !== null && key !== undefined && key !== '' ? String(key) : ''}</option> : null}
-        {opts.map((o, i) => <option key={i} value={i}>{o.cols.join('   ')}</option>)}
-      </select>
+      <div ref={box} className={`v-input v-lookup${off ? ' disabled' : ''}`} tabIndex={off ? -1 : 0} role="combobox" aria-expanded={open}
+        style={{ ...bgStyle(c), ...fontStyle(c) }} onKeyDown={onKey} onMouseDown={(e) => { if (e.button !== 0 || off) return; e.preventDefault(); box.current?.focus(); if (open) close(); else show(); }}
+        onFocus={focusHandlers(c).onFocus} onBlur={() => { close(); focusHandlers(c).onBlur(); }}>
+        {/* VCL: a KeyValue that matches no row of the list shows an empty text */}
+        <span className="txt">{curOpt ? curOpt.cols.join('   ') : ''}</span>
+        <ChevronDown size={13} className="arrow" />
+      </div>
+      {open && r ? createPortal(
+        <div className="v-lookup-drop" style={{ position: 'fixed', left: r.left, width, top: below ? r.bottom + 1 : undefined,
+          bottom: below ? undefined : window.innerHeight - r.top + 1, height: rows * LOOKUP_ROW + 2 }}
+          onScroll={(e) => setTop((e.target as HTMLDivElement).scrollTop)}
+          ref={(el) => { if (el && Math.abs(el.scrollTop - top) > 1) el.scrollTop = top; }}>
+          <div style={{ height: count * LOOKUP_ROW, position: 'relative' }}>
+            {visible.map((i) => {
+              const o = c.optionAt(i)!;
+              return (
+                <div key={i} className={`li${i === hi ? ' hi' : ''}${i === cur ? ' sel' : ''}`} style={{ top: i * LOOKUP_ROW, height: LOOKUP_ROW }}
+                  onMouseEnter={() => setHi(i)} onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => { close(); if (i !== cur) select(i); box.current?.focus(); }}>
+                  {o.cols.map((s, k) => <span key={k}>{s}</span>)}
+                </div>
+              );
+            })}
+          </div>
+        </div>, document.body) : null}
     </div>
   );
 }
@@ -603,8 +727,11 @@ function ToolButtonView({ b, bar, style }: { b: TToolButton; bar?: TToolBar; sty
   const st = String(b.Style);
   if (st === 'tbsseparator' || st === 'tbsdivider') return <div className="tb-sep" style={{ marginLeft: Math.max(0, (b.Width || 8) / 2 - 4), marginRight: Math.max(0, (b.Width || 8) / 2 - 4) }} />;
   const a: any = b.Action;
-  const Ic = iconFor(a?.Name, b.Name, b.Caption, b.Hint) ?? (!b.Caption ? Circle : null);
-  const showCap = bar ? bar.ShowCaptions : !!b.Caption;
+  const img = (b as any).iconUrl as string | null | undefined;
+  const plug = img !== undefined;
+  const Ic = img ? null : iconFor(a?.Name, b.Name, b.Caption, b.Hint) ?? (!b.Caption ? Circle : null);
+  // a plugin button without an icon in its INI shows its caption (the desktop shows an empty button)
+  const showCap = (bar ? bar.ShowCaptions : !!b.Caption) || (plug && !img && !Ic && !!b.Caption);
   const capBelow = showCap && bar && !bar.List && bar.Height >= 34;
   const ref = useRef<HTMLButtonElement>(null);
   useLayoutEffect(() => { b.dom = ref.current; });
@@ -623,7 +750,7 @@ function ToolButtonView({ b, bar, style }: { b: TToolButton; bar?: TToolBar; sty
       <button ref={ref} className={`tb-btn${capBelow ? ' cap-below' : ''}${b.Down ? ' down' : ''}`} disabled={!b.Enabled} title={b.Hint || b.Caption}
         aria-pressed={st === 'tbscheck' ? b.Down : undefined} onClick={click} style={{ minWidth: bar && !showCap ? bar.ButtonWidth : undefined, ...fontStyle(b) }}
         onMouseDown={noFocus} tabIndex={-1}>
-        {Ic ? <span className="ic"><Ic size={capBelow ? 16 : 14} /></span> : null}
+        {img ? <img className="ic" src={img} width={16} height={16} alt="" /> : Ic ? <span className="ic"><Ic size={capBelow ? 16 : 14} /></span> : null}
         {showCap && b.Caption ? <span>{b.Caption.replace(/&(?!&)/g, '')}</span> : null}
       </button>
       {dd && (a || b.hasHandler('OnClick')) ? (
@@ -655,6 +782,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
   const first = Math.max(0, Math.floor(scroll / ROW_H) - 5);
   const last = Math.min(total, first + Math.ceil(viewH / ROW_H) + 12);
   const rowsKey = active ? ds!.rows : null;
+  const gridBg = g.ParentColor ? undefined : explicitRgb((g as any)._color);
   // in-place cell editor (dgEditing), as TDBGrid's InplaceEditor
   const [ed, setEd] = useState<{ row: number; col: number; text: string } | null>(null);
   const editRow = insertAt >= 0 ? insertAt : cur;
@@ -679,7 +807,12 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
   };
   useEffect(() => { if (ed && (ed.row !== editRow || ed.col !== g.SelectedIndex)) setEd(null); }, [editRow, g.SelectedIndex]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { g.markStylesDirty(); }, [rowsKey, count, g]);
-  useEffect(() => { if (active) void g.computeStyles(); });
+  // OnDrawColumnCell for the rows in view (and a screen around them)
+  useEffect(() => { if (active) void g.computeStyles(Math.max(0, first - 30), last + 30); });
+  // QueryAllRecords = False: fetch the next rows when the end of the fetched ones scrolls into view
+  useEffect(() => {
+    if (active && ds!.moreRows && last >= count - 5) void runGuarded(() => ds!.fetchMore(ds!.readBuffer), g.Name);
+  }, [active, last, count, ds, g]);
   // keep current row visible
   useEffect(() => {
     const el = box.current;
@@ -696,7 +829,13 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
     const ch = pressChar(e);
     if (ch && hasKeyHandlers(g, true)) void runGuarded(() => keyEvents(g, { key: ch, keyCode: e.keyCode, shift }, 'press'), g.Name);
     const page = Math.max(1, Math.floor(viewH / ROW_H) - 1);
-    const go = (i: number) => { e.preventDefault(); run(ds.gotoIndex(Math.max(0, Math.min(count - 1, i))), g.Name); };
+    const go = (i: number) => {
+      e.preventDefault();
+      run((async () => {
+        if (i > count - 1 && ds.moreRows) await ds.fetchMore(Math.max(ds.readBuffer, i - count + 1));
+        await ds.gotoIndex(Math.max(0, Math.min(ds.view.length - 1, i)));
+      })(), g.Name);
+    };
     if ((e.key === 'F2' || e.key === 'Enter') && openEd()) { e.preventDefault(); return; }
     if (ch && !e.ctrlKey && !e.altKey && !e.metaKey && openEd(ch)) { e.preventDefault(); return; }
     switch (e.key) {
@@ -705,7 +844,7 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
       case 'PageDown': go(cur + page); break;
       case 'PageUp': go(cur - page); break;
       case 'Home': if (e.ctrlKey) go(0); break;
-      case 'End': if (e.ctrlKey) go(count - 1); break;
+      case 'End': if (e.ctrlKey) { e.preventDefault(); run(ds.Last(), g.Name); } break;
       case 'ArrowLeft': e.preventDefault(); g.SelectedIndex = Math.max(0, g.SelectedIndex - 1); break;
       case 'ArrowRight': e.preventDefault(); g.SelectedIndex = Math.min(cols.length - 1, g.SelectedIndex + 1); break;
       case 'Escape': if (ds.isEditing()) { e.preventDefault(); run(ds.Cancel(), g.Name); } break;
@@ -735,10 +874,17 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           const st = styles?.get(ci);
           const isNum = f ? f.fieldType === 'float' || f.fieldType === 'integer' : typeof v === 'number';
           const align = col.Alignment ? (col.Alignment === 'tarightjustify' ? 'right' : col.Alignment === 'tacenter' ? 'center' : 'left') : undefined;
-          const colBg = col.Color !== -2147483643 ? toCss(col.Color) : undefined;
+          // TColumn.Color defaults to the grid's Color
+          const colBgN = explicitRgb(col.Color) ?? gridBg;
+          const cellBg = isCur ? undefined : st?.bg !== undefined ? explicitRgb(st.bg) : colBgN;
+          // text readable on the cell's background (light Delphi colours under the dark theme and vice versa)
+          // the drawing handler's Canvas.Font, else the column's Font (TColumn.Font: clNavy №, bold status column …)
+          const colFg = col.Font && col.Font.Color !== 0 ? explicitRgb(col.Font.Color) : undefined;
+          const colBold = (col.Font?.Style ?? []).some((s: string) => String(s).toLowerCase() === 'fsbold');
+          const cellFg = isCur ? undefined : readableText(st?.fg !== undefined && st.fg !== 0 ? explicitRgb(st.fg) : colFg, cellBg);
           return (
             <td key={ci} className={`${isNum && !align ? 'num' : ''}${isCur && ci === g.SelectedIndex ? ' cell-sel' : ''}`}
-              style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : !isCur ? colBg : undefined, color: !isCur && st?.fg !== undefined ? toCss(st.fg) : undefined, fontWeight: st?.bold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
+              style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : cellBg !== undefined ? toCss(cellBg) : undefined, color: cellFg, fontWeight: st?.bold || colBold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
               onMouseDown={(e) => {
                 if (ed && isCur && ci === ed.col) return;
                 // VCL TDBGrid: only the left button moves the record / changes the selection (right = popup)
@@ -771,6 +917,10 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
                       run(commitEd(ed.text).then(() => ds!.gotoIndex(to)), g.Name);
                     }
                   }} /></>
+              ) : st?.image ? (
+                // ImageList.Draw(Canvas, Rect.Left, Rect.Top, Index) in OnDrawColumnCell: the image instead of the text
+                <span className="cell-img" style={{ width: st.image.cx, height: st.image.cy,
+                  backgroundImage: `url(${GEN_BASE + st.image.sprite})`, backgroundPosition: `-${st.image.index * st.image.cx}px 0` }} />
               ) : f?.fieldType === 'boolean' ? (v ? '✓' : '') : text}
             </td>
           );
@@ -794,7 +944,14 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           <thead>
             <tr>
               {ind ? <th className="ind" /> : null}
-              {cols.map((c, i) => <th key={i} title={c.DisplayName} onClick={() => run(g.userTitleClick(i), g.Name)} style={{ textAlign: c.Title.Alignment === 'tarightjustify' ? 'right' : c.Title.Alignment === 'tacenter' ? 'center' : undefined }}>{c.Title.Caption || c.Field?.DisplayLabel || c.FieldName}{c.Title.SortMarker === 'smdowneh' ? ' ▼' : c.Title.SortMarker === 'smupeh' ? ' ▲' : ''}</th>)}
+              {cols.map((c, i) => {
+                // TColumnTitle Color / Font (navy captions, coloured headers), kept readable on the header background
+                const tBg = explicitRgb(c.Title.Color);
+                const tFg = c.Title.Font && c.Title.Font.Color !== 0 ? explicitRgb(c.Title.Font.Color) : undefined;
+                const tBold = (c.Title.Font?.Style ?? []).some((s: string) => String(s).toLowerCase() === 'fsbold');
+                return <th key={i} title={c.DisplayName} onClick={() => run(g.userTitleClick(i), g.Name)} style={{ textAlign: c.Title.Alignment === 'tarightjustify' ? 'right' : c.Title.Alignment === 'tacenter' ? 'center' : undefined,
+                  background: tBg !== undefined ? toCss(tBg) : undefined, color: readableText(tFg, tBg), fontWeight: tBold ? 700 : undefined }}>{c.Title.Caption || c.Field?.DisplayLabel || c.FieldName}{c.Title.SortMarker === 'smdowneh' ? ' ▼' : c.Title.SortMarker === 'smupeh' ? ' ▲' : ''}</th>;
+              })}
               <th style={{ borderRight: 0 }} />
             </tr>
           </thead>
@@ -863,7 +1020,7 @@ export function FormBody({ form, width, height }: { form: TCustomForm; width: nu
   useTick();
   form.rect = { left: 0, top: 0, width, height };
   return (
-    <div style={{ position: 'relative', width, height, ...bgStyleForm(form) }}>
+    <div style={{ position: 'relative', width, height, ...bgStyleForm(form) }} onContextMenu={onContext(form as unknown as TControl)}>
       <Children parent={form as unknown as TWinControl} width={width} height={height} />
     </div>
   );

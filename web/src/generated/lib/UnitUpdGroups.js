@@ -164,7 +164,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "DataModWares"));
+    const $t5 = (await $.wobj(C, "DataModWares"));
     await $.mcall((await $.wv([$t5], "ODSViewGr", C, false)), "Close", []);
     await $.mcall((await $.wv([$t5], "ODSViewGr", C, false)), "Open", []);
     await $.mcall((await $.wv([$t5], "odsviewgr", C, false)), "first", []);

@@ -22,7 +22,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t1 = (await $.v(C, "Dm_invst"));
+    const $t1 = (await $.wobj(C, "Dm_invst"));
     if ($.truthy($.eq((await $.mcall((await $.wv([$t1], "pk_ins_investment", C, false)), "CallBooleanFunction", ["ins_investment_transaction", [(await $.wv([$t1], "contactid", C, false)), (await $.mv((await $.wv([$t1], "CurrencyEdit1", C, false)), "Value")), (await $.mv((await $.mcall((await $.wv([$t1], "DsInvest", C, false)), "FieldByName", ["id"])), "AsInteger")), (await $.mv((await $.wv([$t1], "DBLookupComboBox1", C, false)), "KeyValue"))]])), (await $.wv([$t1], "true", C, false))))) {
       await $.stmt((await $.wcall([$t1], "ShowMessage", ["Emeliyyat yerine yetirildi!!!"], C)));
     }

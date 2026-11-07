@@ -3,12 +3,13 @@
  * forms the way the SmartBank shell's plugin host did:
  *   create ActiveForm (OnCreate) → Set_Params(name, value)… → InstanceInitialize → UIObjectActivate
  */
-import { audit } from './audit';
+import { audit, inModule } from './audit';
 import { Env, ClassDef } from './env';
 import { makeDollar } from './pascal';
 import { rootLookup, defineGlobal, registerEnumNames, getSettingGlobal, setGlobal } from './stdlib';
 import { NOTFOUND } from './core';
 import { logger } from './log';
+import { binReady } from './binfiles';
 import type { DfmNode } from './dfm';
 import { Application, Screen, Mouse, Clipboard, TCustomForm, windows } from './vcl/forms';
 import { runGuarded, TComponent } from './vcl/component';
@@ -23,6 +24,7 @@ import './vcl/controls';
 import './vcl/actions';
 import './vcl/dbcontrols';
 import './vcl/office';
+import './vcl/pdf';
 import './data/fields';
 import './data/dataset';
 import './data/datasource';
@@ -147,6 +149,7 @@ export async function getModule(name: string) {
   let p = moduleEnvs.get(name);
   if (!p) {
     p = (async () => {
+      await binReady;
       const m = moduleManifests[`../generated/modules/${name}/index.js`];
       if (!m) throw new Error(`Module ${name} is not generated`);
       const manifest = (await m()).default;
@@ -170,9 +173,9 @@ export async function openModule(name: string, params: Record<string, string>, c
   if (!manifest.mainForm) { logger.error(`${name}: no ActiveForm found`); return null; }
   const def = env.findClass(manifest.mainForm) as ClassDef;
   let form: TCustomForm | null = null;
-  await runGuarded(async () => {
+  await inModule(name, () => runGuarded(async () => {
     form = (await env.createInstance(def, [null])) as TCustomForm;
-  }, `${name}.Create`);
+  }, `${name}.Create`));
   if (!form) return null;
   const f = form as TCustomForm;
   f.isModuleForm = true;
@@ -232,7 +235,7 @@ export async function showModuleModal(guid: unknown, params: unknown): Promise<n
   if (!manifest.mainForm) return 2;
   const def = env.findClass(manifest.mainForm) as ClassDef;
   let form: TCustomForm | null = null;
-  await runGuarded(async () => { form = (await env.createInstance(def, [null])) as TCustomForm; }, `${name}.Create`);
+  await inModule(name, () => runGuarded(async () => { form = (await env.createInstance(def, [null])) as TCustomForm; }, `${name}.Create`));
   if (!form) return 2;
   const f = form as TCustomForm;
   f.isModuleForm = true;
@@ -293,7 +296,7 @@ export async function loadPackage(path: unknown): Promise<number> {
 
 /** GetProcAddress(Handle, 'InitPlugin'): an exported routine of the package (a package exporting a
  *  single routine under another name answers for it, as the deployed builds did). */
-export async function getProcAddress(h: unknown, proc: unknown): Promise<unknown> {
+export async function getProcAddress(h: unknown, proc: unknown, exact = false): Promise<unknown> {
   const pname = pkgHandles.get(Number(h));
   if (!pname) return null;
   const { env, manifest } = await getModule(pname);
@@ -304,7 +307,7 @@ export async function getProcAddress(h: unknown, proc: unknown): Promise<unknown
     }
     return null;
   };
-  return (await find(String(proc))) ?? (manifest.exports?.length === 1 ? await find(manifest.exports[0]) : null);
+  return (await find(String(proc))) ?? (!exact && manifest.exports?.length === 1 ? await find(manifest.exports[0]) : null);
 }
 
 class TPlgModalContainer extends TComponent {

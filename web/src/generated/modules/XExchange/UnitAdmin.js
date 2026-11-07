@@ -17,7 +17,7 @@ export default function define($) {
   if ($.truthy((await $.mcall((await $.mv((await $.v(C, "DataModExch")), "OPExchMgr")), "CallBooleanFunction", ["Check_UserRole", [L0["usrname"]]])))) {
     if ($.truthy($.eq((await $.call(C, "MessageDLG", [(await $.call(C, "Pchar", ["İstifadəçi yaradılsın? "])), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
       {
-        const $t1 = (await $.v(C, "DataModExch"));
+        const $t1 = (await $.wobj(C, "DataModExch"));
         if ($.truthy((await $.and_(($.ne((await $.wcall([$t1], "Trim", [(await $.mv((await $.wv([$t1], "EditPassWord", C, false)), "Text"))], C)), "")), async () => ($.ne((await $.wcall([$t1], "Trim", [(await $.mv((await $.wv([$t1], "EditUserName", C, false)), "Text"))], C)), "")))))) {
           try {
             await $.mset((await $.wv([$t1], "Screen", C, false)), "Cursor", (await $.wv([$t1], "crSQLWait", C, false)));
@@ -49,7 +49,7 @@ export default function define($) {
   if ($.truthy((await $.mcall((await $.mv((await $.v(C, "DataModExch")), "OPExchMgr")), "CallBooleanFunction", ["Check_UserRole", [L0["usrname"]]])))) {
     if ($.truthy($.eq((await $.call(C, "MessageDLG", [(await $.call(C, "Pchar", ["İstifadəçini ləğv edim? "])), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
       {
-        const $t2 = (await $.v(C, "DataModExch"));
+        const $t2 = (await $.wobj(C, "DataModExch"));
         if ($.truthy($.ne((await $.mv((await $.wv([$t2], "EditUserName", C, false)), "Text")), ""))) {
           try {
             await $.mset((await $.wv([$t2], "Screen", C, false)), "Cursor", (await $.wv([$t2], "crSQLWait", C, false)));
@@ -92,7 +92,7 @@ export default function define($) {
     await $.stmt((await $.mcall((await $.mv((await $.v(C, "DataModExch")), "OPExchMgr")), "CallProcedure", ["Ins_UserName", [(await $.mv((await $.v(C, "DBLC_UserList")), "Keyvalue")), (await $.mv((await $.v(C, "DBLC_UserList")), "Text")), (await $.mv((await $.v(C, "ch_box")), "Text"))]])));
     if ($.truthy($.eq((await $.call(C, "MessageDLG", [(await $.call(C, "Pchar", ["İstifadəçi yaradılsın? "])), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
       {
-        const $t3 = (await $.v(C, "DataModExch"));
+        const $t3 = (await $.wobj(C, "DataModExch"));
         if ($.truthy($.ne((await $.mv((await $.wv([$t3], "DBLC_UserList", C, false)), "KeyValue")), (-(1))))) {
           try {
             await $.mset((await $.wv([$t3], "Screen", C, false)), "Cursor", (await $.wv([$t3], "crSQLWait", C, false)));
@@ -118,7 +118,7 @@ export default function define($) {
   if ($.truthy($.eq((await $.mcall((await $.mv((await $.v(C, "DataModExch")), "OPExchMgr")), "CallBooleanFunction", ["Check_UserRole", [L0["usrname"]]])), true))) {
     if ($.truthy($.eq((await $.call(C, "MessageDLG", [(await $.call(C, "Pchar", ["İstifadəçini ləğv edim? "])), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
       {
-        const $t4 = (await $.v(C, "DataModExch"));
+        const $t4 = (await $.wobj(C, "DataModExch"));
         if ($.truthy($.ne((await $.mv((await $.wv([$t4], "DBLC_UserList", C, false)), "KeyValue")), (-(1))))) {
           try {
             await $.mset((await $.wv([$t4], "Screen", C, false)), "Cursor", (await $.wv([$t4], "crSQLWait", C, false)));

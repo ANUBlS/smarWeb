@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "NewDepositsFrmAddEditAccTurning"));
+    const $t1 = (await $.wobj(C, "NewDepositsFrmAddEditAccTurning"));
     await $.wset([$t1], "Caption", "Yeni", C);
     await $.stmt($.wcall([$t1], "ShowModal", [], C));
   }
@@ -46,12 +46,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "NewDepositsFrmAddEditAccTurning"));
+    const $t3 = (await $.wobj(C, "NewDepositsFrmAddEditAccTurning"));
     await $.wset([$t3], "Caption", "Redaktə", C);
     await $.stmt($.wcall([$t3], "ShowModal", [], C));
   }
   {
-    const $t4 = (await $.v(C, "settings"));
+    const $t4 = (await $.wobj(C, "settings"));
     await $.stmt($.wcall([$t4], "Refresh", [], C));
   }
   return L0.result;

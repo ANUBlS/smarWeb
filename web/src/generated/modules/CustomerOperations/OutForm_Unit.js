@@ -18,7 +18,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "CO_DataMod"));
+    const $t1 = (await $.wobj(C, "CO_DataMod"));
     const $t2 = (await $.wv([$t1], "CashSymbolLookUp", C, false));
     await $.stmt((await $.mcall((await $.wv([$t1, $t2], "DebitAccData", C, false)), "locate", ["acc_no", (await $.mv((await $.wv([$t1, $t2], "DebtAccSearchEdit", C, false)), "text")), []])));
     await $.stmt((await $.mcall((await $.wv([$t1, $t2], "CreditAccData", C, false)), "locate", ["acc_no", (await $.mv((await $.wv([$t1, $t2], "CreditAccSearchEdit", C, false)), "text")), []])));
@@ -384,7 +384,7 @@ export default function define($) {
       $t26 = false;
       if (!($.ord(L0["xxx"]) <= $.ord($t25))) break;
       {
-        const $t27 = (await $.v(C, "editvalute"));
+        const $t27 = (await $.wobj(C, "editvalute"));
         await $.stmt((await $.mcall((await $.wv([$t27], "Items", C, false)), "Add", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t27], "CO_DataMod", C, false)), "avalute")), "FieldByName", ["valu_name"])), "AsString"))])));
       }
       await $.mcall((await $.mv((await $.v(C, "CO_DataMod")), "avalute")), "Next", []);
@@ -585,7 +585,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t34 = (await $.v(C, "CO_DataMod"));
+    const $t34 = (await $.wobj(C, "CO_DataMod"));
     await $.mcall((await $.wv([$t34], "Cntries", C, false)), "refresh", []);
     await $.mcall((await $.wv([$t34], "ReportDesc", C, false)), "refresh", []);
     await $.mcall((await $.wv([$t34], "ConvertationSymbols", C, false)), "refresh", []);

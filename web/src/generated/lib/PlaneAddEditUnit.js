@@ -51,7 +51,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.v(C, "PlaneGridState")), (await $.v(C, "pgsEdit"))))) {
     {
-      const $t2 = (await $.v(C, "PlaneDataModule"));
+      const $t2 = (await $.wobj(C, "PlaneDataModule"));
       const $t3 = (await $.wv([$t2], "PaymentsPlaneData", C, false));
       await $.mset((await $.wv([$t2, $t3], "DTPPaymentDate", C, false)), "DateTime", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["HDate"], C)), "AsDateTime")));
       await $.mset((await $.wv([$t2, $t3], "MainDebtEdit", C, false)), "Value", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["FACTICALDEBTPAYMENT"], C)), "AsCurrency")));

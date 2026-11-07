@@ -83,7 +83,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DM"));
+    const $t1 = (await $.wobj(C, "DM"));
     await $.mcall((await $.wv([$t1], "ODS_mmx_transaction_item_type", C, false)), "Open", []);
     await $.mcall((await $.wv([$t1], "ODS_mmx_reportcode", C, false)), "Open", []);
     await $.mcall((await $.wv([$t1], "ODS_mmx_transmode", C, false)), "Open", []);

@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["s"]);
   L0["contractid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "DMExtractMoney"));
+    const $t1 = (await $.wobj(C, "DMExtractMoney"));
     {
       const $t2 = (await $.wv([$t1], "Payments", C, false));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
@@ -52,7 +52,7 @@ export default function define($) {
     }
   }
   {
-    const $t6 = (await $.v(C, "frmExtractMoney"));
+    const $t6 = (await $.wobj(C, "frmExtractMoney"));
     await $.wset([$t6], "Caption", $.add((await $.wv([$t6], "Get_SelectedContNo", C, false)), " nömrəli depozitin ödənişləri"), C);
     await $.stmt($.wcall([$t6], "ShowModal", [], C));
   }
@@ -109,7 +109,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t7 = (await $.v(C, "DMExtractMoney"));
+    const $t7 = (await $.wobj(C, "DMExtractMoney"));
     const $t8 = (await $.wv([$t7], "Payments", C, false));
     const $t9 = (await $.wv([$t7, $t8], "sbcm_payment", C, false));
     await $.stmt((await $.wcall([$t7, $t8, $t9], "CallProcedure", ["DeleteWithDrawMoney", ["P_DepWMoneyID", (await $.mv((await $.wcall([$t7, $t8, $t9], "FieldByName", ["ID"], C)), "AsInteger"))]], C)));
@@ -129,7 +129,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "ExcelExport"));
+    const $t10 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t10], "Connect", [], C));
     await $.stmt((await $.wcall([$t10], "ExportDataset", [(await $.mv((await $.wv([$t10], "DMExtractMoney", C, false)), "Payments")), "Ödənilmiş əmanətlər", (await $.wv([$t10], "True", C, false)), (await $.wv([$t10], "false", C, false))], C)));
     await $.stmt($.wcall([$t10], "Disconnect", [], C));

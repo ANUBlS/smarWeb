@@ -32,7 +32,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "qrpTicket"));
+    const $t2 = (await $.wobj(C, "qrpTicket"));
     const $t3 = (await $.wv([$t2], "DataModuleTicketMan", C, false));
     const $t4 = (await $.wv([$t2, $t3], "ODSforPrint", C, false));
     await $.stmt($.wcall([$t2, $t3, $t4], "Close", [], C));
@@ -61,7 +61,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["archsql"] = $.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add($.add("select a.status, a.id, a.pdate, a.pnum, a.dbankfilial, a.dbankcode, a.dbankname,", "\r"), "\n"), "a.dbankinn, a.dbankswift, a.dbankkacc, a.dacc_no, a.daccname,"), "\r"), "\n"), "a.daccinn, a.kbankfilial, a.kbankcode, a.kbankname, a.kbankinn,"), "\r"), "\n"), "a.kbankswift, a.kbankkacc, a.kbanksubkacc, a.kacc_no, a.kaccname,"), "\r"), "\n"), "a.kaccinn, a.ammount, a.description, a.information, a.userid, u.name tuser"), "\r"), "\n"), "from sba_tm_archive a, user$ u"), "\r"), "\n"), "where (u.id=a.userid) and a.status=%s"), "\r"), "\n"), "order by a.id");
   {
-    const $t5 = (await $.v(C, "DataModuleTicketMan"));
+    const $t5 = (await $.wobj(C, "DataModuleTicketMan"));
     const $t6 = (await $.wv([$t5], "ODSArchive", C, false));
     if ($.truthy((await $.wv([$t5, $t6], "active", C, false)))) {
       await $.stmt($.wcall([$t5, $t6], "close", [], C));
@@ -89,7 +89,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "DataModuleTicketMan"));
+    const $t7 = (await $.wobj(C, "DataModuleTicketMan"));
     const $t8 = (await $.wv([$t7], "ODSPaymentDecree", C, false));
     await $.stmt($.wcall([$t7, $t8], "Close", [], C));
     await $.stmt($.wcall([$t7, $t8], "ClearVariables", [], C));
@@ -209,7 +209,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.mv((await $.v(C, "frmChgStatus")), "ShowModal")), (await $.v(C, "iDok"))))) {
     {
-      const $t25 = (await $.v(C, "frmChgStatus"));
+      const $t25 = (await $.wobj(C, "frmChgStatus"));
       const $t26 = (await $.wv([$t25], "DataModuleTicketMan", C, false));
       await $.stmt((await $.mcall((await $.wv([$t25, $t26], "TM_MANAGE", C, false)), "CallProcedure", ["changestatus", [(await $.mv((await $.wv([$t25, $t26], "ODSArchiveID", C, false)), "AsVariant")), (await $.mv((await $.wv([$t25, $t26], "cbStat", C, false)), "KeyValue"))]])));
       await $.mcall((await $.wv([$t25, $t26], "ODSArchive", C, false)), "Refresh", []);

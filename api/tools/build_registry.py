@@ -82,9 +82,9 @@ def unit_items(folder: str, info: dict, comp_pkg: dict) -> tuple[list, dict, lis
     js = os.path.join(folder, info['file'] + '.js')
     if os.path.exists(js):
         code = open(js, encoding='utf-8').read()
-        # with-block targets: const $tN = (await $.wv([...], "Comp", …)) / (await $.mv(…, "Comp"))
+        # with-block targets: const $tN = (await $.wv([...], "Comp", …)) / (await $.mv(…, "Comp")) / $.wobj(C, "Comp")
         tvars = {}
-        for tm in re.finditer(r'const (\$t\d+) = \(await \$\.(?:wv|mv|v)\((.{0,200}?)\)\);', code):
+        for tm in re.finditer(r'const (\$t\d+) = \(await \$\.(?:wv|mv|v|wobj)\((.{0,200}?)\)\);', code):
             names = re.findall(r'"([A-Za-z][\w]*)"', tm.group(2))
             if names:
                 tvars[tm.group(1)] = names[-1]

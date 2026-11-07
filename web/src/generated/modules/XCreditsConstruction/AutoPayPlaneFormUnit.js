@@ -44,7 +44,7 @@ export default function define($) {
     }
   }
   {
-    const $t2 = (await $.v(C, "DatModConstruction"));
+    const $t2 = (await $.wobj(C, "DatModConstruction"));
     const $t3 = (await $.wv([$t2], "sbcm_construction", C, false));
     await $.stmt((await $.wcall([$t2, $t3], "CallProcedure", ["add_payment_plane", ["p_CreditID", (await $.mv((await $.mcall((await $.wv([$t2, $t3], "Credits", C, false)), "FieldByName", ["ID"])), "AsInteger")), "p_Amount", (await $.mv((await $.wv([$t2, $t3], "AmountEdit", C, false)), "Value")), "p_Rate", 0, "p_FirstPayDate", (await $.mv((await $.wv([$t2, $t3], "DTPStartDate", C, false)), "DateTime")), "p_StartDate", (await $.mv((await $.mcall((await $.wv([$t2, $t3], "Credits", C, false)), "FieldbyName", ["OpenDate"])), "AsDateTime")), "p_Periods", (await $.wcall([$t2, $t3], "StrToInt", [(await $.mv((await $.wv([$t2, $t3], "NPeriodsEdit", C, false)), "Text"))], C)), "p_PeriodRate", (await $.wv([$t2, $t3], "PerRate", { get: async () => L0["perrate"], set: async (v) => { L0["perrate"] = v; }, local: true }, false))]], C)));
   }

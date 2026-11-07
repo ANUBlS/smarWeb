@@ -22,7 +22,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["contractid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "ODSContarcts"));
+    const $t1 = (await $.wobj(C, "ODSContarcts"));
     if ($.truthy((await $.wv([$t1], "Active", C, false)))) {
       await $.stmt($.wcall([$t1], "CloseAll", [], C));
     }
@@ -31,7 +31,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.mv((await $.v(C, "RadioButton1")), "Checked")), true))) {
     {
-      const $t2 = (await $.v(C, "ODSDepozitMoney"));
+      const $t2 = (await $.wobj(C, "ODSDepozitMoney"));
       if ($.truthy((await $.wv([$t2], "Active", C, false)))) {
         await $.stmt($.wcall([$t2], "CloseAll", [], C));
       }
@@ -42,7 +42,7 @@ export default function define($) {
     await $.mcall((await $.mv((await $.v(C, "frmDepozitMoneyReport_new")), "QRPDepozitMoney")), "Preview", []);
   } else {
     {
-      const $t3 = (await $.v(C, "ODSDepozitWithDraw"));
+      const $t3 = (await $.wobj(C, "ODSDepozitWithDraw"));
       if ($.truthy((await $.wv([$t3], "Active", C, false)))) {
         await $.stmt($.wcall([$t3], "CloseAll", [], C));
       }

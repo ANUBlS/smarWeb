@@ -24,7 +24,7 @@ export default function define($) {
   L0["dat_begin"] = (await $.mv((await $.v(C, "DateTim_begin")), "DateTime"));
   L0["dat_end"] = (await $.mv((await $.v(C, "DateTim_end")), "DateTime"));
   {
-    const $t1 = (await $.v(C, "Adif_Data"));
+    const $t1 = (await $.wobj(C, "Adif_Data"));
     const $t2 = (await $.wv([$t1], "ods_account", C, false));
     await $.stmt($.wcall([$t1, $t2], "close", [], C));
     await $.stmt((await $.wcall([$t1, $t2], "SetVariable", ["d1", (await $.wv([$t1, $t2], "dat_begin", { get: async () => L0["dat_begin"], set: async (v) => { L0["dat_begin"] = v; }, local: true }, false))], C)));

@@ -23,7 +23,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "CO_Transactions", (await $.mcall((await $.v(C, "TCO_Transactions")), "Create", [Self])));
   {
-    const $t1 = (await $.v(C, "CO_Transactions"));
+    const $t1 = (await $.wobj(C, "CO_Transactions"));
     const $t2 = (await $.wv([$t1], "CO_DataMod", C, false));
     await $.mset((await $.wv([$t1, $t2], "DBEditDebtAccNo", C, false)), "Text", "");
     await $.mset((await $.wv([$t1, $t2], "DBEditDebtAccName", C, false)), "Text", "");
@@ -38,7 +38,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.mv((await $.v(C, "CO_Transactions")), "ShowModal")), (await $.v(C, "IDOK"))))) {
     {
-      const $t3 = (await $.v(C, "CO_Transactions"));
+      const $t3 = (await $.wobj(C, "CO_Transactions"));
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t3], "CO_DataMod", C, false)), "OrPack_BussProc")), "CallProcedure", ["execbprocess", [(await $.mv((await $.mv((await $.wv([$t3], "CO_DataMod", C, false)), "ODS_BussProcID")), "AsVariant")), (await $.wcall([$t3], "StrToInt", [(await $.mv((await $.wv([$t3], "Acc_id", C, false)), "Text"))], C)), (await $.wcall([$t3], "StrToInt", [(await $.mv((await $.wv([$t3], "Acc_id_", C, false)), "Text"))], C)), (await $.mv((await $.wv([$t3], "DebtValue", C, false)), "Value")), (await $.mv((await $.wv([$t3], "CreditValue", C, false)), "Value")), (await $.mv((await $.wv([$t3], "Ekv", C, false)), "Value")), (await $.mv((await $.wv([$t3], "CashSymbolLookUp", C, false)), "KeyValue")), (await $.mv((await $.wv([$t3], "ConvertationSymbolLookUp", C, false)), "KeyValue")), (await $.mv((await $.wv([$t3], "DBEditTransName", C, false)), "Text")), (await $.mv((await $.wv([$t3], "ReportIDLookUp", C, false)), "KeyValue")), (await $.mv((await $.wv([$t3], "CountrIDLookUp", C, false)), "KeyValue"))]])));
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t3], "CO_DataMod", C, false)), "OrPack_BussProc")), "CallProcedure", ["commitprocs", []])));
     }

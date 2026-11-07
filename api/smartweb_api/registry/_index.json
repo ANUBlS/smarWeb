@@ -3,9 +3,9 @@
   "name": "Common",
   "caption": "Ümumi (sboapi və paylaşılan modullar)",
   "plugin": false,
-  "datasets": 583,
-  "packages": 73,
-  "sql": 21
+  "datasets": 717,
+  "packages": 77,
+  "sql": 25
  },
  {
   "name": "AboutBanks",
@@ -25,7 +25,7 @@
  },
  {
   "name": "Accounts",
-  "caption": "Balans / Əməliyyat günü / Hesablar",
+  "caption": "",
   "plugin": false,
   "datasets": 15,
   "packages": 1,
@@ -97,7 +97,7 @@
  },
  {
   "name": "CreditManager",
-  "caption": "Balans / Kreditlər / Kreditlərin idarə olunması",
+  "caption": "Əlavə modullar / Kreditlər / Kredit menecer (CreditManager, SBCM_*)",
   "plugin": false,
   "datasets": 5,
   "packages": 1,
@@ -105,7 +105,7 @@
  },
  {
   "name": "CreditsArchive",
-  "caption": "Balans / Kreditlər / Arxiv Kreditlər",
+  "caption": "Əlavə modullar / Kreditlər / Kreditlərin arxivi (SBCM_*)",
   "plugin": false,
   "datasets": 1,
   "packages": 0,
@@ -232,6 +232,14 @@
   "sql": 0
  },
  {
+  "name": "PCustService",
+  "caption": "Balans / Müştərilər / Müştəri xidməti",
+  "plugin": false,
+  "datasets": 187,
+  "packages": 13,
+  "sql": 0
+ },
+ {
   "name": "P_CMArFilter",
   "caption": "",
   "plugin": true,
@@ -243,7 +251,7 @@
   "name": "P_CMAr_Conclusion",
   "caption": "",
   "plugin": true,
-  "datasets": 47,
+  "datasets": 48,
   "packages": 5,
   "sql": 0
  },
@@ -296,11 +304,219 @@
   "sql": 0
  },
  {
+  "name": "P_CMFilter",
+  "caption": "",
+  "plugin": true,
+  "datasets": 14,
+  "packages": 0,
+  "sql": 1
+ },
+ {
+  "name": "P_CMSYSTEM",
+  "caption": "",
+  "plugin": true,
+  "datasets": 0,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_ADM",
+  "caption": "",
+  "plugin": true,
+  "datasets": 21,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AEBeforeOneDay",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AK_Report",
+  "caption": "",
+  "plugin": true,
+  "datasets": 10,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AK_Reports",
+  "caption": "",
+  "plugin": true,
+  "datasets": 54,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Activate",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AdvancedInfo",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Analysofcustomers",
+  "caption": "",
+  "plugin": true,
+  "datasets": 18,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Analysofcustomers_2",
+  "caption": "",
+  "plugin": true,
+  "datasets": 24,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AutoExpires",
+  "caption": "",
+  "plugin": true,
+  "datasets": 19,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AutoExpiresAll",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AutoExpiresAll_2",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AutoPayment",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_BUSINESS_PLAN",
+  "caption": "",
+  "plugin": true,
+  "datasets": 16,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Bali_Src",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_CORR_Trch_Pay",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_CalcIntOB",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_CardPercentViewer",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
   "name": "P_CM_Conclusion",
   "caption": "",
   "plugin": true,
-  "datasets": 49,
+  "datasets": 50,
   "packages": 5,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Control",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Corrector",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_CorrectorCardPer",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_CreditArchViewer",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_CreditCardSettings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_CreditControl",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Credit_Types",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 0,
   "sql": 0
  },
  {
@@ -308,6 +524,230 @@
   "caption": "",
   "plugin": true,
   "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Custominformesin",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Custsoccategories",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_DECA",
+  "caption": "",
+  "plugin": true,
+  "datasets": 15,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_DailyOper",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_DailyReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_DefIntCalc",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Expire",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_FinishPeriodCredits",
+  "caption": "",
+  "plugin": true,
+  "datasets": 11,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Fizler",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_FolderPlace",
+  "caption": "",
+  "plugin": true,
+  "datasets": 33,
+  "packages": 3,
+  "sql": 1
+ },
+ {
+  "name": "P_CM_IM_Report",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_IP",
+  "caption": "",
+  "plugin": true,
+  "datasets": 14,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_IP2YM",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_IP_Reports",
+  "caption": "",
+  "plugin": true,
+  "datasets": 21,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_IP_SETTINGS",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_IP_Schedule",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_ImportPayments",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_InfoOfIntOutB",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_IntPlaceOB",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_InterestCalculation",
+  "caption": "",
+  "plugin": true,
+  "datasets": 14,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_InterestProg",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_LazyTransactions",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Message",
+  "caption": "",
+  "plugin": true,
+  "datasets": 10,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_MonthsPay",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_N2SD",
+  "caption": "",
+  "plugin": true,
+  "datasets": 6,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_N3SD",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_NOTES",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_PayGrantAmt",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
   "packages": 1,
   "sql": 0
  },
@@ -320,6 +760,86 @@
   "sql": 0
  },
  {
+  "name": "P_CM_PaymentReport",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_PaymentScheduleRep",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_PenatltySettings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_PledgsSorts",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_PortFel_Filials",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Portfel",
+  "caption": "",
+  "plugin": true,
+  "datasets": 14,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Portfel_2",
+  "caption": "",
+  "plugin": true,
+  "datasets": 14,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Portokol",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Prolongation",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_RC_All",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
   "name": "P_CM_RETIL",
   "caption": "",
   "plugin": true,
@@ -328,11 +848,123 @@
   "sql": 0
  },
  {
+  "name": "P_CM_RETSETTING",
+  "caption": "",
+  "plugin": true,
+  "datasets": 30,
+  "packages": 0,
+  "sql": 1
+ },
+ {
+  "name": "P_CM_ReReserves",
+  "caption": "",
+  "plugin": true,
+  "datasets": 0,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_ReestrInfo",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Report",
+  "caption": "",
+  "plugin": true,
+  "datasets": 22,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_ReportofBalance",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_ReserveInf",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Reserve_CN",
+  "caption": "",
+  "plugin": true,
+  "datasets": 0,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Reserves",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_RtlLizinq",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_SETUP",
+  "caption": "",
+  "plugin": true,
+  "datasets": 39,
+  "packages": 3,
+  "sql": 1
+ },
+ {
   "name": "P_CM_Schedule",
   "caption": "",
   "plugin": true,
   "datasets": 9,
   "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_SdNew",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Search",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_SelDate",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_StartReserve",
+  "caption": "",
+  "plugin": true,
+  "datasets": 0,
+  "packages": 1,
   "sql": 0
  },
  {
@@ -352,10 +984,74 @@
   "sql": 0
  },
  {
+  "name": "P_CM_TrancheCreditCards",
+  "caption": "",
+  "plugin": true,
+  "datasets": 4,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_TurningAccounts",
+  "caption": "",
+  "plugin": true,
+  "datasets": 5,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Universal_Report",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_WRSETUP",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
   "name": "P_CM_WReport",
   "caption": "",
   "plugin": true,
   "datasets": 9,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_ip_export",
+  "caption": "",
+  "plugin": true,
+  "datasets": 16,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_noteMCB",
+  "caption": "",
+  "plugin": true,
+  "datasets": 10,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_onclusion",
+  "caption": "",
+  "plugin": true,
+  "datasets": 51,
+  "packages": 5,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_pledge_guarantor",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
   "packages": 0,
   "sql": 0
  },
@@ -371,7 +1067,7 @@
   "name": "P_CR_Conclusion",
   "caption": "",
   "plugin": true,
-  "datasets": 48,
+  "datasets": 49,
   "packages": 4,
   "sql": 0
  },
@@ -379,7 +1075,7 @@
   "name": "P_CU_Conclusion",
   "caption": "",
   "plugin": true,
-  "datasets": 61,
+  "datasets": 62,
   "packages": 5,
   "sql": 0
  },
@@ -400,6 +1096,14 @@
   "sql": 0
  },
  {
+  "name": "P_CU_Report",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
+  "packages": 1,
+  "sql": 0
+ },
+ {
   "name": "P_CU_Schedule",
   "caption": "",
   "plugin": true,
@@ -416,12 +1120,44 @@
   "sql": 0
  },
  {
+  "name": "P_Cm_AutoReserve_Settings",
+  "caption": "",
+  "plugin": true,
+  "datasets": 10,
+  "packages": 0,
+  "sql": 0
+ },
+ {
   "name": "P_Cm_Guarantee",
   "caption": "",
   "plugin": true,
   "datasets": 9,
   "packages": 1,
   "sql": 0
+ },
+ {
+  "name": "P_Cm_Guarantee_2",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_Cm_Pur_Report",
+  "caption": "",
+  "plugin": true,
+  "datasets": 12,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_Customers",
+  "caption": "Balans / Müştərilər / Fiziki şəxslər üzrə əməliyyatlar",
+  "plugin": true,
+  "datasets": 149,
+  "packages": 16,
+  "sql": 5
  },
  {
   "name": "P_Ferid",
@@ -437,6 +1173,14 @@
   "plugin": true,
   "datasets": 52,
   "packages": 6,
+  "sql": 0
+ },
+ {
+  "name": "P_Guarantee",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
   "sql": 0
  },
  {
@@ -1080,6 +1824,86 @@
   "sql": 0
  },
  {
+  "name": "P_cm_Intcorrection",
+  "caption": "",
+  "plugin": true,
+  "datasets": 3,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_Payandshd_rep",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_RepCoefficient",
+  "caption": "",
+  "plugin": true,
+  "datasets": 9,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_RepOfRestandPlanRest",
+  "caption": "",
+  "plugin": true,
+  "datasets": 11,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_activits",
+  "caption": "",
+  "plugin": true,
+  "datasets": 10,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_bankset",
+  "caption": "",
+  "plugin": true,
+  "datasets": 1,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_inttrance",
+  "caption": "",
+  "plugin": true,
+  "datasets": 8,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_notes_report",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 2,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_obl",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_cm_restr",
+  "caption": "",
+  "plugin": true,
+  "datasets": 2,
+  "packages": 1,
+  "sql": 0
+ },
+ {
   "name": "P_cu_Statement",
   "caption": "",
   "plugin": true,
@@ -1171,9 +1995,9 @@
   "name": "TransactionManager",
   "caption": "Balans / Əməliyyat günü / Günün sənədləri",
   "plugin": false,
-  "datasets": 20,
-  "packages": 2,
-  "sql": 0
+  "datasets": 63,
+  "packages": 9,
+  "sql": 1
  },
  {
   "name": "Transactions",
@@ -1425,7 +2249,7 @@
  },
  {
   "name": "XCreditArchive",
-  "caption": "Əlavə modullar / Kreditlər / Kreditlərin arxivi",
+  "caption": "Balans / Kreditlər / Arxiv Kreditlər",
   "plugin": false,
   "datasets": 2,
   "packages": 2,
@@ -1449,9 +2273,9 @@
  },
  {
   "name": "XCreditsMgrSB",
-  "caption": "Əlavə modullar / Kreditlər / Kredit menecer (SB)",
+  "caption": "Balans / Kreditlər / Kreditlərin idarə olunması",
   "plugin": false,
-  "datasets": 3,
+  "datasets": 4,
   "packages": 1,
   "sql": 0
  },
@@ -1693,14 +2517,6 @@
   "plugin": false,
   "datasets": 15,
   "packages": 1,
-  "sql": 0
- },
- {
-  "name": "XPCustService",
-  "caption": "Əlavə modullar / Müştərilər və uyğunluq / Müştəri xidməti",
-  "plugin": false,
-  "datasets": 175,
-  "packages": 13,
   "sql": 0
  },
  {

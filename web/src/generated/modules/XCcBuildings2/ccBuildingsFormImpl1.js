@@ -341,7 +341,7 @@ export default function define($) {
   const L0 = {result: undefined, "i": 0};
   L0["c_err_message"] = " Table or View in Dataset \"%s\" does not exist! ";
   {
-    const $t1 = (await $.v(C, "DataModccBuildings"));
+    const $t1 = (await $.wobj(C, "DataModccBuildings"));
     { const $t2 = $.sub((await $.wv([$t1], "ComponentCount", C, false)), 1);
       await $.wset([$t1], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t3 = true;
@@ -401,7 +401,7 @@ export default function define($) {
   const L0 = {"column": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["column"]);
   {
-    const $t6 = (await $.v(C, "DataModccBuildings"));
+    const $t6 = (await $.wobj(C, "DataModccBuildings"));
     await $.mcall((await $.wv([$t6], "CC_Buyer_Flat", C, false)), "Close", []);
     { const $t7 = await $.iset((await $.mv((await $.wv([$t6], "CC_Buyer_Flat", C, false)), "sql")), [3], ""); if ($t7 !== undefined) { await $.mset((await $.wv([$t6], "CC_Buyer_Flat", C, false)), "sql", $t7); } }
     { const $t8 = await $.iset((await $.mv((await $.wv([$t6], "CC_Buyer_Flat", C, false)), "sql")), [4], ""); if ($t8 !== undefined) { await $.mset((await $.wv([$t6], "CC_Buyer_Flat", C, false)), "sql", $t8); } }

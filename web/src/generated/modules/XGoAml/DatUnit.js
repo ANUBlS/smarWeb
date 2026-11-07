@@ -18,7 +18,7 @@ export default function define($) {
   await $.set(C, "dat_1", (await $.v(C, "v_date1")));
   await $.set(C, "dat_2", (await $.v(C, "v_date2")));
   {
-    const $t1 = (await $.v(C, "DM_goAml"));
+    const $t1 = (await $.wobj(C, "DM_goAml"));
     const $t2 = (await $.wv([$t1], "ods_subtrans", C, false));
     { const $t3 = (await $.mv((await $.wv([$t1, $t2], "Ods_subheliTR_TYPE", C, false)), "AsInteger"));
       if ($.eq($t3, 1)) {

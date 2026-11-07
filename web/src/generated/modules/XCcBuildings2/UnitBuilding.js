@@ -25,7 +25,7 @@ export default function define($) {
   }
   if ($.truthy((await $.and_(($.ne((await $.mv((await $.v(C, "EditName")), "Text")), "")), async () => ($.ne((await $.mv((await $.v(C, "EditAdress")), "Text")), "")))))) {
     {
-      const $t1 = (await $.v(C, "DataModccBuildings"));
+      const $t1 = (await $.wobj(C, "DataModccBuildings"));
       await $.wset([$t1], "p_CompID", (await $.mv((await $.mcall((await $.wv([$t1], "CC_Company", C, false)), "FieldByName", ["ID"])), "AsString")), { get: async () => L0["p_compid"], set: async (v) => { L0["p_compid"] = v; }, local: true });
       await $.wset([$t1], "p_BldName", (await $.mv((await $.wv([$t1], "EditName", C, false)), "Text")), { get: async () => L0["p_bldname"], set: async (v) => { L0["p_bldname"] = v; }, local: true });
       await $.wset([$t1], "p_Address", (await $.mv((await $.wv([$t1], "EditAdress", C, false)), "Text")), { get: async () => L0["p_address"], set: async (v) => { L0["p_address"] = v; }, local: true });

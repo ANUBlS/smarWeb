@@ -43,7 +43,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t1 = (await $.v(C, "DMproperties"));
+    const $t1 = (await $.wobj(C, "DMproperties"));
     const $t2 = (await $.wv([$t1], "AddOtherPAPERNO", C, false));
     { const $t3 = $.sub((await $.mv((await $.wv([$t1, $t2], "Items", C, false)), "Count")), 1);
       await $.wset([$t1, $t2], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
@@ -81,7 +81,7 @@ export default function define($) {
   L0["s"] = (await $.mv((await $.v(C, "CMSearchEdit1")), "text"));
   if ($.truthy($.ne(L0["s"], ""))) {
     {
-      const $t5 = (await $.v(C, "DMproperties"));
+      const $t5 = (await $.wobj(C, "DMproperties"));
       const $t6 = (await $.wv([$t5], "DataSetCredit", C, false));
       await $.stmt($.wcall([$t5, $t6], "close", [], C));
       { const $t7 = await $.iset((await $.wv([$t5, $t6], "SQL", C, false)), [8], $.add($.add($.add((await $.wv([$t5, $t6], "a", { get: async () => L0["a"], set: async (v) => { L0["a"] = v; }, local: true }, false)), "'"), (await $.wv([$t5, $t6], "s", { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true }, false))), "'")); if ($t7 !== undefined) { await $.wset([$t5, $t6], "SQL", $t7, C); } }
@@ -98,7 +98,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "DMproperties"));
+    const $t8 = (await $.wobj(C, "DMproperties"));
     const $t9 = (await $.wv([$t8], "DataSetCredit", C, false));
     await $.stmt($.wcall([$t8, $t9], "close", [], C));
     { const $t10 = await $.iset((await $.wv([$t8, $t9], "SQL", C, false)), [8], ""); if ($t10 !== undefined) { await $.wset([$t8, $t9], "SQL", $t10, C); } }
@@ -113,7 +113,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "DMproperties"));
+    const $t11 = (await $.wobj(C, "DMproperties"));
     const $t12 = (await $.wv([$t11], "DataSetCredit", C, false));
     await $.stmt($.wcall([$t11, $t12], "close", [], C));
     { const $t13 = await $.iset((await $.wv([$t11, $t12], "SQL", C, false)), [8], ""); if ($t13 !== undefined) { await $.wset([$t11, $t12], "SQL", $t13, C); } }

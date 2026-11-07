@@ -15,7 +15,7 @@ export default function define($) {
   const L0 = {result: undefined, "img": null, "labelindex": 0, "pluginlabel": null, "plugincheckbox": null};
   await $.set(C, "ImageLeft", 0);
   {
-    const $t1 = (await $.v(C, "SB_CloseDay"));
+    const $t1 = (await $.wobj(C, "SB_CloseDay"));
     await $.stmt($.wcall([$t1], "CloseAll", [], C));
     await $.stmt($.wcall([$t1], "Open", [], C));
     if ($.truthy($.eq((await $.wv([$t1], "RecordCount", C, false)), 0))) {

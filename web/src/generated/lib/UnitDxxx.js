@@ -421,7 +421,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "DBGrid1")), "SetFocus", []);
   }
   {
-    const $t57 = (await $.v(C, "DBGrid1"));
+    const $t57 = (await $.wobj(C, "DBGrid1"));
     const $t58 = (await $.wv([$t57], "SelectedRows", C, false));
     const $t59 = (await $.mv((await $.wv([$t57, $t58], "DataSource", C, false)), "DataSet"));
     const $t60 = (await $.wv([$t57, $t58, $t59], "DataMod_CARDS", C, false));
@@ -476,7 +476,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t64 = (await $.v(C, "dbgrid1"));
+    const $t64 = (await $.wobj(C, "dbgrid1"));
     const $t65 = (await $.wv([$t64], "SelectedRows", C, false));
     const $t66 = (await $.mv((await $.wv([$t64, $t65], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t64, $t65, $t66], "DisableControls", [], C));

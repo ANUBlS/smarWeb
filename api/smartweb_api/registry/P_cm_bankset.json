@@ -1,0 +1,49 @@
+{
+ "name": "P_cm_bankset",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_BANKSET",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "BSettings",
+   "source": "TfrmBankSet.BSettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid, cm_ip.getbankname(bankid) bank, acc_no, name, inn, address, bossname,lastreestrnum, contrdate\n  FROM cm_banksettings \norder by bank",
+   "variables": [],
+   "unit": "uBankSetMainImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

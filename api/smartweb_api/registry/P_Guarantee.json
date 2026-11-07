@@ -1,0 +1,140 @@
+{
+ "name": "P_Guarantee",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_ guarantee",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "GirovDataSet",
+   "source": "TGrovDataMod.GirovDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from creditsmgr.Agro_girov\nwhere \ncreditid=:creditid\n",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "GrovDataModuleImpl"
+  },
+  {
+   "name": "PropDataSet",
+   "source": "TGrovDataMod.PropDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from  smart.guarantee where creditid not in (select  creditid from Agro_girov  ) \n                     ",
+   "variables": [],
+   "unit": "GrovDataModuleImpl"
+  },
+  {
+   "name": "SbGirovSet",
+   "source": "TGrovDataMod.SbGirovSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from  smart.guarantee \n\nwhere id=:crid",
+   "variables": [
+    {
+     "name": "CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "GrovDataModuleImpl"
+  },
+  {
+   "name": "TeminatDataSet",
+   "source": "TGrovDataMod.TeminatDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.typecode, a.description\n  FROM cm_pledges_t a\norder by id",
+   "variables": [],
+   "unit": "GrovDataModuleImpl"
+  },
+  {
+   "name": "GPledges",
+   "source": "TGrovDataMod.GPledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM creditsmgr.cm_pledges",
+   "variables": [],
+   "unit": "GrovDataModuleImpl"
+  },
+  {
+   "name": "proSorts",
+   "source": "TGrovDataMod.proSorts",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from cm_insuranceagency",
+   "variables": [],
+   "unit": "GrovDataModuleImpl"
+  },
+  {
+   "name": "FilialSet",
+   "source": "TGrovDataMod.FilialSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_filial",
+   "variables": [],
+   "unit": "GrovDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TGrovDataMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM cm_pledgsorts a",
+   "variables": [],
+   "unit": "GrovDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CRackage",
+   "package": "CM_GUARANTE",
+   "mode": "named",
+   "source": "TGrovDataMod.CRackage",
+   "routines": [
+    {
+     "name": "add_girov",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_girv",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

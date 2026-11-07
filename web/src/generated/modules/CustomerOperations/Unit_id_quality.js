@@ -34,7 +34,7 @@ export default function define($) {
   L0["v_id_quality"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "CO_DataMod")), "ods_custID_quality")), "FieldByName", ["id"])), "AsInteger"));
   await $.mcall((await $.mv((await $.v(C, "CO_DataMod")), "ods_cust_ID_quality1")), "First", []);
   {
-    const $t1 = (await $.v(C, "CO_DataMod"));
+    const $t1 = (await $.wobj(C, "CO_DataMod"));
     await $.mcall((await $.wv([$t1], "Ods_cust_id_qualityCount", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t1], "Ods_cust_id_qualityCount", C, false)), "SetVariable", ["custid", (await $.wv([$t1], "id_qualityCust", { get: async () => L0["id_qualitycust"], set: async (v) => { L0["id_qualitycust"] = v; }, local: true }, false))])));
     await $.stmt((await $.mcall((await $.wv([$t1], "Ods_cust_id_qualityCount", C, false)), "SetVariable", ["id_quality", (await $.wv([$t1], "id_quality", { get: async () => L0["id_quality"], set: async (v) => { L0["id_quality"] = v; }, local: true }, false))])));

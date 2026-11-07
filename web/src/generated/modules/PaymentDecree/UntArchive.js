@@ -50,7 +50,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "Activ", 1);
   {
-    const $t5 = (await $.v(C, "PaymentDecree"));
+    const $t5 = (await $.wobj(C, "PaymentDecree"));
     const $t6 = (await $.mv((await $.wv([$t5], "PaymentDataMod", C, false)), "ODSArchive"));
     if ($.truthy((await $.wv([$t5, $t6], "IsEmpty", C, false)))) {
       await $.stmt((await $.wcall([$t5, $t6], "ShowMessage", ["There are not data!"], C)));
@@ -141,7 +141,7 @@ export default function define($) {
   if ($.truthy((await $.mv((await $.v(C, "RBCopy")), "Checked")))) {
     try {
       {
-        const $t9 = (await $.v(C, "QRMainReport"));
+        const $t9 = (await $.wobj(C, "QRMainReport"));
         await $.wset([$t9], "DateTime", (await $.mv((await $.mcall((await $.mv((await $.wv([$t9], "PaymentDataMod", C, false)), "ODSArchive")), "FieldByName", ["PDATE"])), "AsDateTime")), { get: async () => L0["datetime"], set: async (v) => { L0["datetime"] = v; }, local: true });
         await $.mset((await $.wv([$t9], "QRDate1", C, false)), "caption", (await $.mcall((await $.wv([$t9], "PaymentDecree", C, false)), "ExtractMonth", [(await $.wv([$t9], "DateTime", { get: async () => L0["datetime"], set: async (v) => { L0["datetime"] = v; }, local: true }, false)), " "])));
         await $.mset((await $.wv([$t9], "QRDate2", C, false)), "caption", (await $.mcall((await $.wv([$t9], "PaymentDecree", C, false)), "ExtractMonth", [(await $.wv([$t9], "DateTime", { get: async () => L0["datetime"], set: async (v) => { L0["datetime"] = v; }, local: true }, false)), " "])));
@@ -177,7 +177,7 @@ export default function define($) {
   } else {
     try {
       {
-        const $t11 = (await $.v(C, "QRCommonReport"));
+        const $t11 = (await $.wobj(C, "QRCommonReport"));
         await $.wset([$t11], "DateTime", (await $.mv((await $.mcall((await $.mv((await $.wv([$t11], "PaymentDataMod", C, false)), "ODSArchive")), "FieldByName", ["PDATE"])), "AsDateTime")), { get: async () => L0["datetime"], set: async (v) => { L0["datetime"] = v; }, local: true });
         await $.mset((await $.wv([$t11], "QRDate", C, false)), "caption", (await $.mcall((await $.wv([$t11], "PaymentDecree", C, false)), "ExtractMonth", [(await $.wv([$t11], "DateTime", { get: async () => L0["datetime"], set: async (v) => { L0["datetime"] = v; }, local: true }, false)), " "])));
         await $.mset((await $.wv([$t11], "QRNum", C, false)), "Caption", $.add("Ödəniş tapşırığı №  ", (await $.mv((await $.mcall((await $.mv((await $.wv([$t11], "PaymentDataMod", C, false)), "ODSArchive")), "FieldByName", ["PNum"])), "AsString"))));
@@ -308,7 +308,7 @@ export default function define($) {
   L0["id"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "PaymentDataMod")), "ODSArchive")), "FieldByName", ["ID"])), "AsString"));
   try {
     {
-      const $t19 = (await $.v(C, "QRCommonReport"));
+      const $t19 = (await $.wobj(C, "QRCommonReport"));
       const $t20 = (await $.mv((await $.wv([$t19], "PaymentDataMod", C, false)), "ODSArchive"));
       await $.wset([$t19, $t20], "DateTime", (await $.mv((await $.wcall([$t19, $t20], "FieldByName", ["PDATE"], C)), "AsDateTime")), { get: async () => L0["datetime"], set: async (v) => { L0["datetime"] = v; }, local: true });
       await $.mset((await $.wv([$t19, $t20], "QRDate", C, false)), "caption", (await $.mcall((await $.wv([$t19, $t20], "PaymentDecree", C, false)), "ExtractMonth", [(await $.wv([$t19, $t20], "DateTime", { get: async () => L0["datetime"], set: async (v) => { L0["datetime"] = v; }, local: true }, false)), " "])));

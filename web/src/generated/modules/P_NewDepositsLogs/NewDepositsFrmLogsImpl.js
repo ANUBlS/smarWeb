@@ -57,7 +57,7 @@ export default function define($) {
   L0["bdat"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPDAT")), "DateTime"))]))]));
   L0["edat"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "ETPDAT")), "DateTime"))]))]));
   {
-    const $t1 = (await $.v(C, "ResultControl"));
+    const $t1 = (await $.wobj(C, "ResultControl"));
     await $.stmt($.wcall([$t1], "close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["bdat", (await $.wv([$t1], "BDat", { get: async () => L0["bdat"], set: async (v) => { L0["bdat"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["edat", (await $.wv([$t1], "EDat", { get: async () => L0["edat"], set: async (v) => { L0["edat"] = v; }, local: true }, false))], C)));

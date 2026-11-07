@@ -23,7 +23,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "flat"));
+    const $t1 = (await $.wobj(C, "flat"));
     await $.stmt($.wcall([$t1], "edit", [], C));
     await $.mset((await $.wcall([$t1], "FieldByName", ["pricegen"], C)), "AsFloat", $.mul((await $.mv((await $.wcall([$t1], "FieldByName", ["area"], C)), "AsFloat")), (await $.mv((await $.wcall([$t1], "FieldByName", ["price1"], C)), "AsFloat"))));
     await $.stmt($.wcall([$t1], "post", [], C));
@@ -35,7 +35,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t2 = (await $.v(C, "flat"));
+    const $t2 = (await $.wobj(C, "flat"));
     await $.wset([$t2], "Filter", $.add("BLD_ID=", (await $.mv((await $.mcall((await $.wv([$t2], "building", C, false)), "FieldByName", ["ID"])), "AsString"))), C);
     await $.wset([$t2], "Filtered", (await $.wv([$t2], "False", C, false)), C);
     await $.wset([$t2], "Filtered", (await $.wv([$t2], "True", C, false)), C);
@@ -47,7 +47,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t3 = (await $.v(C, "building"));
+    const $t3 = (await $.wobj(C, "building"));
     await $.wset([$t3], "Filter", $.add("comp_id=", (await $.mv((await $.mcall((await $.wv([$t3], "companie", C, false)), "FieldByName", ["ID"])), "AsString"))), C);
     await $.wset([$t3], "Filtered", (await $.wv([$t3], "False", C, false)), C);
     await $.wset([$t3], "Filtered", (await $.wv([$t3], "True", C, false)), C);
@@ -87,13 +87,13 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t5 = (await $.v(C, "flat"));
+    const $t5 = (await $.wobj(C, "flat"));
     await $.wset([$t5], "Filter", $.add("CODE=", (await $.mv((await $.wv([$t5], "EditFlatCode", C, false)), "Text"))), C);
     await $.wset([$t5], "Filtered", (await $.wv([$t5], "False", C, false)), C);
     await $.wset([$t5], "Filtered", (await $.wv([$t5], "True", C, false)), C);
   }
   {
-    const $t6 = (await $.v(C, "building"));
+    const $t6 = (await $.wobj(C, "building"));
     await $.wset([$t6], "Filter", $.add("ID=", (await $.mv((await $.mcall((await $.wv([$t6], "flat", C, false)), "FieldByName", ["BLD_ID"])), "AsString"))), C);
     await $.wset([$t6], "Filtered", (await $.wv([$t6], "False", C, false)), C);
     await $.wset([$t6], "Filtered", (await $.wv([$t6], "True", C, false)), C);
@@ -107,7 +107,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "FrmContract"));
+    const $t7 = (await $.wobj(C, "FrmContract"));
     await $.mset((await $.wv([$t7], "Edit6", C, false)), "text", (await $.wcall([$t7], "floattostr", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t7], "FlatsMgrForm", C, false)), "flat")), "FieldByName", ["PRICEGEN"])), "AsFloat"))], C)));
     await $.mset((await $.wv([$t7], "Edit1", C, false)), "text", (await $.mv((await $.mcall((await $.mv((await $.wv([$t7], "FlatsMgrForm", C, false)), "building")), "FieldByName", ["BLD_NAME"])), "AsString")));
     await $.mset((await $.wv([$t7], "Edit2", C, false)), "text", (await $.mv((await $.mcall((await $.mv((await $.wv([$t7], "FlatsMgrForm", C, false)), "flat")), "FieldByName", ["ENTRANCE"])), "AsString")));

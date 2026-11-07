@@ -449,7 +449,7 @@ export default function define($) {
   const L1 = {"adate": $.copyArg(p0), result: 0};
   await $.fixArgs(L1, ["adate"]);
   {
-    const $t9 = (await $.v(C, "periodprefixdata"));
+    const $t9 = (await $.wobj(C, "periodprefixdata"));
     if ($.truthy((await $.wv([$t9], "Active", C, false)))) {
       await $.stmt($.wcall([$t9], "CloseAll", [], C));
     }

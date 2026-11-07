@@ -33,7 +33,7 @@ export default function define($) {
   L0["ret"] = 1;
   while ($.truthy($.le(L0["ret"], (await $.v(C, "Retries"))))) {
     {
-      const $t1 = (await $.v(C, "Session"));
+      const $t1 = (await $.wobj(C, "Session"));
       try {
         if ($.truthy($.not((await $.wv([$t1], "PrepareLogon", C, false))))) {
           return L0.result;
@@ -96,7 +96,7 @@ export default function define($) {
   const L0 = {result: ''};
   await $.set(C, "FrmChangePassword", (await $.mcall((await $.v(C, "TFrmChangePassword")), "Create", [Self])));
   {
-    const $t5 = (await $.v(C, "FrmChangePassword"));
+    const $t5 = (await $.wobj(C, "FrmChangePassword"));
     try {
       await $.stmt($.wcall([$t5], "ShowModal", [], C));
       await $.wset([$t5], "Result", (await $.wv([$t5], "NewPassword", C, false)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
@@ -121,7 +121,7 @@ export default function define($) {
   await $.set(C, "FrmConnection", (await $.mcall((await $.v(C, "TFrmConnection")), "Create", [Self])));
   await $.stmt($.call(C, "SetFirstParams", []));
   {
-    const $t6 = (await $.v(C, "FrmConnection"));
+    const $t6 = (await $.wobj(C, "FrmConnection"));
     try {
       await $.wset([$t6], "index", 0, { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true });
       while ($.truthy($.not((await $.wcall([$t6], "GetServiceNames", [(await $.idx((await $.mv((await $.wv([$t6], "FOracleHomes", C, false)), "Strings")), [(await $.wv([$t6], "index", { get: async () => L0["index"], set: async (v) => { L0["index"] = v; }, local: true }, false))]))], C))))) {
@@ -252,7 +252,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t18 = (await $.v(C, "FrmConnection"));
+    const $t18 = (await $.wobj(C, "FrmConnection"));
     await $.wset([$t18], "LogonDatabase", (await $.wv([$t18], "PLogonDatabase", C, false)), C);
     await $.wset([$t18], "LogonUsername", (await $.wv([$t18], "PLogonUsername", C, false)), C);
     await $.wset([$t18], "LogonPassword", (await $.wv([$t18], "PLogonPassword", C, false)), C);

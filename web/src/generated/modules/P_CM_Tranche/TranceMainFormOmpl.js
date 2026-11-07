@@ -40,7 +40,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "action": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "TrancheDataModule"));
+    const $t1 = (await $.wobj(C, "TrancheDataModule"));
     await $.mset((await $.mv((await $.wv([$t1], "TrchAddForm", C, false)), "TrancheSumEdit")), "Value", 0);
     await $.mcall((await $.wv([$t1], "CreditInfo", C, false)), "CloseAll", []);
     await $.mcall((await $.wv([$t1], "TrancheAccounts", C, false)), "CloseAll", []);
@@ -71,7 +71,7 @@ export default function define($) {
   await $.set(C, "Caption", (await $.call(C, "Format", [L0["stranchecaption"], [(await $.v(C, "Get_SelectedCrdNo"))]])));
   await $.set(C, "RefreshAfterClose", false);
   {
-    const $t2 = (await $.v(C, "TrancheDataModule"));
+    const $t2 = (await $.wobj(C, "TrancheDataModule"));
     {
       const $t3 = (await $.wv([$t2], "CreditInfo", C, false));
       await $.stmt((await $.wcall([$t2, $t3], "SetVariable", ["ID", (await $.wv([$t2, $t3], "CreditID", C, false))], C)));
@@ -141,7 +141,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "CMExcelExport1"));
+    const $t7 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t7], "Connect", [], C));
     await $.stmt((await $.wcall([$t7], "ExportDataset", [(await $.mv((await $.wv([$t7], "TrancheDataModule", C, false)), "TranchesData")), "Tranches", (await $.wv([$t7], "True", C, false)), (await $.wv([$t7], "false", C, false))], C)));
     await $.stmt($.wcall([$t7], "Disconnect", [], C));
@@ -157,7 +157,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t8 = (await $.v(C, "TrancheDataModule"));
+    const $t8 = (await $.wobj(C, "TrancheDataModule"));
     await $.wset([$t8], "TrancheID", (await $.mv((await $.mcall((await $.wv([$t8], "TranchesData", C, false)), "FieldByName", ["ID"])), "AsInteger")), { get: async () => L0["trancheid"], set: async (v) => { L0["trancheid"] = v; }, local: true });
     {
       const $t9 = (await $.wv([$t8], "CM_TRANCHE", C, false));

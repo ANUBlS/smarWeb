@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "fafterscroll": null};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ExcelExporter"));
+    const $t1 = (await $.wobj(C, "ExcelExporter"));
     await $.wset([$t1], "ExportSource", (await $.mv((await $.wv([$t1], "gridtransactions", C, false)), "DataSource")), C);
     await $.wset([$t1], "FAfterScroll", (await $.mv((await $.mv((await $.wv([$t1], "ExportSource", C, false)), "DataSet")), "AfterScroll")), { get: async () => L0["fafterscroll"], set: async (v) => { L0["fafterscroll"] = v; }, local: true });
     await $.mset((await $.mv((await $.wv([$t1], "ExportSource", C, false)), "DataSet")), "AfterScroll", null);

@@ -39,7 +39,7 @@ export default function define($) {
   } else {
     if ($.truthy($.eq((await $.mv((await $.v(C, "MainFacilities")), "OpeartionMode")), (await $.v(C, "omEdit"))))) {
       {
-        const $t2 = (await $.v(C, "MainFDataModule"));
+        const $t2 = (await $.wobj(C, "MainFDataModule"));
         const $t3 = (await $.wv([$t2], "ViewGroup", C, false));
         const $t4 = (await $.wv([$t2, $t3], "OPViewWares", C, false));
         await $.mset((await $.wv([$t2, $t3, $t4], "EGroupName", C, false)), "Text", (await $.mv((await $.wcall([$t2, $t3, $t4], "FieldByName", ["Name"], C)), "AsString")));
@@ -91,7 +91,7 @@ export default function define($) {
   { const $t6 = (await $.mv((await $.v(C, "MainFacilities")), "OpeartionMode"));
     if ($.eq($t6, (await $.v(C, "omAdd")))) {
       {
-        const $t7 = (await $.v(C, "MainFDataModule"));
+        const $t7 = (await $.wobj(C, "MainFDataModule"));
         const $t8 = (await $.wv([$t7], "ViewGroup", C, false));
         const $t9 = (await $.wv([$t7, $t8], "OPViewWares", C, false));
         await $.stmt((await $.wcall([$t7, $t8, $t9], "CallProcedure", ["add_groups", [(await $.mv((await $.wv([$t7, $t8, $t9], "EGroupName", C, false)), "text")), (await $.wcall([$t7, $t8, $t9], "StrToInt", [(await $.mv((await $.wv([$t7, $t8, $t9], "EGroupAmortNB", C, false)), "text"))], C)), (await $.mv((await $.wv([$t7, $t8, $t9], "CBMainAccount", C, false)), "tag")), (await $.mv((await $.wv([$t7, $t8, $t9], "CBExpAccount", C, false)), "tag")), (await $.mv((await $.wv([$t7, $t8, $t9], "CBAmortAccount", C, false)), "tag")), (await $.mv((await $.wv([$t7, $t8, $t9], "CBSaleAccount", C, false)), "tag")), (await $.wcall([$t7, $t8, $t9], "StrToInt", [(await $.mv((await $.wv([$t7, $t8, $t9], "EGroupAmortTAX", C, false)), "text"))], C))]], C)));

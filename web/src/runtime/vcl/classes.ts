@@ -4,6 +4,7 @@ import { registerBuiltin } from '../env';
 import { num, str } from '../pascal';
 import { invalidate } from '../ui';
 import { colorValue } from './colors';
+import { binIni } from '../binfiles';
 
 /** Indexed property value (`Items[i]`, `Values['x']`, `Cells[c, r]`). */
 export class Indexed extends TObject {
@@ -460,36 +461,81 @@ registerBuiltin('TFileStream', class TFileStream extends TStream {});
 registerBuiltin('TStringStream', class TStringStream extends TStream { DataString = ''; Create(s?: unknown) { this.DataString = str(s ?? ''); } });
 registerBuiltin('TBlobStream', class TBlobStream extends TStream {});
 
-/** TIniFile / TRegIniFile / TRegistry backed by localStorage. */
+/** TIniFile / TRegIniFile / TRegistry backed by localStorage; a file installed next to SmartBank.exe
+ *  (web/bin, see binfiles.ts) is read from there, with what the program writes kept on top of it.
+ *  Names are case-insensitive, as in Windows INI files. */
+type IniDict = Record<string, Record<string, string | null> | null>;
 export class TIniFile extends TObject {
   private key = 'ini:';
-  Create(name?: unknown) { this.key = 'ini:' + str(name ?? 'default').toLowerCase(); }
-  private load(): Record<string, Record<string, string>> {
+  private name = '';
+  Create(name?: unknown) { this.name = str(name ?? 'default'); this.key = 'ini:' + this.name.toLowerCase(); }
+  FileName() { return this.name; }
+  private local(): IniDict {
     try { return JSON.parse(localStorage.getItem(this.key) ?? '{}'); } catch { return {}; }
   }
-  private save(d: Record<string, Record<string, string>>) {
+  private saveLocal(d: IniDict) {
     try { localStorage.setItem(this.key, JSON.stringify(d)); } catch { /* */ }
   }
-  ReadString(sec: unknown, k: unknown, d: unknown) { return this.load()[str(sec)]?.[str(k)] ?? str(d); }
-  WriteString(sec: unknown, k: unknown, v: unknown) {
-    const d = this.load(); (d[str(sec)] ??= {})[str(k)] = str(v); this.save(d);
+  /** The effective contents: the installed file (if any) with the local changes applied. */
+  private load(): Record<string, Record<string, string>> {
+    const base = binIni(this.name);
+    const loc = this.local();
+    if (!base) {
+      const d: Record<string, Record<string, string>> = {};
+      for (const [s, kv] of Object.entries(loc)) if (kv) d[s] = Object.fromEntries(Object.entries(kv).filter(([, v]) => v != null)) as Record<string, string>;
+      return d;
+    }
+    const d: Record<string, Record<string, string>> = {};
+    for (const [s, kv] of base) d[s] = Object.fromEntries(kv);
+    for (const [s, kv] of Object.entries(loc)) {
+      const bs = Object.keys(d).find((k) => k.toLowerCase() === s.toLowerCase()) ?? s;
+      if (kv === null) { delete d[bs]; continue; }
+      const sec = (d[bs] ??= {});
+      for (const [k, v] of Object.entries(kv)) {
+        const bk = Object.keys(sec).find((x) => x.toLowerCase() === k.toLowerCase()) ?? k;
+        if (v === null) delete sec[bk]; else sec[bk] = v;
+      }
+    }
+    return d;
   }
-  ReadInteger(sec: unknown, k: unknown, d: unknown) { const v = this.load()[str(sec)]?.[str(k)]; return v === undefined ? num(d) : num(v); }
+  private sec(sec: unknown) {
+    const d = this.load(); const l = str(sec).toLowerCase();
+    const k = Object.keys(d).find((x) => x.toLowerCase() === l);
+    return k === undefined ? undefined : d[k];
+  }
+  private val(sec: unknown, k: unknown): string | undefined {
+    const s = this.sec(sec); if (!s) return undefined;
+    const l = str(k).toLowerCase();
+    const kk = Object.keys(s).find((x) => x.toLowerCase() === l);
+    return kk === undefined ? undefined : s[kk];
+  }
+  private edit(f: (d: IniDict) => void) { const d = this.local(); f(d); this.saveLocal(d); }
+  ReadString(sec: unknown, k: unknown, d: unknown) { return this.val(sec, k) ?? str(d); }
+  WriteString(sec: unknown, k: unknown, v: unknown) {
+    this.edit((d) => { const s = str(sec); const cur = d[s]; d[s] = { ...(cur ?? {}), [str(k)]: str(v) }; });
+  }
+  ReadInteger(sec: unknown, k: unknown, d: unknown) {
+    const v = this.val(sec, k); if (v === undefined || v.trim() === '') return num(d);
+    const t = v.trim(); const n = /^\$[0-9a-f]+$/i.test(t) ? parseInt(t.slice(1), 16) : /^-?\d+$/.test(t) ? parseInt(t, 10) : NaN;
+    return Number.isNaN(n) ? num(d) : n;
+  }
   WriteInteger(sec: unknown, k: unknown, v: unknown) { this.WriteString(sec, k, String(num(v))); }
-  ReadBool(sec: unknown, k: unknown, d: unknown) { const v = this.load()[str(sec)]?.[str(k)]; return v === undefined ? !!d : v === '1'; }
+  ReadBool(sec: unknown, k: unknown, d: unknown) { const v = this.val(sec, k); return v === undefined ? !!d : this.ReadInteger(sec, k, d ? 1 : 0) !== 0; }
   WriteBool(sec: unknown, k: unknown, v: unknown) { this.WriteString(sec, k, v ? '1' : '0'); }
-  ReadFloat(sec: unknown, k: unknown, d: unknown) { const v = this.load()[str(sec)]?.[str(k)]; return v === undefined ? num(d) : num(v); }
+  ReadFloat(sec: unknown, k: unknown, d: unknown) { const v = this.val(sec, k); return v === undefined ? num(d) : num(v); }
   WriteFloat(sec: unknown, k: unknown, v: unknown) { this.WriteString(sec, k, String(num(v))); }
   ReadDate(sec: unknown, k: unknown, d: unknown) { return this.ReadFloat(sec, k, d); }
   WriteDate(sec: unknown, k: unknown, v: unknown) { this.WriteFloat(sec, k, v); }
-  SectionExists(sec: unknown) { return str(sec) in this.load(); }
-  ValueExists(sec: unknown, k: unknown) { return str(k) in (this.load()[str(sec)] ?? {}); }
-  EraseSection(sec: unknown) { const d = this.load(); delete d[str(sec)]; this.save(d); }
-  DeleteKey(sec: unknown, k: unknown) { const d = this.load(); delete d[str(sec)]?.[str(k)]; this.save(d); }
-  ReadSection(sec: unknown, sl: unknown) { if (sl instanceof TStrings) for (const k of Object.keys(this.load()[str(sec)] ?? {})) sl.Add(k); }
+  SectionExists(sec: unknown) { return this.sec(sec) !== undefined; }
+  ValueExists(sec: unknown, k: unknown) { return this.val(sec, k) !== undefined; }
+  EraseSection(sec: unknown) { this.edit((d) => { if (binIni(this.name)) d[str(sec)] = null; else delete d[str(sec)]; }); }
+  DeleteKey(sec: unknown, k: unknown) {
+    this.edit((d) => { const s = str(sec); if (binIni(this.name)) d[s] = { ...(d[s] ?? {}), [str(k)]: null }; else if (d[s]) delete d[s]![str(k)]; });
+  }
+  ReadSection(sec: unknown, sl: unknown) { if (sl instanceof TStrings) for (const k of Object.keys(this.sec(sec) ?? {})) sl.Add(k); }
   ReadSections(sl: unknown) { if (sl instanceof TStrings) for (const k of Object.keys(this.load())) sl.Add(k); }
   ReadSectionValues(sec: unknown, sl: unknown) {
-    if (sl instanceof TStrings) for (const [k, v] of Object.entries(this.load()[str(sec)] ?? {})) sl.Add(k + '=' + v);
+    if (sl instanceof TStrings) for (const [k, v] of Object.entries(this.sec(sec) ?? {})) sl.Add(k + '=' + v);
   }
   UpdateFile() { /* */ }
   // TRegistry compatibility

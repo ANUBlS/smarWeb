@@ -37,7 +37,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset((await $.v(C, "DTPChngSchedule")), "DateTime", (await $.v(C, "Get_CurrentDate")));
   {
-    const $t2 = (await $.v(C, "ArScheduleDataModule"));
+    const $t2 = (await $.wobj(C, "ArScheduleDataModule"));
     const $t3 = (await $.wv([$t2], "CreditInfo", C, false));
     await $.wset([$t2, $t3], "D2", (await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["ENDDAT"], C)), "AsDateTime")), { get: async () => L0["d2"], set: async (v) => { L0["d2"] = v; }, local: true });
     await $.mset((await $.wv([$t2, $t3], "EdRest", C, false)), "Text", (await $.wcall([$t2, $t3], "FloatToStr", [(await $.mv((await $.mcall((await $.wv([$t2, $t3], "CreditInfo", C, false)), "FieldByName", ["Rest"])), "AsFloat"))], C)));
@@ -72,7 +72,7 @@ export default function define($) {
     L0["stat"] = 2;
   }
   {
-    const $t4 = (await $.v(C, "ArScheduleDataModule"));
+    const $t4 = (await $.wobj(C, "ArScheduleDataModule"));
     const $t5 = (await $.wv([$t4], "CM_SCHEDULE", C, false));
     await $.stmt((await $.wcall([$t4, $t5], "CallProcedure", ["ChangeSchedule", ["p_CreditID", (await $.wv([$t4, $t5], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false)), "P_Date", (await $.wv([$t4, $t5], "BeginDate", { get: async () => L0["begindate"], set: async (v) => { L0["begindate"] = v; }, local: true }, false)), "p_period", (await $.wv([$t4, $t5], "period", { get: async () => L0["period"], set: async (v) => { L0["period"] = v; }, local: true }, false)), "p_rest", (await $.wv([$t4, $t5], "CrdRest", { get: async () => L0["crdrest"], set: async (v) => { L0["crdrest"] = v; }, local: true }, false)), "p_changedate", (await $.mv((await $.wv([$t4, $t5], "cbchangedate", C, false)), "Checked")), "p_status", (await $.wv([$t4, $t5], "stat", { get: async () => L0["stat"], set: async (v) => { L0["stat"] = v; }, local: true }, false)), "p_dovr", (await $.wv([$t4, $t5], "dovr", { get: async () => L0["dovr"], set: async (v) => { L0["dovr"] = v; }, local: true }, false))]], C)));
     await $.mcall((await $.wv([$t4, $t5], "ScheduleData", C, false)), "Refresh", []);
@@ -98,7 +98,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["d1"] = (await $.mv((await $.v(C, "DTPChngSchedule")), "DateTime"));
   {
-    const $t6 = (await $.v(C, "ArScheduleDataModule"));
+    const $t6 = (await $.wobj(C, "ArScheduleDataModule"));
     const $t7 = (await $.wv([$t6], "CreditInfo", C, false));
     await $.wset([$t6, $t7], "D2", (await $.mv((await $.wcall([$t6, $t7], "FieldByName", ["DUEDATEFIRSTCONTRACT"], C)), "AsDateTime")), { get: async () => L0["d2"], set: async (v) => { L0["d2"] = v; }, local: true });
   }

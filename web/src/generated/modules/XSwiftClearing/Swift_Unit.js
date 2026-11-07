@@ -519,7 +519,7 @@ export default function define($) {
   await $.stmt((await $.call(C, "AddtoCOMBO", [(await $.mv((await $.v(C, "PaymentDetalsForm")), "Combo_Valute")), (await $.mv((await $.v(C, "PaymentDetalsForm")), "Valute_ID")), (await $.mv((await $.v(C, "DataMod")), "AValute")), "Select * from Avalute", "VALUTE", "VAL_NAME"])));
   await $.set(C, "new_id", (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataMod")), "Hox102_out")), "fieldbyname", ["id"])), "AsInteger")));
   {
-    const $t1 = (await $.v(C, "PaymentDetalsForm"));
+    const $t1 = (await $.wobj(C, "PaymentDetalsForm"));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t1], "DataMod", C, false)), "BankInfo")), "Active")), (await $.wv([$t1], "false", C, false))))) {
       await $.mcall((await $.mv((await $.wv([$t1], "DataMod", C, false)), "BankInfo")), "Open", []);
     }
@@ -1312,7 +1312,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t26 = (await $.v(C, "Grid_in"));
+    const $t26 = (await $.wobj(C, "Grid_in"));
     const $t27 = (await $.wv([$t26], "SelectedRows", C, false));
     const $t28 = (await $.mv((await $.wv([$t26, $t27], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t26, $t27, $t28], "DisableControls", [], C));

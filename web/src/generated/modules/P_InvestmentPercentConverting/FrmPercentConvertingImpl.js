@@ -24,7 +24,7 @@ export default function define($) {
   const L0 = {result: undefined};
   await $.mcall((await $.mv((await $.v(C, "calcPerGrid")), "SelectedRows")), "Clear", []);
   {
-    const $t1 = (await $.v(C, "DMPercentConverting"));
+    const $t1 = (await $.wobj(C, "DMPercentConverting"));
     const $t2 = (await $.wv([$t1], "CalcedDeposits", C, false));
     await $.stmt($.wcall([$t1, $t2], "Refresh", [], C));
   }
@@ -35,7 +35,7 @@ export default function define($) {
   const L0 = {"contractid": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["contractid"]);
   {
-    const $t3 = (await $.v(C, "DMPercentConverting"));
+    const $t3 = (await $.wobj(C, "DMPercentConverting"));
     const $t4 = (await $.wv([$t3], "dm_calculator", C, false));
     await $.stmt((await $.wcall([$t3, $t4], "CallProcedure", ["CancelDepositIntCalc", ["p_contractID", (await $.wv([$t3, $t4], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false))]], C)));
   }
@@ -46,7 +46,7 @@ export default function define($) {
   const L0 = {"getcontractid": $.copyArg(p0), "hdate": $.copyArg(p1), result: 0};
   await $.fixArgs(L0, ["getcontractid", "hdate"]);
   {
-    const $t5 = (await $.v(C, "DMPercentConverting"));
+    const $t5 = (await $.wobj(C, "DMPercentConverting"));
     const $t6 = (await $.wv([$t5], "dm_calculator", C, false));
     await $.wset([$t5, $t6], "Result", (await $.wcall([$t5, $t6], "callIntegerfunction", ["converdeposits", ["contractid", (await $.wv([$t5, $t6], "GetContractID", { get: async () => L0["getcontractid"], set: async (v) => { L0["getcontractid"] = v; }, local: true }, false)), "hdate", (await $.wv([$t5, $t6], "HDate", { get: async () => L0["hdate"], set: async (v) => { L0["hdate"] = v; }, local: true }, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
@@ -56,12 +56,12 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "selrowscount": 0};
   {
-    const $t7 = (await $.v(C, "DMPercentConverting"));
+    const $t7 = (await $.wobj(C, "DMPercentConverting"));
     const $t8 = (await $.wv([$t7], "CalcedDeposits", C, false));
     await $.wset([$t7, $t8], "SelRowsCount", (await $.wv([$t7, $t8], "RecordCount", C, false)), { get: async () => L0["selrowscount"], set: async (v) => { L0["selrowscount"] = v; }, local: true });
   }
   {
-    const $t9 = (await $.v(C, "FrmCalcPerProgress"));
+    const $t9 = (await $.wobj(C, "FrmCalcPerProgress"));
     const $t10 = (await $.wv([$t9], "ProgressBar", C, false));
     await $.wset([$t9, $t10], "Max", (await $.wv([$t9, $t10], "SelRowsCount", { get: async () => L0["selrowscount"], set: async (v) => { L0["selrowscount"] = v; }, local: true }, false)), C);
     await $.wset([$t9, $t10], "Position", 0, C);
@@ -82,7 +82,7 @@ export default function define($) {
   L0["capitalizationstitle"] = " %d Kapitallaşdırma.";
   L0["withdrawtitle"] = " %d Cari hesaba köçrülmə.";
   {
-    const $t11 = (await $.v(C, "calcPerGrid"));
+    const $t11 = (await $.wobj(C, "calcPerGrid"));
     const $t12 = (await $.wv([$t11], "SelectedRows", C, false));
     const $t13 = (await $.mv((await $.wv([$t11, $t12], "DataSource", C, false)), "DataSet"));
     await $.wset([$t11, $t12, $t13], "Aborted", 0, { get: async () => L0["aborted"], set: async (v) => { L0["aborted"] = v; }, local: true });
@@ -159,7 +159,7 @@ export default function define($) {
   L0["noerrortitle"] = " Hesablamalar ləğv olundu .";
   L0["resultitle"] = " Səhv var! ";
   {
-    const $t22 = (await $.v(C, "calcPerGrid"));
+    const $t22 = (await $.wobj(C, "calcPerGrid"));
     const $t23 = (await $.wv([$t22], "SelectedRows", C, false));
     const $t24 = (await $.mv((await $.wv([$t22, $t23], "DataSource", C, false)), "DataSet"));
     await $.wset([$t22, $t23, $t24], "Aborted", 0, { get: async () => L0["aborted"], set: async (v) => { L0["aborted"] = v; }, local: true });
@@ -221,7 +221,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t30 = (await $.v(C, "ExcelExp"));
+    const $t30 = (await $.wobj(C, "ExcelExp"));
     await $.stmt($.wcall([$t30], "Connect", [], C));
     await $.stmt((await $.wcall([$t30], "ExportDataset", [(await $.mv((await $.wv([$t30], "DMPercentConverting", C, false)), "CalcedDeposits")), "Hesablanmış faizlər", (await $.wv([$t30], "True", C, false)), (await $.wv([$t30], "false", C, false))], C)));
     await $.stmt($.wcall([$t30], "Disconnect", [], C));
@@ -368,7 +368,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t38 = (await $.v(C, "calcPerGrid"));
+    const $t38 = (await $.wobj(C, "calcPerGrid"));
     const $t39 = (await $.wv([$t38], "SelectedRows", C, false));
     const $t40 = (await $.mv((await $.wv([$t38, $t39], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t38, $t39, $t40], "DisableControls", [], C));

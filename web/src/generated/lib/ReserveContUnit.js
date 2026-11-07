@@ -52,7 +52,7 @@ export default function define($) {
   await $.mset((await $.v(C, "FacticalReserveEdit")), "Value", $.fdiv($.mul((await $.mv((await $.mcall((await $.mv((await $.v(C, "MainDataModule")), "Contracts")), "FieldByName", ["FacticalDebt"])), "AsFloat")), (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModExpire")), "MainReserve")), "FieldByName", ["Percent"])), "AsFloat"))), 100));
   await $.mset((await $.v(C, "ExpiredReserveEdit")), "Value", $.fdiv($.mul((await $.mv((await $.mcall((await $.mv((await $.v(C, "MainDataModule")), "Contracts")), "FieldByName", ["OverdueDebt"])), "AsFloat")), (await $.mv((await $.mcall((await $.mv((await $.v(C, "DataModExpire")), "ExpiredReserve")), "FieldByName", ["Percent"])), "AsFloat"))), 100));
   {
-    const $t2 = (await $.v(C, "DataModExpire"));
+    const $t2 = (await $.wobj(C, "DataModExpire"));
     {
       const $t3 = (await $.wv([$t2], "ClientAccData", C, false));
       await $.stmt((await $.wcall([$t2, $t3], "SetVariable", ["ClientAccID", (await $.wv([$t2, $t3], "ClientAccID", { get: async () => L0["clientaccid"], set: async (v) => { L0["clientaccid"] = v; }, local: true }, false))], C)));

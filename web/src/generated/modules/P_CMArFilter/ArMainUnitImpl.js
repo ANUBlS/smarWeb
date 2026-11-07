@@ -77,7 +77,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "CommonDBGrid"));
+    const $t14 = (await $.wobj(C, "CommonDBGrid"));
     const $t15 = (await $.mv((await $.wv([$t14], "DataSource", C, false)), "DataSet"));
     await $.wset([$t14, $t15], "Filter", (await $.wv([$t14, $t15], "BuildFilterString", C, false)), C);
     await $.wset([$t14, $t15], "Filtered", (await $.wv([$t14, $t15], "False", C, false)), C);
@@ -91,7 +91,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "CommonDBGrid"));
+    const $t16 = (await $.wobj(C, "CommonDBGrid"));
     const $t17 = (await $.mv((await $.wv([$t16], "DataSource", C, false)), "DataSet"));
     await $.wset([$t16, $t17], "Filter", "", C);
     await $.wset([$t16, $t17], "Filtered", (await $.wv([$t16, $t17], "False", C, false)), C);

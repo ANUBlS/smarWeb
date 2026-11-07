@@ -37,7 +37,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "NewDepositsDMApplyMoney"));
+    const $t1 = (await $.wobj(C, "NewDepositsDMApplyMoney"));
     const $t2 = (await $.wv([$t1], "DepositInfo", C, false));
     const $t3 = (await $.wv([$t1, $t2], "dm_tranches", C, false));
     if ($.truthy((await $.wv([$t1, $t2, $t3], "Active", C, false)))) {
@@ -67,7 +67,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["rstransactionswillprocessed"] = "Depozit yatrımı ...";
   {
-    const $t4 = (await $.v(C, "NewDepositsDMApplyMoney"));
+    const $t4 = (await $.wobj(C, "NewDepositsDMApplyMoney"));
     await $.wset([$t4], "PClientAccID", (await $.mv((await $.wv([$t4], "DebitAccsID", C, false)), "AsInteger")), { get: async () => L0["pclientaccid"], set: async (v) => { L0["pclientaccid"] = v; }, local: true });
   }
   L0["ptotal"] = (await $.mv((await $.v(C, "CMCurrencyEditMoneySum")), "Value"));
@@ -79,7 +79,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t5 = (await $.v(C, "NewDepositsDMApplyMoney"));
+    const $t5 = (await $.wobj(C, "NewDepositsDMApplyMoney"));
     const $t6 = (await $.wv([$t5], "dm_tranches", C, false));
     await $.stmt((await $.wcall([$t5, $t6], "CallProcedure", ["depositmoney", ["ClientAccID", (await $.wv([$t5, $t6], "PClientAccID", { get: async () => L0["pclientaccid"], set: async (v) => { L0["pclientaccid"] = v; }, local: true }, false)), "PAccID", (await $.wv([$t5, $t6], "PCAccID", { get: async () => L0["pcaccid"], set: async (v) => { L0["pcaccid"] = v; }, local: true }, false)), "Contractid", (await $.wv([$t5, $t6], "Get_SelectedContID", C, false)), "Hdate", (await $.wv([$t5, $t6], "Get_BankDate", C, false)), "Total", (await $.wv([$t5, $t6], "PTotal", { get: async () => L0["ptotal"], set: async (v) => { L0["ptotal"] = v; }, local: true }, false)), "Percent", (await $.wv([$t5, $t6], "PPercent", { get: async () => L0["ppercent"], set: async (v) => { L0["ppercent"] = v; }, local: true }, false)), "Descript", (await $.wv([$t5, $t6], "PDescript", { get: async () => L0["pdescript"], set: async (v) => { L0["pdescript"] = v; }, local: true }, false)), "Usetransaction", (await $.wv([$t5, $t6], "true", C, false))]], C)));
   }
@@ -117,7 +117,7 @@ export default function define($) {
     await $.mset((await $.v(C, "CMCurrencyEditOstat")), "Text", "0.00");
   } else {
     {
-      const $t9 = (await $.v(C, "NewDepositsDMApplyMoney"));
+      const $t9 = (await $.wobj(C, "NewDepositsDMApplyMoney"));
       const $t10 = (await $.wv([$t9], "AccNoOstat", C, false));
       await $.stmt($.wcall([$t9, $t10], "close", [], C));
       if ($.truthy($.not((await $.wv([$t9, $t10], "Active", C, false))))) {

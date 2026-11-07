@@ -41,7 +41,7 @@ export default function define($) {
   L0["total"] = (await $.mv((await $.v(C, "MoneySumEdit")), "Value"));
   L0["percent"] = (await $.call(C, "StrToFloat", [(await $.mv((await $.v(C, "PercentEdit")), "Text"))]));
   {
-    const $t1 = (await $.v(C, "DMApplyMoney"));
+    const $t1 = (await $.wobj(C, "DMApplyMoney"));
     const $t2 = (await $.wv([$t1], "sbcm_tranches", C, false));
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["depositmoney", ["P_ClientAccID", (await $.wv([$t1, $t2], "ClientAccID", { get: async () => L0["clientaccid"], set: async (v) => { L0["clientaccid"] = v; }, local: true }, false)), "contractid", (await $.wv([$t1, $t2], "Get_SelectedContID", C, false)), "hdate", (await $.wv([$t1, $t2], "Get_BankDate", C, false)), "total", (await $.wv([$t1, $t2], "Total", { get: async () => L0["total"], set: async (v) => { L0["total"] = v; }, local: true }, false)), "PERCENT", (await $.wv([$t1, $t2], "Percent", { get: async () => L0["percent"], set: async (v) => { L0["percent"] = v; }, local: true }, false)), "usetransaction", (await $.wv([$t1, $t2], "true", C, false))]], C)));
   }
@@ -66,7 +66,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "DMApplyMoney"));
+    const $t4 = (await $.wobj(C, "DMApplyMoney"));
     const $t5 = (await $.wv([$t4], "DepositInfo", C, false));
     await $.stmt($.wcall([$t4, $t5], "Refresh", [], C));
     await $.mset((await $.wv([$t4, $t5], "PercentEdit", C, false)), "Text", (await $.wcall([$t4, $t5], "FloatToStr", [(await $.mv((await $.wcall([$t4, $t5], "FieldByName", ["interest"], C)), "AsFloat"))], C)));

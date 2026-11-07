@@ -329,7 +329,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t1 = (await $.v(C, "XDBGrid2"));
+    const $t1 = (await $.wobj(C, "XDBGrid2"));
     const $t2 = (await $.mv((await $.wv([$t1], "DataSource", C, false)), "DataSet"));
     await $.wset([$t1, $t2], "SelectedRowsCnt", (await $.mv((await $.wv([$t1, $t2], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true });
     if ($.truthy($.gt((await $.wv([$t1, $t2], "SelectedRowsCnt", { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true }, false)), 1))) {
@@ -596,7 +596,7 @@ export default function define($) {
     await $.mcall((await $.mv((await $.v(C, "QKİmportDataMod")), "ODS_QK_Import_excel")), "Open", []);
     await $.mcall((await $.mv((await $.v(C, "QKİmportDataMod")), "ODS_QK_Import_excel")), "First", []);
     {
-      const $t5 = (await $.v(C, "QKİmportDataMod"));
+      const $t5 = (await $.wobj(C, "QKİmportDataMod"));
       const $t6 = (await $.wv([$t5], "ODS_QK_Import_excel", C, false));
       await $.stmt($.wcall([$t5, $t6], "Open", [], C));
       await $.stmt($.wcall([$t5, $t6], "First", [], C));
@@ -684,7 +684,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t16 = (await $.v(C, "XDBGrid1"));
+    const $t16 = (await $.wobj(C, "XDBGrid1"));
     const $t17 = (await $.mv((await $.wv([$t16], "DataSource", C, false)), "DataSet"));
     await $.wset([$t16, $t17], "SelectedRowsCnt", (await $.mv((await $.wv([$t16, $t17], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true });
     if ($.truthy($.gt((await $.wv([$t16, $t17], "SelectedRowsCnt", { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true }, false)), 1))) {
@@ -745,7 +745,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "selectedrowscnt": 0, "i": 0, "ids": '', "status": 0, "trcount": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t20 = (await $.v(C, "XDBGrid1"));
+    const $t20 = (await $.wobj(C, "XDBGrid1"));
     const $t21 = (await $.mv((await $.wv([$t20], "DataSource", C, false)), "DataSet"));
     await $.wset([$t20, $t21], "SelectedRowsCnt", (await $.mv((await $.wv([$t20, $t21], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true });
     if ($.truthy($.gt((await $.wv([$t20, $t21], "SelectedRowsCnt", { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true }, false)), 1))) {
@@ -782,7 +782,7 @@ export default function define($) {
   }
   if ($.truthy(($.eq((await $.mv(L0["column"], "FieldName")), "INFO")))) {
     {
-      const $t24 = (await $.v(C, "XDBGrid1"));
+      const $t24 = (await $.wobj(C, "XDBGrid1"));
       const $t25 = (await $.wv([$t24], "Canvas", C, false));
       await $.wset([$t24, $t25], "s", (await $.mv((await $.mcall((await $.mv((await $.wv([$t24, $t25], "DataSource", C, false)), "DataSet")), "FieldByName", ["info"])), "AsString")), { get: async () => L0["s"], set: async (v) => { L0["s"] = v; }, local: true });
       await $.stmt((await $.wcall([$t24, $t25], "FillRect", [(await $.wv([$t24, $t25], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false))], C)));

@@ -34,7 +34,7 @@ export default function define($) {
   L0["checkfieldbynames"] = $.fn(async function CheckFieldByNames() {
   const L1 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "ArDataModuleConcl"));
+    const $t1 = (await $.wobj(C, "ArDataModuleConcl"));
     const $t2 = (await $.wv([$t1], "CreditProps", C, false));
     if ($.truthy($.eq((await $.mv((await $.wv([$t1, $t2], "DBLookupComboboxEh29", C, false)), "text")), ""))) {
       await $.stmt((await $.mcall((await $.wv([$t1, $t2], "HBConclusion", C, false)), "ShowMessage", ["Borc alanın tipi (Mülkiyyət növü) sahəsi boşdur !"])));
@@ -590,7 +590,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["spostbeforerefresh"] = "Əvvəlcə cari krediti ya qəbul və yaxud imtina edin !";
   {
-    const $t18 = (await $.v(C, "ArDataModuleConcl"));
+    const $t18 = (await $.wobj(C, "ArDataModuleConcl"));
     await $.mcall((await $.wv([$t18], "Customer", C, false)), "Refresh", []);
     await $.mcall((await $.wv([$t18], "EstateTypeData", C, false)), "Refresh", []);
     await $.mcall((await $.wv([$t18], "Reserves", C, false)), "Refresh", []);
@@ -639,7 +639,7 @@ export default function define($) {
     await $.mset((await $.v(C, "DBLookupComboboxEh19")), "KeyValue", (await $.mv((await $.mcall((await $.mv((await $.mv((await $.v(C, "LoanAccs")), "ListSource")), "DataSet")), "FieldByName", ["CustID"])), "AsInteger")));
     if ($.truthy($.eq((await L0["key"].get()), (await $.v(C, "VK_F2"))))) {
       {
-        const $t19 = (await $.v(C, "ArDataModuleConcl"));
+        const $t19 = (await $.wobj(C, "ArDataModuleConcl"));
         await $.mset((await $.wv([$t19], "CustAccno", C, false)), "KeyValue", (await $.mcall((await $.wv([$t19], "CM_COMMON", C, false)), "CallIntegerFunction", ["Get_AccID", [(await $.wv([$t19], "CustID", { get: async () => L0["custid"], set: async (v) => { L0["custid"] = v; }, local: true }, false)), (await $.mcall((await $.wv([$t19], "cm_decls", C, false)), "GetIntegerVariable", ["AcgCust"]))]])));
         await $.mset((await $.wv([$t19], "PurReserveAccno", C, false)), "KeyValue", (await $.mcall((await $.wv([$t19], "CM_COMMON", C, false)), "CallIntegerFunction", ["Get_AccID", [(await $.wv([$t19], "CustID", { get: async () => L0["custid"], set: async (v) => { L0["custid"] = v; }, local: true }, false)), (await $.mcall((await $.wv([$t19], "cm_decls", C, false)), "GetIntegerVariable", ["Acgres"]))]])));
         await $.mset((await $.wv([$t19], "IntAccno", C, false)), "KeyValue", (await $.mcall((await $.wv([$t19], "CM_COMMON", C, false)), "CallIntegerFunction", ["Get_AccID", [(await $.wv([$t19], "CustID", { get: async () => L0["custid"], set: async (v) => { L0["custid"] = v; }, local: true }, false)), (await $.mcall((await $.wv([$t19], "cm_decls", C, false)), "GetIntegerVariable", ["AcgInt"]))]])));
@@ -855,7 +855,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t30 = (await $.v(C, "ArDataModuleConcl"));
+    const $t30 = (await $.wobj(C, "ArDataModuleConcl"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t30], "Branches", C, false)), "active")), (await $.wv([$t30], "false", C, false))))) {
       await $.mcall((await $.wv([$t30], "Branches", C, false)), "Open", []);
     }

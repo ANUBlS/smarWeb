@@ -81,7 +81,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   try {
     {
-      const $t2 = (await $.v(C, "PaymentDetalsForm"));
+      const $t2 = (await $.wobj(C, "PaymentDetalsForm"));
       const $t3 = (await $.wv([$t2], "ODS_BudgetLevel", C, false));
       await $.mset((await $.wv([$t2, $t3], "Edit_tey1", C, false)), "Text", (await $.mv((await $.wcall([$t2, $t3], "fieldbyname", ["ID"], C)), "Asstring")));
     }
@@ -97,7 +97,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   try {
     {
-      const $t5 = (await $.v(C, "PaymentDetalsForm"));
+      const $t5 = (await $.wobj(C, "PaymentDetalsForm"));
       const $t6 = (await $.wv([$t5], "ODS_Destination", C, false));
       await $.mset((await $.wv([$t5, $t6], "Edit_tey2", C, false)), "Text", (await $.wcall([$t5, $t6], "IntToStr", [(await $.mv((await $.wcall([$t5, $t6], "fieldbyname", ["ID"], C)), "AsInteger"))], C)));
     }
@@ -113,7 +113,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   try {
     {
-      const $t8 = (await $.v(C, "PaymentDetalsForm"));
+      const $t8 = (await $.wobj(C, "PaymentDetalsForm"));
       const $t9 = (await $.wv([$t8], "ODS_Institution", C, false));
       await $.mset((await $.wv([$t8, $t9], "Edit_Client_acc_no", C, false)), "Text", (await $.wcall([$t8, $t9], "IntToStr", [(await $.mv((await $.wcall([$t8, $t9], "fieldbyname", ["ID"], C)), "AsInteger"))], C)));
       await $.mset((await $.wv([$t8, $t9], "Edit_Client_Name", C, false)), "Text", (await $.mv((await $.wcall([$t8, $t9], "fieldbyname", ["NAME"], C)), "AsString")));

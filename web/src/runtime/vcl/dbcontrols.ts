@@ -191,6 +191,30 @@ export class TDBLookupComboBox extends TWinControl {
   get KeyValue(): unknown { const f = this.Field; return f && !this.keyOverride ? f.Value : this._key; }
   set KeyValue(v: unknown) { this._key = v; this.keyOverride = !!this.Field; invalidate(); }
   listFields() { return this.ListField.split(';').map((s) => s.trim()).filter(Boolean); }
+  /* Indexed access to the list (a list of all accounts has hundreds of thousands of rows: never copied whole). */
+  listCount(): number { const ds = this.ListDataSet; return ds && ds.Active ? ds.view.length : 0; }
+  optionAt(i: number): { key: unknown; cols: string[] } | null {
+    const ds = this.ListDataSet;
+    if (!ds || !ds.Active || i < 0 || i >= ds.view.length) return null;
+    const v = ds.rowValues(i)!;
+    const lfs = this.listFields().map((x) => x.toUpperCase());
+    return { key: v[this.KeyField.toUpperCase()], cols: lfs.map((n) => { const f = ds.FindField(n); return f ? f.toDisplay(v[n]) : str(v[n]); }) };
+  }
+  private keyIndex: { view: unknown; rows: unknown; len: number; kf: string; map: Map<string, number> } | null = null;
+  /** Position of a key in the (filtered) list, -1 when absent; the index is rebuilt only when the list changes. */
+  indexOfKey(key: unknown): number {
+    if (key === null || key === undefined) return -1;
+    const ds = this.ListDataSet;
+    if (!ds || !ds.Active) return -1;
+    const kf = this.KeyField.toUpperCase();
+    const ki = this.keyIndex;
+    if (!ki || ki.view !== ds.view || ki.rows !== ds.rows || ki.len !== ds.view.length || ki.kf !== kf) {
+      const map = new Map<string, number>();
+      for (let i = ds.view.length - 1; i >= 0; i--) map.set(String(ds.rowValues(i)![kf]), i);
+      this.keyIndex = { view: ds.view, rows: ds.rows, len: ds.view.length, kf, map };
+    }
+    return this.keyIndex!.map.get(String(key)) ?? -1;
+  }
   /** [key, display columns] for the dropdown. */
   options(): { key: unknown; cols: string[]; idx: number }[] {
     const ds = this.ListDataSet;
@@ -208,7 +232,7 @@ export class TDBLookupComboBox extends TWinControl {
   get Text() {
     const k = this.KeyValue;
     if (k === null || k === undefined) return '';
-    const o = this.options().find((x) => String(x.key) === String(k));
+    const o = this.optionAt(this.indexOfKey(k));
     return o ? o.cols[this.ListFieldIndex] ?? o.cols[0] ?? '' : '';
   }
   set Text(_v: string) { /* */ }
@@ -222,7 +246,7 @@ export class TDBLookupComboBox extends TWinControl {
     else this._key = key;
     // the list dataset follows the selection (Delphi lookup combos position the list source)
     const ds = this.ListDataSet;
-    if (ds) { const i = this.options().findIndex((o) => String(o.key) === String(key)); if (i >= 0) await ds.gotoIndex(i); }
+    if (ds) { const i = this.indexOfKey(key); if (i >= 0) await ds.gotoIndex(i); }
     invalidate();
     await this.fire('OnClick', this);
     await this.fire('OnCloseUp', this);
@@ -379,7 +403,9 @@ export class TBookmarkList extends Indexed {
   }
 }
 
-export interface CellStyle { bg?: number; fg?: number; bold?: boolean; italic?: boolean; strike?: boolean }
+/** What an OnDrawColumnCell handler painted: colours / font style, or an image (ImageList.Draw(Canvas, …)). */
+export interface CellStyle { bg?: number; fg?: number; bold?: boolean; italic?: boolean; strike?: boolean;
+  image?: { sprite: string; index: number; cx: number; cy: number } }
 
 export class TDBGrid extends TWinControl {
   DataSource: TDataSource | null = null;
@@ -451,24 +477,35 @@ export class TDBGrid extends TWinControl {
 
   markStylesDirty() { this.styleDirty = true; }
   /** Evaluate OnDrawColumnCell for visible rows to capture colours/fonts the Delphi code sets. */
-  async computeStyles(maxRows = 250) {
-    if (this.styling || !this.styleDirty || !this.hasHandler('OnDrawColumnCell')) return;
+  /** Runs OnDrawColumnCell for the rows in [from, to) not painted yet (VCL paints only the visible cells);
+   *  after a data change (markStylesDirty) everything is painted anew. */
+  async computeStyles(from = 0, to = 250) {
+    if (this.styling || !this.hasHandler('OnDrawColumnCell')) return;
     const ds = this.DataSet;
     if (!ds || !ds.Active) return;
+    to = Math.min(ds.view.length, to);
+    from = Math.max(0, Math.min(from, to));
+    if (!this.styleDirty) {
+      let done = true;
+      for (let i = from; i < to && done; i++) done = this.styles.has(ds.rows[ds.view[i]]);
+      if (done) return;
+    }
     this.styling = true;
+    if (this.styleDirty) this.styles = new WeakMap();
     this.styleDirty = false;
     try {
       const cols = this.visibleColumns();
-      const n = Math.min(ds.view.length, maxRows);
       const handler = this.handlerRoutine(this.events.get('ondrawcolumncell')!);
       if (!handler) return;
-      for (let i = 0; i < n; i++) {
+      for (let i = from; i < to; i++) {
         const row = ds.rows[ds.view[i]];
+        if (this.styles.has(row)) continue;
         const map = new Map<number, CellStyle>();
         for (let c = 0; c < cols.length; c++) {
           const cv = this._canvas;
           cv.Brush.Color = -2147483643;
           cv.Font = new TFont();
+          (cv as any).__cell = {};   // ImageList.Draw(Canvas, …) records the image here
           (ds as any).paintRow = row.v;
           try {
             await handler(this, { left: 0, top: 0, right: cols[c].Width, bottom: 20 }, c, cols[c], []);
@@ -481,6 +518,9 @@ export class TDBGrid extends TWinControl {
           if (fs.includes('fsbold')) st.bold = true;
           if (fs.includes('fsitalic')) st.italic = true;
           if (fs.includes('fsstrikeout')) st.strike = true;
+          const drawn = (cv as any).__cell?.image;
+          if (drawn) st.image = drawn;
+          (cv as any).__cell = null;
           if (Object.keys(st).length) map.set(c, st);
         }
         this.styles.set(row, map);

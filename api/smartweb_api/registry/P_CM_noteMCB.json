@@ -1,0 +1,150 @@
+{
+ "name": "P_CM_noteMCB",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_noteMcb",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ods_cel",
+   "source": "TFormNote.ods_cel",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id ,'SMS' as name from dual\nunion\nselect 2 as id ,'Partner' as name from dual\nunion\nselect 3 as id ,'Existing' as name from dual\nunion\nselect 4 as id ,'Direct' as name from dual",
+   "variables": [],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_sector",
+   "source": "TFormNote.ods_sector",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id ,'Car Rentals' as name from dual\nunion\nselect 2 as id ,'Cargo transport' as name from dual\nunion\nselect 3 as id ,'Construction' as name from dual\nunion\nselect 4 as id ,'Esthetics-Cosmetology' as name from dual\nunion\nselect 5 as id ,'Farming' as name from dual\nunion\nselect 6 as id ,'Food and beverages' as name from dual\nunion\nselect 7 as id ,'Food processing' as name from dual\nunion\nselect 8 as id ,'Health' as name from dual\nunion\nselect 9 as id ,'Hotel and restaurants' as name from dual\nunion\nselect 10 as id ,'ICT' as name from dual\nunion\nselect 11 as id ,'Industrial production' as name from dual\nunion\nselect 12 as id ,'Infrastructure (government funded) ' as name from dual\nunion\nselect 13 as id ,'Other services' as name from dual\nunion\nselect 14 as id ,'Printing and  Publishing' as name from dual\nunion\nselect 15 as id ,'Public transport' as name from dual\nunion\nselect 16 as id ,'Staff' as name from dual\nunion\nselect 17 as id ,'Tourism' as name from dual\nunion\nselect 18 as id ,'Trade' as name from dual",
+   "variables": [],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_maliye",
+   "source": "TFormNote.ods_maliye",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id ,'Bank krediti' as name from dual\nunion\nselect 2 as id ,'AKİA' as name from dual\nunion\nselect 3 as id ,'SİF' as name from dual\nunion\nselect 4 as id ,'Kapital' as name from dual",
+   "variables": [],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_portstatus",
+   "source": "TFormNote.ods_portstatus",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id ,'Auto' as name from dual\nunion\nselect 2 as id ,'Commercial' as name from dual\nunion\nselect 3 as id ,'Consumer' as name from dual\nunion\nselect 4 as id ,'Real Estate' as name from dual\nunion\nselect 5 as id ,'Gold' as name from dual\n\n\n",
+   "variables": [],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_not",
+   "source": "TFormNote.ods_not",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_notesmcb \nwhere creditid=:v_id",
+   "variables": [
+    {
+     "name": "V_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_group",
+   "source": "TFormNote.ods_group",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 as id , 'Agricultural Machinery' as name from dual\nunion\nselect 2 as id , 'Asset Group' as name from dual\nunion\nselect 3 as id , 'Big Passenger Bus' as name from dual\nunion\nselect 4 as id , 'Business car' as name from dual\nunion\nselect 5 as id , 'Commercial Real Estate' as name from dual\nunion\nselect 6 as id , 'Construction Machinery' as name from dual\nunion\nselect 7as id , 'Consumer Car' as name from dual\nunion\nselect 8 as id , 'Esthetics/Cosmetology equipment' as name from dual\nunion\nselect 9 as id , 'Heavy Weight Truck >15tons' as name from dual\nunion\nselect 10 as id ,'Light Weigh Truck <5tons' as name from dual\nunion\nselect 11 as id ,'Medical Equipment' as name from dual\nunion\nselect 12 as id ,'Middle Sized Bus' as name from dual\nunion\nselect 13 as id ,'Middle Weight Truck >5<15tons' as name from dual\nunion\nselect 14 as id ,'None' as name from dual\nunion\nselect 15 as id ,'Other Equipment' as name from dual\nunion\nselect 16 as id ,'Printing and publishing equipment' as name from dual\nunion\nselect 17 as id ,'Residential Real Estate' as name from dual\n\n",
+   "variables": [],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_shedule",
+   "source": "TFormNote.ods_shedule",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id ,'Annuitet' as name from dual\nunion\nselect 2 id ,'Bərabər' as name from dual \nunion\nselect 3 id ,'müddətin sonunda' as name from dual \n\n\n",
+   "variables": [],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_bussnes",
+   "source": "TFormNote.ods_bussnes",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id ,'Male' as name from dual\nunion\nselect 2 id ,'Female' as name from dual ",
+   "variables": [],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_newOld",
+   "source": "TFormNote.ods_newOld",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id ,'New' as name from dual\nunion\nselect 2 id ,'Repeat' as name from dual \nunion\nselect 3 id ,'Staff' as name from dual ",
+   "variables": [],
+   "unit": "UnitForm"
+  },
+  {
+   "name": "ods_hucrat",
+   "source": "TFormNote.ods_hucrat",
+   "kind": "TOracleDataSet",
+   "sql": "select* from(\nselect 1 id ,'80%' as name from dual\nunion\nselect 2 id ,'80%' as name from dual \nunion\nselect 3 id ,'100%' as name from dual\nunion\nselect 4 id ,'60%' as name from dual\nunion\nselect 5 id ,'50%' as name from dual)\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "UnitForm"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "cm_credit",
+   "mode": "named",
+   "source": "TFormNote.OraclePackage1",
+   "routines": [
+    {
+     "name": "Addcm_notesMCB",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UPDcm_notesMCB",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "delete_notesMCB",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

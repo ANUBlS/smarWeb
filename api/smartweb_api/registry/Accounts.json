@@ -1,6 +1,6 @@
 {
  "name": "Accounts",
- "caption": "Balans / Əməliyyat günü / Hesablar",
+ "caption": "",
  "dir": "Packages/Accounts",
  "mainForm": "TAccountMainForm",
  "plugin": false,

@@ -28,7 +28,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: 0};
   {
-    const $t1 = (await $.v(C, "SBTransaction"));
+    const $t1 = (await $.wobj(C, "SBTransaction"));
     await $.wset([$t1], "Result", (await $.wcall([$t1], "CallIntegerFunction", [(await $.wv([$t1], "cs_generateid", C, false)), []], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
   }
   return L0.result;
@@ -69,7 +69,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t4 = (await $.v(C, "TransactionForm"));
+    const $t4 = (await $.wobj(C, "TransactionForm"));
     const $t5 = (await $.wv([$t4], "CreditAccData", C, false));
     await $.mset((await $.wv([$t4, $t5], "EditCredAccNo", C, false)), "Text", "");
     await $.mset((await $.wv([$t4, $t5], "EditKredBal_CN", C, false)), "Text", "");
@@ -112,7 +112,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t6 = (await $.v(C, "TransactionForm"));
+    const $t6 = (await $.wobj(C, "TransactionForm"));
     const $t7 = (await $.wv([$t6], "DebitAccData", C, false));
     await $.mset((await $.wv([$t6, $t7], "EditDebtBal_CN", C, false)), "Text", "");
     await $.mset((await $.wv([$t6, $t7], "EditDebtAccNo", C, false)), "Text", "");
@@ -129,7 +129,7 @@ export default function define($) {
   await $.fixArgs(L0, ["transactionid"]);
   await $.stmt((await $.mcall((await $.v(C, "OP_MMX")), "CallProcedure", ["delete_mmx_transinfo", [L0["transactionid"]]])));
   {
-    const $t8 = (await $.v(C, "SBTransaction"));
+    const $t8 = (await $.wobj(C, "SBTransaction"));
     await $.stmt((await $.wcall([$t8], "CallProcedure", [(await $.wv([$t8], "cs_del_transaction", C, false)), ["TransactionID", (await $.wv([$t8], "TransactionID", { get: async () => L0["transactionid"], set: async (v) => { L0["transactionid"] = v; }, local: true }, false))]], C)));
   }
   return L0.result;
@@ -141,7 +141,7 @@ export default function define($) {
   L0["iscommission"] = $.fn(async function IsCommission() {
   const L1 = {result: false};
   {
-    const $t9 = (await $.v(C, "TransactionForm"));
+    const $t9 = (await $.wobj(C, "TransactionForm"));
     await $.wset([$t9], "Result", $.eq((await $.wv([$t9], "OperationMode", C, false)), (await $.wv([$t9], "omCommission", C, false))), { get: async () => L1["result"], set: async (v) => { L1["result"] = v; }, local: true });
   }
   return L1.result;

@@ -1,0 +1,105 @@
+{
+ "name": "P_CM_ReserveInf",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_ReserveInf",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ReserveInf",
+   "source": "TdmReserveInf.ReserveInf",
+   "kind": "TOracleDataSet",
+   "sql": "select \n   p.numberofcredit,\n    lacc.acc_no as loanaccno,\n    cust.name,ct.description,f.name filial,\n    p.dateofconclusion,\n    p.duedatefirstcontract,v.val_name,\n    p.duedatelastcontract,psh.odemeli_faiz,\n    psh.planrest, (select (select name  from cust_quality where id=quality_id) from customers where id=p.BOOROWERID) kefiyet,\n    h.rest,(h.interestrest-(select cm_common.OutAccountRest_Get(outinterestaccid) from cm_accounts\nwhere creditid=p.id) )interestrest,(h.interestrest-(select cm_common.OutAccountRest_Get(outinterestaccid) from cm_accounts\nwhere creditid=p.id) )*ok.ostat as ekv_intrest,h.PENALTYREST,pl.name as grovname,\n    h.rest*ok.ostat as ekrest,h.stopcalcdate,    h.duerest,h.dueinterestrest,h.dueinterestrest*ok.ostat ekgecfaiz,\n    h.duerest*ok.ostat as ekduerest, g.REGISTRYNO,    h.pledgeprice,h.reserveintrest,\n    trunc(h.pledgeprice/decode(h.rest*ok.ostat+h.duerest*ok.ostat,0,1,h.rest*ok.ostat+h.duerest*ok.ostat),2)*100 as pl,\n    restype.PERCENT as respercent ,duerestype.PERCENT as duerespercent ,\n    (h.rest*ok.ostat+h.duerest*ok.ostat)*restype.PERCENT/100  as resostat,p.numberofbankcredit,\n    restype.description ehname ,duerestype.description gecehname \nfrom\n   cm_portfolio p,filial_t f,avalute_t v,\n   cm_loanaccounts lacc,\n   customers cust,\n   cm_history h,cm_credittypes ct,\n   cm_reserve_types restype, cm_reserve_types duerestype,\n   sb_operkurs ok,cm_pledgsorts pl,cm_guarantee g ,\n\n\n(SELECT  creditid, rest as planrest,interest as odemeli_faiz\n  FROM cm_payment_schedule where paymentdate = :dat\n  union\n   select  creditid , 0 as planrest,0 as odemeli_faiz  \n from \n  (select id as creditid \n  from cm_portfolio\n  minus\n  SELECT  creditid\n  FROM cm_payment_schedule where paymentdate = :dat)) psh\n\nwhere p.id = lacc.creditid  and\n      p.boorowerid = cust.id and\n      p.id = h.creditid and\n      h.hdate = :dat and \n      p.id = psh.creditid and p.branchid=f.id and\n      h.reserveid = restype.id and\n      h.duereserveid = duerestype.id and\n      p.currency = ok.val_kod and\n      p.currency = v.valute and\n      p.CREDITTYPE=ct.id     and g.pledgsorts=pl.id(+) and g.creditid(+)=p.id  AND \n      ok.dat = :dat \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "dmReserveInfImpl"
+  },
+  {
+   "name": "DatSetValute",
+   "source": "TdmReserveInf.DatSetValute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "dmReserveInfImpl"
+  },
+  {
+   "name": "DatSetFilials",
+   "source": "TdmReserveInf.DatSetFilials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sb_filial",
+   "variables": [],
+   "unit": "dmReserveInfImpl"
+  },
+  {
+   "name": "DatSetPersons",
+   "source": "TdmReserveInf.DatSetPersons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,descripion from cm_persons",
+   "variables": [],
+   "unit": "dmReserveInfImpl"
+  },
+  {
+   "name": "DatSetCategories",
+   "source": "TdmReserveInf.DatSetCategories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "dmReserveInfImpl"
+  },
+  {
+   "name": "DatSetCreditTypes",
+   "source": "TdmReserveInf.DatSetCreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,   description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "dmReserveInfImpl"
+  },
+  {
+   "name": "DatSetReserves",
+   "source": "TdmReserveInf.DatSetReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description||' - '||PERCENT as description\n  FROM cm_reserves",
+   "variables": [],
+   "unit": "dmReserveInfImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

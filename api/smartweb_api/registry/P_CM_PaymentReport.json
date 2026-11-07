@@ -1,0 +1,97 @@
+{
+ "name": "P_CM_PaymentReport",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_PaymentReport",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSCredits",
+   "source": "TfrmPayRepFilter.ODSCredits",
+   "kind": "TOracleDataSet",
+   "sql": "select id from cm_portfolio p\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "uPayrepFilter"
+  },
+  {
+   "name": "ODFValute",
+   "source": "TfrmPayRepFilter.ODFValute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "uPayrepFilter"
+  },
+  {
+   "name": "ODFBranch",
+   "source": "TfrmPayRepFilter.ODFBranch",
+   "kind": "TOracleDataSet",
+   "sql": "select * from filial--sb_filial",
+   "variables": [],
+   "unit": "uPayrepFilter"
+  },
+  {
+   "name": "ODFUsers",
+   "source": "TfrmPayRepFilter.ODFUsers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sba_objinf where type='U'--select * from sb_user$",
+   "variables": [],
+   "unit": "uPayrepFilter"
+  },
+  {
+   "name": "ODSPayInfo",
+   "source": "TfrmPayRepFilter.ODSPayInfo",
+   "kind": "TOracleDataSet",
+   "sql": "/*SELECT rownum, creditid, groupname, boorower, crdnum, mainschedule, mainpayed, (-mainschedule+mainpayed) as maindiff   intrschedule, intrpayed,  (-intrschedule+intrpayed) as intrdiff,irest\n ,CREDITLINEAMMOUNT,SUMPAY,SUMSHEDULE,rest qaliq,(rest-(CREDITLINEAMMOUNT-SUMSHEDULE)) maindiff ,\nmainschedule-mainpayed \"Ə.B üzrə az ödəniş\" ,irest-intrpayed \"Faiz az ödəniş\",ESASHES,FAIZHES  FROM cm_report_payments p\nwhere creditid>0\n\n\n\n\n\n\n\n\n\n*/\nselect * FROM cm_report_payments\n order by groupname",
+   "variables": [],
+   "unit": "uPayrepFilter"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_REPORTS",
+   "package": "CM_PREPORTS",
+   "mode": "named",
+   "source": "TfrmPayRepFilter.CM_REPORTS",
+   "routines": [
+    {
+     "name": "insrowpayment",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

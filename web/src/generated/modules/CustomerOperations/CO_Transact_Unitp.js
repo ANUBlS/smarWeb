@@ -18,7 +18,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "CO_DataMod"));
+    const $t1 = (await $.wobj(C, "CO_DataMod"));
     const $t2 = (await $.wv([$t1], "CashSymbolLookUp", C, false));
     if ($.truthy((await $.and_(($.eq((await $.mv((await $.mcall((await $.wv([$t1, $t2], "DebitAccData", C, false)), "FieldByName", ["IsCacheAccount"])), "AsInteger")), 1)), async () => ($.eq((await $.mv((await $.mcall((await $.wv([$t1, $t2], "DebitAccData", C, false)), "FieldByName", ["val_acc"])), "AsInteger")), 0)))))) {
       await $.mset((await $.mv((await $.wv([$t1, $t2], "ListSource", C, false)), "DataSet")), "Filter", "Mediocrity = 0");
@@ -91,7 +91,7 @@ export default function define($) {
     await $.mset((await $.v(C, "PanelCredit")), "Enabled", false);
     if ($.truthy($.eq((await $.mv((await $.mcall((await $.mv((await $.v(C, "CO_DataMod")), "Account")), "FieldByName", ["TYPEID"])), "AsInteger")), 1))) {
       {
-        const $t3 = (await $.v(C, "CO_DataMod"));
+        const $t3 = (await $.wobj(C, "CO_DataMod"));
         await $.mset((await $.wv([$t3], "DebtCurCode", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t3], "Account", C, false)), "FieldByName", ["AccValCode"])), "AsString")));
         await $.mset((await $.wv([$t3], "DebtAccSearchEdit", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t3], "Account", C, false)), "FieldByName", ["AccNO"])), "AsString")));
         await $.mset((await $.wv([$t3], "DBLookupDebtAcc", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t3], "Account", C, false)), "FieldByName", ["AccNO"])), "AsString")));
@@ -104,7 +104,7 @@ export default function define($) {
       }
     } else {
       {
-        const $t4 = (await $.v(C, "CO_DataMod"));
+        const $t4 = (await $.wobj(C, "CO_DataMod"));
         await $.mset((await $.wv([$t4], "DebtCurCode", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t4], "CO_In", C, false)), "FieldByName", ["DebitCurCode"])), "AsString")));
         await $.mset((await $.wv([$t4], "DebtAccSearchEdit", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t4], "CO_In", C, false)), "FieldByName", ["DebitAccount"])), "AsString")));
         await $.mset((await $.wv([$t4], "DBLookupDebtAcc", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t4], "CO_In", C, false)), "FieldByName", ["DebitAccount"])), "AsString")));
@@ -122,7 +122,7 @@ export default function define($) {
     await $.mset((await $.v(C, "PanelCredit")), "Enabled", false);
     if ($.truthy($.eq((await $.mv((await $.mcall((await $.mv((await $.v(C, "CO_DataMod")), "Account")), "FieldByName", ["TYPEID"])), "AsInteger")), 1))) {
       {
-        const $t5 = (await $.v(C, "CO_DataMod"));
+        const $t5 = (await $.wobj(C, "CO_DataMod"));
         await $.mset((await $.wv([$t5], "DebtCurCode", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t5], "CO_In", C, false)), "FieldByName", ["DebitCurCode"])), "AsString")));
         await $.mset((await $.wv([$t5], "DebtAccSearchEdit", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t5], "CO_In", C, false)), "FieldByName", ["DebitAccount"])), "AsString")));
         await $.mset((await $.wv([$t5], "DBLookupDebtAcc", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t5], "CO_In", C, false)), "FieldByName", ["DebitAccount"])), "AsString")));
@@ -135,7 +135,7 @@ export default function define($) {
       }
     } else {
       {
-        const $t6 = (await $.v(C, "CO_DataMod"));
+        const $t6 = (await $.wobj(C, "CO_DataMod"));
         await $.mset((await $.wv([$t6], "DebtCurCode", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t6], "Account", C, false)), "FieldByName", ["AccValCode"])), "AsString")));
         await $.mset((await $.wv([$t6], "DebtAccSearchEdit", C, false)), "Text", (await $.mv((await $.mcall((await $.wv([$t6], "Account", C, false)), "FieldByName", ["AccNO"])), "AsString")));
         await $.mset((await $.wv([$t6], "DBLookupDebtAcc", C, false)), "KeyValue", (await $.mv((await $.mcall((await $.wv([$t6], "Account", C, false)), "FieldByName", ["AccNO"])), "AsString")));
@@ -534,7 +534,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "DebtAccSearchEdit"));
+    const $t14 = (await $.wobj(C, "DebtAccSearchEdit"));
     const $t15 = (await $.wv([$t14], "CO_DataMod", C, false));
     await $.mset((await $.mv((await $.wv([$t14, $t15], "DataSource", C, false)), "DataSet")), "Filtered", (await $.wv([$t14, $t15], "False", C, false)));
     await $.mset((await $.mv((await $.wv([$t14, $t15], "DataSource", C, false)), "DataSet")), "Filter", $.add("val_acc= ", (await $.mv((await $.mcall((await $.wv([$t14, $t15], "DebitCurrencyData", C, false)), "FieldByName", ["ID"])), "AsString"))));
@@ -599,7 +599,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t17 = (await $.v(C, "CreditAccSearchEdit"));
+    const $t17 = (await $.wobj(C, "CreditAccSearchEdit"));
     const $t18 = (await $.wv([$t17], "CO_DataMod", C, false));
     await $.mset((await $.mv((await $.wv([$t17, $t18], "DataSource", C, false)), "DataSet")), "Filtered", (await $.wv([$t17, $t18], "False", C, false)));
     await $.mset((await $.mv((await $.wv([$t17, $t18], "DataSource", C, false)), "DataSet")), "Filter", $.add("val_acc= ", (await $.mv((await $.mcall((await $.wv([$t17, $t18], "CreditCurrencyData", C, false)), "FieldByName", ["ID"])), "AsString"))));
@@ -687,7 +687,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t22 = (await $.v(C, "CO_DataMod"));
+    const $t22 = (await $.wobj(C, "CO_DataMod"));
     await $.mcall((await $.wv([$t22], "Cntries", C, false)), "Refresh", []);
     await $.mcall((await $.wv([$t22], "ReportDesc", C, false)), "Refresh", []);
     await $.mcall((await $.wv([$t22], "ConvertationSymbols", C, false)), "Refresh", []);

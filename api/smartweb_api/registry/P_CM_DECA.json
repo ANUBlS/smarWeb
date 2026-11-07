@@ -1,0 +1,300 @@
+{
+ "name": "P_CM_DECA",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_DECA",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TDecaDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   A.BOOROWERID AS ID,\n   A.NAME AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   cm_deca.get_custdateofbirth(b.boorowerid) AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH, --dogum yeri\n   A.pincode AS PINCODE,\t\t\t--pin kod\n   A.guarantorid AS GID,\t--zamin id\n   a.guarantorname AS GNAME,\t--zamin ad\n   A.guarantorid2 AS GID2,\t--zamin id2\n   A.guarantorname2 AS GNAME2,\t--zamin ad2\n   A.guarantorid3 AS GID3,\t--zamin id3\n   A.guarantorname3 AS GNAME3,\t--zamin ad3\n   cm_deca.get_credittypes(b.id) CREDITTYPE,\t--kreditin tipi\n   cm_deca.get_lastcreditpayment(b.id) LASTPAYDAT,\t--sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,\t--ayliq odenish\n   cm_deca.get_reserveaccountostat(b.id) PROVISION,\t--ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n   CM_COMMON.AccountNumber_Get(c.LOANACCID) AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)) AS PERIODMONT ,\n   B.DATEOFCONCLUSION AS DATEGRANT,\n   B.DUEDATEFIRSTCONTRACT AS FIRSTCONTR,\n   DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT) AS LASTCONTR,\n   CM_DECA.DueDaysCount(:HDATE , B.DUEDATEFIRSTCONTRACT,b.id) AS DAYSMAIN ,\n   CM_DECA.DueDaysCount(:HDATE , B.DUEDATEFIRSTCONTRACT,b.id) AS DAYSINTRST ,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   CM_DECA.OiaForLastThreeMonths(:HDATE , B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE ,\n   0 AS PROLONGS ,\n   E.CODE AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,:HDATE) AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   D.PLEDGEPRICE  AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n   F.REGISTRYDATE AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , CM_GUARANTEE F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , CM_HISTORY D\n , SB_OPERKURS O\n , SB_AVALUTE V\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID = B.ID)\n AND (G.ID = F.PLEDGEID)\n AND (D.HDATE=:HDATE)\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :EDATE and :HDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n AND (O.DAT=:HDATE)\n AND (O.VAL_KOD=B.CURRENCY)\n--AND (O.OSTAT * B.CREDITLINEAMOUNT >= 1000)\n AND (V.VALUTE=B.CURRENCY)\n AND (B.DATEOFCONCLUSION<=:HDATE)\n-- AND (B.CLOSEDATE is not null)\n AND (P.ID = B.CUSTOMERTYPE) --and cm_deca.get_creditinitialamount(b.id)>0\n",
+   "variables": [
+    {
+     "name": "HDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "DecaData_tur",
+   "source": "TDecaDataModule.DecaData_tur",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   nvl(A.BOOROWERID,0) AS ID,\n   A.NAME AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   to_char(cm_deca.get_custdateofbirth(b.boorowerid),'dd/mm/yyyy') AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH, --dogum yeri\n   A.pincode AS PINCODE,\t\t\t--pin kod\n   A.guarantorid AS GID,\t--zamin id\n   a.guarantorname AS GNAME,\t--zamin ad\n   A.guarantorid2 AS GID2,\t--zamin id2\n   A.guarantorname2 AS GNAME2,\t--zamin ad2\n   A.guarantorid3 AS GID3,\t--zamin id3\n   A.guarantorname3 AS GNAME3,\t--zamin ad3\n   cm_deca.get_credittypes(b.id) CREDITTYPE,\t--kreditin tipi\n   to_char(cm_deca.get_lastcreditpayment(b.id),'dd/mm/yyyy') LASTPAYDAT,\t--sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,\t--ayliq odenish\n  -- cm_deca.get_reserveaccountostat(b.id) PROVISION,\t--ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n   /*CM_COMMON.AccountNumber_Get(c.LOANACCID)*/  B.ID AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n    decode(TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)),0,1,TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION))) AS PERIODMONT ,\n  to_char( B.DATEOFCONCLUSION,'dd/mm/yyyy') AS DATEGRANT,\n  to_char( B.DUEDATEFIRSTCONTRACT,'dd/mm/yyyy') AS FIRSTCONTR,\n  to_char( DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT),'dd/mm/yyyy') AS LASTCONTR,\n   CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id) AS DAYSMAIN ,\n   CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id) AS DAYSINTRST ,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n --  CM_DECA.OiaForLastThreeMonths(:RDAT , B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE ,\n   0 AS PROLONGS ,\n   E.CODE AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,:RDAT) AS STATUSCODE ,\n   to_char(DECODE(G.TYPECODE,'000',null,G.TYPECODE)) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   D.PLEDGEPRICE AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n  to_char( F.REGISTRYDATE,'dd/mm/yyyy') AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , CM_GUARANTEE F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , CM_HISTORY D\n , OPERKURS O\n , AVALUTE V\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID(+) = B.ID)\n AND (G.ID(+) = F.PLEDGEID)\n AND (D.HDATE=:HDATE)\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :EDATE and :HDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n AND (O.DAT=:HDATE)\n AND (O.VAL_KOD=B.CURRENCY)\n--AND (O.OSTAT * B.CREDITLINEAMOUNT >= 1000)\n AND (V.VALUTE=B.CURRENCY)\n AND (B.DATEOFCONCLUSION<=:HDATE)\n AND (P.ID = B.CUSTOMERTYPE) --and cm_deca.get_creditinitialamount(b.id)>0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "HDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "RDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "TagSettings",
+   "source": "TDecaDataModule.TagSettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid, a.fieldname, a.tagfirst, a.taglast, a.tagprefix, a.tagsuffix,\n       a.alphafield, a.fieldgroup, a.num, a.usefield, a.parentgroup\n  FROM smart.cm_decasettings a\norder by num",
+   "variables": [],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDecaDataModule.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   A.BOOROWERID AS ID,\n   A.NAME AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   cm_deca.get_custdateofbirth(b.boorowerid) AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH, --dogum yeri\n   A.pincode AS PINCODE,      --pin   kod\n   A.guarantorid AS GID,      --zamin id\n   a.guarantorname AS GNAME,  --zamin ad\n   A.guarantorid2 AS GID2,    --zamin id2\n   A.guarantorname2 AS GNAME2,--zamin ad2\n   A.guarantorid3 AS GID3,    --zamin id3\n   A.guarantorname3 AS GNAME3,--zamin ad3\n   cm_deca.get_credittypes(b.id) CREDITTYPE,    --kreditin tipi\n   cm_deca.get_lastcreditpayment(b.id) LASTPAYDAT,  --sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,    --ayliq odenish\n   cm_deca.get_reserveaccountostat(b.id) PROVISION, --ehtiyyat miqdari\n   /*A.FIRSTOWNERID*/'' AS ID2,\n  /* A.FIRSTOWNERNAME*/'' AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n  /* CM_COMMON.AccountNumber_Get(c.LOANACCID)*/ b.id AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)) AS PERIODMONT ,\n   B.DATEOFCONCLUSION AS DATEGRANT,\n   B.DUEDATEFIRSTCONTRACT AS FIRSTCONTR,\n   DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT) AS LASTCONTR,\n   CM_DECA.DueDaysCount('19-oct-2010' , B.DUEDATEFIRSTCONTRACT,b.id) AS DAYSMAIN ,\n   CM_DECA.DueDaysCount('19-oct-2010' , B.DUEDATEFIRSTCONTRACT,b.id) AS DAYSINTRST ,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   CM_DECA.OiaForLastThreeMonths('19-oct-2010' , B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE ,\n   0 AS PROLONGS ,\n   E.CODE AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,'19-oct-2010') AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   D.PLEDGEPRICE * O.OSTAT AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n   F.REGISTRYDATE AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , CM_GUARANTEE F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , CM_HISTORY D\n , SB_OPERKURS O\n , SB_AVALUTE V\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID = B.ID)\n AND (G.ID = F.PLEDGEID)\n AND (D.HDATE='19-oct-2010')\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between '19-oct-2010' and '19-oct-2010'))\n AND (O.DAT='19-oct-2010')\n AND (O.VAL_KOD=B.CURRENCY)\n AND (V.VALUTE=B.CURRENCY)\n AND (B.DATEOFCONCLUSION<='19-oct-2010') \n AND (P.ID = B.CUSTOMERTYPE) and b.id=418",
+   "variables": [],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TDecaDataModule.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.rowid, a.fieldname, a.tagfirst, a.taglast, a.tagprefix, a.tagsuffix,\n       a.alphafield, a.fieldgroup, a.num, a.usefield, a.parentgroup\n  FROM smart.cm_decasettings a\n\nwhere a.fieldname not in('NAME5','REGAGSY1')\nand fieldname=:fname\n\norder by num",
+   "variables": [
+    {
+     "name": "FNAME",
+     "type": "string"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet5_aqrar",
+   "source": "TDecaDataModule.OracleDataSet5_aqrar",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   nvl(A.BOOROWERID,0) AS ID,\n   DECODE(A.NAME,'&','_',A.NAME)  AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   to_char(cm_deca.get_custdateofbirth(b.boorowerid),'dd/mm/yyyy') AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH , --dogum yeri\n   A.pincode AS PINCODE,            --pin kod\n   g1.guarantorid AS GID,    --zamin id\n   g1.guarantorname AS GNAME,g1.cuntrycode GCUNTRYCODE,to_char(g1.dateofbirth,'dd/mm/yyyy')   GDATEOFBIRTH,g1.cuntry||' '||g1.city GPLACE,nvl(g1.PINCODE,' ') GPINCODE,    --zamin 1\n   g2.guarantorid AS GID2,  --zamin 2\n   g2.guarantorname AS GNAME2, g2.cuntrycode GCUNTRYCODE2,to_char(g2.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH2,g2.cuntry||' '||g2.city GPLACE2,nvl(g2.PINCODE,' ') GPINCODE2, --zamin 2\n   g3.guarantorid AS GID3,  --zamin id3\n   g3.guarantorname AS GNAME3, g3.cuntrycode GCUNTRYCODE3,to_char(g3.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH3,g3.cuntry||' '||g3.city GPLACE3,nvl(g3.PINCODE,' ') GPINCODE3, --zamin 3\n   cm_deca.get_credittypes(b.id) CREDITTYPE,    --kreditin tipi\n   to_char(cm_deca.get_lastcreditpayment(b.id),'dd/mm/yyyy') LASTPAYDAT,    --sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,    --ayliq odenish\n   cm_deca.get_reserveaccountostat(b.id) PROVISION, --ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n  /* CM_COMMON.AccountNumber_Get(c.LOANACCID)*/b.id AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   decode(TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)),0,1,TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION))) AS PERIODMONT ,\n   to_char(B.DATEOFCONCLUSION,'dd/mm/yyyy') AS DATEGRANT,\n   to_char(nvl(b.duedatelastcontract,b.duedatefirstcontract),'dd/mm/yyyy') AS FIRSTCONTR,\n   to_char( DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT),'dd/mm/yyyy') AS LASTCONTR,\n   CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id) /*d.dueday*/ AS DAYSMAIN ,\n   cm_utils.Get_Gecgun_Faiz(b.id,:RDAT) AS DAYSINTRST ,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   CM_DECA.OiaForLastThreeMonths(:RDAT, B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE , \n0 AS PROLONGS ,\n  case when  CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id)<361 then E.CODE else '006' end AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,:RDAT )AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   D.PLEDGEPRICE  AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n  to_char( F.REGISTRYDATE,'dd/mm/yyyy') AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , CM_GUARANTEE F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , CM_HISTORY D\n , OPERKURS O\n , AVALUTE V\n ,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID(+) = B.ID)\n AND (G.ID(+) = F.PLEDGEID)\n AND (D.HDATE=:RDAT)\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :EDATE and :HDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n AND (O.DAT=:RDAT)\n AND (O.VAL_KOD=B.CURRENCY)\n and b.id=g1.creditid(+) and g1.cardid(+)=1  and b.usrgroup<>2 and b.credittype<>15\n and b.id=g2.creditid(+) and g2.cardid(+)=2\n and b.id=g3.creditid(+) and g3.cardid(+)=3 and b.dateofgrant ıs not null \n AND (V.VALUTE=B.CURRENCY)  /*and (b.id in(select creditid from cm_tranches)or (b.credittype in(16,17))) */and b.credittype<>15\n AND (B.DATEOFCONCLUSION<=:RDAT) \n AND (P.ID = B.CUSTOMERTYPE) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "HDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "RDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "DecaData",
+   "source": "TDecaDataModule.DecaData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   nvl(A.BOOROWERID,0) AS ID,\n   DECODE(A.NAME,'&','_',A.NAME)  AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   to_char(cm_deca.get_custdateofbirth(b.boorowerid),'dd/mm/yyyy') AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH , --dogum yeri\n   A.pincode AS PINCODE,            --pin kod\n   g1.guarantorid AS GID,    --zamin id\n   g1.guarantorname AS GNAME,g1.cuntrycode GCUNTRYCODE,to_char(g1.dateofbirth,'dd/mm/yyyy')   GDATEOFBIRTH,g1.cuntry||' '||g1.city GPLACE,nvl(g1.PINCODE,' ') GPINCODE,    --zamin 1\n   g2.guarantorid AS GID2,  --zamin 2\n   g2.guarantorname AS GNAME2, g2.cuntrycode GCUNTRYCODE2,to_char(g2.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH2,g2.cuntry||' '||g2.city GPLACE2,nvl(g2.PINCODE,' ') GPINCODE2, --zamin 2\n   g3.guarantorid AS GID3,  --zamin id3\n   g3.guarantorname AS GNAME3, g3.cuntrycode GCUNTRYCODE3,to_char(g3.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH3,g3.cuntry||' '||g3.city GPLACE3,nvl(g3.PINCODE,' ') GPINCODE3, --zamin 3,\n    g4.guarantorid AS GID4,  --zamin id4\n   g4.guarantorname AS GNAME4, g4.cuntrycode GCUNTRYCODE4,to_char(g4.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH4,g4.cuntry||' '||g4.city GPLACE4,nvl(g4.PINCODE,' ') GPINCODE4, --zamin 4\n   cm_deca.get_credittypes(b.id) CREDITTYPE,    --kreditin tipi\n   to_char(cm_deca.get_lastcreditpayment(b.id),'dd/mm/yyyy') LASTPAYDAT,    --sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,    --ayliq odenish\n   cm_deca.get_reserveaccountostat(b.id) PROVISION, --ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n  /* CM_COMMON.AccountNumber_Get(c.LOANACCID)*/b.id AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   decode(TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)),0,1,TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION))) AS PERIODMONT ,\n   to_char(B.DATEOFCONCLUSION,'dd/mm/yyyy') AS DATEGRANT,\n   to_char(nvl(b.duedatelastcontract,b.duedatefirstcontract),'dd/mm/yyyy') AS FIRSTCONTR,\n   to_char( DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT),'dd/mm/yyyy') AS LASTCONTR,\n   CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id) /*d.dueday*/ AS DAYSMAIN ,\n   CM_DECA.DueDaysCount(:RDAT  , B.DUEDATEFIRSTCONTRACT,b.id)/*d.dueday*/ AS DAYSINTRST ,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   CM_DECA.OiaForLastThreeMonths(:RDAT, B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE , \n0 AS PROLONGS ,\n  case when  CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id)<361 then E.CODE else '006' end AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,:RDAT )AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   D.PLEDGEPRICE  AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n  to_char( F.REGISTRYDATE,'dd/mm/yyyy') AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , CM_GUARANTEE F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , CM_HISTORY D\n , OPERKURS O\n , AVALUTE V\n ,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3,CM_GUARANTOR g4\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID(+) = B.ID)\n AND (G.ID(+) = F.PLEDGEID)\n AND (D.HDATE=:RDAT)\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :EDATE and :HDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n AND (O.DAT=:RDAT)\n AND (O.VAL_KOD=B.CURRENCY)\n and b.id=g1.creditid(+) and g1.cardid(+)=1 /*and b.id in(select kreditid from excel_mkrgeden)*/ /*b.id>357*/\n and b.id=g2.creditid(+) and g2.cardid(+)=2 \n and b.id=g3.creditid(+) and g3.cardid(+)=3 \n  and b.id=g4.creditid(+) and g4.cardid(+)=4\n and b.dateofgrant ıs not null\n AND (V.VALUTE=B.CURRENCY) --and b.status=1 and b.mehsulid<>5 and (b.id in(select creditid from cm_tranches)or (b.credittype in(16,17))) and b.credittype<>15\n AND (B.DATEOFCONCLUSION<=:RDAT) --and b.boorowerid not in(50,51,139,101,2841,41200)\n AND (P.ID = B.CUSTOMERTYPE) --and INSTR(b.numberofcredit,'SPC')=0--and cm_deca.get_creditinitialamount(b.id)>0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "HDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "RDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "DecaData_clos",
+   "source": "TDecaDataModule.DecaData_clos",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   nvl(A.BOOROWERID,0) AS ID,\n   DECODE(A.NAME,'&','_',A.NAME)  AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   to_char(cm_deca.get_custdateofbirth(b.boorowerid),'dd/mm/yyyy') AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH , --dogum yeri\n   A.pincode AS PINCODE,            --pin kod\n   g1.guarantorid AS GID,    --zamin id\n   g1.guarantorname AS GNAME,g1.cuntrycode GCUNTRYCODE,to_char(g1.dateofbirth,'dd/mm/yyyy')   GDATEOFBIRTH,g1.cuntry||' '||g1.city GPLACE,nvl(g1.PINCODE,' ') GPINCODE,    --zamin 1\n   g2.guarantorid AS GID2,  --zamin 2\n   g2.guarantorname AS GNAME2, g2.cuntrycode GCUNTRYCODE2,to_char(g2.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH2,g2.cuntry||' '||g2.city GPLACE2,nvl(g2.PINCODE,' ') GPINCODE2, --zamin 2\n   g3.guarantorid AS GID3,  --zamin id3\n   g3.guarantorname AS GNAME3, g3.cuntrycode GCUNTRYCODE3,to_char(g3.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH3,g3.cuntry||' '||g3.city GPLACE3,nvl(g3.PINCODE,' ') GPINCODE3, --zamin 3\n   cm_deca.get_credittypes(b.id) CREDITTYPE,    --kreditin tipi\n   to_char(cm_deca.get_lastcreditpayment(b.id),'dd/mm/yyyy') LASTPAYDAT,    --sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,    --ayliq odenish\n   cm_deca.get_reserveaccountostat(b.id) PROVISION, --ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n  /* CM_COMMON.AccountNumber_Get(c.LOANACCID)*/b.id AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)) AS PERIODMONT ,\n   to_char(/*B.DATEOFCONCLUSION*/B.dateofgrant,'dd/mm/yyyy') AS DATEGRANT,\n   to_char(B.DUEDATEFIRSTCONTRACT,'dd/mm/yyyy') AS FIRSTCONTR,\n   to_char( DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT),'dd/mm/yyyy') AS LASTCONTR,\n  /* CM_DECA.DueDaysCount(:HDATE , B.DUEDATEFIRSTCONTRACT,b.id)*/cm_utils.Get_Gecgun(b.id,:HDATE) AS DAYSMAIN ,\n  /* CM_DECA.DueDaysCount(:HDATE , B.DUEDATEFIRSTCONTRACT,b.id)*/cm_utils.Get_Gecgun(b.id,:HDATE) AS DAYSINTRST ,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   CM_DECA.OiaForLastThreeMonths(:HDATE , B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE , \n0 AS PROLONGS ,\n  case when   cm_utils.Get_Gecgun (B.ID,:HDATE)<361 then E.CODE else '006' end AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,:HDATE) AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   D.PLEDGEPRICE  AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n  to_char( F.REGISTRYDATE,'dd/mm/yyyy') AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , CM_GUARANTEE F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , CM_HISTORY D\n , OPERKURS O\n , AVALUTE V\n ,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID(+) = B.ID)\n AND (G.ID(+) = F.PLEDGEID)\n AND (D.HDATE=:HDATE)\n AND B.CLOSEDATE between :EDATE and :HDATE\n AND (O.DAT=:HDATE)\n AND (O.VAL_KOD=B.CURRENCY)\n and b.id=g1.creditid(+) and g1.cardid(+)=1\n and b.id=g2.creditid(+) and g2.cardid(+)=2\n and b.id=g3.creditid(+) and g3.cardid(+)=3\n AND (V.VALUTE=B.CURRENCY) and b.credittype<>15\n AND (B.DATEOFCONCLUSION<=:HDATE) and b.boorowerid not in(50,51,139,101,2841,41200)\n AND (P.ID = B.CUSTOMERTYPE) --and cm_deca.get_creditinitialamount(b.id)>0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "HDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "DecaData_aq",
+   "source": "TDecaDataModule.DecaData_aq",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   nvl(A.BOOROWERID,0) AS ID,\n   DECODE(A.NAME,'&','_',A.NAME)  AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   to_char(cm_deca.get_custdateofbirth(b.boorowerid),'dd/mm/yyyy') AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH , --dogum yeri\n   A.pincode AS PINCODE,            --pin kod\n   g1.guarantorid AS GID,    --zamin id\n   g1.guarantorname AS GNAME,g1.cuntrycode GCUNTRYCODE,to_char(g1.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH,g1.cuntry||' '||g1.city GPLACE,g1.PINCODE GPINCODE,    --zamin 1\n   g2.guarantorid AS GID2,  --zamin 2\n   g2.guarantorname AS GNAME2, g2.cuntrycode GCUNTRYCODE2,to_char(g2.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH2,g2.cuntry||' '||g2.city GPLACE2,g2.PINCODE GPINCODE2, --zamin 2\n   g3.guarantorid AS GID3,  --zamin id3\n   g3.guarantorname AS GNAME3, g3.cuntrycode GCUNTRYCODE3,to_char(g3.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH3,g3.cuntry||' '||g3.city GPLACE3,g3.PINCODE GPINCODE3, --zamin 3\n   cm_deca.get_credittypes(b.id) CREDITTYPE,    --kreditin tipi\n   to_char(cm_deca.get_lastcreditpayment(b.id),'dd/mm/yyyy') LASTPAYDAT,    --sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,    --ayliq odenish\n   cm_deca.get_reserveaccountostat(b.id) PROVISION, --ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n  /* CM_COMMON.AccountNumber_Get(c.LOANACCID)*/b.id AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)) AS PERIODMONT ,\n   to_char(B.DATEOFCONCLUSION,'dd/mm/yyyy') AS DATEGRANT,\n   to_char(B.DUEDATEFIRSTCONTRACT,'dd/mm/yyyy') AS FIRSTCONTR,\n   to_char( DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT),'dd/mm/yyyy') AS LASTCONTR,\n  /* CM_DECA.DueDaysCount(:HDATE , B.DUEDATEFIRSTCONTRACT,b.id)*/cm_utils.Get_Gecgun(b.id,:HDATE) AS DAYSMAIN ,\n  /* CM_DECA.DueDaysCount(:HDATE , B.DUEDATEFIRSTCONTRACT,b.id)*/cm_utils.Get_Gecgun(b.id,:HDATE) AS DAYSINTRST ,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   CM_DECA.OiaForLastThreeMonths(:HDATE , B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE , \n0 AS PROLONGS ,\n  case when   cm_utils.Get_Gecgun (B.ID,:HDATE)<361 then E.CODE else '006' end AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,:HDATE) AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   substr(F.ANYINFOTODISTING,0,200) AS INFDISTING,\n   D.PLEDGEPRICE  AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n  to_char( F.REGISTRYDATE,'dd/mm/yyyy') AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , CM_GUARANTEE F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , smart.cm_history D\n , OPERKURS O\n , AVALUTE V\n ,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID(+) = B.ID)\n AND (G.ID(+) = F.PLEDGEID)\n AND (D.HDATE=:HDATE)\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :EDATE and :HDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n AND (O.DAT=:HDATE)\n AND (O.VAL_KOD=B.CURRENCY)\n and b.id=g1.creditid(+) and g1.cardid(+)=1\n and b.id=g2.creditid(+) and g2.cardid(+)=2\n and b.id=g3.creditid(+) and g3.cardid(+)=3\n AND (V.VALUTE=B.CURRENCY) and b.usrgroup<>2\n AND (B.DATEOFCONCLUSION<=:HDATE)\n AND (P.ID = B.CUSTOMERTYPE) and dateofgrant is not null\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "HDATE",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TDecaDataModule.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   nvl(A.BOOROWERID,0) AS ID,\n   DECODE(A.NAME,'&','_',A.NAME)  AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   to_char(cr_deca.get_custdateofbirth(b.boorowerid),'dd/mm/yyyy') AS DATOFBIRTH, --dogum tarixi\n   cr_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH , --dogum yeri\n   A.pincode AS PINCODE,            --pin kod\n   g1.guarantorid AS GID,    --zamin id\n   g1.guarantorname AS GNAME,g1.cuntrycode GCUNTRYCODE,to_char(g1.dateofbirth,'dd/mm/yyyy')   GDATEOFBIRTH,g1.cuntry||' '||g1.city GPLACE,nvl(g1.PINCODE,' ') GPINCODE,    --zamin 1\n   g2.guarantorid AS GID2,  --zamin 2\n   g2.guarantorname AS GNAME2, g2.cuntrycode GCUNTRYCODE2,to_char(g2.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH2,g2.cuntry||' '||g2.city GPLACE2,nvl(g2.PINCODE,' ') GPINCODE2, --zamin 2\n   g3.guarantorid AS GID3,  --zamin id3\n   g3.guarantorname AS GNAME3, g3.cuntrycode GCUNTRYCODE3,to_char(g3.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH3,g3.cuntry||' '||g3.city GPLACE3,nvl(g3.PINCODE,' ') GPINCODE3, --zamin 3\n   cr_deca.get_credittypes(b.id) CREDITTYPE,    --kreditin tipi\n   to_char(cr_deca.get_lastcreditpayment(b.id),'dd/mm/yyyy') LASTPAYDAT,    --sonuncu odenish tarixi\n   cr_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,    --ayliq odenish\n   cr_deca.get_reserveaccountostat(b.id) PROVISION, --ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n  /* cm_COMMON.AccountNumber_Get(c.LOANACCID)*/b.id AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cr_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cr_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   decode(TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)),0,1,TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION))) AS PERIODMONT ,\n   to_char(B.DATEOFCONCLUSION,'dd/mm/yyyy') AS DATEGRANT,\n   to_char(nvl(b.duedatelastcontract,b.duedatefirstcontract),'dd/mm/yyyy') AS FIRSTCONTR,\n   to_char( DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT),'dd/mm/yyyy') AS LASTCONTR,\n   cr_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id) /*d.dueday*/ AS DAYSMAIN,\n   cr_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id)/*d.dueday*/ AS DAYSINTRST,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   cr_DECA.OiaForLastThreeMonths(:RDAT, B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE ,\n0 AS PROLONGS ,\n  case when  cr_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id)<361 then E.CODE else '006' end AS CLASSCODE,\n   cr_DECA.Get_CreditStatus(B.ID,:RDAT )AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   D.PLEDGEPRICE  AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n  to_char( F.REGISTRYDATE,'dd/mm/yyyy') AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   cr_BOOROWERINFO A\n , cr_ACCOUNTS C\n , cr_RESERVE_TYPES E\n , cr_GUARANTEE F\n , cr_PORTFOLIO B\n , cr_PLEDGES G\n , cr_HISTORY D\n , OPERKURS O\n , AVALUTE V\n ,cr_GUARANTOR g1,cr_GUARANTOR g2,cr_GUARANTOR g3\n , cr_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID(+) = B.ID)\n AND (G.ID(+) = F.PLEDGEID)\n AND (D.HDATE=:RDAT)\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :EDATE and :HDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n AND (O.DAT=:RDAT)\n AND (O.VAL_KOD=B.CURRENCY)\n and b.id=g1.creditid(+) and g1.cardid(+)=1\n and b.id=g2.creditid(+) and g2.cardid(+)=2\n and b.id=g3.creditid(+) and g3.cardid(+)=3\n AND (V.VALUTE=B.CURRENCY) \n AND (B.DATEOFCONCLUSION<=:RDAT) \n AND (P.ID = B.CUSTOMERTYPE) \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "RDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "HDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet5old",
+   "source": "TDecaDataModule.OracleDataSet5old",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   nvl(A.BOOROWERID,0) AS ID,\n   DECODE(A.NAME,'&','_',A.NAME)  AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   to_char(cm_deca.get_custdateofbirth(b.boorowerid),'dd/mm/yyyy') AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH , --dogum yeri\n   A.pincode AS PINCODE,            --pin kod\n   g1.guarantorid AS GID,    --zamin id\n   g1.guarantorname AS GNAME,g1.cuntrycode GCUNTRYCODE,to_char(g1.dateofbirth,'dd/mm/yyyy')   GDATEOFBIRTH,g1.cuntry||' '||g1.city GPLACE,nvl(g1.PINCODE,' ') GPINCODE,    --zamin 1\n   g2.guarantorid AS GID2,  --zamin 2\n   g2.guarantorname AS GNAME2, g2.cuntrycode GCUNTRYCODE2,to_char(g2.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH2,g2.cuntry||' '||g2.city GPLACE2,nvl(g2.PINCODE,' ') GPINCODE2, --zamin 2\n   g3.guarantorid AS GID3,  --zamin id3\n   g3.guarantorname AS GNAME3, g3.cuntrycode GCUNTRYCODE3,to_char(g3.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH3,g3.cuntry||' '||g3.city GPLACE3,nvl(g3.PINCODE,' ') GPINCODE3, --zamin 3,\n    g4.guarantorid AS GID4,  --zamin id4\n   g4.guarantorname AS GNAME4, g4.cuntrycode GCUNTRYCODE4,to_char(g4.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH4,g4.cuntry||' '||g4.city GPLACE4,nvl(g4.PINCODE,' ') GPINCODE4, --zamin 4\n   cm_deca.get_credittypes(b.id) CREDITTYPE,    --kreditin tipi\n   to_char(cm_deca.get_lastcreditpayment(b.id),'dd/mm/yyyy') LASTPAYDAT,    --sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,    --ayliq odenish\n   cm_deca.get_reserveaccountostat(b.id) PROVISION, --ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n   B.ID AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   decode(TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)),0,1,TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION))) AS PERIODMONT ,\n   to_char(B.dateofgrant/*B.DATEOFCONCLUSION*/,'dd/mm/yyyy') AS DATEGRANT,\n   to_char(nvl(b.duedatelastcontract,b.duedatefirstcontract),'dd/mm/yyyy') AS FIRSTCONTR,\n   to_char( DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT),'dd/mm/yyyy') AS LASTCONTR,\n   CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id) /*d.dueday*/ AS DAYSMAIN ,\n   cm_utils.Get_GecgunFaiz(b.id,:RDAT)/*d.dueday*/ AS DAYSINTRST,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   CM_DECA.OiaForLastThreeMonths(:RDAT, B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE , \n0 AS PROLONGS ,\n  case when  CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id)<361 then E.CODE else '006' end AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,:RDAT )AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   F.PLEDGEPRICE  AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n  to_char( F.REGISTRYDATE,'dd/mm/yyyy') AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , /*CM_GUARANTEE*/ cm_grov_list F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , CM_HISTORY D\n , OPERKURS O\n , AVALUTE V\n ,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3,CM_GUARANTOR g4\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID(+) = B.ID)\n AND (G.ID(+) = F.PLEDGEID)\n AND (D.HDATE=:RDAT)\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :EDATE and :HDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n AND (O.DAT=:RDAT)\n AND (O.VAL_KOD=B.CURRENCY)\n and b.id=g1.creditid(+) and g1.cardid(+)=1\n and b.id=g2.creditid(+) and g2.cardid(+)=2   --and b.id>357\n and b.id=g3.creditid(+) and g3.cardid(+)=3 --and b.dateofgrant ıs not null \n and b.id=g4.creditid(+) and g4.cardid(+)=4\n AND (V.VALUTE=B.CURRENCY) --and b.status=1 --and b.mehsulid<>5 and (b.id in(select creditid from cm_tranches)or (b.credittype in(16,17))) and b.credittype<>15\n AND (/*B.DATEOFCONCLUSION*/B.dateofgrant<=:RDAT) --and b.boorowerid not in(50,51,139,101,2841,41200)\n AND (P.ID = B.CUSTOMERTYPE) --and INSTR(b.numberofcredit,'SPC')=0--and cm_deca.get_creditinitialamount(b.id)>0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "RDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "HDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "OracleQuery1",
+   "source": "TDecaDataModule.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "declare\n\ncursor c_p is select * from cm_portfolio;\nbegin\n for c in c_p loop\n  update cm_guarantor set cardid=rownum where creditid=c.id;\n \n end loop;\n\nend ;",
+   "variables": [],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TDecaDataModule.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   nvl(A.BOOROWERID,0) AS ID,\n   DECODE(A.NAME,'&','_',A.NAME)  AS NAME,\n   A.COUNTRYCODE AS COUNTRCODE,\n   A.BANKRUPTEYSTATUS AS BNKSTATUS,\n   to_char(cm_deca.get_custdateofbirth(b.boorowerid),'dd/mm/yyyy') AS DATOFBIRTH, --dogum tarixi\n   cm_deca.get_custplaceofbirth(b.boorowerid) AS PLACEBIRTH , --dogum yeri\n   A.pincode AS PINCODE,            --pin kod\n   g1.guarantorid AS GID,    --zamin id\n   g1.guarantorname AS GNAME,g1.cuntrycode GCUNTRYCODE,to_char(g1.dateofbirth,'dd/mm/yyyy')   GDATEOFBIRTH,g1.cuntry||' '||g1.city GPLACE,nvl(g1.PINCODE,' ') GPINCODE,    --zamin 1\n   g2.guarantorid AS GID2,  --zamin 2\n   g2.guarantorname AS GNAME2, g2.cuntrycode GCUNTRYCODE2,to_char(g2.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH2,g2.cuntry||' '||g2.city GPLACE2,nvl(g2.PINCODE,' ') GPINCODE2, --zamin 2\n   g3.guarantorid AS GID3,  --zamin id3\n   g3.guarantorname AS GNAME3, g3.cuntrycode GCUNTRYCODE3,to_char(g3.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH3,g3.cuntry||' '||g3.city GPLACE3,nvl(g3.PINCODE,' ') GPINCODE3, --zamin 3,\n    g4.guarantorid AS GID4,  --zamin id4\n   g4.guarantorname AS GNAME4, g4.cuntrycode GCUNTRYCODE4,to_char(g4.dateofbirth,'dd/mm/yyyy') GDATEOFBIRTH4,g4.cuntry||' '||g4.city GPLACE4,nvl(g4.PINCODE,' ') GPINCODE4, --zamin 4\n   cm_deca.get_credittypes(b.id) CREDITTYPE,    --kreditin tipi\n   to_char(cm_deca.get_lastcreditpayment(b.id),'dd/mm/yyyy') LASTPAYDAT,    --sonuncu odenish tarixi\n   cm_deca.get_creditpaymentamount(b.id) MPAYAMOUNT,    --ayliq odenish\n   cm_deca.get_reserveaccountostat(b.id) PROVISION, --ehtiyyat miqdari\n   A.FIRSTOWNERID AS ID2,\n   A.FIRSTOWNERNAME AS NAME2,\n   A.SECONDOWNERID AS ID3,\n   A.SECONDOWNERNAME AS NAME3,\n   A.THIRDOWNERID AS ID4,\n   A.THIRDOWNERNAME AS NAME4,\n   B.ID as InternalID, -- INTERNAL FIELD\n   B.ID AS ACCOUNTNO ,\n   V.VAL_NAME AS CURRENCY,\n   cm_deca.get_creditinitialamount(b.id) AS INITIALSUM,\n   cm_deca.get_creditlineamount(b.id) AS CRDLINESUM,\n   D.REST + D.DUEREST AS DISOUSUM ,\n   B.ANNUALYINTERESTRATE AS RATE,\n   P.CODE AS PURPOSE,\n   decode(TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION)),0,1,TRUNC(MONTHS_BETWEEN(B.DUEDATEFIRSTCONTRACT,B.DATEOFCONCLUSION))) AS PERIODMONT ,\n   to_char(B.dateofgrant/*B.DATEOFCONCLUSION*/,'dd/mm/yyyy') AS DATEGRANT,\n   to_char(nvl(b.duedatelastcontract,b.duedatefirstcontract),'dd/mm/yyyy') AS FIRSTCONTR,\n   to_char( DECODE(B.DUEDATELASTCONTRACT,null,B.DUEDATEFIRSTCONTRACT,B.DUEDATELASTCONTRACT),'dd/mm/yyyy') AS LASTCONTR,\n   CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id) /*d.dueday*/ AS DAYSMAIN ,\n   cm_utils.Get_GecgunFaiz(b.id,:RDAT)/*d.dueday*/ AS DAYSINTRST,\n   D.DUEINTERESTREST+D.interestrest AS OIAPERIOD ,\n   CM_DECA.OiaForLastThreeMonths(:RDAT, B.DUEDATEFIRSTCONTRACT,D.DUEINTERESTREST) AS OIATHREE , \n0 AS PROLONGS ,\n  case when  CM_DECA.DueDaysCount(:RDAT , B.DUEDATEFIRSTCONTRACT,b.id)<361 then E.CODE else '006' end AS CLASSCODE,\n   CM_DECA.Get_CreditStatus(B.ID,:RDAT )AS STATUSCODE ,\n   DECODE(G.TYPECODE,'000',null,G.TYPECODE) AS COLLCODE,\n   F.ANYINFOTODISTING AS INFDISTING,\n   F.PLEDGEPRICE  AS MARKETSUM ,\n   F.REGISTRYNO AS REGNO,\n  to_char( F.REGISTRYDATE,'dd/mm/yyyy') AS REGDATE,\n   F.REGISTRYAGENCY AS REGAGENCY\nFROM\n   CM_BOOROWERINFO A\n , CM_ACCOUNTS C\n , CM_RESERVE_TYPES E\n , /*CM_GUARANTEE*/ cm_grov_list F\n , CM_PORTFOLIO B\n , CM_PLEDGES G\n , CM_HISTORY D\n , OPERKURS O\n , AVALUTE V\n ,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3,CM_GUARANTOR g4\n , CM_CATEGORIES P\nWHERE\n     (A.CREDITID = B.ID)\n AND (C.CREDITID = B.ID)\n AND (D.CREDITID = B.ID)\n AND (E.ID = D.RESERVEID)\n AND (F.CREDITID(+) = B.ID)\n AND (G.ID(+) = F.PLEDGEID)\n AND (D.HDATE=:RDAT)\n AND ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :EDATE and :HDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n AND (O.DAT=:RDAT)\n AND (O.VAL_KOD=B.CURRENCY)\n and b.id=g1.creditid(+) and g1.cardid(+)=1\n and b.id=g2.creditid(+) and g2.cardid(+)=2   --and b.id>357\n and b.id=g3.creditid(+) and g3.cardid(+)=3 --and b.dateofgrant ıs not null \n and b.id=g4.creditid(+) and g4.cardid(+)=4\n AND (V.VALUTE=B.CURRENCY) --and b.status=1 --and b.mehsulid<>5 and (b.id in(select creditid from cm_tranches)or (b.credittype in(16,17))) and b.credittype<>15\n AND (/*B.DATEOFCONCLUSION*/B.dateofgrant<=:RDAT) --and b.boorowerid not in(50,51,139,101,2841,41200)\n AND (P.ID = B.CUSTOMERTYPE) --and INSTR(b.numberofcredit,'SPC')=0--and cm_deca.get_creditinitialamount(b.id)>0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "RDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "HDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TDecaDataModule.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "/* Formatted on 25.12.2023 12:43:05 (QP5 v5.336) */\nSELECT    replace(XMLELEMENT (\n                   \"Credit\",\n                   XMLELEMENT (\n                       \"Borrower\",\n                       XMLFOREST (\n                           b.boorowerid AS \"id\",\n                           DECODE (b.name, '&', '_', b.name) AS \"name\",\n                           b.countrycode AS \"CountryCode\",\n                           b.bankrupteystatus AS \"BankruptcyStatus\",\n                           TO_CHAR (\n                               cm_deca.get_custdateofbirth (p.boorowerid),\n                               'dd/mm/yyyy') AS \"DateOfBirth\",  --dogum tarixi\n                           cm_deca.get_custplaceofbirth (p.boorowerid)\n                               AS \"PlaceOfBirth\",                 --dogum yeri\n                           b.pincode AS \"PinCode\"),\n                       (SELECT XMLELEMENT (\n                                   \"Guarantees\",\n                                   XMLAGG (\n                                       XMLELEMENT (\n                                           \"Guarantee\",\n                                           XMLFOREST (\n                                               e.guarantorid AS \"id\",\n                                               e.guarantorname AS \"name\",\n                                               e.cuntrycode \"CountryCode\",\n                                               TO_CHAR (e.dateofbirth,\n                                                        'dd/mm/yyyy')\n                                                   \"DateOfBirth\",\n                                               e.cuntry || ' ' || e.city\n                                                   \"PlaceOfBirth\",\n                                               NVL (e.pincode, ' ') \"PinCode\")))) AS zamin\n                        FROM cm_guarantor e\n                        WHERE e.creditid = p.id)),\n                   XMLFOREST (\n                       /* case when p.dateofconclusion<'03-mar-2023' then p.numberofcredit else  to_char(p.id) end AS*/to_char(p.id) \"AccountNo\",\n                       v.val_name AS \"CurrencyOfCredit\",\n                       cm_deca.get_credittypes (p.id) AS \"CreditType\",\n                       cm_deca.get_creditinitialamount (p.id)\n                           AS \"InitialAmountOfCredit\",\n                       cm_deca.get_creditlineamount (p.id)\n                           AS \"CreditLineAmount\",\n                       d.rest + d.duerest AS \"DisoutAmountOfCredit\",\n                       p.annualyinterestrate AS \"AnnualInterestRate\",\n                       c.code AS \"PurposeOfCredit\",\n                       DECODE (\n                           CEIL(\n                               MONTHS_BETWEEN (p.duedatefirstcontract,\n                                               p.dateofconclusion)),\n                           0, 1,\n                           CEIL(\n                               MONTHS_BETWEEN (p.duedatefirstcontract,\n                                               p.dateofconclusion)))\n                           AS \"CreditPeriodInMonths\",\n                       TO_CHAR (p.dateofgrant, 'dd/mm/yyyy') AS \"DateOfGrant\",\n                       TO_CHAR (\n                           NVL (p.duedatelastcontract,\n                                p.duedatefirstcontract),\n                           'dd/mm/yyyy') AS \"DueTimeFirstContract\",\n                       TO_CHAR (\n                           DECODE (p.duedatelastcontract,\n                                   NULL, p.duedatefirstcontract,\n                                   p.duedatelastcontract),\n                           'dd/mm/yyyy') AS \"DueTimeLastContract\",\n                      nvl( TO_CHAR (cm_deca.get_lastcreditpayment (p.id),\n                                'dd/mm/yyyy'),'@') AS \"LastPaymentDate\",\n                       cm_deca.get_creditpaymentamount (p.id)\n                           AS \"MonthlyPaymentAmount\",\n                       cm_deca.duedayscount (d.hdate,\n                                             p.duedatefirstcontract,\n                                             p.id) AS \"DaysMainSumIsOverdue\",\n                       cm_utils.get_gecgunfaiz (p.id, d.hdate)\n                           AS \"DaysInterestIsOverdue\",\n                       d.dueinterestrest + d.interestrest\n                           AS \"OiaForRepperiod\",\n                       0 AS \"NumberOfProlongs\",\n                       CASE\n                           WHEN cm_deca.duedayscount (d.hdate,\n                                                      p.duedatefirstcontract,\n                                                      p.id) <\n                                361\n                           THEN\n                               e.code\n                           ELSE\n                               '006'\n                       END AS \"CreditClassCode\",\n                       cm_deca.get_creditstatus (p.id, d.hdate)\n                           AS \"CreditStatusCode\"),\n                   (SELECT XMLELEMENT (\n                               \"Collateral\",\n                                XMLELEMENT(\"CollateralTypeCode\",gr.typecode),\n                                XMLELEMENT(\"AnyInfoToDisting\",gr.anyinfotodisting),\n                                XMLELEMENT(\"MarketValue\",gr.pledgeprice),\n                                XMLELEMENT(\"RegistryNo\",gr.registryno),\n                                XMLELEMENT(\"RegistryDate\",gr.registrydate),\n                                XMLELEMENT(\"RegistryAgency\",gr.registryagency))\n                    FROM (SELECT '004' AS typecode,\n                                 '' AS anyinfotodisting,\n                                 '' AS registryno,\n                                 0   AS pledgeprice,\n                                 '' AS registrydate,\n                                 '' AS pledgeid,\n                                 '' AS registryagency\n                          FROM cm_guarantor z\n                          WHERE     z.creditid = p.id                                \n                                AND z.creditid NOT IN\n                                        (SELECT x.creditid\n                                         FROM cm_guarantee_credit x\n                                         WHERE x.creditid = z.creditid)\n                                         AND ROWNUM = 1\n                                         \n                          UNION ALL\n                          SELECT typecode,\n                                 anyinfotodisting,\n                                 registryno,\n                                 pledgeprice,\n                                 TO_CHAR (f.registrydate, 'dd/mm/yyyy')\n                                     registrydate,\n                                 TO_CHAR (pledgeid)\n                                     pledgeid,\n                                 registryagency\n                          FROM cm_guarantee f, cm_pledges g\n                          WHERE f.creditid = p.id AND g.id(+) = f.pledgeid)\n                         gr) AS grov).getClobVal() ,'@','') AS credit\nFROM cm_portfolio p,\n     cm_boorowerinfo b,\n     avalute v,\n     cm_history d,\n     cm_categories c,\n     cm_reserve_types e\nWHERE     p.id = b.creditid\n      AND p.currency = v.valute\n      AND p.id = d.creditid\n  AND (D.HDATE=:RDAT)\n AND ((p.CLOSEDATE IS NULL) or (p.CLOSEDATE between :EDATE and :HDATE) )\n      AND c.id = p.customertype\n      AND (e.id = d.reserveid)\nand p.dateofgrant<=:RDAT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n     \n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "RDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "HDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  },
+  {
+   "name": "Portfolio",
+   "source": "TDecaDataModule.Portfolio",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_portfolio b,cm_history h where b.id=h.creditid and h.hdate=:vhdate\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "VHDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "DecaDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "PG_PCustService",
+   "package": "PG_PCustService",
+   "mode": "positional",
+   "source": "TDecaDataModule.PG_PCustService",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

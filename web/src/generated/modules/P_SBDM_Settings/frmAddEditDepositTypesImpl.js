@@ -37,7 +37,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "frmDepositTypes"));
+    const $t1 = (await $.wobj(C, "frmDepositTypes"));
     await $.wset([$t1], "FAdditionalType", (await $.mv((await $.mcall((await $.wv([$t1], "AddTypesForColl", C, false)), "FieldByName", ["addtypename"])), "AsString")), C);
     await $.wset([$t1], "FWithdrawtype", (await $.mv((await $.mcall((await $.wv([$t1], "AddTypesForWith", C, false)), "FieldByName", ["withdrtype"])), "AsString")), C);
     await $.mcall((await $.wv([$t1], "DepositTypes", C, false)), "Post", []);
@@ -50,7 +50,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "frmDepositTypes"));
+    const $t2 = (await $.wobj(C, "frmDepositTypes"));
     const $t3 = (await $.wv([$t2], "DepositTypes", C, false));
     await $.stmt($.wcall([$t2, $t3], "Cancel", [], C));
   }

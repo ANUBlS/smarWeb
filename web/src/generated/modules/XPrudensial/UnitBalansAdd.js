@@ -38,7 +38,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ODSBKT"));
+    const $t1 = (await $.wobj(C, "ODSBKT"));
     await $.stmt($.wcall([$t1], "Close", [], C));
     await $.mcall((await $.wv([$t1], "Sql", C, false)), "Clear", []);
     if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t1], "BKTName", C, false)), "FieldByName", ["name"])), "AsString")), "BKT1"))) {

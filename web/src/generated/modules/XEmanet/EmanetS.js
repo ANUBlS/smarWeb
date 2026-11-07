@@ -564,7 +564,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t9 = (await $.v(C, "OracleDataSet1"));
+    const $t9 = (await $.wobj(C, "OracleDataSet1"));
     const $t10 = (await $.wv([$t9], "OracleDataSet1ID", C, false));
     if ($.truthy((await $.and_((await $.wv([$t9, $t10], "Active", C, false)), async () => ($.gt((await $.wv([$t9, $t10], "AsInteger", C, false)), 0)))))) {
       await $.stmt((await $.mcall((await $.wv([$t9, $t10], "OraclePackage1", C, false)), "CallProcedure", ["Delete_Balans", [(await $.mv((await $.wv([$t9, $t10], "OracleDataSet1ID", C, false)), "AsInteger"))]])));

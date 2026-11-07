@@ -89,7 +89,8 @@ export async function callValue(f: unknown, args: unknown[]): Promise<unknown> {
   if (args.length === 0) return f;
   // Variant arrays / indexed default property used with () syntax
   if (isPObj(f) && typeof (f as any).pindex === 'function') return (f as any).pindex(args);
-  throw new PasException('EInvalidOp', `Value is not callable`, ['exception']);
+  const what = f === null || f === undefined ? String(f) : (f as any).ClassName ?? (f as any).constructor?.name ?? typeof f;
+  throw new PasException('EInvalidOp', `Value is not callable (${what}${typeof f === 'object' && f ? ', ' + Object.keys(f).slice(0, 4).join(',') : ''})`, ['exception']);
 }
 
 const STATICS = new Map<string, unknown>();
@@ -114,7 +115,7 @@ async function resolve(C: Chain, lname: string): Promise<Found> {
     const r = s instanceof UnitObj ? await s.pget(lname) : await getMember(s, lname);
     if (r !== NOTFOUND) return r;
   }
-  return await envOf(C).lookup(lname);
+  return await envOf(C).lookupFrom(C[C.length - 1] as UnitObj, lname);
 }
 
 function unknownIdent(name: string): never {
@@ -213,7 +214,7 @@ export function makeDollar(env: Env) {
         if (s == null) continue;
         if (await setMember(s, l, v)) return;
       }
-      if (envOf(C).assign(l, v)) return;
+      if (envOf(C).assignFrom(C[C.length - 1] as UnitObj, l, v)) return;
       logger.debug(`Assignment to unknown identifier '${name}' ignored`);
     },
 
@@ -270,12 +271,28 @@ export function makeDollar(env: Env) {
       return undefined;
     },
 
+    /** `with GlobalVar do` where the variable is nil: a marker carrying its declared class, so members of that class
+     *  raise an access violation as in Delphi instead of falling through to Self or outer scopes. */
+    async wobj(C: Chain, name: string) {
+      const v = await $.v(C, name);
+      if (v != null) return v;
+      // only unit variables: a field / component of Self (or of an outer object) keeps the previous behaviour
+      const l = name.toLowerCase();
+      for (let i = 0; i < C.length - 1; i++) {
+        const s = C[i];
+        if (s != null && !(s instanceof UnitObj) && (await hasMember(s, l))) return v;
+      }
+      const type = envOf(C).declaredType(C[C.length - 1] as UnitObj, name.toLowerCase());
+      return type ? { __nilOf: type, __env: envOf(C) } : v;
+    },
+
     /* with-blocks: W = with objects (outer→inner), fb = local accessor or scope chain */
     async wv(W: unknown[], name: string, fb: Accessor | Chain, nocall: boolean) {
       const l = name.toLowerCase();
       for (let i = W.length - 1; i >= 0; i--) {
         const o = W[i];
         if (o == null) continue;
+        if (nilWith(o, l)) throw accessViolation(name);
         const r = await getMember(o, l);
         if (r !== NOTFOUND) return nocall ? r : autoCall(r);
       }
@@ -289,6 +306,7 @@ export function makeDollar(env: Env) {
       for (let i = W.length - 1; i >= 0; i--) {
         const o = W[i];
         if (o == null) continue;
+        if (nilWith(o, l)) throw accessViolation(name);
         if (await hasMember(o, l)) { if (await setMember(o, l, v)) return; }
       }
       if (Array.isArray(fb)) return $.set(fb, name, v);
@@ -300,6 +318,7 @@ export function makeDollar(env: Env) {
       for (let i = W.length - 1; i >= 0; i--) {
         const o = W[i];
         if (o == null) continue;
+        if (nilWith(o, l)) throw accessViolation(name);
         const r = await getMember(o, l);
         if (r !== NOTFOUND) return callValue(r, args);
       }
@@ -509,6 +528,31 @@ function findBuiltinMethod(obj: object, lname: string): ((...a: any[]) => any) |
     }
   }
   return undefined;
+}
+
+/** Members of a class (user class chain, then the built-in VCL ancestor's properties and methods). */
+const builtinMembers = new Map<string, Set<string>>();
+function classHasMember(env: Env, type: string, l: string): boolean {
+  const def = env.findClass(type);
+  let root = type;
+  if (def) {
+    for (const c of def.chain()) if (c.fields.has(l) || c.props.has(l) || c.methods.has(l)) return true;
+    root = def.rootBuiltin;
+  }
+  let names = builtinMembers.get(root.toLowerCase());
+  if (!names) {
+    names = new Set<string>();
+    const ctor = getBuiltin(root) as any;
+    for (let p = ctor?.prototype; p && p !== Object.prototype; p = Object.getPrototypeOf(p)) {
+      for (const k of Object.getOwnPropertyNames(p)) names.add(k.toLowerCase());
+    }
+    builtinMembers.set(root.toLowerCase(), names);
+  }
+  return names.has(l);
+}
+function nilWith(o: unknown, l: string): boolean {
+  const m = o as { __nilOf?: string; __env?: Env };
+  return typeof m.__nilOf === 'string' && !!m.__env && classHasMember(m.__env, m.__nilOf, l);
 }
 
 async function hasMember(o: unknown, l: string) {

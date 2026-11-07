@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["s"]);
   L0["contractid"] = (await $.v(C, "Get_SelectedContID"));
   {
-    const $t1 = (await $.v(C, "NewFrmUntimelyEtMoney"));
+    const $t1 = (await $.wobj(C, "NewFrmUntimelyEtMoney"));
     {
       const $t2 = (await $.wv([$t1], "DepositInfo", C, false));
       if ($.truthy((await $.wv([$t1, $t2], "Active", C, false)))) {
@@ -67,7 +67,7 @@ export default function define($) {
   L0["calcpercentdate"] = (await $.call(C, "integer", [(await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPOperation")), "DateTime"))]))]));
   L0["calcbefopercent"] = (await $.mv((await $.v(C, "DBNumberEditEh1")), "Value"));
   {
-    const $t3 = (await $.v(C, "dm_payment"));
+    const $t3 = (await $.wobj(C, "dm_payment"));
     await $.stmt((await $.wcall([$t3], "CallProcedure", ["UntimeWithDrawMoney", ["ContractID", (await $.wv([$t3], "Get_SelectedContID", C, false)), "p_CalcPercentDate", (await $.wv([$t3], "CalcPercentDate", { get: async () => L0["calcpercentdate"], set: async (v) => { L0["calcpercentdate"] = v; }, local: true }, false)), "p_CalcBefoPercent", (await $.wv([$t3], "CalcBefoPercent", { get: async () => L0["calcbefopercent"], set: async (v) => { L0["calcbefopercent"] = v; }, local: true }, false))]], C)));
   }
   try {

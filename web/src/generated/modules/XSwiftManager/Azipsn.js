@@ -42,7 +42,7 @@ export default function define($) {
   L0["ids"] = "";
   L0["trcount"] = 0;
   {
-    const $t4 = (await $.v(C, "dbgrid1"));
+    const $t4 = (await $.wobj(C, "dbgrid1"));
     const $t5 = (await $.wv([$t4], "SelectedRows", C, false));
     const $t6 = (await $.mv((await $.wv([$t4, $t5], "DataSource", C, false)), "DataSet"));
     if ($.truthy($.eq((await $.wv([$t4, $t5, $t6], "Count", C, false)), 0))) {

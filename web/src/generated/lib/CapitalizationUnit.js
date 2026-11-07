@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["contractid", "hdate", "total", "usetransaction"]);
   L0["result"] = true;
   {
-    const $t1 = (await $.v(C, "CapitalizationPackage"));
+    const $t1 = (await $.wobj(C, "CapitalizationPackage"));
     try {
       await $.stmt((await $.wcall([$t1], "CallProcedure", ["Capitalization", [(await $.wv([$t1], "ContractID", { get: async () => L0["contractid"], set: async (v) => { L0["contractid"] = v; }, local: true }, false)), (await $.wv([$t1], "HDate", { get: async () => L0["hdate"], set: async (v) => { L0["hdate"] = v; }, local: true }, false)), (await $.wv([$t1], "Total", { get: async () => L0["total"], set: async (v) => { L0["total"] = v; }, local: true }, false)), (await $.wv([$t1], "UseTransaction", { get: async () => L0["usetransaction"], set: async (v) => { L0["usetransaction"] = v; }, local: true }, false))]], C)));
     } catch ($t2) {

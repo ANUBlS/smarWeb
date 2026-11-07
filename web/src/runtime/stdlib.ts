@@ -167,6 +167,25 @@ Object.entries({ CSIDL_DESKTOP: 0, CSIDL_PROGRAMS: 2, CSIDL_PERSONAL: 5, CSIDL_M
 fn('SHGetSpecialFolderPath', async (_h, r: Ref) => { if (r && typeof (r as any).set === 'function') await r.set('C:\\Users\\Public\\Desktop'); return true; });
 fn('SHGetFolderPath', () => 0);
 def('WM_CLOSE', 16);
+// SynPdf TPdfPaperSize (TPdfDocumentGDI.DefaultPaperSize)
+['psA4', 'psA5', 'psA3', 'psLetter', 'psLegal', 'psUserDefined'].forEach((n) => def(n, n));
+/** IOUtils TPath (paths only; files live in the browser's in-memory file store). */
+def('TPath', {
+  Combine: (...parts: unknown[]) => parts.map((p) => str(p)).filter((p) => p !== '')
+    .reduce((a, b) => (a === '' ? b : /[\\/]$/.test(a) ? a + b : a + '\\' + b), ''),
+  GetFileName: (p: unknown) => str(p).split(/[\\/]/).pop() ?? '',
+  GetExtension: (p: unknown) => { const m = /\.[^.\\/]*$/.exec(str(p)); return m ? m[0] : ''; },
+  GetFileNameWithoutExtension: (p: unknown) => (str(p).split(/[\\/]/).pop() ?? '').replace(/\.[^.]*$/, ''),
+  GetDirectoryName: (p: unknown) => str(p).replace(/[\\/][^\\/]*$/, ''),
+  ChangeExtension: (p: unknown, e: unknown) => str(p).replace(/\.[^.\\/]*$/, '') + (str(e).startsWith('.') || !str(e) ? str(e) : '.' + str(e)),
+  GetTempPath: () => 'C:\\Temp\\',
+  GetDocumentsPath: () => 'C:\\Users\\Public\\Documents',
+  GetHomePath: () => 'C:\\Users\\Public',
+  GetTempFileName: () => `C:\\Temp\\tmp${Date.now()}.tmp`,
+});
+// combo box messages (Perform / SendMessage): the web combo sizes its own drop-down list, so they answer 0
+Object.entries({ CB_GETDROPPEDWIDTH: 0x15f, CB_SETDROPPEDWIDTH: 0x160, CB_SHOWDROPDOWN: 0x14f, CB_GETDROPPEDSTATE: 0x157,
+  CB_SETITEMHEIGHT: 0x153, CB_SETHORIZONTALEXTENT: 0x15e, CB_LIMITTEXT: 0x141 }).forEach(([k, v]) => def(k, v));
 def('LOCALE_SYSTEM_DEFAULT', 2048);
 def('LOCALE_USER_DEFAULT', 1024);
 def('HInstance', 0);
@@ -745,6 +764,16 @@ fn('GetEnvironmentVariable', () => '');
 fn('ShellExecute', async (_h, _op, target) => {
   const t = str(target).trim();
   if (/^(https?:|mailto:)/i.test(t)) { window.open(t, '_blank', 'noopener'); return 42; }
+  // a file the program just wrote (PDF.SaveToFile(FileName); ShellExecute(0, 'open', FileName …)): the browser
+  // shows it in a new tab, as Windows opened it in its default viewer (it was also offered as a download)
+  const { readFile } = await import('./files');
+  const saved = t ? readFile(t) : undefined;
+  if (saved) {
+    const url = URL.createObjectURL(saved);
+    window.open(url, '_blank');
+    setTimeout(() => URL.revokeObjectURL(url), 120_000);
+    return 42;
+  }
   if (t) {
     const { toast } = await import('./toast');
     toast(`Bu əməliyyat kompüterdə proqram işə salır (${t.split(/[\\/]/).pop()}) və brauzerdə mümkün deyil.`, 'warn');

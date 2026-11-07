@@ -1,0 +1,123 @@
+{
+ "name": "P_CU_Report",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CU_Report",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "KeyListBox",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditsDS",
+   "source": "TPeriodReportForm.CreditsDS",
+   "kind": "TOracleDataSet",
+   "sql": "select b.ID   from CM_PORTFOLIO b where  ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :HDATE and :EDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n\n\n ",
+   "variables": [
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "HDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "Currencys",
+   "source": "TPeriodReportForm.Currencys",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT valute,  valu_name\n  FROM AVALUTE\nORDER BY VALUTE",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "Branches",
+   "source": "TPeriodReportForm.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "UserGroups",
+   "source": "TPeriodReportForm.UserGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "Persons",
+   "source": "TPeriodReportForm.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "Categories",
+   "source": "TPeriodReportForm.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "ResultDS",
+   "source": "TPeriodReportForm.ResultDS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.numberofcredit, \n      r.*, \n      CM_AK_REPORTS.get_balcn(r.contractno) as balcn,\n       b.name,\n       h.descripion person,\n       g.description project,p.ANNUALYINTERESTRATE,\n       --f.name filial ,\n       get_filialname(p.branchid) filial,\n       V.Val_name,\n       p.DATEOFCONCLUSION,\n       p.DUEDATEFIRSTCONTRACT\n FROM CM_REPORT_SD1 r,\n      cm_boorowerinfo b,\n      cm_portfolio p,\n      cm_persons h,\n      cm_usergroups g,\n  --    sb_filial f,\n      AVALUTE V\n where \n      r.creditid = b.creditid\n   and r.creditid = p.id\n   and  v.Valute = p.Currency\n   and h.id = p.personaltype\n   and g.id = p.usrgroup\n --  and f.id = p.branchid  \n",
+   "variables": [],
+   "unit": "PeriodReport"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_AK_REPORTS",
+   "package": "CM_AK_REPORTS",
+   "mode": "named",
+   "source": "TPeriodReportForm.CM_AK_REPORTS",
+   "routines": [
+    {
+     "name": "insinfod",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

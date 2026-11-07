@@ -15,14 +15,14 @@ export default function define($) {
   const L0 = {"sbdata": $.asRef(p0), "logonoptions": $.copyArg(p1), result: false};
   await $.fixArgs(L0, ["logonoptions"]);
   {
-    const $t1 = (await $.v(C, "SBSession"));
+    const $t1 = (await $.wobj(C, "SBSession"));
     const $t2 = (await $.wv([$t1], "SBData", { get: async () => await L0["sbdata"].get(), set: async (v) => { await L0["sbdata"].set(v); }, local: true }, false));
     await $.wset([$t1, $t2], "LogonUsername", (await $.wv([$t1, $t2], "UserName", C, false)), C);
     await $.wset([$t1, $t2], "LogonPassword", (await $.wv([$t1, $t2], "Password", C, false)), C);
     await $.wset([$t1, $t2], "LogonDatabase", (await $.wv([$t1, $t2], "Database", C, false)), C);
   }
   {
-    const $t3 = (await $.v(C, "SBLogon"));
+    const $t3 = (await $.wobj(C, "SBLogon"));
     if ($.truthy($.in_((await $.wv([$t3], "aflShowDatabase", C, false)), (await $.wv([$t3], "LogonOptions", { get: async () => L0["logonoptions"], set: async (v) => { L0["logonoptions"] = v; }, local: true }, false))))) {
       await $.wset([$t3], "Options", $.add((await $.wv([$t3], "Options", C, false)), [(await $.wv([$t3], "ldDatabase", C, false))]), C);
       if ($.truthy($.in_((await $.wv([$t3], "aflShowDatabaseList", C, false)), (await $.wv([$t3], "LogonOptions", { get: async () => L0["logonoptions"], set: async (v) => { L0["logonoptions"] = v; }, local: true }, false))))) {
@@ -33,7 +33,7 @@ export default function define($) {
   }
   if ($.truthy(L0["result"])) {
     {
-      const $t4 = (await $.v(C, "SBSession"));
+      const $t4 = (await $.wobj(C, "SBSession"));
       const $t5 = (await $.wv([$t4], "SBData", { get: async () => await L0["sbdata"].get(), set: async (v) => { await L0["sbdata"].set(v); }, local: true }, false));
       await $.wset([$t4, $t5], "UserName", (await $.wv([$t4, $t5], "LogonUsername", C, false)), C);
       await $.wset([$t4, $t5], "Password", (await $.wv([$t4, $t5], "LogonPassword", C, false)), C);
@@ -66,7 +66,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t8 = (await $.v(C, "SBSession"));
+    const $t8 = (await $.wobj(C, "SBSession"));
     await $.stmt($.wcall([$t8], "LogOn", [], C));
   }
   return L0.result;
@@ -75,7 +75,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t9 = (await $.v(C, "SBSession"));
+    const $t9 = (await $.wobj(C, "SBSession"));
     await $.stmt($.wcall([$t9], "LogOff", [], C));
   }
   return L0.result;

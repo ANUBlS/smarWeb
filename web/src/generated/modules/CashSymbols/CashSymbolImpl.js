@@ -356,7 +356,7 @@ export default function define($) {
   { const $t1 = (await $.v(C, "OperationState"));
     if ($.eq($t1, (await $.v(C, "omAdd")))) {
       {
-        const $t2 = (await $.v(C, "OPCashSymbols"));
+        const $t2 = (await $.wobj(C, "OPCashSymbols"));
         const $t3 = (await $.wv([$t2], "ODSCashSymbols", C, false));
         await $.stmt((await $.wcall([$t2, $t3], "CallProcedure", ["AddCashSymbols", [((await $.mv((await $.wv([$t2, $t3], "ESymbol", C, false)), "text"))), (await $.mv((await $.wv([$t2, $t3], "EName", C, false)), "text")), (await $.mv((await $.wv([$t2, $t3], "CBAssignment", C, false)), "ItemIndex"))]], C)));
         await $.stmt($.wcall([$t2, $t3], "Refresh", [], C));
@@ -364,7 +364,7 @@ export default function define($) {
     }
     else if ($.eq($t1, (await $.v(C, "omEdit")))) {
       {
-        const $t4 = (await $.v(C, "OPCashSymbols"));
+        const $t4 = (await $.wobj(C, "OPCashSymbols"));
         const $t5 = (await $.wv([$t4], "ODSCashSymbols", C, false));
         await $.stmt((await $.wcall([$t4, $t5], "CallProcedure", ["UpdateCashSymbols", [(await $.mv((await $.wcall([$t4, $t5], "FieldByName", ["Symbol"], C)), "Value")), ((await $.mv((await $.wv([$t4, $t5], "ESymbol", C, false)), "text"))), (await $.mv((await $.wv([$t4, $t5], "EName", C, false)), "text")), (await $.mv((await $.wv([$t4, $t5], "CBAssignment", C, false)), "ItemIndex"))]], C)));
         await $.stmt($.wcall([$t4, $t5], "Refresh", [], C));
@@ -408,7 +408,7 @@ export default function define($) {
   await $.set(C, "OperationState", (await $.v(C, "omEdit")));
   await $.mset((await $.v(C, "PanelAdd")), "Visible", true);
   {
-    const $t7 = (await $.v(C, "ODSCashSymbols"));
+    const $t7 = (await $.wobj(C, "ODSCashSymbols"));
     await $.mset((await $.wv([$t7], "ESymbol", C, false)), "Text", (await $.mv((await $.wcall([$t7], "FieldByName", ["Symbol"], C)), "AsString")));
     await $.mset((await $.wv([$t7], "EName", C, false)), "Text", (await $.mv((await $.wcall([$t7], "FieldByName", ["Name"], C)), "AsString")));
     await $.mset((await $.wv([$t7], "CBAssignment", C, false)), "ItemIndex", (await $.mv((await $.wcall([$t7], "FieldByName", ["Mediocrity"], C)), "AsInteger")));
@@ -421,7 +421,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Do you want delete this cash symbol?", (await $.v(C, "mtConfirmation")), (await $.v(C, "mbYesNoCancel")), 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t8 = (await $.v(C, "OPCashSymbols"));
+      const $t8 = (await $.wobj(C, "OPCashSymbols"));
       const $t9 = (await $.wv([$t8], "ODSCashSymbols", C, false));
       await $.stmt((await $.wcall([$t8, $t9], "CallProcedure", ["DeleteCashSymbols", [(await $.mv((await $.wcall([$t8, $t9], "FieldByName", ["Symbol"], C)), "Value"))]], C)));
       await $.stmt($.wcall([$t8, $t9], "Refresh", [], C));

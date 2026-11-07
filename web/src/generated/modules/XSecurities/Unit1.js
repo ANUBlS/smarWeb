@@ -615,7 +615,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Seçilmiş sətir ləğv olunacaq!", (await $.v(C, "mtConfirmation")), (await $.v(C, "mbYesNoCancel")), 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t3 = (await $.v(C, "Dmexpired_sec"));
+      const $t3 = (await $.wobj(C, "Dmexpired_sec"));
       const $t4 = (await $.wv([$t3], "PG_EXPIRED_SECURITIES", C, false));
       const $t5 = (await $.wv([$t3, $t4], "dsexp_sec_ins", C, false));
       if ($.truthy((await $.mcall((await $.mv((await $.wv([$t3, $t4, $t5], "Dmexpired_sec", C, false)), "PG_EXPIRED_SECURITIES")), "CallBooleanFunction", ["del_Expired_sec", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t3, $t4, $t5], "Dmexpired_sec", C, false)), "dsexp_sec_ins")), "FieldByName", ["id"])), "AsInteger"))]])))) {
@@ -637,7 +637,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t6 = (await $.v(C, "ExcelExport"));
+    const $t6 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t6], "Connect", [], C));
     await $.stmt((await $.wcall([$t6], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t6], "DBGrid1", C, false)), "DataSource")), "DataSet")), "Qiymetli kaqizlar", (await $.wv([$t6], "True", C, false)), (await $.wv([$t6], "false", C, false))], C)));
     await $.stmt($.wcall([$t6], "Disconnect", [], C));

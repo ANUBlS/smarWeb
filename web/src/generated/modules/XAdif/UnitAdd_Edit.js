@@ -39,7 +39,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t2 = (await $.v(C, "Adif_Data"));
+    const $t2 = (await $.wobj(C, "Adif_Data"));
     const $t3 = (await $.wv([$t2], "ods_cust", C, false));
     await $.stmt((await $.wcall([$t2, $t3], "WriteString", ["<BANK_BRANCH_CODE>"], C)));
     await $.stmt((await $.wcall([$t2, $t3], "WriteString", [(await $.mv((await $.wcall([$t2, $t3], "FieldByName", ["BANK_BRANCH_CODE"], C)), "AsString"))], C)));
@@ -141,7 +141,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "x": 0};
   {
-    const $t7 = (await $.v(C, "Adif_Data"));
+    const $t7 = (await $.wobj(C, "Adif_Data"));
     const $t8 = (await $.wv([$t7], "Ods_cust_person_joint", C, false));
     if ($.truthy($.gt((await $.mv((await $.mv((await $.wv([$t7, $t8], "Adif_Data", C, false)), "Ods_cust_person_work")), "RecordCount")), 0))) {
       await $.stmt((await $.wcall([$t7, $t8], "WriteString", ["<CLIENT_ID_PERSON_DATA>"], C)));
@@ -255,7 +255,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "x": 0, "i": 0};
   {
-    const $t9 = (await $.v(C, "Adif_Data"));
+    const $t9 = (await $.wobj(C, "Adif_Data"));
     const $t10 = (await $.wv([$t9], "Ods_cust_person_joint", C, false));
     if ($.truthy($.not((await $.mv(((await $.wcall([$t9, $t10], "FieldByName", ["cust_type"], C))), "isnull"))))) {
       await $.stmt((await $.wcall([$t9, $t10], "WriteString", ["<JOINT_ACCOUNT_TYPE>"], C)));
@@ -375,7 +375,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t11 = (await $.v(C, "SaveDlgCust"));
+    const $t11 = (await $.wobj(C, "SaveDlgCust"));
     if ($.truthy((await $.wv([$t11], "Execute", C, false)))) {
       await $.mset((await $.wv([$t11], "EditFile", C, false)), "Text", (await $.wv([$t11], "FileName", C, false)));
     }
@@ -448,7 +448,7 @@ export default function define($) {
             $t21 = false;
             if (!($.ord(L0["n"]) <= $.ord($t20))) break;
             {
-              const $t22 = (await $.v(C, "Adif_Data"));
+              const $t22 = (await $.wobj(C, "Adif_Data"));
               const $t23 = (await $.wv([$t22], "Ods_cust_person_joint", C, false));
               await $.stmt($.wcall([$t22, $t23], "close", [], C));
               await $.stmt((await $.wcall([$t22, $t23], "SetVariable", ["v_id", (await $.mv((await $.mcall((await $.mv((await $.wv([$t22, $t23], "Adif_Data", C, false)), "Ods_cust_joint_work")), "FieldByName", ["custid2"])), "AsInteger"))], C)));

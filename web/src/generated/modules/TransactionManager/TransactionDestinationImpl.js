@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("TransactionDestinationImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Grids", "DBGrids", "Db", "OracleData", "ExtCtrls", "DBCtrls", "sboapiDataModuleImpl"]);
+  const U = $.unit("TransactionDestinationImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Grids", "DBGrids", "Db", "OracleData", "ExtCtrls", "DBCtrls", "sboapiDataModuleImpl", "SBTranslateProc"]);
   const C = [U];
   U.defClass("TTransactionDestinationForm", "TForm", {"griddest": {"name": "GridDest", "type": "TDBGrid"}, "buttoncancel": {"name": "ButtonCancel", "type": "TButton"}, "buttonok": {"name": "ButtonOk", "type": "TButton"}, "trdest": {"name": "TrDest", "type": "TOracleDataSet"}, "trdestdata": {"name": "TrDestData", "type": "TDataSource"}, "dbnavigator1": {"name": "DBNavigator1", "type": "TDBNavigator"}}, {"value": {"name": "Value", "read": "GetValue"}});
   U.init(async () => {
@@ -48,6 +48,13 @@ export default function define($) {
   if ($.truthy($.not(($.in_((await $.mv((await $.mv((await $.v(C, "GridDest")), "DataSource")), "State")), [(await $.v(C, "dsInsert")), (await $.v(C, "dsEdit"))]))))) {
     await $.set(C, "ModalResult", (await $.v(C, "mrOk")));
   }
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  U.method("TTransactionDestinationForm", "FormCreate", async function FormCreate(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TTransactionDestinationForm", "FormKeyDown", async function FormKeyDown(Self, p0, p1, p2) {

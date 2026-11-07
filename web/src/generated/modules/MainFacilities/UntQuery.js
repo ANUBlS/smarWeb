@@ -29,7 +29,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "MainFDataModule"));
+    const $t1 = (await $.wobj(C, "MainFDataModule"));
     await $.mcall((await $.wv([$t1], "ODSSumWares", C, false)), "Refresh", []);
     await $.mcall((await $.wv([$t1], "ODSSumModWares", C, false)), "Refresh", []);
     await $.mcall((await $.wv([$t1], "ODSSumRepair", C, false)), "Refresh", []);
@@ -95,7 +95,7 @@ export default function define($) {
   await $.mset((await $.v(C, "TranzProgressBar")), "Position", 0);
   await $.stmt((await $.mcall((await $.v(C, "TranzProgressBar")), "StepBy", [15])));
   {
-    const $t3 = (await $.v(C, "MainFDataModule"));
+    const $t3 = (await $.wobj(C, "MainFDataModule"));
     await $.stmt((await $.mcall((await $.wv([$t3], "TranzProgressBar", C, false)), "Stepby", [10])));
     await $.stmt((await $.mcall((await $.wv([$t3], "OPViewWares", C, false)), "CallProcedure", ["CalculateOldWares", [(await $.wv([$t3], "CloseD", { get: async () => L0["closed"], set: async (v) => { L0["closed"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t3], "SpinEditDays", C, false)), "Value"))]])));
     await $.stmt((await $.mcall((await $.wv([$t3], "TranzProgressBar", C, false)), "Stepby", [20])));

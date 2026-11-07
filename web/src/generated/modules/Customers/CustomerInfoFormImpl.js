@@ -24,7 +24,7 @@ export default function define($) {
   const L0 = {"customerid": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["customerid"]);
   {
-    const $t1 = (await $.v(C, "CustomerDataModule"));
+    const $t1 = (await $.wobj(C, "CustomerDataModule"));
     const $t2 = (await $.wv([$t1], "CustInfoData", C, false));
     await $.stmt($.wcall([$t1, $t2], "Close", [], C));
     await $.stmt((await $.wcall([$t1, $t2], "SetVariable", ["CustomerID", (await $.wv([$t1, $t2], "CustomerID", { get: async () => L0["customerid"], set: async (v) => { L0["customerid"] = v; }, local: true }, false))], C)));
@@ -106,7 +106,7 @@ export default function define($) {
   await $.stmt((await $.call(C, "ToolButton6Click", [(await $.v(C, "ToolButton6"))])));
   await $.stmt((await $.mcall((await $.v(C, "sb_CustInfo")), "CallProcedure", ["add_custinfo", ["vidcust", (await $.mv((await $.mcall((await $.mv((await $.v(C, "CustomerDataModule")), "ActiveCustomerList")), "FieldByName", ["ID"])), "AsInteger"))]])));
   {
-    const $t10 = (await $.v(C, "TabControl"));
+    const $t10 = (await $.wobj(C, "TabControl"));
     const $t11 = (await $.wv([$t10], "CustInfoData", C, false));
     await $.stmt($.wcall([$t10, $t11], "Refresh", [], C));
     await $.wset([$t10, $t11], "recno", (await $.wv([$t10, $t11], "RecordCount", C, false)), C);
@@ -393,7 +393,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t31 = (await $.v(C, "frmIPINFO"));
+    const $t31 = (await $.wobj(C, "frmIPINFO"));
     const $t32 = (await $.wv([$t31], "ODSIpInfo", C, false));
     await $.mcall((await $.wv([$t31, $t32], "ODSIpInfo", C, false)), "close", []);
     await $.wset([$t31, $t32], "CardID", (await $.mv((await $.wv([$t31, $t32], "CustInfoDataID", C, false)), "AsVariant")), C);

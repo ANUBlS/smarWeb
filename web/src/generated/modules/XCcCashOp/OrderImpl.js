@@ -21,14 +21,14 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "cc_buyer_flats"));
+    const $t1 = (await $.wobj(C, "cc_buyer_flats"));
     await $.stmt($.wcall([$t1], "ClearVariables", [], C));
     await $.stmt($.wcall([$t1], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["PayID", (await $.mv((await $.mcall((await $.wv([$t1], "Payments", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
     await $.stmt($.wcall([$t1], "Open", [], C));
   }
   {
-    const $t2 = (await $.v(C, "ReportPayOrderData"));
+    const $t2 = (await $.wobj(C, "ReportPayOrderData"));
     await $.stmt($.wcall([$t2], "ClearVariables", [], C));
     await $.stmt($.wcall([$t2], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t2], "SetVariable", ["PayID", (await $.mv((await $.mcall((await $.wv([$t2], "Payments", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
@@ -37,7 +37,7 @@ export default function define($) {
   await $.mcall((await $.v(C, "AboutBank")), "open", []);
   if ($.truthy($.gt((await $.mv((await $.v(C, "ReportPayOrderData")), "RecordCount")), 0))) {
     {
-      const $t3 = (await $.v(C, "OrderPayRep"));
+      const $t3 = (await $.wobj(C, "OrderPayRep"));
       await $.mset((await $.wv([$t3], "QRLabelAmount1", C, false)), "Caption", (await $.wcall([$t3], "CurrencyToHR_Azeri", [(await $.wcall([$t3], "Trunc", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t3], "FrmOrder", C, false)), "ReportPayOrderData")), "FieldByName", ["payamt"])), "AsFloat"))], C)), 0, [0]], C)));
       await $.mset((await $.wv([$t3], "QRLabelAmount2", C, false)), "Caption", (await $.wcall([$t3], "CurrencyToHR_Azeri", [(await $.wcall([$t3], "Trunc", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t3], "FrmOrder", C, false)), "ReportPayOrderData")), "FieldByName", ["payamt"])), "AsFloat"))], C)), 0, [0]], C)));
       await $.mset((await $.wv([$t3], "QRLabelAmount3", C, false)), "Caption", (await $.wcall([$t3], "CurrencyToHR_Azeri", [(await $.wcall([$t3], "Trunc", [(await $.mv((await $.mcall((await $.mv((await $.wv([$t3], "FrmOrder", C, false)), "ReportPayOrderData")), "FieldByName", ["payamt"])), "AsFloat"))], C)), 0, [0]], C)));
@@ -80,7 +80,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Ödəniş ləğv olunsun?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t4 = (await $.v(C, "DBGridEh1"));
+      const $t4 = (await $.wobj(C, "DBGridEh1"));
       const $t5 = (await $.mv((await $.wv([$t4], "DataSource", C, false)), "DataSet"));
       await $.wset([$t4, $t5], "SelectedRowsCnt", (await $.mv((await $.wv([$t4, $t5], "SelectedRows", C, false)), "Count")), { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true });
       if ($.truthy($.gt((await $.wv([$t4, $t5], "SelectedRowsCnt", { get: async () => L0["selectedrowscnt"], set: async (v) => { L0["selectedrowscnt"] = v; }, local: true }, false)), 1))) {

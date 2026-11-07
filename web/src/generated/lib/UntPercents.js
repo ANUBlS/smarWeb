@@ -27,7 +27,7 @@ export default function define($) {
   try {
     L0["mode"] = (await $.call(C, "GetMode", [(await $.v(C, "FParentButtonTag"))]));
     {
-      const $t2 = (await $.v(C, "FrmContract"));
+      const $t2 = (await $.wobj(C, "FrmContract"));
       const $t3 = (await $.mv((await $.wv([$t2], "PercentsList", C, false)), "Items"));
       await $.stmt((await $.wcall([$t2, $t3], "Push", [$.ref(async () => (await $.wv([$t2, $t3], "FloatablePercent", C, false)), async ($t4) => { await $.wset([$t2, $t3], "FloatablePercent", $t4, C); }), (await $.wcall([$t2, $t3], "StrToFloat", [(await $.mv((await $.wv([$t2, $t3], "FloatablePercentsEdit", C, false)), "Text"))], C)), (await $.wv([$t2, $t3], "Mode", { get: async () => L0["mode"], set: async (v) => { L0["mode"] = v; }, local: true }, false))], C)));
       await $.stmt((await $.wcall([$t2, $t3], "Push", [$.ref(async () => (await $.wv([$t2, $t3], "FloatableDate", C, false)), async ($t5) => { await $.wset([$t2, $t3], "FloatableDate", $t5, C); }), (await $.wcall([$t2, $t3], "Trunc", [(await $.mv((await $.wv([$t2, $t3], "DTPCurrentDate", C, false)), "DateTime"))], C)), (await $.wv([$t2, $t3], "Mode", { get: async () => L0["mode"], set: async (v) => { L0["mode"] = v; }, local: true }, false))], C)));
@@ -59,7 +59,7 @@ export default function define($) {
   await $.mset((await $.v(C, "DTPCurrentDate")), "DateTime", (await $.v(C, "GetBankDate")));
   L0["mode"] = (await $.call(C, "GetMode", [(await $.v(C, "FParentButtonTag"))]));
   {
-    const $t6 = (await $.v(C, "FrmContract"));
+    const $t6 = (await $.wobj(C, "FrmContract"));
     const $t7 = (await $.mv((await $.wv([$t6], "PercentsList", C, false)), "Items"));
     await $.stmt($.wcall([$t6, $t7], "Clear", [], C));
     await $.mset((await $.wv([$t6, $t7], "FloatablePercentsEdit", C, false)), "Text", "0.00");
@@ -83,7 +83,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["mode"] = (await $.call(C, "GetMode", [(await $.v(C, "FParentButtonTag"))]));
   {
-    const $t10 = (await $.v(C, "FrmContract"));
+    const $t10 = (await $.wobj(C, "FrmContract"));
     const $t11 = (await $.wv([$t10], "PercentsList", C, false));
     await $.stmt((await $.wcall([$t10, $t11], "Pop", [$.ref(async () => (await $.wv([$t10, $t11], "FloatableDate", C, false)), async ($t12) => { await $.wset([$t10, $t11], "FloatableDate", $t12, C); }), (await $.wv([$t10, $t11], "ItemIndex", C, false)), (await $.wv([$t10, $t11], "Mode", { get: async () => L0["mode"], set: async (v) => { L0["mode"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t10, $t11], "Pop", [$.ref(async () => (await $.wv([$t10, $t11], "FloatablePercent", C, false)), async ($t13) => { await $.wset([$t10, $t11], "FloatablePercent", $t13, C); }), (await $.wv([$t10, $t11], "ItemIndex", C, false)), (await $.wv([$t10, $t11], "Mode", { get: async () => L0["mode"], set: async (v) => { L0["mode"] = v; }, local: true }, false))], C)));
@@ -97,7 +97,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["mode"] = (await $.call(C, "GetMode", [(await $.v(C, "FParentButtonTag"))]));
   {
-    const $t15 = (await $.v(C, "FrmContract"));
+    const $t15 = (await $.wobj(C, "FrmContract"));
     const $t16 = (await $.wv([$t15], "PercentsList", C, false));
     await $.stmt((await $.wcall([$t15, $t16], "SetLength", [$.ref(async () => (await $.idx((await $.wv([$t15, $t16], "FloatableDate", C, false)), [(await $.wv([$t15, $t16], "Mode", { get: async () => L0["mode"], set: async (v) => { L0["mode"] = v; }, local: true }, false))])), async ($t17) => { { const $t18 = await $.iset((await $.wv([$t15, $t16], "FloatableDate", C, false)), [(await $.wv([$t15, $t16], "Mode", { get: async () => L0["mode"], set: async (v) => { L0["mode"] = v; }, local: true }, false))], $t17); if ($t18 !== undefined) { await $.wset([$t15, $t16], "FloatableDate", $t18, C); } } }), 0], C)));
     await $.stmt((await $.wcall([$t15, $t16], "SetLength", [$.ref(async () => (await $.idx((await $.wv([$t15, $t16], "FloatablePercent", C, false)), [(await $.wv([$t15, $t16], "Mode", { get: async () => L0["mode"], set: async (v) => { L0["mode"] = v; }, local: true }, false))])), async ($t19) => { { const $t20 = await $.iset((await $.wv([$t15, $t16], "FloatablePercent", C, false)), [(await $.wv([$t15, $t16], "Mode", { get: async () => L0["mode"], set: async (v) => { L0["mode"] = v; }, local: true }, false))], $t19); if ($t20 !== undefined) { await $.wset([$t15, $t16], "FloatablePercent", $t20, C); } } }), 0], C)));

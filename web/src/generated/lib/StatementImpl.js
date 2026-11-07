@@ -172,7 +172,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t12 = (await $.v(C, "SaveDialog1"));
+    const $t12 = (await $.wobj(C, "SaveDialog1"));
     if ($.truthy((await $.wv([$t12], "Execute", C, false)))) {
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t12], "StatementReport", C, false)), "QuickRep1")), "ExportToFilter", [(await $.mcall((await $.wv([$t12], "TQRAsciiExportFilter", C, false)), "Create", [(await $.wv([$t12], "FileName", C, false))]))])));
     }

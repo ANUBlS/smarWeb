@@ -43,7 +43,7 @@ export default function define($) {
     await $.set(C, "frmAcc", (await $.mcall((await $.v(C, "TfrmAcc")), "Create", [Self])));
   }
   {
-    const $t3 = (await $.v(C, "DataModC"));
+    const $t3 = (await $.wobj(C, "DataModC"));
     const $t4 = (await $.wv([$t3], "frmAcc", C, false));
     if ($.truthy($.eq((await $.wv([$t3, $t4], "ShowModal", C, false)), 1))) {
       await $.wset([$t3, $t4], "AcID", (await $.mcall((await $.wv([$t3, $t4], "CABLE", C, false)), "CallIntegerFunction", ["open_account", [(await $.mv((await $.wv([$t3, $t4], "AccNoEdit", C, false)), "Text")), (await $.mv((await $.idx((await $.mv((await $.wv([$t3, $t4], "odsAbonents", C, false)), "Fields")), [1])), "AsString")), (await $.mv((await $.idx((await $.mv((await $.wv([$t3, $t4], "odsValutes", C, false)), "Fields")), [0])), "AsInteger"))]])), { get: async () => L0["acid"], set: async (v) => { L0["acid"] = v; }, local: true });

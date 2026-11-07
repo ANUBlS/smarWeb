@@ -127,7 +127,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "AccTrExport"));
+    const $t7 = (await $.wobj(C, "AccTrExport"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t7], "PageControlTrans", C, false)), "ActivePageIndex")), 0))) {
       await $.wset([$t7], "ExportSource", (await $.wv([$t7], "DebetTransactions", C, false)), C);
     } else {

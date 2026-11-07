@@ -95,7 +95,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t13 = (await $.v(C, "CommonGrid"));
+    const $t13 = (await $.wobj(C, "CommonGrid"));
     const $t14 = (await $.mv((await $.wv([$t13], "DataSource", C, false)), "DataSet"));
     const $t15 = (await $.wv([$t13, $t14], "SelectedRows", C, false));
     await $.stmt($.wcall([$t13, $t14, $t15], "Clear", [], C));
@@ -110,7 +110,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "CommonGrid"));
+    const $t16 = (await $.wobj(C, "CommonGrid"));
     const $t17 = (await $.mv((await $.wv([$t16], "DataSource", C, false)), "DataSet"));
     await $.wset([$t16, $t17], "Filtered", (await $.wv([$t16, $t17], "False", C, false)), C);
     await $.wset([$t16, $t17], "Filter", "", C);
@@ -129,7 +129,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t18 = (await $.v(C, "EExport"));
+    const $t18 = (await $.wobj(C, "EExport"));
     await $.mcall((await $.mv((await $.mv((await $.wv([$t18], "CommonGrid", C, false)), "DataSource")), "DataSet")), "Last", []);
     await $.stmt($.wcall([$t18], "Connect", [], C));
     await $.stmt((await $.wcall([$t18], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t18], "CommonGrid", C, false)), "DataSource")), "DataSet")), "Depozitlər", (await $.wv([$t18], "True", C, false))], C)));

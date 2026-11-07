@@ -42,7 +42,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "Credits"));
+    const $t2 = (await $.wobj(C, "Credits"));
     await $.stmt((await $.wcall([$t2], "SetVariable", ["title", "ID"], C)));
     await $.stmt($.wcall([$t2], "Open", [], C));
   }
@@ -50,7 +50,7 @@ export default function define($) {
   await $.mcall((await $.v(C, "Valutes")), "Open", []);
   await $.mcall((await $.v(C, "Filials")), "Open", []);
   {
-    const $t3 = (await $.v(C, "Accounts"));
+    const $t3 = (await $.wobj(C, "Accounts"));
     await $.stmt((await $.wcall([$t3], "SetVariable", ["BID", 0], C)));
     await $.stmt($.wcall([$t3], "Open", [], C));
   }
@@ -111,14 +111,14 @@ export default function define($) {
   { const $t5 = L0["action"];
     if ($.eq($t5, "I")) {
       {
-        const $t6 = (await $.v(C, "sbcm_construction"));
+        const $t6 = (await $.wobj(C, "sbcm_construction"));
         await $.wset([$t6], "Result", (await $.wcall([$t6], "CallIntegerFunction", ["add_Contract", ["p_ContNum", (await $.wv([$t6], "ContNum", { get: async () => L0["contnum"], set: async (v) => { L0["contnum"] = v; }, local: true }, false)), "p_Buyer", (await $.wv([$t6], "Buyer", { get: async () => L0["buyer"], set: async (v) => { L0["buyer"] = v; }, local: true }, false)), "p_AccID", (await $.wv([$t6], "AccID", { get: async () => L0["accid"], set: async (v) => { L0["accid"] = v; }, local: true }, false)), "p_BranchID", (await $.wv([$t6], "BranchID", { get: async () => L0["branchid"], set: async (v) => { L0["branchid"] = v; }, local: true }, false)), "p_FlatID", (await $.wv([$t6], "FlatID", { get: async () => L0["flatid"], set: async (v) => { L0["flatid"] = v; }, local: true }, false)), "p_contcur", (await $.wv([$t6], "contcur", { get: async () => L0["contcur"], set: async (v) => { L0["contcur"] = v; }, local: true }, false)), "p_ContAmount", (await $.wv([$t6], "ContAmount", { get: async () => L0["contamount"], set: async (v) => { L0["contamount"] = v; }, local: true }, false)), "p_opendate", (await $.wv([$t6], "opendate", { get: async () => L0["opendate"], set: async (v) => { L0["opendate"] = v; }, local: true }, false)), "p_ExpDate", (await $.wv([$t6], "ExpDate", { get: async () => L0["expdate"], set: async (v) => { L0["expdate"] = v; }, local: true }, false)), "p_closedate", (await $.wv([$t6], "closedate", { get: async () => L0["closedate"], set: async (v) => { L0["closedate"] = v; }, local: true }, false)), "p_interestrate", 0, "p_InitialAmount", (await $.wv([$t6], "InitialAmount", { get: async () => L0["initialamount"], set: async (v) => { L0["initialamount"] = v; }, local: true }, false)), "p_DUEINTERESTRATE", (await $.wv([$t6], "DUEINTERESTRATE", { get: async () => L0["dueinterestrate"], set: async (v) => { L0["dueinterestrate"] = v; }, local: true }, false)), "p_SQUAREMETRAMOUNT", (await $.wv([$t6], "SQUAREMETRAMOUNT", { get: async () => L0["squaremetramount"], set: async (v) => { L0["squaremetramount"] = v; }, local: true }, false)), "p_note", (await $.wv([$t6], "note", { get: async () => L0["note"], set: async (v) => { L0["note"] = v; }, local: true }, false)), "p_monthpay", (await $.wv([$t6], "monthpay", { get: async () => L0["monthpay"], set: async (v) => { L0["monthpay"] = v; }, local: true }, false)), "p_pricecred", (await $.wv([$t6], "pricecred", { get: async () => L0["pricecred"], set: async (v) => { L0["pricecred"] = v; }, local: true }, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
       }
       await L0["applied"].set(true);
     }
     else if ($.eq($t5, "U")) {
       {
-        const $t7 = (await $.v(C, "sbcm_construction"));
+        const $t7 = (await $.wobj(C, "sbcm_construction"));
         await $.wset([$t7], "Result", (await $.wcall([$t7], "CallIntegerFunction", ["upd_Contracts", ["p_ID", (await $.mv((await $.mcall((await $.wv([$t7], "Credits", C, false)), "FieldByName", ["ID"])), "AsInteger")), "p_ContNum", (await $.wv([$t7], "ContNum", { get: async () => L0["contnum"], set: async (v) => { L0["contnum"] = v; }, local: true }, false)), "p_Buyer", (await $.wv([$t7], "Buyer", { get: async () => L0["buyer"], set: async (v) => { L0["buyer"] = v; }, local: true }, false)), "p_AccID", (await $.wv([$t7], "AccID", { get: async () => L0["accid"], set: async (v) => { L0["accid"] = v; }, local: true }, false)), "p_BranchID", (await $.wv([$t7], "BranchID", { get: async () => L0["branchid"], set: async (v) => { L0["branchid"] = v; }, local: true }, false)), "p_FlatID", (await $.wv([$t7], "FlatID", { get: async () => L0["flatid"], set: async (v) => { L0["flatid"] = v; }, local: true }, false)), "p_contcur", (await $.wv([$t7], "contcur", { get: async () => L0["contcur"], set: async (v) => { L0["contcur"] = v; }, local: true }, false)), "p_ContAmount", (await $.wv([$t7], "ContAmount", { get: async () => L0["contamount"], set: async (v) => { L0["contamount"] = v; }, local: true }, false)), "p_opendate", (await $.wv([$t7], "opendate", { get: async () => L0["opendate"], set: async (v) => { L0["opendate"] = v; }, local: true }, false)), "p_ExpDate", (await $.wv([$t7], "ExpDate", { get: async () => L0["expdate"], set: async (v) => { L0["expdate"] = v; }, local: true }, false)), "p_closedate", (await $.wv([$t7], "closedate", { get: async () => L0["closedate"], set: async (v) => { L0["closedate"] = v; }, local: true }, false)), "p_interestrate", 0, "p_InitialAmount", (await $.wv([$t7], "InitialAmount", { get: async () => L0["initialamount"], set: async (v) => { L0["initialamount"] = v; }, local: true }, false)), "p_DUEINTERESTRATE", (await $.wv([$t7], "DUEINTERESTRATE", { get: async () => L0["dueinterestrate"], set: async (v) => { L0["dueinterestrate"] = v; }, local: true }, false)), "p_SQUAREMETRAMOUNT", (await $.wv([$t7], "SQUAREMETRAMOUNT", { get: async () => L0["squaremetramount"], set: async (v) => { L0["squaremetramount"] = v; }, local: true }, false)), "p_note", (await $.wv([$t7], "note", { get: async () => L0["note"], set: async (v) => { L0["note"] = v; }, local: true }, false)), "p_monthpay", (await $.wv([$t7], "monthpay", { get: async () => L0["monthpay"], set: async (v) => { L0["monthpay"] = v; }, local: true }, false)), "p_pricecred", (await $.wv([$t7], "pricecred", { get: async () => L0["pricecred"], set: async (v) => { L0["pricecred"] = v; }, local: true }, false))]], C)), { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
       }
       await L0["applied"].set(true);

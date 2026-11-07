@@ -10,6 +10,7 @@ import { TComponent, isStreaming } from './component';
 import { TStrings, TFont, TCanvas, TPicture, Indexed, TCollection, TCollectionItem } from './classes';
 import { colorValue } from './colors';
 import { todayDelphi, nowDelphi } from '../datetime';
+import { runPlugin, iconUrl, rsUnassigned, type PluginRec } from './plugins';
 
 const LINKABLE = ['caption', 'enabled', 'checked', 'visible', 'imageindex', 'hint'] as const;
 
@@ -565,6 +566,10 @@ export class TBitBtn extends TButton {
   NumGlyphs = 1;
   Spacing = 4;
   Margin = -1;
+  /** The DFM Glyph as a PNG made at build time (tools/imagelist.py glyph_png). */
+  GlyphSprite = '';
+  GlyphWidth = 0;
+  GlyphHeight = 0;
   get kind() { return 'button'; }
 }
 registerBuiltin('TBitBtn', TBitBtn);
@@ -575,6 +580,9 @@ export class TSpeedButton extends TGraphicControl {
   Flat = false;
   Glyph = null;
   NumGlyphs = 1;
+  GlyphSprite = '';
+  GlyphWidth = 0;
+  GlyphHeight = 0;
   protected _down = false;
   get kind() { return 'speedbutton'; }
   get Down() { return this._down; }
@@ -762,10 +770,44 @@ export class TRadioGroup extends TWinControl {
     }
     return super.pset(lname, v);
   }
-  async userSelect(i: number) { if (i === this._itemIndex) return; this._itemIndex = i; invalidate(); await this.fire('OnClick', this); }
-  get Buttons() { return new Indexed((i) => ({ Enabled: true, Checked: this._itemIndex === num(i[0]) })); }
+  async userSelect(i: number) {
+    if (i === this._itemIndex || this.button(i)?.Enabled === false) return;
+    this._itemIndex = i; invalidate(); await this.fire('OnClick', this);
+  }
+  /* VCL TCustomRadioGroup owns one TGroupButton per item: Controls[i] / Buttons[i] (Enabled, Visible, Caption …) */
+  private buttons: TGroupButton[] = [];
+  button(i: number): TGroupButton | null {
+    if (i < 0 || i >= this.Items.Count) return null;
+    while (this.buttons.length <= i) this.buttons.push(new TGroupButton(this, this.buttons.length));
+    return this.buttons[i];
+  }
+  get Buttons() { return new Indexed((i) => this.button(num(i[0]))); }
+  override get Controls() { return new Indexed((i) => this.button(num(i[0])) ?? this.children[num(i[0]) - this.Items.Count] ?? null); }
+  override get ControlCount() { return this.Items.Count + this.children.length; }
 }
 registerBuiltin('TRadioGroup', TRadioGroup);
+
+/** One item of a radio group (VCL TGroupButton, a TRadioButton the group creates for each item). */
+export class TGroupButton extends TObject {
+  private _enabled = true;
+  private _visible = true;
+  Tag = 0;
+  constructor(private group: TRadioGroup, private index: number) { super(); }
+  get Name() { return ''; }
+  get Parent() { return this.group; }
+  get Enabled() { return this._enabled; }
+  set Enabled(v: boolean) { this._enabled = !!v; invalidate(); }
+  get Visible() { return this._visible; }
+  set Visible(v: boolean) { this._visible = !!v; invalidate(); }
+  get Caption() { return this.group.Items.Get(this.index) ?? ''; }
+  set Caption(v: string) { this.group.Items.Put(this.index, String(v)); invalidate(); }
+  get Checked() { return this.group.ItemIndex === this.index; }
+  set Checked(v: boolean) { if (v) this.group.ItemIndex = this.index; else if (this.Checked) this.group.ItemIndex = -1; }
+  get Hint() { return ''; }
+  set Hint(_v: string) { /* */ }
+  SetFocus() { /* */ }
+}
+registerBuiltin('TGroupButton', TGroupButton);
 
 /* ------------------------------------------------------------------ date/time */
 
@@ -1198,7 +1240,7 @@ registerBuiltin('TTimer', TTimer);
 
 /** TImageList: the DFM bitmap is converted to a PNG sprite at build time (tools/imagelist.py);
  *  GetIcon / GetBitmap copy one image into a graphic (ImageList.GetIcon(1, Img.Picture.Icon)). */
-const GEN_BASE = (import.meta as any).env?.DEV ? '/src/generated/' : `${(import.meta as any).env?.BASE_URL ?? '/'}generated/`;
+export const GEN_BASE = (import.meta as any).env?.DEV ? '/src/generated/' : `${(import.meta as any).env?.BASE_URL ?? '/'}generated/`;
 const spriteCache = new Map<string, Promise<ImageBitmap | null>>();
 export class TImageList extends TComponent {
   Width = 16; Height = 16;
@@ -1234,7 +1276,14 @@ export class TImageList extends TComponent {
     return !!b;
   }
   async GetIcon(index: unknown, target: unknown) { return this.GetBitmap(index, target); }
-  Draw() { /* canvas drawing is not emulated */ }
+  /** ImageList.Draw(Canvas, X, Y, Index[, Enabled]): on a grid cell's canvas (OnDrawColumnCell) the image is
+   *  shown in that cell; other canvases are not emulated. */
+  Draw(canvas?: unknown, _x?: unknown, _y?: unknown, index?: unknown) {
+    const cell = (canvas as any)?.__cell;
+    const i = num(index);
+    if (cell && this.Bitmap.Sprite && i >= 0 && i < (this.Bitmap.Count || 0))
+      cell.image = { sprite: this.Bitmap.Sprite, index: i, cx: this.Bitmap.Cx || this.Width, cy: this.Bitmap.Cy || this.Height };
+  }
   Add() { this.added++; return this.Count - 1; }
   AddIcon() { this.added++; return this.Count - 1; }
   Clear() { this.added = 0; this.Bitmap = { ...this.Bitmap, Count: 0 }; }
@@ -1327,25 +1376,91 @@ export interface TBasicAction extends TComponent {
 /*
  * SmartBank plugin menus (Packages/VCL/PluginIni.pas, PluginToolBar.pas, PluginPopupMenu.pas).
  * Their buttons/items come from per-installation INI files next to SmartBank.exe
- * (CMToolBarTop.ini, CMPopupMenu.ini …) that are not part of the repository, so they load empty
- * — the state of a workstation without those files.
+ * (CMToolBarBootom.ini, CMPopupMenu.ini …) that are not part of the repository: they are read from
+ * web/bin (binfiles.ts); without the file the menu is empty, as on a workstation without it.
  */
 export class TMenuIni extends TComponent {
   IniLocation = '';
-  IniSection = 'Menu';
-  Active = false;
+  IniSection = '';
+  private _active = false;
   private _loc: unknown = null;
-  get Location() { if (!this._loc) { const f = new (getIniFile())(); f.Create(this.IniLocation); this._loc = f; } return this._loc; }
+  get Active() { return this._active; }
+  set Active(v: boolean) {
+    if (!isStreaming() && !!v !== this._active) this._loc = v ? this.openIni() : null;
+    this._active = !!v;
+  }
+  /** TIniFile created when the component is activated (nil before, as in PluginIni.pas). */
+  get Location() { return this._loc; }
+  Open() { this.Active = true; }
+  Close() { this.Active = false; }
+  private openIni() { const f = new (getIniFile())(); f.Create(this.IniLocation); return f; }
 }
 registerBuiltin('TMenuIni', TMenuIni);
 let iniCtor: any = null;
 function getIniFile() { return (iniCtor ??= getBuiltin('TIniFile')); }
 
+/** A plugin button: the package's caption as hint, its icon from the INI (Icon=). */
+export class TPluginToolButton extends TToolButton {
+  iconUrl: string | null = null;
+  override async Click() {
+    if (!this.Enabled || this.Style === 'tbsseparator') return;
+    auditClick(this as any);
+    const bar = this.Parent;
+    if (bar instanceof TPluginToolBar) await bar.pluginClick(this);
+  }
+}
+registerBuiltin('TPluginToolButton', TPluginToolButton);
+
 export class TPluginToolBar extends TToolBar {
   MenuIni: TMenuIni | null = null;
-  Active = false;
-  LoadPlugins() { /* no plugin INI in the web version */ }
-  UnLoadPlugins() { /* */ }
+  plugins: PluginRec[] = [];
+  private _active = false;
+  private pluginsCnt = 0;
+  get Active() { return this._active; }
+  set Active(v: boolean) {
+    if (!!v !== this._active && !isStreaming()) { if (v) this.LoadPlugins(); else this.UnLoadPlugins(); }
+    this._active = !!v;
+  }
+  LoadPlugins() {
+    const mi = this.MenuIni;
+    const ini = mi?.Location as any;
+    if (!mi || !ini) throw new PasException('EAccessViolation', `Access violation: ${this.Name}.MenuIni.Location is nil`, ['exception']);
+    const s = new TStrings();
+    ini.ReadSections(s);
+    const n = s.Count;
+    this.pluginsCnt = n - 1;
+    const made: TPluginToolButton[] = [];
+    for (let i = n - 1; i >= 0; i--) {
+      const sec = s.Get(i);
+      const caption = str(ini.ReadString(sec, 'Caption', rsUnassigned));
+      const b = new TPluginToolButton();
+      b.Create(this);
+      b.Tag = n - 1 - i;
+      if (caption !== '|') { b.Style = 'tbsbutton'; b.Width = 23; b.Caption = caption; b.Hint = caption; }
+      else { b.Style = 'tbsseparator'; b.Width = 8; }
+      b.iconUrl = iconUrl(str(ini.ReadString(sec, 'Icon', '')));
+      made.push(b);
+      this.plugins.push({ module: str(ini.ReadString(sec, 'Plugin', '')), param: str(ini.ReadString(sec, 'PluginParam', '')), handle: 0 });
+    }
+    // a button parented at run time goes in front of the existing ones (hence the reverse loop):
+    // the bar shows the sections in file order
+    made.reverse();
+    let x = 0;
+    for (const b of made) { b.setParent(this); b.Left = x; x += b.Width; }
+    this.children = [...made, ...this.children.filter((c) => !made.includes(c as TPluginToolButton))];
+    invalidate();
+  }
+  UnLoadPlugins() {
+    this.pluginsCnt = 0;
+    for (const b of this.children.filter((c) => c instanceof TToolButton)) { (b as TToolButton).setParent(null); (b as TToolButton).Free(); }
+    this.plugins = [];
+    invalidate();
+  }
+  /** OnToolButtonClick (assigned to every plugin button). */
+  async pluginClick(b: TToolButton) {
+    const rec = this.plugins[b.Tag];
+    if (rec) await runPlugin(this, rec);
+  }
 }
 registerBuiltin('TPluginToolBar', TPluginToolBar);
 

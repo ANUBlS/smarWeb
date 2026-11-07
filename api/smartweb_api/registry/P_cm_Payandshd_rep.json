@@ -1,0 +1,162 @@
+{
+ "name": "P_cm_Payandshd_rep",
+ "caption": "",
+ "dir": "Packages/SB_Credit/cm_ip_repSedule",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SystemState",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet8",
+   "source": "TRepFrm.OracleDataSet8",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_payment_schedule \nwhere creditid=:creditid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "cm_Payandshd_repimpl"
+  },
+  {
+   "name": "OracleDataSet9",
+   "source": "TRepFrm.OracleDataSet9",
+   "kind": "TOracleDataSet",
+   "sql": "select* from cm_active_credits p\nwhere p.CUSTOMERTYPE<>10\n\n\n ",
+   "variables": [],
+   "unit": "cm_Payandshd_repimpl"
+  },
+  {
+   "name": "OracleDataSet10",
+   "source": "TRepFrm.OracleDataSet10",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  trunc(months_between(max(paymentdate),min(paymentdate))) as month\n  FROM cm_payment_schedule a where paymentdate between :bdat and :edat",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "cm_Payandshd_repimpl"
+  },
+  {
+   "name": "OracleDataSet11",
+   "source": "TRepFrm.OracleDataSet11",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  min(paymentdate) as dat\n  FROM cm_payment_schedule a where paymentdate between :bdat and :edat\n",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "cm_Payandshd_repimpl"
+  },
+  {
+   "name": "UsrGrpDataSet",
+   "source": "TRepFrm.UsrGrpDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT id, description\n    FROM creditsmgr.cm_usergroups",
+   "variables": [],
+   "unit": "cm_Payandshd_repimpl"
+  },
+  {
+   "name": "PersonelTypeDataSet",
+   "source": "TRepFrm.PersonelTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT id, description\n  FROM creditsmgr.cm_categories",
+   "variables": [],
+   "unit": "cm_Payandshd_repimpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TRepFrm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select p.numberofcredit,u.description,b.name,p.creditlineamount ,p.newfinanceamount,p.dateofconclusion,p.duedatefirstcontract, to_date(cm_ip.crdgettrchdate (p.id)) ymdate,\ntrunc(months_between(p.duedatefirstcontract,p.dateofconclusion))as dovr,p.annualyinterestrate,p.annualbankrate,h.rest,\nh.interestrest,cm_common.get_monthpay(p.id) as annutiet, cm_common.get_custMONTHLYPROFIT(p.boorowerid) as MONTHLYPROFIT,i.alevpredcost,i.predcost\n  from \ncm_active_credits p,CM_USERGROUPS u, CM_BOOROWERINFO b,cm_history h,  cm_ip_info i\nwhere \np.usrgroup=u.id and\np.id=b.creditid and\np.id=h.creditid and\nh.hdate=(select tek_dat from smart.sysdat) and\np.id=i.creditid\n\n\n\n",
+   "variables": [],
+   "unit": "cm_Payandshd_repimpl"
+  },
+  {
+   "name": "sysdat",
+   "source": "TRepFrm.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "cm_Payandshd_repimpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "CM_IP_REPORTS",
+   "mode": "positional",
+   "source": "TRepFrm.OraclePackage1",
+   "routines": [
+    {
+     "name": "get_PRINCIPAL",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "get_PayInt",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "get_Payrest",
+     "call": "CallFloatFunction"
+    },
+    {
+     "name": "get_she_int",
+     "call": "CallFloatFunction"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

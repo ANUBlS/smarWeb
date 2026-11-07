@@ -15,7 +15,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sid", "readonly"]);
   await $.set(C, "FSid", L0["sid"]);
   {
-    const $t1 = (await $.v(C, "SidToAccessData"));
+    const $t1 = (await $.wobj(C, "SidToAccessData"));
     await $.stmt($.wcall([$t1], "Close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["SID", (await $.wv([$t1], "Sid", { get: async () => L0["sid"], set: async (v) => { L0["sid"] = v; }, local: true }, false))], C)));
     await $.stmt($.wcall([$t1], "Open", [], C));
@@ -71,7 +71,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "accessid": $.copyArg(p1), result: undefined};
   await $.fixArgs(L0, ["sender", "accessid"]);
   {
-    const $t6 = (await $.v(C, "SecurityDetailedData"));
+    const $t6 = (await $.wobj(C, "SecurityDetailedData"));
     await $.stmt($.wcall([$t6], "Insert", [], C));
     await $.mset((await $.wcall([$t6], "FieldByName", ["ID"], C)), "AsInteger", (await $.wv([$t6], "AccessID", { get: async () => L0["accessid"], set: async (v) => { L0["accessid"] = v; }, local: true }, false)));
     await $.mset((await $.wcall([$t6], "FieldByName", ["Description"], C)), "AsString", (await $.wcall([$t6], "Sb_GetAccessDescription", [(await $.wv([$t6], "AccessID", { get: async () => L0["accessid"], set: async (v) => { L0["accessid"] = v; }, local: true }, false))], C)));
@@ -84,7 +84,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "userid": $.copyArg(p1), result: undefined};
   await $.fixArgs(L0, ["sender", "userid"]);
   {
-    const $t7 = (await $.v(C, "SidToAccessData"));
+    const $t7 = (await $.wobj(C, "SidToAccessData"));
     await $.stmt($.wcall([$t7], "Insert", [], C));
     await $.mset((await $.wcall([$t7], "FieldByName", ["Client#"], C)), "AsInteger", (await $.wv([$t7], "UserID", { get: async () => L0["userid"], set: async (v) => { L0["userid"] = v; }, local: true }, false)));
     await $.mset((await $.wcall([$t7], "FieldByName", ["NAME"], C)), "AsString", (await $.wcall([$t7], "Sb_GetUserName", [(await $.wv([$t7], "UserID", { get: async () => L0["userid"], set: async (v) => { L0["userid"] = v; }, local: true }, false))], C)));
@@ -97,12 +97,12 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "SidToAccessData"));
+    const $t8 = (await $.wobj(C, "SidToAccessData"));
     await $.stmt((await $.wcall([$t8], "ApplyUpdates", [[(await $.wv([$t8], "aaInsert", C, false)), (await $.wv([$t8], "aaUpdate", C, false)), (await $.wv([$t8], "aaDelete", C, false))]], C)));
     await $.stmt($.wcall([$t8], "CommitUpdates", [], C));
   }
   {
-    const $t9 = (await $.v(C, "SecurityDetailedData"));
+    const $t9 = (await $.wobj(C, "SecurityDetailedData"));
     await $.stmt((await $.wcall([$t9], "ApplyUpdates", [[(await $.wv([$t9], "aaInsert", C, false)), (await $.wv([$t9], "aaUpdate", C, false)), (await $.wv([$t9], "aaDelete", C, false))]], C)));
     await $.stmt($.wcall([$t9], "CommitUpdates", [], C));
   }
@@ -114,11 +114,11 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "SidToAccessData"));
+    const $t10 = (await $.wobj(C, "SidToAccessData"));
     await $.stmt($.wcall([$t10], "CancelUpdates", [], C));
   }
   {
-    const $t11 = (await $.v(C, "SecurityDetailedData"));
+    const $t11 = (await $.wobj(C, "SecurityDetailedData"));
     await $.stmt($.wcall([$t11], "CancelUpdates", [], C));
   }
   await $.stmt($.call(C, "Close", []));

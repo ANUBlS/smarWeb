@@ -436,7 +436,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "Fsbsys"));
+    const $t1 = (await $.wobj(C, "Fsbsys"));
     await $.stmt((await $.wcall([$t1], "CallProcedure", ["add_future_rates", [(await $.mv((await $.wv([$t1], "DateTimePicker1", C, false)), "DateTime"))]], C)));
   }
   await $.mcall((await $.v(C, "dsoperkurs")), "Close", []);
@@ -452,7 +452,7 @@ export default function define($) {
   L0["buttonselected"] = (await $.call(C, "MessageDlg", ["Bu tarixə olan məzənnələr silinsinmi?", (await $.v(C, "mtError")), (await $.v(C, "mbOKCancel")), 0]));
   if ($.truthy($.eq(L0["buttonselected"], (await $.v(C, "mrOK"))))) {
     {
-      const $t2 = (await $.v(C, "Fsbsys"));
+      const $t2 = (await $.wobj(C, "Fsbsys"));
       await $.stmt((await $.wcall([$t2], "CallProcedure", ["del_future_rates", [(await $.mv((await $.wv([$t2], "DateTimePicker1", C, false)), "DateTime"))]], C)));
     }
   }
@@ -528,7 +528,7 @@ export default function define($) {
   if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Yeni valyuta məzənnələri qəbul edilsin?", (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbCancel"))], 0])), (await $.v(C, "mrYes"))))) {
     L0["starttime"] = (await $.v(C, "Time"));
     {
-      const $t7 = (await $.v(C, "SBRateManagement"));
+      const $t7 = (await $.wobj(C, "SBRateManagement"));
       await $.stmt((await $.wcall([$t7], "CallProcedure", ["commit_new_rates", []], C)));
       await $.wset([$t7], "TrCount", (await $.wcall([$t7], "CallIntegerFunction", ["calc_rate_difference", []], C)), { get: async () => L0["trcount"], set: async (v) => { L0["trcount"] = v; }, local: true });
       await $.mcall((await $.mv((await $.wv([$t7], "sboapiDataModule", C, false)), "SBSession")), "Commit", []);

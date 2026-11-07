@@ -422,7 +422,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "Contracts"));
+    const $t4 = (await $.wobj(C, "Contracts"));
     await $.stmt($.wcall([$t4], "Refresh", [], C));
   }
   return L0.result;

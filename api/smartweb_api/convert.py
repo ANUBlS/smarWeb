@@ -71,6 +71,8 @@ def to_json(v: Any) -> Any:
         return v.total_seconds() / 86400
     if hasattr(v, 'read'):  # LOB
         return to_json(v.read())
+    if isinstance(v, float) and (v != v or v in (float('inf'), float('-inf'))):
+        return None  # BINARY_DOUBLE NaN / Infinity: not representable in JSON
     if isinstance(v, oracledb.Cursor):
         return {'columns': columns_of(v.description), 'rows': [[to_json(x) for x in r] for r in v.fetchall()]}
     return v

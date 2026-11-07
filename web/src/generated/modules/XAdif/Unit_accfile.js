@@ -49,7 +49,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "SaveDlgAcc"));
+    const $t5 = (await $.wobj(C, "SaveDlgAcc"));
     if ($.truthy((await $.wv([$t5], "Execute", C, false)))) {
       await $.mset((await $.wv([$t5], "EditFile_acc", C, false)), "Text", (await $.wv([$t5], "FileName", C, false)));
     }
@@ -102,7 +102,7 @@ export default function define($) {
       if (!($.ord(L0["i"]) <= $.ord($t12))) break;
       await $.stmt((await $.call(C, "WriteString", ["<DETAILS>"])));
       {
-        const $t14 = (await $.v(C, "Adif_Data"));
+        const $t14 = (await $.wobj(C, "Adif_Data"));
         const $t15 = (await $.wv([$t14], "ods_account", C, false));
         await $.stmt((await $.wcall([$t14, $t15], "WriteString", ["<BRANCH_CODE>"], C)));
         await $.stmt((await $.wcall([$t14, $t15], "WriteString", [(await $.mv((await $.wcall([$t14, $t15], "FieldByName", ["fil_kod"], C)), "AsString"))], C)));

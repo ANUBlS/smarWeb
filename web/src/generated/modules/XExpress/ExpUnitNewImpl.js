@@ -187,7 +187,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0, "j": 0, "k": 0, "z": 0};
   {
-    const $t1 = (await $.v(C, "TabSheet1"));
+    const $t1 = (await $.wobj(C, "TabSheet1"));
     { const $t2 = $.sub((await $.wv([$t1], "ControlCount", C, false)), 1);
       await $.wset([$t1], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t3 = true;
@@ -268,7 +268,7 @@ export default function define($) {
     }
   }
   {
-    const $t13 = (await $.v(C, "TabSheet2"));
+    const $t13 = (await $.wobj(C, "TabSheet2"));
     { const $t14 = $.sub((await $.wv([$t13], "ControlCount", C, false)), 1);
       await $.wset([$t13], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t15 = true;
@@ -422,7 +422,7 @@ export default function define($) {
   { const $t25 = (await $.mv((await $.v(C, "PageControl1")), "ActivePageIndex"));
     if ($.eq($t25, 0)) {
       {
-        const $t26 = (await $.v(C, "TabSheet1"));
+        const $t26 = (await $.wobj(C, "TabSheet1"));
         { const $t27 = $.sub((await $.wv([$t26], "ControlCount", C, false)), 1);
           await $.wset([$t26], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
           let $t28 = true;
@@ -505,7 +505,7 @@ export default function define($) {
     }
     else if ($.eq($t25, 1)) {
       {
-        const $t38 = (await $.v(C, "TabSheet2"));
+        const $t38 = (await $.wobj(C, "TabSheet2"));
         { const $t39 = $.sub((await $.wv([$t38], "ControlCount", C, false)), 1);
           await $.wset([$t38], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
           let $t40 = true;
@@ -590,7 +590,7 @@ export default function define($) {
     }
     else if ($.eq($t25, 2)) {
       {
-        const $t50 = (await $.v(C, "TabSheet3"));
+        const $t50 = (await $.wobj(C, "TabSheet3"));
         { const $t51 = $.sub((await $.wv([$t50], "ControlCount", C, false)), 1);
           await $.wset([$t50], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
           let $t52 = true;
@@ -702,7 +702,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t61 = (await $.v(C, "ExpDataModule"));
+      const $t61 = (await $.wobj(C, "ExpDataModule"));
       const $t62 = (await $.wv([$t61], "SendToDataSet", C, false));
       await $.wset([$t61, $t62], "Filter", $.add($.add($.add("LastName='", (await $.mv((await $.wv([$t61, $t62], "EditLastNameII", C, false)), "Text"))), ("*")), "'"), C);
       await $.wset([$t61, $t62], "Filtered", (await $.wv([$t61, $t62], "True", C, false)), C);
@@ -717,7 +717,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t63 = (await $.v(C, "ExpDataModule"));
+      const $t63 = (await $.wobj(C, "ExpDataModule"));
       const $t64 = (await $.wv([$t63], "SendDataSet", C, false));
       await $.wset([$t63, $t64], "Filter", $.add($.add($.add("LastName='", (await $.mv((await $.wv([$t63, $t64], "EditLastNameI", C, false)), "Text"))), ("*")), "'"), C);
       await $.wset([$t63, $t64], "Filtered", (await $.wv([$t63, $t64], "True", C, false)), C);
@@ -734,13 +734,13 @@ export default function define($) {
     { const $t65 = (await $.mv((await $.v(C, "RadioGroup1")), "ItemIndex"));
       if ($.eq($t65, 3)) {
         {
-          const $t66 = (await $.v(C, "FormSearchLegalCustName"));
+          const $t66 = (await $.wobj(C, "FormSearchLegalCustName"));
           await $.stmt($.wcall([$t66], "ShowModal", [], C));
         }
       }
       else {
         {
-          const $t67 = (await $.v(C, "ExpDataModule"));
+          const $t67 = (await $.wobj(C, "ExpDataModule"));
           const $t68 = (await $.wv([$t67], "SendDataSet", C, false));
           await $.wset([$t67, $t68], "Filter", $.add($.add($.add("name='", (await $.mv((await $.wv([$t67, $t68], "EditNameI", C, false)), "Text"))), ("*")), "'"), C);
           await $.wset([$t67, $t68], "Filtered", (await $.wv([$t67, $t68], "True", C, false)), C);
@@ -757,7 +757,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
     {
-      const $t69 = (await $.v(C, "ExpDataModule"));
+      const $t69 = (await $.wobj(C, "ExpDataModule"));
       const $t70 = (await $.wv([$t69], "SendDataSet", C, false));
       await $.wset([$t69, $t70], "Filter", $.add($.add($.add("soname='", (await $.mv((await $.wv([$t69, $t70], "EditSoNameI", C, false)), "Text"))), ("*")), "'"), C);
       await $.wset([$t69, $t70], "Filtered", (await $.wv([$t69, $t70], "True", C, false)), C);
@@ -806,7 +806,7 @@ export default function define($) {
       await $.stmt((await $.call(C, "RadioGroup2Click", [L0["sender"]])));
       await $.stmt((await $.call(C, "SpeedButton1Click", [L0["sender"]])));
       {
-        const $t72 = (await $.v(C, "ExpDataModule"));
+        const $t72 = (await $.wobj(C, "ExpDataModule"));
         await $.mcall((await $.wv([$t72], "FilialDataSet", C, false)), "Close", []);
         { const $t73 = await $.iset((await $.mv((await $.wv([$t72], "FilialDataSet", C, false)), "SQL")), [1], ""); if ($t73 !== undefined) { await $.mset((await $.wv([$t72], "FilialDataSet", C, false)), "SQL", $t73); } }
         { const $t74 = await $.iset((await $.mv((await $.wv([$t72], "FilialDataSet", C, false)), "SQL")), [1], "where id=(select filialid from sba_objinf where sysuserid=uid)"); if ($t74 !== undefined) { await $.mset((await $.wv([$t72], "FilialDataSet", C, false)), "SQL", $t74); } }
@@ -985,7 +985,7 @@ export default function define($) {
       }
       L0["s"] = $.add($.add($.add($.add($.add($.add("(", L0["s"]), "="), "'"), (await $.mv((L0["sender"]), "text"))), "'"), ")");
       {
-        const $t76 = (await $.v(C, "ExpDataModule"));
+        const $t76 = (await $.wobj(C, "ExpDataModule"));
         const $t77 = (await $.wv([$t76], "SendToDataSet", C, false));
         await $.stmt($.wcall([$t76, $t77], "close", [], C));
         { const $t78 = await $.iset((await $.wv([$t76, $t77], "SQL", C, false)), [1], ""); if ($t78 !== undefined) { await $.wset([$t76, $t77], "SQL", $t78, C); } }
@@ -1098,7 +1098,7 @@ export default function define($) {
         }
       }
       {
-        const $t83 = (await $.v(C, "ExpDataModule"));
+        const $t83 = (await $.wobj(C, "ExpDataModule"));
         const $t84 = (await $.wv([$t83], "TakeDataSet", C, false));
         await $.stmt($.wcall([$t83, $t84], "close", [], C));
         { const $t85 = await $.iset((await $.wv([$t83, $t84], "SQL", C, false)), [1], ""); if ($t85 !== undefined) { await $.wset([$t83, $t84], "SQL", $t85, C); } }
@@ -1170,7 +1170,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t88 = (await $.v(C, "ExpDataModule"));
+    const $t88 = (await $.wobj(C, "ExpDataModule"));
     const $t89 = (await $.wv([$t88], "SendToDataSet", C, false));
     await $.wset([$t88, $t89], "Filter", "", C);
     await $.wset([$t88, $t89], "Filtered", (await $.wv([$t88, $t89], "False", C, false)), C);
@@ -1216,7 +1216,7 @@ export default function define($) {
       }
       L0["s"] = $.add($.add($.add($.add($.add($.add("(", L0["s"]), "="), "'"), (await $.mv((L0["sender"]), "text"))), "'"), ")");
       {
-        const $t90 = (await $.v(C, "ExpDataModule"));
+        const $t90 = (await $.wobj(C, "ExpDataModule"));
         const $t91 = (await $.wv([$t90], "SendDataSet", C, false));
         await $.stmt($.wcall([$t90, $t91], "close", [], C));
         { const $t92 = await $.iset((await $.wv([$t90, $t91], "SQL", C, false)), [1], ""); if ($t92 !== undefined) { await $.wset([$t90, $t91], "SQL", $t92, C); } }
@@ -1456,7 +1456,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "status": 0, "optype": 0, "amount": 0, "val_cod": 0, "trans_ref": '', "remit_inf": '', "add_inf": '', "senddate": 0, "recdate": 0, "senddatetime": 0, "recdatetime": 0, "password": '', "s": '', "v_id": 0};
   {
-    const $t100 = (await $.v(C, "ExpressVariables"));
+    const $t100 = (await $.wobj(C, "ExpressVariables"));
     await $.wset([$t100], "custid", (await $.mv((await $.wv([$t100], "EditCustid", C, false)), "Text")), C);
     await $.wset([$t100], "doc_type", (await $.mv((await $.wv([$t100], "CBoxPassPlaceI", C, false)), "KeyValue")), C);
     await $.wset([$t100], "passpin", (await $.mv((await $.wv([$t100], "EditPINCodeI", C, false)), "Text")), C);
@@ -1561,7 +1561,7 @@ export default function define($) {
   const L0 = {result: undefined};
   if ($.truthy((await $.mv((await $.v(C, "ExpFormNew")), "FiledBatchs")))) {
     {
-      const $t103 = (await $.v(C, "ExpDataModule"));
+      const $t103 = (await $.wobj(C, "ExpDataModule"));
       const $t104 = (await $.wv([$t103], "SendDataSet", C, false));
       await $.stmt($.wcall([$t103, $t104], "Close", [], C));
       { const $t105 = await $.iset((await $.wv([$t103, $t104], "SQl", C, false)), [1], ""); if ($t105 !== undefined) { await $.wset([$t103, $t104], "SQl", $t105, C); } }
@@ -1670,7 +1670,7 @@ export default function define($) {
       }
     }
     {
-      const $t115 = (await $.v(C, "ExpDataModule"));
+      const $t115 = (await $.wobj(C, "ExpDataModule"));
       const $t116 = (await $.wv([$t115], "SendToDataSet", C, false));
       await $.stmt($.wcall([$t115, $t116], "Close", [], C));
       { const $t117 = await $.iset((await $.wv([$t115, $t116], "SQl", C, false)), [1], ""); if ($t117 !== undefined) { await $.wset([$t115, $t116], "SQl", $t117, C); } }
@@ -1733,7 +1733,7 @@ export default function define($) {
   }
   if ($.truthy((await $.mv((await $.v(C, "ExpFormNew")), "FiledIncoming")))) {
     {
-      const $t123 = (await $.v(C, "ExpDataModule"));
+      const $t123 = (await $.wobj(C, "ExpDataModule"));
       const $t124 = (await $.wv([$t123], "SendDataSet", C, false));
       await $.stmt($.wcall([$t123, $t124], "Close", [], C));
       { const $t125 = await $.iset((await $.wv([$t123, $t124], "SQl", C, false)), [1], ""); if ($t125 !== undefined) { await $.wset([$t123, $t124], "SQl", $t125, C); } }
@@ -1793,7 +1793,7 @@ export default function define($) {
       await $.mset((await $.wv([$t123, $t124], "RemitInfEdit", C, false)), "Text", (await $.mv((await $.wv([$t123, $t124], "ExpBatchsDataSetREMIT_INF", C, false)), "AsString")));
     }
     {
-      const $t133 = (await $.v(C, "ExpDataModule"));
+      const $t133 = (await $.wobj(C, "ExpDataModule"));
       const $t134 = (await $.wv([$t133], "SendToDataSet", C, false));
       await $.stmt($.wcall([$t133, $t134], "Close", [], C));
       { const $t135 = await $.iset((await $.wv([$t133, $t134], "SQl", C, false)), [1], ""); if ($t135 !== undefined) { await $.wset([$t133, $t134], "SQl", $t135, C); } }
@@ -1852,7 +1852,7 @@ export default function define($) {
   }
   if ($.truthy((await $.mv((await $.v(C, "ExpFormNew")), "FieldBatchsArchive")))) {
     {
-      const $t141 = (await $.v(C, "ExpDataModule"));
+      const $t141 = (await $.wobj(C, "ExpDataModule"));
       const $t142 = (await $.wv([$t141], "SendDataSet", C, false));
       await $.stmt($.wcall([$t141, $t142], "Close", [], C));
       { const $t143 = await $.iset((await $.wv([$t141, $t142], "SQl", C, false)), [1], ""); if ($t143 !== undefined) { await $.wset([$t141, $t142], "SQl", $t143, C); } }
@@ -1961,7 +1961,7 @@ export default function define($) {
       }
     }
     {
-      const $t153 = (await $.v(C, "ExpDataModule"));
+      const $t153 = (await $.wobj(C, "ExpDataModule"));
       const $t154 = (await $.wv([$t153], "SendToDataSet", C, false));
       await $.stmt($.wcall([$t153, $t154], "Close", [], C));
       { const $t155 = await $.iset((await $.wv([$t153, $t154], "SQl", C, false)), [1], ""); if ($t155 !== undefined) { await $.wset([$t153, $t154], "SQl", $t155, C); } }
@@ -2024,7 +2024,7 @@ export default function define($) {
   }
   if ($.truthy((await $.mv((await $.v(C, "ExpFormNew")), "FiledIncoming")))) {
     {
-      const $t161 = (await $.v(C, "ExpDataModule"));
+      const $t161 = (await $.wobj(C, "ExpDataModule"));
       const $t162 = (await $.wv([$t161], "SendDataSet", C, false));
       await $.stmt($.wcall([$t161, $t162], "Close", [], C));
       { const $t163 = await $.iset((await $.wv([$t161, $t162], "SQl", C, false)), [1], ""); if ($t163 !== undefined) { await $.wset([$t161, $t162], "SQl", $t163, C); } }
@@ -2084,7 +2084,7 @@ export default function define($) {
       await $.mset((await $.wv([$t161, $t162], "RemitInfEdit", C, false)), "Text", (await $.mv((await $.wv([$t161, $t162], "ExpBatchsDataSetREMIT_INF", C, false)), "AsString")));
     }
     {
-      const $t171 = (await $.v(C, "ExpDataModule"));
+      const $t171 = (await $.wobj(C, "ExpDataModule"));
       const $t172 = (await $.wv([$t171], "SendToDataSet", C, false));
       await $.stmt($.wcall([$t171, $t172], "Close", [], C));
       { const $t173 = await $.iset((await $.wv([$t171, $t172], "SQl", C, false)), [1], ""); if ($t173 !== undefined) { await $.wset([$t171, $t172], "SQl", $t173, C); } }
@@ -2147,7 +2147,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "result": 0};
   {
-    const $t179 = (await $.v(C, "ExpDataModule"));
+    const $t179 = (await $.wobj(C, "ExpDataModule"));
     const $t180 = (await $.wv([$t179], "SendDataSet", C, false));
     await $.stmt($.wcall([$t179, $t180], "Close", [], C));
     { const $t181 = await $.iset((await $.wv([$t179, $t180], "SQl", C, false)), [1], ""); if ($t181 !== undefined) { await $.wset([$t179, $t180], "SQl", $t181, C); } }
@@ -2257,7 +2257,7 @@ export default function define($) {
     }
   }
   {
-    const $t191 = (await $.v(C, "ExpDataModule"));
+    const $t191 = (await $.wobj(C, "ExpDataModule"));
     const $t192 = (await $.wv([$t191], "SendToDataSet", C, false));
     await $.stmt($.wcall([$t191, $t192], "Close", [], C));
     { const $t193 = await $.iset((await $.wv([$t191, $t192], "SQl", C, false)), [1], ""); if ($t193 !== undefined) { await $.wset([$t191, $t192], "SQl", $t193, C); } }
@@ -2466,7 +2466,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "result": 0};
   {
-    const $t201 = (await $.v(C, "ExpDataModule"));
+    const $t201 = (await $.wobj(C, "ExpDataModule"));
     const $t202 = (await $.wv([$t201], "SendDataSet", C, false));
     await $.stmt($.wcall([$t201, $t202], "Close", [], C));
     { const $t203 = await $.iset((await $.wv([$t201, $t202], "SQl", C, false)), [1], ""); if ($t203 !== undefined) { await $.wset([$t201, $t202], "SQl", $t203, C); } }
@@ -2576,7 +2576,7 @@ export default function define($) {
     }
   }
   {
-    const $t213 = (await $.v(C, "ExpDataModule"));
+    const $t213 = (await $.wobj(C, "ExpDataModule"));
     const $t214 = (await $.wv([$t213], "SendToDataSet", C, false));
     await $.stmt($.wcall([$t213, $t214], "Close", [], C));
     { const $t215 = await $.iset((await $.wv([$t213, $t214], "SQl", C, false)), [1], ""); if ($t215 !== undefined) { await $.wset([$t213, $t214], "SQl", $t215, C); } }
@@ -2980,7 +2980,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "shift"]);
   if ($.truthy($.eq((await L0["key"].get()), (await $.v(C, "VK_F3"))))) {
     {
-      const $t225 = (await $.v(C, "ExpFormDestination"));
+      const $t225 = (await $.wobj(C, "ExpFormDestination"));
       const $t226 = (await $.wv([$t225], "ExpDataModule", C, false));
       await $.stmt($.wcall([$t225, $t226], "ShowModal", [], C));
       if ($.truthy($.eq((await $.wv([$t225, $t226], "ModalResult", C, false)), (await $.wv([$t225, $t226], "mrOk", C, false))))) {
@@ -3055,7 +3055,7 @@ export default function define($) {
     await $.stmt((await $.mcall((await $.mv((await $.v(C, "ExpDataModule")), "ExpBatchsDataSet")), "Locate", ["ID", (await $.v(C, "ID")), []])));
   } else {
     {
-      const $t227 = (await $.v(C, "ExpressVariables"));
+      const $t227 = (await $.wobj(C, "ExpressVariables"));
       await $.wset([$t227], "custidI", (await $.mv((await $.wv([$t227], "EditCustidII", C, false)), "Text")), C);
       await $.wset([$t227], "doc_typeI", (await $.mv((await $.wv([$t227], "CBoxPassPlaceII", C, false)), "KeyValue")), C);
       await $.wset([$t227], "passpinI", (await $.mv((await $.wv([$t227], "EditPINCodeII", C, false)), "Text")), C);
@@ -3095,7 +3095,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "status": 0, "vid": 0, "custid2": null, "doc_type2": null, "passpin2": '', "passer2": null, "paspnum2": null, "doc_country2": null, "paspplace2": null, "paspdate2": null, "passexpire2": null, "citizenship7": null, "citizenship8": null, "citizenship9": null, "lastname2": '', "soname2": '', "name2": '', "sex2": null, "fam_status2": null, "bbirthplace2": '', "birth_state2": '', "birthday2": null, "aadrs_state2": '', "city2": null, "reg_zip2": null, "address2": null, "phone_m2": null, "phone_h2": null, "e_mail2": '', "filial2": 0, "v_nerezident2": 0, "v_cust_type2": 0, "v_inn2": '', "debetid2": null, "pfattorser": '', "pfattornum": '', "pfattorbdat": null, "pfattoredat": null, "addinf": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t228 = (await $.v(C, "ExpDataModule"));
+    const $t228 = (await $.wobj(C, "ExpDataModule"));
     await $.wset([$t228], "vid", (await $.mv((await $.mcall((await $.wv([$t228], "ExpBatchsDataSet", C, false)), "fieldbyname", ["id"])), "AsInteger")), { get: async () => L0["vid"], set: async (v) => { L0["vid"] = v; }, local: true });
     if ($.truthy((await $.or_(($.eq((await $.mv((await $.wv([$t228], "RadioGroup3", C, false)), "ItemIndex")), (-(1)))), async () => ($.eq((await $.mv((await $.wv([$t228], "RadioGroup3", C, false)), "ItemIndex")), 0)))))) {
       if ($.truthy(($.eq((await $.mv((await $.wv([$t228], "EditPINCode2", C, false)), "Text")), "")))) {
@@ -3222,7 +3222,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "Rk", true);
   {
-    const $t230 = (await $.v(C, "FormNominalCustomers"));
+    const $t230 = (await $.wobj(C, "FormNominalCustomers"));
     await $.mset((await $.wv([$t230], "Label53", C, false)), "Visible", (await $.wv([$t230], "true", C, false)));
     await $.mset((await $.wv([$t230], "Label54", C, false)), "Visible", (await $.wv([$t230], "true", C, false)));
     await $.mset((await $.wv([$t230], "Label55", C, false)), "Visible", (await $.wv([$t230], "true", C, false)));

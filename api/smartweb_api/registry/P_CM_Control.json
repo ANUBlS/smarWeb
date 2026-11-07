@@ -1,0 +1,93 @@
+{
+ "name": "P_CM_Control",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Controls",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ResultsDatSet",
+   "source": "TControlDatMod.ResultsDatSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT numberofcredit, \n       custname, \n       sum(drest) as drest , \n       sum(dinterestrest) as dinterestrest, \n       sum(dduerest) as dduerest,\n       sum(ddueinterestrest) as ddueinterestrest\n  FROM cm_controls\ngroup by NUMBEROFCREDIT, custname",
+   "variables": [],
+   "unit": "ControlDatModImpl"
+  },
+  {
+   "name": "Branchs",
+   "source": "TControlDatMod.Branchs",
+   "kind": "TOracleDataSet",
+   "sql": "select  -1 id ,'Bütün filiallar' name from filial\nunion\nselect  id ,name from filial",
+   "variables": [],
+   "unit": "ControlDatModImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TControlDatMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id from smart.provarch p\nwhere p.dat between :bdat and :edat\nand vid_op=86 and id not in (select trid from cm_dovriye where \ntrid is not null\n) and name not like '%Kredit uzre ehtiyyatin deyishdirilmesi%'\nunion\nselect trid id from cm_dovriye where \ntrid is not null and trid not in(select id from provarch where\n name not like '%Kredit uzre ehtiyyatin deyishdirilmesi%' and dat between :bdat and :edat)\n and dat between :bdat and :edat\n UNION\n select p.id from smart.provarch p ,cm_dovriye  t\nwhere p.id=t.trid \nand\np.dat between :bdat and :edat\nand \np.ammount-t.ammount<>0 and p.name not like '%Kredit uzre ehtiyyatin deyishdirilmesi%'\nand id not in (select tridprimreserve from cm_payments where paydate between :bdat and :edat and tridprimreserve is not null)\nand id not in(select reservetrid  from cm_tranches where tranchedate between :bdat and :edat and reservetrid is not null)",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "ControlDatModImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TControlDatMod.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.numberofcredit,p.dateofconclusion, s.rest,s.interestrest,h.interest from cm_active_credits p,cm_int_currstate h,\ncm_curr_state s\nwhere p.id=h.creditid and p.id=s.creditid and \np.dateofconclusion<sbop.get_date and \ntrprocessed<>2 and s.rest>0 and s.stopcalcdate is null",
+   "variables": [],
+   "unit": "ControlDatModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_CONTROL",
+   "package": "CM_CONTROL",
+   "mode": "positional",
+   "source": "TControlDatMod.CM_CONTROL",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

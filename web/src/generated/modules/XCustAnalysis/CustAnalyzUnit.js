@@ -19,7 +19,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModCustAnalyz"));
+    const $t1 = (await $.wobj(C, "DataModCustAnalyz"));
     if ($.truthy($.ne((await $.wcall([$t1], "Length", [(await $.mv((await $.wv([$t1], "EditSearch", C, false)), "Text"))], C)), 0))) {
       await $.mcall((await $.wv([$t1], "ODS_CUST", C, false)), "Close", []);
       { const $t2 = (await $.mv((await $.wv([$t1], "CBSearch", C, false)), "ItemIndex"));
@@ -569,7 +569,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t12 = (await $.v(C, "DataModCustAnalyz"));
+    const $t12 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mset((await $.wv([$t12], "XFLabel8", C, false)), "Caption", (await $.mv((await $.wv([$t12], "DataModCustAnalyz", C, false)), "p_inn_pincode")));
     await $.mset((await $.wv([$t12], "DBEdit5", C, false)), "Text", (await $.wv([$t12], "pv_inn_pincode", C, false)));
     { const $t13 = (await $.mv((await $.wv([$t12], "Ods_custMUSTERI_TIPI", C, false)), "AsInteger"));
@@ -588,14 +588,14 @@ export default function define($) {
     }
   }
   {
-    const $t14 = (await $.v(C, "DataModCustAnalyz"));
+    const $t14 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t14], "Ods_portfol", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t14], "Ods_portfol", C, false)), "SetVariable", ["v_boorowerid", (await $.mv((await $.wv([$t14], "Ods_custID", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t14], "Ods_portfol", C, false)), "open", []);
     await $.mcall((await $.wv([$t14], "Ods_portfol", C, false)), "First", []);
   }
   {
-    const $t15 = (await $.v(C, "DataModCustAnalyz"));
+    const $t15 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t15], "Ods_Custinfo", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t15], "Ods_Custinfo", C, false)), "SetVariable", ["v_id", (await $.mv((await $.wv([$t15], "Ods_custID", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t15], "Ods_Custinfo", C, false)), "open", []);
@@ -611,13 +611,13 @@ export default function define($) {
     }
   }
   {
-    const $t17 = (await $.v(C, "DataModCustAnalyz"));
+    const $t17 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t17], "Ods_zamin", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t17], "Ods_zamin", C, false)), "SetVariable", ["v_creditid", (await $.mv((await $.wv([$t17], "Ods_portfolid", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t17], "Ods_zamin", C, false)), "open", []);
   }
   {
-    const $t18 = (await $.v(C, "DataModCustAnalyz"));
+    const $t18 = (await $.wobj(C, "DataModCustAnalyz"));
     await $.mcall((await $.wv([$t18], "Ods_girov", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t18], "Ods_girov", C, false)), "SetVariable", ["v_creditid", (await $.mv((await $.wv([$t18], "Ods_portfolid", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t18], "Ods_girov", C, false)), "open", []);

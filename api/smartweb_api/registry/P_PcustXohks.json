@@ -1,7 +1,7 @@
 {
  "name": "P_PcustXohks",
  "caption": "",
- "dir": "Packages/PCustService/PCUST_Xohks",
+ "dir": "Packages/PCustService2026/PCUST_Xohks",
  "mainForm": null,
  "plugin": true,
  "plugins": {

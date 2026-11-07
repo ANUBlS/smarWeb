@@ -1,0 +1,73 @@
+{
+ "name": "P_CM_Bali_Src",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_AutoPayment/CM_Balisrc",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TBali.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum, p.id,p.numberofcredit,b.boorowerid,b.name,v.val_name,b.guarantorsalary,b.guarantorname,p.creditlineamount,h.rest+h.duerest rest,h.interestrest,\n (select description from cm_usergroups where id=usrgroup) exp from smart.cm_active_credits p,CM_BOOROWERINFO b,smart.avalute_t v,cm_curr_state h\nwhere p.id=b.creditid and p.id=h.creditid and\np.currency=v.valute --and rownum=1\n\n\norder by rownum\n",
+   "variables": [],
+   "unit": "BaliSrcImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TBali.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum,p.id, p.numberofcredit,b.boorowerid,b.name,v.val_name,b.guarantorsalary,b.guarantorname,h.rest as creditlineamount,\nb.guarantorname2,b.guarantorsalary2,p.dateofconclusion,p.duedatefirstcontract,b.phonenumber,b.salary,b.zaminwork1,\nb.zamintel1\n from smart.cm_active_credits p,CM_BOOROWERINFO b,smart.avalute_t v,cm_history h\nwhere p.id=b.creditid and h.creditid=p.id and h.hdate =(select tek_dat from smart.sysdat) and\np.currency=v.valute \nand p.id=:pid\n",
+   "variables": [
+    {
+     "name": "PID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BaliSrcImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TBali.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum, B.* from smart.CM_ZaminID B where B.boorowerid is not null\n\n\n\n",
+   "variables": [],
+   "unit": "BaliSrcImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

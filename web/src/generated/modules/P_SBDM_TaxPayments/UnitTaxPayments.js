@@ -78,7 +78,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t1 = (await $.v(C, "ExcelExport"));
+    const $t1 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t1], "Connect", [], C));
     await $.stmt((await $.wcall([$t1], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t1], "XDBGrid1", C, false)), "DataSource")), "DataSet")), "Vergi", (await $.wv([$t1], "true", C, false)), (await $.wv([$t1], "true", C, false))], C)));
     await $.stmt($.wcall([$t1], "Disconnect", [], C));
@@ -100,7 +100,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t2 = (await $.v(C, "DataModuleTax"));
+    const $t2 = (await $.wobj(C, "DataModuleTax"));
     const $t3 = (await $.wv([$t2], "ODSTaxPayment", C, false));
     await $.stmt($.wcall([$t2, $t3], "close", [], C));
     if ($.truthy($.eq((await $.mv((await $.mv((await $.wv([$t2, $t3], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "Title")), "MarkerIndex")), 2))) {

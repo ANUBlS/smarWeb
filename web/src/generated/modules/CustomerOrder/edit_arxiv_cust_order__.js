@@ -34,7 +34,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "DataModCustOrders"));
+    const $t2 = (await $.wobj(C, "DataModCustOrders"));
     await $.mcall((await $.wv([$t2], "Bankm", C, false)), "open", []);
     await $.mcall((await $.wv([$t2], "bank_info", C, false)), "open", []);
   }

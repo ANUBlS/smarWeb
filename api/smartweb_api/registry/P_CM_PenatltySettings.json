@@ -1,0 +1,110 @@
+{
+ "name": "P_CM_PenatltySettings",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_PenatltySettings",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Valutes",
+   "source": "TDMPenaltySett.Valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name ,valu_name from avalute",
+   "variables": [],
+   "unit": "DMPenaltySettImpl"
+  },
+  {
+   "name": "Accounts",
+   "source": "TDMPenaltySett.Accounts",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no from account\nwhere bal_cn1 in (SELECT  accountnumber\n  FROM cm_aginfo where groupid = (\nselect id from cm_accountgroups where iname = 'InternalBankAccs'))",
+   "variables": [],
+   "unit": "DMPenaltySettImpl"
+  },
+  {
+   "name": "Branches",
+   "source": "TDMPenaltySett.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial ",
+   "variables": [],
+   "unit": "DMPenaltySettImpl"
+  },
+  {
+   "name": "PenaltySettings",
+   "source": "TDMPenaltySett.PenaltySettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, branchid, currencyid, accid\n  FROM cm_penaltysettings\nwhere currencyid = :currencyid ",
+   "variables": [
+    {
+     "name": "CURRENCYID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMPenaltySettImpl"
+  },
+  {
+   "name": "avalutes",
+   "source": "TDMPenaltySett.avalutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,val_name ,valu_name from avalute",
+   "variables": [],
+   "unit": "DMPenaltySettImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "cm_setup",
+   "package": "cm_setup",
+   "mode": "positional",
+   "source": "TDMPenaltySett.cm_setup",
+   "routines": [
+    {
+     "name": "Add_PenaltySett",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_penaltySett",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "upd_PenaltySett",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

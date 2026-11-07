@@ -34,7 +34,7 @@ export default function define($) {
   if ($.truthy($.ne(L1["debtcurrency"], L1["creditcurrency"]))) {
     if ($.truthy($.lt(L1["debtcurrency"], L1["creditcurrency"]))) {
       {
-        const $t1 = (await $.v(C, "Rates"));
+        const $t1 = (await $.wobj(C, "Rates"));
         await $.stmt((await $.wcall([$t1], "SetVariable", ["Dat", (await $.wv([$t1], "HDate", { get: async () => L1["hdate"], set: async (v) => { L1["hdate"] = v; }, local: true }, false))], C)));
         await $.stmt((await $.wcall([$t1], "SetVariable", ["CurrencyID", (await $.wv([$t1], "CreditCurrency", { get: async () => L1["creditcurrency"], set: async (v) => { L1["creditcurrency"] = v; }, local: true }, false))], C)));
         await $.stmt($.wcall([$t1], "Open", [], C));

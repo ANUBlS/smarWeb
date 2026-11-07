@@ -350,6 +350,19 @@
    "unit": "DataModuleArConclusion"
   },
   {
+   "name": "",
+   "source": "TArDataModuleConcl.",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM cm_categories \nwhere act_id=:act_id\nand act_id is not null\norder by id\n \n\n\n/*SELECT *\n  FROM creditsmgr.cm_activities_type  \nwhere act_type_id =:act_type_id*/\n \n--order by act_id\n",
+   "variables": [
+    {
+     "name": "ACT_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DataModuleArConclusion"
+  },
+  {
    "name": "Aim_Set",
    "source": "TArDataModuleConcl.Aim_Set",
    "kind": "TOracleDataSet",

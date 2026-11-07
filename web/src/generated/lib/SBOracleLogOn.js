@@ -230,7 +230,7 @@ export default function define($) {
   L0["result"] = (await $.v(C, "arError"));
   if ($.truthy((await $.call(C, "Assigned", [(await $.v(C, "FSession"))])))) {
     {
-      const $t9 = (await $.v(C, "FSession"));
+      const $t9 = (await $.wobj(C, "FSession"));
       try {
         await $.wset([$t9], "LogonUsername", (await $.mv((await $.wv([$t9], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "LogonUsername")), C);
         await $.wset([$t9], "LogonPassword", (await $.wcall([$t9], "GeneratePassword", [(await $.mv((await $.wv([$t9], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "LogonPassword"))], C)), C);

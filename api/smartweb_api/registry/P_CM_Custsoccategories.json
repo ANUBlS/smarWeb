@@ -1,0 +1,52 @@
+{
+ "name": "P_CM_Custsoccategories",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Custsoccategories",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CustCatDataSet",
+   "source": "TFrmCustcat.CustCatDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid,t.* from custsoccategories T",
+   "variables": [],
+   "unit": "frmCustCatImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

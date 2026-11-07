@@ -49,7 +49,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t3 = (await $.v(C, "Out_RepairFrm"));
+    const $t3 = (await $.wobj(C, "Out_RepairFrm"));
     await $.stmt((await $.wcall([$t3], "ShowAvi", [(await $.wv([$t3], "True", C, false))], { get: async () => L0["showavi"], set: async (v) => { L0["showavi"] = v; }, local: true })));
     await $.stmt($.wcall([$t3], "DeleteTrans", [], C));
     await $.stmt((await $.wcall([$t3], "ShowAvi", [(await $.wv([$t3], "False", C, false))], { get: async () => L0["showavi"], set: async (v) => { L0["showavi"] = v; }, local: true })));
@@ -62,7 +62,7 @@ export default function define($) {
   L0["preparetransaction"] = $.fn(async function PrepareTransaction() {
   const L1 = {result: $.rec("ttransaction"), "acttransaction": $.rec("ttransaction")};
   {
-    const $t4 = (await $.v(C, "OutRep_delete"));
+    const $t4 = (await $.wobj(C, "OutRep_delete"));
     const $t5 = (await $.mv((await $.wv([$t4], "RepDataModule", C, false)), "TransactionData"));
     const $t6 = (await $.wv([$t4, $t5], "ActTransaction", { get: async () => L1["acttransaction"], set: async (v) => { L1["acttransaction"] = v; }, local: true }, false));
     await $.wset([$t4, $t5, $t6], "Action", (await $.wv([$t4, $t5, $t6], "acDelete", C, false)), C);
@@ -94,7 +94,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t7 = (await $.v(C, "RepDataModule"));
+    const $t7 = (await $.wobj(C, "RepDataModule"));
     const $t8 = (await $.wv([$t7], "TransactionData", C, false));
     await $.wset([$t7, $t8], "Rec", (await $.wv([$t7, $t8], "RecNo", C, false)), { get: async () => L0["rec"], set: async (v) => { L0["rec"] = v; }, local: true });
     try {

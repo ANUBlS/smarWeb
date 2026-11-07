@@ -1,0 +1,139 @@
+{
+ "name": "P_cm_RepCoefficient",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_coefficient",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "PersonTypes",
+   "source": "TFrmCoefficient.PersonTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  ID,\n  DESCRIPION\nfrom\n  CM_PERSONS\n\norder by id",
+   "variables": [],
+   "unit": "coefficientImpl"
+  },
+  {
+   "name": "PersonelTypeDataSet",
+   "source": "TFrmCoefficient.PersonelTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "coefficientImpl"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TFrmCoefficient.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT id, name\n    FROM sb_filial",
+   "variables": [],
+   "unit": "coefficientImpl"
+  },
+  {
+   "name": "sysdate",
+   "source": "TFrmCoefficient.sysdate",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "coefficientImpl"
+  },
+  {
+   "name": "active",
+   "source": "TFrmCoefficient.active",
+   "kind": "TOracleDataSet",
+   "sql": "select BRANCH name,sum(DEBTMAIN*kurus) portfel,sum(DATEDEBTINT*kurus) odenilmelifaiz,sum(PAYEDINT*kurus) odenilmish,\nsum(DEBTOVERINT*kurus) gecfaizmeb,sum(GECFAIZQALIQ*kurus) gec ,sum(GECFAIZQALIQ*kurus )/sum(DEBTMAIN*kurus) gf\n,sum(PAYEDINT*kurus) /sum(DATEDEBTINT*kurus)f\nfrom cm_report_f1 \n\n\ngroup by BRANCH\n\n\n\n\n/*select  f.name,sum(h.rest*o.ostat) portfel,sum(CM_COEFFICIENT.get_payint(p.id,:dat)*o.ostat) odenilmelifaiz,\nsum(CM_COEFFICIENT.get_payment(p.id,:dat)*o.ostat) odenilmish,sum(CM_COEFFICIENT.get_gec(p.id,:dat)*o.ostat) gec \n,sum(CM_COEFFICIENT.get_gec(p.id,:dat)*o.ostat)/sum(h.rest*o.ostat) gf,sum(CM_COEFFICIENT.get_gecfaiz(p.id,:dat)*o.ostat)gecfaizmeb,\nsum(CM_COEFFICIENT.get_payment(p.id,:dat)*o.ostat)/sum(CM_COEFFICIENT.get_payint(p.id,:dat)*o.ostat) f from \ncm_active_credits p,\ncm_history h,\nfilial f,\nsmart.OPERKURS o\nwhere \np.id=h.creditid and \nh.hdate = :dat and\np.branchid=f.id and\no.dat = :dat and  \np.currency=o.VAL_KOD -- and h.rest>0\n\n\n\n\n\n\ngroup by f.name*/",
+   "variables": [],
+   "unit": "coefficientImpl"
+  },
+  {
+   "name": "main",
+   "source": "TFrmCoefficient.main",
+   "kind": "TOracleDataSet",
+   "sql": "select BRANCH name,sum(DEBTMAIN*kurus) portfel,sum(DATEDEBTMAIN*kurus) odenilmeli ,sum(PAYEDMAIN*kurus) odenilmish,\nsum(ARTIQESAS*kurus) artiq,sum(nvl(DEBTOVERMAIN,0)*kurus) geces,\nsum(GECESASQALIQ*kurus) gec\nfrom cm_report_f1 \n\n\ngroup by BRANCH\n\n\n\n\n\n\n\n\n/*select  f.name,sum(h.rest*o.ostat) portfel ,sum(cm_coefficient.get_odenilmelirest(p.id,:dat)*o.ostat) odenilmeli ,\nsum(cm_coefficient.get_paymain(p.id,:dat)*o.ostat) odenilmish,\nsum(cm_coefficient.get_artiq(p.id,:dat)*o.ostat) artiq,sum(cm_coefficient.get_geces(p.id,:dat)*o.ostat) geces\n,sum(cm_coefficient.get_gecmain(p.id,:dat)*o.ostat) gec\nfrom \ncm_active_credits p,\ncm_history h,\nfilial f,\nsmart.OPERKURS o\nwhere \np.id=h.creditid and \nh.hdate = :dat and\np.branchid=f.id and\no.dat = :dat and\np.currency=o.VAL_KOD  --and h.rest>0\n\n\n\n\n\n\n\n\n\ngroup by f.name*/\n\n\n\n",
+   "variables": [],
+   "unit": "coefficientImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFrmCoefficient.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select  f.name,sum(round(h.rest*o.ostat,2)) portfel,sum(round(CM_COEFFICIENT.get_payint(p.id,:dat)*o.ostat,2)) odenilmelifaiz,\nsum(round(CM_COEFFICIENT.get_payment(p.id,:dat)*o.ostat,2)) odenilmish,sum(round(CM_COEFFICIENT.get_gec(p.id,:dat)*o.ostat,2)) gec \n,sum(CM_COEFFICIENT.get_gec(p.id,:dat)*o.ostat)/sum(h.rest*o.ostat) gf,sum(CM_COEFFICIENT.get_gecfaiz(p.id,:dat)*o.ostat)gecfaizmeb,\nsum(CM_COEFFICIENT.get_payment(p.id,:dat)*o.ostat)/sum(CM_COEFFICIENT.get_payint(p.id,:dat)*o.ostat) f from \ncm_active_credits p,\ncm_history h,\nfilial f,\nsmart.OPERKURS o\nwhere \np.id=h.creditid and \nh.hdate = :dat and\np.branchid=f.id and\no.dat = :dat and  \np.currency=o.VAL_KOD -- and h.rest>0\n\n/*15*/\n\n\n\n\n\ngroup by f.name",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "coefficientImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFrmCoefficient.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select  f.name,sum(round(h.rest*o.ostat,2)) portfel ,sum(round(cm_coefficient.get_odenilmelirest(p.id,:dat)*o.ostat,2)) odenilmeli ,\nsum(round(cm_coefficient.get_paymain(p.id,:dat)*o.ostat,2)) odenilmish,\nsum(round(cm_coefficient.get_paymain(p.id,:dat)*o.ostat,2))-sum(round(cm_coefficient.get_odenilmelirest(p.id,:dat)*o.ostat,2)) artiq\n,sum(round(cm_coefficient.get_gecmain(p.id,:dat)*o.ostat,2)) gec\nfrom \ncm_active_credits p,\ncm_history h,\nsb_filial f,\nsmart.OPERKURS o\nwhere \np.id=h.creditid and \nh.hdate = :dat and\np.branchid=f.id and\no.dat = :dat and\np.currency=o.VAL_KOD  --and h.rest>0\n\n/*17*/\n\n\ngroup by f.name\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "coefficientImpl"
+  },
+  {
+   "name": "credit",
+   "source": "TFrmCoefficient.credit",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_active_credits p where id is not null\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "coefficientImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "CM_AK_reports",
+   "mode": "named",
+   "source": "TFrmCoefficient.OraclePackage1",
+   "routines": [
+    {
+     "name": "insinfof1",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

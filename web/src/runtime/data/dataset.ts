@@ -175,7 +175,22 @@ export class TDataSet extends TComponent {
   get IsSequenced() { return true; }
   get DefaultFields() { return !this.persistentFields; }
 
-  protected async setRecNo(n: number) { await this.moveTo(Math.max(0, Math.min(this.view.length - 1, n - 1))); }
+  protected async setRecNo(n: number) { await this.fetchTo(n - 1); await this.moveTo(Math.max(0, Math.min(this.view.length - 1, n - 1))); }
+
+  /* ---------------------------------------------------------------- incremental fetching (DOA QueryAllRecords = False) */
+
+  /** More rows of the open query wait on the server. */
+  get moreRows() { return false; }
+  /** Rows fetched per step (DOA ReadBuffer). */
+  get readBuffer() { return 25; }
+  /** Fetch `count` more rows (0 = all remaining); false when nothing more came. */
+  async fetchMore(_count: number): Promise<boolean> { return false; }
+  /** Fetch until view row `i` exists (or the query is exhausted). */
+  protected async fetchTo(i: number) {
+    while (this.moreRows && i >= this.view.length) {
+      if (!(await this.fetchMore(Math.max(this.readBuffer, i - this.view.length + 1)))) break;
+    }
+  }
 
   protected async moveTo(i: number, eofIfPast = false) {
     if (!this.Active) throw dbError(`${this.Name}: Cannot perform this operation on a closed dataset`);
@@ -196,8 +211,9 @@ export class TDataSet extends TComponent {
     await this.refreshDetails();
   }
   async First() { await this.moveTo(0); this._bof = true; this._eof = this.view.length === 0; }
-  async Last() { await this.moveTo(this.view.length - 1); this._eof = true; this._bof = this.view.length === 0; }
+  async Last() { if (this.moreRows) await this.fetchMore(0); await this.moveTo(this.view.length - 1); this._eof = true; this._bof = this.view.length === 0; }
   async Next() {
+    if (this.cur >= this.view.length - 1 && this.moreRows) await this.fetchTo(this.cur + 1);
     if (this.view.length === 0) { this._eof = true; return; }
     if (this.cur >= this.view.length - 1) { await this.checkBrowseMode(); this._eof = true; this._bof = false; return; }
     await this.moveTo(this.cur + 1);
@@ -211,6 +227,7 @@ export class TDataSet extends TComponent {
   }
   async MoveBy(n: number) {
     const target = this.cur + num(n);
+    if (target >= this.view.length) await this.fetchTo(target);
     if (target >= this.view.length) { await this.Last(); this._eof = true; return this.view.length - 1 - this.cur; }
     if (target < 0) { await this.First(); this._bof = true; return -this.cur; }
     await this.moveTo(target);
@@ -288,10 +305,27 @@ export class TDataSet extends TComponent {
   /** Load result rows (API values) into the record store. */
   loadRows(cols: ColumnDef[], data: unknown[][]) {
     this.buildFields(cols);
+    this.rows = this.convertRows(cols, data);
+    this.FieldDefs = cols.map((c) => new TFieldDef(c.name, c.type, c.size ?? 0));
+  }
+  /** Rows fetched later (incremental fetching): converted, calculated, filtered and added to the end of the view. */
+  protected async appendRows(cols: ColumnDef[], data: unknown[][]) {
+    if (!data.length) return;
+    const start = this.rows.length;
+    const added = this.convertRows(cols, data);
+    this.rows.push(...added);
+    const calc = this.fields.some((f) => f.FieldKind === 'fkcalculated') && this.hasHandler('OnCalcFields');
+    const lookups = this.fields.filter((f) => f.FieldKind === 'fklookup');
+    if (calc || lookups.length) for (const row of added) await this.calcRowValues(row.v, calc, lookups);
+    const idx = await this.filterIndices(added.map((_, i) => start + i));
+    this.view.push(...idx);
+    invalidate();
+  }
+  private convertRows(cols: ColumnDef[], data: unknown[][]): Row[] {
     const dateCols = new Set(cols.filter((c) => c.type === 'date').map((c) => c.name.toUpperCase()));
     const fieldTypes = new Map(this.fields.map((f) => [f.key, f.fieldType]));
     const rowidIdx = cols.findIndex((c) => c.name.toUpperCase() === 'ROWID');
-    this.rows = data.map((r) => {
+    return data.map((r) => {
       const v: Record<string, unknown> = {};
       cols.forEach((c, i) => {
         const k = c.name.toUpperCase();
@@ -306,7 +340,6 @@ export class TDataSet extends TComponent {
       });
       return { v, rowid: rowidIdx >= 0 ? (r[rowidIdx] as string) : null };
     });
-    this.FieldDefs = cols.map((c) => new TFieldDef(c.name, c.type, c.size ?? 0));
   }
 
   /* ---------------------------------------------------------------- calc & lookup fields */
@@ -349,8 +382,17 @@ export class TDataSet extends TComponent {
   /* ---------------------------------------------------------------- filters */
 
   protected async refilter(notify = true) {
-    const n = this.rows.length;
-    let view = Array.from({ length: n }, (_, i) => i);
+    const view = await this.filterIndices(Array.from({ length: this.rows.length }, (_, i) => i));
+    this.view = view;
+    if (notify && this.Active) {
+      this.cur = view.length ? 0 : -1;
+      this._bof = true;
+      this._eof = view.length === 0;
+      await this.afterScroll();
+    }
+  }
+  /** The rows (indexes into `rows`) that pass Filter / OnFilterRecord. */
+  protected async filterIndices(view: number[]): Promise<number[]> {
     if (this._filtered) {
       if (this._filter.trim()) {
         const pred = compileFilter(this._filter, this.FilterOptions);
@@ -371,13 +413,7 @@ export class TDataSet extends TComponent {
         view = out;
       }
     }
-    this.view = view;
-    if (notify && this.Active) {
-      this.cur = view.length ? 0 : -1;
-      this._bof = true;
-      this._eof = view.length === 0;
-      await this.afterScroll();
-    }
+    return view;
   }
 
   /* ---------------------------------------------------------------- search */
@@ -412,7 +448,13 @@ export class TDataSet extends TComponent {
     await this.checkBrowseMode();
     const { keys, vals } = this.keyArgs(keyFields, values);
     const opts = (Array.isArray(options) ? options : options ? [options] : []).map((o) => String(o).toLowerCase());
-    const i = this.view.findIndex((r) => this.matchRow(this.rows[r].v, keys, vals, opts));
+    let i = this.view.findIndex((r) => this.matchRow(this.rows[r].v, keys, vals, opts));
+    while (i < 0 && this.moreRows) {
+      const from = this.view.length;
+      if (!(await this.fetchMore(Math.max(this.readBuffer, 500)))) break;
+      const j = this.view.slice(from).findIndex((r) => this.matchRow(this.rows[r].v, keys, vals, opts));
+      if (j >= 0) i = from + j;
+    }
     if (i < 0) return false;
     await this.moveTo(i);
     this._bof = i === 0; this._eof = false;
@@ -432,6 +474,7 @@ export class TDataSet extends TComponent {
     if (opts.includes('srfromcurrent')) start = this.cur;
     for (let i = start; backward ? i >= 0 : i < this.view.length; i += backward ? -1 : 1) {
       if (this.matchRow(this.rows[this.view[i]].v, keys, vals, opts)) { await this.moveTo(i); return true; }
+      if (!backward && i === this.view.length - 1 && this.moreRows) await this.fetchMore(Math.max(this.readBuffer, 500));
     }
     return false;
   }

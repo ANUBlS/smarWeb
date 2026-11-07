@@ -10,7 +10,8 @@ packages — the API contains no banking logic.
 | Endpoint | Delphi / DOA | What it does |
 |---|---|---|
 | `POST /api/logon` | `TOracleLogon` / `Session.LogOn` | Oracle connection with the user's own credentials → `sessionId` |
-| `POST /api/query` | `TOracleDataSet.Open` | SELECT with bind variables |
+| `POST /api/query` | `TOracleDataSet.Open` | SELECT with bind variables; with `fetch` (datasets with `QueryAllRecords = False`) only the first rows and a `cursorId` |
+| `POST /api/fetch`, `/close-cursor` | DOA incremental fetching | next rows of such a dataset (grid scrolled to the end, `Next` past the fetched rows, `Last`, `Locate`) |
 | `POST /api/execute` | `TOracleQuery.Execute`, PL/SQL blocks | DML / blocks; variables are IN OUT |
 | `POST /api/package` | `TOraclePackage.CallProcedure / Call…Function` | positional or named parameters; argument types read from `ALL_ARGUMENTS` (Delphi `TDateTime` → `DATE`, PL/SQL `BOOLEAN`); an empty `package` calls a schema-level procedure/function (TOraclePackage without PackageName) |
 | `POST /api/apply-record` | dataset `Post` / `Delete` | insert/update/delete/lock on the updating table by `ROWID`, only changed columns |
@@ -33,7 +34,7 @@ uses — generated from the transpiled client by `tools/build_registry.py`:
 - `POST /api/modules/{module}/datasets/{dataset}` — open a dataset with its registered SQL
 - `POST /api/modules/{module}/packages/{component}/{routine}` — call a routine the module calls
 
-`GET /api/modules` lists all 285 registry entries (161 menu modules, 21 dialogs, 109 run-time
+`GET /api/modules` lists all registry entries (161 menu modules, 21 dialogs, 109 run-time
 packages, and *Common* — the shared `sboapi50` units) with `apiReady`. A module becomes ready when its
 name is added to `smartweb_api/registry/ready.json` after its checks pass (see *Tests*).
 
@@ -46,12 +47,14 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | XOutAvalute — Əlavə modullar / Mühasibat və balans / Valyutalar (balansdankənar) (4 datasets; P_AVALUTE.add_avalute / upd_avalute, named, from OnApplyRecord) | ✅ ready |
 | XProblemCreditMgr — Əlavə modullar / Kreditlər / Problemli kreditlərin idarə olunması (3 datasets, read-only; PrViewDSet reads dba_col_comments) | ✅ ready |
 | Transactions — "Transaction manager" (menu item Əməliyyat günü / Əməliyyatlar removed; 22 datasets; SBREP.TrBuildQuery builds the grid SQL on the server; SB_COMPLEX_TRANSACTIONS; EXCHANGE_CALLBACK schema-level; saving through SB_TRANSACTION in Common) | ✅ ready |
-| TransactionManager — Balans / Əməliyyat günü / Günün sənədləri (20 datasets; add / edit / delete / confirm / reject through SB_TRANSACTION; SB_COMPLEX_TRANSACTIONS.SetTransactions; threaded currency/operation filter lists) | ✅ ready |
+| TransactionManager — Balans / Əməliyyat günü / Günün sənədləri (source Packages/TransactionManager_Mahmud_GoAm, the copy the bank runs: Daxil edən / Təsdiq edən / Yoxlayan columns, status icons, Verifikasiya (SB_TRANSACTION.CheckUserUpdate), Sığorta, GoAML; add / edit / delete / confirm / reject through SB_TRANSACTION; SB_COMPLEX_TRANSACTIONS.SetTransactions) | ✅ ready |
 | Account — Balans / Əməliyyat günü / Yeni hesablar (23 datasets; SBOP.GenerateAccountNumber (Ctrl+H) / add_account / upd_account / close_account from OnApplyRecord; account turnover over a REF CURSOR, pkg_report.get_account_turnover) | ✅ ready |
 | PaymentDecree — Balans / Əməliyyat günü / Ödəmə tapşırığı (16 datasets; sb_PaymentDecree.add_payment / update_payment / delete_payment, positional, DATE arguments typed from ALL_ARGUMENTS; archive) | ✅ ready |
-| CreditManager — Balans / Kreditlər / Kreditlərin idarə olunması (new / edit contract via SBCM_Contract.Init / AddValue / NewContract / UpdateingContract; tranche, overdue, payment, prolongation, reserve; enable/disable calculation; percent converting; close contract(s) on the selected rows; SBCM shared units in Common) | ✅ ready |
+| XCreditsMgrSB — Balans / Kreditlər / Kreditlərin idarə olunması (Creditsmgr.ocx from Packages/SB_Credit, as in the bank's SmartBank.ini: CM_ACTIVE list, CM_FIELDS_LIST columns, CM_ADMINISTRATION.getpluginid / pluginaccess; the list, its right-click menu and tool bar come from the CM*.ini plugin files in web/bin; every SB_Credit BPL package is built) | ✅ ready |
+| CreditManager — Əlavə modullar / Kreditlər / Kredit menecer (CreditManager, SBCM_*) (new / edit contract via SBCM_Contract.Init / AddValue / NewContract / UpdateingContract; tranche, overdue, payment, prolongation, reserve; enable/disable calculation; percent converting; close contract(s) on the selected rows; SBCM shared units in Common) | ✅ ready |
 | ContractCorrection — Balans / Kreditlər / Kreditlərdə düzəlişlər (grid edit of SBCM_Contract_Correction by ROWID, CommitOnPost; Qəbul = commit, İmtina = rollback) | ✅ ready |
-| CreditsArchive — Balans / Kreditlər / Arxiv Kreditlər (grid edit of TYPE# with pick list, CommitOnPost; Qəbul / İmtina) | ✅ ready |
+| XCreditArchive — Balans / Kreditlər / Arxiv Kreditlər (Archive_Credit.ocx, as in the bank's SmartBank.ini; CMAr_* plugin packages) | ✅ ready |
+| CreditsArchive — Əlavə modullar / Kreditlər / Kreditlərin arxivi (SBCM_*) (grid edit of TYPE# with pick list, CommitOnPost; Qəbul / İmtina) | ✅ ready |
 | XImportService — Əlavə modullar / İdxal / İdxal xidməti (3 datasets; Excel import of sheet MESSAGES into XLS_TRANSACTIONS, read in the browser; XLS_PROCESSES.EmptyXLS_SalaryMessages / GetTransaction; F1 example file as .xlsx) | ✅ ready |
 | DepositManager — Balans / Depozitlər / Depozitlərin idarə olunması (SBCM_CONTRACT.NewDeposit / UpdateDeposit; deposit money, withdrawal, capitalization; enable/disable calculation; percent converting; close deposit(s) on the selected rows; Excel export) | ✅ ready |
 | DepositCorrection — Balans / Depozitlər / Depozitlərdə düzəlişlər (grid edit of SBCM_Contract_Correction by ROWID, CommitOnPost; Qəbul = commit; sort by column title) | ✅ ready |
@@ -63,6 +66,8 @@ name is added to `smartweb_api/registry/ready.json` after its checks pass (see *
 | RepairNew — Balans / Sistem servisi / Arxiv Günə duzəliş (p_Correct.Main insert / delete; filter; search) | ✅ ready |
 | CloseDay — Balans / Sistem servisi / Əməliyyat gününün bağlanması (SBSYS.close_day / calc_percent / calc_reserv; pre-close checks run the SQL stored in their table) | ✅ ready |
 | QueryExporter — Balans / Sistem servisi / Sorğular (SB_Queries edit; runs the stored query with :begindat / :enddat; Excel export) | ✅ ready |
+| PCustService — Balans / Müştərilər / Müştəri xidməti (PCustService.ocx, source Packages/PCustService2026; customers, relations, groups, accounts via SBOP; PG_PCustService; HMS/PEP checks: PG_PCustService.get_world_yoxlama, the result PDF (SynPdf TPdfDocumentGDI) is downloaded and opened) | ✅ ready |
+| P_Customers — Balans / Müştərilər / Fiziki şəxslər üzrə əməliyyatlar (P_Customers.ocx; customer → accounts → day's operations of natural persons; PHYS_FS_CUSTOMERS.open_Account, SB_TRANSACTION, SB_COMPLEX_TRANSACTIONS; statements, memorial order) | ✅ ready |
 | BackupCreator — Balans / Sistem servisi / Məlumatın arxivləşdirilməsi (runs Oracle `exp` on the user's PC — not possible in a browser; needs a server-side export decision) | ⏸ waiting |
 | all others | gateway works; own Swagger section pending |
 
@@ -83,6 +88,17 @@ DOA `otSubst` variables (`order by :Title`, `and cust_type :Cond`) are spliced i
 bound — as in the desktop application. On the module endpoints their value may contain column names,
 numbers, operators, lists and quoted literals, but no statement keywords, comments or `;`. An empty value
 drops a preceding `ORDER BY` / `GROUP BY` (the first open of a grid before any sort is chosen).
+
+### Partitions on views
+
+Some Delphi SQL names a partition: `FROM ACCOUNT PARTITION ( ACTIVACC )`. Where the login user's ACCOUNT is a view,
+Oracle answers ORA-14109; the API then replaces the partition by its definition (`ACTIVACC` = `CLOSE_DAT` empty or
+≥ 01.01.2100, `CLOSEACC`, OPERKURS `TODAY` …, see `gateway.PARTITIONS`) and does so for the rest of the session.
+
+### Slow statements
+
+Statements slower than `SB_SLOW_MS` (default 2000 ms) go to `logs/slow-sql.log` with user, component, time and rows.
+With Docker: `docker compose exec api tail -n 50 /app/logs/slow-sql.log`.
 
 ### Statement allow-list
 

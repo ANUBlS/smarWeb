@@ -347,7 +347,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["logstr"] = "select %s from sbav_logs_%s ";
   {
-    const $t1 = (await $.v(C, "DataModuleLogs"));
+    const $t1 = (await $.wobj(C, "DataModuleLogs"));
     await $.mcall((await $.wv([$t1], "odsLogQ", C, false)), "Close", []);
     await $.mset((await $.mv((await $.wv([$t1], "odsLogQ", C, false)), "SQL")), "Text", (await $.wcall([$t1], "Format", [(await $.wv([$t1], "logStr", { get: async () => L0["logstr"], set: async (v) => { L0["logstr"] = v; }, local: true }, false)), [(await $.mv((await $.wv([$t1], "odsTablesQueryst", C, false)), "AsString")), (await $.mv((await $.wv([$t1], "odsTablesName", C, false)), "AsString"))]], C)));
     await $.mcall((await $.wv([$t1], "odsLogQ", C, false)), "Open", []);
@@ -381,7 +381,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "DataModuleLogs"));
+    const $t2 = (await $.wobj(C, "DataModuleLogs"));
     await $.mcall((await $.wv([$t2], "odsTables", C, false)), "Refresh", []);
   }
   return L0.result;
@@ -391,7 +391,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "DataModuleLogs"));
+    const $t3 = (await $.wobj(C, "DataModuleLogs"));
     const $t4 = (await $.wv([$t3], "odsLogQ", C, false));
     await $.stmt($.wcall([$t3, $t4], "close", [], C));
     await $.stmt((await $.mcall((await $.wv([$t3, $t4], "sql", C, false)), "Add", [$.add($.add($.add($.add("where to_date(tim) between '", (await $.wcall([$t3, $t4], "formatdatetime", ["dd-mmm-yyyy", (await $.mv((await $.wv([$t3, $t4], "dt1", C, false)), "date"))], C))), "' and '"), (await $.wcall([$t3, $t4], "formatdatetime", ["dd-mmm-yyyy", (await $.mv((await $.wv([$t3, $t4], "dt2", C, false)), "date"))], C))), "'")])));
@@ -405,7 +405,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "DataModuleLogs"));
+    const $t5 = (await $.wobj(C, "DataModuleLogs"));
     const $t6 = (await $.wv([$t5], "odsLogQ", C, false));
     await $.stmt($.wcall([$t5, $t6], "First", [], C));
     { const $t7 = $.sub((await $.wv([$t5, $t6], "RecordCount", C, false)), 1);
@@ -429,7 +429,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t9 = (await $.v(C, "ExcelExport"));
+    const $t9 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t9], "Connect", [], C));
     await $.stmt((await $.wcall([$t9], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t9], "DBGrid1", C, false)), "DataSource")), "DataSet")), "Sheet", (await $.wv([$t9], "True", C, false))], C)));
   }

@@ -24,7 +24,7 @@ export default function define($) {
   const L0 = {"customerid": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["customerid"]);
   {
-    const $t1 = (await $.v(C, "CO_Datamod"));
+    const $t1 = (await $.wobj(C, "CO_Datamod"));
     const $t2 = (await $.wv([$t1], "CustInfoData", C, false));
     await $.stmt($.wcall([$t1, $t2], "Close", [], C));
     await $.stmt((await $.wcall([$t1, $t2], "SetVariable", ["CustomerID", (await $.wv([$t1, $t2], "CustomerID", { get: async () => L0["customerid"], set: async (v) => { L0["customerid"] = v; }, local: true }, false))], C)));

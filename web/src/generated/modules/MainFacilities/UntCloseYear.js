@@ -21,7 +21,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "MainFacilities"));
+    const $t1 = (await $.wobj(C, "MainFacilities"));
     const $t2 = (await $.mv((await $.wv([$t1], "MainFDataModule", C, false)), "OPViewWares"));
     await $.mset((await $.wv([$t1, $t2], "DTPNewDate", C, false)), "DateTime", (await $.wv([$t1, $t2], "GetPresentdate", C, false)));
     await $.mset((await $.wv([$t1, $t2], "ENewDate", C, false)), "Text", (await $.wcall([$t1, $t2], "FormatDateTime", ["dd-mmm-yyyy", (await $.wv([$t1, $t2], "GetPresentdate", C, false))], C)));
@@ -37,7 +37,7 @@ export default function define($) {
   L0["newdate"] = (await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPNewDate")), "DateTime"))]));
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [(await $.call(C, "Format", [L0["message_closedaywarning"], [(await $.mv((await $.v(C, "ECurrentDate")), "Text")), (await $.mv((await $.v(C, "ENewDate")), "Text"))]])), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbCancel"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t3 = (await $.v(C, "MainFDataModule"));
+      const $t3 = (await $.wobj(C, "MainFDataModule"));
       await $.stmt((await $.mcall((await $.wv([$t3], "OPViewWares", C, false)), "CallProcedure", ["SetNewSettings", [(await $.wv([$t3], "NewDate", { get: async () => L0["newdate"], set: async (v) => { L0["newdate"] = v; }, local: true }, false))]])));
       await $.mcall((await $.wv([$t3], "ViewWares", C, false)), "Refresh", []);
     }
@@ -61,7 +61,7 @@ export default function define($) {
   L0["newdate"] = (await $.call(C, "trunc", [(await $.mv((await $.v(C, "DTPNewDate")), "DateTime"))]));
   if ($.truthy($.eq((await $.call(C, "MessageDlg", [(await $.call(C, "Format", [L0["message_closedaywarning"], [(await $.mv((await $.v(C, "ECurrentDate")), "Text")), (await $.mv((await $.v(C, "ENewDate")), "Text"))]])), (await $.v(C, "mtConfirmation")), [(await $.v(C, "mbYes")), (await $.v(C, "mbCancel"))], 0])), (await $.v(C, "mrYes"))))) {
     {
-      const $t4 = (await $.v(C, "MainFDataModule"));
+      const $t4 = (await $.wobj(C, "MainFDataModule"));
       await $.stmt((await $.mcall((await $.wv([$t4], "OPViewWares", C, false)), "CallProcedure", ["SetNewSettings", [(await $.wv([$t4], "NewDate", { get: async () => L0["newdate"], set: async (v) => { L0["newdate"] = v; }, local: true }, false))]])));
       await $.mcall((await $.wv([$t4], "ViewWares", C, false)), "Refresh", []);
     }

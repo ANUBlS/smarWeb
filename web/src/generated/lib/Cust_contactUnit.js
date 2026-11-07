@@ -40,7 +40,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t1 = (await $.v(C, "OracleDataSet2"));
+    const $t1 = (await $.wobj(C, "OracleDataSet2"));
     await $.stmt($.wcall([$t1], "close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["v_custid", (await $.wv([$t1], "cust_relatives", C, false))], C)));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["v_RELATIVE_FULLNAME", (await $.mv((await $.wv([$t1], "edit2", C, false)), "Text"))], C)));
@@ -64,7 +64,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "OracleDataSet3"));
+    const $t2 = (await $.wobj(C, "OracleDataSet3"));
     await $.stmt($.wcall([$t2], "close", [], C));
     await $.stmt((await $.wcall([$t2], "SetVariable", ["v_custid", (await $.wv([$t2], "cust_relatives", C, false))], C)));
     await $.stmt((await $.wcall([$t2], "SetVariable", ["v_RELATIVE_FULLNAME", (await $.mv((await $.wv([$t2], "edit2", C, false)), "Text"))], C)));
@@ -76,7 +76,7 @@ export default function define($) {
   }
   await $.mcall((await $.mv((await $.v(C, "OracleDataSet3")), "Session")), "Commit", []);
   {
-    const $t3 = (await $.v(C, "oracledataset1"));
+    const $t3 = (await $.wobj(C, "oracledataset1"));
     await $.stmt($.wcall([$t3], "close", [], C));
     await $.stmt((await $.wcall([$t3], "SetVariable", ["v_custid", (await $.wv([$t3], "cust_relatives", C, false))], C)));
     await $.stmt($.wcall([$t3], "open", [], C));
@@ -93,7 +93,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "OracleDataSet4"));
+    const $t4 = (await $.wobj(C, "OracleDataSet4"));
     await $.stmt($.wcall([$t4], "close", [], C));
     await $.stmt((await $.wcall([$t4], "SetVariable", ["v_id", (await $.mv((await $.wv([$t4], "OracleDataSet1id", C, false)), "asinteger"))], C)));
     await $.stmt($.wcall([$t4], "open", [], C));

@@ -160,6 +160,7 @@ export default {
  "lib": [
   "CurrencyToHRImpl",
   "CurrencyToHR_Azeri_Impl",
+  "DataModTM",
   "OraVariables",
   "SBAccount",
   "SBAlert",
@@ -186,6 +187,8 @@ export default {
   "SBUtils",
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
+  "UntMainReport",
+  "UntSecondReport",
   "sboapiDataModuleImpl"
  ],
  "plugins": {}

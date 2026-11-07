@@ -1,0 +1,52 @@
+{
+ "name": "P_CM_SelDate",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_SelDate",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Dates",
+   "source": "TFrmMain.Dates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,seldate, name\n  FROM cm_seldates\norder by seldate",
+   "variables": [],
+   "unit": "FrmMainImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

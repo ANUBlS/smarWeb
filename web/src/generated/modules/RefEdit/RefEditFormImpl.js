@@ -446,7 +446,7 @@ export default function define($) {
   const L0 = {"refname": $.copyArg(p0), "readonly": $.copyArg(p1), result: undefined};
   await $.fixArgs(L0, ["refname", "readonly"]);
   {
-    const $t2 = (await $.v(C, "RefData"));
+    const $t2 = (await $.wobj(C, "RefData"));
     await $.stmt($.wcall([$t2], "Close", [], C));
     await $.mset((await $.wv([$t2], "SQL", C, false)), "Text", (await $.wcall([$t2], "Format", [(await $.wv([$t2], "sRefSql", C, false)), [(await $.wv([$t2], "RefName", { get: async () => L0["refname"], set: async (v) => { L0["refname"] = v; }, local: true }, false))]], C)));
     await $.stmt($.wcall([$t2], "Open", [], C));

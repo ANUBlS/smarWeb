@@ -639,7 +639,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "i": 0, "edleft": 0, "tempedit": null};
   {
-    const $t19 = (await $.v(C, "dbMain"));
+    const $t19 = (await $.wobj(C, "dbMain"));
     await $.wset([$t19], "edLeft", 4, { get: async () => L0["edleft"], set: async (v) => { L0["edleft"] = v; }, local: true });
     { const $t20 = $.sub((await $.mv((await $.wv([$t19], "Columns", C, false)), "Count")), 1);
       await $.wset([$t19], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
@@ -793,7 +793,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t33 = (await $.v(C, "RapNewDataModule"));
+    const $t33 = (await $.wobj(C, "RapNewDataModule"));
     if ($.truthy($.gt((await $.mv((await $.wv([$t33], "TransactionData", C, false)), "RecordCount")), 0))) {
       await $.stmt((await $.wcall([$t33], "ExecuteEditAction", [(await $.wv([$t33], "TransactionData", C, false)), (await $.wv([$t33], "acUpdate", C, false))], C)));
     }
@@ -845,7 +845,7 @@ export default function define($) {
   const L1 = {result: 0, "i": 0};
   L1["result"] = 0;
   {
-    const $t35 = (await $.v(C, "dbMain"));
+    const $t35 = (await $.wobj(C, "dbMain"));
     { const $t36 = $.sub((await $.mv((await $.wv([$t35], "Columns", C, false)), "Count")), 1);
       await $.wset([$t35], "i", 0, { get: async () => L1["i"], set: async (v) => { L1["i"] = v; }, local: true });
       let $t37 = true;
@@ -861,7 +861,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t38 = (await $.v(C, "dbMain"));
+    const $t38 = (await $.wobj(C, "dbMain"));
     if ($.truthy($.eq((await $.wv([$t38], "Tag", C, false)), 0))) {
       await $.wset([$t38], "Tag", (await $.mv(((await $.wv([$t38], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "Width")), C);
       await $.mset((await $.wv([$t38], "pnGridlayer", C, false)), "Tag", (await $.mv((await $.idx((await $.wv([$t38], "Columns", C, false)), [$.sub((await $.mv((await $.wv([$t38], "Columns", C, false)), "Count")), 1)])), "Width")));
@@ -900,7 +900,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t40 = (await $.v(C, "RapNewDataModule"));
+    const $t40 = (await $.wobj(C, "RapNewDataModule"));
     if ($.truthy((await $.or_(($.eq((await $.wv([$t40], "Value", { get: async () => L0["value"], set: async (v) => { L0["value"] = v; }, local: true }, false)), (await $.wv([$t40], "ftMain", C, false)))), async () => ($.eq((await $.wv([$t40], "Value", { get: async () => L0["value"], set: async (v) => { L0["value"] = v; }, local: true }, false)), (await $.wv([$t40], "ftAll", C, false)))))))) {
       if ($.truthy($.eq((await $.wv([$t40], "Value", { get: async () => L0["value"], set: async (v) => { L0["value"] = v; }, local: true }, false)), (await $.wv([$t40], "ftAll", C, false))))) {
         await $.mcall((await $.wv([$t40], "clbValute", C, false)), "Clear", []);
@@ -971,7 +971,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t43 = (await $.v(C, "RapNewDataModule"));
+    const $t43 = (await $.wobj(C, "RapNewDataModule"));
     await $.stmt((await $.wcall([$t43], "ExecuteEditAction", [(await $.wv([$t43], "TransactionData", C, false)), (await $.wv([$t43], "acInsert", C, false))], C)));
   }
   return L0.result;
@@ -1103,7 +1103,7 @@ export default function define($) {
   const L1 = {"sender": $.copyArg(p0), "dataset": $.copyArg(p1), "fieldexpression": $.copyArg(p2), "field": $.copyArg(p3), "operation": $.copyArg(p4), result: undefined};
   await $.fixArgs(L1, ["sender", "dataset", "fieldexpression", "field", "operation"]);
   {
-    const $t49 = (await $.v(C, "RapNewDataModule"));
+    const $t49 = (await $.wobj(C, "RapNewDataModule"));
     if ($.truthy((await $.mv((await $.wv([$t49], "DataSet", { get: async () => L1["dataset"], set: async (v) => { L1["dataset"] = v; }, local: true }, false)), "Active")))) {
       {
         const $t50 = ((await $.wv([$t49], "Sender", { get: async () => L1["sender"], set: async (v) => { L1["sender"] = v; }, local: true }, false)));
@@ -1117,7 +1117,7 @@ export default function define($) {
 });
   L0["first"] = true;
   {
-    const $t51 = (await $.v(C, "RapNewDataModule"));
+    const $t51 = (await $.wobj(C, "RapNewDataModule"));
     const $t52 = (await $.wv([$t51], "DataSet", { get: async () => L0["dataset"], set: async (v) => { L0["dataset"] = v; }, local: true }, false));
     await $.wset([$t51, $t52], "FilterString", (await $.wv([$t51, $t52], "EmptyStr", C, false)), { get: async () => L0["filterstring"], set: async (v) => { L0["filterstring"] = v; }, local: true });
     if ($.truthy((await $.and_(($.gt((await $.mv((await $.wv([$t51, $t52], "scUser", C, false)), "ItemIndex")), 0)), async () => ((await $.mv((await $.mv((await $.mv((await $.wv([$t51, $t52], "scUser", C, false)), "DataSource")), "DataSet")), "Active"))))))) {

@@ -340,7 +340,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "Accounts"));
+    const $t1 = (await $.wobj(C, "Accounts"));
     await $.stmt($.wcall([$t1], "Open", [], C));
     await $.stmt($.wcall([$t1], "First", [], C));
     while ($.truthy($.not((await $.wv([$t1], "EOF", C, false))))) {

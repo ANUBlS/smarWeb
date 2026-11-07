@@ -9,8 +9,10 @@
   "TransactionManager",
   "Account",
   "PaymentDecree",
+  "XCreditsMgrSB",
   "CreditManager",
   "ContractCorrection",
+  "XCreditArchive",
   "CreditsArchive",
   "XImportService",
   "DepositManager",
@@ -22,5 +24,7 @@
   "ProfitClosing",
   "RepairNew",
   "CloseDay",
-  "QueryExporter"
+  "QueryExporter",
+  "PCustService",
+  "P_Customers"
 ]

@@ -340,7 +340,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined, "ch": ''};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "FlagsEditor"));
+    const $t1 = (await $.wobj(C, "FlagsEditor"));
     { const $t2 = "Z";
       await $.wset([$t1], "Ch", "A", { get: async () => L0["ch"], set: async (v) => { L0["ch"] = v; }, local: true });
       let $t3 = true;

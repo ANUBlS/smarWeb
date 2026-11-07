@@ -1,0 +1,151 @@
+{
+ "name": "P_CM_WRSETUP",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_WRSetup",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TTemplAddEditForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select  id,  description from cm_credittypes\n",
+   "variables": [],
+   "unit": "TemplateAddEditUnt"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TTemplAddEditForm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select  '1' id, 'Yox' name   from dual\nunion\nselect  '62' id, 'Avtomobil alınmasına' name   from dual\nunion\nselect  '2' id, 'Lizing' name   from dual\n",
+   "variables": [],
+   "unit": "TemplateAddEditUnt"
+  },
+  {
+   "name": "WRTemplatesDataSet",
+   "source": "TWRSetupDataMod.WRTemplatesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.RowID , T.*\n  FROM CM_WR_TEMPLATES T\norder by id",
+   "variables": [],
+   "unit": "WRSetupDataModImpl"
+  },
+  {
+   "name": "WRBookmarksDataSet",
+   "source": "TWRSetupDataMod.WRBookmarksDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, TEMPLATEID, FIELDID, BOOKMARKNAME\n  FROM CM_WR_BOOKMARKS\nwhere templateid = :templateid\norder by id\n",
+   "variables": [
+    {
+     "name": "TEMPLATEID",
+     "type": "float"
+    }
+   ],
+   "unit": "WRSetupDataModImpl"
+  },
+  {
+   "name": "WRFieldsDataSet",
+   "source": "TWRSetupDataMod.WRFieldsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT ID, FIELDNAME, DESCRIPTION\n  FROM CM_WR_FIELDS\norder by DESCRIPTION",
+   "variables": [],
+   "unit": "WRSetupDataModImpl"
+  },
+  {
+   "name": "OracleDataSetTamplates",
+   "source": "TWRSetupDataMod.OracleDataSetTamplates",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT T.*\n  FROM CM_WR_TEMPLATES T",
+   "variables": [],
+   "unit": "WRSetupDataModImpl"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TWRSetupDataMod.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, a.* from smart.filial_t a",
+   "variables": [],
+   "unit": "WRSetupDataModImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TWRSetupDataMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_mehsul where id=:id",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "WRSetupDataModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_WR_TOOLS",
+   "package": "CM_WR_TOOLS",
+   "mode": "positional",
+   "source": "TWRSetupDataMod.CM_WR_TOOLS",
+   "routines": [
+    {
+     "name": "AddBookmark",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "AddTemplate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteBookmark",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "DeleteTemplate",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "UpdateTemplates",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "updateBookmark",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -18,7 +18,7 @@ export default function define($) {
   L0["period"] = (await $.call(C, "StrToInt", [(await $.mv((await $.v(C, "EditPeriod")), "text"))]));
   L0["percent"] = (await $.call(C, "StrToCurr", [(await $.mv((await $.mv((await $.v(C, "NewDepositsFrmShedule")), "DBEdit2")), "text"))]));
   {
-    const $t1 = (await $.v(C, "NewDepositsScheduleDataModule"));
+    const $t1 = (await $.wobj(C, "NewDepositsScheduleDataModule"));
     const $t2 = (await $.wv([$t1], "dm_payment_schedules", C, false));
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["DmPeriod", ["Contractid", (await $.wv([$t1, $t2], "Get_SelectedContID", C, false)), "PaymentDate", (await $.wv([$t1, $t2], "FirstDate", { get: async () => L0["firstdate"], set: async (v) => { L0["firstdate"] = v; }, local: true }, false)), "PRest", (await $.wv([$t1, $t2], "Amount", { get: async () => L0["amount"], set: async (v) => { L0["amount"] = v; }, local: true }, false)), "Period", (await $.wv([$t1, $t2], "Period", { get: async () => L0["period"], set: async (v) => { L0["period"] = v; }, local: true }, false)), "Percent", (await $.wv([$t1, $t2], "Percent", { get: async () => L0["percent"], set: async (v) => { L0["percent"] = v; }, local: true }, false))]], C)));
     await $.mcall((await $.wv([$t1, $t2], "OracleDataSet2", C, false)), "Refresh", []);

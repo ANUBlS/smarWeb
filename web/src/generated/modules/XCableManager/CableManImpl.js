@@ -456,7 +456,7 @@ export default function define($) {
     await $.set(C, "frmAbonAddEdit", (await $.mcall((await $.v(C, "TfrmAbonAddEdit")), "Create", [Self])));
   }
   {
-    const $t16 = (await $.v(C, "DataModCable"));
+    const $t16 = (await $.wobj(C, "DataModCable"));
     const $t17 = (await $.wv([$t16], "frmAbonAddEdit", C, false));
     const $t18 = (await $.wv([$t16, $t17], "odsAbonents", C, false));
     await $.mset((await $.wv([$t16, $t17, $t18], "edName", C, false)), "Text", "");
@@ -491,7 +491,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy(($.eq((await $.call(C, "MessageDlg", ["Yazı silinəck. Əminsiniz?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "idyes")))))) {
     {
-      const $t19 = (await $.v(C, "DataModCable"));
+      const $t19 = (await $.wobj(C, "DataModCable"));
       const $t20 = (await $.wv([$t19], "frmAbonAddEdit", C, false));
       await $.stmt((await $.mcall((await $.wv([$t19, $t20], "CABLE", C, false)), "CallProcedure", ["abonentdel", [(await $.mv((await $.idx((await $.mv((await $.wv([$t19, $t20], "odsAbonents", C, false)), "fields")), [0])), "AsVariant"))]])));
       await $.mcall((await $.wv([$t19, $t20], "odsAbonents", C, false)), "Close", []);
@@ -509,7 +509,7 @@ export default function define($) {
     await $.set(C, "frmAbonAddEdit", (await $.mcall((await $.v(C, "TfrmAbonAddEdit")), "Create", [Self])));
   }
   {
-    const $t21 = (await $.v(C, "DataModCable"));
+    const $t21 = (await $.wobj(C, "DataModCable"));
     const $t22 = (await $.wv([$t21], "frmAbonAddEdit", C, false));
     const $t23 = (await $.wv([$t21, $t22], "odsAbonents", C, false));
     await $.wset([$t21, $t22, $t23], "CID", (await $.mv((await $.idx((await $.wv([$t21, $t22, $t23], "Fields", C, false)), [0])), "AsInteger")), { get: async () => L0["cid"], set: async (v) => { L0["cid"] = v; }, local: true });
@@ -567,7 +567,7 @@ export default function define($) {
     await $.set(C, "frmContractAdd", (await $.mcall((await $.v(C, "TfrmContractAdd")), "Create", [Self])));
   }
   {
-    const $t24 = (await $.v(C, "DataModCable"));
+    const $t24 = (await $.wobj(C, "DataModCable"));
     const $t25 = (await $.wv([$t24], "frmContractAdd", C, false));
     const $t26 = (await $.wv([$t24, $t25], "odsContacts", C, false));
     await $.mset((await $.wv([$t24, $t25, $t26], "edcontract_num", C, false)), "Text", "");
@@ -608,7 +608,7 @@ export default function define($) {
     await $.set(C, "frmContractAdd", (await $.mcall((await $.v(C, "TfrmContractAdd")), "Create", [Self])));
   }
   {
-    const $t27 = (await $.v(C, "DataModCable"));
+    const $t27 = (await $.wobj(C, "DataModCable"));
     const $t28 = (await $.wv([$t27], "frmContractAdd", C, false));
     const $t29 = (await $.wv([$t27, $t28], "odsContacts", C, false));
     await $.wset([$t27, $t28, $t29], "CID", (await $.mv((await $.idx((await $.wv([$t27, $t28, $t29], "Fields", C, false)), [0])), "AsInteger")), { get: async () => L0["cid"], set: async (v) => { L0["cid"] = v; }, local: true });
@@ -648,7 +648,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy(($.eq((await $.call(C, "MessageDlg", ["Yazı silinəck. Əminsiniz?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "idyes")))))) {
     {
-      const $t30 = (await $.v(C, "DataModCable"));
+      const $t30 = (await $.wobj(C, "DataModCable"));
       await $.stmt((await $.mcall((await $.wv([$t30], "CABLE", C, false)), "CallProcedure", ["contractdel", [(await $.mv((await $.idx((await $.mv((await $.wv([$t30], "odsContacts", C, false)), "fields")), [0])), "AsVariant"))]])));
       await $.mcall((await $.wv([$t30], "odsContacts", C, false)), "Close", []);
       await $.mcall((await $.wv([$t30], "odsContacts", C, false)), "Open", []);
@@ -664,7 +664,7 @@ export default function define($) {
     await $.set(C, "frmServAddEdit", (await $.mcall((await $.v(C, "TfrmServAddEdit")), "Create", [Self])));
   }
   {
-    const $t31 = (await $.v(C, "DataModCable"));
+    const $t31 = (await $.wobj(C, "DataModCable"));
     const $t32 = (await $.wv([$t31], "frmServAddEdit", C, false));
     const $t33 = (await $.wv([$t31, $t32], "odsServs", C, false));
     await $.mset((await $.wv([$t31, $t32, $t33], "CurrencyEdit1", C, false)), "Value", 0);
@@ -701,7 +701,7 @@ export default function define($) {
     await $.set(C, "frmServAddEdit", (await $.mcall((await $.v(C, "TfrmServAddEdit")), "Create", [Self])));
   }
   {
-    const $t34 = (await $.v(C, "DataModCable"));
+    const $t34 = (await $.wobj(C, "DataModCable"));
     const $t35 = (await $.wv([$t34], "frmServAddEdit", C, false));
     const $t36 = (await $.wv([$t34, $t35], "odsServs", C, false));
     await $.mset((await $.wv([$t34, $t35, $t36], "CurrencyEdit1", C, false)), "Value", (await $.mv((await $.mcall((await $.wv([$t34, $t35, $t36], "odsServs", C, false)), "FieldByName", ["AMOUNT"])), "AsCurrency")));
@@ -731,7 +731,7 @@ export default function define($) {
   L0["msgid"] = (await $.call(C, "MessageDlg", ["Günün sənədlərindən əməliyyat silinəcək. Əminsiniz?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo")), (await $.v(C, "mbCancel"))], 0]));
   if ($.truthy(($.eq(L0["msgid"], (await $.v(C, "idyes")))))) {
     {
-      const $t37 = (await $.v(C, "DataModCable"));
+      const $t37 = (await $.wobj(C, "DataModCable"));
       await $.wset([$t37], "CID", (await $.mv((await $.idx((await $.mv((await $.wv([$t37], "odsContacts", C, false)), "Fields")), [0])), "AsInteger")), { get: async () => L0["cid"], set: async (v) => { L0["cid"] = v; }, local: true });
       await $.stmt((await $.mcall((await $.wv([$t37], "CABLE", C, false)), "CallProcedure", ["abnservdel", [(await $.mv((await $.idx((await $.mv((await $.wv([$t37], "odsServs", C, false)), "fields")), [0])), "AsVariant")), 1]])));
       await $.mcall((await $.wv([$t37], "odsServs", C, false)), "Close", []);
@@ -743,7 +743,7 @@ export default function define($) {
   }
   if ($.truthy(($.eq(L0["msgid"], (await $.v(C, "idno")))))) {
     {
-      const $t38 = (await $.v(C, "DataModCable"));
+      const $t38 = (await $.wobj(C, "DataModCable"));
       await $.wset([$t38], "CID", (await $.mv((await $.idx((await $.mv((await $.wv([$t38], "odsContacts", C, false)), "Fields")), [0])), "AsInteger")), { get: async () => L0["cid"], set: async (v) => { L0["cid"] = v; }, local: true });
       await $.stmt((await $.mcall((await $.wv([$t38], "CABLE", C, false)), "CallProcedure", ["abnservdel", [(await $.mv((await $.idx((await $.mv((await $.wv([$t38], "odsServs", C, false)), "fields")), [0])), "AsVariant")), 0]])));
       await $.mcall((await $.wv([$t38], "odsServs", C, false)), "Close", []);
@@ -765,7 +765,7 @@ export default function define($) {
   } else {
     if ($.truthy(($.eq((await $.call(C, "MessageDlg", ["Əməliyyat təsdiqlənsin?", (await $.v(C, "mtWarning")), [(await $.v(C, "mbYes")), (await $.v(C, "mbNo"))], 0])), (await $.v(C, "idyes")))))) {
       {
-        const $t39 = (await $.v(C, "DataModCable"));
+        const $t39 = (await $.wobj(C, "DataModCable"));
         await $.stmt((await $.mcall((await $.wv([$t39], "CABLE", C, false)), "CallProcedure", ["abnservcommit", [(await $.mv((await $.idx((await $.mv((await $.wv([$t39], "odsServs", C, false)), "fields")), [0])), "AsVariant"))]])));
         await $.mcall((await $.wv([$t39], "odsServs", C, false)), "Close", []);
         await $.mcall((await $.wv([$t39], "odsServs", C, false)), "Open", []);
@@ -797,7 +797,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "a": 0, "v": 0, "servstr": '', "comma": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t40 = (await $.v(C, "frmPrintRep"));
+    const $t40 = (await $.wobj(C, "frmPrintRep"));
     if ($.truthy($.not((await $.wcall([$t40], "assigned", [(await $.wv([$t40], "frmPrintRep", C, false))], C))))) {
       await $.wset([$t40], "frmPrintRep", (await $.mcall((await $.wv([$t40], "TfrmPrintRep", C, false)), "Create", [Self])), C);
     }
@@ -894,7 +894,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t42 = (await $.v(C, "DataModCable"));
+    const $t42 = (await $.wobj(C, "DataModCable"));
     await $.mcall((await $.wv([$t42], "odsAbonents", C, false)), "Close", []);
     await $.mcall((await $.wv([$t42], "odsAbonents", C, false)), "Open", []);
     await $.mset((await $.wv([$t42], "lbR", C, false)), "Caption", (await $.wcall([$t42], "IntToStr", [(await $.mv((await $.wv([$t42], "odsAbonents", C, false)), "RecordCount"))], C)));
@@ -963,7 +963,7 @@ export default function define($) {
     await $.set(C, "frmContractAdd", (await $.mcall((await $.v(C, "TfrmContractAdd")), "Create", [Self])));
   }
   {
-    const $t43 = (await $.v(C, "DataModCable"));
+    const $t43 = (await $.wobj(C, "DataModCable"));
     const $t44 = (await $.wv([$t43], "frmContractAdd", C, false));
     const $t45 = (await $.wv([$t43, $t44], "odsContacts", C, false));
     await $.wset([$t43, $t44, $t45], "CID", (await $.mv((await $.idx((await $.wv([$t43, $t44, $t45], "Fields", C, false)), [0])), "AsInteger")), { get: async () => L0["cid"], set: async (v) => { L0["cid"] = v; }, local: true });
@@ -1000,7 +1000,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "nt": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t46 = (await $.v(C, "DataModCable"));
+    const $t46 = (await $.wobj(C, "DataModCable"));
     await $.wset([$t46], "nt", (await $.mv((await $.idx((await $.mv((await $.wv([$t46], "odsContacts", C, false)), "fields")), [0])), "AsVariant")), { get: async () => L0["nt"], set: async (v) => { L0["nt"] = v; }, local: true });
     await $.stmt((await $.mcall((await $.wv([$t46], "CABLE", C, false)), "CallProcedure", ["contractsetlastdate", [(await $.mv((await $.idx((await $.mv((await $.wv([$t46], "odsContacts", C, false)), "fields")), [0])), "AsVariant"))]])));
     await $.mcall((await $.wv([$t46], "odsContacts", C, false)), "Close", []);
@@ -1026,7 +1026,7 @@ export default function define($) {
     await $.set(C, "frmContractAdd", (await $.mcall((await $.v(C, "TfrmContractAdd")), "Create", [Self])));
   }
   {
-    const $t47 = (await $.v(C, "DataModCable"));
+    const $t47 = (await $.wobj(C, "DataModCable"));
     const $t48 = (await $.wv([$t47], "frmContractAdd", C, false));
     const $t49 = (await $.wv([$t47, $t48], "odsContacts", C, false));
     await $.wset([$t47, $t48, $t49], "CID", (await $.mv((await $.idx((await $.wv([$t47, $t48, $t49], "Fields", C, false)), [0])), "AsInteger")), { get: async () => L0["cid"], set: async (v) => { L0["cid"] = v; }, local: true });

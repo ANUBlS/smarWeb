@@ -50,7 +50,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "index": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t5 = (await $.v(C, "DataAcc"));
+    const $t5 = (await $.wobj(C, "DataAcc"));
     await $.mcall((await $.wv([$t5], "AccFlags", C, false)), "Refresh", []);
     await $.mcall((await $.wv([$t5], "AccFlags", C, false)), "First", []);
     while ($.truthy($.not((await $.mv((await $.wv([$t5], "AccFlags", C, false)), "Eof"))))) {

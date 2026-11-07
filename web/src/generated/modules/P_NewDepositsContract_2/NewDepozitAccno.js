@@ -27,7 +27,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "NewDataModDepositsContract"));
+    const $t1 = (await $.wobj(C, "NewDataModDepositsContract"));
     await $.mcall((await $.wv([$t1], "ODSAccno", C, false)), "Close", []);
     await $.mcall((await $.wv([$t1], "ODSAccno", C, false)), "Open", []);
   }
@@ -47,7 +47,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.stmt((await $.call(C, "FormShow", [L0["sender"]])));
   {
-    const $t2 = (await $.v(C, "NewDataModDepositsContract"));
+    const $t2 = (await $.wobj(C, "NewDataModDepositsContract"));
     const $t3 = (await $.wv([$t2], "ODSAccno", C, false));
     await $.stmt($.wcall([$t2, $t3], "First", [], C));
     { const $t4 = $.sub((await $.wv([$t2, $t3], "RecordCount", C, false)), 1);

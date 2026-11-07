@@ -1,0 +1,99 @@
+{
+ "name": "P_CM_ReestrInfo",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_ReestrInfo",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSBanks",
+   "source": "TRIDataMod.ODSBanks",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_usergroups",
+   "variables": [],
+   "unit": "uRIDM"
+  },
+  {
+   "name": "ODSCredits",
+   "source": "TRIDataMod.ODSCredits",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id, b.name, c.usrgroup from cm_active_credits c, cm_boorowerinfo b\nwhere b.creditid=c.id and c.usrgroup=:usrgroup\norder by c.id",
+   "variables": [
+    {
+     "name": "USRGROUP",
+     "type": "integer"
+    }
+   ],
+   "unit": "uRIDM"
+  },
+  {
+   "name": "ODSRep",
+   "source": "TRIDataMod.ODSRep",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT r.*  FROM cm_ip_reestrinfo r\n\norder by boorower\n\n",
+   "variables": [],
+   "unit": "uRIDM"
+  },
+  {
+   "name": "ODSNextVal",
+   "source": "TRIDataMod.ODSNextVal",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT lastreestrnum,u.bank_kod kod_bank, contrdate FROM cm_banksettings b, cm_usergroups u\nwhere u.id=b.bankid and bankid=:bankid\n\n\n",
+   "variables": [
+    {
+     "name": "BANKID",
+     "type": "integer"
+    }
+   ],
+   "unit": "uRIDM"
+  },
+  {
+   "name": "ODSUpdNextVal",
+   "source": "TRIDataMod.ODSUpdNextVal",
+   "kind": "TOracleDataSet",
+   "sql": "update cm_banksettings set lastreestrnum=lastreestrnum+1\nwhere bankid=:bankid\n\n\n",
+   "variables": [
+    {
+     "name": "BANKID",
+     "type": "integer"
+    }
+   ],
+   "unit": "uRIDM"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

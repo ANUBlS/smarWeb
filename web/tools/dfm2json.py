@@ -179,7 +179,11 @@ def parse_object(tk):
     if m:
         name, cls = m.group(1), m.group(2)
     else:
-        name, cls = header, ''
+        # `object TMenuItem` (no 'Name:'): a component without a name, of that class — not one named after it
+        # (it would hide the class: TMenuItem(Sender) in TransactionManager)
+        name, cls = '', header.strip().split()[0] if header.strip() else ''
+        if kind != 'object':  # inherited / inline always carry a name
+            name, cls = header.strip(), ''
     node = {'name': name, 'class': cls, 'kind': kind, 'props': {}, 'children': []}
     while True:
         tk.ws()

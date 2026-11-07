@@ -421,7 +421,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined, "mestype": ''};
   {
-    const $t50 = (await $.v(C, "OUT_FORM"));
+    const $t50 = (await $.wobj(C, "OUT_FORM"));
     await $.wset([$t50], "mestype", $.add((await $.mv((await $.wv([$t50], "FIN", C, false)), "Text")), (await $.mv((await $.wv([$t50], "fincopy", C, false)), "Text"))), { get: async () => L0["mestype"], set: async (v) => { L0["mestype"] = v; }, local: true });
     if ($.truthy($.eq((await $.wv([$t50], "mestype", { get: async () => L0["mestype"], set: async (v) => { L0["mestype"] = v; }, local: true }, false)), "MT103AZN"))) {
       await $.mset((await $.wv([$t50], "MF77B", C, false)), "visible", (await $.wv([$t50], "false", C, false)));

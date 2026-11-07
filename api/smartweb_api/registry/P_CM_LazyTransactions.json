@@ -1,0 +1,86 @@
+{
+ "name": "P_CM_LazyTransactions",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_LazyTransactions",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "TransactionsData",
+   "source": "TLazTrDatMod.TransactionsData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n    l.id,\n    cm_common.get_CreditMumber(l.creditid) as NumberOfCredit, \n    B.name as Custname,\n    ad.acc_no as debitAccno,\n    ac.acc_no as CreditAccno,\n    avd.val_name as DebitCurrency,\n    avc.val_name as CreditCurrency,\n    debitamount, \n    CM_AK_REPORTS.Get_PlanPayment(l.creditid,l.creditoperation,l.trdate) as PlanPay,\n    l.trdescription,\n    l.status\n  FROM \n     cm_lazytransactions l,\n     sb_account ad,\n     sb_account ac,\n     sb_avalute avd,\n     sb_avalute avc,\n     cm_boorowerinfo B\n  where\n      l.debitaccid = ad.id\n  and l.creditaccid = ac.id\n  and ad.val_acc = avd.valute\n  and ac.val_acc = avc.valute\n  and l.creditid = B.CreditID\n  and l.trdate = :TransactionDate\n\n\n\n\n\n\n\n order by :OrderField \n   \n  \n ",
+   "variables": [
+    {
+     "name": "TRANSACTIONDATE",
+     "type": "date"
+    },
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "LazyTransactionDatModImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TLazTrDatMod.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, t.*\nfrom cm_usergroups  t",
+   "variables": [],
+   "unit": "LazyTransactionDatModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "Transactions",
+   "package": "CM_DIFFERENCE_TRANSACTIONS",
+   "mode": "named",
+   "source": "TLazTrDatMod.Transactions",
+   "routines": [
+    {
+     "name": "Commit_Transaction",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Delete_Transactions",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

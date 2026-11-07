@@ -1,0 +1,344 @@
+{
+ "name": "P_CM_RETSETTING",
+ "caption": "",
+ "dir": "Packages/SB_Credit/cm_retelsettinq",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "cm_wrsetup.bpl": "P_CM_WRSETUP"
+ },
+ "lib": [
+  "CMHintBox",
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Persons",
+   "source": "TDmRt.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from CM_RETLPERSONS a order by id\n\n",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "PersonLink",
+   "source": "TDmRt.PersonLink",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, a.* from cm_mehsul a\nwhere personid= :personid\norder by  kod",
+   "variables": [
+    {
+     "name": "PERSONID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "Setting",
+   "source": "TDmRt.Setting",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_por_setting",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "EstateTypeData",
+   "source": "TDmRt.EstateTypeData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id ,a.name,a.kodu  FROM cm_vid_sob a\n\n\n\n\n\n\n\n\n\norder by id\n\n\n\n\n",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "DataSetActivities",
+   "source": "TDmRt.DataSetActivities",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description,bank_kod, act_id, newid\n  from cm_activities  \nwhere \n act_id=:act_id\norder by description\n",
+   "variables": [
+    {
+     "name": "ACT_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "creditcatData",
+   "source": "TDmRt.creditcatData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  a.id, a.name, a.kod,a.vid_sob\n  FROM cm_creditcat a\nwhere \nvid_sob=:vid_sob\norder by vid_sob,id",
+   "variables": [
+    {
+     "name": "VID_SOB",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "ClientCategories",
+   "source": "TDmRt.ClientCategories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, person, description,code,act_id,kodu\n  FROM cm_categories\n where\nact_id=:act_id and\n  act_id is not null\n--order by act_id,id",
+   "variables": [
+    {
+     "name": "ACT_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TDmRt.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, renewablestatus, itype, iclass, description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "UsrGroups",
+   "source": "TDmRt.UsrGroups",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  id,\ndescription\nfrom\n  CM_USERGROUPS",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "Aim_Set",
+   "source": "TDmRt.Aim_Set",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name --,custtype\n  from cm_aim_cred  \n--where custtype=:id\n\norder by id",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "Reserves",
+   "source": "TDmRt.Reserves",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    ID,\n    Percent ||' %' as Percent ,\n    Description\n  from\n    CM_RESERVES",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "AutoPayment",
+   "source": "TDmRt.AutoPayment",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_automation",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "AutoExpire",
+   "source": "TDmRt.AutoExpire",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_automation",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "CalcIntMethod",
+   "source": "TDmRt.CalcIntMethod",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_intcalcmethod",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "DSetMeh",
+   "source": "TDmRt.DSetMeh",
+   "kind": "TOracleDataSet",
+   "sql": "select * from CM_MEHSULLINKS\nwhere mehsulid = :mehsulid\n\norder by valute\n\n",
+   "variables": [
+    {
+     "name": "MEHSULID",
+     "type": "float"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "DsetPercent",
+   "source": "TDmRt.DsetPercent",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid ,a.* from cm_percent_setting a\nwhere mehsetid=:mehsetid\n\norder by bper",
+   "variables": [
+    {
+     "name": "MEHSETID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "Branches",
+   "source": "TDmRt.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select\nID ,Name\nfrom FILIAL",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "CurrencysData",
+   "source": "TDmRt.CurrencysData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n    valute as CurrID ,\n    Valu_Name as CurrName,VAL_NAME\n  from\n    smart.avalute_t",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "PldDataSet",
+   "source": "TDmRt.PldDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.typecode, a.description\n  FROM cm_pledges_t a\norder by id",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "DsetRtAcc",
+   "source": "TDmRt.DsetRtAcc",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from CM_RTLACCOUNTS a\n\nwhere currid=:currid\n\norder by id,currid",
+   "variables": [
+    {
+     "name": "CURRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "OracleQuery1",
+   "source": "TDmRt.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "comp",
+   "source": "TDmRt.comp",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_retelview where mehid=:mehid\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "MEHID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "PeriodSet",
+   "source": "TDmRt.PeriodSet",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from cm_retlporiod a\n\nwhere retcurid=:retcurid\n\norder by period",
+   "variables": [
+    {
+     "name": "RETCURID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDmRt.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 as id ,'Günə-dək' as name from dual \nunion all\nselect 1 as id ,'Aya-dək' as name  from dual \nunion all\nselect 2 as id ,'İlə-dək' as name  from dual ",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "Person_des",
+   "source": "TDmRt.Person_des",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 id ,'Hüquqi şəxs' name from dual\nunion\nselect 1 id ,'Fiziki şəxs' name from dual\nunion\nselect 2 id ,'Fiziki sahipkat' name from dual ",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "Rezdent",
+   "source": "TDmRt.Rezdent",
+   "kind": "TOracleDataSet",
+   "sql": "select 1 id,'Rezdent' name  from dual \nunion\nselect 0id,'Qeyri rezdent' name  from dual ",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "vid_sob",
+   "source": "TDmRt.vid_sob",
+   "kind": "TOracleDataSet",
+   "sql": "select * from vid_sob",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDmRt.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select a.* from CM_RESERVE_FILIAL a \nwhere mehsul_id=:mehsul_id\n\norder by fil_id\n\n",
+   "variables": [
+    {
+     "name": "MEHSUL_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TDmRt.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from CM_RESERVE_ACCOUNT  a\nwhere fil_id=:fil_id\norder by reserveid\n\n",
+   "variables": [
+    {
+     "name": "FIL_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "Dmretsetitnq"
+  },
+  {
+   "name": "PReserveAccs",
+   "source": "TDmRt.PReserveAccs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   ac.id AS id, ac.kli_id AS custid, ac.acc_no AS accno,\n         ac.NAME AS clientname, ac.val_acc\n    FROM account ac\n   WHERE val_acc = 0 and close_dat is null --and ac.kli_id=:kli_id\n   \n     AND (ac.bal_cn1 IN (SELECT accountnumber\n                           FROM cm_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM cm_accountgroups g\n                                            WHERE g.iname = 'PReserveAccs'))\n         )\nORDER BY accno,kli_id\n\n",
+   "variables": [],
+   "unit": "Dmretsetitnq"
+  }
+ ],
+ "packages": [],
+ "sql": [
+  "delete cm_retelview where mehid="
+ ]
+}

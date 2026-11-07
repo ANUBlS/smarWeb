@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ArTrancheSheduleDataMod"));
+    const $t1 = (await $.wobj(C, "ArTrancheSheduleDataMod"));
     const $t2 = (await $.wv([$t1], "CM_SCHEDULE", C, false));
     await $.stmt((await $.wcall([$t1, $t2], "CallProcedure", ["TrSchedule_Add", [(await $.wv([$t1, $t2], "Get_SelectedCrdID", C, false)), (await $.mv((await $.wv([$t1, $t2], "trchDate", C, false)), "DateTime")), (await $.mv((await $.wv([$t1, $t2], "trchAmount", C, false)), "Value"))]], C)));
     await $.mcall((await $.wv([$t1, $t2], "Session", C, false)), "Commit", []);

@@ -52,7 +52,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DMBudget"));
+    const $t1 = (await $.wobj(C, "DMBudget"));
     await $.mcall((await $.wv([$t1], "ArtDatset", C, false)), "open", []);
     await $.mcall((await $.wv([$t1], "SYSDAT", C, false)), "open", []);
     await $.mset((await $.mcall((await $.wv([$t1], "ArtDatset", C, false)), "FieldbyName", ["begindat"])), "asDateTime", (await $.mv((await $.mcall((await $.mv((await $.wv([$t1], "DMBudget", C, false)), "SYSDAT")), "FieldbyName", ["begindat"])), "asDateTime")));

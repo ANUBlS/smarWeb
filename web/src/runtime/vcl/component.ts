@@ -1,4 +1,5 @@
 /* TComponent: ownership, names, events, DFM-linked references. */
+import { sessionExpired } from '../../api/http';
 import { TObject, NOTFOUND, Found, routine, isRoutine, PasException, AbortSignal, Routine } from '../core';
 import { registerBuiltin } from '../env';
 import { invalidate, beginHold, endHold } from '../ui';
@@ -7,6 +8,9 @@ import { messageBox } from '../dialogs';
 import { audit } from '../audit';
 import { Indexed } from './classes';
 import { num, str } from '../pascal';
+import knownEvents from '../../generated/events.json';
+
+const KNOWN_EVENTS = new Set<string>(knownEvents as string[]);
 
 export type Handler = string | Routine | null;
 
@@ -82,7 +86,9 @@ export class TComponent extends TObject {
   override pget(lname: string): Found | Promise<Found> {
     if (lname.startsWith('on') && lname.length > 2 && this.isEventName(lname)) {
       const h = this.events.get(lname);
-      return h === undefined ? null : this.handlerRoutine(h);
+      // an unassigned On* name that is no event property anywhere (a method OnLogoutputShow of the form
+      // named inside `with frmLog do`) is not a member: the name resolves in the enclosing scope
+      if (h !== undefined || KNOWN_EVENTS.has(lname)) return h === undefined ? null : this.handlerRoutine(h);
     }
     if (this.refs.has(lname)) {
       const r = super.pget(lname);
@@ -268,6 +274,8 @@ export async function whileLoading<T>(fn: () => Promise<T>): Promise<T> {
 export function reportException(e: unknown, where: string) {
   const msg = e instanceof PasException ? e.message : (e as Error)?.message ?? String(e);
   const cls = e instanceof PasException ? e.className : 'Exception';
+  // after "session expired" every handler still running fails the same way: log only, the logon screen explains it
+  if (sessionExpired.value) { logger.warn(`${where}: ${cls}: ${msg}`); return; }
   if (loadingDepth > 0 && e instanceof PasException && cls !== 'EOracleError') {
     logger.warn(`${where} (while loading): ${cls}: ${msg}`);
     audit('error', `${where} (yüklənərkən): ${cls}: ${msg}`);

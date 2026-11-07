@@ -38,7 +38,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DMApplyMoney_new"));
+    const $t1 = (await $.wobj(C, "DMApplyMoney_new"));
     const $t2 = (await $.wv([$t1], "DepositInfo", C, false));
     const $t3 = (await $.wv([$t1, $t2], "sbcm_tranches", C, false));
     await $.stmt($.wcall([$t1, $t2, $t3], "Refresh", [], C));
@@ -76,7 +76,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t4 = (await $.v(C, "DMApplyMoney_new"));
+    const $t4 = (await $.wobj(C, "DMApplyMoney_new"));
     const $t5 = (await $.wv([$t4], "sbcm_tranches", C, false));
     await $.wset([$t4, $t5], "p_check1", (await $.wcall([$t4, $t5], "CallIntegerFunction", ["checkedtranch", ["p_contractid", (await $.wv([$t4, $t5], "Get_SelectedContID", C, false)), "p_amuont", (await $.wv([$t4, $t5], "Total", { get: async () => L0["total"], set: async (v) => { L0["total"] = v; }, local: true }, false))]], C)), { get: async () => L0["p_check1"], set: async (v) => { L0["p_check1"] = v; }, local: true });
     await $.wset([$t4, $t5], "p_check2", (await $.wcall([$t4, $t5], "CallIntegerFunction", ["checkedaddtranch", ["p_contractid", (await $.wv([$t4, $t5], "Get_SelectedContID", C, false)), "p_amuont", (await $.wv([$t4, $t5], "Total", { get: async () => L0["total"], set: async (v) => { L0["total"] = v; }, local: true }, false))]], C)), { get: async () => L0["p_check2"], set: async (v) => { L0["p_check2"] = v; }, local: true });
@@ -139,7 +139,7 @@ export default function define($) {
     }
   }
   {
-    const $t6 = (await $.v(C, "DMApplyMoney_new"));
+    const $t6 = (await $.wobj(C, "DMApplyMoney_new"));
     const $t7 = (await $.wv([$t6], "sbcm_tranches", C, false));
     await $.stmt((await $.wcall([$t6, $t7], "CallProcedure", ["depositmoney", ["P_ClientAccID", (await $.wv([$t6, $t7], "ClientAccID", { get: async () => L0["clientaccid"], set: async (v) => { L0["clientaccid"] = v; }, local: true }, false)), "contractid", (await $.wv([$t6, $t7], "Get_SelectedContID", C, false)), "hdate", (await $.wv([$t6, $t7], "Get_BankDate", C, false)), "total", (await $.wv([$t6, $t7], "Total", { get: async () => L0["total"], set: async (v) => { L0["total"] = v; }, local: true }, false)), "PERCENT", (await $.wv([$t6, $t7], "Percent", { get: async () => L0["percent"], set: async (v) => { L0["percent"] = v; }, local: true }, false)), "Trname", "null", "usetransaction", (await $.wv([$t6, $t7], "true", C, false))]], C)));
   }

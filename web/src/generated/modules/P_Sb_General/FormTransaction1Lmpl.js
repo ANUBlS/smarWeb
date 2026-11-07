@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "v_ostat": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "DataModule_bussProc"));
+    const $t1 = (await $.wobj(C, "DataModule_bussProc"));
     if ($.truthy($.gt((await $.mv((await $.wv([$t1], "CurrencyEdit1", C, false)), "Value")), 0))) {
       await $.mset((await $.wv([$t1], "XFBitBtn1", C, false)), "Enabled", (await $.wv([$t1], "true", C, false)));
     }

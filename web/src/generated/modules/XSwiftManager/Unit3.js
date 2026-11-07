@@ -50,7 +50,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.ne((await $.mv((await $.v(C, "format")), "Text")), ""))) {
     {
-      const $t1 = (await $.v(C, "SWDataModule"));
+      const $t1 = (await $.wobj(C, "SWDataModule"));
       await $.stmt((await $.mcall((await $.wv([$t1], "settings_fields", C, false)), "SetVariable", [":FORMATS", (await $.mv((await $.wv([$t1], "format", C, false)), "text"))])));
       await $.stmt((await $.mcall((await $.wv([$t1], "settings_fields2", C, false)), "SetVariable", [":FORMATS", (await $.mv((await $.wv([$t1], "format", C, false)), "text"))])));
       await $.stmt((await $.mcall((await $.wv([$t1], "settings_fields3", C, false)), "SetVariable", [":FORMATS", (await $.mv((await $.wv([$t1], "format", C, false)), "text"))])));
@@ -105,7 +105,7 @@ export default function define($) {
     await $.mset((await $.v(C, "format")), "Text", (await $.mv((await $.mcall((await $.mv((await $.v(C, "SWDataModule")), "prowo")), "fieldbyname", ["FORMAT"])), "AsString")));
     if ($.truthy($.ne((await $.mv((await $.v(C, "format")), "Text")), ""))) {
       {
-        const $t2 = (await $.v(C, "SWDataModule"));
+        const $t2 = (await $.wobj(C, "SWDataModule"));
         await $.stmt((await $.mcall((await $.wv([$t2], "settings_fields", C, false)), "SetVariable", [":FORMATS", (await $.mv((await $.wv([$t2], "format", C, false)), "text"))])));
         await $.stmt((await $.mcall((await $.wv([$t2], "settings_fields2", C, false)), "SetVariable", [":FORMATS", (await $.mv((await $.wv([$t2], "format", C, false)), "text"))])));
         await $.stmt((await $.mcall((await $.wv([$t2], "settings_fields3", C, false)), "SetVariable", [":FORMATS", (await $.mv((await $.wv([$t2], "format", C, false)), "text"))])));

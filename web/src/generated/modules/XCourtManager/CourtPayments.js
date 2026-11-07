@@ -32,7 +32,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.gt((await $.mv((await $.mv((await $.v(C, "DataModuleCourt")), "PaymentReport")), "RecordCount")), 0))) {
     {
-      const $t2 = (await $.v(C, "ExcelExport"));
+      const $t2 = (await $.wobj(C, "ExcelExport"));
       await $.stmt($.wcall([$t2], "Connect", [], C));
       await $.stmt((await $.wcall([$t2], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t2], "DBGridEh1", C, false)), "DataSource")), "DataSet")), "Ödənişlər", (await $.wv([$t2], "True", C, false))], C)));
     }

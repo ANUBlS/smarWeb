@@ -237,7 +237,7 @@ export default function define($) {
     await $.mcall((await $.v(C, "DBGrid1")), "SetFocus", []);
   }
   {
-    const $t20 = (await $.v(C, "DBGrid1"));
+    const $t20 = (await $.wobj(C, "DBGrid1"));
     const $t21 = (await $.wv([$t20], "SelectedRows", C, false));
     const $t22 = (await $.mv((await $.wv([$t20, $t21], "DataSource", C, false)), "DataSet"));
     const $t23 = (await $.wv([$t20, $t21, $t22], "DataMod_CARDS", C, false));

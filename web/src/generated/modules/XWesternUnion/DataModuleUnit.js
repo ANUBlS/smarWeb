@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), "e": $.copyArg(p1), "action": $.asRef(p2), result: undefined};
   await $.fixArgs(L0, ["dataset", "e"]);
   {
-    const $t1 = (await $.v(C, "WesternUnionForm"));
+    const $t1 = (await $.wobj(C, "WesternUnionForm"));
     await $.mset((await $.mv((await $.wv([$t1], "ListBoxErrors", C, false)), "Items")), "Text", $.add($.add($.add($.add("[Warning] ", (await $.wcall([$t1], "TimeToStr", [(await $.wv([$t1], "Time", C, false))], C))), "  "), (await $.mv((await $.wv([$t1], "E", { get: async () => L0["e"], set: async (v) => { L0["e"] = v; }, local: true }, false)), "Message"))), (await $.mv((await $.mv((await $.wv([$t1], "ListBoxErrors", C, false)), "Items")), "Text"))));
     await $.mset((await $.wv([$t1], "ListBoxErrors", C, false)), "ItemIndex", 0);
   }

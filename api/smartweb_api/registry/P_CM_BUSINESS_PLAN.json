@@ -1,0 +1,251 @@
+{
+ "name": "P_CM_BUSINESS_PLAN",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_BUSINESS_PLAN",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditInfo",
+   "source": "TBPDataModule.CreditInfo",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   Name\nFrom \n  CM_BOOROWERINFO \nWhere \n   CreditID=:CreditID\n   ",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "BPData",
+   "source": "TBPDataModule.BPData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT b.RowID,b.*\n  FROM cm_business_plan b\nWHERE b.CreditID =:CreditID ",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "BPPurposes",
+   "source": "TBPDataModule.BPPurposes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, purposedesc\n  FROM cm_bp_purposes",
+   "variables": [],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "BPTypes",
+   "source": "TBPDataModule.BPTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, typedesc\n  FROM cm_bp_types",
+   "variables": [],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "DistrictsDataSet",
+   "source": "TBPDataModule.DistrictsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, name_eng\n  FROM agro_region",
+   "variables": [],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "VillagesDataSet",
+   "source": "TBPDataModule.VillagesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, depend_id\n  FROM agro_village\n\nwhere depend_id = :depend_id",
+   "variables": [
+    {
+     "name": "DEPEND_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "AKTargetsDataSet",
+   "source": "TBPDataModule.AKTargetsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, name_eng\n  FROM agro_kredit_target",
+   "variables": [],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "AKPurposesDataSet",
+   "source": "TBPDataModule.AKPurposesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name, depend_id\n  FROM agro_kredit_purpose\n\nwhere depend_id = :depend_id",
+   "variables": [
+    {
+     "name": "DEPEND_ID",
+     "type": "float"
+    }
+   ],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "PortInf",
+   "source": "TBPDataModule.PortInf",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.ID creditid\n     , p.creditlineamount\n     , p.numberofcredit\n     , u.id projectid\n     , u.description project\n     , d.NAME district\n     , v.NAME village\n  FROM cm_business_plan b\n     , cm_portfolio p\n     , agro_village v\n     , agro_region d\n     , cm_usergroups u\n WHERE (b.creditid = p.ID)\n   AND (b.villageid = v.ID)\n   AND (v.depend_id = d.ID)\n   AND (p.usrgroup = u.ID)\n   AND creditid = :creditid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "BPSources",
+   "source": "TBPDataModule.BPSources",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM cm_bp_sources\n\nwhere purpid = :purpid",
+   "variables": [
+    {
+     "name": "PURPID",
+     "type": "float"
+    }
+   ],
+   "unit": "BPDataModuleImpl"
+  },
+  {
+   "name": "CreditInfo",
+   "source": "TBPMainForm.CreditInfo",
+   "kind": "TOracleDataSet",
+   "sql": "Select \n   Name\nFrom \n  CM_BOOROWERINFO \nWhere \n   CreditID=:CreditID\n   ",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BPMainFormImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TBPMainForm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description, activeindicator1, activeindicator2\n  FROM cm_legal_measure_names order by id",
+   "variables": [],
+   "unit": "BPMainFormImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TBPMainForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, creditid, protocol, paragraph, grantdate, givedate,\n       measurecode, totalamount, maindebt, num\n  FROM cm_legal_measures\nWHERE CreditID=:CreditID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BPMainFormImpl"
+  },
+  {
+   "name": "GTMachinesDataSet",
+   "source": "TBPMainForm.GTMachinesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select t.rowid, t.*\n  from cm_ak_grants t\n where creditid = :CREDITID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "BPMainFormImpl"
+  },
+  {
+   "name": "MachinesDataSet",
+   "source": "TBPMainForm.MachinesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_ak_machines\norder by id",
+   "variables": [],
+   "unit": "BPMainFormImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TYoneltmeFrm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from cm_yonetme a where creditid=:creditid\norder by id",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "YoneltmeImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_AKF",
+   "package": "CM_AKF",
+   "mode": "positional",
+   "source": "TBPDataModule.CM_AKF",
+   "routines": [
+    {
+     "name": "BPCreditAKTargetID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "BPCreditDistrictID",
+     "call": "CallIntegerFunction"
+    },
+    {
+     "name": "BusinessPlan_AK_AddEdit",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "CM_CREDIT",
+   "package": "CM_CREDIT",
+   "mode": "named",
+   "source": "TBPDataModule.CM_CREDIT",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

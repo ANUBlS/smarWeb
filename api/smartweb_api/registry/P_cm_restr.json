@@ -1,0 +1,87 @@
+{
+ "name": "P_cm_restr",
+ "caption": "",
+ "dir": "Packages/SB_Credit/cm_rest",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ResDataSet",
+   "source": "TMainfrm.ResDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_resinfo \nWHERE ID NOT IN (SELECT reinfoid\n FROM cm_resaddinfo WHERE CREDITID=:CRID)\n ",
+   "variables": [
+    {
+     "name": "CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "resturimpl"
+  },
+  {
+   "name": "ResAddDataSet",
+   "source": "TMainfrm.ResAddDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select r.id,r.nmae name from CM_RESADDINFO a,cm_resinfo r\nwhere a.reinfoid=r.id\nAND A.CREDITID=:CRID",
+   "variables": [
+    {
+     "name": "CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "resturimpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "IUPackage",
+   "package": "CM_CREDIT",
+   "mode": "named",
+   "source": "TMainfrm.IUPackage",
+   "routines": [
+    {
+     "name": "add_Rest",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_res",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

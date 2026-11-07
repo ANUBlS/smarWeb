@@ -535,7 +535,7 @@ export default function define($) {
     await $.stmt((await $.call(C, "ShowMessage", ["Məlumat tam deyil"])));
   } else {
     {
-      const $t43 = (await $.v(C, "CO_DataMod"));
+      const $t43 = (await $.wobj(C, "CO_DataMod"));
       await $.wset([$t43], "DDate", (await $.wcall([$t43], "Trunc", [(await $.mv((await $.wv([$t43], "DTPOpenDate", C, false)), "DateTime"))], C)), { get: async () => L0["ddate"], set: async (v) => { L0["ddate"] = v; }, local: true });
       await $.stmt((await $.mcall((await $.wv([$t43], "OPackage", C, false)), "CallIntegerFunction", ["open_Account", [(await $.mv((await $.wv([$t43], "EditAcc", C, false)), "Text")), (await $.mv((await $.wv([$t43], "EditValute", C, false)), "Text")), (await $.mv((await $.wv([$t43], "EditBall", C, false)), "Text")), (await $.mv((await $.wv([$t43], "EditCust", C, false)), "Text")), (await $.wv([$t43], "DDate", { get: async () => L0["ddate"], set: async (v) => { L0["ddate"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t43], "DBEditLimit", C, false)), "Text")), (await $.mv((await $.wv([$t43], "DBRepSymb", C, false)), "KeyValue")), (await $.mv((await $.wv([$t43], "EditFil", C, false)), "Text")), (await $.mv((await $.wv([$t43], "tipacc", C, false)), "Text")), (await $.mv((await $.wv([$t43], "EditAccName", C, false)), "Text")), (await $.mv((await $.wv([$t43], "custid", C, false)), "Text"))]])));
       await $.mcall((await $.wv([$t43], "Account", C, false)), "Refresh", []);
@@ -549,7 +549,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t44 = (await $.v(C, "CO_DataMod"));
+    const $t44 = (await $.wobj(C, "CO_DataMod"));
     await $.mcall((await $.wv([$t44], "Sysdat", C, false)), "Open", []);
     await $.mcall((await $.wv([$t44], "AccSettings", C, false)), "Open", []);
     await $.mcall((await $.wv([$t44], "RepSymbol", C, false)), "Open", []);
@@ -614,7 +614,7 @@ export default function define($) {
   await $.set(C, "AccFlags", (await $.mcall((await $.v(C, "TAccFlags")), "Create", [Self])));
   try {
     {
-      const $t45 = (await $.v(C, "AccFlags"));
+      const $t45 = (await $.wobj(C, "AccFlags"));
       if ($.truthy(($.eq((await $.wv([$t45], "ShowModal", C, false)), (await $.wv([$t45], "mrOk", C, false)))))) {
         await $.mset((await $.wv([$t45], "tipacc", C, false)), "Text", (await $.wv([$t45], "FlagMap", C, false)));
       }
@@ -635,7 +635,7 @@ export default function define($) {
     await $.stmt((await $.call(C, "ShowMessage", ["Məlumat tam deyil"])));
   } else {
     {
-      const $t46 = (await $.v(C, "CO_DataMod"));
+      const $t46 = (await $.wobj(C, "CO_DataMod"));
       const $t47 = (await $.wv([$t46], "SBOP", C, false));
       await $.mset((await $.wv([$t46, $t47], "EditAcc", C, false)), "Text", (await $.mcall((await $.wv([$t46, $t47], "SBOP", C, false)), "CallStringFunction", [(await $.wv([$t46, $t47], "c_name", { get: async () => L0["c_name"], set: async (v) => { L0["c_name"] = v; }, local: true }, false)), ["BalCn", (await $.mv((await $.wv([$t46, $t47], "DBLookupBalance1", C, false)), "KeyValue")), "CurrencyID", (await $.mv((await $.wv([$t46, $t47], "DBLookupCurr", C, false)), "KeyValue")), "CustomerID", (await $.mv((await $.wv([$t46, $t47], "DBLookupCust", C, false)), "KeyValue")), "BranchID", (await $.mv((await $.wv([$t46, $t47], "DBLookupComboBox4", C, false)), "KeyValue")), "AnalitKod", (await $.mv((await $.wv([$t46, $t47], "DBRepSymb", C, false)), "KeyValue")), "NoteCode", (await $.mv((await $.wv([$t46, $t47], "EditNoteCode", C, false)), "Text")), "BalCN2", (await $.mv((await $.wv([$t46, $t47], "DBLookupBalance2", C, false)), "KeyValue"))]])));
     }

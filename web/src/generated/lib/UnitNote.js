@@ -36,14 +36,14 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "ods_main"));
+    const $t1 = (await $.wobj(C, "ods_main"));
     await $.stmt($.wcall([$t1], "close", [], C));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["v_id", (await $.wcall([$t1], "strtoint", [(await $.wv([$t1], "cust_noteid", C, false))], C))], C)));
     await $.mset((await $.wv([$t1], "MemoNote", C, false)), "Text", (await $.mv((await $.wv([$t1], "ods_mainNOTE", C, false)), "AsString")));
     await $.stmt($.wcall([$t1], "open", [], C));
   }
   {
-    const $t2 = (await $.v(C, "ods_notememo"));
+    const $t2 = (await $.wobj(C, "ods_notememo"));
     await $.stmt($.wcall([$t2], "close", [], C));
     await $.stmt((await $.wcall([$t2], "SetVariable", ["v_id", (await $.wcall([$t2], "strtoint", [(await $.wv([$t2], "cust_noteid", C, false))], C))], C)));
     await $.stmt($.wcall([$t2], "open", [], C));

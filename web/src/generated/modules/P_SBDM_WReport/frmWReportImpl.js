@@ -68,7 +68,7 @@ export default function define($) {
   await $.mset((await $.mv((await $.mv((await $.v(C, "WordDocument")), "Application")), "Get_ActiveWindow")), "Caption", (await $.mv((await $.v(C, "frmWReport")), "Caption")));
   try {
     {
-      const $t3 = (await $.v(C, "DMWReport"));
+      const $t3 = (await $.wobj(C, "DMWReport"));
       const $t4 = (await $.wv([$t3], "ReplaceDataSet", C, false));
       const $t5 = (await $.wv([$t3, $t4], "WordDocument", C, false));
       { const $t6 = (await $.mv((await $.wv([$t3, $t4, $t5], "Bookmarks", C, false)), "Count"));
@@ -111,7 +111,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "DMWReport"));
+    const $t8 = (await $.wobj(C, "DMWReport"));
     const $t9 = (await $.wv([$t8], "DepositInfoDataSet", C, false));
     await $.stmt($.wcall([$t8, $t9], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t8, $t9], "SetVariable", ["ContractID", (await $.wv([$t8, $t9], "Get_SelectedContID", C, false))], C)));

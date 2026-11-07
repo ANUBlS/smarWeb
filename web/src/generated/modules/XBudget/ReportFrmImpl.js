@@ -86,7 +86,7 @@ export default function define($) {
     L0["k"] = 1;
     L0["a"] = 0;
     {
-      const $t5 = (await $.v(C, "DMBudget"));
+      const $t5 = (await $.wobj(C, "DMBudget"));
       await $.wset([$t5], "i", 0, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       await $.mset((await $.mv((await $.idx((await $.mv((await $.wv([$t5], "Sheet", C, false)), "Cells")), [$.add((await $.wv([$t5], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), (await $.wv([$t5], "k", { get: async () => L0["k"], set: async (v) => { L0["k"] = v; }, local: true }, false))), 3])), "Font")), "Bold", (await $.wv([$t5], "true", C, false)));
       await $.mset((await $.mv((await $.idx((await $.mv((await $.wv([$t5], "Sheet", C, false)), "Cells")), [$.add((await $.wv([$t5], "i", { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true }, false)), (await $.wv([$t5], "k", { get: async () => L0["k"], set: async (v) => { L0["k"] = v; }, local: true }, false))), 3])), "Font")), "size", 16);

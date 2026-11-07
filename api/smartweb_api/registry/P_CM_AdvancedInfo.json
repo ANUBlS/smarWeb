@@ -1,0 +1,84 @@
+{
+ "name": "P_CM_AdvancedInfo",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_AdvencedInfo",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SystemState",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "AddInfo",
+   "source": "TAdvInfoDataModule.AddInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   D.ROWID,\n   D.ID , \n   D.CURRENCY , \n   C.DESCRIPTION , \n   A.BOOROWERID , \n   A.NAME , \n   A.COUNTRYCODE , \n   A.BANKRUPTEYSTATUS , \n   A.PHONENUMBER , \n   A.ADDRESS , \n   A.FIRSTOWNERID ,\n   A.FIRSTOWNERNAME , \n   A.SECONDOWNERID , \n   A.SECONDOWNERNAME , \n   A.THIRDOWNERID , A.THIRDOWNERNAME ,\n   B.PLEDGENAME , \n   B.HOLDERNAME , \n   B.HOLDERADDRESS , \n   B.ANYINFOTODISTING , \n   B.REGISTRYNO ,\n   B.REGISTRYAGENCY , \n   B.REGISTRYDATE , \n   B.PLEDGEINUSE , \n   B.PLEDGEINSURANT , \n   B.INSURANCEAGENCY ,\n   B.INSURANCEAMOUNT , \n   B.INSURANCEDATE , \n   B.PLEDGEID , \n   E.VAL_NAME\nFROM\n   CM_ACTIVE_CREDITS D\n , CM_PLEDGES C\n , CM_BOOROWERINFO A\n , CM_GUARANTEE B\n , SB_AVALUTE E\nWHERE\n     (D.ID =:CREDITID) \n AND (D.ID = B.CREDITID)\n AND (D.ID = A.CREDITID)\n AND (B.PLEDGEID = C.ID)\n AND (E.VALUTE = D.CURRENCY)\n ",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AdvancedInfoDataModuleImpl"
+  },
+  {
+   "name": "Countrys",
+   "source": "TAdvInfoDataModule.Countrys",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT code, name\n  FROM cm_countrys",
+   "variables": [],
+   "unit": "AdvancedInfoDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "AddInfoPackage",
+   "package": "CM_CREDIT",
+   "mode": "named",
+   "source": "TAdvInfoDataModule.AddInfoPackage",
+   "routines": [
+    {
+     "name": "ContractAddInfo_Edit",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

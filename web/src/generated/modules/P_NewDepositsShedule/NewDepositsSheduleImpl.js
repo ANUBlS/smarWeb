@@ -64,7 +64,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t4 = (await $.v(C, "SchduleGrid"));
+    const $t4 = (await $.wobj(C, "SchduleGrid"));
     { const $t5 = 0;
       await $.wset([$t4], "I", $.sub((await $.mv((await $.wv([$t4], "SelectedRows", C, false)), "Count")), 1), { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
       let $t6 = true;
@@ -86,7 +86,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "NewDepositsPaymentShedule", (await $.mcall((await $.v(C, "TNewDepositsPaymentShedule")), "Create", [Self])));
   {
-    const $t7 = (await $.v(C, "NewDepositsPaymentShedule"));
+    const $t7 = (await $.wobj(C, "NewDepositsPaymentShedule"));
     const $t8 = (await $.wv([$t7], "NewDepositsScheduleDataModule", C, false));
     const $t9 = (await $.wv([$t7, $t8], "dm_calculator", C, false));
     await $.mset((await $.wv([$t7, $t8, $t9], "DateTimePicker1", C, false)), "DateTime", (await $.mcall((await $.wv([$t7, $t8, $t9], "dm_stored_programs", C, false)), "CallDateFunction", ["GetFirstPaymentDate", [(await $.wv([$t7, $t8, $t9], "depositid", C, false))]])));
@@ -106,7 +106,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t10 = (await $.v(C, "NewDepositsScheduleDataModule"));
+    const $t10 = (await $.wobj(C, "NewDepositsScheduleDataModule"));
     const $t11 = (await $.mv((await $.wv([$t10], "OracleDataSet2", C, false)), "Session"));
     await $.stmt((await $.wcall([$t10, $t11], "ApplyUpdates", [[(await $.wv([$t10, $t11], "OracleDataSet2", C, false))], (await $.wv([$t10, $t11], "True", C, false))], C)));
     await $.stmt($.wcall([$t10, $t11], "Commit", [], C));

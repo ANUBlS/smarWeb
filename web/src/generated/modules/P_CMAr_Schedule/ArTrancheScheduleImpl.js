@@ -20,7 +20,7 @@ export default function define($) {
   await $.set(C, "Caption", (await $.call(C, "Format", [L0["rsscheludecaption"], [(await $.v(C, "Get_SelectedCrdNo"))]])));
   L0["creditid"] = (await $.v(C, "Get_SelectedCrdID"));
   {
-    const $t1 = (await $.v(C, "ArTrancheSheduleDataMod"));
+    const $t1 = (await $.wobj(C, "ArTrancheSheduleDataMod"));
     await $.stmt((await $.mcall((await $.wv([$t1], "AboutContractDataSet", C, false)), "SetVariable", ["ID", (await $.wv([$t1], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false))])));
     await $.mcall((await $.wv([$t1], "AboutContractDataSet", C, false)), "Open", []);
     await $.stmt((await $.mcall((await $.wv([$t1], "TrancheScheduleDataSet", C, false)), "SetVariable", ["CREDITID", (await $.wv([$t1], "CreditID", { get: async () => L0["creditid"], set: async (v) => { L0["creditid"] = v; }, local: true }, false))])));
@@ -58,7 +58,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "frmAddTrSched"));
+    const $t2 = (await $.wobj(C, "frmAddTrSched"));
     const $t3 = (await $.wv([$t2], "ArTrancheSheduleDataMod", C, false));
     await $.mset((await $.wv([$t2, $t3], "trchDate", C, false)), "Date", (await $.wv([$t2, $t3], "Get_CurrentDate", C, false)));
     await $.mset((await $.wv([$t2, $t3], "trchAmount", C, false)), "Text", "0");
@@ -71,7 +71,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "frmUpdTrSched"));
+    const $t4 = (await $.wobj(C, "frmUpdTrSched"));
     const $t5 = (await $.wv([$t4], "ArTrancheSheduleDataMod", C, false));
     await $.mset((await $.wv([$t4, $t5], "trchDate", C, false)), "Date", (await $.mv((await $.wv([$t4, $t5], "TrancheScheduleDataSetTRCHDATE", C, false)), "AsDateTime")));
     await $.mset((await $.wv([$t4, $t5], "trchAmount", C, false)), "Text", (await $.mv((await $.wv([$t4, $t5], "TrancheScheduleDataSetTRCHAMOUNT", C, false)), "AsString")));
@@ -85,7 +85,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["rs_deltrancheschedule"] = "%d nömrəli plan silinəcək. Razısınızmı?";
   {
-    const $t6 = (await $.v(C, "ArTrancheSheduleDataMod"));
+    const $t6 = (await $.wobj(C, "ArTrancheSheduleDataMod"));
     const $t7 = (await $.wv([$t6], "CM_SCHEDULE", C, false));
     if ($.truthy($.eq((await $.wcall([$t6, $t7], "MessageDlg", [(await $.wcall([$t6, $t7], "Format", [(await $.wv([$t6, $t7], "rs_DelTrancheSchedule", { get: async () => L0["rs_deltrancheschedule"], set: async (v) => { L0["rs_deltrancheschedule"] = v; }, local: true }, false)), [(await $.mv((await $.wv([$t6, $t7], "TrancheScheduleDataSetID", C, false)), "AsInteger"))]], C)), (await $.wv([$t6, $t7], "mtConfirmation", C, false)), [(await $.wv([$t6, $t7], "mbYes", C, false)), (await $.wv([$t6, $t7], "mbNo", C, false))], 0], C)), (await $.wv([$t6, $t7], "IDYES", C, false))))) {
       await $.stmt((await $.wcall([$t6, $t7], "CallProcedure", ["TrSchedule_Del", [(await $.mv((await $.wv([$t6, $t7], "TrancheScheduleDataSetID", C, false)), "AsVariant"))]], C)));

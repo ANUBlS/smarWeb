@@ -18,7 +18,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t1 = (await $.v(C, "DataModExch"));
+    const $t1 = (await $.wobj(C, "DataModExch"));
     await $.mcall((await $.wv([$t1], "ODSVDM", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t1], "ODSVDM", C, false)), "SetVariable", ["ex_id", (await $.mv((await $.wv([$t1], "ODSExRemainderEX_ID", C, false)), "AsInteger"))])));
     await $.mcall((await $.wv([$t1], "ODSVDM", C, false)), "Open", []);
@@ -56,7 +56,7 @@ export default function define($) {
   L0["calendar"] = (await $.mcall((await $.mv((await $.v(C, "DataModExch")), "OPExchMgr")), "CallBooleanFunction", ["Ex_Calendar", [L0["dat"]]]));
   L0["lastday"] = (await $.mcall((await $.mv((await $.v(C, "DataModExch")), "OPExchMgr")), "CallDateFunction", ["LastWorkDay_Calendar", [L0["dat"]]]));
   {
-    const $t2 = (await $.v(C, "DataModExch"));
+    const $t2 = (await $.wobj(C, "DataModExch"));
     const $t3 = (await $.wv([$t2], "ODS_ExRemain", C, false));
     await $.stmt($.wcall([$t2, $t3], "Close", [], C));
     await $.mcall((await $.wv([$t2, $t3], "SQL", C, false)), "Clear", []);

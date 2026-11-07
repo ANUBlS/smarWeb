@@ -1,6 +1,6 @@
 {
  "name": "XCreditArchive",
- "caption": "Əlavə modullar / Kreditlər / Kreditlərin arxivi",
+ "caption": "Balans / Kreditlər / Arxiv Kreditlər",
  "dir": "Packages/ArCive_Credit/Archve_Credit",
  "mainForm": "TFormArchiveCredit",
  "plugin": false,

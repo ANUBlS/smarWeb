@@ -1,0 +1,166 @@
+{
+ "name": "P_CM_Portfel",
+ "caption": "",
+ "dir": "Packages/CM_Portfel",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CurrencysDataSet",
+   "source": "TPortfelDataModule.CurrencysDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name\nfrom sb_avalute",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "PersonsDataSet",
+   "source": "TPortfelDataModule.PersonsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,descripion\nfrom cm_persons",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "UsersDataSet",
+   "source": "TPortfelDataModule.UsersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name\nfrom SB_user$",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TPortfelDataModule.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name\nfrom sb_filial",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "CategoriesDataSet",
+   "source": "TPortfelDataModule.CategoriesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description\nfrom cm_categories",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "CustomersDataSet",
+   "source": "TPortfelDataModule.CustomersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT DISTINCT c.id boorowerid, c.NAME boorowername\n           FROM cm_sb_customers c\n          WHERE EXISTS ( SELECT p.boorowerid\n                           FROM cm_portfolio p\n                          WHERE p.boorowerid = c.id)\n ",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "UserGroupsDataSet",
+   "source": "TPortfelDataModule.UserGroupsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description\nfrom cm_usergroups",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "CreditTypeDataSet",
+   "source": "TPortfelDataModule.CreditTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description \nfrom cm_credittypes",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "PledgesdataSet",
+   "source": "TPortfelDataModule.PledgesdataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_pledges",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "PReservesDataset",
+   "source": "TPortfelDataModule.PReservesDataset",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "SReservesDataSet",
+   "source": "TPortfelDataModule.SReservesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "MainDataSet",
+   "source": "TPortfelDataModule.MainDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.currency, p.boorowerid, \n       p.usrgroup, p.branchid, p.usid,\n       p.customertype, p.credittype, p.personaltype,h.rest,\n       h.interestrest, h.duerest, h.dueinterestrest, h.reserveid, h.duereserveid,\n       h.obligation, g.pledgeid,\n       av.val_name, c.name\n  FROM cm_portfolio p,\n       cm_curr_state h,\n       SB_AVALUTE av,\n       CM_GUARANTEE g,\n       cm_sb_customers c\nwhere (p.id = h.creditid) and\n      (p.currency = av.valute) and\n      (p.id = g.creditid) and\n      (c.id = p.boorowerid) \n            \n",
+   "variables": [],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "DateDataSet",
+   "source": "TPortfelDataModule.DateDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.currency, p.boorowerid, \n       p.usrgroup, p.branchid, p.usid,\n       p.customertype, p.credittype, p.personaltype,h.rest,\n       h.interestrest, h.duerest, h.dueinterestrest, h.reserveid, h.duereserveid,\n       h.obligation, g.pledgeid,\n       av.val_name, c.name\n  FROM cm_portfolio p,\n       cm_history h,\n       SB_AVALUTE av,\n       CM_GUARANTEE g,\n       cm_sb_customers c\nwhere (p.id = h.creditid) and\n      (p.currency = av.valute) and\n      (p.id = g.creditid) and\n      (c.id = p.boorowerid) and\n     (h.hdate =:Hdate)\n            ",
+   "variables": [
+    {
+     "name": "HDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "PortfelDataModImpl"
+  },
+  {
+   "name": "OperkursDataSet",
+   "source": "TPortfelDataModule.OperkursDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  ostat\n  FROM SB_OPERKURS\nwhere (dat =:Ddate)and\n      (val_kod = 0)\n ",
+   "variables": [
+    {
+     "name": "DDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "PortfelDataModImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

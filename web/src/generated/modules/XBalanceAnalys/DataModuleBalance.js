@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "FormBalanceAnalys"));
+    const $t1 = (await $.wobj(C, "FormBalanceAnalys"));
     const $t2 = (await $.wv([$t1], "CBBranches", C, false));
     const $t3 = (await $.wv([$t1, $t2], "Items", C, false));
     await $.stmt((await $.wcall([$t1, $t2, $t3], "Add", [(await $.mcall((await $.wv([$t1, $t2, $t3], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false)), "Field", ["name"]))], C)));
@@ -29,7 +29,7 @@ export default function define($) {
   await $.fixArgs(L0, ["dataset"]);
   L0["balanceno"] = (await $.mv((await $.mcall(L0["dataset"], "FieldByName", ["BalanceAccount"])), "AsString"));
   {
-    const $t5 = (await $.v(C, "Account"));
+    const $t5 = (await $.wobj(C, "Account"));
     await $.wset([$t5], "Filtered", (await $.wv([$t5], "False", C, false)), C);
     await $.wset([$t5], "Filter", $.add("BalanceNo = ", (await $.wv([$t5], "BalanceNo", { get: async () => L0["balanceno"], set: async (v) => { L0["balanceno"] = v; }, local: true }, false))), C);
     await $.wset([$t5], "Filtered", (await $.wv([$t5], "True", C, false)), C);
@@ -49,7 +49,7 @@ export default function define($) {
     }
   }
   {
-    const $t7 = (await $.v(C, "Transaction"));
+    const $t7 = (await $.wobj(C, "Transaction"));
     await $.wset([$t7], "Filtered", (await $.wv([$t7], "False", C, false)), C);
     await $.wset([$t7], "Filter", $.add($.add($.add($.add($.add("(Debt = ", (await $.wv([$t7], "AccountID", { get: async () => L0["accountid"], set: async (v) => { L0["accountid"] = v; }, local: true }, false))), ") OR ("), "Kredit = "), (await $.wv([$t7], "AccountID", { get: async () => L0["accountid"], set: async (v) => { L0["accountid"] = v; }, local: true }, false))), ")"), C);
     await $.wset([$t7], "Filtered", (await $.wv([$t7], "True", C, false)), C);

@@ -149,7 +149,7 @@ export default function define($) {
   const L0 = {result: undefined};
   await $.set(C, "Form_Rep", (await $.mcall((await $.v(C, "TForm_Rep")), "Create", [Self])));
   {
-    const $t9 = (await $.v(C, "Form_Rep"));
+    const $t9 = (await $.wobj(C, "Form_Rep"));
     await $.mset((await $.wv([$t9], "QRD_Begin", C, false)), "Caption", (await $.wcall([$t9], "DateToStr", [(await $.wv([$t9], "v_BDate", C, false))], C)));
     await $.mset((await $.wv([$t9], "QRD_End", C, false)), "Caption", (await $.wcall([$t9], "DateToStr", [(await $.wv([$t9], "v_EDate", C, false))], C)));
     { const $t10 = (await $.mv((await $.wv([$t9], "RGroupPrintMode", C, false)), "ItemIndex"));
@@ -169,7 +169,7 @@ export default function define($) {
   const L0 = {result: undefined};
   await $.set(C, "Form_RepR", (await $.mcall((await $.v(C, "TForm_RepR")), "Create", [Self])));
   {
-    const $t11 = (await $.v(C, "Form_RepR"));
+    const $t11 = (await $.wobj(C, "Form_RepR"));
     await $.mset((await $.wv([$t11], "QRD_Begin", C, false)), "Caption", (await $.wcall([$t11], "DateToStr", [(await $.wv([$t11], "v_BDate", C, false))], C)));
     await $.mset((await $.wv([$t11], "QRD_End", C, false)), "Caption", (await $.wcall([$t11], "DateToStr", [(await $.wv([$t11], "v_EDate", C, false))], C)));
     { const $t12 = (await $.mv((await $.wv([$t11], "RGroupPrintMode", C, false)), "ItemIndex"));
@@ -200,7 +200,7 @@ export default function define($) {
     await $.set(C, "Form_Rep", (await $.mcall((await $.v(C, "TForm_Rep")), "Create", [null])));
   }
   {
-    const $t14 = (await $.v(C, "SaveDialog"));
+    const $t14 = (await $.wobj(C, "SaveDialog"));
     if ($.truthy((await $.wv([$t14], "Execute", C, false)))) {
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t14], "Form_Rep", C, false)), "QRep")), "ExportToFilter", [(await $.mcall((await $.wv([$t14], "TQRAsciiExportFilter", C, false)), "Create", [(await $.wv([$t14], "FileName", C, false))]))])));
     }
@@ -226,7 +226,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "XDBGrid1"));
+    const $t15 = (await $.wobj(C, "XDBGrid1"));
     const $t16 = (await $.wv([$t15], "SelectedRows", C, false));
     const $t17 = (await $.mv((await $.wv([$t15, $t16], "DataSource", C, false)), "DataSet"));
     if ($.truthy($.gt((await $.wv([$t15, $t16, $t17], "Count", C, false)), 0))) {
@@ -302,7 +302,7 @@ export default function define($) {
     L0["v_bal_cn"] = (await $.call(C, "UpdateStr", [(await $.mv((await $.v(C, "Edit_Bal_Cn")), "Text"))]));
   }
   {
-    const $t22 = (await $.v(C, "XDBGrid1"));
+    const $t22 = (await $.wobj(C, "XDBGrid1"));
     const $t23 = (await $.wv([$t22], "SelectedRows", C, false));
     const $t24 = (await $.mv((await $.wv([$t22, $t23], "DataSource", C, false)), "DataSet"));
     const $t25 = (await $.wv([$t22, $t23, $t24], "DataModule_bussProc", C, false));
@@ -401,7 +401,7 @@ export default function define($) {
   }
   if ($.truthy($.eq((await $.mv((await $.v(C, "CBTurnOver")), "Checked")), true))) {
     {
-      const $t32 = (await $.v(C, "DataModule_bussProc"));
+      const $t32 = (await $.wobj(C, "DataModule_bussProc"));
       {
         const $t33 = (await $.wv([$t32], "ODSMainStatesb", C, false));
         await $.stmt($.wcall([$t32, $t33], "Close", [], C));
@@ -421,7 +421,7 @@ export default function define($) {
     }
   } else {
     {
-      const $t35 = (await $.v(C, "DataModule_bussProc"));
+      const $t35 = (await $.wobj(C, "DataModule_bussProc"));
       {
         const $t36 = (await $.wv([$t35], "ODSMainStatesb", C, false));
         await $.stmt($.wcall([$t35, $t36], "Close", [], C));
@@ -518,14 +518,14 @@ export default function define($) {
     await $.mset((await $.idx((await $.mv((await $.v(C, "Sheet")), "Range")), ["G1:G60000"])), "ColumnWidth", 100);
     L0["k"] = 0;
     {
-      const $t42 = (await $.v(C, "ODSMainStateSB_inf"));
+      const $t42 = (await $.wobj(C, "ODSMainStateSB_inf"));
       await $.stmt($.wcall([$t42], "close", [], C));
       await $.mcall((await $.wv([$t42], "sql", C, false)), "Clear", []);
       await $.mset((await $.wv([$t42], "Sql", C, false)), "Text", (await $.mv((await $.mv((await $.mv((await $.wv([$t42], "DataModule_bussProc", C, false)), "ODSMainStateSB")), "SQL")), "Text")));
       await $.stmt($.wcall([$t42], "open", [], C));
     }
     {
-      const $t43 = (await $.v(C, "DataModule_bussProc"));
+      const $t43 = (await $.wobj(C, "DataModule_bussProc"));
       { const $t44 = (await $.mv((await $.wv([$t43], "ODSMainStateSB_inf", C, false)), "RecordCount"));
         await $.wset([$t43], "i", 1, { get: async () => L0["i"], set: async (v) => { L0["i"] = v; }, local: true });
         let $t45 = true;

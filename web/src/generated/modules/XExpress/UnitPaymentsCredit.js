@@ -65,7 +65,7 @@ export default function define($) {
   L0["accid"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "ExpDataModule")), "KredetDataSet")), "FieldByName", ["id"])), "AsInteger"));
   await $.mset((await $.v(C, "ExpressVariables")), "remit_inf", (await $.mv((await $.v(C, "EditDescription")), "Text")));
   {
-    const $t1 = (await $.v(C, "ExpressVariables"));
+    const $t1 = (await $.wobj(C, "ExpressVariables"));
     if ($.truthy($.eq((await $.wv([$t1], "FForm", C, false)), 0))) {
       await $.stmt((await $.mcall((await $.mv((await $.wv([$t1], "ExpDataModule", C, false)), "EXPESSPAC")), "CallProcedure", ["exp_payments_insert", ["batchid", (await $.wv([$t1], "v_id", { get: async () => L0["v_id"], set: async (v) => { L0["v_id"] = v; }, local: true }, false)), "v_exid", (await $.wv([$t1], "exid", C, false)), "v_optype", (await $.wv([$t1], "optype", C, false)), "v_setid", (await $.wv([$t1], "setid", { get: async () => L0["setid"], set: async (v) => { L0["setid"] = v; }, local: true }, false)), "v_accid", (await $.wv([$t1], "accid", { get: async () => L0["accid"], set: async (v) => { L0["accid"] = v; }, local: true }, false)), "v_val_cod", (await $.wv([$t1], "val_cod", { get: async () => L0["val_cod"], set: async (v) => { L0["val_cod"] = v; }, local: true }, false)), "v_amount", (await $.wv([$t1], "amount", { get: async () => L0["amount"], set: async (v) => { L0["amount"] = v; }, local: true }, false)), "v_filname", (await $.wv([$t1], "filname", { get: async () => L0["filname"], set: async (v) => { L0["filname"] = v; }, local: true }, false)), "v_remit_inf", (await $.wv([$t1], "remit_inf", C, false)), "v_doc_type", (await $.wv([$t1], "doc_type", C, false)), "v_passpin", (await $.wv([$t1], "passpin", C, false)), "v_passer", (await $.wv([$t1], "passer", C, false)), "v_paspnum", (await $.wv([$t1], "paspnum", C, false)), "v_doc_country", (await $.wv([$t1], "doc_country", C, false)), "v_paspplace", (await $.wv([$t1], "paspplace", C, false)), "v_paspdate", (await $.wv([$t1], "paspdate", C, false)), "v_passexpire", (await $.wv([$t1], "passexpire", C, false)), "v_citizenship", (await $.wv([$t1], "citizenship", C, false)), "v_lastname", (await $.wv([$t1], "lastname", C, false)), "v_soname", (await $.wv([$t1], "soname", C, false)), "v_name", (await $.wv([$t1], "name", C, false)), "v_sex", (await $.wv([$t1], "sex", C, false)), "v_fam_status", (await $.wv([$t1], "fam_status", C, false)), "v_bbirthplace", (await $.wv([$t1], "bbirthplace", C, false)), "v_birth_state", (await $.wv([$t1], "birth_state", C, false)), "v_birthday", (await $.wv([$t1], "birthday", C, false)), "v_aadrs_state", (await $.wv([$t1], "aadrs_state", C, false)), "v_city", (await $.wv([$t1], "city", C, false)), "v_reg_zip", (await $.wv([$t1], "reg_zip", C, false)), "v_address", (await $.wv([$t1], "address", C, false)), "v_phone_m", (await $.wv([$t1], "phone_m", C, false)), "v_phone_h", (await $.wv([$t1], "phone_h", C, false)), "v_e_mail", (await $.wv([$t1], "e_mail", C, false)), "v_nerezident", (await $.wv([$t1], "v_nerezident", C, false)), "v_work_place", (await $.wv([$t1], "work_place", C, false)), "v_work_adrs_spec", (await $.wv([$t1], "work_adrs_spec", C, false)), "v_work_cntr", (await $.wv([$t1], "work_cntr", C, false)), "v_work_city", (await $.wv([$t1], "work_city", C, false)), "v_work_state", (await $.wv([$t1], "work_state", C, false)), "v_work_zip", (await $.wv([$t1], "work_zip", C, false)), "v_work_adress", (await $.wv([$t1], "work_adress", C, false)), "v_work_phone_spec", (await $.wv([$t1], "work_phone_spec", C, false)), "v_work_phconttype", (await $.wv([$t1], "work_phconttype", C, false)), "v_work_phoppref", (await $.wv([$t1], "work_phoppref", C, false)), "v_work_phone", (await $.wv([$t1], "work_phone", C, false)), "v_work_phext", (await $.wv([$t1], "work_phext", C, false)), "v_work_phcode", (await $.wv([$t1], "work_phcode", C, false)), "v_contractno", (await $.wv([$t1], "contractno", C, false)), "v_kaccid", (await $.wv([$t1], "Fc_accid", C, false)), "v_kamount", (await $.wv([$t1], "Fc_amount", C, false))]])));
       await $.wset([$t1], "v_id", (await $.mcall((await $.mv((await $.wv([$t1], "ExpDataModule", C, false)), "EXPESSPAC")), "GetParameter", [0])), { get: async () => L0["v_id"], set: async (v) => { L0["v_id"] = v; }, local: true });
@@ -125,7 +125,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "FormForeignCurrency"));
+    const $t2 = (await $.wobj(C, "FormForeignCurrency"));
     await $.stmt($.wcall([$t2], "ShowModal", [], C));
   }
   return L0.result;
@@ -202,7 +202,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "KeyD", 1);
   {
-    const $t5 = (await $.v(C, "ExpDataModule"));
+    const $t5 = (await $.wobj(C, "ExpDataModule"));
     await $.mset((await $.wv([$t5], "FilialDataSet", C, false)), "Filtered", (await $.wv([$t5], "False", C, false)));
     await $.mset((await $.wv([$t5], "FilialDataSet", C, false)), "Filter", "");
     await $.mset((await $.wv([$t5], "FilialDataSet", C, false)), "Filter", $.add("id=", (await $.mv((await $.mcall((await $.wv([$t5], "KredetDataSet", C, false)), "FieldByName", ["filial"])), "AsString"))));
@@ -246,7 +246,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender", "shift"]);
   if ($.truthy($.eq((await L0["key"].get()), (await $.v(C, "VK_F3"))))) {
     {
-      const $t6 = (await $.v(C, "ExpFormDestination"));
+      const $t6 = (await $.wobj(C, "ExpFormDestination"));
       const $t7 = (await $.wv([$t6], "ExpDataModule", C, false));
       await $.stmt($.wcall([$t6, $t7], "ShowModal", [], C));
       if ($.truthy($.eq((await $.wv([$t6, $t7], "ModalResult", C, false)), (await $.wv([$t6, $t7], "mrOk", C, false))))) {
@@ -289,7 +289,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "fieldkliid": '', "fieldbkliid": '', "fieldbfilialname": '', "fieldkreditaccid": null, "fieldamount": 0, "fieldremit_inf": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "ExpressVariables"));
+    const $t8 = (await $.wobj(C, "ExpressVariables"));
     await $.wset([$t8], "contractno", "", C);
     await $.wset([$t8], "custid", (await $.wv([$t8], "null", C, false)), C);
     await $.wset([$t8], "remit_inf", "", C);
@@ -373,7 +373,7 @@ export default function define($) {
   } else {
     await $.set(C, "KeyD", 1);
     {
-      const $t9 = (await $.v(C, "ExpDataModule"));
+      const $t9 = (await $.wobj(C, "ExpDataModule"));
       if ($.truthy((await $.wv([$t9], "FiledIncoming", C, false)))) {
         await $.mcall((await $.wv([$t9], "Exp_settingstype", C, false)), "Close", []);
         await $.stmt((await $.mcall((await $.wv([$t9], "Exp_settingstype", C, false)), "SetVariable", ["stypeid", (await $.mv((await $.wv([$t9], "ExpIncomingDataSetOPTYPE", C, false)), "AsInteger"))])));
@@ -428,7 +428,7 @@ export default function define($) {
       }
     }
     {
-      const $t10 = (await $.v(C, "ExpDataModule"));
+      const $t10 = (await $.wobj(C, "ExpDataModule"));
       const $t11 = (await $.wv([$t10], "SendToDataSet", C, false));
       await $.stmt($.wcall([$t10, $t11], "Close", [], C));
       { const $t12 = await $.iset((await $.wv([$t10, $t11], "SQl", C, false)), [1], ""); if ($t12 !== undefined) { await $.wset([$t10, $t11], "SQl", $t12, C); } }
@@ -457,7 +457,7 @@ export default function define($) {
     }
     if ($.truthy($.ne(L0["fieldbkliid"], L0["fieldkliid"]))) {
       {
-        const $t14 = (await $.v(C, "ExpDataModule"));
+        const $t14 = (await $.wobj(C, "ExpDataModule"));
         const $t15 = (await $.wv([$t14], "SendDataSet", C, false));
         await $.stmt($.wcall([$t14, $t15], "Close", [], C));
         { const $t16 = await $.iset((await $.wv([$t14, $t15], "SQl", C, false)), [1], ""); if ($t16 !== undefined) { await $.wset([$t14, $t15], "SQl", $t16, C); } }
@@ -511,7 +511,7 @@ export default function define($) {
       }
     } else {
       {
-        const $t20 = (await $.v(C, "FormNominalCustomers"));
+        const $t20 = (await $.wobj(C, "FormNominalCustomers"));
         await $.mset((await $.wv([$t20], "RadioButton1", C, false)), "Checked", (await $.wv([$t20], "true", C, false)));
         await $.mcall((await $.wv([$t20], "Editpasspin", C, false)), "Clear", []);
         await $.mcall((await $.wv([$t20], "EditLastName", C, false)), "Clear", []);
@@ -649,7 +649,7 @@ export default function define($) {
           return L0.result;
         }
         {
-          const $t21 = (await $.v(C, "ExpDataModule"));
+          const $t21 = (await $.wobj(C, "ExpDataModule"));
           await $.mcall((await $.wv([$t21], "FilialDataSet", C, false)), "Close", []);
           { const $t22 = await $.iset((await $.mv((await $.wv([$t21], "FilialDataSet", C, false)), "SQL")), [1], ""); if ($t22 !== undefined) { await $.mset((await $.wv([$t21], "FilialDataSet", C, false)), "SQL", $t22); } }
           await $.mcall((await $.wv([$t21], "FilialDataSet", C, false)), "Open", []);
@@ -669,7 +669,7 @@ export default function define($) {
       }
     }
     {
-      const $t23 = (await $.v(C, "ExpDataModule"));
+      const $t23 = (await $.wobj(C, "ExpDataModule"));
       await $.mset((await $.wv([$t23], "KredetDataSet", C, false)), "Filtered", (await $.wv([$t23], "False", C, false)));
       await $.mset((await $.wv([$t23], "KredetDataSet", C, false)), "Filter", "");
       await $.mcall((await $.wv([$t23], "SearchCustDataSet", C, false)), "Close", []);
@@ -748,7 +748,7 @@ export default function define($) {
   if ($.truthy(($.gt((await $.call(C, "StrToFloat", [(await $.mv((await $.v(C, "CMCurrencyEdit1")), "Text"))])), 0)))) {
     if ($.truthy($.lt((await $.call(C, "StrToFloat", [(await $.mv((await $.v(C, "CMCurrencyEdit1")), "Text"))])), 20000))) {
       {
-        const $t26 = (await $.v(C, "FormNominalCustomers"));
+        const $t26 = (await $.wobj(C, "FormNominalCustomers"));
         await $.mset((await $.wv([$t26], "Label53", C, false)), "Visible", (await $.wv([$t26], "false", C, false)));
         await $.mset((await $.wv([$t26], "Label54", C, false)), "Visible", (await $.wv([$t26], "false", C, false)));
         await $.mset((await $.wv([$t26], "Label55", C, false)), "Visible", (await $.wv([$t26], "false", C, false)));
@@ -779,7 +779,7 @@ export default function define($) {
     }
     if ($.truthy($.ge((await $.call(C, "StrToFloat", [(await $.mv((await $.v(C, "CMCurrencyEdit1")), "Text"))])), 20000))) {
       {
-        const $t27 = (await $.v(C, "FormNominalCustomers"));
+        const $t27 = (await $.wobj(C, "FormNominalCustomers"));
         await $.mset((await $.wv([$t27], "Label53", C, false)), "Visible", (await $.wv([$t27], "true", C, false)));
         await $.mset((await $.wv([$t27], "Label54", C, false)), "Visible", (await $.wv([$t27], "true", C, false)));
         await $.mset((await $.wv([$t27], "Label55", C, false)), "Visible", (await $.wv([$t27], "true", C, false)));

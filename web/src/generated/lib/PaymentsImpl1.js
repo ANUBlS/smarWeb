@@ -529,7 +529,7 @@ export default function define($) {
   await $.mset((await $.v(C, "dtpbegin")), "DateTime", (await $.mv((await $.mcall((await $.mv((await $.v(C, "dm")), "Dat")), "fieldbyname", ["tek_dat"])), "asdatetime")));
   await $.mset((await $.v(C, "dtpend")), "DateTime", (await $.mv((await $.mcall((await $.mv((await $.v(C, "dm")), "Dat")), "fieldbyname", ["tek_dat"])), "asdatetime")));
   {
-    const $t15 = (await $.v(C, "dm"));
+    const $t15 = (await $.wobj(C, "dm"));
     await $.mcall((await $.wv([$t15], "odspayments", C, false)), "close", []);
     await $.stmt((await $.mcall((await $.wv([$t15], "odspayments", C, false)), "setvariable", ["sort", "1"])));
     await $.stmt((await $.mcall((await $.wv([$t15], "odspayments", C, false)), "setvariable", ["DAT1", (await $.wcall([$t15], "trunc", [(await $.mv((await $.wv([$t15], "dtpbegin", C, false)), "DateTime"))], C))])));
@@ -544,7 +544,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t16 = (await $.v(C, "dm"));
+    const $t16 = (await $.wobj(C, "dm"));
     await $.mcall((await $.wv([$t16], "odspayments", C, false)), "close", []);
     await $.stmt((await $.mcall((await $.wv([$t16], "odspayments", C, false)), "setvariable", ["sort", "1"])));
     await $.stmt((await $.mcall((await $.wv([$t16], "odspayments", C, false)), "setvariable", ["DAT1", (await $.wcall([$t16], "trunc", [(await $.mv((await $.wv([$t16], "dtpbegin", C, false)), "DateTime"))], C))])));
@@ -595,7 +595,7 @@ export default function define($) {
     await $.set(C, "rep", (await $.mcall((await $.v(C, "trep")), "Create", [Self])));
   }
   {
-    const $t18 = (await $.v(C, "rep"));
+    const $t18 = (await $.wobj(C, "rep"));
   }
   await $.mcall((await $.v(C, "rep")), "Preview", []);
   return L0.result;
@@ -619,7 +619,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t19 = (await $.v(C, "CMExcelExport1"));
+    const $t19 = (await $.wobj(C, "CMExcelExport1"));
     await $.stmt($.wcall([$t19], "Connect", [], C));
     await $.stmt((await $.wcall([$t19], "ExportDataset", [(await $.mv((await $.wv([$t19], "dm", C, false)), "ODSPayments")), "Transactions", (await $.wv([$t19], "True", C, false)), (await $.wv([$t19], "True", C, false))], C)));
     await $.stmt($.wcall([$t19], "Disconnect", [], C));
@@ -728,7 +728,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t25 = (await $.v(C, "dm"));
+    const $t25 = (await $.wobj(C, "dm"));
     if ($.truthy($.not((await $.wcall([$t25], "assigned", [(await $.wv([$t25], "rep", C, false))], C))))) {
       await $.wset([$t25], "rep", (await $.mcall((await $.wv([$t25], "trep", C, false)), "Create", [Self])), C);
     }

@@ -438,7 +438,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "lastsid": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "SessionsData"));
+    const $t8 = (await $.wobj(C, "SessionsData"));
     if ($.truthy((await $.mv((await $.wv([$t8], "Session", C, false)), "Connected")))) {
       if ($.truthy((await $.wv([$t8], "Active", C, false)))) {
         await $.wset([$t8], "LastSID", (await $.mv((await $.wcall([$t8], "FieldByName", ["SID"], C)), "AsInteger")), { get: async () => L0["lastsid"], set: async (v) => { L0["lastsid"] = v; }, local: true });
@@ -549,7 +549,7 @@ export default function define($) {
 });
   L0["message"] = (await $.call(C, "Format", ["Immediate shutdown in %d seconds. Save your work and exit program", [L0["timeout"]]]));
   {
-    const $t24 = (await $.v(C, "SessionsData"));
+    const $t24 = (await $.wobj(C, "SessionsData"));
     if ($.truthy((await $.wcall([$t24], "InputQuery", ["Confirm user killing", "Enter text message to be sent to user: ", $.ref(async () => (await $.wv([$t24], "Message", { get: async () => L0["message"], set: async (v) => { L0["message"] = v; }, local: true }, false)), async ($t25) => { await $.wset([$t24], "Message", $t25, { get: async () => L0["message"], set: async (v) => { L0["message"] = v; }, local: true }); })], C)))) {
       await $.stmt((await $.wcall([$t24], "Sb_KillSession", [(await $.mv((await $.wcall([$t24], "FieldByName", ["SID"], C)), "AsString")), (await $.mv((await $.wcall([$t24], "FieldByName", ["Serial#"], C)), "AsString")), (await $.wcall([$t24], "Replace", [(await $.wv([$t24], "Message", { get: async () => L0["message"], set: async (v) => { L0["message"] = v; }, local: true }, false)), " ", "_"], { get: async () => L0["replace"], set: async (v) => { L0["replace"] = v; }, local: true })), (await $.wv([$t24], "Timeout", { get: async () => L0["timeout"], set: async (v) => { L0["timeout"] = v; }, local: true }, false)), $.add((await $.wv([$t24], "Timeout", { get: async () => L0["timeout"], set: async (v) => { L0["timeout"] = v; }, local: true }, false)), 5)], C)));
     }
@@ -594,7 +594,7 @@ export default function define($) {
   L0["skilluserhint"] = "Kill current user";
   L0["skillhimselfhint"] = "You can not kill himself";
   {
-    const $t28 = (await $.v(C, "KillUser"));
+    const $t28 = (await $.wobj(C, "KillUser"));
     if ($.truthy((await $.wv([$t28], "Enabled", C, false)))) {
       await $.wset([$t28], "HintStr", (await $.wv([$t28], "SKillUserHint", { get: async () => L0["skilluserhint"], set: async (v) => { L0["skilluserhint"] = v; }, local: true }, false)), { get: async () => await L0["hintstr"].get(), set: async (v) => { await L0["hintstr"].set(v); }, local: true });
     } else {
@@ -629,7 +629,7 @@ export default function define($) {
     await $.set(C, "frmMsgSettings", (await $.mcall((await $.v(C, "TfrmMsgSettings")), "Create", [Self])));
   }
   {
-    const $t31 = (await $.v(C, "frmMsgSettings"));
+    const $t31 = (await $.wobj(C, "frmMsgSettings"));
     await $.stmt($.wcall([$t31], "ShowModal", [], C));
   }
   return L0.result;

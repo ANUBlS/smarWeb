@@ -127,7 +127,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t8 = (await $.v(C, "AccTrExport"));
+    const $t8 = (await $.wobj(C, "AccTrExport"));
     if ($.truthy((await $.and_((await $.mv((await $.mv((await $.wv([$t8], "ExportSource", C, false)), "DataSet")), "Active")), async () => ($.gt((await $.mv((await $.mv((await $.wv([$t8], "ExportSource", C, false)), "DataSet")), "RecordCount")), 0)))))) {
       await $.mcall((await $.mv((await $.wv([$t8], "ExportSource", C, false)), "DataSet")), "Last", []);
       await $.mcall((await $.mv((await $.wv([$t8], "ExportSource", C, false)), "DataSet")), "First", []);

@@ -432,7 +432,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: ''};
   {
-    const $t8 = (await $.v(C, "DBLookupBranch"));
+    const $t8 = (await $.wobj(C, "DBLookupBranch"));
     if ($.truthy($.eq((await $.wv([$t8], "KeyValue", C, false)), (-(1))))) {
       await $.wset([$t8], "Result", " ", { get: async () => L0["result"], set: async (v) => { L0["result"] = v; }, local: true });
     } else {
@@ -507,7 +507,7 @@ export default function define($) {
   await $.set(C, "DefaultTotalTrafficsSQL", (await $.mv((await $.mv((await $.mv((await $.v(C, "ExpertDataModul")), "TotalTraffics")), "SQL")), "CommaText")));
   await $.set(C, "DefaultSchemaTrafficsSQL", (await $.mv((await $.mv((await $.mv((await $.v(C, "ExpertDataModul")), "SchemaTraffics")), "SQL")), "CommaText")));
   {
-    const $t10 = (await $.v(C, "ExpertDataModul"));
+    const $t10 = (await $.wobj(C, "ExpertDataModul"));
     const $t11 = (await $.wv([$t10], "SettingsGrid", C, false));
     { const $t12 = $.sub((await $.wv([$t10, $t11], "PickListCount", { get: async () => L0["picklistcount"], set: async (v) => { L0["picklistcount"] = v; }, local: true }, false)), 1);
       await $.wset([$t10, $t11], "PickListIndex", 0, { get: async () => L0["picklistindex"], set: async (v) => { L0["picklistindex"] = v; }, local: true });
@@ -557,7 +557,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.mv((await $.v(C, "RBExpand")), "Checked")))) {
     {
-      const $t14 = (await $.v(C, "ExpertDataModul"));
+      const $t14 = (await $.wobj(C, "ExpertDataModul"));
       const $t15 = (await $.wv([$t14], "TrafficsForm", C, false));
       await $.mcall((await $.wv([$t14, $t15], "Traffics", C, false)), "CloseAll", []);
       if ($.truthy($.eq((await $.mv(((await $.wv([$t14, $t15], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "Tag")), 1))) {
@@ -590,7 +590,7 @@ export default function define($) {
     }
   } else {
     {
-      const $t19 = (await $.v(C, "ExpertDataModul"));
+      const $t19 = (await $.wobj(C, "ExpertDataModul"));
       const $t20 = (await $.wv([$t19], "MainTraffics", C, false));
       await $.mcall((await $.wv([$t19, $t20], "TotalTraffics", C, false)), "CloseAll", []);
       await $.mset((await $.mv((await $.wv([$t19, $t20], "TotalTraffics", C, false)), "SQL")), "CommaText", (await $.wv([$t19, $t20], "DefaultTotalTrafficsSQL", C, false)));
@@ -649,7 +649,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["operationkind"] = (await $.mv((L0["sender"]), "Tag"));
   {
-    const $t24 = (await $.v(C, "MainReport"));
+    const $t24 = (await $.wobj(C, "MainReport"));
     const $t25 = (await $.wcall([$t24], "TOracleDataSet", [(await $.wv([$t24], "DataSet", C, false))], C));
     await $.stmt($.wcall([$t24, $t25], "Close", [], C));
     await $.stmt((await $.wcall([$t24, $t25], "SetVariable", ["OperationDate", (await $.wv([$t24, $t25], "OperationDate", C, false))], C)));
@@ -673,7 +673,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.mv((await $.v(C, "RBTotal")), "Checked")))) {
     {
-      const $t27 = (await $.v(C, "ExpertDataModul"));
+      const $t27 = (await $.wobj(C, "ExpertDataModul"));
       const $t28 = (await $.wv([$t27], "SchemaTrafficsForm", C, false));
       await $.mcall((await $.wv([$t27, $t28], "SchemaTraffics", C, false)), "CloseAll", []);
       await $.mset((await $.mv((await $.wv([$t27, $t28], "SchemaTraffics", C, false)), "SQL")), "CommaText", (await $.wv([$t27, $t28], "DefaultSchemaTrafficsSQL", C, false)));
@@ -691,7 +691,7 @@ export default function define($) {
     }
   } else {
     {
-      const $t33 = (await $.v(C, "ExpertDataModul"));
+      const $t33 = (await $.wobj(C, "ExpertDataModul"));
       const $t34 = (await $.wv([$t33], "MainTraffics", C, false));
       await $.mcall((await $.wv([$t33, $t34], "TotalTraffics", C, false)), "CloseAll", []);
       await $.mset((await $.mv((await $.wv([$t33, $t34], "TotalTraffics", C, false)), "SQL")), "CommaText", (await $.wv([$t33, $t34], "DefaultTotalTrafficsSQL", C, false)));
@@ -713,7 +713,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t38 = (await $.v(C, "MainReport"));
+    const $t38 = (await $.wobj(C, "MainReport"));
     await $.mset((await $.wv([$t38], "QRExprSumOstat", C, false)), "Enabled", $.gt((await $.mv(((await $.wv([$t38], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "ItemIndex")), 2));
     await $.mset((await $.wv([$t38], "QRExprTotal", C, false)), "Enabled", $.gt((await $.mv(((await $.wv([$t38], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "ItemIndex")), 2));
   }
@@ -724,7 +724,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t39 = (await $.v(C, "MainReport"));
+    const $t39 = (await $.wobj(C, "MainReport"));
     await $.mset((await $.wv([$t39], "QRDBName", C, false)), "Enabled", (await $.mv(((await $.wv([$t39], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "Checked")));
   }
   return L0.result;
@@ -734,7 +734,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t40 = (await $.v(C, "MainReport"));
+    const $t40 = (await $.wobj(C, "MainReport"));
     await $.mset((await $.wv([$t40], "QRDBCurrencyName", C, false)), "Enabled", (await $.mv(((await $.wv([$t40], "Sender", { get: async () => L0["sender"], set: async (v) => { L0["sender"] = v; }, local: true }, false))), "Checked")));
   }
   return L0.result;
@@ -777,7 +777,7 @@ export default function define($) {
   const L0 = {"begindate": $.copyArg(p0), result: 0};
   await $.fixArgs(L0, ["begindate"]);
   {
-    const $t42 = (await $.v(C, "ExpertDataModul"));
+    const $t42 = (await $.wobj(C, "ExpertDataModul"));
     const $t43 = (await $.wv([$t42], "PeriodData", C, false));
     await $.stmt($.wcall([$t42, $t43], "CloseAll", [], C));
     await $.stmt((await $.wcall([$t42, $t43], "SetVariable", ["BeginDate", (await $.wv([$t42, $t43], "BeginDate", { get: async () => L0["begindate"], set: async (v) => { L0["begindate"] = v; }, local: true }, false))], C)));

@@ -390,7 +390,7 @@ export default function define($) {
   const L1 = {result: undefined};
   L1["smainmenuinilocation"] = "CMPopupMenu.ini";
   {
-    const $t2 = (await $.v(C, "PopupMenuIniLocation"));
+    const $t2 = (await $.wobj(C, "PopupMenuIniLocation"));
     await $.wset([$t2], "IniLocation", $.add((await $.wcall([$t2], "ExtractFilePath", [(await $.mv((await $.wv([$t2], "Application", C, false)), "ExeName"))], C)), (await $.wv([$t2], "sMainMenuIniLocation", { get: async () => L1["smainmenuinilocation"], set: async (v) => { L1["smainmenuinilocation"] = v; }, local: true }, false))), C);
     await $.wset([$t2], "IniSection", "Menu", C);
     await $.wset([$t2], "Active", (await $.wv([$t2], "True", C, false)), C);
@@ -429,7 +429,7 @@ export default function define($) {
   await $.fixArgs(L2, ["afieldname"]);
   L2["result"] = 0;
   {
-    const $t5 = (await $.v(C, "MainGrid"));
+    const $t5 = (await $.wobj(C, "MainGrid"));
     while ($.truthy((await $.and_(($.lt((await $.wv([$t5], "Result", { get: async () => L2["result"], set: async (v) => { L2["result"] = v; }, local: true }, false)), (await $.mv((await $.wv([$t5], "Columns", C, false)), "Count")))), async () => ($.ne((await $.mv((await $.idx((await $.mv((await $.wv([$t5], "Columns", C, false)), "Items")), [(await $.wv([$t5], "Result", { get: async () => L2["result"], set: async (v) => { L2["result"] = v; }, local: true }, false))])), "FieldName")), (await $.wv([$t5], "AFieldName", { get: async () => L2["afieldname"], set: async (v) => { L2["afieldname"] = v; }, local: true }, false)))))))) {
       await $.stmt((await $.wcall([$t5], "INC", [$.ref(async () => (await $.wv([$t5], "Result", { get: async () => L2["result"], set: async (v) => { L2["result"] = v; }, local: true }, false)), async ($t6) => { await $.wset([$t5], "Result", $t6, { get: async () => L2["result"], set: async (v) => { L2["result"] = v; }, local: true }); })], C)));
       await $.tick();
@@ -465,7 +465,7 @@ export default function define($) {
   await $.set(C, "frmLogOutput", (await $.mcall((await $.v(C, "TfrmLogOutput")), "Create", [(await $.v(C, "Application"))])));
   await $.stmt($.callv(L0["loadfieldslist"], []));
   {
-    const $t9 = (await $.v(C, "frmLogOutput"));
+    const $t9 = (await $.wobj(C, "frmLogOutput"));
     await $.wset([$t9], "OnClose", (await $.wv([$t9], "OnLogOutputClose", C, true)), C);
     await $.wset([$t9], "OnShow", (await $.wv([$t9], "OnLogoutputShow", C, true)), C);
   }
@@ -477,13 +477,6 @@ export default function define($) {
   await $.stmt((await $.call(C, "LogInformation", [" © Smart Systems Technology ltd. ", true])));
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
-  U.method("TCreditsmgr_sb", "MainGridCellClick", async function MainGridCellClick(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"column": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["column"]);
-  await $.set(C, "CommonDBGrid", (await $.v(C, "MainGrid")));
-  return L0.result;
-}, {"params": ["Column"], "kind": "procedure", "ptypes": ["TColumnEh"]});
   U.method("TCreditsmgr_sb", "MainGridDblClick", async function MainGridDblClick(Self, p0) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "pluginid": 0, "accessres": false};
@@ -491,7 +484,7 @@ export default function define($) {
   L0["rsaccessdenied"] = "Bu modula giriş qadağandır! Əlavə məlumat üçün sistem administratoruna müraciət edin.";
   L0["cnone"] = "NONE";
   {
-    const $t11 = (await $.v(C, "CreditsMgrMainDataModule"));
+    const $t11 = (await $.wobj(C, "CreditsMgrMainDataModule"));
     const $t12 = (await $.wv([$t11], "CR_ADMIN", C, false));
     await $.wset([$t11, $t12], "PluginID", (await $.wcall([$t11, $t12], "CallIntegerFunction", ["getpluginid", ["CM_Conclusion.bpl", "Edit"]], C)), { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true });
     await $.wset([$t11, $t12], "AccessRes", (await $.wcall([$t11, $t12], "CallBooleanFunction", ["pluginaccess", [(await $.wv([$t11, $t12], "pluginid", { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true }, false))]], C)), { get: async () => L0["accessres"], set: async (v) => { L0["accessres"] = v; }, local: true });
@@ -510,13 +503,20 @@ export default function define($) {
   await $.mcall((await $.mv((await $.v(C, "CreditsMgrMainDataModule")), "SeqDataSet")), "open", []);
   {
     const $t13 = L0["sender"];
-    if ($.truthy($.gt((await $.mv((await $.mv((await $.wv([$t13], "DataSource", C, false)), "DataSet")), "RecordCount")), 0))) {
-      await $.wset([$t13], "ImageIndex", (await $.mv((await $.mcall((await $.mv((await $.wv([$t13], "DataSource", C, false)), "DataSet")), "FieldByName", ["STATUS"])), "AsInteger")), { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
-      if ($.truthy(($.eq((await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.mv((await $.mcall((await $.mv((await $.wv([$t13], "CreditsMgrMainDataModule", C, false)), "SeqDataSet")), "FieldByName", ["seqno"])), "AsInteger")))))) {
-        await $.stmt((await $.mcall((await $.wv([$t13], "StatusImages", C, false)), "Draw", [(await $.wv([$t13], "Canvas", C, false)), (await $.mv((await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Left")), (await $.mv((await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Top")), (await $.wv([$t13], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (await $.wv([$t13], "True", C, false))])));
-      } else {
-        await $.stmt((await $.wcall([$t13], "DefaultDrawColumnCell", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t13], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
-      }
+    if ($.truthy((await $.and_(($.eq((await $.mv((await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), "INITIALAMOUNT")), async () => ($.eq((await $.mv((await $.mv((await $.wv([$t13], "CreditsMgrMainDataModule", C, false)), "CR_ACTIVECNT")), "AsInteger")), 1)))))) {
+      await $.stmt((await $.wcall([$t13], "DefaultDrawColumnCell", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t13], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
+    }
+    if ($.truthy((await $.and_(($.eq((await $.mv((await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), "INITIALAMOUNT")), async () => ($.eq((await $.mv((await $.mv((await $.wv([$t13], "CreditsMgrMainDataModule", C, false)), "CR_ACTIVECNT")), "AsInteger")), 2)))))) {
+      await $.mset((await $.mv((await $.wv([$t13], "Canvas", C, false)), "Font")), "Color", (await $.wv([$t13], "clGreen", C, false)));
+      await $.mset((await $.mv((await $.wv([$t13], "Canvas", C, false)), "Font")), "Style", [(await $.wv([$t13], "fsBold", C, false))]);
+      await $.stmt((await $.mcall((await $.wv([$t13], "Canvas", C, false)), "FillRect", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false))])));
+      await $.stmt((await $.wcall([$t13], "DefaultDrawColumnCell", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t13], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
+    }
+    if ($.truthy((await $.and_(($.eq((await $.mv((await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), "INITIALAMOUNT")), async () => ($.ge((await $.mv((await $.mv((await $.wv([$t13], "CreditsMgrMainDataModule", C, false)), "CR_ACTIVECNT")), "AsInteger")), 3)))))) {
+      await $.mset((await $.mv((await $.wv([$t13], "Canvas", C, false)), "Font")), "Color", (await $.wv([$t13], "clRed", C, false)));
+      await $.mset((await $.mv((await $.wv([$t13], "Canvas", C, false)), "Font")), "Style", [(await $.wv([$t13], "fsBold", C, false))]);
+      await $.stmt((await $.mcall((await $.wv([$t13], "Canvas", C, false)), "FillRect", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false))])));
+      await $.stmt((await $.wcall([$t13], "DefaultDrawColumnCell", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t13], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
     }
   }
   return L0.result;
@@ -549,7 +549,7 @@ export default function define($) {
     L0["param"] = L0["cnone"];
   }
   {
-    const $t16 = (await $.v(C, "CreditsMgrMainDataModule"));
+    const $t16 = (await $.wobj(C, "CreditsMgrMainDataModule"));
     const $t17 = (await $.wv([$t16], "CR_ADMIN", C, false));
     await $.wset([$t16, $t17], "PluginID", (await $.wcall([$t16, $t17], "CallIntegerFunction", ["getpluginid", [(await $.wv([$t16, $t17], "Plugin", { get: async () => L0["plugin"], set: async (v) => { L0["plugin"] = v; }, local: true }, false)), (await $.wv([$t16, $t17], "Param", { get: async () => L0["param"], set: async (v) => { L0["param"] = v; }, local: true }, false))]], C)), { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true });
     await $.wset([$t16, $t17], "AccessRes", (await $.wcall([$t16, $t17], "CallBooleanFunction", ["pluginaccess", [(await $.wv([$t16, $t17], "pluginid", { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true }, false))]], C)), { get: async () => L0["accessres"], set: async (v) => { L0["accessres"] = v; }, local: true });
@@ -653,7 +653,7 @@ export default function define($) {
     L0["param"] = L0["cnone"];
   }
   {
-    const $t18 = (await $.v(C, "CreditsMgrMainDataModule"));
+    const $t18 = (await $.wobj(C, "CreditsMgrMainDataModule"));
     const $t19 = (await $.wv([$t18], "CR_ADMIN", C, false));
     await $.wset([$t18, $t19], "PluginID", (await $.wcall([$t18, $t19], "CallIntegerFunction", ["getpluginid", [(await $.wv([$t18, $t19], "Plugin", { get: async () => L0["plugin"], set: async (v) => { L0["plugin"] = v; }, local: true }, false)), (await $.wv([$t18, $t19], "Param", { get: async () => L0["param"], set: async (v) => { L0["param"] = v; }, local: true }, false))]], C)), { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true });
     await $.wset([$t18, $t19], "AccessRes", (await $.wcall([$t18, $t19], "CallBooleanFunction", ["pluginaccess", [(await $.wv([$t18, $t19], "pluginid", { get: async () => L0["pluginid"], set: async (v) => { L0["pluginid"] = v; }, local: true }, false))]], C)), { get: async () => L0["accessres"], set: async (v) => { L0["accessres"] = v; }, local: true });

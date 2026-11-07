@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "CityByConctType"));
+    const $t1 = (await $.wobj(C, "CityByConctType"));
     await $.stmt((await $.wcall([$t1], "SetVariable", ["CID", (await $.mv((await $.mcall((await $.wv([$t1], "CountryByConctType", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
     if ($.truthy($.not((await $.wv([$t1], "Active", C, false))))) {
       await $.stmt($.wcall([$t1], "Open", [], C));
@@ -118,7 +118,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t2 = (await $.v(C, "Odscities"));
+    const $t2 = (await $.wobj(C, "Odscities"));
     await $.stmt($.wcall([$t2], "Close", [], C));
     await $.stmt((await $.mcall((await $.wv([$t2], "Odscities", C, false)), "SetVariable", ["v_id", (await $.mv((await $.mcall((await $.wv([$t2], "Odscountries1", C, false)), "FieldByName", ["ID"])), "AsInteger"))])));
     if ($.truthy($.not((await $.wv([$t2], "Active", C, false))))) {
@@ -134,7 +134,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t3 = (await $.v(C, "Odscities1"));
+    const $t3 = (await $.wobj(C, "Odscities1"));
     await $.stmt($.wcall([$t3], "Close", [], C));
     await $.stmt((await $.mcall((await $.wv([$t3], "Odscities1", C, false)), "SetVariable", ["v_id", (await $.mv((await $.mcall((await $.wv([$t3], "Odscountries2", C, false)), "FieldByName", ["ID"])), "AsInteger"))])));
     if ($.truthy($.not((await $.wv([$t3], "Active", C, false))))) {
@@ -150,7 +150,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t4 = (await $.v(C, "ODSFakt_Adrs_City"));
+    const $t4 = (await $.wobj(C, "ODSFakt_Adrs_City"));
     await $.stmt((await $.wcall([$t4], "SetVariable", ["CID", (await $.mv((await $.mcall((await $.wv([$t4], "ODSFakt_Adrs_Country", C, false)), "FieldByName", ["ID"])), "AsInteger"))], C)));
     if ($.truthy($.not((await $.wv([$t4], "Active", C, false))))) {
       await $.stmt($.wcall([$t4], "Open", [], C));
@@ -165,7 +165,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t5 = (await $.v(C, "ODS_CUST_RISK_DESC"));
+    const $t5 = (await $.wobj(C, "ODS_CUST_RISK_DESC"));
     await $.stmt($.wcall([$t5], "Close", [], C));
     await $.stmt((await $.mcall((await $.wv([$t5], "ODS_CUST_RISK_DESC", C, false)), "SetVariable", ["id", (await $.mv((await $.mcall((await $.wv([$t5], "ODS_risk", C, false)), "FieldByName", ["ID"])), "AsInteger"))])));
     if ($.truthy($.not((await $.wv([$t5], "Active", C, false))))) {

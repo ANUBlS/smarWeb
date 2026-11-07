@@ -82,7 +82,7 @@ export default function define($) {
   await $.mset((await $.idx((await $.mv((await $.v(C, "XL")), "Range")), [$.add("B", (await $.call(C, "IntToStr", [L0["stoprow"]])))])), "value", L0["bal"]);
   await $.mset((await $.idx((await $.mv((await $.v(C, "XL")), "Range")), [$.add("C", (await $.call(C, "IntToStr", [L0["stoprow"]])))])), "value", L0["name"]);
   {
-    const $t5 = (await $.v(C, "MasterBook"));
+    const $t5 = (await $.wobj(C, "MasterBook"));
     const $t6 = (await $.wv([$t5], "KreditAccDataSet", C, false));
     await $.stmt((await $.wcall([$t5, $t6], "setVariable", ["Bal_cn", (await $.wv([$t5, $t6], "Bal", { get: async () => L0["bal"], set: async (v) => { L0["bal"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t5, $t6], "setVariable", ["MinDate", (await $.wv([$t5, $t6], "MinDate", C, false))], C)));
@@ -142,7 +142,7 @@ export default function define($) {
     }
   }
   {
-    const $t26 = (await $.v(C, "MasterBook"));
+    const $t26 = (await $.wobj(C, "MasterBook"));
     const $t27 = (await $.wv([$t26], "ObrDebtDataSet", C, false));
     await $.stmt((await $.wcall([$t26, $t27], "setVariable", ["Bal_cn", (await $.wv([$t26, $t27], "Bal", { get: async () => L0["bal"], set: async (v) => { L0["bal"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t26, $t27], "setVariable", ["MinDate", (await $.wv([$t26, $t27], "MinDate", C, false))], C)));
@@ -165,7 +165,7 @@ export default function define($) {
     await $.stmt($.wcall([$t26, $t27], "Close", [], C));
   }
   {
-    const $t30 = (await $.v(C, "MasterBook"));
+    const $t30 = (await $.wobj(C, "MasterBook"));
     const $t31 = (await $.wv([$t30], "DataSetSumDebt", C, false));
     await $.stmt((await $.wcall([$t30, $t31], "setVariable", ["Bal_cn", (await $.wv([$t30, $t31], "Bal", { get: async () => L0["bal"], set: async (v) => { L0["bal"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t30, $t31], "setVariable", ["MinDate", (await $.wv([$t30, $t31], "MinDate", C, false))], C)));
@@ -188,7 +188,7 @@ export default function define($) {
     await $.stmt($.wcall([$t30, $t31], "Close", [], C));
   }
   {
-    const $t34 = (await $.v(C, "MasterBook"));
+    const $t34 = (await $.wobj(C, "MasterBook"));
     const $t35 = (await $.wv([$t34], "DataSetSumKredit", C, false));
     await $.stmt((await $.wcall([$t34, $t35], "setVariable", ["Bal_cn", (await $.wv([$t34, $t35], "Bal", { get: async () => L0["bal"], set: async (v) => { L0["bal"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t34, $t35], "setVariable", ["MinDate", (await $.wv([$t34, $t35], "MinDate", C, false))], C)));
@@ -211,7 +211,7 @@ export default function define($) {
     await $.stmt($.wcall([$t34, $t35], "Close", [], C));
   }
   {
-    const $t38 = (await $.v(C, "MasterBook"));
+    const $t38 = (await $.wobj(C, "MasterBook"));
     const $t39 = (await $.wv([$t38], "DataSetSumSaldo", C, false));
     await $.stmt((await $.wcall([$t38, $t39], "setVariable", ["Bal_cn", (await $.wv([$t38, $t39], "Bal", { get: async () => L0["bal"], set: async (v) => { L0["bal"] = v; }, local: true }, false))], C)));
     await $.stmt((await $.wcall([$t38, $t39], "setVariable", ["MinDate", (await $.wv([$t38, $t39], "MinDate", C, false))], C)));
@@ -306,7 +306,7 @@ export default function define($) {
   await $.set(C, "minDate", L0["beginturn"]);
   await $.set(C, "maxDate", L0["endturn"]);
   {
-    const $t52 = (await $.v(C, "MasterBook"));
+    const $t52 = (await $.wobj(C, "MasterBook"));
     const $t53 = (await $.wv([$t52], "DataSetGetBalName", C, false));
     await $.stmt($.wcall([$t52, $t53], "Close", [], C));
     await $.stmt((await $.wcall([$t52, $t53], "SetVariable", ["minDat", (await $.wv([$t52, $t53], "mindate", C, false))], C)));

@@ -1,0 +1,70 @@
+{
+ "name": "P_CM_Reserves",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_RESERVES_ALL/CM_Reserves",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditsInfo",
+   "source": "TReserveContDataMod.CreditsInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select ID , NumberOfCredit\n  from cm_active_credits\n where currency <> 0",
+   "variables": [],
+   "unit": "ReserveContDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_RESERVE_CONTR",
+   "package": "CM_RESERVE_CONTR",
+   "mode": "named",
+   "source": "TReserveContDataMod.CM_RESERVE_CONTR",
+   "routines": [
+    {
+     "name": "CorrectReserve",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

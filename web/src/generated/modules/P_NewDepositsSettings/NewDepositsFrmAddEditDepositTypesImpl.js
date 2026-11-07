@@ -43,7 +43,7 @@ export default function define($) {
     await $.mset((await $.v(C, "GroupType")), "Checked", 0);
   } else {
     {
-      const $t1 = (await $.v(C, "NewDepositsFrmDepositTypes"));
+      const $t1 = (await $.wobj(C, "NewDepositsFrmDepositTypes"));
       const $t2 = (await $.wv([$t1], "DepositTypes", C, false));
       await $.mset((await $.wv([$t1, $t2], "DBEdit", C, false)), "Text", (await $.mv((await $.wcall([$t1, $t2], "FieldByName", ["type"], C)), "AsString")));
     }
@@ -56,7 +56,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.set(C, "Db", (await $.mv((await $.v(C, "DBEdit")), "Text")));
   {
-    const $t3 = (await $.v(C, "NewDepositsFrmDepositTypes"));
+    const $t3 = (await $.wobj(C, "NewDepositsFrmDepositTypes"));
     if ($.truthy($.eq((await $.wv([$t3], "FIns", C, false)), 0))) {
       await $.wset([$t3], "Dtpid", (-(1)), C);
       await $.stmt((await $.mcall((await $.wv([$t3], "dm_stored_programs", C, false)), "CallProcedure", ["AddDepositTypes", [(await $.wv([$t3], "Dtpid", C, false)), (await $.wv([$t3], "Db", C, false))]])));
@@ -73,7 +73,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t4 = (await $.v(C, "NewDepositsFrmDepositTypes"));
+    const $t4 = (await $.wobj(C, "NewDepositsFrmDepositTypes"));
     const $t5 = (await $.wv([$t4], "DepositTypes", C, false));
     await $.stmt($.wcall([$t4, $t5], "Cancel", [], C));
   }

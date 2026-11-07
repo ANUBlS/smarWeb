@@ -14,7 +14,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t1 = (await $.v(C, "SimCorp"));
+    const $t1 = (await $.wobj(C, "SimCorp"));
     if ($.truthy($.eq((await $.mv((await $.mcall((await $.wv([$t1], "OracleDataSet1", C, false)), "FieldByName", ["status"])), "AsInteger")), 1))) {
       await $.stmt((await $.wcall([$t1], "ShowMessage", ["Bu əməliyatı dəyişmək olmaz !"], C)));
       return L0.result;

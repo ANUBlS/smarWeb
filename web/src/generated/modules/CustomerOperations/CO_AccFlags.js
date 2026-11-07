@@ -33,7 +33,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "index": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t2 = (await $.v(C, "CO_DataMod"));
+    const $t2 = (await $.wobj(C, "CO_DataMod"));
     await $.mcall((await $.wv([$t2], "AccFlags", C, false)), "Close", []);
     await $.mcall((await $.wv([$t2], "AccFlags", C, false)), "Open", []);
     await $.mcall((await $.wv([$t2], "AccFlags", C, false)), "First", []);

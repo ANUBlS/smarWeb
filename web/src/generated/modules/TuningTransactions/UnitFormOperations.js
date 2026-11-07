@@ -29,7 +29,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t2 = (await $.v(C, "TuningDataModule"));
+    const $t2 = (await $.wobj(C, "TuningDataModule"));
     const $t3 = (await $.wv([$t2], "ODSSettings", C, false));
     if ($.truthy($.in_((await $.wv([$t2, $t3], "State", C, false)), [(await $.wv([$t2, $t3], "dsInsert", C, false)), (await $.wv([$t2, $t3], "dsEdit", C, false))]))) {
       await $.stmt($.wcall([$t2, $t3], "Cancel", [], C));
@@ -41,7 +41,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t4 = (await $.v(C, "TuningDataModule"));
+    const $t4 = (await $.wobj(C, "TuningDataModule"));
     const $t5 = (await $.wv([$t4], "ODSSettings", C, false));
     if ($.truthy($.in_((await $.wv([$t4, $t5], "State", C, false)), [(await $.wv([$t4, $t5], "dsInsert", C, false)), (await $.wv([$t4, $t5], "dsEdit", C, false))]))) {
       await $.stmt($.wcall([$t4, $t5], "Post", [], C));
@@ -53,7 +53,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t6 = (await $.v(C, "TuningDataModule"));
+    const $t6 = (await $.wobj(C, "TuningDataModule"));
     const $t7 = (await $.wv([$t6], "ODSSettings", C, false));
     if ($.truthy($.in_((await $.wv([$t6, $t7], "State", C, false)), [(await $.wv([$t6, $t7], "dsInsert", C, false)), (await $.wv([$t6, $t7], "dsEdit", C, false))]))) {
       await $.mset((await $.wcall([$t6, $t7], "FieldByName", ["UserID"], C)), "AsInteger", (await $.mv((await $.wv([$t6, $t7], "CBCheckUser", C, false)), "ItemIndex")));
@@ -90,7 +90,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   await $.mset(L0["sender"], "ActiveControl", (await $.v(C, "OperationName")));
   {
-    const $t8 = (await $.v(C, "TuningTransaction"));
+    const $t8 = (await $.wobj(C, "TuningTransaction"));
     { const $t9 = (await $.wv([$t8], "OperationMode", C, false));
       if ($.eq($t9, (await $.wv([$t8], "omInsert", C, false)))) {
         await $.mset((await $.wv([$t8], "CBCheckUser", C, false)), "ItemIndex", 0);
@@ -196,7 +196,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t14 = (await $.v(C, "TuningDataModule"));
+    const $t14 = (await $.wobj(C, "TuningDataModule"));
     if ($.truthy($.not(((await $.mv((await $.wv([$t14], "ODSDebtAccount", C, false)), "Active")))))) {
       await $.mcall((await $.wv([$t14], "ODSDebtAccount", C, false)), "Open", []);
     }

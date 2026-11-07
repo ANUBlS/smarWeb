@@ -110,7 +110,7 @@ export default function define($) {
     await $.set(C, "edNewName", (await $.mcall((await $.v(C, "TEdit")), "Create", [Self])));
   }
   {
-    const $t5 = (await $.v(C, "edNewName"));
+    const $t5 = (await $.wobj(C, "edNewName"));
     await $.wset([$t5], "Parent", (await $.wv([$t5], "Panel26", C, false)), C);
     await $.wset([$t5], "OnKeyDown", (await $.wv([$t5], "edNewNameClick", C, true)), C);
     await $.wset([$t5], "Visible", (await $.wv([$t5], "False", C, false)), C);
@@ -142,7 +142,7 @@ export default function define($) {
   L0["checkfieldbynames"] = $.fn(async function CheckFieldByNames() {
   const L1 = {result: undefined};
   {
-    const $t6 = (await $.v(C, "ArGurDm"));
+    const $t6 = (await $.wobj(C, "ArGurDm"));
     await $.stmt((await $.wcall([$t6], "CheckFieldByName", [(await $.wv([$t6], "MainDSetPLEDGEID", C, false))], { get: async () => L0["checkfieldbyname"], set: async (v) => { L0["checkfieldbyname"] = v; }, local: true })));
     await $.stmt((await $.wcall([$t6], "CheckFieldByName", [(await $.wv([$t6], "MainDSetPLEDGENAME", C, false))], { get: async () => L0["checkfieldbyname"], set: async (v) => { L0["checkfieldbyname"] = v; }, local: true })));
     await $.stmt((await $.wcall([$t6], "CheckFieldByName", [(await $.wv([$t6], "MainDSetPLEDGEPRICE", C, false))], { get: async () => L0["checkfieldbyname"], set: async (v) => { L0["checkfieldbyname"] = v; }, local: true })));
@@ -214,7 +214,7 @@ export default function define($) {
   await $.stmt((await $.mcall((await $.mv((await $.v(C, "ArGurDm")), "Guarante")), "CallProcedure", ["Gur_add", [(await $.v(C, "creditid"))]])));
   await $.mset((await $.v(C, "SpeedButton43")), "Enabled", true);
   {
-    const $t11 = (await $.v(C, "Panel2"));
+    const $t11 = (await $.wobj(C, "Panel2"));
     const $t12 = (await $.mv((await $.wv([$t11], "ArGurDm", C, false)), "MainDSet"));
     await $.stmt($.wcall([$t11, $t12], "Refresh", [], C));
     await $.wset([$t11, $t12], "recno", (await $.wv([$t11, $t12], "RecordCount", C, false)), C);
@@ -271,7 +271,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t15 = (await $.v(C, "edNewName"));
+    const $t15 = (await $.wobj(C, "edNewName"));
     await $.wset([$t15], "Text", "", C);
     await $.wset([$t15], "width", 218, C);
     await $.wset([$t15], "Left", 28, C);
@@ -322,7 +322,7 @@ export default function define($) {
   await $.stmt($.call(C, "SaveBali", []));
   await $.stmt((await $.mcall((await $.mv((await $.v(C, "ArGurDm")), "Guarante")), "CallProcedure", ["BAli_add", [(await $.v(C, "creditid"))]])));
   {
-    const $t18 = (await $.v(C, "panel"));
+    const $t18 = (await $.wobj(C, "panel"));
     const $t19 = (await $.mv((await $.wv([$t18], "ArGurDm", C, false)), "BAliDSet"));
     await $.stmt($.wcall([$t18, $t19], "Refresh", [], C));
     await $.wset([$t18, $t19], "recno", (await $.wv([$t18, $t19], "RecordCount", C, false)), C);
@@ -487,7 +487,7 @@ export default function define($) {
   await $.mcall((await $.v(C, "DBEditEh8")), "SetFocus", []);
   await $.stmt($.call(C, "SaveChg", []));
   {
-    const $t29 = (await $.v(C, "ArGurDm"));
+    const $t29 = (await $.wobj(C, "ArGurDm"));
     const $t30 = (await $.wv([$t29], "MainDSet", C, false));
     if ($.truthy((await $.wv([$t29, $t30], "active", C, false)))) {
       await $.stmt($.wcall([$t29, $t30], "Close", [], C));

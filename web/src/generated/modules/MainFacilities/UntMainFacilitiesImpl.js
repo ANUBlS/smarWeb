@@ -369,7 +369,7 @@ export default function define($) {
   const L0 = {"groupid": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["groupid"]);
   {
-    const $t2 = (await $.v(C, "MainFDataModule"));
+    const $t2 = (await $.wobj(C, "MainFDataModule"));
     const $t3 = (await $.wv([$t2], "OPViewWares", C, false));
     await $.stmt((await $.wcall([$t2, $t3], "CallProcedure", ["delete_MainGroup", [(await $.wv([$t2, $t3], "GroupID", { get: async () => L0["groupid"], set: async (v) => { L0["groupid"] = v; }, local: true }, false))]], C)));
   }
@@ -534,7 +534,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "rect": $.copyArg(p1), "datacol": $.copyArg(p2), "column": $.copyArg(p3), "state": $.copyArg(p4), result: undefined};
   await $.fixArgs(L0, ["sender", "rect", "datacol", "column", "state"]);
   {
-    const $t12 = (await $.v(C, "WaresViewer"));
+    const $t12 = (await $.wobj(C, "WaresViewer"));
     if ($.truthy($.gt((await $.mv((await $.mv((await $.wv([$t12], "MainFDataModule", C, false)), "ViewWares")), "RecordCount")), 0))) {
       if ($.truthy(($.eq((await $.wv([$t12], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 2)))) {
         { const $t13 = (await $.mv((await $.mcall((await $.mv((await $.wv([$t12], "MainFDataModule", C, false)), "ViewWares")), "FieldByName", ["Close_format"])), "AsInteger"));
@@ -594,7 +594,7 @@ export default function define($) {
   if ($.truthy(($.eq((await L0["key"].get()), (await $.v(C, "VK_F8")))))) {
     if ($.truthy($.eq((await $.call(C, "MessageDlg", ["Do you want delete this thing?", (await $.v(C, "mtConfirmation")), (await $.v(C, "mbYesNoCancel")), 0])), (await $.v(C, "mrYes"))))) {
       {
-        const $t15 = (await $.v(C, "MainFDataModule"));
+        const $t15 = (await $.wobj(C, "MainFDataModule"));
         const $t16 = (await $.wv([$t15], "OPViewWares", C, false));
         const $t17 = (await $.wv([$t15, $t16], "ViewWares", C, false));
         await $.stmt((await $.wcall([$t15, $t16, $t17], "CallProcedure", ["delete_wares", [(await $.mv((await $.mcall((await $.wv([$t15, $t16, $t17], "ViewWares", C, false)), "FieldByName", ["ID"])), "AsInteger"))]], C)));
@@ -613,7 +613,7 @@ export default function define($) {
   }
   L0["ids"] = "";
   {
-    const $t18 = (await $.v(C, "MainFDataModule"));
+    const $t18 = (await $.wobj(C, "MainFDataModule"));
     const $t19 = (await $.wv([$t18], "WaresViewer", C, false));
     const $t20 = (await $.mv((await $.wv([$t18, $t19], "DataSource", C, false)), "DataSet"));
     await $.wset([$t18, $t19, $t20], "SavePlace", (await $.mv((await $.wv([$t18, $t19, $t20], "ViewWares", C, false)), "GetBookMark")), { get: async () => L0["saveplace"], set: async (v) => { L0["saveplace"] = v; }, local: true });
@@ -666,7 +666,7 @@ export default function define($) {
   }
   await $.set(C, "QRTraffics", (await $.mcall((await $.v(C, "TQRTraffics")), "Create", [Self])));
   {
-    const $t23 = (await $.v(C, "QRTraffics"));
+    const $t23 = (await $.wobj(C, "QRTraffics"));
     const $t24 = (await $.wcall([$t23], "TOracleDataSet", [(await $.wv([$t23], "DataSet", C, false))], C));
     try {
       await $.stmt($.wcall([$t23, $t24], "Close", [], C));
@@ -935,7 +935,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t45 = (await $.v(C, "WaresViewer"));
+    const $t45 = (await $.wobj(C, "WaresViewer"));
     const $t46 = (await $.wv([$t45], "SelectedRows", C, false));
     const $t47 = (await $.mv((await $.wv([$t45, $t46], "DataSource", C, false)), "DataSet"));
     await $.stmt($.wcall([$t45, $t46, $t47], "DisableControls", [], C));

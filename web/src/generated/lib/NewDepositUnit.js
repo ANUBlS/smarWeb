@@ -70,7 +70,7 @@ export default function define($) {
   return L1.result;
 });
   {
-    const $t3 = (await $.v(C, "DepositDataModule"));
+    const $t3 = (await $.wobj(C, "DepositDataModule"));
     const $t4 = (await $.wv([$t3], "Deposits", C, false));
     await $.stmt((await $.mcall((await $.mv((await $.wv([$t3, $t4], "DataModuleNewDeposit", C, false)), "Currencys")), "Locate", ["Valute", (await $.mv((await $.wcall([$t3, $t4], "FieldByName", ["ContractCurrencyID"], C)), "AsInteger")), []])));
     await $.mcall((await $.wv([$t3, $t4], "DepositAccNames", C, false)), "RefreshList", []);

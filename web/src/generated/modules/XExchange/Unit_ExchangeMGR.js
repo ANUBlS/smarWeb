@@ -24,7 +24,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {result: undefined};
   {
-    const $t1 = (await $.v(C, "DataModExch"));
+    const $t1 = (await $.wobj(C, "DataModExch"));
     await $.mcall((await $.wv([$t1], "ODSCust_Confirm", C, false)), "Close", []);
     await $.mcall((await $.wv([$t1], "ODSCust_Confirm", C, false)), "Open", []);
     await $.mcall((await $.wv([$t1], "ODSCust_Country", C, false)), "Close", []);
@@ -446,7 +446,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "v_beg_dat": 0, "dat": 0, "sdat": 0, "lastday": 0, "exch_no": 0, "val_id": 0, "calendar": false};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t3 = (await $.v(C, "DataModExch"));
+    const $t3 = (await $.wobj(C, "DataModExch"));
     try {
       await $.mset((await $.wv([$t3], "Screen", C, false)), "Cursor", (await $.wv([$t3], "crSQLWait", C, false)));
       await $.wset([$t3], "v_beg_dat", (await $.wcall([$t3], "Integer", [(await $.wcall([$t3], "Trunc", [(await $.mv((await $.wv([$t3], "DTP_DateReestr", C, false)), "DateTime"))], C))], C)), { get: async () => L0["v_beg_dat"], set: async (v) => { L0["v_beg_dat"] = v; }, local: true });
@@ -487,7 +487,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "f": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t7 = (await $.v(C, "DataModExch"));
+    const $t7 = (await $.wobj(C, "DataModExch"));
     if ($.truthy((await $.mv((await $.wv([$t7], "ODSExRemainder", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t7], "ODSExRemainder", C, false)), "Refresh", []);
     }
@@ -513,7 +513,7 @@ export default function define($) {
   L0["val_id"] = (await $.mv((await $.v(C, "DBLookupComboBox5")), "KeyValue"));
   L0["exch_no"] = (await $.mv((await $.v(C, "DBLookupComboBox6")), "KeyValue"));
   {
-    const $t8 = (await $.v(C, "FormReestrReport"));
+    const $t8 = (await $.wobj(C, "FormReestrReport"));
     const $t9 = (await $.wv([$t8], "DataModExch", C, false));
     await $.mset((await $.wv([$t8, $t9], "QRBankName", C, false)), "Caption", $.add($.add($.add((await $.mv((await $.wv([$t8, $t9], "ODSBankInfoBANK", C, false)), "AsString")), " "), (await $.mv((await $.wv([$t8, $t9], "QRBankName", C, false)), "Caption"))), (await $.mv((await $.wv([$t8, $t9], "ODSExchOfficeEX_NO", C, false)), "AsString"))));
     await $.mset((await $.wv([$t8, $t9], "QRDateReestr", C, false)), "Caption", (await $.wcall([$t8, $t9], "DateTimeToStr", [(await $.wcall([$t8, $t9], "trunc", [(await $.mv((await $.wv([$t8, $t9], "DTP_DateReestr", C, false)), "DateTime"))], C))], C)));
@@ -575,7 +575,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "rect": $.copyArg(p1), "datacol": $.copyArg(p2), "column": $.copyArg(p3), "state": $.copyArg(p4), result: undefined};
   await $.fixArgs(L0, ["sender", "rect", "datacol", "column", "state"]);
   {
-    const $t12 = (await $.v(C, "DBGrid2"));
+    const $t12 = (await $.wobj(C, "DBGrid2"));
     const $t13 = (await $.wv([$t12], "DataModExch", C, false));
     if ($.truthy(($.eq((await $.wv([$t12, $t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 0)))) {
       { const $t14 = (await $.mv((await $.mcall((await $.wv([$t12, $t13], "ODSResurs", C, false)), "FieldByName", ["status"])), "AsInteger"));
@@ -605,7 +605,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "rect": $.copyArg(p1), "datacol": $.copyArg(p2), "column": $.copyArg(p3), "state": $.copyArg(p4), result: undefined};
   await $.fixArgs(L0, ["sender", "rect", "datacol", "column", "state"]);
   {
-    const $t16 = (await $.v(C, "DBGridEhTrans"));
+    const $t16 = (await $.wobj(C, "DBGridEhTrans"));
     const $t17 = (await $.wv([$t16], "DataModExch", C, false));
     if ($.truthy(($.eq((await $.wv([$t16, $t17], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), 1)))) {
       { const $t18 = (await $.mv((await $.mcall((await $.wv([$t16, $t17], "ODSExchProvarch", C, false)), "FieldByName", ["status"])), "AsInteger"));
@@ -785,7 +785,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t26 = (await $.v(C, "DataModExch"));
+    const $t26 = (await $.wobj(C, "DataModExch"));
     if ($.truthy(($.not((await $.mv((await $.wv([$t26], "ODSExchRate", C, false)), "IsEmpty")))))) {
       await $.wset([$t26], "StatusExchange", (await $.wv([$t26], "seExchangeInsert", C, false)), C);
       await $.mcall((await $.wv([$t26], "FormExchange", C, false)), "ShowModal", []);
@@ -800,7 +800,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t27 = (await $.v(C, "DataModExch"));
+    const $t27 = (await $.wobj(C, "DataModExch"));
     const $t28 = (await $.wv([$t27], "ODSExchProvarch", C, false));
     if ($.truthy((await $.and_(($.eq((await $.mv((await $.wv([$t27, $t28], "FilterRadioGroup", C, false)), "ItemIndex")), 0)), async () => ($.gt((await $.wv([$t27, $t28], "RecordCount", C, false)), 0)))))) {
       await $.wset([$t27, $t28], "Filtered", (await $.wv([$t27, $t28], "False", C, false)), C);
@@ -826,7 +826,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t29 = (await $.v(C, "DataModExch"));
+    const $t29 = (await $.wobj(C, "DataModExch"));
     await $.stmt((await $.mcall((await $.mv((await $.wv([$t29], "DataModExch", C, false)), "SBA_ACA")), "CallProcedure", ["checkadvancedobjectaccess", ["EXCH_BUYINSERT"]])));
     await $.mcall((await $.wv([$t29], "ODSExchRate", C, false)), "Refresh", []);
     if ($.truthy(($.not((await $.mv((await $.wv([$t29], "ODSExchRate", C, false)), "IsEmpty")))))) {
@@ -853,7 +853,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t30 = (await $.v(C, "DataModExch"));
+    const $t30 = (await $.wobj(C, "DataModExch"));
     await $.stmt((await $.mcall((await $.mv((await $.wv([$t30], "DataModExch", C, false)), "SBA_ACA")), "CallProcedure", ["checkadvancedobjectaccess", ["EXCH_SELLINSERT"]])));
     await $.mcall((await $.wv([$t30], "ODSExchRate", C, false)), "Refresh", []);
     if ($.truthy(($.not((await $.mv((await $.wv([$t30], "ODSExchRate", C, false)), "IsEmpty")))))) {
@@ -871,7 +871,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "f": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t31 = (await $.v(C, "DataModExch"));
+    const $t31 = (await $.wobj(C, "DataModExch"));
     const $t32 = (await $.wv([$t31], "OPExchMgr", C, false));
     await $.wset([$t31, $t32], "F", (await $.wcall([$t31, $t32], "CallIntegerFunction", ["ex_date_change", []], C)), { get: async () => L0["f"], set: async (v) => { L0["f"] = v; }, local: true });
     { const $t33 = (await $.wv([$t31, $t32], "F", { get: async () => L0["f"], set: async (v) => { L0["f"] = v; }, local: true }, false));
@@ -904,7 +904,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["dat"] = (await $.call(C, "Integer", [(await $.call(C, "Trunc", [(await $.mv((await $.v(C, "DTP_System_Date")), "DateTime"))]))]));
   {
-    const $t34 = (await $.v(C, "DataModExch"));
+    const $t34 = (await $.wobj(C, "DataModExch"));
     if ($.truthy($.eq((await $.wcall([$t34], "MessageDLG", [(await $.wcall([$t34], "Pchar", ["Əməliyyat təsdiq olunmamış formaya gələcək!!! Əminsiniz ? "], C)), (await $.wv([$t34], "mtConfirmation", C, false)), [(await $.wv([$t34], "mbYes", C, false)), (await $.wv([$t34], "mbNo", C, false))], 0], C)), (await $.wv([$t34], "mrYes", C, false))))) {
       await $.stmt((await $.mcall((await $.wv([$t34], "OPExchMgr", C, false)), "CallProcedure", ["trans_return_close", [(await $.mv((await $.mcall((await $.wv([$t34], "ODSExchProvarch", C, false)), "FieldByName", ["id"])), "AsInteger")), (await $.wv([$t34], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false))]])));
       await $.mcall((await $.wv([$t34], "ODSExchProvarch", C, false)), "Refresh", []);
@@ -941,7 +941,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "f": 0};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t35 = (await $.v(C, "DataModExch"));
+    const $t35 = (await $.wobj(C, "DataModExch"));
     if ($.truthy((await $.mv((await $.wv([$t35], "ODSExRemainder", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t35], "ODSExRemainder", C, false)), "Refresh", []);
     }
@@ -955,7 +955,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "usrname": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t36 = (await $.v(C, "DataModExch"));
+    const $t36 = (await $.wobj(C, "DataModExch"));
     const $t37 = (await $.wv([$t36], "ODSExchOffice", C, false));
     if ($.truthy($.eq((await $.wcall([$t36, $t37], "UpperCase", [(await $.mv((await $.wv([$t36, $t37], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mcall((await $.wv([$t36, $t37], "ODSFilial", C, false)), "Close", []);
@@ -972,7 +972,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "usrname": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t38 = (await $.v(C, "DataModExch"));
+    const $t38 = (await $.wobj(C, "DataModExch"));
     if ($.truthy($.eq((await $.wcall([$t38], "UpperCase", [(await $.mv((await $.mv((await $.wv([$t38], "ODSExchOffice", C, false)), "Session")), "LogonUsername"))], C)), "SMART"))) {
       if ($.truthy($.eq((await $.wcall([$t38], "MessageDLG", [(await $.wcall([$t38], "Pchar", ["Silmək istəyirsiniz? "], C)), (await $.wv([$t38], "mtConfirmation", C, false)), [(await $.wv([$t38], "mbYes", C, false)), (await $.wv([$t38], "mbNo", C, false))], 0], C)), (await $.wv([$t38], "mrYes", C, false))))) {
         await $.stmt((await $.mcall((await $.wv([$t38], "OPExchMgr", C, false)), "CallProcedure", ["ex_office_delete", [(await $.mv((await $.mcall((await $.wv([$t38], "ODSExchOffice", C, false)), "FieldByName", ["id"])), "asinteger"))]])));
@@ -989,7 +989,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "usrname": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t39 = (await $.v(C, "DataModExch"));
+    const $t39 = (await $.wobj(C, "DataModExch"));
     const $t40 = (await $.wv([$t39], "ODSExchOffice", C, false));
     if ($.truthy($.eq((await $.wcall([$t39, $t40], "UpperCase", [(await $.mv((await $.wv([$t39, $t40], "Session", C, false)), "LogonUsername"))], C)), "SMART"))) {
       await $.mcall((await $.wv([$t39, $t40], "ODSFilial", C, false)), "Close", []);
@@ -1006,7 +1006,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "i": 0, "dat": 0, "status": 0, "totable": null, "debitval": '', "kreditval": '', "debitaccno": '', "kreditaccno": '', "debitamount": 0, "lamount": 0, "debitrate": 0, "kreditrate": 0, "trname": '', "sessionname": '', "feedebitaccno": '', "feekreditaccno": '', "feedebitamount": 0, "feetrname": '', "feetrname_l": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t41 = (await $.v(C, "DataModExch"));
+    const $t41 = (await $.wobj(C, "DataModExch"));
     await $.wset([$t41], "dat", (await $.wcall([$t41], "Integer", [(await $.wcall([$t41], "Trunc", [(await $.mv((await $.wv([$t41], "DTP_System_Date", C, false)), "DateTime"))], C))], C)), { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true });
     try {
       await $.mset((await $.wv([$t41], "Screen", C, false)), "Cursor", (await $.wv([$t41], "crSQLWait", C, false)));
@@ -1207,7 +1207,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t59 = (await $.v(C, "DataModExch"));
+    const $t59 = (await $.wobj(C, "DataModExch"));
     await $.stmt((await $.mcall((await $.mv((await $.wv([$t59], "DataModExch", C, false)), "SBA_ACA")), "CallProcedure", ["checkadvancedobjectaccess", ["EXCH_DELETE"]])));
     if ($.truthy($.eq((await $.mv((await $.wv([$t59], "ODSExchProvarch", C, false)), "RecordCount")), 0))) {
       return L0.result;
@@ -1260,7 +1260,7 @@ export default function define($) {
   await $.set(C, "FormToplam", (await $.mcall((await $.v(C, "TFormToplam")), "Create", [Self])));
   await $.set(C, "FormRemandirReport", (await $.mcall((await $.v(C, "TFormRemandirReport")), "Create", [Self])));
   {
-    const $t60 = (await $.v(C, "DataModExch"));
+    const $t60 = (await $.wobj(C, "DataModExch"));
     await $.mcall((await $.wv([$t60], "ODSSysdat", C, false)), "Close", []);
     await $.mcall((await $.wv([$t60], "ODSSysdat", C, false)), "Open", []);
     await $.mset((await $.wv([$t60], "DTP_Begin", C, false)), "Date", (await $.mv((await $.wv([$t60], "ODSSysdatSSDAT", C, false)), "AsDateTime")));
@@ -1293,7 +1293,7 @@ export default function define($) {
     try {
       await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
       {
-        const $t61 = (await $.v(C, "DataModExch"));
+        const $t61 = (await $.wobj(C, "DataModExch"));
         await $.stmt((await $.mcall((await $.mv((await $.wv([$t61], "DataModExch", C, false)), "OPExchMgr")), "CallProcedure", ["NextResurs", [(await $.wv([$t61], "dat", { get: async () => L0["dat"], set: async (v) => { L0["dat"] = v; }, local: true }, false))]])));
         await $.stmt($.wcall([$t61], "open_cust_data_sets", [], C));
         await $.mcall((await $.wv([$t61], "ODSSumTrans", C, false)), "Open", []);
@@ -1400,7 +1400,7 @@ export default function define($) {
       L0["groupstr"] = $.add($.add($.add($.add($.add($.add($.add(" GROUP BY  ", "DebitVal,"), "KreditVal,"), "DebitAccNo,"), "KreditAccNo,"), "DebitRate,"), "SessionName,"), "KreditRate ");
       L0["querystr"] = $.add($.add(L0["selectstr"], L0["fromstr"]), L0["groupstr"]);
       {
-        const $t64 = (await $.v(C, "DataModExch"));
+        const $t64 = (await $.wobj(C, "DataModExch"));
         const $t65 = (await $.wv([$t64], "QueryTrans", C, false));
         await $.stmt($.wcall([$t64, $t65], "Close", [], C));
         await $.mcall((await $.wv([$t64, $t65], "SQL", C, false)), "Clear", []);
@@ -1447,7 +1447,7 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   L0["a_flags"] = (await $.mv((await $.v(C, "ChBox_Flags")), "Checked"));
   {
-    const $t67 = (await $.v(C, "DataModExch"));
+    const $t67 = (await $.wobj(C, "DataModExch"));
     { const $t68 = (await $.wv([$t67], "T", C, false));
       if ($.eq($t68, 1)) {
         try {
@@ -1580,7 +1580,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t73 = (await $.v(C, "DataModExch"));
+    const $t73 = (await $.wobj(C, "DataModExch"));
     await $.mcall((await $.wv([$t73], "ODSRateTurn", C, false)), "Close", []);
     await $.stmt((await $.mcall((await $.wv([$t73], "ODSRateTurn", C, false)), "SetVariable", ["dat", (await $.wcall([$t73], "Integer", [(await $.wcall([$t73], "Trunc", [(await $.mv((await $.wv([$t73], "DTP_Dat", C, false)), "DateTime"))], C))], C))])));
     await $.mcall((await $.wv([$t73], "ODSRateTurn", C, false)), "Open", []);
@@ -1599,7 +1599,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "v_beg_dat": 0, "v_end_dat": 0, "val_id": 0, "status": 0, "exch_no": 0, "query_str": '', "s": '', "st": '', "vt": '', "et": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t74 = (await $.v(C, "DataModExch"));
+    const $t74 = (await $.wobj(C, "DataModExch"));
     try {
       await $.mset((await $.wv([$t74], "Screen", C, false)), "Cursor", (await $.wv([$t74], "crSQLWait", C, false)));
       await $.wset([$t74], "v_beg_dat", (await $.wcall([$t74], "Integer", [(await $.wcall([$t74], "Trunc", [(await $.mv((await $.wv([$t74], "DTP_Begin", C, false)), "DateTime"))], C))], C)), { get: async () => L0["v_beg_dat"], set: async (v) => { L0["v_beg_dat"] = v; }, local: true });
@@ -1674,7 +1674,7 @@ export default function define($) {
   const L0 = {"debitval": $.copyArg(p0), "kreditval": $.copyArg(p1), "debitaccno": $.copyArg(p2), "kreditaccno": $.copyArg(p3), "debitamount": $.copyArg(p4), "lamount": $.copyArg(p5), "debitrate": $.copyArg(p6), "kreditrate": $.copyArg(p7), "trname": $.copyArg(p8), result: undefined};
   await $.fixArgs(L0, ["debitval", "kreditval", "debitaccno", "kreditaccno", "debitamount", "lamount", "debitrate", "kreditrate", "trname"]);
   {
-    const $t76 = (await $.v(C, "DataModExch"));
+    const $t76 = (await $.wobj(C, "DataModExch"));
     const $t77 = (await $.wv([$t76], "ODSEXp_Provarch", C, false));
     await $.stmt($.wcall([$t76, $t77], "open", [], C));
     await $.stmt($.wcall([$t76, $t77], "Insert", [], C));
@@ -1705,7 +1705,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t78 = (await $.v(C, "DataModExch"));
+    const $t78 = (await $.wobj(C, "DataModExch"));
     await $.wset([$t78], "resultID", (await $.mv((await $.mcall((await $.wv([$t78], "ODSExchProvarch", C, false)), "FieldByName", ["id"])), "AsInteger")), C);
     await $.mset((await $.wv([$t78], "Trans", C, false)), "ex_id", (await $.mv((await $.mcall((await $.wv([$t78], "ODSExchProvarch", C, false)), "FieldByName", ["ex_id"])), "AsInteger")));
     await $.mset((await $.wv([$t78], "Trans", C, false)), "val_id", (await $.mv((await $.mcall((await $.wv([$t78], "ODSExchProvarch", C, false)), "FieldByName", ["val_id"])), "AsInteger")));
@@ -1785,7 +1785,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t80 = (await $.v(C, "DataModExch"));
+    const $t80 = (await $.wobj(C, "DataModExch"));
     await $.stmt((await $.mcall((await $.wv([$t80], "OPExchMgr", C, false)), "CallProcedure", ["VDMResursTransaction", [(await $.mv((await $.mcall((await $.wv([$t80], "ODSResurs", C, false)), "fieldbyname", ["id"])), "asinteger"))]])));
   }
   await $.mcall((await $.mv((await $.v(C, "sboapiDataModule")), "SBSession")), "Commit", []);
@@ -1797,7 +1797,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t81 = (await $.v(C, "DataModExch"));
+    const $t81 = (await $.wobj(C, "DataModExch"));
     if ($.truthy($.eq((await $.mv((await $.wv([$t81], "ODSResurs", C, false)), "RecordCount")), 0))) {
       return L0.result;
     }
@@ -1838,7 +1838,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t82 = (await $.v(C, "CMExcelExport1"));
+    const $t82 = (await $.wobj(C, "CMExcelExport1"));
     await $.mcall((await $.mv((await $.mv((await $.wv([$t82], "DBGridEh2", C, false)), "DataSource")), "DataSet")), "Last", []);
     await $.stmt($.wcall([$t82], "Connect", [], C));
     await $.stmt((await $.wcall([$t82], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t82], "DBGridEh2", C, false)), "DataSource")), "DataSet")), "Əməliyyatlar", (await $.wv([$t82], "true", C, false)), (await $.wv([$t82], "true", C, false))], C)));
@@ -1855,7 +1855,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t83 = (await $.v(C, "CMExcelExport1"));
+    const $t83 = (await $.wobj(C, "CMExcelExport1"));
     await $.mcall((await $.mv((await $.mv((await $.wv([$t83], "DBGridEh3", C, false)), "DataSource")), "DataSet")), "Last", []);
     await $.stmt($.wcall([$t83], "Connect", [], C));
     await $.stmt((await $.wcall([$t83], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t83], "DBGridEh3", C, false)), "DataSource")), "DataSet")), "Kurslar", (await $.wv([$t83], "true", C, false)), (await $.wv([$t83], "true", C, false))], C)));
@@ -1868,7 +1868,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "v_beg_dat": 0, "v_end_dat": 0, "val_id": 0, "status": 0, "exch_no": 0, "query_str": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t84 = (await $.v(C, "DataModExch"));
+    const $t84 = (await $.wobj(C, "DataModExch"));
     try {
       await $.mset((await $.wv([$t84], "Screen", C, false)), "Cursor", (await $.wv([$t84], "crSQLWait", C, false)));
       await $.wset([$t84], "v_beg_dat", (await $.wcall([$t84], "Integer", [(await $.wcall([$t84], "Trunc", [(await $.mv((await $.wv([$t84], "DateTimePicker1", C, false)), "DateTime"))], C))], C)), { get: async () => L0["v_beg_dat"], set: async (v) => { L0["v_beg_dat"] = v; }, local: true });
@@ -1972,7 +1972,7 @@ export default function define($) {
     return L0.result;
   }
   {
-    const $t89 = (await $.v(C, "CMExcelExport1"));
+    const $t89 = (await $.wobj(C, "CMExcelExport1"));
     await $.mcall((await $.mv((await $.mv((await $.wv([$t89], "DBGridEh4", C, false)), "DataSource")), "DataSet")), "Last", []);
     await $.stmt($.wcall([$t89], "Connect", [], C));
     await $.stmt((await $.wcall([$t89], "ExportDataset", [(await $.mv((await $.mv((await $.wv([$t89], "DBGridEh4", C, false)), "DataSource")), "DataSet")), "Silinmiş Əməliyyatlar", (await $.wv([$t89], "true", C, false)), (await $.wv([$t89], "true", C, false))], C)));
@@ -1985,7 +1985,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "delta": false};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t90 = (await $.v(C, "DataModExch"));
+    const $t90 = (await $.wobj(C, "DataModExch"));
     if ($.truthy((await $.mv((await $.wv([$t90], "ODSExchRate", C, false)), "Active")))) {
       await $.mcall((await $.wv([$t90], "ODSExchRate", C, false)), "Refresh", []);
     }
@@ -1997,7 +1997,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined, "v_beg_dat": 0, "v_end_dat": 0, "val_id": 0, "status": 0, "exch_no": 0, "query_str": ''};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t91 = (await $.v(C, "DataModExch"));
+    const $t91 = (await $.wobj(C, "DataModExch"));
     try {
       await $.mset((await $.wv([$t91], "Screen", C, false)), "Cursor", (await $.wv([$t91], "crSQLWait", C, false)));
       await $.wset([$t91], "v_beg_dat", (await $.wcall([$t91], "Integer", [(await $.wcall([$t91], "Trunc", [(await $.mv((await $.wv([$t91], "DateTimePicker3", C, false)), "DateTime"))], C))], C)), { get: async () => L0["v_beg_dat"], set: async (v) => { L0["v_beg_dat"] = v; }, local: true });

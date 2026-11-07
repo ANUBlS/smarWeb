@@ -63,7 +63,7 @@ export default function define($) {
   const L0 = {result: undefined, "img": null, "labelindex": 0, "pluginlabel": null, "plugincheckbox": null};
   await $.set(C, "ImageLeft", 0);
   {
-    const $t5 = (await $.v(C, "ControlData"));
+    const $t5 = (await $.wobj(C, "ControlData"));
     await $.stmt($.wcall([$t5], "CloseAll", [], C));
     await $.stmt($.wcall([$t5], "Open", [], C));
     if ($.truthy($.eq((await $.wv([$t5], "RecordCount", C, false)), 0))) {

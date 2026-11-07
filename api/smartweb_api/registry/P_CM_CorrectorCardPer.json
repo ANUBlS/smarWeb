@@ -1,0 +1,91 @@
+{
+ "name": "P_CM_CorrectorCardPer",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_CorrectorCardPer",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Tranches",
+   "source": "TDMCorrectorCardPer.Tranches",
+   "kind": "TOracleDataSet",
+   "sql": "/* Formatted on 2007/06/10 23:21 (Formatter Plus v4.8.6) */\nSELECT ID, tranchedate, trancheamount\n  FROM cm_tranches\n WHERE creditid = :crdid\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMCorrectorCardPerImpl"
+  },
+  {
+   "name": "Rests",
+   "source": "TDMCorrectorCardPer.Rests",
+   "kind": "TOracleDataSet",
+   "sql": "/* Formatted on 2007/06/10 23:39 (Formatter Plus v4.8.6) */\nSELECT rowid,hdate,tranchid, rest, intrest,partkey,cardid\n  FROM cm_cardrest_curr_state\n WHERE tranchid = :trid\nUNION\nSELECT rowid,hdate,tranchid, rest, intrest,partkey,cardid\n  FROM cm_cardrest_prev_state\n WHERE tranchid = :trid\n",
+   "variables": [
+    {
+     "name": "TRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMCorrectorCardPerImpl"
+  },
+  {
+   "name": "Int",
+   "source": "TDMCorrectorCardPer.Int",
+   "kind": "TOracleDataSet",
+   "sql": "/* Formatted on 2007/06/10 23:53 (Formatter Plus v4.8.6) */\nSELECT rowid,hdate, tranchid, interest,partkey,cardid\n  FROM cm_cardintrest_curr_state\n where  tranchid = :trid\nUNION\nSELECT rowid,hdate, tranchid, interest,partkey,cardid\n  FROM cm_cardintrest_prev_state\nwhere tranchid = :trid\n\n",
+   "variables": [
+    {
+     "name": "TRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DMCorrectorCardPerImpl"
+  },
+  {
+   "name": "cardsorts",
+   "source": "TDMCorrectorCardPer.cardsorts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,description\n  FROM cm_calc_cardsorts",
+   "variables": [],
+   "unit": "DMCorrectorCardPerImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

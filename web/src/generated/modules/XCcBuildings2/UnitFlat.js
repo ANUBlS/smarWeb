@@ -18,7 +18,7 @@ export default function define($) {
   }
   if ($.truthy($.ne((await $.mv((await $.v(C, "EditNo")), "Text")), ""))) {
     {
-      const $t1 = (await $.v(C, "DataModccBuildings"));
+      const $t1 = (await $.wobj(C, "DataModccBuildings"));
       await $.wset([$t1], "p_BldID", (await $.mv((await $.mcall((await $.wv([$t1], "CC_Building", C, false)), "FieldByName", ["ID"])), "AsString")), { get: async () => L0["p_bldid"], set: async (v) => { L0["p_bldid"] = v; }, local: true });
       await $.wset([$t1], "p_FlatCode", (await $.mv((await $.wv([$t1], "EditCode", C, false)), "Text")), { get: async () => L0["p_flatcode"], set: async (v) => { L0["p_flatcode"] = v; }, local: true });
       await $.wset([$t1], "p_FlatNum", (await $.mv((await $.wv([$t1], "EditNo", C, false)), "Text")), { get: async () => L0["p_flatnum"], set: async (v) => { L0["p_flatnum"] = v; }, local: true });

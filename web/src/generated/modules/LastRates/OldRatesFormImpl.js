@@ -245,7 +245,7 @@ export default function define($) {
   const L0 = {"dataset": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["dataset"]);
   {
-    const $t1 = (await $.v(C, "ODSCourses"));
+    const $t1 = (await $.wobj(C, "ODSCourses"));
     await $.stmt((await $.wcall([$t1], "setVariable", ["beg_dat", (await $.mv((await $.wv([$t1], "DTP_BEG", C, false)), "Date"))], C)));
     await $.stmt((await $.wcall([$t1], "setVariable", ["end_dat", (await $.mv((await $.wv([$t1], "DTP_END", C, false)), "Date"))], C)));
   }
