@@ -5,7 +5,7 @@
   "plugin": false,
   "datasets": 716,
   "packages": 77,
-  "sql": 24
+  "sql": 25
  },
  {
   "name": "AboutBanks",
@@ -251,7 +251,7 @@
   "name": "P_CMAr_Conclusion",
   "caption": "",
   "plugin": true,
-  "datasets": 47,
+  "datasets": 48,
   "packages": 5,
   "sql": 0
  },
@@ -307,7 +307,7 @@
   "name": "P_CM_Conclusion",
   "caption": "",
   "plugin": true,
-  "datasets": 49,
+  "datasets": 50,
   "packages": 5,
   "sql": 0
  },
@@ -379,7 +379,7 @@
   "name": "P_CR_Conclusion",
   "caption": "",
   "plugin": true,
-  "datasets": 48,
+  "datasets": 49,
   "packages": 4,
   "sql": 0
  },
@@ -387,7 +387,7 @@
   "name": "P_CU_Conclusion",
   "caption": "",
   "plugin": true,
-  "datasets": 61,
+  "datasets": 62,
   "packages": 5,
   "sql": 0
  },
@@ -1187,9 +1187,9 @@
   "name": "TransactionManager",
   "caption": "Balans / Əməliyyat günü / Günün sənədləri",
   "plugin": false,
-  "datasets": 20,
-  "packages": 2,
-  "sql": 0
+  "datasets": 63,
+  "packages": 9,
+  "sql": 1
  },
  {
   "name": "Transactions",

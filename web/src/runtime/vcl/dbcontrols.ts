@@ -403,7 +403,9 @@ export class TBookmarkList extends Indexed {
   }
 }
 
-export interface CellStyle { bg?: number; fg?: number; bold?: boolean; italic?: boolean; strike?: boolean }
+/** What an OnDrawColumnCell handler painted: colours / font style, or an image (ImageList.Draw(Canvas, …)). */
+export interface CellStyle { bg?: number; fg?: number; bold?: boolean; italic?: boolean; strike?: boolean;
+  image?: { sprite: string; index: number; cx: number; cy: number } }
 
 export class TDBGrid extends TWinControl {
   DataSource: TDataSource | null = null;
@@ -475,24 +477,35 @@ export class TDBGrid extends TWinControl {
 
   markStylesDirty() { this.styleDirty = true; }
   /** Evaluate OnDrawColumnCell for visible rows to capture colours/fonts the Delphi code sets. */
-  async computeStyles(maxRows = 250) {
-    if (this.styling || !this.styleDirty || !this.hasHandler('OnDrawColumnCell')) return;
+  /** Runs OnDrawColumnCell for the rows in [from, to) not painted yet (VCL paints only the visible cells);
+   *  after a data change (markStylesDirty) everything is painted anew. */
+  async computeStyles(from = 0, to = 250) {
+    if (this.styling || !this.hasHandler('OnDrawColumnCell')) return;
     const ds = this.DataSet;
     if (!ds || !ds.Active) return;
+    to = Math.min(ds.view.length, to);
+    from = Math.max(0, Math.min(from, to));
+    if (!this.styleDirty) {
+      let done = true;
+      for (let i = from; i < to && done; i++) done = this.styles.has(ds.rows[ds.view[i]]);
+      if (done) return;
+    }
     this.styling = true;
+    if (this.styleDirty) this.styles = new WeakMap();
     this.styleDirty = false;
     try {
       const cols = this.visibleColumns();
-      const n = Math.min(ds.view.length, maxRows);
       const handler = this.handlerRoutine(this.events.get('ondrawcolumncell')!);
       if (!handler) return;
-      for (let i = 0; i < n; i++) {
+      for (let i = from; i < to; i++) {
         const row = ds.rows[ds.view[i]];
+        if (this.styles.has(row)) continue;
         const map = new Map<number, CellStyle>();
         for (let c = 0; c < cols.length; c++) {
           const cv = this._canvas;
           cv.Brush.Color = -2147483643;
           cv.Font = new TFont();
+          (cv as any).__cell = {};   // ImageList.Draw(Canvas, …) records the image here
           (ds as any).paintRow = row.v;
           try {
             await handler(this, { left: 0, top: 0, right: cols[c].Width, bottom: 20 }, c, cols[c], []);
@@ -505,6 +518,9 @@ export class TDBGrid extends TWinControl {
           if (fs.includes('fsbold')) st.bold = true;
           if (fs.includes('fsitalic')) st.italic = true;
           if (fs.includes('fsstrikeout')) st.strike = true;
+          const drawn = (cv as any).__cell?.image;
+          if (drawn) st.image = drawn;
+          (cv as any).__cell = null;
           if (Object.keys(st).length) map.set(c, st);
         }
         this.styles.set(row, map);

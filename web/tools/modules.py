@@ -39,7 +39,7 @@ ACTIONS = {
     53: ('TuningAccTypes', 'Packages/TuningAccTypes'),
     54: ('Administration', 'Packages/Administration'),
     55: ('RollbackDay', 'Packages/RollbackDay'),
-    60: ('TransactionManager', 'Utils/TransactionManager'),
+    60: ('TransactionManager', 'Packages/TransactionManager_Mahmud_GoAm'),  # the copy the bank runs: Verifikasiya, Daxil edən / Təsdiq edən / Yoxlayan, status icons
     61: ('Account', 'Packages/Account'),
     64: ('Account', 'Packages/Account'),
     67: ('CustomerOrder', "Packages/Customer's_orders(new)/Ocx"),

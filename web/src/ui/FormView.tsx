@@ -803,7 +803,8 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
   };
   useEffect(() => { if (ed && (ed.row !== editRow || ed.col !== g.SelectedIndex)) setEd(null); }, [editRow, g.SelectedIndex]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { g.markStylesDirty(); }, [rowsKey, count, g]);
-  useEffect(() => { if (active) void g.computeStyles(); });
+  // OnDrawColumnCell for the rows in view (and a screen around them)
+  useEffect(() => { if (active) void g.computeStyles(Math.max(0, first - 30), last + 30); });
   // QueryAllRecords = False: fetch the next rows when the end of the fetched ones scrolls into view
   useEffect(() => {
     if (active && ds!.moreRows && last >= count - 5) void runGuarded(() => ds!.fetchMore(ds!.readBuffer), g.Name);
@@ -873,10 +874,13 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           const colBgN = explicitRgb(col.Color) ?? gridBg;
           const cellBg = isCur ? undefined : st?.bg !== undefined ? explicitRgb(st.bg) : colBgN;
           // text readable on the cell's background (light Delphi colours under the dark theme and vice versa)
-          const cellFg = isCur ? undefined : readableText(st?.fg !== undefined && st.fg !== 0 ? explicitRgb(st.fg) : undefined, cellBg);
+          // the drawing handler's Canvas.Font, else the column's Font (TColumn.Font: clNavy №, bold status column …)
+          const colFg = col.Font && col.Font.Color !== 0 ? explicitRgb(col.Font.Color) : undefined;
+          const colBold = (col.Font?.Style ?? []).some((s: string) => String(s).toLowerCase() === 'fsbold');
+          const cellFg = isCur ? undefined : readableText(st?.fg !== undefined && st.fg !== 0 ? explicitRgb(st.fg) : colFg, cellBg);
           return (
             <td key={ci} className={`${isNum && !align ? 'num' : ''}${isCur && ci === g.SelectedIndex ? ' cell-sel' : ''}`}
-              style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : cellBg !== undefined ? toCss(cellBg) : undefined, color: cellFg, fontWeight: st?.bold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
+              style={{ textAlign: align, background: !isCur && st?.bg !== undefined ? toCss(st.bg) : cellBg !== undefined ? toCss(cellBg) : undefined, color: cellFg, fontWeight: st?.bold || colBold ? 600 : undefined, fontStyle: st?.italic ? 'italic' : undefined, textDecoration: st?.strike ? 'line-through' : undefined }}
               onMouseDown={(e) => {
                 if (ed && isCur && ci === ed.col) return;
                 // VCL TDBGrid: only the left button moves the record / changes the selection (right = popup)
@@ -909,6 +913,10 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
                       run(commitEd(ed.text).then(() => ds!.gotoIndex(to)), g.Name);
                     }
                   }} /></>
+              ) : st?.image ? (
+                // ImageList.Draw(Canvas, Rect.Left, Rect.Top, Index) in OnDrawColumnCell: the image instead of the text
+                <span className="cell-img" style={{ width: st.image.cx, height: st.image.cy,
+                  backgroundImage: `url(${GEN_BASE + st.image.sprite})`, backgroundPosition: `-${st.image.index * st.image.cx}px 0` }} />
               ) : f?.fieldType === 'boolean' ? (v ? '✓' : '') : text}
             </td>
           );
@@ -932,7 +940,14 @@ function GridView({ g, p, r }: { g: TDBGrid; p: Common; r: Rect }) {
           <thead>
             <tr>
               {ind ? <th className="ind" /> : null}
-              {cols.map((c, i) => <th key={i} title={c.DisplayName} onClick={() => run(g.userTitleClick(i), g.Name)} style={{ textAlign: c.Title.Alignment === 'tarightjustify' ? 'right' : c.Title.Alignment === 'tacenter' ? 'center' : undefined }}>{c.Title.Caption || c.Field?.DisplayLabel || c.FieldName}{c.Title.SortMarker === 'smdowneh' ? ' ▼' : c.Title.SortMarker === 'smupeh' ? ' ▲' : ''}</th>)}
+              {cols.map((c, i) => {
+                // TColumnTitle Color / Font (navy captions, coloured headers), kept readable on the header background
+                const tBg = explicitRgb(c.Title.Color);
+                const tFg = c.Title.Font && c.Title.Font.Color !== 0 ? explicitRgb(c.Title.Font.Color) : undefined;
+                const tBold = (c.Title.Font?.Style ?? []).some((s: string) => String(s).toLowerCase() === 'fsbold');
+                return <th key={i} title={c.DisplayName} onClick={() => run(g.userTitleClick(i), g.Name)} style={{ textAlign: c.Title.Alignment === 'tarightjustify' ? 'right' : c.Title.Alignment === 'tacenter' ? 'center' : undefined,
+                  background: tBg !== undefined ? toCss(tBg) : undefined, color: readableText(tFg, tBg), fontWeight: tBold ? 700 : undefined }}>{c.Title.Caption || c.Field?.DisplayLabel || c.FieldName}{c.Title.SortMarker === 'smdowneh' ? ' ▼' : c.Title.SortMarker === 'smupeh' ? ' ▲' : ''}</th>;
+              })}
               <th style={{ borderRight: 0 }} />
             </tr>
           </thead>

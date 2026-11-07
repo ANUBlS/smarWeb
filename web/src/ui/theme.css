@@ -311,3 +311,6 @@ body.busy, body.busy * { cursor: progress !important; }
 .v-lookup-drop .li span:first-child { flex: none; min-width: 40%; }
 .v-lookup-drop .li.sel { font-weight: 600; }
 .v-lookup-drop .li.hi { background: var(--accent); color: var(--accent-fg); }
+
+/* image drawn by OnDrawColumnCell (ImageList.Draw on the cell canvas) */
+.v-grid td .cell-img { display: inline-block; vertical-align: middle; background-repeat: no-repeat; }

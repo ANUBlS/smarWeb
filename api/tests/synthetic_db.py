@@ -142,6 +142,26 @@ def learn_dfm_fields():
                 TABLE_COLS.setdefault(t, set()).update(n.upper() for n in cols if n and re.fullmatch(r'[A-Za-z_][\w$#]*', n))
 
 
+
+def top_select(sql: str) -> str:
+    """The outermost select list (text between SELECT and its FROM at parenthesis depth 0): aggregates in
+    sub-selects (… (select count(*) …) as n …) do not make a one-row result."""
+    m = re.search(r'\bselect\b', sql, re.I)
+    if not m:
+        return ''
+    depth, i = 0, m.end()
+    low = sql.lower()
+    while i < len(sql):
+        ch = sql[i]
+        if ch == '(':
+            depth += 1
+        elif ch == ')':
+            depth -= 1
+        elif depth == 0 and low.startswith('from', i) and (i == 0 or not (low[i - 1].isalnum() or low[i - 1] == '_')):
+            return sql[m.end():i]
+        i += 1
+    return sql[m.end():]
+
 def select_list(sql: str) -> list[str]:
     s = re.sub(r'--[^\n]*|/\*.*?\*/', ' ', sql, flags=re.S)
     s = re.sub(r'^\s*\(+', '', s)  # (select filialid from …)
@@ -223,7 +243,9 @@ class SyntheticCursor(FakeCursor):
             names = select_list(sql) or ['VALUE']
             types = [guess(n) for n in names]
             cols = [(n, {'INT': 'NUMBER', 'ROWID': 'ROWID'}.get(t, t)) + ((10, 0) if t == 'INT' else ()) for n, t in zip(names, types)]
-            one = bool(re.search(r'\bfrom\s+dual\b', sql, re.I)) or re.search(r'\b(count|sum|max|min)\s*\(', sql, re.I)
+            head = top_select(sql)
+            rest = sql[sql.find(head) + len(head):] if head else sql
+            one = bool(re.match(r'\s*from\s+dual\b', rest, re.I)) or bool(re.search(r'\b(count|sum|max|min)\s*\(', head, re.I))
             # -1 is the code's "nothing" key (MedioCrity = :AccountSide with -1 …): real tables have no such rows
             vals = [getattr(v, 'value', v) for v in dict(binds or {}, **kw).values()]
             n = 0 if any(v == -1 for v in vals) else 1 if one else SYNTH_ROWS

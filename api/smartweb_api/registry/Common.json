@@ -9659,6 +9659,7 @@
   "delete from wares_all_trans",
   "select * from SMART.EXTRACTION order by accountnumber",
   "select * from SMART.EXTRACTIONTRANS",
+  "select alias from world_chek where",
   "select card_exchange_FILES.rowid,card_exchange_FILES.* from card_exchange_FILES",
   "select card_messages_c.rowid,card_messages_c.* from card_messages_c",
   "select g.name,g.id,w.* from groups g,wares_all w where g.id=w.groups_id order by g.id",

@@ -13,6 +13,7 @@ const RULES: [RegExp, LucideIcon][] = [
   [/(delete|remove|^sil|silmək|sil$|ləğv et)/i, Trash2],
   [/(refresh|yenilə|yenile|reload|requery)/i, RefreshCw],
   [/(filter|filtr|süzgəc)/i, Filter],
+  [/(sığorta|sigorta|insurance)/i, ShieldCheck],
   [/(print|çap|cap |preview)/i, Printer],
   [/(excel|export|ixrac|xls)/i, FileSpreadsheet],
   [/(save|yadda|saxla|post$|qeyd et)/i, Save],

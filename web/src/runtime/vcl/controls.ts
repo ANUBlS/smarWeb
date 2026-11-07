@@ -1275,7 +1275,14 @@ export class TImageList extends TComponent {
     return !!b;
   }
   async GetIcon(index: unknown, target: unknown) { return this.GetBitmap(index, target); }
-  Draw() { /* canvas drawing is not emulated */ }
+  /** ImageList.Draw(Canvas, X, Y, Index[, Enabled]): on a grid cell's canvas (OnDrawColumnCell) the image is
+   *  shown in that cell; other canvases are not emulated. */
+  Draw(canvas?: unknown, _x?: unknown, _y?: unknown, index?: unknown) {
+    const cell = (canvas as any)?.__cell;
+    const i = num(index);
+    if (cell && this.Bitmap.Sprite && i >= 0 && i < (this.Bitmap.Count || 0))
+      cell.image = { sprite: this.Bitmap.Sprite, index: i, cx: this.Bitmap.Cx || this.Width, cy: this.Bitmap.Cy || this.Height };
+  }
   Add() { this.added++; return this.Count - 1; }
   AddIcon() { this.added++; return this.Count - 1; }
   Clear() { this.added = 0; this.Bitmap = { ...this.Bitmap, Count: 0 }; }

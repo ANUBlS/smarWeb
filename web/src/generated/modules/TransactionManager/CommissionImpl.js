@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("CommissionImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "StdCtrls", "Grids", "DBGrids", "Mask", "DBCtrls", "TransactionDataModuleUnit", "TransactionManagerImpl", "TransactionPropertiesImpl"]);
+  const U = $.unit("CommissionImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "StdCtrls", "Grids", "DBGrids", "Mask", "DBCtrls", "TransactionDataModuleUnit", "TransactionManagerImpl", "TransactionPropertiesImpl", "sboapiDataModuleImpl", "SBTranslateProc"]);
   const C = [U];
   U.defClass("TCommissionForm", "TForm", {"panel1": {"name": "Panel1", "type": "TPanel"}, "panel2": {"name": "Panel2", "type": "TPanel"}, "gridcommission": {"name": "GridCommission", "type": "TDBGrid"}, "panel3": {"name": "Panel3", "type": "TPanel"}, "buttonrefresh": {"name": "ButtonRefresh", "type": "TButton"}, "buttonclose": {"name": "ButtonClose", "type": "TButton"}, "panel4": {"name": "Panel4", "type": "TPanel"}, "panel5": {"name": "Panel5", "type": "TPanel"}, "panel6": {"name": "Panel6", "type": "TPanel"}, "dbedit1": {"name": "DBEdit1", "type": "TDBEdit"}, "dbedit2": {"name": "DBEdit2", "type": "TDBEdit"}, "button3": {"name": "Button3", "type": "TButton"}}, {});
   U.init(async () => {
@@ -99,5 +99,12 @@ export default function define($) {
   }
   return L0.result;
 }, {"params": ["Sender", "Action"], "kind": "procedure", "ptypes": ["TObject", "TCloseAction"]});
+  U.method("TCommissionForm", "FormCreate", async function FormCreate(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   return U;
 }

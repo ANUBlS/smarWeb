@@ -89,7 +89,8 @@ export async function callValue(f: unknown, args: unknown[]): Promise<unknown> {
   if (args.length === 0) return f;
   // Variant arrays / indexed default property used with () syntax
   if (isPObj(f) && typeof (f as any).pindex === 'function') return (f as any).pindex(args);
-  throw new PasException('EInvalidOp', `Value is not callable`, ['exception']);
+  const what = f === null || f === undefined ? String(f) : (f as any).ClassName ?? (f as any).constructor?.name ?? typeof f;
+  throw new PasException('EInvalidOp', `Value is not callable (${what}${typeof f === 'object' && f ? ', ' + Object.keys(f).slice(0, 4).join(',') : ''})`, ['exception']);
 }
 
 const STATICS = new Map<string, unknown>();
