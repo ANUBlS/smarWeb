@@ -3,19 +3,12 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("CreditPropertiesUnitImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "Buttons", "ComCtrls", "Grids", "DBGridEh", "DatModAexUnitImpl", "SBTranslateProc", "sboapiDataModuleImpl"]);
+  const U = $.unit("CreditPropertiesUnitImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "NLSLocalizer", "StdCtrls", "Buttons", "ComCtrls", "Grids", "DBGridEh", "DatModAexUnitImpl"]);
   const C = [U];
-  U.defClass("TFrmCreditProperties", "TForm", {"pccreditproperties": {"name": "PCCreditProperties", "type": "TPageControl"}, "bitbtn1": {"name": "BitBtn1", "type": "TBitBtn"}, "tabsheet1": {"name": "TabSheet1", "type": "TTabSheet"}, "tabsheet2": {"name": "TabSheet2", "type": "TTabSheet"}, "dbgrideh1": {"name": "DBGridEh1", "type": "TDBGridEh"}, "dbgrideh2": {"name": "DBGridEh2", "type": "TDBGridEh"}, "tabsheet3": {"name": "TabSheet3", "type": "TTabSheet"}, "dbgrideh3": {"name": "DBGridEh3", "type": "TDBGridEh"}, "tabsheet4": {"name": "TabSheet4", "type": "TTabSheet"}, "dbgrideh4": {"name": "DBGridEh4", "type": "TDBGridEh"}}, {});
+  U.defClass("TFrmCreditProperties", "TForm", {"nlscreditproperties": {"name": "NLSCreditProperties", "type": "TNLSLocalizer"}, "pccreditproperties": {"name": "PCCreditProperties", "type": "TPageControl"}, "bitbtn1": {"name": "BitBtn1", "type": "TBitBtn"}, "tabsheet1": {"name": "TabSheet1", "type": "TTabSheet"}, "tabsheet2": {"name": "TabSheet2", "type": "TTabSheet"}, "dbgrideh1": {"name": "DBGridEh1", "type": "TDBGridEh"}, "dbgrideh2": {"name": "DBGridEh2", "type": "TDBGridEh"}, "tabsheet3": {"name": "TabSheet3", "type": "TTabSheet"}, "dbgrideh3": {"name": "DBGridEh3", "type": "TDBGridEh"}, "tabsheet4": {"name": "TabSheet4", "type": "TTabSheet"}, "dbgrideh4": {"name": "DBGridEh4", "type": "TDBGridEh"}}, {});
   U.init(async () => {
     U.var_("FrmCreditProperties", null, "TFrmCreditProperties");
   });
-  U.method("TFrmCreditProperties", "FormCreate", async function FormCreate(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["sender"]);
-  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
-  return L0.result;
-}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TFrmCreditProperties", "FormKeyPress", async function FormKeyPress(Self, p0, p1) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};

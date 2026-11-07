@@ -3,9 +3,9 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("CustanalysUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "Grids", "DBGridEh", "Buttons", "StdCtrls", "ComCtrls", "ImgList", "ToolWin", "PluginToolBar", "ActnList", "DBCtrls", "CMExcelExport", "CheckLst", "Evanescence", "Mask", "DBCtrlsEh", "DBLookupEh", "oracledata", "oracle", "Menus", "DB", "DBGridEhGrouping", "GridsEh", "CustAnalysDataModuleImpl", "Filterunit", "CommonDecls", "CreditsinDateUnit", "DateintervalUnit", "PaymentsUnit", "SBSystem", "CreditUnit", "sboapiDataModuleImpl", "SBTranslateProc", "PayImpl"]);
+  const U = $.unit("CustanalysUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "Grids", "DBGridEh", "Buttons", "StdCtrls", "ComCtrls", "ImgList", "ToolWin", "PluginToolBar", "ActnList", "DBCtrls", "CMExcelExport", "CheckLst", "Evanescence", "Mask", "DBCtrlsEh", "DBLookupEh", "oracledata", "oracle", "Menus", "DB", "CustAnalysDataModuleImpl", "Filterunit", "CommonDecls", "CreditsinDateUnit", "DateintervalUnit", "PaymentsUnit", "sbsystem", "CreditUnit"]);
   const C = [U];
-  U.defClass("TCustanalysForm", "TForm", {"mainpanel": {"name": "MainPanel", "type": "TPanel"}, "plugintoolbar1": {"name": "PluginToolBar1", "type": "TPluginToolBar"}, "imagelist1": {"name": "ImageList1", "type": "TImageList"}, "custpanel": {"name": "CustPanel", "type": "TPanel"}, "dbgrideh1": {"name": "DBGridEh1", "type": "TDBGridEh"}, "actionlist": {"name": "ActionList", "type": "TActionList"}, "imagelist2": {"name": "ImageList2", "type": "TImageList"}, "toolbutton6": {"name": "ToolButton6", "type": "TToolButton"}, "actionclose": {"name": "ActionClose", "type": "TAction"}, "actionexcelexport": {"name": "ActionExcelExport", "type": "TAction"}, "toolbutton8": {"name": "ToolButton8", "type": "TToolButton"}, "excelexport": {"name": "ExcelExport", "type": "TCMExcelExport"}, "toolbutton9": {"name": "ToolButton9", "type": "TToolButton"}, "actionsearchcust": {"name": "ActionSearchCust", "type": "TAction"}, "actionfilteaccept": {"name": "ActionFilteAccept", "type": "TAction"}, "actionfilterreject": {"name": "ActionFilterReject", "type": "TAction"}, "searchpanel": {"name": "SearchPanel", "type": "TGroupBox"}, "panel13": {"name": "Panel13", "type": "TPanel"}, "statictext4": {"name": "StaticText4", "type": "TStaticText"}, "editboorowername": {"name": "Editboorowername", "type": "TEdit"}, "panel14": {"name": "Panel14", "type": "TPanel"}, "statictext5": {"name": "StaticText5", "type": "TStaticText"}, "editboorowerid": {"name": "EditBoorowerid", "type": "TEdit"}, "toolbutton3": {"name": "ToolButton3", "type": "TToolButton"}, "toolbutton7": {"name": "ToolButton7", "type": "TToolButton"}, "actiondateinterval": {"name": "ActionDateinterval", "type": "TAction"}, "action1": {"name": "Action1", "type": "TAction"}, "popupmenu2": {"name": "PopupMenu2", "type": "TPopupMenu"}, "n3": {"name": "N3", "type": "TMenuItem"}, "n4": {"name": "N4", "type": "TMenuItem"}, "n5": {"name": "N5", "type": "TMenuItem"}, "toolbutton1": {"name": "ToolButton1", "type": "TToolButton"}, "label1": {"name": "Label1", "type": "TLabel"}, "dblookupcombobox1": {"name": "DBLookupComboBox1", "type": "TDBLookupComboBox"}, "checkbox1": {"name": "CheckBox1", "type": "TCheckBox"}, "ffiltergrid": {"name": "FFilterGrid", "type": "TDBGridEh"}}, {});
+  U.defClass("TCustanalysForm", "TForm", {"mainpanel": {"name": "MainPanel", "type": "TPanel"}, "plugintoolbar1": {"name": "PluginToolBar1", "type": "TPluginToolBar"}, "imagelist1": {"name": "ImageList1", "type": "TImageList"}, "custpanel": {"name": "CustPanel", "type": "TPanel"}, "dbgrideh1": {"name": "DBGridEh1", "type": "TDBGridEh"}, "actionlist": {"name": "ActionList", "type": "TActionList"}, "imagelist2": {"name": "ImageList2", "type": "TImageList"}, "toolbutton6": {"name": "ToolButton6", "type": "TToolButton"}, "actionclose": {"name": "ActionClose", "type": "TAction"}, "actionexcelexport": {"name": "ActionExcelExport", "type": "TAction"}, "toolbutton8": {"name": "ToolButton8", "type": "TToolButton"}, "excelexport": {"name": "ExcelExport", "type": "TCMExcelExport"}, "toolbutton9": {"name": "ToolButton9", "type": "TToolButton"}, "actionsearchcust": {"name": "ActionSearchCust", "type": "TAction"}, "actionfilteaccept": {"name": "ActionFilteAccept", "type": "TAction"}, "actionfilterreject": {"name": "ActionFilterReject", "type": "TAction"}, "searchpanel": {"name": "SearchPanel", "type": "TGroupBox"}, "panel13": {"name": "Panel13", "type": "TPanel"}, "statictext4": {"name": "StaticText4", "type": "TStaticText"}, "editboorowername": {"name": "Editboorowername", "type": "TEdit"}, "panel14": {"name": "Panel14", "type": "TPanel"}, "statictext5": {"name": "StaticText5", "type": "TStaticText"}, "editboorowerid": {"name": "EditBoorowerid", "type": "TEdit"}, "toolbutton3": {"name": "ToolButton3", "type": "TToolButton"}, "toolbutton7": {"name": "ToolButton7", "type": "TToolButton"}, "actiondateinterval": {"name": "ActionDateinterval", "type": "TAction"}, "action1": {"name": "Action1", "type": "TAction"}, "popupmenu2": {"name": "PopupMenu2", "type": "TPopupMenu"}, "n3": {"name": "N3", "type": "TMenuItem"}, "n4": {"name": "N4", "type": "TMenuItem"}, "n5": {"name": "N5", "type": "TMenuItem"}, "toolbutton1": {"name": "ToolButton1", "type": "TToolButton"}, "ffiltergrid": {"name": "FFilterGrid", "type": "TDBGridEh"}}, {});
   U.init(async () => {
     U.var_("CustanalysForm", null, "TCustanalysForm");
   });
@@ -125,7 +125,6 @@ export default function define($) {
       await $.set(C, "DateintervalForm", (await $.mcall((await $.v(C, "TDateintervalForm")), "Create", [Self])));
       await $.set(C, "PaymentsForm", (await $.mcall((await $.v(C, "TPaymentsForm")), "Create", [Self])));
       await $.set(C, "CreditinDateForm", (await $.mcall((await $.v(C, "TCreditinDateForm")), "Create", [Self])));
-      await $.set(C, "PayForm", (await $.mcall((await $.v(C, "TPayForm")), "Create", [Self])));
       {
         const $t16 = (await $.wobj(C, "CustAnalysDataModule"));
         {
@@ -160,7 +159,6 @@ export default function define($) {
   } finally {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crDefault")));
   }
-  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TCustanalysForm", "FormDestroy", async function FormDestroy(Self, p0) {
@@ -224,31 +222,11 @@ export default function define($) {
   await $.stmt((await $.call(C, "FindNextRecord", [(await $.mv((await $.v(C, "CustAnalysDataModule")), "CustAnalysDataSet")), L0["searchfield"], L0["searchrecord"]])));
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
-  U.method("TCustanalysForm", "CheckBox1Click", async function CheckBox1Click(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["sender"]);
-  {
-    const $t21 = (await $.mv((await $.v(C, "CustAnalysDataModule")), "CustAnalysDataSet"));
-    if ($.truthy((await $.mv((await $.wv([$t21], "CheckBox1", C, false)), "Checked")))) {
-      if ($.truthy($.ne((await $.mv((await $.wv([$t21], "DBLookupComboBox1", C, false)), "Text")), ""))) {
-        await $.wset([$t21], "Filter", $.add(" expertid=", (await $.wcall([$t21], "inttostr", [(await $.mv((await $.wv([$t21], "DBLookupComboBox1", C, false)), "KeyValue"))], C))), C);
-        await $.wset([$t21], "Filtered", (await $.wv([$t21], "False", C, false)), C);
-        await $.wset([$t21], "Filtered", (await $.wv([$t21], "True", C, false)), C);
-      }
-    } else {
-      await $.wset([$t21], "Filtered", (await $.wv([$t21], "False", C, false)), C);
-    }
-  }
-  return L0.result;
-}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TCustanalysForm", "EditBooroweridKeyPress", async function EditBooroweridKeyPress(Self, p0, p1) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy((await $.and_(($.eq((await L0["key"].get()), "\r")), async () => ($.ne((await $.mv((await $.v(C, "EditBoorowerid")), "Text")), "")))))) {
-    await $.mset((await $.v(C, "Editboorowername")), "Text", "");
-    await $.stmt((await $.call(C, "EditboorowernameKeyPress", [L0["sender"], $.ref(async () => (await L0["key"].get()), async ($t22) => { await L0["key"].set($t22); })])));
     await $.stmt((await $.call(C, "ActionSearchCustExecute", [L0["sender"]])));
   }
   return L0.result;
@@ -265,16 +243,7 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await L0["key"].get()), "\r"))) {
-    {
-      const $t23 = (await $.wobj(C, "CustAnalysDataModule"));
-      const $t24 = (await $.wv([$t23], "CustAnalysDataSet", C, false));
-      await $.stmt($.wcall([$t23, $t24], "close", [], C));
-      { const $t25 = await $.iset((await $.wv([$t23, $t24], "SQL", C, false)), [5], ""); if ($t25 !== undefined) { await $.wset([$t23, $t24], "SQL", $t25, C); } }
-      if ($.truthy($.ne((await $.mv((await $.wv([$t23, $t24], "Editboorowername", C, false)), "Text")), ""))) {
-        { const $t26 = await $.iset((await $.wv([$t23, $t24], "SQL", C, false)), [5], $.add($.add($.add((await $.idx((await $.wv([$t23, $t24], "SQL", C, false)), [5])), " and nvl(upper(name),0) like upper ('%"), (await $.mv((await $.wv([$t23, $t24], "Editboorowername", C, false)), "Text"))), "%')")); if ($t26 !== undefined) { await $.wset([$t23, $t24], "SQL", $t26, C); } }
-      }
-      await $.stmt($.wcall([$t23, $t24], "open", [], C));
-    }
+    await $.stmt((await $.call(C, "ActionSearchCustExecute", [L0["sender"]])));
   }
   return L0.result;
 }, {"params": ["Sender", "Key"], "kind": "procedure", "ptypes": ["TObject", "Char"]});
@@ -282,6 +251,7 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
+  await $.mset((await $.v(C, "Editboorowername")), "Text", "");
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TCustanalysForm", "ActionDateintervalExecute", async function ActionDateintervalExecute(Self, p0) {
@@ -311,8 +281,8 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t27 = (L0["sender"]);
-    await $.wset([$t27], "Text", "", C);
+    const $t21 = (L0["sender"]);
+    await $.wset([$t21], "Text", "", C);
   }
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
@@ -331,12 +301,12 @@ export default function define($) {
   await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
   try {
     {
-      const $t28 = (await $.call(C, "TOracleDataSet", [(await $.mv((await $.mv((await $.v(C, "DBGridEh1")), "DataSource")), "DataSet"))]));
-      if ($.truthy((await $.wv([$t28], "Active", C, false)))) {
-        await $.stmt($.wcall([$t28], "CloseAll", [], C));
+      const $t22 = (await $.call(C, "TOracleDataSet", [(await $.mv((await $.mv((await $.v(C, "DBGridEh1")), "DataSource")), "DataSet"))]));
+      if ($.truthy((await $.wv([$t22], "Active", C, false)))) {
+        await $.stmt($.wcall([$t22], "CloseAll", [], C));
       }
-      await $.stmt((await $.wcall([$t28], "SetVariable", ["OrderField", (await $.wv([$t28], "OrderField", { get: async () => L0["orderfield"], set: async (v) => { L0["orderfield"] = v; }, local: true }, false))], C)));
-      await $.stmt($.wcall([$t28], "Open", [], C));
+      await $.stmt((await $.wcall([$t22], "SetVariable", ["OrderField", (await $.wv([$t22], "OrderField", { get: async () => L0["orderfield"], set: async (v) => { L0["orderfield"] = v; }, local: true }, false))], C)));
+      await $.stmt($.wcall([$t22], "Open", [], C));
     }
   } finally {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crDefault")));
@@ -374,13 +344,13 @@ export default function define($) {
   try {
     await $.mset((await $.v(C, "Screen")), "Cursor", (await $.v(C, "crSQLWait")));
     {
-      const $t29 = (await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSet"));
-      if ($.truthy((await $.wv([$t29], "Active", C, false)))) {
-        await $.stmt($.wcall([$t29], "CloseAll", [], C));
+      const $t23 = (await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSet"));
+      if ($.truthy((await $.wv([$t23], "Active", C, false)))) {
+        await $.stmt($.wcall([$t23], "CloseAll", [], C));
       }
-      await $.stmt((await $.wcall([$t29], "SetVariable", ["boorowerid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t29], "CustAnalysDataModule", C, false)), "CustAnalysDataSet")), "FieldByName", ["BoorowerId"])), "asInteger"))], C)));
-      await $.stmt((await $.wcall([$t29], "SetVariable", ["orderfield", "numberofcredit"], C)));
-      await $.stmt($.wcall([$t29], "Open", [], C));
+      await $.stmt((await $.wcall([$t23], "SetVariable", ["boorowerid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t23], "CustAnalysDataModule", C, false)), "CustAnalysDataSet")), "FieldByName", ["BoorowerId"])), "asInteger"))], C)));
+      await $.stmt((await $.wcall([$t23], "SetVariable", ["orderfield", "numberofcredit"], C)));
+      await $.stmt($.wcall([$t23], "Open", [], C));
     }
     await $.mcall((await $.v(C, "CreditForm")), "ShowModal", []);
   } finally {
@@ -394,13 +364,13 @@ export default function define($) {
   await $.fixArgs(L0, ["sender"]);
   if ($.truthy($.eq((await $.call(C, "ord", [(await L0["key"].get())])), (await $.v(C, "VK_RETURN"))))) {
     {
-      const $t30 = (await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSet"));
-      if ($.truthy((await $.wv([$t30], "Active", C, false)))) {
-        await $.stmt($.wcall([$t30], "CloseAll", [], C));
+      const $t24 = (await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSet"));
+      if ($.truthy((await $.wv([$t24], "Active", C, false)))) {
+        await $.stmt($.wcall([$t24], "CloseAll", [], C));
       }
-      await $.stmt((await $.wcall([$t30], "SetVariable", ["boorowerid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t30], "CustAnalysDataModule", C, false)), "CustAnalysDataSet")), "FieldByName", ["BoorowerId"])), "asInteger"))], C)));
-      await $.stmt((await $.wcall([$t30], "SetVariable", ["orderfield", "numberofcredit"], C)));
-      await $.stmt($.wcall([$t30], "Open", [], C));
+      await $.stmt((await $.wcall([$t24], "SetVariable", ["boorowerid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t24], "CustAnalysDataModule", C, false)), "CustAnalysDataSet")), "FieldByName", ["BoorowerId"])), "asInteger"))], C)));
+      await $.stmt((await $.wcall([$t24], "SetVariable", ["orderfield", "numberofcredit"], C)));
+      await $.stmt($.wcall([$t24], "Open", [], C));
     }
     await $.mcall((await $.v(C, "CreditForm")), "ShowModal", []);
   }
@@ -411,13 +381,13 @@ export default function define($) {
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
   {
-    const $t31 = (await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSet"));
-    if ($.truthy((await $.wv([$t31], "Active", C, false)))) {
-      await $.stmt($.wcall([$t31], "CloseAll", [], C));
+    const $t25 = (await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSet"));
+    if ($.truthy((await $.wv([$t25], "Active", C, false)))) {
+      await $.stmt($.wcall([$t25], "CloseAll", [], C));
     }
-    await $.stmt((await $.wcall([$t31], "SetVariable", ["boorowerid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t31], "CustAnalysDataModule", C, false)), "CustAnalysDataSet")), "FieldByName", ["BoorowerId"])), "asInteger"))], C)));
-    await $.stmt((await $.wcall([$t31], "SetVariable", ["orderfield", "numberofcredit"], C)));
-    await $.stmt($.wcall([$t31], "Open", [], C));
+    await $.stmt((await $.wcall([$t25], "SetVariable", ["boorowerid", (await $.mv((await $.mcall((await $.mv((await $.wv([$t25], "CustAnalysDataModule", C, false)), "CustAnalysDataSet")), "FieldByName", ["BoorowerId"])), "asInteger"))], C)));
+    await $.stmt((await $.wcall([$t25], "SetVariable", ["orderfield", "numberofcredit"], C)));
+    await $.stmt($.wcall([$t25], "Open", [], C));
   }
   await $.mcall((await $.v(C, "CreditForm")), "ShowModal", []);
   return L0.result;

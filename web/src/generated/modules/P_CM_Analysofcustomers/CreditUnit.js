@@ -3,9 +3,9 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("CreditUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Grids", "DBGridEh", "StdCtrls", "ComCtrls", "ImgList", "ToolWin", "PluginToolBar", "oracle", "db", "oracledata", "ActnList", "ExtCtrls", "Menus", "Mask", "DBCtrlsEh", "CMExcelExport", "DBGridEhGrouping", "GridsEh", "DBCtrls", "CustAnalysDataModuleImpl", "FilterUnit", "PaymentsUnit", "DateintervalUnit", "sboapiDataModuleImpl", "SBTranslateProc", "PayImpl", "ReturnTr"]);
+  const U = $.unit("CreditUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Grids", "DBGridEh", "StdCtrls", "ComCtrls", "ImgList", "ToolWin", "PluginToolBar", "oracle", "db", "oracledata", "ActnList", "ExtCtrls", "Menus", "Mask", "DBCtrlsEh", "CMExcelExport", "CustAnalysDataModuleImpl", "FilterUnit", "PaymentsUnit", "DateintervalUnit"]);
   const C = [U];
-  U.defClass("TCreditForm", "TForm", {"plugintoolbar1": {"name": "PluginToolBar1", "type": "TPluginToolBar"}, "imagelist1": {"name": "ImageList1", "type": "TImageList"}, "toolbutton1": {"name": "ToolButton1", "type": "TToolButton"}, "toolbutton2": {"name": "ToolButton2", "type": "TToolButton"}, "toolbutton3": {"name": "ToolButton3", "type": "TToolButton"}, "toolbutton4": {"name": "ToolButton4", "type": "TToolButton"}, "toolbutton5": {"name": "ToolButton5", "type": "TToolButton"}, "actionlist1": {"name": "ActionList1", "type": "TActionList"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "dbgridehcredit": {"name": "DBGridEhCredit", "type": "TDBGridEh"}, "searchpanel": {"name": "SearchPanel", "type": "TGroupBox"}, "panel10": {"name": "Panel10", "type": "TPanel"}, "statictext1": {"name": "StaticText1", "type": "TStaticText"}, "editcontractaccno": {"name": "EditCONTRACTACCNO", "type": "TEdit"}, "panel11": {"name": "Panel11", "type": "TPanel"}, "statictext2": {"name": "StaticText2", "type": "TStaticText"}, "editrest": {"name": "Editrest", "type": "TEdit"}, "panel12": {"name": "Panel12", "type": "TPanel"}, "statictext3": {"name": "StaticText3", "type": "TStaticText"}, "editnumberofcredit": {"name": "Editnumberofcredit", "type": "TEdit"}, "groupbox2": {"name": "GroupBox2", "type": "TGroupBox"}, "dbediteh1": {"name": "DBEditEh1", "type": "TDBEditEh"}, "toolbutton6": {"name": "ToolButton6", "type": "TToolButton"}, "toolbutton7": {"name": "ToolButton7", "type": "TToolButton"}, "toolbutton8": {"name": "ToolButton8", "type": "TToolButton"}, "toolbutton9": {"name": "ToolButton9", "type": "TToolButton"}, "actionsearch": {"name": "ActionSearch", "type": "TAction"}, "actionpayments": {"name": "Actionpayments", "type": "TAction"}, "reppopupmenu": {"name": "REpPopupMenu", "type": "TPopupMenu"}, "n1": {"name": "N1", "type": "TMenuItem"}, "cmexcelexport": {"name": "CMExcelExport", "type": "TCMExcelExport"}, "v": {"name": "v", "type": "TToolButton"}, "toolbutton10": {"name": "ToolButton10", "type": "TToolButton"}, "toolbutton11": {"name": "ToolButton11", "type": "TToolButton"}, "toolbutton12": {"name": "ToolButton12", "type": "TToolButton"}, "label1": {"name": "Label1", "type": "TLabel"}, "dbtext1": {"name": "DBText1", "type": "TDBText"}}, {});
+  U.defClass("TCreditForm", "TForm", {"plugintoolbar1": {"name": "PluginToolBar1", "type": "TPluginToolBar"}, "imagelist1": {"name": "ImageList1", "type": "TImageList"}, "toolbutton1": {"name": "ToolButton1", "type": "TToolButton"}, "toolbutton2": {"name": "ToolButton2", "type": "TToolButton"}, "toolbutton3": {"name": "ToolButton3", "type": "TToolButton"}, "toolbutton4": {"name": "ToolButton4", "type": "TToolButton"}, "toolbutton5": {"name": "ToolButton5", "type": "TToolButton"}, "actionlist1": {"name": "ActionList1", "type": "TActionList"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "dbgridehcredit": {"name": "DBGridEhCredit", "type": "TDBGridEh"}, "searchpanel": {"name": "SearchPanel", "type": "TGroupBox"}, "panel10": {"name": "Panel10", "type": "TPanel"}, "statictext1": {"name": "StaticText1", "type": "TStaticText"}, "editcontractaccno": {"name": "EditCONTRACTACCNO", "type": "TEdit"}, "panel11": {"name": "Panel11", "type": "TPanel"}, "statictext2": {"name": "StaticText2", "type": "TStaticText"}, "editrest": {"name": "Editrest", "type": "TEdit"}, "panel12": {"name": "Panel12", "type": "TPanel"}, "statictext3": {"name": "StaticText3", "type": "TStaticText"}, "editnumberofcredit": {"name": "Editnumberofcredit", "type": "TEdit"}, "groupbox2": {"name": "GroupBox2", "type": "TGroupBox"}, "dbediteh1": {"name": "DBEditEh1", "type": "TDBEditEh"}, "toolbutton6": {"name": "ToolButton6", "type": "TToolButton"}, "toolbutton7": {"name": "ToolButton7", "type": "TToolButton"}, "toolbutton8": {"name": "ToolButton8", "type": "TToolButton"}, "toolbutton9": {"name": "ToolButton9", "type": "TToolButton"}, "actionsearch": {"name": "ActionSearch", "type": "TAction"}, "actionpayments": {"name": "Actionpayments", "type": "TAction"}, "reppopupmenu": {"name": "REpPopupMenu", "type": "TPopupMenu"}, "n1": {"name": "N1", "type": "TMenuItem"}, "cmexcelexport": {"name": "CMExcelExport", "type": "TCMExcelExport"}}, {});
   U.init(async () => {
     U.var_("CreditForm", null, "TCreditForm");
   });
@@ -119,13 +119,6 @@ export default function define($) {
   await L0["resize"].set(false);
   return L0.result;
 }, {"params": ["Sender", "NewWidth", "NewHeight", "Resize"], "kind": "procedure", "ptypes": ["TObject", "Integer", "Integer", "Boolean"]});
-  U.method("TCreditForm", "FormCreate", async function FormCreate(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["sender"]);
-  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
-  return L0.result;
-}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TCreditForm", "FormKeyPress", async function FormKeyPress(Self, p0, p1) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};
@@ -135,31 +128,6 @@ export default function define($) {
   }
   return L0.result;
 }, {"params": ["Sender", "Key"], "kind": "procedure", "ptypes": ["TObject", "Char"]});
-  U.method("TCreditForm", "vClick", async function vClick(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["sender"]);
-  await $.mset((await $.mv((await $.v(C, "PayForm")), "Label8")), "Caption", (await $.mv((await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSetMAINPAY")), "AsVariant")));
-  await $.mset((await $.mv((await $.v(C, "PayForm")), "Label9")), "Caption", (await $.mv((await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSetINTERESTREST")), "AsVariant")));
-  await $.mset((await $.mv((await $.v(C, "PayForm")), "Label10")), "Caption", (await $.mv((await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSetDUEREST")), "AsVariant")));
-  await $.mset((await $.mv((await $.v(C, "PayForm")), "Label11")), "Caption", (await $.mv((await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSetDUEINTERESTREST")), "AsVariant")));
-  await $.mset((await $.mv((await $.v(C, "PayForm")), "Label12")), "Caption", (await $.mv((await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSetPENALTYREST")), "AsVariant")));
-  await $.mset((await $.mv((await $.v(C, "PayForm")), "Label13")), "Caption", (await $.mv((await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSetCEMPAY")), "AsVariant")));
-  await $.mcall((await $.v(C, "PayForm")), "ShowModal", []);
-  return L0.result;
-}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
-  U.method("TCreditForm", "ToolButton11Click", async function ToolButton11Click(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["sender"]);
-  await $.mcall((await $.mv((await $.v(C, "CustAnalysDataModule")), "Returntrans")), "CloseAll", []);
-  await $.stmt((await $.mcall((await $.mv((await $.v(C, "CustAnalysDataModule")), "Returntrans")), "SetVariable", ["brid", (await $.mv((await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSetBOOROWERID")), "AsInteger"))])));
-  await $.stmt((await $.mcall((await $.mv((await $.v(C, "CustAnalysDataModule")), "Returntrans")), "SetVariable", ["crid", (await $.mv((await $.mv((await $.v(C, "CustAnalysDataModule")), "CreditAnalysDataSetCREDITID")), "AsInteger"))])));
-  await $.mcall((await $.mv((await $.v(C, "CustAnalysDataModule")), "Returntrans")), "open", []);
-  await $.set(C, "FormReturns", (await $.mcall((await $.v(C, "TFormReturns")), "Create", [Self])));
-  await $.mcall((await $.v(C, "FormReturns")), "showmodal", []);
-  return L0.result;
-}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TCreditForm", "ToolButton1Click", async function ToolButton1Click(Self, p0) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined};

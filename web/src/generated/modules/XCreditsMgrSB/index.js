@@ -1,26 +1,26 @@
 // Generated module manifest
 export default {
  "name": "XCreditsMgrSB",
- "dir": "Packages/SB_Credit/Sm_creditsmgr",
+ "dir": "Packages/SB_Credit/SM_Creditsmgr_nbc/Sm_creditsmgr",
  "mainForm": "TCreditsmgr_sb",
  "units": [
   {
    "unit": "CMMainUnitImpl",
    "file": "CMMainUnitImpl",
    "form": "TCreditsMgrMainDataModule",
-   "ok": 1,
+   "ok": 0,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TCreditsMgrMainDataModule"
    ],
-   "source": "Packages/SB_Credit/Sm_creditsmgr/CMMainUnitImpl.pas"
+   "source": "Packages/SB_Credit/SM_Creditsmgr_nbc/Sm_creditsmgr/CMMainUnitImpl.pas"
   },
   {
    "unit": "CreditsmgrImpl",
    "file": "CreditsmgrImpl",
    "form": "TCreditsmgr_sb",
-   "ok": 64,
+   "ok": 63,
    "fail": 0,
    "activeForm": "TCreditsmgr_sb",
    "classes": [
@@ -28,7 +28,7 @@ export default {
     "TNLSHintWindow",
     "TCreditsmgr_sb"
    ],
-   "source": "Packages/SB_Credit/Sm_creditsmgr/CreditsmgrImpl.pas"
+   "source": "Packages/SB_Credit/SM_Creditsmgr_nbc/Sm_creditsmgr/CreditsmgrImpl.pas"
   }
  ],
  "lib": [
@@ -72,9 +72,9 @@ export default {
   "cm_aebeforeoneday.bpl": "P_CM_AEBeforeOneDay",
   "cm_ak_report.bpl": "P_CM_AK_Report",
   "cm_ak_reports.bpl": "P_CM_AK_Reports",
-  "cm_analysofcustomers.bpl": "P_CM_Analysofcustomers",
+  "cm_analysofcustomers.bpl": "P_CM_Analysofcustomers_2",
   "cm_autoexpires.bpl": "P_CM_AutoExpires",
-  "cm_autoexpiresall.bpl": "P_CM_AutoExpiresAll",
+  "cm_autoexpiresall.bpl": "P_CM_AutoExpiresAll_2",
   "cm_autopayment.bpl": "P_CM_AutoPayment",
   "cm_autoreserve_settings.bpl": "P_Cm_AutoReserve_Settings",
   "cm_bali_src.bpl": "P_CM_Bali_Src",
@@ -135,7 +135,7 @@ export default {
   "cm_penatltysettings.bpl": "P_CM_PenatltySettings",
   "cm_pledge_guarantor.bpl": "P_CM_pledge_guarantor",
   "cm_pledgssorts.bpl": "P_CM_PledgsSorts",
-  "cm_portfel.bpl": "P_CM_Portfel",
+  "cm_portfel.bpl": "P_CM_Portfel_2",
   "cm_portfel_filials.bpl": "P_CM_PortFel_Filials",
   "cm_portokol.bpl": "P_CM_Portokol",
   "cm_prolongation.bpl": "P_CM_Prolongation",
@@ -145,6 +145,7 @@ export default {
   "cm_repcoefficient.bpl": "P_cm_RepCoefficient",
   "cm_repofrestandplanrest.bpl": "P_cm_RepOfRestandPlanRest",
   "cm_report.bpl": "P_CM_Report",
+  "cm_reportofbalance.bpl": "P_CM_ReportofBalance",
   "cm_rereserves.bpl": "P_CM_ReReserves",
   "cm_reserve_cn.bpl": "P_CM_Reserve_CN",
   "cm_reserveinf.bpl": "P_CM_ReserveInf",

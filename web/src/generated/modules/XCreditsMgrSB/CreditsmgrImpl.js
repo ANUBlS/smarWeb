@@ -477,13 +477,6 @@ export default function define($) {
   await $.stmt((await $.call(C, "LogInformation", [" © Smart Systems Technology ltd. ", true])));
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
-  U.method("TCreditsmgr_sb", "MainGridCellClick", async function MainGridCellClick(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"column": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["column"]);
-  await $.set(C, "CommonDBGrid", (await $.v(C, "MainGrid")));
-  return L0.result;
-}, {"params": ["Column"], "kind": "procedure", "ptypes": ["TColumnEh"]});
   U.method("TCreditsmgr_sb", "MainGridDblClick", async function MainGridDblClick(Self, p0) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined, "pluginid": 0, "accessres": false};
@@ -510,13 +503,20 @@ export default function define($) {
   await $.mcall((await $.mv((await $.v(C, "CreditsMgrMainDataModule")), "SeqDataSet")), "open", []);
   {
     const $t13 = L0["sender"];
-    if ($.truthy($.gt((await $.mv((await $.mv((await $.wv([$t13], "DataSource", C, false)), "DataSet")), "RecordCount")), 0))) {
-      await $.wset([$t13], "ImageIndex", (await $.mv((await $.mcall((await $.mv((await $.wv([$t13], "DataSource", C, false)), "DataSet")), "FieldByName", ["STATUS"])), "AsInteger")), { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true });
-      if ($.truthy(($.eq((await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.mv((await $.mcall((await $.mv((await $.wv([$t13], "CreditsMgrMainDataModule", C, false)), "SeqDataSet")), "FieldByName", ["seqno"])), "AsInteger")))))) {
-        await $.stmt((await $.mcall((await $.wv([$t13], "StatusImages", C, false)), "Draw", [(await $.wv([$t13], "Canvas", C, false)), (await $.mv((await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Left")), (await $.mv((await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), "Top")), (await $.wv([$t13], "ImageIndex", { get: async () => L0["imageindex"], set: async (v) => { L0["imageindex"] = v; }, local: true }, false)), (await $.wv([$t13], "True", C, false))])));
-      } else {
-        await $.stmt((await $.wcall([$t13], "DefaultDrawColumnCell", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t13], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
-      }
+    if ($.truthy((await $.and_(($.eq((await $.mv((await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), "INITIALAMOUNT")), async () => ($.eq((await $.mv((await $.mv((await $.wv([$t13], "CreditsMgrMainDataModule", C, false)), "CR_ACTIVECNT")), "AsInteger")), 1)))))) {
+      await $.stmt((await $.wcall([$t13], "DefaultDrawColumnCell", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t13], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
+    }
+    if ($.truthy((await $.and_(($.eq((await $.mv((await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), "INITIALAMOUNT")), async () => ($.eq((await $.mv((await $.mv((await $.wv([$t13], "CreditsMgrMainDataModule", C, false)), "CR_ACTIVECNT")), "AsInteger")), 2)))))) {
+      await $.mset((await $.mv((await $.wv([$t13], "Canvas", C, false)), "Font")), "Color", (await $.wv([$t13], "clGreen", C, false)));
+      await $.mset((await $.mv((await $.wv([$t13], "Canvas", C, false)), "Font")), "Style", [(await $.wv([$t13], "fsBold", C, false))]);
+      await $.stmt((await $.mcall((await $.wv([$t13], "Canvas", C, false)), "FillRect", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false))])));
+      await $.stmt((await $.wcall([$t13], "DefaultDrawColumnCell", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t13], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
+    }
+    if ($.truthy((await $.and_(($.eq((await $.mv((await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), "FieldName")), "INITIALAMOUNT")), async () => ($.ge((await $.mv((await $.mv((await $.wv([$t13], "CreditsMgrMainDataModule", C, false)), "CR_ACTIVECNT")), "AsInteger")), 3)))))) {
+      await $.mset((await $.mv((await $.wv([$t13], "Canvas", C, false)), "Font")), "Color", (await $.wv([$t13], "clRed", C, false)));
+      await $.mset((await $.mv((await $.wv([$t13], "Canvas", C, false)), "Font")), "Style", [(await $.wv([$t13], "fsBold", C, false))]);
+      await $.stmt((await $.mcall((await $.wv([$t13], "Canvas", C, false)), "FillRect", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false))])));
+      await $.stmt((await $.wcall([$t13], "DefaultDrawColumnCell", [(await $.wv([$t13], "Rect", { get: async () => L0["rect"], set: async (v) => { L0["rect"] = v; }, local: true }, false)), (await $.wv([$t13], "DataCol", { get: async () => L0["datacol"], set: async (v) => { L0["datacol"] = v; }, local: true }, false)), (await $.wv([$t13], "Column", { get: async () => L0["column"], set: async (v) => { L0["column"] = v; }, local: true }, false)), (await $.wv([$t13], "State", { get: async () => L0["state"], set: async (v) => { L0["state"] = v; }, local: true }, false))], C)));
     }
   }
   return L0.result;

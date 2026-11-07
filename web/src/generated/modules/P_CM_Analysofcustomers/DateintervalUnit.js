@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("DateintervalUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "StdCtrls", "Buttons", "Mask", "DBCtrlsEh", "ComCtrls", "CustAnalysDataModuleImpl", "sboapiDataModuleImpl", "SBSystem", "SBTranslateProc", "CreditsinDateUnit"]);
+  const U = $.unit("DateintervalUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "StdCtrls", "Buttons", "Mask", "DBCtrlsEh", "ComCtrls", "CustAnalysDataModuleImpl", "sbsystem", "CreditsinDateUnit"]);
   const C = [U];
   U.defClass("TDateintervalForm", "TForm", {"panel1": {"name": "Panel1", "type": "TPanel"}, "statictext1": {"name": "StaticText1", "type": "TStaticText"}, "statictext2": {"name": "StaticText2", "type": "TStaticText"}, "bitbtn1": {"name": "BitBtn1", "type": "TBitBtn"}, "datetimepickerstart": {"name": "DateTimePickerStart", "type": "TDateTimePicker"}, "datetimepickerend": {"name": "DateTimePickerEnd", "type": "TDateTimePicker"}, "bitbtn2": {"name": "BitBtn2", "type": "TBitBtn"}}, {});
   U.init(async () => {
@@ -67,7 +67,6 @@ export default function define($) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), result: undefined};
   await $.fixArgs(L0, ["sender"]);
-  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
   await $.mset((await $.v(C, "DateTimePickerStart")), "Date", (await $.v(C, "Get_CurrentDate")));
   await $.mset((await $.v(C, "DateTimePickerEnd")), "Date", (await $.v(C, "Get_CurrentDate")));
   return L0.result;

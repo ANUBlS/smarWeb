@@ -371,6 +371,14 @@
   "name": "P_CM_Analysofcustomers",
   "caption": "",
   "plugin": true,
+  "datasets": 18,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_Analysofcustomers_2",
+  "caption": "",
+  "plugin": true,
   "datasets": 24,
   "packages": 2,
   "sql": 0
@@ -385,6 +393,14 @@
  },
  {
   "name": "P_CM_AutoExpiresAll",
+  "caption": "",
+  "plugin": true,
+  "datasets": 13,
+  "packages": 0,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_AutoExpiresAll_2",
   "caption": "",
   "plugin": true,
   "datasets": 13,
@@ -792,6 +808,14 @@
   "sql": 0
  },
  {
+  "name": "P_CM_Portfel_2",
+  "caption": "",
+  "plugin": true,
+  "datasets": 14,
+  "packages": 0,
+  "sql": 0
+ },
+ {
   "name": "P_CM_Portokol",
   "caption": "",
   "plugin": true,
@@ -852,6 +876,14 @@
   "caption": "",
   "plugin": true,
   "datasets": 22,
+  "packages": 1,
+  "sql": 0
+ },
+ {
+  "name": "P_CM_ReportofBalance",
+  "caption": "",
+  "plugin": true,
+  "datasets": 7,
   "packages": 1,
   "sql": 0
  },
@@ -2243,7 +2275,7 @@
   "name": "XCreditsMgrSB",
   "caption": "Balans / Kreditlər / Kreditlərin idarə olunması",
   "plugin": false,
-  "datasets": 3,
+  "datasets": 4,
   "packages": 1,
   "sql": 0
  },

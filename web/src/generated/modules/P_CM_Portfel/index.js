@@ -1,7 +1,7 @@
 // Generated module manifest
 export default {
  "name": "P_CM_Portfel",
- "dir": "Packages/SB_Credit/CM_Portfel",
+ "dir": "Packages/CM_Portfel",
  "mainForm": null,
  "units": [
   {
@@ -14,7 +14,7 @@ export default {
    "classes": [
     "TPortfelDataModule"
    ],
-   "source": "Packages/SB_Credit/CM_Portfel/PortfelDataModImpl.pas"
+   "source": "Packages/CM_Portfel/PortfelDataModImpl.pas"
   },
   {
    "unit": "PortfelUnit",
@@ -26,7 +26,7 @@ export default {
    "classes": [
     "TPortfelForm"
    ],
-   "source": "Packages/SB_Credit/CM_Portfel/PortfelUnit.pas"
+   "source": "Packages/CM_Portfel/PortfelUnit.pas"
   },
   {
    "unit": "portfelloader",
@@ -36,7 +36,7 @@ export default {
    "fail": 0,
    "activeForm": null,
    "classes": [],
-   "source": "Packages/SB_Credit/CM_Portfel/portfelloader.pas"
+   "source": "Packages/CM_Portfel/portfelloader.pas"
   }
  ],
  "lib": [

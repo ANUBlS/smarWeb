@@ -1,20 +1,20 @@
 // Generated module manifest
 export default {
  "name": "P_CM_AutoExpiresAll",
- "dir": "Packages/SB_Credit/CM_AutoExpiresAll",
+ "dir": "Packages/Cr_Credit/CR_Filter/CR_AutoExpiresAll",
  "mainForm": null,
  "units": [
   {
    "unit": "CreditPropertiesUnitImpl",
    "file": "CreditPropertiesUnitImpl",
    "form": "TFrmCreditProperties",
-   "ok": 4,
+   "ok": 3,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TFrmCreditProperties"
    ],
-   "source": "Packages/SB_Credit/CM_AutoExpiresAll/CreditPropertiesUnitImpl.pas"
+   "source": "Packages/Cr_Credit/CR_Filter/CR_AutoExpiresAll/CreditPropertiesUnitImpl.pas"
   },
   {
    "unit": "DatModAexUnitImpl",
@@ -26,24 +26,29 @@ export default {
    "classes": [
     "TDatModAex"
    ],
-   "source": "Packages/SB_Credit/CM_AutoExpiresAll/DatModAexUnitImpl.pas"
+   "source": "Packages/Cr_Credit/CR_Filter/CR_AutoExpiresAll/DatModAexUnitImpl.pas"
   },
   {
    "unit": "FrmAExUnitImpl",
    "file": "FrmAExUnitImpl",
    "form": "TFrmAEx",
-   "ok": 23,
+   "ok": 21,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TFrmAEx"
    ],
-   "source": "Packages/SB_Credit/CM_AutoExpiresAll/FrmAExUnitImpl.pas"
+   "source": "Packages/Cr_Credit/CR_Filter/CR_AutoExpiresAll/FrmAExUnitImpl.pas"
   }
  ],
  "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
   "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
   "LogoutputImpl",
+  "OraLogon",
   "OraVariables",
   "SBAccount",
   "SBAlert",
@@ -68,14 +73,14 @@ export default {
   "SBSystem",
   "SBTransaction",
   "SBUtils",
+  "SystemState",
   "TemporaryTransactionsViewFormImpl",
   "UnitChangePasswordForm",
   "UnitSBOraLogOn",
   "sboapiDataModuleImpl"
  ],
  "plugins": {
-  "cm_payment.bpl": "P_CM_Payment",
-  "sb_general.bpl": "P_Sb_General"
+  "cm_payment.bpl": "P_CM_Payment"
  },
  "exports": [
   "ShowExpires",

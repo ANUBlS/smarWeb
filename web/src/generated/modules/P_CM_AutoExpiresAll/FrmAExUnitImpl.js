@@ -3,9 +3,9 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("FrmAExUnitImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ComCtrls", "Grids", "DBGridEh", "ImgList", "ToolWin", "ActnList", "StdCtrls", "CMExcelExport", "oracle", "oracledata", "ExtCtrls", "Mask", "DBCtrlsEh", "DBLookupEh", "Buttons", "DBGridEhGrouping", "GridsEh", "CommonDecls", "SbSystem", "SBTranslateProc", "sboapiDataModuleImpl", "DatModAexUnitImpl", "CreditPropertiesUnitImpl"]);
+  const U = $.unit("FrmAExUnitImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "NLSDialogs", "ComCtrls", "Grids", "DBGridEh", "NLSLocalizer", "ImgList", "ToolWin", "ActnList", "StdCtrls", "CMExcelExport", "oracle", "oracledata", "ExtCtrls", "Mask", "DBCtrlsEh", "DBLookupEh", "Buttons", "CommonDecls", "SystemState", "DatModAexUnitImpl", "CreditPropertiesUnitImpl"]);
   const C = [U];
-  U.defClass("TFrmAEx", "TForm", {"toolbar1": {"name": "ToolBar1", "type": "TToolBar"}, "imagelist1": {"name": "ImageList1", "type": "TImageList"}, "statusbar1": {"name": "StatusBar1", "type": "TStatusBar"}, "actionlist1": {"name": "ActionList1", "type": "TActionList"}, "toolbutton1": {"name": "ToolButton1", "type": "TToolButton"}, "toolbutton2": {"name": "ToolButton2", "type": "TToolButton"}, "toolbutton3": {"name": "ToolButton3", "type": "TToolButton"}, "toolbutton4": {"name": "ToolButton4", "type": "TToolButton"}, "toolbutton5": {"name": "ToolButton5", "type": "TToolButton"}, "toolbutton6": {"name": "ToolButton6", "type": "TToolButton"}, "toolbutton7": {"name": "ToolButton7", "type": "TToolButton"}, "grdate": {"name": "GRDate", "type": "TGroupBox"}, "toolbutton8": {"name": "ToolButton8", "type": "TToolButton"}, "dtpexp": {"name": "DTPExp", "type": "TDateTimePicker"}, "actnrefresh": {"name": "ActnRefresh", "type": "TAction"}, "actncreditproperties": {"name": "ActnCreditProperties", "type": "TAction"}, "excelexport": {"name": "ExcelExport", "type": "TCMExcelExport"}, "actnexport": {"name": "ActnExport", "type": "TAction"}, "panel2": {"name": "Panel2", "type": "TPanel"}, "toolbutton9": {"name": "ToolButton9", "type": "TToolButton"}, "actnsearch": {"name": "ActnSearch", "type": "TAction"}, "toolbutton11": {"name": "ToolButton11", "type": "TToolButton"}, "toolbutton12": {"name": "ToolButton12", "type": "TToolButton"}, "actnfilter": {"name": "ActnFilter", "type": "TAction"}, "panelfilter": {"name": "PanelFilter", "type": "TPanel"}, "toolbutton10": {"name": "ToolButton10", "type": "TToolButton"}, "panelsearch": {"name": "PanelSearch", "type": "TPanel"}, "panel3": {"name": "Panel3", "type": "TPanel"}, "statictext5": {"name": "StaticText5", "type": "TStaticText"}, "editcontractaccno": {"name": "EditContractaccno", "type": "TEdit"}, "panel4": {"name": "Panel4", "type": "TPanel"}, "statictext4": {"name": "StaticText4", "type": "TStaticText"}, "editprincipal": {"name": "EditPRINCIPAL", "type": "TEdit"}, "panel6": {"name": "Panel6", "type": "TPanel"}, "statictext2": {"name": "StaticText2", "type": "TStaticText"}, "editname": {"name": "EditName", "type": "TEdit"}, "panel7": {"name": "Panel7", "type": "TPanel"}, "statictext1": {"name": "StaticText1", "type": "TStaticText"}, "editnumberofcredit": {"name": "EditNumberofcredit", "type": "TEdit"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "groupbox8": {"name": "GroupBox8", "type": "TGroupBox"}, "cbvalute": {"name": "CBValute", "type": "TDBLookupComboboxEh"}, "chbvalute": {"name": "ChBValute", "type": "TCheckBox"}, "groupbox7": {"name": "GroupBox7", "type": "TGroupBox"}, "cbfilial": {"name": "CBFilial", "type": "TDBLookupComboboxEh"}, "chbfilial": {"name": "ChBFilial", "type": "TCheckBox"}, "groupbox6": {"name": "GroupBox6", "type": "TGroupBox"}, "cbpersons": {"name": "CBPersons", "type": "TDBLookupComboboxEh"}, "chbpersons": {"name": "ChBPersons", "type": "TCheckBox"}, "groupbox5": {"name": "GroupBox5", "type": "TGroupBox"}, "cbcategories": {"name": "CBCategories", "type": "TDBLookupComboboxEh"}, "chbcategories": {"name": "ChBCategories", "type": "TCheckBox"}, "groupbox4": {"name": "GroupBox4", "type": "TGroupBox"}, "cbcredittypes": {"name": "CBCreditTypes", "type": "TDBLookupComboboxEh"}, "chbcredittypes": {"name": "ChBCreditTypes", "type": "TCheckBox"}, "groupbox3": {"name": "GroupBox3", "type": "TGroupBox"}, "cbreserves": {"name": "CBreserves", "type": "TDBLookupComboboxEh"}, "chbreserves": {"name": "ChBreserves", "type": "TCheckBox"}, "speedbutton1": {"name": "SpeedButton1", "type": "TSpeedButton"}, "panel8": {"name": "Panel8", "type": "TPanel"}, "actnexecutefilter": {"name": "ActnExecuteFilter", "type": "TAction"}, "toolbutton13": {"name": "ToolButton13", "type": "TToolButton"}, "toolbutton14": {"name": "ToolButton14", "type": "TToolButton"}, "actnpayment": {"name": "ActnPayment", "type": "TAction"}, "dbgridehmain": {"name": "DBGridEhMain", "type": "TDBGridEh"}}, {});
+  U.defClass("TFrmAEx", "TForm", {"toolbar1": {"name": "ToolBar1", "type": "TToolBar"}, "imagelist1": {"name": "ImageList1", "type": "TImageList"}, "nlslocalizer1": {"name": "NLSLocalizer1", "type": "TNLSLocalizer"}, "statusbar1": {"name": "StatusBar1", "type": "TStatusBar"}, "actionlist1": {"name": "ActionList1", "type": "TActionList"}, "toolbutton1": {"name": "ToolButton1", "type": "TToolButton"}, "toolbutton2": {"name": "ToolButton2", "type": "TToolButton"}, "toolbutton3": {"name": "ToolButton3", "type": "TToolButton"}, "toolbutton4": {"name": "ToolButton4", "type": "TToolButton"}, "toolbutton5": {"name": "ToolButton5", "type": "TToolButton"}, "toolbutton6": {"name": "ToolButton6", "type": "TToolButton"}, "toolbutton7": {"name": "ToolButton7", "type": "TToolButton"}, "grdate": {"name": "GRDate", "type": "TGroupBox"}, "toolbutton8": {"name": "ToolButton8", "type": "TToolButton"}, "dtpexp": {"name": "DTPExp", "type": "TDateTimePicker"}, "actnrefresh": {"name": "ActnRefresh", "type": "TAction"}, "actncreditproperties": {"name": "ActnCreditProperties", "type": "TAction"}, "excelexport": {"name": "ExcelExport", "type": "TCMExcelExport"}, "actnexport": {"name": "ActnExport", "type": "TAction"}, "panel2": {"name": "Panel2", "type": "TPanel"}, "toolbutton9": {"name": "ToolButton9", "type": "TToolButton"}, "actnsearch": {"name": "ActnSearch", "type": "TAction"}, "toolbutton11": {"name": "ToolButton11", "type": "TToolButton"}, "toolbutton12": {"name": "ToolButton12", "type": "TToolButton"}, "actnfilter": {"name": "ActnFilter", "type": "TAction"}, "panelfilter": {"name": "PanelFilter", "type": "TPanel"}, "toolbutton10": {"name": "ToolButton10", "type": "TToolButton"}, "panelsearch": {"name": "PanelSearch", "type": "TPanel"}, "panel3": {"name": "Panel3", "type": "TPanel"}, "statictext5": {"name": "StaticText5", "type": "TStaticText"}, "editcontractaccno": {"name": "EditContractaccno", "type": "TEdit"}, "panel4": {"name": "Panel4", "type": "TPanel"}, "statictext4": {"name": "StaticText4", "type": "TStaticText"}, "editprincipal": {"name": "EditPRINCIPAL", "type": "TEdit"}, "panel6": {"name": "Panel6", "type": "TPanel"}, "statictext2": {"name": "StaticText2", "type": "TStaticText"}, "editname": {"name": "EditName", "type": "TEdit"}, "panel7": {"name": "Panel7", "type": "TPanel"}, "statictext1": {"name": "StaticText1", "type": "TStaticText"}, "editnumberofcredit": {"name": "EditNumberofcredit", "type": "TEdit"}, "panel1": {"name": "Panel1", "type": "TPanel"}, "groupbox8": {"name": "GroupBox8", "type": "TGroupBox"}, "cbvalute": {"name": "CBValute", "type": "TDBLookupComboboxEh"}, "chbvalute": {"name": "ChBValute", "type": "TCheckBox"}, "groupbox7": {"name": "GroupBox7", "type": "TGroupBox"}, "cbfilial": {"name": "CBFilial", "type": "TDBLookupComboboxEh"}, "chbfilial": {"name": "ChBFilial", "type": "TCheckBox"}, "groupbox6": {"name": "GroupBox6", "type": "TGroupBox"}, "cbpersons": {"name": "CBPersons", "type": "TDBLookupComboboxEh"}, "chbpersons": {"name": "ChBPersons", "type": "TCheckBox"}, "groupbox5": {"name": "GroupBox5", "type": "TGroupBox"}, "cbcategories": {"name": "CBCategories", "type": "TDBLookupComboboxEh"}, "chbcategories": {"name": "ChBCategories", "type": "TCheckBox"}, "groupbox4": {"name": "GroupBox4", "type": "TGroupBox"}, "cbcredittypes": {"name": "CBCreditTypes", "type": "TDBLookupComboboxEh"}, "chbcredittypes": {"name": "ChBCreditTypes", "type": "TCheckBox"}, "groupbox3": {"name": "GroupBox3", "type": "TGroupBox"}, "cbreserves": {"name": "CBreserves", "type": "TDBLookupComboboxEh"}, "chbreserves": {"name": "ChBreserves", "type": "TCheckBox"}, "speedbutton1": {"name": "SpeedButton1", "type": "TSpeedButton"}, "panel8": {"name": "Panel8", "type": "TPanel"}, "actnexecutefilter": {"name": "ActnExecuteFilter", "type": "TAction"}, "toolbutton13": {"name": "ToolButton13", "type": "TToolButton"}, "toolbutton14": {"name": "ToolButton14", "type": "TToolButton"}, "actnpayment": {"name": "ActnPayment", "type": "TAction"}, "dbgridehmain": {"name": "DBGridEhMain", "type": "TDBGridEh"}}, {});
   U.init(async () => {
     U.var_("FrmAEx", null, "TFrmAEx");
   });
@@ -113,7 +113,6 @@ export default function define($) {
   await $.set(C, "FrmCreditProperties", (await $.mcall((await $.v(C, "TFrmCreditProperties")), "Create", [Self])));
   await $.mset((await $.v(C, "DTPExp")), "DateTime", (await $.v(C, "Get_CurrentDate")));
   await $.stmt($.call(C, "SetKeyValue", []));
-  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
   return L0.result;
 }, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TFrmAEx", "FormDestroy", async function FormDestroy(Self, p0) {
@@ -135,8 +134,8 @@ export default function define($) {
     if ($.truthy((await $.wv([$t16, $t17], "Active", C, false)))) {
       await $.stmt($.wcall([$t16, $t17], "Close", [], C));
     }
-    await $.stmt((await $.wcall([$t16, $t17], "SetVariable", ["OrderField", "EXPDATCOUNT"], C)));
-    await $.stmt((await $.wcall([$t16, $t17], "SetVariable", ["pDat", (await $.wv([$t16, $t17], "ContrlDate", { get: async () => L0["contrldate"], set: async (v) => { L0["contrldate"] = v; }, local: true }, false))], C)));
+    await $.stmt((await $.wcall([$t16, $t17], "SetVariable", ["OrderField", "exdatcount"], C)));
+    await $.stmt((await $.wcall([$t16, $t17], "SetVariable", ["Dat", (await $.wv([$t16, $t17], "ContrlDate", { get: async () => L0["contrldate"], set: async (v) => { L0["contrldate"] = v; }, local: true }, false))], C)));
     await $.stmt($.wcall([$t16, $t17], "Open", [], C));
   }
   return L0.result;
@@ -186,7 +185,7 @@ export default function define($) {
     }
     {
       const $t24 = (await $.wv([$t18], "FrmCreditProperties", C, false));
-      await $.wset([$t18, $t24], "Caption", $.add((await $.wv([$t18, $t24], "CreditNum", { get: async () => L0["creditnum"], set: async (v) => { L0["creditnum"] = v; }, local: true }, false)), " №-li kreditin verilənləri"), C);
+      await $.mset((await $.wv([$t18, $t24], "NLSCreditProperties", C, false)), "Caption", $.add((await $.wv([$t18, $t24], "CreditNum", { get: async () => L0["creditnum"], set: async (v) => { L0["creditnum"] = v; }, local: true }, false)), " №-li kreditin verilənləri"));
       await $.stmt($.wcall([$t18, $t24], "ShowModal", [], C));
     }
   }
@@ -199,7 +198,7 @@ export default function define($) {
   {
     const $t25 = (await $.wobj(C, "ExcelExport"));
     await $.stmt($.wcall([$t25], "Connect", [], C));
-    await $.stmt((await $.wcall([$t25], "ExportDataset", [(await $.mv((await $.wv([$t25], "DatModAex", C, false)), "DatSetExpCredits")), "Gecikmələr", (await $.wv([$t25], "true", C, false)), (await $.wv([$t25], "true", C, false))], C)));
+    await $.stmt((await $.wcall([$t25], "ExportDataset", [(await $.mv((await $.wv([$t25], "DatModAex", C, false)), "DatSetExpCredits")), "Ğecikmələr", (await $.wv([$t25], "true", C, false))], C)));
     await $.stmt($.wcall([$t25], "Disconnect", [], C));
   }
   return L0.result;
@@ -220,26 +219,6 @@ export default function define($) {
   }
   return L0.result;
 }, {"params": ["Sender", "Key"], "kind": "procedure", "ptypes": ["TObject", "Char"]});
-  U.method("TFrmAEx", "LoadPlugin3", async function LoadPlugin3(Self, p0, p1, p2, p3) {
-  const C = $.chain(Self, U);
-  const L0 = {"pluginname": $.copyArg(p0), "pluginparam": $.copyArg(p1), "pluginparam2": $.copyArg(p2), "pluginparam3": $.copyArg(p3), result: undefined, "pluginhandle": 0, "exportproc": null};
-  await $.fixArgs(L0, ["pluginname", "pluginparam", "pluginparam2", "pluginparam3"]);
-  L0["pluginhandle"] = (await $.call(C, "LoadPackage", [$.add((await $.call(C, "ExtractFilePath", [(await $.mv((await $.v(C, "Application")), "ExeName"))])), L0["pluginname"])]));
-  if ($.truthy($.gt(L0["pluginhandle"], 0))) {
-    L0["exportproc"] = (await $.call(C, "GetProcAddress", [L0["pluginhandle"], "InitPlugin"]));
-    await $.stmt((await $.callv(L0["exportproc"], [L0["pluginparam"], L0["pluginparam2"], L0["pluginparam3"]])));
-  }
-  return L0.result;
-}, {"params": ["PluginName", "PluginParam", "PluginParam2", "PluginParam3"], "kind": "procedure", "ptypes": ["String", "String", "String", "String"]});
-  U.method("TFrmAEx", "DBGridEhMainDblClick", async function DBGridEhMainDblClick(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined, "contract_id": '', "note_id": ''};
-  await $.fixArgs(L0, ["sender"]);
-  L0["note_id"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "DatModAex")), "DatSetExpCredits")), "FieldByName", ["BOOROWERID"])), "Asstring"));
-  L0["contract_id"] = (await $.mv((await $.mcall((await $.mv((await $.v(C, "DatModAex")), "DatSetExpCredits")), "FieldByName", ["id"])), "Asstring"));
-  await $.stmt((await $.call(C, "LoadPlugin3", ["Sb_General.bpl", "note", L0["note_id"], L0["contract_id"]])));
-  return L0.result;
-}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TFrmAEx", "DBGridEhMainTitleBtnClick", async function DBGridEhMainTitleBtnClick(Self, p0, p1, p2) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), "acol": $.copyArg(p1), "column": $.copyArg(p2), result: undefined, "sortfield": ''};

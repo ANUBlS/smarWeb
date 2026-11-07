@@ -1,7 +1,7 @@
 {
  "name": "P_CM_Portfel",
  "caption": "",
- "dir": "Packages/SB_Credit/CM_Portfel",
+ "dir": "Packages/CM_Portfel",
  "mainForm": null,
  "plugin": true,
  "plugins": {},
@@ -42,7 +42,7 @@
    "name": "CurrencysDataSet",
    "source": "TPortfelDataModule.CurrencysDataSet",
    "kind": "TOracleDataSet",
-   "sql": "select valute,valu_name\nfrom avalute",
+   "sql": "select valute,valu_name\nfrom sb_avalute",
    "variables": [],
    "unit": "PortfelDataModImpl"
   },
@@ -58,7 +58,7 @@
    "name": "UsersDataSet",
    "source": "TPortfelDataModule.UsersDataSet",
    "kind": "TOracleDataSet",
-   "sql": "select id, name\nfrom user$",
+   "sql": "select id, name\nfrom SB_user$",
    "variables": [],
    "unit": "PortfelDataModImpl"
   },
@@ -66,7 +66,7 @@
    "name": "FilialDataSet",
    "source": "TPortfelDataModule.FilialDataSet",
    "kind": "TOracleDataSet",
-   "sql": "select id,name\nfrom filial",
+   "sql": "select id,name\nfrom sb_filial",
    "variables": [],
    "unit": "PortfelDataModImpl"
   },
@@ -82,7 +82,7 @@
    "name": "CustomersDataSet",
    "source": "TPortfelDataModule.CustomersDataSet",
    "kind": "TOracleDataSet",
-   "sql": "\nSELECT DISTINCT c.id boorowerid, c.NAME boorowername\n           FROM customers c\n          WHERE EXISTS ( SELECT p.boorowerid\n                           FROM cm_portfolio p\n                          WHERE p.boorowerid = c.id)\n ",
+   "sql": "\nSELECT DISTINCT c.id boorowerid, c.NAME boorowername\n           FROM cm_sb_customers c\n          WHERE EXISTS ( SELECT p.boorowerid\n                           FROM cm_portfolio p\n                          WHERE p.boorowerid = c.id)\n ",
    "variables": [],
    "unit": "PortfelDataModImpl"
   },
@@ -130,20 +130,15 @@
    "name": "MainDataSet",
    "source": "TPortfelDataModule.MainDataSet",
    "kind": "TOracleDataSet",
-   "sql": "SELECT p.currency, p.boorowerid, p.expertid,\n       p.usrgroup, p.branchid, p.usid,\n       p.customertype, p.credittype, p.personaltype,h.rest*o.ostat rest,\n       h.interestrest*o.ostat interestrest, h.duerest, h.dueinterestrest, h.reserveid, h.duereserveid,\n       h.obligation, g.pledgeid,\n       av.val_name, c.name\n  FROM cm_portfolio p,\n       cm_curr_state h,\n       AVALUTE av,\n       CM_GUARANTEE g,\n       customers c,OPERKURS o\nwhere (p.id = h.creditid) and\n      (p.currency = av.valute) and\n      (p.id = g.creditid(+)) and\n      (c.id = p.boorowerid) and p.currency=o.val_kod  and o.dat=:dat\n          \n\n\n",
-   "variables": [
-    {
-     "name": "DAT",
-     "type": "date"
-    }
-   ],
+   "sql": "SELECT p.currency, p.boorowerid, \n       p.usrgroup, p.branchid, p.usid,\n       p.customertype, p.credittype, p.personaltype,h.rest,\n       h.interestrest, h.duerest, h.dueinterestrest, h.reserveid, h.duereserveid,\n       h.obligation, g.pledgeid,\n       av.val_name, c.name\n  FROM cm_portfolio p,\n       cm_curr_state h,\n       SB_AVALUTE av,\n       CM_GUARANTEE g,\n       cm_sb_customers c\nwhere (p.id = h.creditid) and\n      (p.currency = av.valute) and\n      (p.id = g.creditid) and\n      (c.id = p.boorowerid) \n            \n",
+   "variables": [],
    "unit": "PortfelDataModImpl"
   },
   {
    "name": "DateDataSet",
    "source": "TPortfelDataModule.DateDataSet",
    "kind": "TOracleDataSet",
-   "sql": "SELECT p.currency, p.boorowerid,  p.expertid,\n       p.usrgroup, p.branchid, p.usid,\n       p.customertype, p.credittype, p.personaltype,h.rest*o.ostat rest,\n       h.interestrest*o.ostat interestrest, h.duerest, h.dueinterestrest, h.reserveid, h.duereserveid,\n       h.obligation, g.pledgeid,\n       av.val_name, c.name\n  FROM cm_portfolio p,\n       cm_history h,\n       AVALUTE av,\n       CM_GUARANTEE g,\n       customers c,OPERKURS o\nwhere (p.id = h.creditid) and\n      (p.currency = av.valute) and\n      (p.id = g.creditid(+)) and\n      (c.id = p.boorowerid) and p.currency=o.val_kod  and o.dat=:Hdate and h.hdate=:Hdate\n\n\n\n\n\n/*SELECT p.currency, p.boorowerid, \n       p.usrgroup, p.branchid, p.usid,\n       p.customertype, p.credittype, p.personaltype,h.rest,\n       h.interestrest, h.duerest, h.dueinterestrest, h.reserveid, h.duereserveid,\n       h.obligation, g.pledgeid,\n       av.val_name, c.name\n  FROM cm_portfolio p,\n       cm_history h,\n       AVALUTE av,\n       CM_GUARANTEE g,\n       cm_sb_customers c\nwhere (p.id = h.creditid) and\n      (p.currency = av.valute) and\n      (p.id = g.creditid) and\n      (c.id = p.boorowerid) and\n     (h.hdate =:Hdate)*/\n            ",
+   "sql": "SELECT p.currency, p.boorowerid, \n       p.usrgroup, p.branchid, p.usid,\n       p.customertype, p.credittype, p.personaltype,h.rest,\n       h.interestrest, h.duerest, h.dueinterestrest, h.reserveid, h.duereserveid,\n       h.obligation, g.pledgeid,\n       av.val_name, c.name\n  FROM cm_portfolio p,\n       cm_history h,\n       SB_AVALUTE av,\n       CM_GUARANTEE g,\n       cm_sb_customers c\nwhere (p.id = h.creditid) and\n      (p.currency = av.valute) and\n      (p.id = g.creditid) and\n      (c.id = p.boorowerid) and\n     (h.hdate =:Hdate)\n            ",
    "variables": [
     {
      "name": "HDATE",
@@ -153,11 +148,16 @@
    "unit": "PortfelDataModImpl"
   },
   {
-   "name": "Ods_expert",
-   "source": "TPortfelDataModule.Ods_expert",
+   "name": "OperkursDataSet",
+   "source": "TPortfelDataModule.OperkursDataSet",
    "kind": "TOracleDataSet",
-   "sql": "select id,name from cm_expert",
-   "variables": [],
+   "sql": "SELECT  ostat\n  FROM SB_OPERKURS\nwhere (dat =:Ddate)and\n      (val_kod = 0)\n ",
+   "variables": [
+    {
+     "name": "DDATE",
+     "type": "date"
+    }
+   ],
    "unit": "PortfelDataModImpl"
   }
  ],

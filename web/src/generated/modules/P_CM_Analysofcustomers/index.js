@@ -1,44 +1,44 @@
 // Generated module manifest
 export default {
  "name": "P_CM_Analysofcustomers",
- "dir": "Packages/SB_Credit/CM_Analysofcustomers",
+ "dir": "Packages/CM_Analysofcustomers",
  "mainForm": null,
  "units": [
   {
    "unit": "CreditUnit",
    "file": "CreditUnit",
    "form": "TCreditForm",
-   "ok": 24,
+   "ok": 21,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TCreditForm"
    ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/CreditUnit.pas"
+   "source": "Packages/CM_Analysofcustomers/CreditUnit.pas"
   },
   {
    "unit": "CreditsinDateUnit",
    "file": "CreditsinDateUnit",
    "form": "TCreditinDateForm",
-   "ok": 3,
+   "ok": 2,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TCreditinDateForm"
    ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/CreditsinDateUnit.pas"
+   "source": "Packages/CM_Analysofcustomers/CreditsinDateUnit.pas"
   },
   {
    "unit": "CustAnalysDataModuleImpl",
    "file": "CustAnalysDataModuleImpl",
    "form": "TCustAnalysDataModule",
-   "ok": 1,
+   "ok": 0,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TCustAnalysDataModule"
    ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/CustAnalysDataModuleImpl.pas"
+   "source": "Packages/CM_Analysofcustomers/CustAnalysDataModuleImpl.pas"
   },
   {
    "unit": "CustAnalyseLoader",
@@ -48,19 +48,19 @@ export default {
    "fail": 0,
    "activeForm": null,
    "classes": [],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/CustAnalyseLoader.pas"
+   "source": "Packages/CM_Analysofcustomers/CustAnalyseLoader.pas"
   },
   {
    "unit": "CustanalysUnit",
    "file": "CustanalysUnit",
    "form": "TCustanalysForm",
-   "ok": 25,
+   "ok": 24,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TCustanalysForm"
    ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/CustanalysUnit.pas"
+   "source": "Packages/CM_Analysofcustomers/CustanalysUnit.pas"
   },
   {
    "unit": "DateintervalUnit",
@@ -72,59 +72,34 @@ export default {
    "classes": [
     "TDateintervalForm"
    ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/DateintervalUnit.pas"
+   "source": "Packages/CM_Analysofcustomers/DateintervalUnit.pas"
   },
   {
    "unit": "FilterUnit",
    "file": "FilterUnit",
    "form": "TFilterForm",
-   "ok": 8,
+   "ok": 7,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TFilterForm"
    ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/FilterUnit.pas"
-  },
-  {
-   "unit": "PayImpl",
-   "file": "PayImpl",
-   "form": "TPayForm",
-   "ok": 6,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [
-    "TPayForm"
-   ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/PayImpl.pas"
+   "source": "Packages/CM_Analysofcustomers/FilterUnit.pas"
   },
   {
    "unit": "PaymentsUnit",
    "file": "PaymentsUnit",
    "form": "TPaymentsForm",
-   "ok": 5,
+   "ok": 4,
    "fail": 0,
    "activeForm": null,
    "classes": [
     "TPaymentsForm"
    ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/PaymentsUnit.pas"
-  },
-  {
-   "unit": "ReturnTr",
-   "file": "ReturnTr",
-   "form": "TFormReturns",
-   "ok": 2,
-   "fail": 0,
-   "activeForm": null,
-   "classes": [
-    "TFormReturns"
-   ],
-   "source": "Packages/SB_Credit/CM_Analysofcustomers/ReturnTr.pas"
+   "source": "Packages/CM_Analysofcustomers/PaymentsUnit.pas"
   }
  ],
  "lib": [
-  "CMCurrencyEdit",
   "CommonDecls",
   "DateIntervalUnit",
   "LogoutputImpl",
@@ -158,11 +133,7 @@ export default {
   "UntReferencesDataMod",
   "sboapiDataModuleImpl"
  ],
- "plugins": {
-  "cm_conclusion.bpl": "P_CM_Conclusion",
-  "cm_schedule.bpl": "P_CM_Schedule",
-  "cmcrdfilter.bpl": "P_CMCrdFilter"
- },
+ "plugins": {},
  "exports": [
   "InitPlugin"
  ]

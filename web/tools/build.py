@@ -353,12 +353,18 @@ def main():
         return n
 
     # installation INI files (web/bin): Plugin=X.bpl of the plugin tool bars / popup menus
-    bin_refs = set()
+    bin_refs = {}
     for f in glob.glob(os.path.join(os.path.dirname(OUT.rstrip('/')), '..', 'bin', '*')):
         if f.lower().endswith('.ini'):
             raw = open(f, 'rb').read()
-            txt = raw.decode('utf-16') if raw[:2] in (b'\xff\xfe', b'\xfe\xff') else raw.decode('cp1251', 'replace')
-            bin_refs.update(x.strip().replace('\\', '/').split('/')[-1].lower()
+            if raw[:2] in (b'\xff\xfe', b'\xfe\xff'):
+                txt = raw.decode('utf-16')
+            else:
+                try:
+                    txt = raw.decode('utf-8')
+                except UnicodeDecodeError:
+                    txt = raw.decode('cp1251', 'replace')
+            bin_refs.setdefault(os.path.basename(f).lower(), set()).update(x.strip().replace('\\', '/').split('/')[-1].lower()
                             for x in re.findall(r'(?im)^\s*Plugin\s*=\s*([^\r\n]*?)\.bpl\s*$', txt))
 
     def family_refs(name):
@@ -382,13 +388,13 @@ def main():
         name = pending.pop()
         near = modules[name]
         refs = set()
-        plugin_menus = False
         for pth in closure_paths(module_units[name]):
-            refs.update(x.lower() for x in re.findall(r"'([\w\-. ]+)\.bpl'", src_of(pth), re.I))
-            if re.search(r'\bT(PluginToolBar|PluginPopupMenu|PluginMenu)\b', src_of(pth[:-4] + '.dfm')):
-                plugin_menus = True
-        if plugin_menus:
-            refs |= bin_refs
+            src = src_of(pth)
+            refs.update(x.lower() for x in re.findall(r"'([\w\-. ]+)\.bpl'", src, re.I))
+            # the installation INI files this unit names ('CMPopupMenu.ini')
+            for ini, names in bin_refs.items():
+                if ("'" + ini) in src.lower():
+                    refs |= names
         refs |= family_refs(name)
         for ref in sorted(refs):
             cands = dpk_index.get(ref)

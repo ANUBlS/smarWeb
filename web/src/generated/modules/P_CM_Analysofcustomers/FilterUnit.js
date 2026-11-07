@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("FilterUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "ExtCtrls", "Mask", "DBCtrlsEh", "DBLookupEh", "CheckLst", "Evanescence", "Buttons", "ActnList", "DBGridEh", "CustAnalysDataModuleImpl", "CreditUnit", "sboapiDataModuleImpl", "SBTranslateProc"]);
+  const U = $.unit("FilterUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "StdCtrls", "ExtCtrls", "Mask", "DBCtrlsEh", "DBLookupEh", "CheckLst", "Evanescence", "Buttons", "ActnList", "CustAnalysDataModuleImpl", "CreditUnit"]);
   const C = [U];
   U.defClass("TFilterForm", "TForm", {"panel1": {"name": "Panel1", "type": "TPanel"}, "panel2": {"name": "Panel2", "type": "TPanel"}, "groupbox2": {"name": "GroupBox2", "type": "TGroupBox"}, "evanescencevalute": {"name": "EvanescenceValute", "type": "TEvanescence"}, "checkboxvalute": {"name": "CheckBoxValute", "type": "TCheckBox"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "evanescencefilial": {"name": "EvanescenceFilial", "type": "TEvanescence"}, "checkboxfilial": {"name": "CheckBoxFilial", "type": "TCheckBox"}, "panel3": {"name": "Panel3", "type": "TPanel"}, "groupbox3": {"name": "GroupBox3", "type": "TGroupBox"}, "dblookupcomehcustomer": {"name": "DBLookupComEhCustomer", "type": "TDBLookupComboboxEh"}, "checkboxcustomer": {"name": "CheckBoxCustomer", "type": "TCheckBox"}, "groupbox4": {"name": "GroupBox4", "type": "TGroupBox"}, "dblookupcomehcredittype": {"name": "DBLookupComEhCredittype", "type": "TDBLookupComboboxEh"}, "groupbox5": {"name": "GroupBox5", "type": "TGroupBox"}, "dblookupcomehcategories": {"name": "DBLookupComEhCategories", "type": "TDBLookupComboboxEh"}, "checkboxcategories": {"name": "CheckBoxCategories", "type": "TCheckBox"}, "groupbox6": {"name": "GroupBox6", "type": "TGroupBox"}, "dblookupcomehusersgroup": {"name": "DBLookupComEhUsersGroup", "type": "TDBLookupComboboxEh"}, "checkboxusersgroup": {"name": "CheckBoxUsersgroup", "type": "TCheckBox"}, "groupbox7": {"name": "GroupBox7", "type": "TGroupBox"}, "dblookupcomehusers": {"name": "DBLookupComEhUsers", "type": "TDBLookupComboboxEh"}, "checkboxusers": {"name": "CheckBoxUsers", "type": "TCheckBox"}, "groupbox8": {"name": "GroupBox8", "type": "TGroupBox"}, "dblookupcomehpersons": {"name": "DBLookupComEhPersons", "type": "TDBLookupComboboxEh"}, "checkboxpersons": {"name": "CheckBoxPersons", "type": "TCheckBox"}, "checkboxcredittype": {"name": "CheckBoxCreditType", "type": "TCheckBox"}, "panel4": {"name": "Panel4", "type": "TPanel"}, "actionlist1": {"name": "ActionList1", "type": "TActionList"}, "actionflteraccept": {"name": "ActionFlterAccept", "type": "TAction"}, "actionfilterreject": {"name": "ActionFilterReject", "type": "TAction"}, "speedbutton1": {"name": "SpeedButton1", "type": "TSpeedButton"}, "speedbutton2": {"name": "SpeedButton2", "type": "TSpeedButton"}, "speedbutton3": {"name": "SpeedButton3", "type": "TSpeedButton"}}, {});
   U.init(async () => {
@@ -109,13 +109,6 @@ export default function define($) {
   await L0["resize"].set(false);
   return L0.result;
 }, {"params": ["Sender", "NewWidth", "NewHeight", "Resize"], "kind": "procedure", "ptypes": ["TObject", "Integer", "Integer", "Boolean"]});
-  U.method("TFilterForm", "FormCreate", async function FormCreate(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["sender"]);
-  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
-  return L0.result;
-}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TFilterForm", "FormKeyPress", async function FormKeyPress(Self, p0, p1) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};

@@ -19,7 +19,9 @@ ACTIONS = {
     26: ('AboutBanks', 'Packages/AboutBanks'),
     27: ('LastRates', 'Packages/LastRates'),
     28: ('RepairNew', 'Packages/Repair New'),
-    29: ('XCreditsMgrSB', 'Packages/SB_Credit/Sm_creditsmgr'),  # the bank's SmartBank.ini: Kreditlərin idarə olunması = Creditsmgr.ocx (CM_* tables)
+    # the bank's SmartBank.ini: Kreditlərin idarə olunması = Creditsmgr.ocx (CM_* tables); the bank's build is the
+    # _nbc variant (the list opens at once, tool bar shown), Sm_creditsmgr opens with both hidden
+    29: ('XCreditsMgrSB', 'Packages/SB_Credit/SM_Creditsmgr_nbc/Sm_creditsmgr'),
     30: ('ContractCorrection', 'Packages/SBCM_ContractCorrection'),
     31: ('MainFacilities', 'Packages/MainFacilities'),
     32: ('DepositManager', 'DepozitAqroinvest_neftfondu/DepositManager__'),

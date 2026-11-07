@@ -48,7 +48,10 @@ export function parseIni(text: string): IniData {
     const eq = line.indexOf('=');
     if (!cur || eq < 0) continue;
     const k = line.slice(0, eq).trim();
-    if (![...cur.keys()].some((x) => x.toLowerCase() === k.toLowerCase())) cur.set(k, line.slice(eq + 1).trim());
+    // GetPrivateProfileString: surrounding blanks and one pair of enclosing quotes are dropped (Caption='|')
+    let v = line.slice(eq + 1).trim();
+    if (v.length >= 2 && (v[0] === "'" || v[0] === '"') && v[v.length - 1] === v[0]) v = v.slice(1, -1);
+    if (![...cur.keys()].some((x) => x.toLowerCase() === k.toLowerCase())) cur.set(k, v);
   }
   return out;
 }

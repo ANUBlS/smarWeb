@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 export default function define($) {
-  const U = $.unit("CreditsinDateUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Grids", "DBGridEh", "StdCtrls", "CustanalysUnit", "DBGridEhGrouping", "GridsEh", "CustAnalysDataModuleImpl", "sboapiDataModuleImpl", "SBTranslateProc"]);
+  const U = $.unit("CreditsinDateUnit", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Grids", "DBGridEh", "StdCtrls", "CustanalysUnit", "CustAnalysDataModuleImpl"]);
   const C = [U];
   U.defClass("TCreditinDateForm", "TForm", {"dbgrideh1": {"name": "DBGridEh1", "type": "TDBGridEh"}}, {});
   U.init(async () => {
@@ -16,13 +16,6 @@ export default function define($) {
   await L0["resize"].set(false);
   return L0.result;
 }, {"params": ["Sender", "NewWidth", "NewHeight", "Resize"], "kind": "procedure", "ptypes": ["TObject", "Integer", "Integer", "Boolean"]});
-  U.method("TCreditinDateForm", "FormCreate", async function FormCreate(Self, p0) {
-  const C = $.chain(Self, U);
-  const L0 = {"sender": $.copyArg(p0), result: undefined};
-  await $.fixArgs(L0, ["sender"]);
-  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
-  return L0.result;
-}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
   U.method("TCreditinDateForm", "FormKeyPress", async function FormKeyPress(Self, p0, p1) {
   const C = $.chain(Self, U);
   const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};
