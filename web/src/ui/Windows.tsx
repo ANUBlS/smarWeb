@@ -59,16 +59,32 @@ function TitleBar({ w, onDrag, modal }: { w: FormWindow; onDrag?: (e: React.Poin
   );
 }
 
+/** VCL TScrollingWinControl: with AutoScroll a scroll bar appears only when a (non-aligned, visible) control's
+ *  design rectangle lies outside the client area — never because text renders a few pixels wider here. */
+function designExtent(form: TCustomForm): { w: number; h: number } {
+  let w = 0, h = 0;
+  for (const c of (form as any).children ?? []) {
+    if (!c || c.Visible === false || String(c.Align ?? 'alnone').toLowerCase() !== 'alnone') continue;
+    w = Math.max(w, (Number(c.Left) || 0) + (Number(c.Width) || 0));
+    h = Math.max(h, (Number(c.Top) || 0) + (Number(c.Height) || 0));
+  }
+  return { w, h };
+}
+
 function WindowBody({ form, minW, minH }: { form: TCustomForm; minW?: number; minH?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const size = useSize(ref);
   const menu = form.Menu;
   const w = Math.max(size.w, minW ?? 0);
   const h = Math.max(size.h, minH ?? 0);
+  const ext = designExtent(form);
+  const auto = (form as any).AutoScroll !== false;
+  const overflowX = w > size.w + 1 || (auto && ext.w > size.w + 1) ? 'auto' : 'hidden';
+  const overflowY = h > size.h + 1 || (auto && ext.h > size.h + 1) ? 'auto' : 'hidden';
   return (
     <>
       {menu && menu.Items.items.length ? <MenuBar items={fromMenuItems(menu.Items.items)} /> : null}
-      <div className="win-body" ref={ref}>
+      <div className="win-body" ref={ref} style={size.w > 0 ? { overflowX, overflowY } : undefined}>
         {size.w > 0 ? <ErrorBoundary name={form.Name}><FormBody form={form} width={w} height={h} /></ErrorBoundary> : null}
       </div>
     </>

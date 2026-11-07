@@ -59,16 +59,22 @@ def _bind_map(variables: list[dict]) -> dict[str, dict]:
 
 
 def _rows(cur, limit: int | None = None) -> list[list]:
-    limit = min(limit or settings.max_rows, settings.max_rows)
+    return _rows_t(cur, limit)[0]
+
+
+def _rows_t(cur, limit: int | None = None) -> tuple[list[list], bool]:
+    """All rows up to `limit` / SB_MAX_ROWS, and whether more were left (the result is cut off)."""
+    cap = min(limit or settings.max_rows, settings.max_rows)
     out = []
     while True:
         batch = cur.fetchmany(1000)
         if not batch:
-            break
+            return out, False
         out.extend([convert.to_json(x) for x in r] for r in batch)
-        if len(out) >= limit:
-            return out[:limit]
-    return out
+        if len(out) > cap:
+            return out[:cap], True
+        if len(out) == cap:
+            return out, bool(cur.fetchmany(1))
 
 
 # --------------------------------------------------------------------------- partitions
@@ -147,6 +153,18 @@ def _log_slow(s: Session, kind: str, source: str, sql: str, started: float, rows
         pass
 
 
+def _log_truncated(s: Session, source: str, sql: str, rows: int) -> None:
+    """Always written (slow-sql.log): a result cut off at SB_MAX_ROWS makes the module see incomplete data."""
+    try:
+        settings.slow_file.parent.mkdir(parents=True, exist_ok=True)
+        line = '\t'.join([datetime.now().isoformat(timespec='seconds'), s.username, 'TRUNCATED', source or '-',
+                          f'{rows} rows (SB_MAX_ROWS)', ' '.join(sql.split())[:1000]])
+        with _slow_lock, settings.slow_file.open('a', encoding='utf-8') as fh:
+            fh.write(line + '\n')
+    except OSError:
+        pass
+
+
 # --------------------------------------------------------------------------- query / execute
 
 MAX_CURSORS = 30
@@ -155,7 +173,12 @@ MAX_CURSORS = 30
 def _page(s: Session, cur, cols: list, max_rows: int | None, fetch: int | None) -> dict:
     """All rows, or with `fetch` (DOA QueryAllRecords = False) the first rows; the cursor stays open for /api/fetch."""
     if not fetch:
-        return {'columns': cols, 'rows': _rows(cur, max_rows)}
+        rows, cut = _rows_t(cur, max_rows)
+        res = {'columns': cols, 'rows': rows}
+        if cut and not max_rows:
+            # a dataset the Delphi code reads completely (lookup lists …) is incomplete: SB_MAX_ROWS is too small
+            res['truncated'] = True
+        return res
     fetch = max(1, min(fetch, settings.max_rows))
     rows = [[convert.to_json(x) for x in r] for r in cur.fetchmany(fetch + 1)]
     if len(rows) <= fetch:
@@ -181,6 +204,8 @@ def query(s: Session, sql: str, variables: list[dict], max_rows: int | None = No
             err = ge.message
             raise ge from e
         finally:
+            if res and res.get('truncated'):
+                _log_truncated(s, source, sql, len(res['rows']))
             _log_slow(s, 'query', source, sql, started, len(res['rows']) if res else None, err)
 
 

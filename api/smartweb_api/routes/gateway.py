@@ -1,6 +1,7 @@
 """Oracle gateway — the endpoints every SmartWeb module uses (web/src/api/http.ts)."""
 from __future__ import annotations
 
+from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends, Header
 
 from .. import gateway, registry
@@ -49,7 +50,12 @@ def logoff(s: Session = Depends(current)):
 @router.post('/query', response_model=QueryResult, summary='Open a dataset (TOracleDataSet.Open)')
 def query(r: QueryRequest, s: Session = Depends(current)):
     _check(r.sql, r.source, s)
-    return gateway.query(s, r.sql, [v.model_dump() for v in r.variables], r.maxRows, r.fetch, r.source)
+    # returned as is: response validation of a list of hundreds of thousands of rows costs seconds and memory
+    res = gateway.query(s, r.sql, [v.model_dump() for v in r.variables], r.maxRows, r.fetch, r.source)
+    res.setdefault('cursorId', None)
+    res.setdefault('more', False)
+    res.setdefault('truncated', False)
+    return JSONResponse(res)
 
 
 @router.post('/fetch', response_model=FetchResult, summary='Fetch more rows of an open dataset (QueryAllRecords = False)')

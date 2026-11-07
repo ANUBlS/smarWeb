@@ -12,6 +12,7 @@ import { synthesizeColumn } from '../../api/mock';
 import { api, OracleError, BindValue, OraType, PackageCallKind, ColumnDef } from '../../api';
 import { toDelphi, fromDelphi } from '../datetime';
 import { logger } from '../log';
+import { audit } from '../audit';
 
 /* ------------------------------------------------------------------ connection state */
 
@@ -275,6 +276,11 @@ export class TOracleDataSet extends TDataSet {
       this.loadRows(r.columns, r.rows);
       this.RowsProcessed = r.rows.length;
       if (r.more && r.cursorId) { this.cursorId = r.cursorId; this.fetchCols = r.columns; }
+      if (r.truncated) {
+        const msg = `${this.sourceId()}: nəticə ${r.rows.length} sətirdə kəsildi (API SB_MAX_ROWS) — siyahı natamamdır`;
+        logger.warn(msg);
+        audit('error', msg);
+      }
     } catch (e) { toOracleError(e); }
   }
 

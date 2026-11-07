@@ -56,6 +56,7 @@ class QueryResult(BaseModel):
     rows: list[list[Any]]
     cursorId: str | None = Field(None, description='set when more rows are waiting (query with fetch)')
     more: bool = False
+    truncated: bool = Field(False, description='the result was cut off at SB_MAX_ROWS')
 
 
 class FetchRequest(BaseModel):

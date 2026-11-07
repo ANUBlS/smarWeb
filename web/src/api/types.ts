@@ -52,6 +52,8 @@ export interface QueryResult {
   /** Query with `fetch`: more rows are waiting on the server under this cursor id. */
   cursorId?: string | null;
   more?: boolean;
+  /** The API cut the result off at SB_MAX_ROWS: the dataset is incomplete. */
+  truncated?: boolean;
 }
 
 export interface ExecuteRequest { source: string; sql: string; variables: BindValue[] }
