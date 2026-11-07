@@ -20,6 +20,9 @@ from tests.fake_oracle import FakeConnection, FakeCursor
 
 # rows per SELECT (SB_SYNTH_ROWS=500 to try incremental fetching of big grids)
 SYNTH_ROWS = int(os.environ.get('SB_SYNTH_ROWS', '3'))
+# SELECTs matching SB_SYNTH_BIG (regex) get SB_SYNTH_BIG_ROWS rows: big lookup lists without making every query big
+SYNTH_BIG = re.compile(os.environ['SB_SYNTH_BIG'], re.I | re.S) if os.environ.get('SB_SYNTH_BIG') else None
+SYNTH_BIG_ROWS = int(os.environ.get('SB_SYNTH_BIG_ROWS', '100000'))
 
 
 def split_top(s: str, sep=',') -> list[str]:
@@ -224,7 +227,13 @@ class SyntheticCursor(FakeCursor):
             # -1 is the code's "nothing" key (MedioCrity = :AccountSide with -1 …): real tables have no such rows
             vals = [getattr(v, 'value', v) for v in dict(binds or {}, **kw).values()]
             n = 0 if any(v == -1 for v in vals) else 1 if one else SYNTH_ROWS
-            self._set(cols, [tuple(value(n_, t, i) for n_, t in zip(names, types)) for i in range(n)])
+            big = bool(n and not one and SYNTH_BIG and SYNTH_BIG.search(sql))
+            if big:
+                n = SYNTH_BIG_ROWS
+            # in a big list, currency columns repeat (1..3) as in a real account table: filters keep large subsets
+            cyc = {k for k, n_ in enumerate(names) if big and re.fullmatch(r'VAL_ACC|VALUTE|CURRENCY|VAL_KOD', n_.upper())}
+            self._set(cols, [tuple((i % 3) + 1 if k in cyc else value(n_, t, i) for k, (n_, t) in enumerate(zip(names, types)))
+                             for i in range(n)])
             self.rowcount = len(self._rows)
             return
         shown = {k: (v.getvalue() if hasattr(v, 'getvalue') else getattr(v, 'value', v)) for k, v in dict(binds or {}, **kw).items()}

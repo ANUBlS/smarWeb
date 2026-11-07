@@ -191,6 +191,30 @@ export class TDBLookupComboBox extends TWinControl {
   get KeyValue(): unknown { const f = this.Field; return f && !this.keyOverride ? f.Value : this._key; }
   set KeyValue(v: unknown) { this._key = v; this.keyOverride = !!this.Field; invalidate(); }
   listFields() { return this.ListField.split(';').map((s) => s.trim()).filter(Boolean); }
+  /* Indexed access to the list (a list of all accounts has hundreds of thousands of rows: never copied whole). */
+  listCount(): number { const ds = this.ListDataSet; return ds && ds.Active ? ds.view.length : 0; }
+  optionAt(i: number): { key: unknown; cols: string[] } | null {
+    const ds = this.ListDataSet;
+    if (!ds || !ds.Active || i < 0 || i >= ds.view.length) return null;
+    const v = ds.rowValues(i)!;
+    const lfs = this.listFields().map((x) => x.toUpperCase());
+    return { key: v[this.KeyField.toUpperCase()], cols: lfs.map((n) => { const f = ds.FindField(n); return f ? f.toDisplay(v[n]) : str(v[n]); }) };
+  }
+  private keyIndex: { view: unknown; rows: unknown; len: number; kf: string; map: Map<string, number> } | null = null;
+  /** Position of a key in the (filtered) list, -1 when absent; the index is rebuilt only when the list changes. */
+  indexOfKey(key: unknown): number {
+    if (key === null || key === undefined) return -1;
+    const ds = this.ListDataSet;
+    if (!ds || !ds.Active) return -1;
+    const kf = this.KeyField.toUpperCase();
+    const ki = this.keyIndex;
+    if (!ki || ki.view !== ds.view || ki.rows !== ds.rows || ki.len !== ds.view.length || ki.kf !== kf) {
+      const map = new Map<string, number>();
+      for (let i = ds.view.length - 1; i >= 0; i--) map.set(String(ds.rowValues(i)![kf]), i);
+      this.keyIndex = { view: ds.view, rows: ds.rows, len: ds.view.length, kf, map };
+    }
+    return this.keyIndex!.map.get(String(key)) ?? -1;
+  }
   /** [key, display columns] for the dropdown. */
   options(): { key: unknown; cols: string[]; idx: number }[] {
     const ds = this.ListDataSet;
@@ -208,7 +232,7 @@ export class TDBLookupComboBox extends TWinControl {
   get Text() {
     const k = this.KeyValue;
     if (k === null || k === undefined) return '';
-    const o = this.options().find((x) => String(x.key) === String(k));
+    const o = this.optionAt(this.indexOfKey(k));
     return o ? o.cols[this.ListFieldIndex] ?? o.cols[0] ?? '' : '';
   }
   set Text(_v: string) { /* */ }
@@ -222,7 +246,7 @@ export class TDBLookupComboBox extends TWinControl {
     else this._key = key;
     // the list dataset follows the selection (Delphi lookup combos position the list source)
     const ds = this.ListDataSet;
-    if (ds) { const i = this.options().findIndex((o) => String(o.key) === String(key)); if (i >= 0) await ds.gotoIndex(i); }
+    if (ds) { const i = this.indexOfKey(key); if (i >= 0) await ds.gotoIndex(i); }
     invalidate();
     await this.fire('OnClick', this);
     await this.fire('OnCloseUp', this);

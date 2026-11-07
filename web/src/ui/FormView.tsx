@@ -1,5 +1,6 @@
 /* Renders a VCL form's component tree at its DFM coordinates with modern styling. */
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronDown, ChevronRight, Play, Circle } from 'lucide-react';
 import { useTick } from '../runtime/ui';
 import { layoutChildren, type Rect } from './layout';
@@ -504,18 +505,106 @@ function ComboView({ c, p }: { c: TComboBox; p: Common }) {
   );
 }
 
+/**
+ * TDBLookupComboBox. The list source can hold every active account (hundreds of thousands of rows): the closed box
+ * shows only the current text, the drop-down renders only the rows in view (DropDownRows high), with VCL's
+ * incremental search on the first list field and the arrow keys moving the selection while closed.
+ */
+const LOOKUP_ROW = 18;
 function LookupView({ c, p }: { c: TDBLookupComboBox; p: Common }) {
-  const opts = c.options();
-  const key = c.KeyValue;
-  const cur = opts.findIndex((o) => String(o.key) === String(key));
+  const box = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [hi, setHi] = useState(-1);
+  const [top, setTop] = useState(0);
+  const search = useRef({ text: '', at: 0 });
+  const count = c.listCount();
+  const cur = c.indexOfKey(c.KeyValue);
+  const curOpt = c.optionAt(cur);
+  const off = !c.Enabled || c.ReadOnly;
+  const rows = Math.max(1, Math.min(Number(c.DropDownRows) || 7, count || 1));
+  const select = (i: number) => { const o = c.optionAt(i); if (o) run(c.userSelect(o.key), c.Name); };
+  const show = () => {
+    if (off) return;
+    const i = cur >= 0 ? cur : 0;
+    setHi(i); setTop(Math.max(0, i - Math.floor(rows / 2)) * LOOKUP_ROW); setOpen(true);
+    void runGuarded(() => c.fire('OnDropDown', c), c.Name);
+  };
+  const close = () => setOpen(false);
+  const keep = (i: number) => {   // keep row i inside the drop-down's viewport
+    const y = i * LOOKUP_ROW;
+    setTop((t0) => (y < t0 ? y : y + LOOKUP_ROW > t0 + rows * LOOKUP_ROW ? y + LOOKUP_ROW - rows * LOOKUP_ROW : t0));
+  };
+  const move = (to: number) => {
+    const i = Math.max(0, Math.min(count - 1, to));
+    if (open) { setHi(i); keep(i); } else if (i !== cur) select(i);
+  };
+  // incremental search (VCL: typed characters search the first list field, prefix match, case-insensitive)
+  const typeAhead = (ch: string) => {
+    const now = Date.now();
+    const s = search.current;
+    s.text = (now - s.at < 1500 ? s.text : '') + ch.toLowerCase();
+    s.at = now;
+    const from = open ? Math.max(0, hi) : Math.max(0, cur);
+    for (let k = 0; k < count; k++) {
+      const i = (from + k) % count;
+      const o = c.optionAt(i);
+      if (o && String(o.cols[0] ?? '').toLowerCase().startsWith(s.text)) { move(i); return; }
+    }
+  };
+  const onKey = (e: KeyboardEvent) => {
+    if (off) return;
+    const k = e.key;
+    if ((k === 'ArrowDown' && e.altKey) || k === 'F4') { e.preventDefault(); if (open) close(); else show(); return; }
+    if (k === 'ArrowDown') { e.preventDefault(); move((open ? hi : cur) + 1); }
+    else if (k === 'ArrowUp') { e.preventDefault(); move((open ? hi : cur) - 1); }
+    else if (k === 'PageDown') { e.preventDefault(); move((open ? hi : cur) + rows); }
+    else if (k === 'PageUp') { e.preventDefault(); move((open ? hi : cur) - rows); }
+    else if (k === 'Home' && open) { e.preventDefault(); move(0); }
+    else if (k === 'End' && open) { e.preventDefault(); move(count - 1); }
+    else if (k === 'Enter' && open) { e.preventDefault(); e.stopPropagation(); close(); if (hi >= 0 && hi !== cur) select(hi); }
+    else if (k === 'Escape' && open) { e.preventDefault(); e.stopPropagation(); close(); }
+    else if (k.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) { e.preventDefault(); typeAhead(k); }
+  };
+  // the drop-down lives in document.body (window bodies clip their content) at the box's screen position
+  const r = open ? box.current?.getBoundingClientRect() : undefined;
+  const width = Math.max(r?.width ?? 0, Number(c.DropDownWidth) || 0);
+  const below = r ? window.innerHeight - r.bottom > rows * LOOKUP_ROW + 8 : true;
+  const first = Math.floor(top / LOOKUP_ROW);
+  const visible: number[] = [];
+  for (let i = first; i < Math.min(count, first + rows + 1); i++) visible.push(i);
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: MouseEvent) => { if (!box.current?.contains(e.target as Node) && !(e.target as HTMLElement).closest?.('.v-lookup-drop')) close(); };
+    window.addEventListener('mousedown', away, true);
+    return () => window.removeEventListener('mousedown', away, true);
+  }, [open]);
   return (
     <div {...p}>
-      <select className="v-input" value={cur} disabled={!c.Enabled || c.ReadOnly} style={{ ...bgStyle(c), ...fontStyle(c) }}
-        onChange={(e) => { const o = opts[Number(e.target.value)]; if (o) run(c.userSelect(o.key), c.Name); }} {...focusHandlers(c)}>
+      <div ref={box} className={`v-input v-lookup${off ? ' disabled' : ''}`} tabIndex={off ? -1 : 0} role="combobox" aria-expanded={open}
+        style={{ ...bgStyle(c), ...fontStyle(c) }} onKeyDown={onKey} onMouseDown={(e) => { if (e.button !== 0 || off) return; e.preventDefault(); box.current?.focus(); if (open) close(); else show(); }}
+        onFocus={focusHandlers(c).onFocus} onBlur={() => { close(); focusHandlers(c).onBlur(); }}>
         {/* VCL: a KeyValue that matches no row of the list shows an empty text */}
-        {cur < 0 ? <option value={-1}></option> : null}
-        {opts.map((o, i) => <option key={i} value={i}>{o.cols.join('   ')}</option>)}
-      </select>
+        <span className="txt">{curOpt ? curOpt.cols.join('   ') : ''}</span>
+        <ChevronDown size={13} className="arrow" />
+      </div>
+      {open && r ? createPortal(
+        <div className="v-lookup-drop" style={{ position: 'fixed', left: r.left, width, top: below ? r.bottom + 1 : undefined,
+          bottom: below ? undefined : window.innerHeight - r.top + 1, height: rows * LOOKUP_ROW + 2 }}
+          onScroll={(e) => setTop((e.target as HTMLDivElement).scrollTop)}
+          ref={(el) => { if (el && Math.abs(el.scrollTop - top) > 1) el.scrollTop = top; }}>
+          <div style={{ height: count * LOOKUP_ROW, position: 'relative' }}>
+            {visible.map((i) => {
+              const o = c.optionAt(i)!;
+              return (
+                <div key={i} className={`li${i === hi ? ' hi' : ''}${i === cur ? ' sel' : ''}`} style={{ top: i * LOOKUP_ROW, height: LOOKUP_ROW }}
+                  onMouseEnter={() => setHi(i)} onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => { close(); if (i !== cur) select(i); box.current?.focus(); }}>
+                  {o.cols.map((s, k) => <span key={k}>{s}</span>)}
+                </div>
+              );
+            })}
+          </div>
+        </div>, document.body) : null}
     </div>
   );
 }

@@ -298,3 +298,16 @@ body.busy, body.busy * { cursor: progress !important; }
 .logset-viewbar { display: flex; gap: 6px; padding: 6px; border-bottom: 1px solid var(--rule); }
 .logset-viewbar .v-input { flex: 1; height: 26px; }
 .logset-view pre { flex: 1; margin: 0; overflow: auto; padding: 8px; font: 11.5px/1.45 ui-monospace, Consolas, monospace; white-space: pre; background: var(--paper); }
+
+/* TDBLookupComboBox: closed box + virtual drop-down list */
+.v-lookup { display: flex; align-items: center; gap: 4px; cursor: default; user-select: none; overflow: hidden; height: 100%; }
+.v-lookup .txt { flex: 1; overflow: hidden; white-space: pre; text-overflow: ellipsis; }
+.v-lookup .arrow { flex: none; opacity: .7; }
+.v-lookup.disabled { opacity: .6; }
+.v-lookup-drop { z-index: 10000; overflow-y: auto; overflow-x: hidden; background: var(--surface); color: var(--ink); border: 1px solid var(--line-2, var(--line));
+  box-shadow: 0 6px 18px rgba(0,0,0,.35); font-size: 12px; }
+.v-lookup-drop .li { position: absolute; left: 0; right: 0; display: flex; gap: 12px; padding: 0 6px; line-height: 18px; white-space: pre; overflow: hidden; cursor: default; }
+.v-lookup-drop .li span { overflow: hidden; text-overflow: ellipsis; }
+.v-lookup-drop .li span:first-child { flex: none; min-width: 40%; }
+.v-lookup-drop .li.sel { font-weight: 600; }
+.v-lookup-drop .li.hi { background: var(--accent); color: var(--accent-fg); }
