@@ -221,6 +221,9 @@ def value(name: str, t: str, i: int):
         return dt.datetime.combine(dt.date.today(), dt.time()) - dt.timedelta(days=7 * i)
     if t == 'INT':
         return i + 1
+    # column lists of grids (cm_fields_list: FieldName → the grid column of that field): common field names
+    if name.upper() == 'FIELDNAME':
+        return ('ID', 'NAME', 'STATUS')[i % 3]
     if t == 'NUMBER':
         return round(1250.75 * (i + 1), 2)
     # as in web/src/api/mock.ts: unclassified columns are mostly NUMBER in this schema (read with StrToFloat)
@@ -282,6 +285,12 @@ class SyntheticCursor(FakeCursor):
             b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
             if b is not None and hasattr(b, 'setvalue'):
                 b.setvalue(0, 'SELECT p.rowid, p.* FROM TRANSACTIONS p ORDER BY p.ID')
+        # module/plugin access checks (CM_ADMINISTRATION.pluginaccess …) allow the test user
+        m = re.search(r':(\w+)\s*:=\s*case when \w+\.(\w*access)\b', sql or '', re.I)
+        if m:
+            b = dict(binds or {}, **kw).get(m.group(1)) or dict(binds or {}, **kw).get(m.group(1).lower())
+            if b is not None and hasattr(b, 'setvalue'):
+                b.setvalue(0, 1)
         # the operational day is open while people work (SBSYS.is_day_opened …)
         m = re.search(r':(\w+)\s*:=\s*case when \w+\.(is_?day_?opened)\b', sql or '', re.I)
         if m:

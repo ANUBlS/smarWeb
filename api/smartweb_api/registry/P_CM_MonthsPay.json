@@ -1,0 +1,102 @@
+{
+ "name": "P_CM_MonthsPay",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_months_Payment",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "FilialDataSet",
+   "source": "TFrmMonthsPay.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT id, name\n    FROM filial",
+   "variables": [],
+   "unit": "monthspayImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFrmMonthsPay.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "monthspayImpl"
+  },
+  {
+   "name": "sysdate",
+   "source": "TFrmMonthsPay.sysdate",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "monthspayImpl"
+  },
+  {
+   "name": "Main",
+   "source": "TFrmMonthsPay.Main",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum, c.name ,CM_RPORT.get_krediticelbeden(p.expertid) as celbeden ,p.dateofconclusion,p.duedatefirstcontract,CM_RPORT.get_bolgu(p.id) as sahebolusu,\nm.odenishtar oddat,v.val_name,m.ayliqodenish \"ayliq odenish\",m.verilmishkr verilmish,\nm.odenilmishkr odenilmish,h.rest,p.annualyinterestrate ||'%' stafka,CM_COMMON.accountnumber_get(ac.booroweraccid)as carihes,\nCM_COMMON.get_accountrest(ac.booroweraccid,:dat) as carihq,m.ebkohneborc duerest,\nm.cariaydaodenilmelib cariayd_od  ,m.cemiodeneneb cemi_od\n,m.gecguneb gecgun ,m.faizborckohne gecfaiz,m.cariayhesfaiz carihes_faiz\n, m.cemifaiz Full_Faiz ,m.faizgecgun Get_GEC_faizGun from \nCM_SB_CUSTOMERS c,\ncm_active_credits p,\navalute v,\ncm_history h,\ncm_accounts ac,\ncm_monthspayment m\nwhere\np.boorowerid=c.id and\np.currency=v.valute and \nh.creditid=p.id and \nh.hdate=:dat and \np.id=ac.creditid and\np.id=m.creditid\n \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*select rownum, c.name ,CM_RPORT.get_krediticelbeden(p.expertid) as celbeden ,p.dateofconclusion,p.duedatefirstcontract,CM_RPORT.get_bolgu(p.id) as sahebolusu,\ncm_unversal.get_odenishtarixi(p.id,:dat) oddat,v.val_name,cm_unversal.Get_Ayliqodenish(p.id,:dat) \"ayliq odenish\",cm_unversal.get_verilmishcr(p.id,:dat) verilmish,\ncm_unversal.get_odenilmish(p.id,:dat) odenilmish,h.rest,p.annualyinterestrate ||'%' stafka,CM_COMMON.accountnumber_get(ac.booroweraccid)as carihes,\nCM_COMMON.get_accountrest(ac.booroweraccid,:dat) as carihq,cm_unversal.get_gecikmishesas(p.id,:dat) duerest,\nnvl(cm_unversal.get_cariaydaodenish_eas(p.id,:dat),0) cariayd_od  ,(nvl(cm_unversal.get_gecikmishesas(p.id,:dat),0)+nvl(cm_unversal.get_cariaydaodenish_eas(p.id,:dat),0)) cemi_od\n,cm_unversal.get_gec_gun(p.id,:dat) gecgun , cm_unversal.get_gec_faiz(p.id,:dat) gecfaiz,cm_unversal.Get_CariAydaHesFAiz(p.id,:dat)carihes_faiz\n, (cm_unversal.get_gec_faiz(p.id,:dat) +cm_unversal.Get_CariAydaHesFAiz(p.id,:dat))Full_Faiz ,cm_unversal.Get_GEC_faizGun(p.id,:dat)Get_GEC_faizGun from \nCM_SB_CUSTOMERS c,\ncm_active_credits p,\nsb_avalute v,\ncm_history h,\ncm_accounts ac\n\nwhere\np.boorowerid=c.id and\np.currency=v.valute and \nh.creditid=p.id and \nh.hdate=:dat and \np.id=ac.creditid */\n \n\n\n/**/\n\n\n ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "monthspayImpl"
+  },
+  {
+   "name": "credit",
+   "source": "TFrmMonthsPay.credit",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_active_credits p\n\n\n\n",
+   "variables": [],
+   "unit": "monthspayImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "CM_UNVERSAL",
+   "mode": "named",
+   "source": "TFrmMonthsPay.OraclePackage1",
+   "routines": [
+    {
+     "name": "monthspayreport",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,97 @@
+{
+ "name": "P_CM_TrancheCreditCards",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_TrancheCreditCards",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditCards",
+   "source": "TCreditCardDatMod.CreditCards",
+   "kind": "TOracleDataSet",
+   "sql": "select id from cm_active_credits \n                where CM_CARDS.iscreditcards(id)=1 and CM_CARDS.Get_CustOstat(id)<0",
+   "variables": [],
+   "unit": "TrCreditCDatModImpl"
+  },
+  {
+   "name": "Transactions",
+   "source": "TCreditCardDatMod.Transactions",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   A.ACC_NO as DebitAccNo, \n   D.VAL_NAME as DebitCurrency, \n   C.ACC_NO as CreditAccNo, \n   T.Ostat,\n   E.VAL_NAME  as CreditCurrency,\n   B.TRDATE ,\n   B.CANPROCESS , \n   B.INBALANCECHAR , \n   B.FLAGS , \n   B.DEBITAMOUNT , \n   B.CREDITAMOUNT , \n   B.NATAMOUNT ,\n   B.TrDescription\nFROM\n   ACCOUNT A\n , AVALUTE D\n , CM_TRANSACTIONS B\n , ACCOUNT C\n , AVALUTE E\n ,TENOSTAT T\nWHERE\n     (B.DEBITACCID = A.ID)\n AND (D.VALUTE = A.VAL_ACC)\n AND (B.CREDITACCID = C.ID)\n AND (C.VAL_ACC = E.VALUTE)\n and (T.ACC_ID = B.CREDITACCID)\n\n\nunion \n\nSELECT\n   A.ACC_NO as DebitAccNo, \n   D.VAL_NAME as DebitCurrency, \n   C.ACC_NO as CreditAccNo, \n   T.Ostat,\n   E.VAL_NAME  as CreditCurrency,\n   B.TRDATE ,\n   B.CANPROCESS , \n   B.INBALANCECHAR , \n   B.FLAGS , \n   B.DEBITAMOUNT , \n   B.CREDITAMOUNT , \n   B.NATAMOUNT ,\n   B.TrDescription\nFROM\n   OUT_ACCOUNT A\n , AVALUTE D\n , CM_TRANSACTIONS B\n ,OUT_ACCOUNT C\n , AVALUTE E\n ,smart.out_TENOSTAT T\nWHERE\n     (B.DEBITACCID = A.ID)\n AND (D.VALUTE = A.VAL_ACC)\n AND (B.CREDITACCID = C.ID)\n AND (C.VAL_ACC = E.VALUTE)\n and (T.ACC_ID = B.CREDITACCID)\n\n\n",
+   "variables": [],
+   "unit": "TrCreditCDatModImpl"
+  },
+  {
+   "name": "Controls",
+   "source": "TCreditCardDatMod.Controls",
+   "kind": "TOracleDataSet",
+   "sql": "select p.numberofcredit,\n       cm_common.accountnumber_get(a.contractaccid) as contractno,\n       cm_common.accountrest_get(a.booroweraccid) as CustRest,\n       h.rest \nfrom cm_active_credits p,\n     cm_accounts a,\n     cm_curr_state h\nwhere p.id = a.creditid\nand   p.id=h.creditid \nand   cm_common.accountrest_get(a.booroweraccid)<0\n            ",
+   "variables": [],
+   "unit": "TrCreditCDatModImpl"
+  },
+  {
+   "name": "Branches",
+   "source": "TCreditCardDatMod.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "select -1 as id,'Bütün filiallar' as name from dual\nunion\nselect id ,name from filial\norder by id",
+   "variables": [],
+   "unit": "TrCreditCDatModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_CARDS",
+   "package": "CM_CARDS",
+   "mode": "positional",
+   "source": "TCreditCardDatMod.CM_CARDS",
+   "routines": [
+    {
+     "name": "CommitTranche",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Get_CreditCards",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "Tranche_CreditCards",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

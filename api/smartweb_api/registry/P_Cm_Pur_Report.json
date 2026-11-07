@@ -1,0 +1,187 @@
+{
+ "name": "P_Cm_Pur_Report",
+ "caption": "",
+ "dir": "Packages/SB_Credit/Purdensal_report",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TPurFrm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM smart.vid_sob ",
+   "variables": [],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TPurFrm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM smart.filial \n",
+   "variables": [],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TPurFrm.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select valute ,valu_name from smart.avalute_t",
+   "variables": [],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "Main",
+   "source": "TPurFrm.Main",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.numberofcredit,\n CM_COMMON.accountnumber_get(a.LOANACCID)      as \"Ssuda hes\",\n CM_COMMON.accountnumber_get(a.INTERESTACCID)  as \"Faiz hes\",\n CM_COMMON.accountnumber_get(a.DUELOANACCID)   as \"Gej Ssuda hes\",\n CM_COMMON.accountnumber_get(a.DUEINTERESTACCID)as \" Gej Faiz hes\",\n CM_COMMON.accountnumber_get(a.PRIMARYRESERVEACCID)as \"Ehtiyyat hes\",\n CM_COMMON.accountnumber_get(a.SECONDARYRESERVEACCID)as \"Gej Ehtiyyat hes\",\n CM_COMMON.accountnumber_get(a.BOOROWERACCID)as \"Jari hes\",\n p.creditlineamount , p.creditlineamount*o.ostat as ekvalent,v.val_name,\n cu.name as borcalan, t.description,  p.dateofconclusion,p.duedatefirstcontract,p.duedatelastcontract,\n  CM_PURDENSAL.get_duerest(p.id) as vaxtibitmish,\n  CM_PURDENSAL.get_duedat(p.id) as hesablanmayan , p.annualyinterestrate,p.annualyoverduerate,\n  case when r.PERCENT<=10\n  then  (r.PERCENT*ds.rest)/100 else 0 end as adi,--pt.description,\n  case when r.PERCENT>10\n  then (r.PERCENT *ds.rest)/100 else 0 end as meqsedli,\nds.rest as ds_rest,ds.rest*o.ostat as dsrest_ek,ds.interestrest as dsinterestrest,ds.interestrest*o.ostat as dsint_ek,ds.duerest as dsduerest,ds.duerest*o.ostat as dsduerest_ek ,\nds.dueinterestrest as dsdueinterestrest ,ds.dueinterestrest * o.ostat as dsdoeint_ek,\npl.description,ds.pledgeprice,g.PLEDGENAME,  case when cu.nerezident=0  then 'Rezdent'  else 'Qeyri rezdent' end as rezdent,\nCM_RPORT.get_vid_sob(p.activities_type)as \"Mulkiyyet novu\",cm_RPORT.get_aim(p.aim_id) as \"Kreditin alunma meqsedi\",CM_RPORT.get_cred(p.creditact) as \"Borcalanun sektoru\",CM_RPORT.get_actives(p.activities) as \"Borcalanin faliyyeti\",\nca.description  as \"Borcalanin faliyyet novu\" ,(ds.interestrest+ds.dueinterestrest)as \"faizler uzre borclar\",\n(ds.interestrest+ds.dueinterestrest)*o.ostat as \"Faizler uzre borclar ek\" ,(ds.rest+ds.duerest) as \"Cari borclar\" ,(ds.rest+ds.duerest)*o.ostat as \"Cari borclar EK\",\nCM_UTILS.Get_Gecgun(p.id,:dat) as gecgun ,\ncase when gd.dueday between 1 and 30 then\nds.rest+ds.duerest else 0 end as \"1 30\",\ncase when gd.dueday between 31 and 60 then\nds.rest+ds.duerest else 0 end as \"31-60\",\ncase when gd.dueday between 61 and 90 then\nds.rest+ds.duerest else 0 end as \"61-90\",\ncase when gd.dueday between 91 and 120 then\nds.rest+ds.duerest else 0 end as \"91-120\",\ncase when gd.dueday between 121 and 150 then\nds.rest+ds.duerest else 0 end as \"121-150\",\ncase when gd.dueday between 151 and 180 then\nds.rest+ds.duerest else 0 end as \"151-180\",\ncase when gd.dueday between 181 and 210 then\nds.rest+ds.duerest else 0 end as \"181-210\",\ncase when gd.dueday between 211 and 240 then\nds.rest+ds.duerest else 0 end as \"211-240\",\ncase when gd.dueday between 241 and 270 then\nds.rest+ds.duerest else 0 end as \"241-270\",\ncase when gd.dueday between 271 and 300 then\nds.rest+ds.duerest else 0 end as \"271-300\",\ncase when gd.dueday between 301 and 330 then\nds.rest+ds.duerest else 0 end as \"301-330\",\ncase when gd.dueday between 331 and 365 then\nds.rest+ds.duerest else 0 end as \"331-365\",\ncase when gd.dueday >=366 then\nds.rest+ds.duerest else 0 end as \"Bir ilden artiq\"\n\n from\n cm_active_credits p,cm_reserve_types r,  cm_history ds, smart.customers cu,cm_categories ca,\ncm_accounts a,operkurs o,smart.avalute v ,cm_credittypes t,cm_guarantee g,cm_pledges pl,CM_DUEDAY gd --,CM_PLEDGES_T pt\n where\n/* p.id=h.creditid and */p.id=ds.creditid and gd.creditid=p.id and\n /*h.hdate=(select tek_dat from smart.sysdat) and*/\n p.id=a.creditid and p.customertype=ca.id and --g.PLEDGEID_P=pt.id and \n p.currency=o.VAL_KOD and\no.DAT=:dat and\np.currency=v.valute and ds.rest+ds.duerest+ds.interestrest>0 and\np.credittype=t.id and\nr.id=ds.reserveid and ds.hdate =:dat and\np.id=g.creditid(+) and g.PLEDGEID=pl.id(+) and p.boorowerid=cu.id  --and p.usrgroup not in(84,85,104,105)\n\n\n/**/\n\n\n\n\n\n ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "SysDat",
+   "source": "TPurFrm.SysDat",
+   "kind": "TOracleDataSet",
+   "sql": "select tek_dat from smart.sysdat",
+   "variables": [],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "CemSet",
+   "source": "TPurFrm.CemSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT code,name,m_kodu,\"Mulkiyyet novu\", kodu as s_kodu ,\"Borcalanun sektoru\",VAL_NAME,\n       a_kodu as f_kodu, \"Borcalanin faliyyeti\",p_kodu as fn_kodu, \"Borcalanin faliyyet novu\",\n       sum(creditlineamount), sum(ekvalent), /*sum(vaxtibitmish),*/ sum(hesablanmayan),\n       sum(adi), sum(meqsedli), sum(ds_rest), sum(dsrest_ek), sum(dsinterestrest),\n       sum(dsint_ek), sum(dsduerest), sum(dsduerest_ek), sum(dsdueinterestrest),\n       sum(dsdoeint_ek), /*sum(pledgeprice),*/ sum(\"faizler uzre borclar\"),\n       sum(\"Faizler uzre borclar ek\"),sum( \"Cari borclar\"),\n       sum(\"Cari borclar EK\"),  sum(\"1-30\"),sum(\"31-60\"),\n       sum(\"61-90\"), sum(\"91-120\"), sum(\"121-150\"), sum(\"151-180\"),sum( \"181-210\"),\n       sum(\"211-240\"), sum(\"241-270\"), sum(\"271-300\"), sum(\"301-330\"), sum(\"331-365\"), sum(\"Bir ilden artiq\"),sum(uzadilmishdar),\nsum(\" 0 %\"),sum(\" 2 %\"),sum(\" 10 %\"),sum(\" 30 %\"),sum(\" 60 %\"),sum(\" 100 %\"),sum(girov)\n  FROM cm_pur where hdate=:dat and dat=:dat\n  \n  \n  group by code,name, m_kodu,\"Mulkiyyet novu\", \"Borcalanun sektoru\",\n       \"Borcalanin faliyyeti\", \"Borcalanin faliyyet novu\",kodu ,p_kodu,a_kodu ,VAL_NAME\n\n\n ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "Active",
+   "source": "TPurFrm.Active",
+   "kind": "TOracleDataSet",
+   "sql": "select id from smart.cm_active_credits",
+   "variables": [],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TPurFrm.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.numberofcredit,\n CM_COMMON.accountnumber_get(a.LOANACCID)      as \"Ssuda hes\",\n CM_COMMON.accountnumber_get(a.INTERESTACCID)  as \"Faiz hes\",\n CM_COMMON.accountnumber_get(a.DUELOANACCID)   as \"Gej Ssuda hes\",\n CM_COMMON.accountnumber_get(a.DUEINTERESTACCID)as \" Gej Faiz hes\",\n CM_COMMON.accountnumber_get(a.PRIMARYRESERVEACCID)as \"Ehtiyyat hes\",\n CM_COMMON.accountnumber_get(a.SECONDARYRESERVEACCID)as \"Gej Ehtiyyat hes\",\n CM_COMMON.accountnumber_get(a.BOOROWERACCID)as \"Jari hes\",\n  p.creditlineamount , p.creditlineamount*o.ostat as ekvalent,v.val_name,\n cu.name as borcalan, t.description,  p.dateofconclusion,p.duedatefirstcontract,p.duedatelastcontract,\n  CM_PURDENSAL.get_duerest(p.id) as vaxtibitmish,\n  CM_PURDENSAL.get_duedat(p.id) as hesablanmayan , p.annualyinterestrate,p.annualyoverduerate,\n  case when r.PERCENT>=10 \n  then ''  else ''||r.PERCENT end as adi,\n  case when r.PERCENT>10 \n  then ''||r.PERCENT  else '' end as meqsedli,\nds.rest as ds_rest,ds.rest*o.ostat as dsrest_ek,ds.interestrest as dsinterestrest,ds.interestrest*o.ostat as dsint_ek,ds.duerest as dsduerest,ds.duerest*o.ostat as dsduerest_ek ,\nds.dueinterestrest as dsdueinterestrest ,ds.dueinterestrest * o.ostat as dsdoeint_ek,\npl.description,ds.pledgeprice,g.PLEDGENAME,  case when cu.nerezident=0  then 'Rezdent'  else 'Qeyri rezdent' end as rezdent,\nCM_RPORT.get_vid_sob(p.boorowerid)as \"Mulkiyyet novu\",cm_RPORT.get_aim(p.aim_id) as \"Kreditin alunma meqsedi\",CM_RPORT.get_cred(p.creditact) as \"Borcalanun sektoru\",CM_RPORT.get_actives(p.activities) as \"Borcalanin faliyyeti\",\nCM_RPORT.get_actives_type(p.activities_type) as \"Borcalanin faliyyet novu\" ,(ds.interestrest+ds.dueinterestrest)as \"faizler uzre borclar\",\n(ds.interestrest+ds.dueinterestrest)*o.ostat as \"Faizler uzre borclar ek\" ,(ds.rest+ds.duerest) as \"Cari borclar\" ,(ds.rest+ds.duerest)*o.ostat as \"Cari borclar EK\",\nCM_UTILS.Get_Gecgun(p.id,:dat) as gecgun ,\ncase when CM_UTILS.Get_Gecgun(p.id,:dat) between 1 and 29 then \nds.rest+ds.duerest else 0 end as \"1-29\",\ncase when CM_UTILS.Get_Gecgun(p.id,:dat) between 30 and 89 then \nds.rest+ds.duerest else 0 end as \"30-89\",\ncase when CM_UTILS.Get_Gecgun(p.id,:dat) between 90 and 179 then \nds.rest+ds.duerest else 0 end as \"90-179\",\ncase when CM_UTILS.Get_Gecgun(p.id,:dat) between 180 and 365 then \nds.rest+ds.duerest else 0 end as \"180-365\",\ncase when CM_UTILS.Get_Gecgun(p.id,:dat) >365 then \nds.rest+ds.duerest else 0 end as \"Bir ilden artiq\"\n\n from \n cm_active_credits p,cm_reserve_types r,  cm_history ds, smart.customers cu,\n/* cm_history h,*/cm_accounts a,sb_operkurs o,smart.avalute v ,cm_credittypes t,cm_guarantee g,cm_pledges pl\n where \n/* p.id=h.creditid and */p.id=ds.creditid and\n /*h.hdate=(select tek_dat from smart.sysdat) and*/\n p.id=a.creditid and \n p.currency=o.VAL_KOD and\no.DAT=:dat and\np.currency=v.valute and ds.rest+ds.duerest+ds.interestrest>0 and\np.credittype=t.id and \nr.id=ds.reserveid and ds.hdate =:dat and\np.id=g.creditid and g.PLEDGEID=pl.id and p.boorowerid=cu.id\n\n\n/**/\n\n\n\n",
+   "variables": [],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "odenish",
+   "source": "TPurFrm.odenish",
+   "kind": "TOracleDataSet",
+   "sql": "select 'A11A-cem'as status,sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,0,0)*o.ostat) as \"Ani\", sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,1,7)*o.ostat) as \"1--7\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,8,14)*o.ostat) as \"8--14\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,15,30)*o.ostat) as \"15-30\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,31,60)*o.ostat) as \"31-60\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,61,90)*o.ostat) as \"61-90\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,91,120)*o.ostat) as \"91-120\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,121,150)*o.ostat) as \"121-150\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,151,180)*o.ostat) as \"151-180\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,181,210)*o.ostat) as \"181-210\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,211,240)*o.ostat) as \"211-240\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,241,270)*o.ostat) as \"241-270\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,271,300)*o.ostat) as \"271-300\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,301,330)*o.ostat) as \"301-330\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,331,366)*o.ostat) as \"331-366\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,367,732)*o.ostat) as \"1-2 il\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,733,1097)*o.ostat) as \"2-3 il\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,1098,1828)*o.ostat) as \"3-5 il\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,1229,1000000)*o.ostat) as \"5 ilden artiq\",\nsum(CM_PURDENSAL.vaxtikecmish(id,:dat)*o.ostat) as\"Vaxtı keçmiş\"\n from smart.cm_active_credits p, smart.operkurs o\n where p.currency=o.val_kod and o.dat=:dat -- and p.usrgroup not in(84,85,104,105)\n union all\n select 'A11A-XVcem'as status,sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,0,0)*o.ostat) as \"Ani\", sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,1,7)*o.ostat) as \"1--7\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,8,14)*o.ostat) as \"8--14\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,15,30)*o.ostat) as \"15-30\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,31,60)*o.ostat) as \"31-60\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,61,90)*o.ostat) as \"61-90\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,91,120)*o.ostat) as \"91-120\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,121,150)*o.ostat) as \"121-150\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,151,180)*o.ostat) as \"151-180\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,181,210)*o.ostat) as \"181-210\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,211,240)*o.ostat) as \"211-240\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,241,270)*o.ostat) as \"241-270\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,271,300)*o.ostat) as \"271-300\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,301,330)*o.ostat) as \"301-330\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,331,366)*o.ostat) as \"331-366\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,367,732)*o.ostat) as \"1-2 il\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,733,1097)*o.ostat) as \"2-3 il\",\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,1098,1828)*o.ostat) as \"3-5 il\",sum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,1229,1000000)*o.ostat) as \"5 ilden artiq\",\nsum(CM_PURDENSAL.vaxtikecmish(id,:dat)*o.ostat) as\"Vaxtı keçmiş\"\n from smart.cm_active_credits p, smart.operkurs o\n where p.currency=o.val_kod and o.dat=:dat\n and p.currency<>0  --and p.usrgroup not in(84,85,104,105)\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "Girov",
+   "source": "TPurFrm.Girov",
+   "kind": "TOracleDataSet",
+   "sql": " select count(say)as say,DESCRIPTION,sum(rest)as qaliq,sum(GIROV) as GIROV,sum(qenaitbexsh) as qenaitbexsh,sum(nezaretalt) as  nezaretalt,\nsum(meqsedli)as  meqsedli,sum(Tehlukeli) as  Tehlukeli,sum(umudsuz) as  umudsuz, sum(Tesnifata_daxil_edilmemish) as  Tesnifata_daxil_edilmemish\n   \n  FROM cm_girov  a\n\n  where hdate=:dat and dat=:dat\n\n  group by DESCRIPTION\n    ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "adiyyat",
+   "source": "TPurFrm.adiyyat",
+   "kind": "TOracleDataSet",
+   "sql": " select 'Ümumi'as d ,  nvl(count(id),0) fullcount, nvl(sum((select sum(trancheamount) from cm_tranches where creditid=p.id)),0) fulltrancve\n   ,nvl(sum((select count(id) from cm_active_credits  where id=p.id and CURRENCY<>0 )),0) valcount,\n    nvl(sum((select sum(trancheamount) from cm_tranches where creditid=p.id and creditid in (select id from cm_active_credits where id=p.id and CURRENCY<>0))),0) valtran\n    from cm_active_credits p \n    where p.dateofconclusion between :bdat and :edat and p.usrgroup not in(84,85,104,105)\n union  all\n  select 'adiyyatı olanlar'as d,  nvl(count(id),0) fullcount, nvl(sum((select sum(trancheamount) from cm_tranches where creditid=p.id)),0) fulltrancve\n   ,nvl(sum((select count(id) from cm_active_credits  where id=p.id and CURRENCY<>0 )),0) valcount,\n    nvl(sum((select sum(trancheamount) from cm_tranches where creditid=p.id and creditid in (select id from cm_active_credits where id=p.id and CURRENCY<>0))),0) valtran\n    from cm_active_credits p where \n    p.boorowerid in( select id from smart.customers where PRINAD_KOD<>0)\n   and p.dateofconclusion between :bdat and :edat and p.usrgroup not in(84,85,104,105)",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "PurImpl"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TPurFrm.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id, p.boorowerid, b.name,((h.rest+h.duerest)+CM_COMMON.OutAccountRest_Get(ac.OUTGUARANTEEACCID))*op.ostat qaliq \n ,r.percent||'%',h.pledgeprice*op.ostat pledgeprice,pl.description,ai.name from\nsmart.cm_active_credits p, \nsmart.cm_guarantee g,\nsmart.cm_history h,\nsmart.cm_boorowerinfo b,\nsmart.cm_pledges pl,\nsmart.CM_RESERVE_TYPES r,\nsmart.cm_accounts ac,\nsmart.operkurs op,\nsmart.CM_AIM_CRED ai,\n(select p.boorowerid as brid,sum(h.rest)+sum(h.duerest)as qaliq from smart.cm_active_credits p ,smart.cm_history h\n where \n p.id=h.creditid and h.hdate =( select tek_dat from smart.sysdat) \n  group by p.boorowerid) cs\nwhere\np.id=b.creditid and\np.id=g.creditid and p.aim_id=ai.id and\np.id=h.creditid and\ng.pledgeid=pl.id and \nh.hdate =:dat and op.dat= :dat and p.currency=op.val_kod and\nh.reserveid=r.id and ac.creditid=p.id and p.boorowerid=cs.brid \n\n\n\n\n\norder by p.boorowerid\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "PurImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "CM_RPORT",
+   "mode": "named",
+   "source": "TPurFrm.OraclePackage1",
+   "routines": [
+    {
+     "name": "Gec_gun",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

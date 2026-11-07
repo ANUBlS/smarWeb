@@ -1,0 +1,489 @@
+{
+ "name": "P_CM_FolderPlace",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_FolderPlace",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "cm_guarantee.bpl": "P_Cm_Guarantee_2",
+  "cm_payment.bpl": "P_CM_Payment"
+ },
+ "lib": [
+  "CMCurrencyEdit",
+  "CommonDecls",
+  "DBSumLst",
+  "LogoutputImpl",
+  "OraVariables",
+  "ProgressFormImpl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Currencys",
+   "source": "TFilterDataModule.Currencys",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT valute,  valu_name\n  FROM AVALUTE\nORDER BY VALUTE",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "Branches",
+   "source": "TFilterDataModule.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "Pledges",
+   "source": "TFilterDataModule.Pledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_pledges",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "UserGroups",
+   "source": "TFilterDataModule.UserGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "PReserves",
+   "source": "TFilterDataModule.PReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "SReserves",
+   "source": "TFilterDataModule.SReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "Users",
+   "source": "TFilterDataModule.Users",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM smart.user$\nORDER BY NAME",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TFilterDataModule.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TFilterDataModule.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TFilterDataModule.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TFilterDataModule.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  name\n  FROM CM_SB_CUSTOMERS\nORDER BY NAME",
+   "variables": [],
+   "unit": "FlFilterDataModuleImpl"
+  },
+  {
+   "name": "IntCache",
+   "source": "TPRDataModule.IntCache",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.numberofcredit,VAL_NAME,b.name,REST,DUEREST, INTERESTREST,creditlineamount,dateofconclusion,duedatefirstcontract,p.stop,cm_folder.Get_dosyestatus(q.id,h.dueday,p.id) dstatus,\n case when nvl(fl.status ,0)=1then\n0 else q.id end as\n TRPROCESSED,(select count(*) from cm_folderplace_info where creditid=p.id) qeydsayi,cr.description crtype,q_dat,q_rest,q_intrest,q_penya,\n case \n when nvl(dueday,0) between 1 and 30 then \n 1\n when nvl(dueday,0) between 31 and 300000 then \n 2\n else\n 0\n end as due, cm_utils.get_qetname(p.id,1)+cm_utils.get_qetname(p.id,2)+cm_utils.get_qetname(p.id,3) cemqet, \ncm_utils.get_qetname(p.id,1) ebqal_meh, cm_utils.get_qetname(p.id,2)fbqal_meh,cm_utils.get_qetname(p.id,3)penqal_meh,\nb.phonenumber,gr.anyinfotodisting,gr.pledgeprice,(select name from cm_mehkeme s where s.id=fl.mehid)meh,fl.mehid,\nDUEINTERESTREST,REST+DUEREST+INTERESTREST+DUEINTERESTREST fullrest, dueday,q.id qovid,q.name qovluq,f.name filial,nvl(fl.status ,0)status,p.currency,p.BRANCHID,p.credittype from \ncm_active_credits p,cm_credittypes cr,\ncm_curr_state h,cm_guarantee gr,\ncm_boorowerinfo b,\ncm_qovluq q,\nfilial_t f,\navalute_t v,\n(select * from  cm_folderplace s where  senddate= (select max(senddate) from cm_folderplace where creditid=s.creditid)) fl\n \nwhere p.id=h.creditid and\np.id=b.creditid and\np.qovid=q.id and\np.id=gr.creditid(+)  and h.rest+h.duerest+h.interestrest+h.interestrest>0 and\np.BRANCHID=f.id and\n(p.id=fl.creditid(+)) and\n--fl.status=1 and \n-- (fl.senddate= (select max(senddate) from cm_folderplace where creditid=p.id))) and \np.currency=v.valute  and p.credittype=cr.id --and p.id=43112\n\n\n\n\n\n    order by :OrderField",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TPRDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_qovluq where id not in(select qovid from cm_folderusers where usnam=user and not usnam in('SMART','ZEYNALOV_K','SAFAROV_F','QANBAROV_F','HUMBATOV_N') )\n",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TPRDataModule.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select fl.id,p.id creditid,fl.senduser, p.numberofcredit,b.name,to_date(senddate) dat,q1.name qovidsender,q2.name qovidreciver,fl.qovidreciver reciveriid ,fl.qovidsender senderid from \ncm_folderplace fl,cm_active_credits p,cm_boorowerinfo b,cm_qovluq q1,cm_qovluq q2\n where\n fl.creditid=p.id and \n b.creditid=p.id and \n fl.qovidsender=q1.id and \n fl.qovidreciver=q2.id and\nfl.status=1 and\n q2.id in(select qovid from cm_folderusers where usnam=user)\n\norder by :OrderField",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TPRDataModule.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select fl.id,p.id creditid,fl.status,fl.senduser,fl.reciveuser, p.numberofcredit,b.name,to_date(senddate) dat,q1.name qovidsender,q2.name qovidreciver,fl.qovidreciver reciveriid ,fl.qovidsender senderid\n,case when fl.status=2 then\nfl.recivedate||' tarixində təstiq olundu 'else\nfl.recivedate||' tarixində imtina olundu '\nend as veziyyet\n from \ncm_folderplace fl,cm_active_credits p,cm_boorowerinfo b,cm_qovluq q1,cm_qovluq q2\n where\n fl.creditid=p.id and \n b.creditid=p.id and \n fl.qovidsender=q1.id and \n fl.qovidreciver=q2.id and\nfl.status<>1\norder by :OrderField",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TPRDataModule.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum,a.rowid, a.* FROM cm_folderplace_info a where creditid=:creditid\norder by rownum,id desc",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "IntCache_ex",
+   "source": "TPRDataModule.IntCache_ex",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.numberofcredit,VAL_NAME,b.name,REST,DUEREST, INTERESTREST,creditlineamount,dateofconclusion,duedatefirstcontract,\n case when nvl(fl.status ,0)=1then\n0 else q.id end as\n TRPROCESSED,(select count(*) from cm_folderplace_info where creditid=p.id) qeydsayi,cr.description crtype,q_dat,q_rest,q_intrest,q_penya,\n case \n when nvl(dueday,0) between 1 and 30 then \n 1\n when nvl(dueday,0) between 31 and 300000 then \n 2\n else\n 0\n end as due/*,cm_utils.get_qetname(p.id,1)+cm_utils.get_qetname(p.id,2)+cm_utils.get_qetname(p.id,3) cemqet*/,\n b.phonenumber,gr.anyinfotodisting,gr.pledgeprice,g1.guarantorname z1nam,g1.zaminwork1 z1work,g1.zmtelmob1 z1tel\n ,g2.guarantorname z2nam,g2.zaminwork1 z2work,g2.zmtelmob1 z2tel,g3.guarantorname z3nam,g3.zaminwork1 z1work,g3.zmtelmob1 z3tel,\n    LastintPaydate.paydat as lastintpaydate ,dLastintPaydate.paydat as dlastintpaydate ,\n    LastMainPaydate.paydat as lastmainpaydate , dLastMainPaydate.paydat as dlastmainpaydate ,dLastMainPaydate.payeddueamt,\n    LastintPaydate.payedintamt,LastMainPaydate.payedamt,dLastintPaydate.payeddueintamt,    \nDUEINTERESTREST,REST+DUEREST+INTERESTREST+DUEINTERESTREST fullrest, dueday,q.id qovid,q.name qovluq,f.name filial,nvl(fl.status ,0)status,p.currency,p.BRANCHID,p.credittype from \ncm_active_credits p,cm_credittypes cr,\ncm_curr_state h,cm_guarantee gr,\ncm_boorowerinfo b,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3,\ncm_qovluq q,\nfilial_t f,\navalute_t v,\ncm_folderplace fl,\n ((select \n          id as creditid,\n          null as paydat ,0 payedintamt\n        from cm_portfolio \n       minus\n       select \n       creditid ,\n       null as paydat,0 payedintamt from cm_payments p\n      where PAYEDINTAMT<>0  \n      and PAYDATE in(select max(paydate) from cm_payments where paydate<=sbop.get_date and creditid=p.creditid)\n      group by creditid)\n      union all\n      select \n       creditid ,\n       max(PAYDATE) as paydat,sum(payedintamt)payedintamt from cm_payments p\n      where PAYEDINTAMT<>0  \n      and PAYDATE in(select max(paydate) from cm_payments where paydate<=sbop.get_date and creditid=p.creditid)\n      group by creditid) LastintPaydate,     \n      ((select \n          id as creditid,\n          null as paydat,0 payedamt\n        from cm_portfolio \n       minus\n       select \n       creditid ,\n       null as paydat,0 payedamt from cm_payments p\n      where payedamt<>0  \n      and PAYDATE in(select max(paydate) from cm_payments where paydate<=sbop.get_date and creditid=p.creditid)\n      group by creditid)\n      union all\n      select \n       creditid ,\n       max(PAYDATE) as paydat,sum(payedamt)payedamt from cm_payments p\n      where payedamt<>0  \n      and PAYDATE in(select max(paydate) from cm_payments where paydate<=sbop.get_date and creditid=p.creditid)\n      group by creditid) LastMainPaydate      \n      ,            \n      ((select \n          id as creditid,\n          null as paydat,0 payeddueintamt\n        from cm_portfolio \n       minus\n       select \n       creditid ,\n       null as paydat, 0 payeddueintamt from cm_payments p\n      where payeddueintamt<>0  \n      and PAYDATE in(select max(paydate) from cm_payments where paydate<=sbop.get_date and creditid=p.creditid)\n      group by creditid)\n      union all\n      select  \n       creditid ,\n       max(PAYDATE) as paydat,sum(payeddueintamt) payeddueintamt from cm_payments p\n      where payeddueintamt<>0  \n      and PAYDATE in(select max(paydate) from cm_payments where paydate<=sbop.get_date and creditid=p.creditid)\n      group by creditid) dLastintPaydate,     \n      ((select \n          id as creditid,\n          null as paydat,0 payeddueamt\n        from cm_portfolio \n       minus\n       select \n       creditid ,\n       null as paydat, 0 payeddueamt from cm_payments p\n      where payeddueamt<>0  \n      and PAYDATE in(select max(paydate) from cm_payments where paydate<=sbop.get_date and creditid=p.creditid)\n      group by creditid)\n      union all\n      select \n       creditid ,\n       max(PAYDATE) as paydat, sum(payeddueamt) payeddueamt from cm_payments p\n      where payeddueamt<>0  \n      and PAYDATE in(select max(paydate) from cm_payments where paydate<=sbop.get_date and creditid=p.creditid)\n      group by creditid) dLastMainPaydate\nwhere p.id=h.creditid and\np.id=b.creditid and\np.qovid=q.id and\np.id=gr.creditid(+)  and h.rest+h.duerest+h.interestrest+h.interestrest>0 and\np.BRANCHID=f.id and\np.id=fl.creditid(+) and\nfl.status(+)=1 and \np.currency=v.valute  and p.credittype=cr.id\n  and LastintPaydate.creditid(+) = p.id\n  and LastMainPaydate.creditid(+) = p.id  and dLastintPaydate.creditid = p.id and dLastMainPaydate.creditid(+) = p.id\n    and p.id=g1.creditid(+) and g1.cardid(+)=1\n    and p.id=g2.creditid(+) and g2.cardid(+)=2\n    and p.id=g3.creditid(+) and g3.cardid(+)=3\norder by :OrderField",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleQuery1",
+   "source": "TPRDataModule.OracleQuery1",
+   "kind": "TOracleQuery",
+   "sql": "",
+   "variables": [],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TPRDataModule.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * from cm_mehkeme order by name",
+   "variables": [],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet6",
+   "source": "TPRDataModule.OracleDataSet6",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_mehkeme\n",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet7",
+   "source": "TPRDataModule.OracleDataSet7",
+   "kind": "TOracleDataSet",
+   "sql": "select sysuserid,obj||'  /  '||fullname name from sb_objinf\nwhere obj in(select name from cm_adm_users) order by obj\n",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet8",
+   "source": "TPRDataModule.OracleDataSet8",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, a.* from cm_folderbons_users a where pr_id=:prid order by id\n",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    },
+    {
+     "name": "PRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet9",
+   "source": "TPRDataModule.OracleDataSet9",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from cm_folder_icra a where usid=:usid order by id",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    },
+    {
+     "name": "USID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet10",
+   "source": "TPRDataModule.OracleDataSet10",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from cm_folder_icra a where usid=:usid order by  id",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    },
+    {
+     "name": "USID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet11",
+   "source": "TPRDataModule.OracleDataSet11",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * from filial order by name",
+   "variables": [],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet12",
+   "source": "TPRDataModule.OracleDataSet12",
+   "kind": "TOracleDataSet",
+   "sql": "select a.*,bons_esas+bons_faiz cemb from cm_folder_report  a\n",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet13",
+   "source": "TPRDataModule.OracleDataSet13",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid, a.* from CM_FOLDER_MEHSUL a where icra_id=:icra_id order by mehsul_id\n",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    },
+    {
+     "name": "ICRA_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet14",
+   "source": "TPRDataModule.OracleDataSet14",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_credittypes order by description",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet15",
+   "source": "TPRDataModule.OracleDataSet15",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id, b.name,v.val_name ,p.numberofcredit,m.name name1, pa.paydate,pa.payedamt*o.ostat payedamt,\npa.payedintamt*o.ostat payedintamt,pa.payeddueamt*o.ostat payeddueamt,pa.payedpenaltyamt*o.ostat payedpenaltyamt,pa.dueday\n ,payedamt*o.ostat+payedintamt*o.ostat+payeddueamt*o.ostat+payedpenaltyamt*o.ostat sumpay,o.ostat from \n(select creditid, max(paydate)paydate, sum(payedamt)payedamt,sum(payedintamt)payedintamt,sum(payeddueamt)payeddueamt,\nsum(payeddueintamt) payedpenaltyamt,min(dueday)dueday\n from cm_payments where paydate between :bdat and :edat \n \n group by creditid) pa,cm_folderplace f,cm_mehkeme m, cm_portfolio p,cm_boorowerinfo b,operkurs o,avalute_t v\n \n where pa.creditid=f.creditid and p.currency=o.val_kod and o.dat=pa.paydate and p.currency=v.valute\n and f.qovidreciver=4 and\n f.senddate =(select max(senddate) from cm_folderplace where creditid=p.id ) and\n f.mehid=m.id and\n p.id=pa.creditid and p.id=b.creditid and \nf.mehid in ( select icra_id from cm_folder_icra where usid=:usid )",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    },
+    {
+     "name": "USID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet16",
+   "source": "TPRDataModule.OracleDataSet16",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id, b.name,p.numberofcredit, v.val_name, '' name1, pa.paydate,pa.payedamt*o.ostat payedamt,\npa.payedintamt*o.ostat payedintamt,pa.payeddueamt*o.ostat payeddueamt,pa.payedpenaltyamt*o.ostat payedpenaltyamt,pa.dueday\n ,payedamt*o.ostat+payedintamt*o.ostat+payeddueamt*o.ostat+payedpenaltyamt*o.ostat sumpay,o.ostat from \n(select creditid, (paydate)paydate, (payedamt)payedamt,(payedintamt)payedintamt,(payeddueamt)payeddueamt,\n(payeddueintamt) payedpenaltyamt,dueday\n from cm_payments where paydate between :bdat and :edat --and dueday>0\n \n) pa,cm_portfolio p,cm_boorowerinfo b,operkurs o,avalute_t v\n \n where \n p.id=pa.creditid and p.id=b.creditid and  p.currency=o.val_kod and o.dat=pa.paydate and p.currency=v.valute  and\npa.creditid in ( select creditid from cm_folder_pay where usid=:usid )",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    },
+    {
+     "name": "USID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet17",
+   "source": "TPRDataModule.OracleDataSet17",
+   "kind": "TOracleDataSet",
+   "sql": "select nvl(q_dat,sbop.get_date) q_dat,nvl(q_rest,0)q_rest,nvl(q_intrest,0)q_intrest,nvl(q_penya,0)q_penya from cm_boorowerinfo where creditid=:creditid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "user",
+   "source": "TPRDataModule.user",
+   "kind": "TOracleDataSet",
+   "sql": "select * from user$ where id=uid",
+   "variables": [],
+   "unit": "FlReCalculationDataModuleImpl"
+  },
+  {
+   "name": "FolderUser",
+   "source": "TPRDataModule.FolderUser",
+   "kind": "TOracleDataSet",
+   "sql": "select id,bday,eday from cm_folder_dueday where  id in (select due_id from cm_dueday_user_list where userid=uid)",
+   "variables": [],
+   "unit": "FlReCalculationDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "adm",
+   "package": "CM_ADMINISTRATION",
+   "mode": "positional",
+   "source": "TPRDataModule.adm",
+   "routines": [
+    {
+     "name": "getadmaddition",
+     "call": "CallIntegerFunction"
+    }
+   ]
+  },
+  {
+   "component": "CalculatorPackage",
+   "package": "cm_folder",
+   "mode": "named",
+   "source": "TPRDataModule.CalculatorPackage",
+   "routines": [
+    {
+     "name": "add_folder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_qetname",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "decline_folder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "post_folder",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "rep_icra",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "rep_pksh",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "rep_pksh_afto",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "cm_autoexp",
+   "package": "cm_autoexp",
+   "mode": "positional",
+   "source": "TPRDataModule.cm_autoexp",
+   "routines": []
+  }
+ ],
+ "sql": [
+  "update cm_portfolio set stop=null where id="
+ ]
+}

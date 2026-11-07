@@ -1,0 +1,13 @@
+// Generated from uALEVInfoImpl.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("uALEVInfoImpl", ["Windows", "SysUtils", "Messages", "Classes", "Graphics", "Controls", "StdCtrls", "ExtCtrls", "Forms", "Quickrpt", "QRCtrls", "uIprepFilter"]);
+  const C = [U];
+  U.defClass("TqrpALEVInfo", "TQuickRep", {"qrlabel43": {"name": "QRLabel43", "type": "TQRLabel"}, "qrsysdata1": {"name": "QRSysData1", "type": "TQRSysData"}, "qrband2": {"name": "QRBand2", "type": "TQRBand"}, "qrshape34": {"name": "QRShape34", "type": "TQRShape"}, "qrshape36": {"name": "QRShape36", "type": "TQRShape"}, "qrshape38": {"name": "QRShape38", "type": "TQRShape"}, "qrshape111": {"name": "QRShape111", "type": "TQRShape"}, "qrshape114": {"name": "QRShape114", "type": "TQRShape"}, "qrshape116": {"name": "QRShape116", "type": "TQRShape"}, "qrshape119": {"name": "QRShape119", "type": "TQRShape"}, "qrdbtext2": {"name": "QRDBText2", "type": "TQRDBText"}, "qrdbtext16": {"name": "QRDBText16", "type": "TQRDBText"}, "qrgroup1": {"name": "QRGroup1", "type": "TQRGroup"}, "qrdbtext1": {"name": "QRDBText1", "type": "TQRDBText"}, "qrband1": {"name": "QRBand1", "type": "TQRBand"}, "qrlabel1": {"name": "QRLabel1", "type": "TQRLabel"}, "qrlabel2": {"name": "QRLabel2", "type": "TQRLabel"}, "qrlabel4": {"name": "QRLabel4", "type": "TQRLabel"}, "qrlabel5": {"name": "QRLabel5", "type": "TQRLabel"}, "qrlabel6": {"name": "QRLabel6", "type": "TQRLabel"}, "qrlabel7": {"name": "QRLabel7", "type": "TQRLabel"}, "qrshape4": {"name": "QRShape4", "type": "TQRShape"}, "qrshape6": {"name": "QRShape6", "type": "TQRShape"}, "qrshape8": {"name": "QRShape8", "type": "TQRShape"}, "qrshape11": {"name": "QRShape11", "type": "TQRShape"}, "qrshape14": {"name": "QRShape14", "type": "TQRShape"}, "qrshape16": {"name": "QRShape16", "type": "TQRShape"}, "qrshape19": {"name": "QRShape19", "type": "TQRShape"}, "qrshape1": {"name": "QRShape1", "type": "TQRShape"}, "qrlabel3": {"name": "QRLabel3", "type": "TQRLabel"}, "qrlabel8": {"name": "QRLabel8", "type": "TQRLabel"}, "qrlabel9": {"name": "QRLabel9", "type": "TQRLabel"}, "qrdbtext3": {"name": "QRDBText3", "type": "TQRDBText"}, "qrdbtext4": {"name": "QRDBText4", "type": "TQRDBText"}, "qrdbtext5": {"name": "QRDBText5", "type": "TQRDBText"}, "qrdbtext6": {"name": "QRDBText6", "type": "TQRDBText"}, "qrdbtext7": {"name": "QRDBText7", "type": "TQRDBText"}, "qrexpr1": {"name": "QRExpr1", "type": "TQRExpr"}}, {});
+  U.init(async () => {
+    U.var_("qrpALEVInfo", null, "TqrpALEVInfo");
+  });
+  return U;
+}

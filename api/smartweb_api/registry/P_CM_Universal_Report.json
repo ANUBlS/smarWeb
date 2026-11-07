@@ -1,0 +1,164 @@
+{
+ "name": "P_CM_Universal_Report",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_UnversalReport",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "Uninfo",
+  "Unit1",
+  "Unit2",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "Unthsd",
+  "ZamirImpl1",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "BranchDataSet",
+   "source": "TDmUni.BranchDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "DmUniversalImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDmUni.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  1 id, 'Partnyorlar üzrə' name\n  FROM dual\nunion\nSELECT  2 id, 'Bonuslar istehlak' name\n  FROM dual\nunion\nSELECT  3 id, 'Bonuslar biznes' name\n  FROM dual\nunion\nSELECT  4 id, 'Silinmişlər üzrə hesabat' name\n  FROM dual\nunion\nSELECT  5 id, 'Ödənilmişlər üzrə hesabat' name\n  FROM dual\nunion\nSELECT  6 id, 'Proqnozlar üzrə hesabat' name\n  FROM dual",
+   "variables": [],
+   "unit": "DmUniversalImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TDmUni.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select s.name,sum(p.creditlineamount*o.ostat) crm,sum(h.rest*o.ostat +h.duerest*o.ostat) qaliq,\ncount(*) say,sum(y.rest*o.ostat) ilqaliq,count(y.id) ilsay,sum(m.rest*o.ostat) ayqaliq,count(m.id)aysay\n,sum(tov.rest*o.ostat) tovqaliq,count(tov.id)tovsay,sum(st.rest*o.ostat) stqaliq,count(st.id)stsay,\nsum(gec.rest*o.ostat) gecqaliq,count(gec.id)gecsay,sum(gecotuzp.rest*o.ostat) gecotuzpmeb,count(gecotuzp.id)gecotuzpsay\n,sum(gecotuzm.rest*o.ostat) gecotuzmmeb,count(gecotuzm.id)gecotuzmsay\n from cm_portfolio p,cm_partniyor s,cm_history h,operkurs o,\n   ( select p.id,h.rest+h.duerest rest from cm_portfolio p,cm_partniyor s,cm_history h\n   where p.partid=s.id and p.dateofconclusion between TRUNC(:dat ,'YEAR') and :dat \n   and p.id=h.creditid and /*h.rest+h.duerest+h.interestrest +h.dueinterestrest>0 and*/\n   h.hdate=:dat)y,\n   ( select p.id,h.rest+h.duerest rest from cm_portfolio p,cm_partniyor s,cm_history h\n   where p.partid=s.id and p.dateofconclusion between TRUNC(:dat ,'MON') and :dat \n   and p.id=h.creditid and /*h.rest+h.duerest+h.interestrest +h.dueinterestrest>0 and*/\n   h.hdate=:dat)m,\n   ( select p.id,h.rest+h.duerest rest from cm_portfolio p,cm_partniyor s,cm_history h\n   where p.partid=s.id and p.expertid=45\n   and p.id=h.creditid and /*h.rest+h.duerest+h.interestrest +h.dueinterestrest>0 and*/\n   h.hdate=:dat)tov,\n   ( select p.id,h.rest+h.duerest rest from cm_portfolio p,cm_partniyor s,cm_history h\n   where p.partid=s.id and p.expertid=44\n   and p.id=h.creditid and /*h.rest+h.duerest+h.interestrest +h.dueinterestrest>0 and*/\n   h.hdate=:dat)st,\n      ( select p.id,h.rest+h.duerest rest,h.dueday from cm_portfolio p,cm_history h\n   where p.id=h.creditid and /*h.rest+h.duerest+h.interestrest +h.dueinterestrest>0 and*/\n   h.hdate=:dat and nvl(h.dueday,0)>0)gec,\n   ( select p.id,h.rest+h.duerest rest,h.dueday from cm_portfolio p,cm_history h\n   where p.id=h.creditid and /* h.rest+h.duerest+h.interestrest +h.dueinterestrest>0 and*/\n   h.hdate=:dat and nvl(h.dueday,0)>30)gecotuzp\n   ,\n   ( select p.id,h.rest+h.duerest rest,h.dueday from cm_portfolio p,cm_history h\n   where p.id=h.creditid and /*h.rest+h.duerest+h.interestrest +h.dueinterestrest>0 and*/\n   h.hdate=:dat and nvl(h.dueday,0) BETWEEN 1 and 30)gecotuzm\nwhere p.partid=s.id and \np.id=h.creditid and /* h.rest+h.duerest+h.interestrest +h.dueinterestrest>0 and*/\nh.hdate=:dat and\np.credittype in(17,18) and\no.dat=:dat and\np.currency=o.val_kod and\np.id =y.id(+) and\np.id =m.id(+) and\np.id =tov.id(+)and\np.id =st.id(+)and\np.id =gec.id(+)and\np.id =gecotuzp.id(+)\nand\np.id =gecotuzm.id(+)\n\n\n\n\n\ngroup by s.name",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DmUniversalImpl"
+  },
+  {
+   "name": "BONS",
+   "source": "TDmUni.BONS",
+   "kind": "TOracleDataSet",
+   "sql": "select usrgroup, description, name, sum(crmeb)crmeb, sum(rest)rest, sum(fullsay)fullsay,\n      sum(aymeb)aymeb, sum(sayay)sayay, sum(avtosay)avtosay, sum(gecsay)gecsay, sum(gecmeb)gecmeb, sum(musbons)musbons,\n       sum(minbons)minbons from \n\n(select  p.usrgroup,u.description, f.name,sum((p.creditlineamount-nvl(hh.creditlineamount,0))*o.ostat )crmeb,sum((h.rest-nvl(hh.rest,0))*o.ostat)+sum((h.duerest-nvl(hh.duerest,0))*o.ostat) rest,\nCOUNT(*)fullsay, (ay.crmebay) aymeb ,ay.sayay,sayavto.avto avtosay, gec.gecsay,gec.gecmeb \n,nvl(nvl(ay.sayay*2,0)+nvl(sayavto.avto*5,0)+(sum((h.rest-nvl(hh.rest,0))*o.ostat)+sum((h.duerest-nvl(hh.duerest,0))*o.ostat) )*0.0003,0) musbons,nvl(gec.gecsay*6+(gec.gecmeb*0.0009),0) minbons\n from \ncm_portfolio p,\ncm_usergroups u,cm_history h,\nfilial_t f,\noperkurs o,\n(select p.usrgroup, u.description, f.name,sum(p.creditlineamount*o.ostat) crmebay ,count(*) sayay from \ncm_portfolio p,\ncm_usergroups u,\nfilial_t f,\noperkurs o\nwhere p.usrgroup=u.id and\np.branchid=f.id and\np.dateofconclusion BETWEEN trunc(:dat,'MON') and :dat  and\np.credittype in(4,17,18,22,23) AND\np.branchid not in (0) and\np.currency=o.val_kod and\no.dat=:dat\ngroup by p.usrgroup, u.description, f.name\n) ay,(\n select p.usrgroup, sum(h.rest+h.duerest) gecmeb, COUNT(*) gecsay from  cm_portfolio p, cm_history h\n where p.id=h.creditid and \n p.dateofconclusion>'01-apr-2014' and\n p.credittype in(4,17,18,22,23) AND\n p.branchid not in (0) and\n h.hdate=:dat and h.rest+h.duerest>0 and h.dueday>10\n group by p.usrgroup ) gec,\n (select usrgroup, count(id) avto from cm_portfolio where dateofconclusion BETWEEN trunc(:dat,'MON') and :dat and credittype in(1,16)  group by usrgroup) sayavto\n,(select creditid,rest,duerest,creditlineamount from cm_history h,cm_portfolio p\nwhere\nhdate=:dat and p.id=h.creditid and  credittype in(1,16)) hh\nwhere p.usrgroup=u.id(+) and\np.branchid=f.id and\np.dateofconclusion>'01-apr-2014'   and\np.credittype in(20,4,17,18,22,23,1,16)  AND\np.branchid not in (0) and\np.currency=o.val_kod and\no.dat=:dat and\np.usrgroup=ay.usrgroup(+) and\np.usrgroup=gec.usrgroup(+)and\np.usrgroup=sayavto.usrgroup(+)and\np.id=h.creditid and\nh.hdate=:dat and \nh.rest+h.duerest>0 and\np.id=hh.creditid(+) \n\ngroup by p.usrgroup, u.description, f.name,ay.crmebay,sayay,gec.gecsay,gecmeb ,sayavto.avto\n\nunion all\nselect  p.usrgroup,u.description, f.name,sum((p.creditlineamount-nvl(hh.creditlineamount,0))*o.ostat )crmeb,sum((h.rest-nvl(hh.rest,0))*o.ostat)+sum((h.duerest-nvl(hh.duerest,0))*o.ostat) rest,\nCOUNT(*)fullsay, (ay.crmebay) aymeb ,ay.sayay,sayavto.avto avtosay, gec.gecsay,gec.gecmeb\n,nvl(nvl(ay.sayay*2,0)+nvl(sayavto.avto*5,0)+(sum((h.rest-nvl(hh.rest,0))*o.ostat)+sum((h.duerest-nvl(hh.duerest,0))*o.ostat) )*0.0003,0) musbons,nvl(gec.gecsay*6+(gec.gecmeb*0.0009),0) minbons\n from \ncm_portfolio p,\ncm_usergroups u,cm_history h,\nfilial_t f,\noperkurs o,\n(select p.usrgroup, u.description, f.name,sum(p.creditlineamount*o.ostat) crmebay ,count(*) sayay from \ncm_portfolio p,\ncm_usergroups u,\nfilial_t f,\noperkurs o\nwhere p.usrgroup=u.id and\np.branchid=f.id and\np.dateofconclusion BETWEEN trunc(:dat,'MON') and :dat  and\np.credittype=24 and p.expertid=44 AND\np.branchid not in (0) and\np.currency=o.val_kod and\no.dat=:dat\ngroup by p.usrgroup, u.description, f.name\n) ay,(\n select p.usrgroup, sum(h.rest+h.duerest) gecmeb, COUNT(*) gecsay from  cm_portfolio p, cm_history h\n where p.id=h.creditid and \n p.dateofconclusion>'01-apr-2014' and\n p.credittype =24 AND p.expertid=44 and\n p.branchid not in (0) and\n h.hdate=:dat and h.dueday>10\n group by p.usrgroup ) gec,\n (select usrgroup, count(id) avto from cm_portfolio where dateofconclusion BETWEEN trunc(:dat,'MON') and :dat and credittype in(1,16)  group by usrgroup) sayavto\n,(select creditid,rest,duerest,creditlineamount from cm_history h,cm_portfolio p\nwhere\nhdate=:dat and p.id=h.creditid and  credittype in(1,16)) hh\nwhere p.usrgroup=u.id and\np.branchid=f.id and\np.dateofconclusion>'01-apr-2014'   and\np.credittype in(24)  and(p.expertid=44) AND\np.branchid not in (0) and\np.currency=o.val_kod and\no.dat=:dat and\np.usrgroup=ay.usrgroup(+) and\np.usrgroup=gec.usrgroup(+)and\np.usrgroup=sayavto.usrgroup(+)and\np.id=h.creditid and\nh.hdate=:dat and \np.id=hh.creditid(+) \n\ngroup by p.usrgroup, u.description, f.name,ay.crmebay,sayay,gec.gecsay,gecmeb ,sayavto.avto)\ngroup by usrgroup, description, name",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DmUniversalImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TDmUni.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select p.numberofcredit,b.name, p.dateofconclusion,p.duedatefirstcontract, py.paydate, h.rest,h.interestrest,h.duerest,h.dueinterestrest,\n py.payedamt,py.payedintamt,py.payeddueamt,py.payeddueintamt,h.dueday,(select valu_name from avalute_t where valute=p.currency ) val,\n (select dueday from cm_history where creditid=p.id and hdate in\n (select max(hdate) from cm_history where creditid=p.id and hdate<=(py.paydate-1) ) ) fristday \n ,  py.payedamt*t.ostat+py.payedintamt*t.ostat+py.payeddueamt*t.ostat+py.payeddueintamt*t.ostat  cem from \n cm_payments py,cm_active_credits p,cm_history h,cm_boorowerinfo b,temprate t\n where py.paydate BETWEEN :bdat and :edat\n and p.id=py.creditid\n and p.id=h.creditid\n and p.id=b.creditid\n and h.hdate=py.paydate\n and p.currency=t.val_kod",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DmUniversalImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TDmUni.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select p.numberofcredit,b.name,av.val_name,f.name fil,m.name meh, p.dateofconclusion,p.duedatefirstcontract,v.lammount lammount,\n(select dueday from cm_history where creditid=p.id\nand hdate in (select max(hdate) from cm_history where creditid=p.id and hdate<v.dat)) dueday,v.name ,ex.description ex, v.dat from\n cm_portfolio p, cm_accounts a,cm_boorowerinfo b,provarch v,avalute_t av,filial_t f,cm_mehsul m,cm_usergroups ex\n\nwhere \np.id=a.creditid and\np.id=b.creditid and\np.branchid=f.id and\np.mehsulid=m.id(+) and \np.expertid=ex.id(+) and \np.currency=av.valute and\na.booroweraccid=v.kredit and\nv.dat BETWEEN :bdat and :edat and\np.PERSONALTYPE<>2 and\nv.name not like'%Mezenne ferqi%' and\nv.name not like'%Kredit tran%'",
+   "variables": [
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DmUniversalImpl"
+  },
+  {
+   "name": "Prognoz",
+   "source": "TDmUni.Prognoz",
+   "kind": "TOracleDataSet",
+   "sql": "select p.id,p.annualyinterestrate,MONTHS_BETWEEN(nvl(p.duedatefirstcontract,p.duedatefirstcontract),:dat) per,h.rest+h.duerest rest, ADD_MONTHS(:dat,1)fpaydat from cm_portfolio p,cm_history h\nwhere p.id=h.creditid and\nh.hdate=:dat and\nh.rest+h.duerest>0",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DmUniversalImpl"
+  },
+  {
+   "name": "OracleDataSet5",
+   "source": "TDmUni.OracleDataSet5",
+   "kind": "TOracleDataSet",
+   "sql": "select v.val_name,\nsum(CM_PURDENSAL.odenishmuddet_bol(id,:dat,0,30)*o.ostat) as f30,sum(CM_PURDENSAL.odenishmuddet_bolpr(id,:dat,31,60)*o.ostat) as f3060,\nsum(CM_PURDENSAL.odenishmuddet_bolpr(id,:dat,61,90)*o.ostat) as f6090,sum(CM_PURDENSAL.odenishmuddet_bolpr(id,:dat,91,180)*o.ostat) as f90180,\nsum(CM_PURDENSAL.odenishmuddet_bolpr(id,:dat,181,360)*o.ostat) as f180360,sum(CM_PURDENSAL.odenishmuddet_bolpr(id,:dat,361,100000)*o.ostat) as f360b\n from smart.cm_active_credits p, smart.operkurs o,avalute_t v\n where p.currency=o.val_kod and \n o.dat=:dat and\n p.CURRENCY=v.valute\n GROUP by v.val_name",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DmUniversalImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "CM_SCHEDULE_PROGNOZ",
+   "mode": "named",
+   "source": "TDmUni.OraclePackage1",
+   "routines": [
+    {
+     "name": "insertannutyschedule",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

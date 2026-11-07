@@ -1,0 +1,192 @@
+{
+ "name": "P_CM_InterestCalculation",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_InterestCalculation",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommonDecls",
+  "DBSumLst",
+  "LogoutputImpl",
+  "OraVariables",
+  "ProgressFormImpl",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Currencys",
+   "source": "TFilterDataModule.Currencys",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT valute,  valu_name\n  FROM AVALUTE\nORDER BY VALUTE",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "Branches",
+   "source": "TFilterDataModule.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "Pledges",
+   "source": "TFilterDataModule.Pledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_pledges",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "UserGroups",
+   "source": "TFilterDataModule.UserGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "PReserves",
+   "source": "TFilterDataModule.PReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "SReserves",
+   "source": "TFilterDataModule.SReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "Users",
+   "source": "TFilterDataModule.Users",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM SB_user$\nORDER BY NAME",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TFilterDataModule.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TFilterDataModule.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TFilterDataModule.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TFilterDataModule.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  name\n  FROM CM_SB_CUSTOMERS\nORDER BY NAME",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "Aim",
+   "source": "TFilterDataModule.Aim",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM cm_aim_cred",
+   "variables": [],
+   "unit": "FilterDataModuleImpl"
+  },
+  {
+   "name": "IntCache",
+   "source": "TPRDataModule.IntCache",
+   "kind": "TOracleDataSet",
+   "sql": "select  a.*,nvl(duedatelastcontract, duedatefirstcontract)endcont, e.enddat, e.interest as int, e.dueinterest as dueint,e.status,p.annualyinterestrate,p.dateofconclusion,(select description from cm_credittypes where id=p.credittype ) crtype,p.aim_id\n  from\n            CM_INTCACHE a,cm_endcalac e,cm_portfolio p where a.id=e.creditid(+) and p.id=a.id\norder by :OrderField",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "ReCalculationDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TPRDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select cm_utils.check_holiday(sbop.get_date) dat from dual",
+   "variables": [],
+   "unit": "ReCalculationDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CalculatorPackage",
+   "package": "CM_CALCULATOR",
+   "mode": "named",
+   "source": "TPRDataModule.CalculatorPackage",
+   "routines": [
+    {
+     "name": "AcceptCalcedPercents",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CalcPercents",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CancelCalculation",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "cm_autoexp",
+   "package": "cm_autoexp",
+   "mode": "positional",
+   "source": "TPRDataModule.cm_autoexp",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

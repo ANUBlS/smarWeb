@@ -1526,6 +1526,14 @@
    "unit": "crTemporaryTransactionsViewFormImpl"
   },
   {
+   "name": "OracleDataSet1",
+   "source": "TFrmCatagories.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select c.id,v.name||'-'||c.description description  from \ncreditsmgr.CM_CATEGORIES c,\ncreditsmgr.cm_activities a,\ncreditsmgr.cm_creditcat k,\ncreditsmgr.cm_vid_sob   v\nwhere  \nc.act_id=a.id and\nk.id=a.act_id and\nv.id=k.vid_sob and\nc.id not in (SELECT catagoriesid\n  FROM cm_categories_add) \norder by description\n\n\n\n\n",
+   "variables": [],
+   "unit": "CtagoriesImpl"
+  },
+  {
    "name": "ReferencesData",
    "source": "TCUCommonDataModule.ReferencesData",
    "kind": "TOracleDataSet",
@@ -8445,9 +8453,9 @@
   },
   {
    "component": "OraclePackage1",
-   "package": "PG_Guar",
+   "package": "CM_N3_SD",
    "mode": "positional",
-   "source": "TDataMGuarante.OraclePackage1",
+   "source": "TFrmCatagories.OraclePackage1",
    "routines": [
     {
      "name": "add_Guar",
@@ -8459,6 +8467,10 @@
     },
     {
      "name": "get_vergul_tax",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "pn3_catADD",
      "call": "CallProcedure"
     }
    ]

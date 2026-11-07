@@ -1,0 +1,78 @@
+{
+ "name": "P_CM_CreditControl",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_CreditControl",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Accounts",
+   "source": "TCCDataMod.Accounts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.boorowerid,\n       b.name,\n       a.creditid,\n     a.booroweraccid ,\n     a.loanaccid, \n     a.dueloanaccid   ,\n     a.interestaccid ,\n     a.dueinterestaccid,                      \n     a.primaryreserveaccid ,      \n     a.secondaryreserveaccid,             \n     a.secondarypurreserveaccid ,     \n     a.primarypurreserveaccid ,\n     a.doublepaymentaccid,a.insuranceaccid,a.commissionobligationaccid,a.tranzitaccid,\n     cm_common.AccountNumber_Get(booroweraccid) as BoorowerAccno,   \n     cm_common.AccountNumber_Get(loanaccid) as LoanAccno,\n     cm_common.AccountNumber_Get(dueloanaccid) as DueloanAccno,\n     cm_common.AccountNumber_Get(interestaccid) as InterestAccno,\n     cm_common.AccountNumber_Get(dueinterestaccid) as DueinterestAccno,  \n     cm_common.AccountNumber_Get(primaryreserveaccid) as PrimaryresAccno,\n     cm_common.AccountNumber_Get(secondaryreserveaccid) as SecondaryresAccno,\n     cm_common.AccountNumber_Get(secondarypurreserveaccid) as secondarypurreserveAccno,\n     cm_common.AccountNumber_Get(primarypurreserveaccid) as primarypurreserveAccno,\n     \n     cm_common.AccountNumber_Get(doublepaymentaccid) as doublepaymentaccidAccno,\n     cm_common.AccountNumber_Get(insuranceaccid) as insuranceaccidAccno,\n     cm_common.AccountNumber_Get(commissionobligationaccid) as commissionobligationaccidAccno,\n     cm_common.AccountNumber_Get(tranzitaccid) as tranzitaccidAccno,\n     \n     cm_common.AccountRest_Get(booroweraccid) as BoorowerRest,\n     cm_common.AccountRest_Get(loanaccid) as LoanRest,\n     cm_common.AccountRest_Get(dueloanaccid) as dueloanRest, \n     cm_common.AccountRest_Get(interestaccid) as interestRest, \n     cm_common.AccountRest_Get(dueinterestaccid) as dueinterestRest,\n     cm_common.AccountRest_Get(primaryreserveaccid) as primaryresRest, \n     cm_common.AccountRest_Get(secondaryreserveaccid) as secondaryresRest, \n     cm_common.AccountRest_Get(secondarypurreserveaccid) as secondarypurreserveRest,\n     cm_common.AccountRest_Get(primarypurreserveaccid) as primarypurreserveRest,\n     cm_common.AccountRest_Get(doublepaymentaccid) as doublepaymentaccidRest,\n     cm_common.AccountRest_Get(insuranceaccid) as insuranceaccidRest,\n     cm_common.AccountRest_Get(commissionobligationaccid) as commissionobligationaccidRest,\n     cm_common.AccountRest_Get(tranzitaccid) as tranzitaccidRest\n     \n  FROM cm_accounts a,\n       cm_boorowerinfo b,\n       cm_portfolio p\nwhere a.creditid = :CrdID\nand  b.creditid  = :CrdID\nand p.id = :Crdid",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CCDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_CREDIT",
+   "package": "CM_CREDIT",
+   "mode": "named",
+   "source": "TCCDataMod.CM_CREDIT",
+   "routines": [
+    {
+     "name": "CloseCont_Account",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CloseCont_Customers",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Contract_Close",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

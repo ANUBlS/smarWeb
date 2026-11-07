@@ -1,6 +1,6 @@
 {
  "name": "CreditManager",
- "caption": "Balans / Kreditlər / Kreditlərin idarə olunması",
+ "caption": "Əlavə modullar / Kreditlər / Kredit menecer (CreditManager, SBCM_*)",
  "dir": "Packages/CreditManager",
  "mainForm": "TFrmCreditManager",
  "plugin": false,

@@ -9,6 +9,7 @@ import { makeDollar } from './pascal';
 import { rootLookup, defineGlobal, registerEnumNames, getSettingGlobal, setGlobal } from './stdlib';
 import { NOTFOUND } from './core';
 import { logger } from './log';
+import { binReady } from './binfiles';
 import type { DfmNode } from './dfm';
 import { Application, Screen, Mouse, Clipboard, TCustomForm, windows } from './vcl/forms';
 import { runGuarded, TComponent } from './vcl/component';
@@ -148,6 +149,7 @@ export async function getModule(name: string) {
   let p = moduleEnvs.get(name);
   if (!p) {
     p = (async () => {
+      await binReady;
       const m = moduleManifests[`../generated/modules/${name}/index.js`];
       if (!m) throw new Error(`Module ${name} is not generated`);
       const manifest = (await m()).default;
@@ -294,7 +296,7 @@ export async function loadPackage(path: unknown): Promise<number> {
 
 /** GetProcAddress(Handle, 'InitPlugin'): an exported routine of the package (a package exporting a
  *  single routine under another name answers for it, as the deployed builds did). */
-export async function getProcAddress(h: unknown, proc: unknown): Promise<unknown> {
+export async function getProcAddress(h: unknown, proc: unknown, exact = false): Promise<unknown> {
   const pname = pkgHandles.get(Number(h));
   if (!pname) return null;
   const { env, manifest } = await getModule(pname);
@@ -305,7 +307,7 @@ export async function getProcAddress(h: unknown, proc: unknown): Promise<unknown
     }
     return null;
   };
-  return (await find(String(proc))) ?? (manifest.exports?.length === 1 ? await find(manifest.exports[0]) : null);
+  return (await find(String(proc))) ?? (!exact && manifest.exports?.length === 1 ? await find(manifest.exports[0]) : null);
 }
 
 class TPlgModalContainer extends TComponent {

@@ -1,0 +1,220 @@
+{
+ "name": "P_CM_IP_Reports",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_IP_Reports",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSCredits",
+   "source": "TfrmIpRepFilter.ODSCredits",
+   "kind": "TOracleDataSet",
+   "sql": "select id from cm_active\n\n\n\n\n",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODSBoorInfo",
+   "source": "TfrmIpRepFilter.ODSBoorInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum,creditid, name, age, birthdate, address, worknpost, to_number(moneymoney) moneymoney,\n       credamtgiven, credamtym, credperiodcred, credperiodym,\n       credperccred, credpercym\n  FROM cm_ip_boorowerinfo",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFValute",
+   "source": "TfrmIpRepFilter.ODFValute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_avalute",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFBranch",
+   "source": "TfrmIpRepFilter.ODFBranch",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_filial",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFUsrGroup",
+   "source": "TfrmIpRepFilter.ODFUsrGroup",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_usergroups",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFReserves",
+   "source": "TfrmIpRepFilter.ODFReserves",
+   "kind": "TOracleDataSet",
+   "sql": "select id,code,percent,description, percent||'% - '||description fulldesc from cm_reserves",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFUsers",
+   "source": "TfrmIpRepFilter.ODFUsers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_user$",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFPersons",
+   "source": "TfrmIpRepFilter.ODFPersons",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_persons",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFCategories",
+   "source": "TfrmIpRepFilter.ODFCategories",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_categories",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFCrdTypes",
+   "source": "TfrmIpRepFilter.ODFCrdTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_credittypes",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFPledges",
+   "source": "TfrmIpRepFilter.ODFPledges",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_pledges",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFCustomers",
+   "source": "TfrmIpRepFilter.ODFCustomers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODSMKTsInfo",
+   "source": "TfrmIpRepFilter.ODSMKTsInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select ROWNUM, a.*\n  from (select   mktname,bank_kod1, sum (1) boorcnt, sum (givencount)/1000 givencount,\n                 sum (givenamount)/1000 givenamount,sum (ymamount)/1000 ymamount, \n                 sum (REST)/1000 REST,\n                 sum (CLOSECRDCOUNT) CLOSECRDCOUNT,\n                 sum(CLOSECRDYMAMOUNT)/1000 CLOSECRDYMAMOUNT,sum(fakcredcount) as fakcredcount,\n                 sum(fakymkrcount) as fakymkrcount, sum(fakymkrrest)/1000as fakymkrrest\n            from cm_ip_mktsinfo\n        group by mktname,bank_kod1 order by bank_kod1) a\n",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODFReport",
+   "source": "TfrmIpRepFilter.ODFReport",
+   "kind": "TOracleDataSet",
+   "sql": "\nselect * from cm_ip_repsettings",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODSMKTInfo",
+   "source": "TfrmIpRepFilter.ODSMKTInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum, creditid, aktno, boorower, credamountgiven, credamountym,\n       credamountpayed, credamountrest, percentagemkt, percentageaif,\n       periodcredit, periodym, anuitet, contractdate, contractno,\n       ipcontractdate, ipcontractno, mktname, tickno\n  FROM cm_ip_mktinfo\n order by mktname",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODSInsurInfo",
+   "source": "TfrmIpRepFilter.ODSInsurInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum, m.* FROM (select * \n  FROM cm_ip_insuranceinfo m\n\n\n\n\n\n\norder by mktname\n) m",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODSDateInfo",
+   "source": "TfrmIpRepFilter.ODSDateInfo",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT rownum, p.* from (select *\n  FROM cm_ip_dateinfo order by mktname)p\n",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODSPredInfo",
+   "source": "TfrmIpRepFilter.ODSPredInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum, p.* from (select *\n  FROM cm_ip_predmetinfo order by mktname)p",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODSALEVInfo",
+   "source": "TfrmIpRepFilter.ODSALEVInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum, p.* from (select *\n  FROM cm_ip_alevinfo order by mktname)p",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "ODSPschedInfo",
+   "source": "TfrmIpRepFilter.ODSPschedInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.creditid, a.paymentdate, a.principal, a.restbefore, a.restafter, u.description mktname,\n       b.name boorowername, p.numberofcredit crdnum, a.interest\n  FROM cm_ip_pschedule a, cm_portfolio p, cm_usergroups u, cm_boorowerinfo b\n where a.creditid = p.id and p.usrgroup=u.id and p.id=b.creditid\norder by a.creditid, a.paymentdate",
+   "variables": [],
+   "unit": "uIprepFilter"
+  },
+  {
+   "name": "MKT",
+   "source": "TfrmIpRepFilter.MKT",
+   "kind": "TOracleDataSet",
+   "sql": "select ROWNUM, a.*\n  from (select   mktname,bank_kod2, sum (1) boorcnt, sum (givencount)/1000 givencount,\n                 sum (givenamount)/1000 givenamount,sum (ymamount)/1000 ymamount, \n                 sum (REST)/1000 REST,\n                 sum (CLOSECRDCOUNT) CLOSECRDCOUNT,\n                 sum(CLOSECRDYMAMOUNT)/1000 CLOSECRDYMAMOUNT,sum(fakcredcount) as fakcredcount,\n                 sum(fakymkrcount) as fakymkrcount, sum(fakymkrrest)/1000as fakymkrrest\n            from cm_ip_mktsinfo where bank_kod2 is not null\n        group by mktname,bank_kod2 order by bank_kod2) a\n",
+   "variables": [],
+   "unit": "uIprepFilter"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_IP_REPORTS",
+   "package": "CM_IP_REPORTS",
+   "mode": "positional",
+   "source": "TfrmIpRepFilter.CM_IP_REPORTS",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

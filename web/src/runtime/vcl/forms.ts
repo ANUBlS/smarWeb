@@ -206,7 +206,26 @@ export class TCustomForm extends TWinControl {
     await this.fire('OnHide', this);
     res?.(this._modalResult);
   }
+  /** Form.HostDockSite := Panel: the form is shown inside that panel (client-aligned) instead of as a window. */
+  private _hostDockSite: TWinControl | null = null;
+  get HostDockSite() { return this._hostDockSite; }
+  set HostDockSite(v: TWinControl | null) {
+    const site = v instanceof TWinControl ? v : null;
+    if (site === this._hostDockSite) return;
+    if (this.shown && !this._hostDockSite) windows.remove(this);
+    this._hostDockSite = site;
+    this.setParent(site);
+    if (site) this.Align = 'alclient';
+    invalidate();
+  }
   async Show() {
+    if (this._hostDockSite) {
+      if (this.shown) return;
+      this.shown = true;
+      invalidate();
+      await this.fire('OnShow', this);
+      return;
+    }
     if (this.shown) { this.BringToFront(); return; }
     this.shown = true;
     const w = windows.add(this, this.FormStyle === 'fsmdichild' ? 'module' : 'float', undefined, true);
@@ -262,13 +281,13 @@ export class TCustomForm extends TWinControl {
     if (a === 'canone') return;
     if (a === 'caminimize') { const w = windows.list.find((x) => x.form === this); if (w) { w.minimized = true; windows.emit(); } return; }
     this.shown = false;
-    windows.remove(this);
+    if (this._hostDockSite) invalidate(); else windows.remove(this);
     await this.fire('OnHide', this);
     if (a === 'cafree') await this.destroyForm();
   }
   isModuleForm = false;
   async UpdateActions() { for (const c of this.owned) if (c instanceof TActionList) await c.updateAll(); }
-  Hide() { this.shown = false; windows.remove(this); }
+  Hide() { this.shown = false; if (this._hostDockSite) invalidate(); else windows.remove(this); }
   Release() { this.Hide(); void this.destroyForm(); }
   override Free() { this.Hide(); void this.destroyForm(); super.Free(); }
   async destroyForm() {
@@ -395,6 +414,7 @@ export async function streamRoot(root: TComponent, layout: DfmNode) {
   const env = (root as any).env as Env | null ?? root.__cls?.env ?? null;
   if (root instanceof TCustomForm) root.env = env;
   if (!root.Name) root.Name = layout.name;
+  root.dfm = { ...root.dfm, ...layout.props };  // the form's own references (PopupMenu = …) resolve below
   applyProps(root, layout.props, true);
   const created: TComponent[] = [root];
   for (const child of layout.children) await streamChild(child, root, root instanceof TWinControl ? root : null, created, env);

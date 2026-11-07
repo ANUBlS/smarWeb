@@ -1,0 +1,78 @@
+{
+ "name": "P_CM_RtlLizinq",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Lizing",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ods_main",
+   "source": "TFormLizing.ods_main",
+   "kind": "TOracleDataSet",
+   "sql": "select* from cm_lizing_info where creditid=:v_crid",
+   "variables": [
+    {
+     "name": "V_CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "LizinqUnit"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFormLizing.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id, acc_no, acc_no||' '||name accno  from account where kli_id=65",
+   "variables": [],
+   "unit": "LizinqUnit"
+  }
+ ],
+ "packages": [
+  {
+   "component": "cm_credit",
+   "package": "cm_credit",
+   "mode": "positional",
+   "source": "TFormLizing.cm_credit",
+   "routines": [
+    {
+     "name": "insert_edit",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

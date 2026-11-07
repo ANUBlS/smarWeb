@@ -1,0 +1,1 @@
+{"name":"ResevesDatMod","class":"TResevesDatMod","kind":"object","props":{"OldCreateOrder":false,"Height":480,"Width":696},"children":[{"name":"CM_RESERVE_COUNT_NEW","class":"TOraclePackage","kind":"object","props":{"Session":{"i":"sboapiDataModule.SBSession"},"PackageName":"CM_RESERVE_COUNT_NEW","Cursor":{"i":"crSQLWait"},"Left":96,"Top":40},"children":[]}]}

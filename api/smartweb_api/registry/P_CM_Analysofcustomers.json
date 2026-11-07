@@ -1,0 +1,366 @@
+{
+ "name": "P_CM_Analysofcustomers",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Analysofcustomers",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommonDecls",
+  "DateIntervalUnit",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "UntReferencesDataMod",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditAnalysDataSet",
+   "source": "TCustAnalysDataModule.CreditAnalysDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.boorowerid, p.id creditid, p.branchid, p.currency, p.numberofcredit,f.name filname,p.creditlineamount,a.booroweraccid,nvl(cm_utils.get_gecgun(p.id,sbop.get_date),0) dueday,\n       p.customertype, p.credittype, p.usid, p.personaltype,nvl(h.penaltyrest,0) PENALTYREST,(select description from cm_usergroups where id=usrgroup)usrgroup ,b.phonenumber,\n       p.dateofconclusion,p.duedatefirstcontract,p.closedate,nvl(cm_utils.Get_MainPlanPayment(p.id),0) mainpay,\n       nvl(h.rest,0) rest, nvl(h.interestrest,0) interestrest,nvl( h.duerest,0) duerest, nvl(h.dueinterestrest,0) dueinterestrest, v.val_name,\n       (nvl(h.rest,0)+nvl(h.interestrest,0)+nvl(h.duerest,0)+nvl(h.dueinterestrest,0)+nvl(h.penaltyrest,0)) cem,\n       (nvl(cm_utils.Get_MainPlanPayment(p.id),0) +nvl(h.interestrest,0)+nvl(h.duerest,0)+nvl(h.dueinterestrest,0)+nvl(h.penaltyrest,0))cempay,\n       v.valute, cm_common.accountnumber_get (a.contractaccid) AS contractaccno,\n(select filialid from smart.sba_objinf where sysuserid=uid) userfil,'Kredit ödənişi Müq № '||p.numberofcredit||' ('||b.name||' )' tey\n  FROM smart.cm_portfolio p, cm_curr_state h, avalute v, cm_accounts a,filial_t f,cm_boorowerinfo b \n WHERE (h.creditid = p.id)\n    and (b.creditid = p.id)\n   AND (v.valute = p.currency)\n   AND (f.id = p.branchid)\n   AND (p.boorowerid =:boorowerid)\n   AND (a.creditid = p.id)\nORDER BY :orderfield",
+   "variables": [
+    {
+     "name": "BOOROWERID",
+     "type": "integer"
+    },
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "UsersDataSet",
+   "source": "TCustAnalysDataModule.UsersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name\nfrom SB_user$",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "FilialDataSet",
+   "source": "TCustAnalysDataModule.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name\nfrom filial",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CategoriesDataSet",
+   "source": "TCustAnalysDataModule.CategoriesDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description\nfrom cm_categories",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CurrencysDataSet",
+   "source": "TCustAnalysDataModule.CurrencysDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name\nfrom avalute",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "PersonsDataSet",
+   "source": "TCustAnalysDataModule.PersonsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,descripion\nfrom cm_persons",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "UserGroupsDataSet",
+   "source": "TCustAnalysDataModule.UserGroupsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description\nfrom cm_usergroups",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CreditTypeDataSet",
+   "source": "TCustAnalysDataModule.CreditTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description \nfrom cm_credittypes",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CustomersDataSet",
+   "source": "TCustAnalysDataModule.CustomersDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name\nfrom cm_sb_customers\norder by name",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CustAnalysDataSet",
+   "source": "TCustAnalysDataModule.CustAnalysDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.id, c.id boorowerid, c.NAME boorowername,p.expertid\n           FROM smart.customers c,smart.cm_active_credits p\n         WHERE p.boorowerid = c.id\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /*EXISTS ( SELECT p.boorowerid\n                           FROM smart.cm_portfolio p\n                          WHERE p.boorowerid = c.id)\n   */\n\n\n\n   ORDER BY :orderfield",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "TrancheDataSet",
+   "source": "TCustAnalysDataModule.TrancheDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select T.trancheamount,T.tranchedate\nfrom cm_tranches T\nwhere creditid =:CrdID\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "PaymentsDataSet",
+   "source": "TCustAnalysDataModule.PaymentsDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, creditid, paydate, payedamt, payedintamt, payeddueamt,\n       payeddueintamt, payedpenaltyamt\n  FROM cm_payments\nWHERE CreditID=:CrdID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "CreditsinDateDataSet",
+   "source": "TCustAnalysDataModule.CreditsinDateDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT hdate,rest, interestrest,\n       duerest, dueinterestrest\n  FROM cm_history\n  where creditid=:crdid \n    and hdate between :D1 and :D2 \norder by hdate desc\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    },
+    {
+     "name": "D1",
+     "type": "date"
+    },
+    {
+     "name": "D2",
+     "type": "date"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "ScheduleDataSet",
+   "source": "TCustAnalysDataModule.ScheduleDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, creditid, paymentdate, principal, interest\n  FROM cm_payment_schedule\n WHERE CreditID=:CrdID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "ProlongationDataSet",
+   "source": "TCustAnalysDataModule.ProlongationDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  prolongdate, newclosedate\n  FROM cm_prolongations\nwhere creditid =:CrdID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "SumSheDataSet",
+   "source": "TCustAnalysDataModule.SumSheDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  creditid,sum(principal),sum(interest)\n  FROM cm_payment_schedule\n WHERE CreditID=:CrdID\ngroup by CreditID\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "SumPayDataSet",
+   "source": "TCustAnalysDataModule.SumPayDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT creditid,  sum(payedamt), sum(payedintamt), sum(payeddueamt),\n       sum(payeddueintamt), sum(payedpenaltyamt)\n  FROM cm_payments\nWHERE CreditID=:CrdID\nGroup by creditid\n\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "ReportDataSet",
+   "source": "TCustAnalysDataModule.ReportDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "select \n      p.numberofcredit,\n      p.dateofconclusion,\n      p.closedate,\n      p.purposeofcredit,\n      p.creditlineamount,\n      p.annualyinterestrate,\n      p.annualyoverduerate,\n      p.annualypenaltyrate,\n      per.descripion,\n      cat.description,\n      crd.description,\n      usrgr.description,\n      val.val_name,\n      plg.pledgename,\n      GET_RESERVES_NAME(h.reserveid) as resrevename,\n      GET_RESERVES_NAME(h.duereserveid) as dueresrevename,\n      h.pledgeprice\nfrom \n    cm_portfolio p,\n    cm_persons per,\n    cm_categories cat,\n    cm_credittypes crd,\n    cm_usergroups usrgr,\n    sb_avalute val,\n    cm_guarantee plg,\n    cm_curr_state h\nwhere \n    p.personaltype = per.id and    \n    p.customertype = cat.id and\n    p.credittype = crd.id and\n    p.usrgroup = usrgr.id and\n    p.currency = val.valute and\n    p.id = h.creditid and\n    p.id = plg.creditid and\n    p.id = :CrdID      \n      \n      ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "Returnquery",
+   "source": "TCustAnalysDataModule.Returnquery",
+   "kind": "TOracleQuery",
+   "sql": "insert into cm_analysreturntrans (borrowerid,transid,creditid,userid) values (:borrowerid,:transid,:cr,:usr)",
+   "variables": [
+    {
+     "name": "BORROWERID",
+     "type": "integer"
+    },
+    {
+     "name": "TRANSID",
+     "type": "integer"
+    },
+    {
+     "name": "CR",
+     "type": "integer"
+    },
+    {
+     "name": "USR",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "Returntrans",
+   "source": "TCustAnalysDataModule.Returntrans",
+   "kind": "TOracleDataSet",
+   "sql": "select a.transid,a.borrowerid,a.id,b.name from cm_analysreturntrans a,lazytransaction b, smart.cm_portfolio c where \na.transid=b.id and c.boorowerid=a.borrowerid and parentid is null and vid_op=21 and a.borrowerid=:brid\n--and a.userid=(select filialid from sba_objinf where obj=(select user from dual))\nand c.id=a.creditid and c.id=:crid\n group by a.transid,a.borrowerid,a.id,b.name",
+   "variables": [
+    {
+     "name": "BRID",
+     "type": "integer"
+    },
+    {
+     "name": "CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "usrfil",
+   "source": "TCustAnalysDataModule.usrfil",
+   "kind": "TOracleDataSet",
+   "sql": "select filialid from sba_objinf where sysuserid=uid",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TCustAnalysDataModule.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name\nfrom cm_expert",
+   "variables": [],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "bnkacc",
+   "source": "TCustAnalysDataModule.bnkacc",
+   "kind": "TOracleDataSet",
+   "sql": "select id,acc_no||'  '||name acc_no,name ,bal_cn1 from smart.sba_account where bal_cn1 in (3803,15010,15020,10010,10020)and\nval_acc=:v_valacc",
+   "variables": [
+    {
+     "name": "V_VALACC",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  },
+  {
+   "name": "ODS_Bus_payment",
+   "source": "TCustAnalysDataModule.ODS_Bus_payment",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cm_business_payment where \ntr_type=:v_trtype  and currency=:v_currency",
+   "variables": [
+    {
+     "name": "V_TRTYPE",
+     "type": "string"
+    },
+    {
+     "name": "V_CURRENCY",
+     "type": "string"
+    }
+   ],
+   "unit": "CustAnalysDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "p_business_proc",
+   "mode": "named",
+   "source": "TCustAnalysDataModule.OraclePackage1",
+   "routines": [
+    {
+     "name": "execbprocess",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage2",
+   "package": "sb_transaction",
+   "mode": "positional",
+   "source": "TCustAnalysDataModule.OraclePackage2",
+   "routines": [
+    {
+     "name": "transaction_delete",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

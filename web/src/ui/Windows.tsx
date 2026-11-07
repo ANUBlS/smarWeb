@@ -97,11 +97,14 @@ export function Workspace({ splash }: { splash: React.ReactNode }) {
   const mdi = list.filter((w) => w.kind !== 'modal' && !w.hidden);
   const active = windows.activeId;
   const activeWin = mdi.find((w) => w.id === active && !w.minimized);
-  const coverBySplash = !activeWin || !activeWin.maximized;
+  // a plain (non-MDI) form shown with Show stays above the maximized module window it was opened from
+  const under = activeWin && activeWin.kind === 'float' && !activeWin.maximized
+    ? [...mdi].reverse().find((w) => w.maximized && !w.minimized && w.kind === 'module') : undefined;
+  const coverBySplash = (!activeWin || !activeWin.maximized) && !under;
   return (
     <div className="workspace">
       {coverBySplash ? <div style={{ position: 'absolute', inset: 0, overflow: 'auto' }}>{splash}</div> : null}
-      {mdi.filter((w) => !w.minimized && (!w.maximized || w.id === active)).map((w) => <MdiWindow key={w.id} w={w} active={w.id === active} />)}
+      {mdi.filter((w) => !w.minimized && (!w.maximized || w.id === active || w === under)).map((w) => <MdiWindow key={w.id} w={w} active={w.id === active} />)}
     </div>
   );
 }

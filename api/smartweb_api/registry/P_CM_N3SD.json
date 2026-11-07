@@ -1,0 +1,132 @@
+{
+ "name": "P_CM_N3SD",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_N3SD",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "CtagoriesImpl",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "N3SDDataSet",
+   "source": "TDatModN3SD.N3SDDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  region_name, sum(rest), sum(dm_hokid_rest),\n       sum(dm_enrkimteh_rest), sum(dm_neftsan_rest), sum(dm_ticxid_rest),\n       sum(dm_kendtes_rest), sum(dm_belediye_rest), sum(dm_inshate_rest),\n       sum(dm_neqliyatr_rest), sum(dm_digersah_rest), sum(oz_rest),\n       sum(oz_kimya_rest), sum(oz_neft_san_rest), sum(oz_ticaret_xid_rest),\n       sum(oz_kentt_emal_rest), sum(oz_inshat_emalk_rest), sum(oz_ineqliyat_rab),\n       sum(oz_diger_sah), sum(fiziki_sexs), sum(fiziki_ipot), sum(diger_kredit),\n       sum(maliye)\n  FROM cm_n3_sdt \n\ngroup by region_name",
+   "variables": [],
+   "unit": "DatModN3SDImpl"
+  },
+  {
+   "name": "Crdinfo",
+   "source": "TDatModN3SD.Crdinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select \n  crd.id,\n  crd.customertype,\n  crd.branchid ,\n  bp.villageid,\n  cust.vid_sob\nfrom \n  cm_portfolio crd,\n  cm_business_plan bp,\n  smart.customers cust\nwhere \n  bp.creditid = crd.id\n  and cust.id = crd.boorowerid  ",
+   "variables": [],
+   "unit": "DatModN3SDImpl"
+  },
+  {
+   "name": "CatDatSet",
+   "source": "TDatModN3SD.CatDatSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,description \nfrom cm_categories",
+   "variables": [],
+   "unit": "DatModN3SDImpl"
+  },
+  {
+   "name": "RegDatSet",
+   "source": "TDatModN3SD.RegDatSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id ,name from agro_village",
+   "variables": [],
+   "unit": "DatModN3SDImpl"
+  },
+  {
+   "name": "FilialDatSet",
+   "source": "TDatModN3SD.FilialDatSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sb_filial",
+   "variables": [],
+   "unit": "DatModN3SDImpl"
+  },
+  {
+   "name": "VidDatSet",
+   "source": "TDatModN3SD.VidDatSet",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name \nfrom smart.vid_sob\nwhere id in (select vid_sob \nfrom cm_sb_customers where \nid in (select boorowerid from cm_portfolio)\nand  vid_sob is not null )\n",
+   "variables": [],
+   "unit": "DatModN3SDImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TFormProgress.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_categories_repair\n",
+   "variables": [],
+   "unit": "UnitProgress"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFormProgress.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid ,c.* from CM_CATEGORIES_ADD c\nwhere catid=:catid ",
+   "variables": [
+    {
+     "name": "CATID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitProgress"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_N3_SD",
+   "package": "CM_N3_SD",
+   "mode": "named",
+   "source": "TDatModN3SD.CM_N3_SD",
+   "routines": [
+    {
+     "name": "pn3_sdf",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

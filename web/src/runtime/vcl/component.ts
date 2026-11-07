@@ -8,6 +8,9 @@ import { messageBox } from '../dialogs';
 import { audit } from '../audit';
 import { Indexed } from './classes';
 import { num, str } from '../pascal';
+import knownEvents from '../../generated/events.json';
+
+const KNOWN_EVENTS = new Set<string>(knownEvents as string[]);
 
 export type Handler = string | Routine | null;
 
@@ -83,7 +86,9 @@ export class TComponent extends TObject {
   override pget(lname: string): Found | Promise<Found> {
     if (lname.startsWith('on') && lname.length > 2 && this.isEventName(lname)) {
       const h = this.events.get(lname);
-      return h === undefined ? null : this.handlerRoutine(h);
+      // an unassigned On* name that is no event property anywhere (a method OnLogoutputShow of the form
+      // named inside `with frmLog do`) is not a member: the name resolves in the enclosing scope
+      if (h !== undefined || KNOWN_EVENTS.has(lname)) return h === undefined ? null : this.handlerRoutine(h);
     }
     if (this.refs.has(lname)) {
       const r = super.pget(lname);

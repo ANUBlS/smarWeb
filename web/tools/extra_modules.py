@@ -16,8 +16,8 @@ EXTRA = [
     # --- Kreditlər
     ('XCreditsConstruction', 'Packages/CreditsManagerConstruction', 'Kreditlər', 'Tikinti kreditlərinin idarə olunması'),
     ('XCreditsMgr', 'Packages/CreditsManger', 'Kreditlər', 'Kreditlər (sadə menecer)'),
-    ('XCreditsMgrSB', 'Packages/SB_Credit/Sm_creditsmgr', 'Kreditlər', 'Kredit menecer (SB)'),
-    ('XCreditArchive', 'Packages/ArCive_Credit/Archve_Credit', 'Kreditlər', 'Kreditlərin arxivi'),
+    ('CreditManager', 'Packages/CreditManager', 'Kreditlər', 'Kredit menecer (CreditManager, SBCM_*)'),  # was menu action 29
+    ('CreditsArchive', 'Packages/SBCM_CreditsArchive', 'Kreditlər', 'Kreditlərin arxivi (SBCM_*)'),  # was menu action 34
     ('XGuaranty', 'Packages/Cr_Credit/Guaranty', 'Kreditlər', 'Zəmanətlər'),
     ('XGuarantee', 'Packages/Guarantee', 'Kreditlər', 'Bank zəmanətlərinin idarə olunması'),
     ('XProblemCredits', 'Packages/ProblemCreditMgrs', 'Kreditlər', 'Problemli kreditlər'),
@@ -133,4 +133,12 @@ INI_MENU_HIDDEN = {
 }
 
 MENU_HIDDEN = {
+}
+
+# Modules with plugin menus (TPluginToolBar / TPluginPopupMenu): their buttons name BPL packages in
+# installation INI files (web/bin). Every package of these folders is built for the module, so the
+# bank's INI files work as they are; packages named in web/bin/*.ini are built as well.
+PLUGIN_FAMILIES = {
+    'XCreditsMgrSB': ['Packages/SB_Credit'],
+    'XCreditArchive': ['Packages/ArCive_Credit'],
 }

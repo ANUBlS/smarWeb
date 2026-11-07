@@ -1,0 +1,286 @@
+{
+ "name": "P_CM_Report",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Report",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "KeyListBox",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "MISData_",
+   "source": "TMISDm.MISData_",
+   "kind": "TOracleDataSet",
+   "sql": "select  \n     p.id ,\n     p.numberofcredit,\n     p.creditlineamount,                                  \n     p.annualyinterestrate,                                          \n     p.dateofconclusion ,                                            \n     p.duedatefirstcontract,                                      \n     p.duedatelastcontract,                                       \n     p.purposeofcredit,                                           \n     p.annualypenaltyrate, \n     p.intcalcmethod ,\n     p.branchid,\n     cat.description, \n     h.rest,\n     h.rest*o.ostat  AS ekrest,\n     h.interestrest ,\n     h.interestrest*o.ostat AS ekint,\n     h.duerest,\n     h.duerest*o.ostat AS ekduerest,\n     h.dueinterestrest,\n     h.dueinterestrest*o.ostat as ekdueint,\n     h.penaltyrest ,                 \n     h.penaltyrest*o.ostat as ekpen,\n     h.givenamount ,\n     h.givenamount *o.ostat as  ekgivenamount,\n     h.pledgeprice,\n     h.stopcalcdate,\n     e1.percent,\n     e2.percent as duepercent,\n     acc.acc_no as contractaccno,\n     substr(acc.acc_no,0,4) as balaccno,\n     intacc.acc_no as interestaccno,\n     resacc.acc_no as reserveaccno,\n     dueacc.acc_no as duecontractaccno,\n     dueintacc.acc_no as dueinterestaccno,\n     dueresacc.acc_no as duereserveaccno ,\n     booroweracc.acc_no as booroweraccno,\n     boorowerrest.ostat as boorrest,\n     boorowerrest.ostat*o.ostat as eboorrest,\n     av.val_name,\n     l.name,\n     LastintPaydate.paydat as lastintpaydate ,\n     LastMainPaydate.paydat as lastmainpaydate ,\n    -- cm_common.get_lastintpaydate (p.ID, :hdat) as lastintpaydate,\n    -- cm_common.get_lastmainpaydate (p.ID, :hdat) as lastmainpaydate,\n\t restpr.principal ,\n\t restpr.interest,\n\t Paydat.paymentdate as  paymentdateofReportDat,\n     g.pledgename, \n\t g.holdername, \n\t   g.registryno,\n       g.anyinfotodisting                \n                         ,\n       g.registryagency                             \n                       ,\n       g.registrydate                                      \n                     ,\n       g.insuranceamount                                 \n                        ,\n       g.insurancedate , \n                                      \n       l.boorowerid, \n       l.address, \n       l.phonenumber,\t \n       pl.description,\n       ps.name as psname,\n       crdtypes.DESCRIPTION as credittype /*,\n       ins.name as  insuranceagency*/\nfrom cm_portfolio p,\n     cm_history h,\n     cm_categories cat,\n     cm_boorowerinfo l,\n     cm_guarantee g,\n     --cm_insuranceagency ins,\n     cm_pledges pl,\n     cm_pledgsorts ps,\n     sb_avalute av,\n     sb_operkurs o,\n     cm_credittypes crdtypes, \n   cm_loanaccounts acc,\n   cm_intaccounts intacc,\n   cm_reserveaccounts resacc,\n   cm_dueloanaccounts dueacc ,\n   cm_dueintaccounts dueintacc ,\n   cm_dueresaccounts dueresacc  ,\n   cm_booroweraccounts booroweracc,\n   cm_boorowerrest boorowerrest,\n   cm_reserve_types e1,\n   cm_reserve_types e2 ,\n\n(SELECT 0 AS principal,0 AS interest, creditid\n  FROM (SELECT ID AS creditid\n          FROM cm_portfolio\n        MINUS\n        SELECT creditid\n          FROM cm_payment_schedule\n         WHERE paymentdate BETWEEN to_date(:bdat)\n                               AND to_date(:edat))\nUNION\nSELECT sum(principal),sum(interest), creditid\n  FROM cm_payment_schedule\n WHERE paymentdate BETWEEN to_date(:bdat)\n                       AND to_date(:edat)\n\t\t\t\t\t   group by creditid) restpr,\n                       \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where PAYEDINTAMT<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where PAYEDINTAMT<>0  \n      and PAYDATE <= :hdat\n      group by creditid) LastintPaydate,\n\n     \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where payedamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where payedamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid) LastMainPaydate ,\n\t  \n\n(SELECT creditid, NULL AS paymentdate\n  FROM (SELECT ID AS creditid\n          FROM cm_portfolio\n        MINUS\n        SELECT   creditid\n            FROM cm_payment_schedule\n           WHERE paymentdate BETWEEN TO_DATE (   '01'\n                                              || '-'\n                                              || TO_CHAR (TO_DATE (:hdat),\n                                                          'MON'\n                                                         )\n                                              || '-'\n                                              || TO_CHAR (TO_DATE (:hdat),\n                                                          'YYYY'\n                                                         )\n                                             )\n                                 AND LAST_DAY (TO_DATE (:hdat))\n        GROUP BY creditid)\nUNION\nSELECT creditid, MIN (paymentdate) AS paymentdate\n  FROM cm_payment_schedule\n WHERE paymentdate BETWEEN TO_DATE (   '01'\n                                    || '-'\n                                    || TO_CHAR (TO_DATE (:hdat), 'MON')\n                                    || '-'\n                                    || TO_CHAR (TO_DATE (:hdat), 'YYYY')\n                                   )\n                       AND LAST_DAY (TO_DATE (:hdat))\n\t\t\t\t\t   group by creditid) Paydat     \n        \n\nwhere \n  h.creditid = p.id \n  and e1.id = h.reserveid\n  and e2.id = h.duereserveid\n  and h.hdate = :hdat\n  and cat.id = p.customertype\n  and p.id = l.creditid(+)\n  and p.id = g.creditid(+)\n  and pl.id(+) = g.pledgeid\n  --and ins.id = g.insuranceagency\n  and ps.id(+) = p.pledgsorts\n  and crdtypes.id = p.credittype\n  and av.valute = p.currency\n  and o.dat = :hdat\n  and o.val_kod = p.currency\n  and  p.id = acc.creditid \n  and  p.id = intacc.creditid \n  and  p.id = resacc.creditid \n  and  p.id = dueacc.creditid  \n  and  p.id = dueintacc.creditid  \n  and  p.id = dueresacc.creditid \n  and  p.id = booroweracc.creditid\n  and  p.id = boorowerrest.creditid\n  and restpr.creditid = p.id \n  and LastintPaydate.creditid = p.id\n  and LastMainPaydate.creditid = p.id\n  and p.id = Paydat.Creditid\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "HDAT",
+     "type": "date"
+    },
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "SReserves",
+   "source": "TMISDm.SReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "Pledges",
+   "source": "TMISDm.Pledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_pledges",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "PReserves",
+   "source": "TMISDm.PReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TMISDm.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TMISDm.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "UsrGrpDataSet",
+   "source": "TMISDm.UsrGrpDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT id, description\n    FROM cm_usergroups",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "ValuteDataSet",
+   "source": "TMISDm.ValuteDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT VALUTE, VALU_NAME\n    FROM AVALUTE\nORDER BY VALUTE",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "PersonelTypeDataSet",
+   "source": "TMISDm.PersonelTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "\nSELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "BranchDataSet",
+   "source": "TMISDm.BranchDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TMISDm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select  \n     p.id ,\n     p.numberofcredit,\n     p.creditlineamount,                                  \n     p.annualyinterestrate,                                          \n     p.dateofconclusion ,                                            \n     p.duedatefirstcontract,                                      \n     p.duedatelastcontract,                                       \n     p.purposeofcredit,                                           \n     p.annualypenaltyrate, \n     p.intcalcmethod ,\n     p.branchid,\n     cat.description, \n     h.rest,\n     h.rest*o.ostat  AS ekrest,\n     h.interestrest ,\n     h.interestrest*o.ostat AS ekint,\n     h.duerest,\n     h.duerest*o.ostat AS ekduerest,\n     h.dueinterestrest,\n     h.dueinterestrest*o.ostat as ekdueint,\n     h.penaltyrest ,                 \n     h.penaltyrest*o.ostat as ekpen,\n     h.givenamount ,\n     h.givenamount *o.ostat as  ekgivenamount,\n     h.pledgeprice,\n     h.stopcalcdate,\n     e1.percent,\n     e2.percent as duepercent,\n     acc.acc_no as contractaccno,\n     substr(acc.acc_no,0,4) as balaccno,\n     intacc.acc_no as interestaccno,\n     resacc.acc_no as reserveaccno,\n     dueacc.acc_no as duecontractaccno,\n     dueintacc.acc_no as dueinterestaccno,\n     dueresacc.acc_no as duereserveaccno ,\n     booroweracc.acc_no as booroweraccno,\n     boorowerrest.ostat as boorrest,\n     av.val_name,\n     l.name,\n     LastintPaydate.paydat as lastintpaydate ,\n     LastMainPaydate.paydat as lastmainpaydate ,\n    -- cm_common.get_lastintpaydate (p.ID, '26-mar-08') as lastintpaydate,\n    -- cm_common.get_lastmainpaydate (p.ID, '26-mar-08') as lastmainpaydate,\n\t restpr.principal ,\n\t restpr.interest,\n\t Paydat.paymentdate as  paymentdateofReportDat,\n     g.pledgename, \n\t g.holdername, \n\t   g.registryno,\n       g.anyinfotodisting                \n                         ,\n       g.registryagency                             \n                       ,\n       g.registrydate                                      \n                     ,\n       g.insuranceamount                                 \n                        ,\n       g.insurancedate , \n       g.insuranceagency,                                   \n       l.boorowerid, \n       l.address, \n       l.phonenumber,\t \n       pl.description,\n       ps.name as psname,\n       crdtypes.DESCRIPTION as credittype /*,\n       ins.name as  insuranceagency*/\nfrom cm_portfolio p,\n     cm_history h,\n     cm_categories cat,\n     cm_boorowerinfo l,\n     cm_guarantee g,\n     --cm_insuranceagency ins,\n     cm_pledges pl,\n     cm_pledgsorts ps,\n     sb_avalute av,\n     sb_operkurs o,\n     cm_credittypes crdtypes, \n   cm_loanaccounts acc,\n   cm_intaccounts intacc,\n   cm_reserveaccounts resacc,\n   cm_dueloanaccounts dueacc ,\n   cm_dueintaccounts dueintacc ,\n   cm_dueresaccounts dueresacc  ,\n   cm_booroweraccounts booroweracc,\n   cm_boorowerrest boorowerrest,\n   cm_reserve_types e1,\n   cm_reserve_types e2 ,\n\n(SELECT 0 AS principal,0 AS interest, creditid\n  FROM (SELECT ID AS creditid\n          FROM cm_portfolio\n        MINUS\n        SELECT creditid\n          FROM cm_payment_schedule\n         WHERE paymentdate BETWEEN to_date('26-mar-08')\n                               AND to_date('26-mar-08'))\nUNION\nSELECT sum(principal),sum(interest), creditid\n  FROM cm_payment_schedule\n WHERE paymentdate BETWEEN to_date('26-mar-08')\n                       AND to_date('26-mar-08')\n\t\t\t\t\t   group by creditid) restpr,\n                       \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where PAYEDINTAMT<>0  \n      and PAYDATE <= '26-mar-08'\n      group by creditid)\n      union\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where PAYEDINTAMT<>0  \n      and PAYDATE <= '26-mar-08'\n      group by creditid) LastintPaydate,\n\n     \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where payedamt<>0  \n      and PAYDATE <= '26-mar-08'\n      group by creditid)\n      union\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where payedamt<>0  \n      and PAYDATE <= '26-mar-08'\n      group by creditid) LastMainPaydate ,\n\t  \n\n(SELECT creditid, NULL AS paymentdate\n  FROM (SELECT ID AS creditid\n          FROM cm_portfolio\n        MINUS\n        SELECT   creditid\n            FROM cm_payment_schedule\n           WHERE paymentdate BETWEEN TO_DATE (   '01'\n                                              || '-'\n                                              || TO_CHAR (TO_DATE ('26-mar-08'),\n                                                          'MON'\n                                                         )\n                                              || '-'\n                                              || TO_CHAR (TO_DATE ('26-mar-08'),\n                                                          'YYYY'\n                                                         )\n                                             )\n                                 AND LAST_DAY (TO_DATE ('26-mar-08'))\n        GROUP BY creditid)\nUNION\nSELECT creditid, MIN (paymentdate) AS paymentdate\n  FROM cm_payment_schedule\n WHERE paymentdate BETWEEN TO_DATE (   '01'\n                                    || '-'\n                                    || TO_CHAR (TO_DATE ('26-mar-08'), 'MON')\n                                    || '-'\n                                    || TO_CHAR (TO_DATE ('26-mar-08'), 'YYYY')\n                                   )\n                       AND LAST_DAY (TO_DATE ('26-mar-08'))\n\t\t\t\t\t   group by creditid) Paydat     \n        \n\nwhere \n  h.creditid = p.id \n  and e1.id = h.reserveid\n  and e2.id = h.duereserveid\n  and h.hdate = '26-mar-08'\n  and cat.id = p.customertype\n  and p.id = l.creditid\n  and p.id = g.creditid\n  and pl.id = g.pledgeid\n  --and ins.id = g.insuranceagency\n  and ps.id = p.pledgsorts\n  and crdtypes.id = p.credittype\n  and av.valute = p.currency\n  and o.dat = '26-mar-08'\n  and o.val_kod = p.currency\n  and  p.id = acc.creditid \n  and  p.id = intacc.creditid \n  and  p.id = resacc.creditid \n  and  p.id = dueacc.creditid  \n  and  p.id = dueintacc.creditid  \n  and  p.id = dueresacc.creditid \n  and  p.id = booroweracc.creditid\n  and  p.id = boorowerrest.creditid\n  and restpr.creditid = p.id \n  and LastintPaydate.creditid = p.id\n  and LastMainPaydate.creditid = p.id\n  and p.id = Paydat.Creditid\n  \n  AND  ((p.partitionkey=0) or (p.partitionkey=1)) \n  and  ((h.stopcalcdate is not null)  or (h.stopcalcdate is  null))  \n-- and o.dat= '26-feb-2008'\n-- and (h.rest <> 0 or h.duerest<>0 or h.interestrest<>0)\n  --and o.dat= '26-feb-2008'\n \n  \n  \n  \n\n\n  \n     \n\n\n",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "MISData",
+   "source": "TMISDm.MISData",
+   "kind": "TOracleDataSet",
+   "sql": "select  p.BOOROWERID cussid,   p.id , p.numberofcredit,p.creditlineamount,p.annualyinterestrate,l.pincode,p.komision,p.aif,\ng1.guarantorname,g1.zaminwork1,g1.zamintel1,g1.zmtelmob1,g1.guarantorid guarantorid1,g1.dateofbirth zamdog,\ng2.guarantorname name2,g2.zaminwork1 wr2,g2.zamintel1 evtel2,g2.zmtelmob1 mobtel2,g2.guarantorid guarantorid,g2.dateofbirth  azmdog_2,\ng3.guarantorname name3,g3.zaminwork1 wr3,g3.zamintel1 evtel3,g3.zmtelmob1 mobtel3,g3.guarantorid guarantorid3,\n/*(select sum(payedamt)+sum(payedintamt)+sum(payeddueamt)+sum(payeddueintamt)+sum(payedpenaltyamt) pay from cm_payments\nwhere PAYDATE  BETWEEN  ( 01|| '-'|| TO_CHAR (:hdat, 'MON')|| '-'|| TO_CHAR (:hdat, 'YYYY'))and last_day(:hdat) and creditid=p.id) caripay,       */                                   \n     p.dateofconclusion , p.info, h.dueday,   (select count(*) from cm_prolongations where creditid=p.id) restsay,                                     \n     p.duedatefirstcontract, /* (select sum(payedamt)+sum(payeddueamt)pay from cm_payments where creditid=p.id) cemesas ,    */                              \n  ( select max(prolongdate) from cm_prolongations where creditid=p.id )duedatelastcontract,   /*(select sum(payedintamt)+sum(payeddueintamt) pay from cm_payments where creditid=p.id) cemfaiz,     */                                \n     p.purposeofcredit,\n     p.annualypenaltyrate,(select name  from cm_tesnifat where id=p.tesnifid) tesnif,\n     p.intcalcmethod ,(select name from vid_sob where cust_type in(1,-1) and id=l.vid_sob) fsektor,\n     f.name as fliname,(SELECT name FROM otrasli where id=l.otid) otlasi,\n     cat.description, \n     h.rest,(select description from cm_automation where id=p.autopayment) autopay, months_pay,months_pay_zam,\n     h.rest*o.ostat  AS ekrest,\n     h.interestrest as interestrest ,cm_utils.Get_MainPlanPayment(p.id)ay_od,\n     h.interestrest*o.ostat as  ekint,\n     h.duerest,\n     h.duerest*o.ostat AS ekduerest,\n     h.dueinterestrest as dueinterestrest,\n     h.dueinterestrest*o.ostat as ekdueint,\n     h.penaltyrest ,                 \n     h.penaltyrest*o.ostat as ekpen,\n     h.givenamount ,\n     h.givenamount *o.ostat as  ekgivenamount,\n     h.pledgeprice,\n     h.stopcalcdate,(select name from cm_ssb where id=p.ssbid)ssb,\n     e1.percent,\n     e2.percent as duepercent,\n     acc.acc_no as contractaccno,\n     substr(acc.acc_no,9,5) as balaccno,\n     intacc.acc_no as interestaccno,\n     resacc.acc_no as reserveaccno,\n     dueacc.acc_no as duecontractaccno,\n     dueintacc.acc_no as dueinterestaccno,\n     dueresacc.acc_no as duereserveaccno ,\n     booroweracc.acc_no as booroweraccno,\n     boorowerrest.ostat as boorrest,\n     boorowerrest.ostat*o.ostat as eboorrest,\n     av.val_name,\n     l.name,\n     LastintPaydate.paydat as lastintpaydate ,dLastintPaydate.paydat as dlastintpaydate ,\n    LastMainPaydate.paydat as lastmainpaydate , dLastMainPaydate.paydat as dlastmainpaydate ,\n    -- cm_common.get_lastintpaydate (p.ID, :hdat) as lastintpaydate,\n    -- cm_common.get_lastmainpaydate (p.ID, :hdat) as lastmainpaydate,\n     restpr.principal ,\n     restpr.interest,\n   --  Paydat.paymentdate as  paymentdateofReportDat,\n     g.pledgename, \n     g.holdername, g.aftono,\n       g.registryno,\n       g.anyinfotodisting , ( select max(birthday) from custinfo where IDCUST=p.boorowerid)birthday,               \n     ( select trunc(MONTHS_BETWEEN(p.dateofconclusion,max(birthday))/12) from custinfo where IDCUST=p.boorowerid)yash, \n    ( select max(phone_m) from custinfo where IDCUST=p.boorowerid) tel_mob,   \n       g.registryagency                             \n                       ,\n       g.registrydate                                \n                     ,(select name from cm_aim_cred where id=p.aim_id)aim,\n       g.insuranceamount  ,g.insuranceright ,\n                    \n       g.insurancedate , \n       --g.insuranceagency,                                   \n       l.boorowerid, (select name  from cm_partniyor where id=p.partid) part,\n       l.address, (select description from cm_usergroups where id=p.usrgroup) shert,(select name  from cm_qovluq where id=p.qovid) qovluq,\n       l.phonenumber,l.salary,   pl.description,     \n       ps.name as psname,acc.bal_cn1,\n       crdtypes.DESCRIPTION as credittype ,cm_common.get_monthpay(p.id) as monthpay,\n       ins.name as  insuranceagency,cm_common.get_custMONTHLYPROFIT(p.boorowerid) as MONTHLYPROFIT ,\n       CM_RPORT.get_cred(p.creditact) as \"Borcalanin sektoru\",CM_RPORT.get_actives(p.activities) as \"Borcalanin faliyyeti\",cat.description as \"Borcalanin faliyyet novu\",\n       CM_RPORT.get_vid_sob(p.activities_type)as \"Mulkiyyet novu\"/*,p.portfel*/,cm_credit.expert(p.EXPERTID) expert,dt.name dti\n       --nvl(cm_utils.Get_MainPlanPayment(p.id),0)  as MainPlanAmount\nfrom cm_portfolio :partName p,smart.filial_t f,\n     cm_history h,\n     cm_categories cat,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3,\n     cm_boorowerinfo l,\n     cm_guarantee g,\n     cm_insuranceagency ins,cm_dti dt,\n     cm_pledges pl,\n     cm_pledgsorts ps,\n     avalute av,\n     operkurs o,\n     cm_credittypes crdtypes, \n   cm_loanaccounts acc,\n   cm_intaccounts intacc,\n   cm_reserveaccounts resacc,\n   cm_dueloanaccounts dueacc ,\n   cm_dueintaccounts dueintacc ,\n   cm_dueresaccounts dueresacc  ,\n   cm_booroweraccounts booroweracc,\n   cm_boorowerrest boorowerrest,\n   cm_reserve_types e1,\n   cm_reserve_types e2 ,\n\n(SELECT 0 AS principal,0 AS interest, creditid\n  FROM (SELECT ID AS creditid\n          FROM cm_portfolio :partName\n        MINUS\n        SELECT creditid\n          FROM cm_payment_schedule\n         WHERE paymentdate BETWEEN to_date(:bdat)\n                               AND to_date(:edat))\nUNION ALL\nSELECT sum(principal),sum(interest), creditid\n  FROM cm_payment_schedule\n WHERE paymentdate BETWEEN to_date(:bdat)\n                       AND to_date(:edat)\n                       group by creditid) restpr,\n                       \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio :partName\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where PAYEDINTAMT<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union all\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where PAYEDINTAMT<>0  \n      and PAYDATE <= :hdat\n      group by creditid) LastintPaydate,\n\n     \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio :partName\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where payedamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union all\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where payedamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid) LastMainPaydate \n      \n      ,            \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio :partName\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where payeddueintamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union all\n      select  \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where payeddueintamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid) dLastintPaydate,\n\n     \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio :partName\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where payeddueamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union all\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where payeddueamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid) dLastMainPaydate /*,\n(SELECT creditid, NULL AS paymentdate\n  FROM (SELECT ID AS creditid\n          FROM cm_portfolio :partName\n        MINUS\n        SELECT   creditid\n            FROM cm_payment_schedule\n           WHERE paymentdate BETWEEN TO_DATE (   '01'\n                                              || '-'\n                                              || TO_CHAR (TO_DATE (:hdat),\n                                                          'MON'\n                                                         )\n                                              || '-'\n                                              || TO_CHAR (TO_DATE (:hdat),\n                                                          'YYYY'\n                                                         )\n                                             )\n                                 AND LAST_DAY (TO_DATE (:hdat))\n        GROUP BY creditid)\nUNION\nSELECT creditid, MIN (paymentdate) AS paymentdate\n  FROM cm_payment_schedule\n WHERE paymentdate BETWEEN TO_DATE (   '01'\n                                    || '-'\n                                    || TO_CHAR (TO_DATE (:hdat), 'MON')\n                                    || '-'\n                                    || TO_CHAR (TO_DATE (:hdat), 'YYYY')\n                                   )\n                       AND LAST_DAY (TO_DATE (:hdat))\n                       group by creditid) Paydat    */ \n        \n\nwhere \n  h.creditid = p.id  and f.id=p.branchid  and p.id=g1.creditid(+) and g1.cardid(+)=1\n  and e1.id(+) = h.reserveid             and p.id=g2.creditid(+) and g2.cardid(+)=2\n  and e2.id(+) = h.duereserveid          and p.id=g3.creditid(+) and g3.cardid(+)=3\n  and h.hdate = :hdat\n  and cat.id = p.customertype\n  and p.id = l.creditid\n  and p.id = g.creditid(+)\n  and pl.id(+) = g.pledgeid\n  and ins.id(+) = g.insuranceagency\n  and ps.id(+) = g.pledgsorts\n  and crdtypes.id = p.credittype\n  and av.valute = p.currency\n  and o.dat = :hdat\n  and o.val_kod = p.currency\n  and  p.id = acc.creditid\n  and  p.id = intacc.creditid\n  and  p.id = resacc.creditid \n  and  p.id = dueacc.creditid  \n  and  p.id = dueintacc.creditid\n  and  p.id = dueresacc.creditid \n  and  p.id = booroweracc.creditid\n  and  p.id = boorowerrest.creditid\n  and restpr.creditid(+) = p.id and p.dti=dt.id(+)\n  and LastintPaydate.creditid(+) = p.id\n  and LastMainPaydate.creditid(+) = p.id  and dLastintPaydate.creditid = p.id and dLastMainPaydate.creditid(+) = p.id\n--  and p.id = Paydat.Creditid(+)\n -- and p.creditact=ca.id and ac.id =p.activities and p.activities_type=act.act_id\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "HDAT",
+     "type": "date"
+    },
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    },
+    {
+     "name": "PARTNAME",
+     "type": "subst"
+    }
+   ],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TMISDm.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select p.numberofcredit,(select name from customers where  id=p.boorowerid)customer,\na.cardid,a.guarantorname,a.guarantorid,a.pincode,a.guarantorsalary,a.zaminwork1,a.zaminadres1,a.zamintel1,\na.dateofbirth,(select name from filial where id=BRANCHID)fname, (select valu_name from avalute where valute =p.currency) val,\nh.rest,h.interestrest,h.duerest,h.dueinterestrest, a.cuntry,a.city ,p.dateofconclusion\n from cm_guarantor a ,cm_active_credits p ,cm_curr_state h\nwhere p.id=a.creditid and p.id=h.creditid\n\n\n\n\n\n\norder by a.creditid,cardid",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TMISDm.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select b.name,f.name fname,v.val_name, numberofcredit,initialamount,annualyinterestrate,dateofconclusion,duedatefirstcontract,\nh.rest,h.duerest,h.interestrest,h.dueinterestrest,\n(select sum(payedamt) from cm_payments where creditid=p.id and paydate between TRUNC(sysdate, 'MONTH') and LAST_DAY(sysdate)) cariesas,\n(select sum(PAYEDINTAMT) from cm_payments where creditid=p.id and paydate between TRUNC(sysdate, 'MONTH') and LAST_DAY(sysdate)) carifaiz,\n(select sum(payedamt) from cm_payments where creditid=p.id ) cemesas,\n(select sum(PAYEDINTAMT) from cm_payments where creditid=p.id ) cemfaiz\n from \ncm_active_credits p,cm_boorowerinfo b ,cm_curr_state h,filial f,avalute v\nwhere p.id=b.creditid and\np.id=h.creditid and \np.branchid=f.id and\np.currency=v.valute\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TMISDm.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select     p.id , p.numberofcredit,p.creditlineamount,p.annualyinterestrate,l.pincode,\ng1.guarantorname,g1.zaminwork1,g1.zamintel1,g1.zmtelmob1,g1.guarantorid guarantorid1,\ng2.guarantorname name2,g2.zaminwork1 wr2,g2.zamintel1 evtel2,g2.zmtelmob1 mobtel2,g2.guarantorid guarantorid2,\ng3.guarantorname name3,g3.zaminwork1 wr3,g3.zamintel1 evtel3,g3.zmtelmob1 mobtel3,g3.guarantorid guarantorid3,\n(select sum(payedamt)+sum(payedintamt)+sum(payeddueamt)+sum(payeddueintamt)+sum(payedpenaltyamt) pay from cm_payments\nwhere PAYDATE  BETWEEN  ( 01|| '-'|| TO_CHAR (:hdat, 'MON')|| '-'|| TO_CHAR (:hdat, 'YYYY'))and last_day(:hdat) and creditid=p.id) caripay,                                          \n     p.dateofconclusion , p.info, h.dueday,                                        \n     p.duedatefirstcontract,  (select sum(payedamt)+sum(payeddueamt)pay from cm_payments where creditid=p.id) cemesas ,                                  \n     p.duedatelastcontract,   (select sum(payedintamt)+sum(payeddueintamt) pay from cm_payments where creditid=p.id) cemfaiz,                                     \n     p.purposeofcredit,\n     p.annualypenaltyrate,(select name  from cm_tesnifat where id=p.tesnifid) tesnif,\n     p.intcalcmethod ,(select name from vid_sob where cust_type in(1,-1) and id=l.vid_sob) fsektor,\n     f.name as fliname,(SELECT name FROM otrasli where id=l.otid) otlasi,\n     cat.description, \n     h.rest,(select description from cm_automation where id=p.autopayment) autopay,\n     h.rest*o.ostat  AS ekrest,\n     h.interestrest as interestrest ,\n     h.interestrest*o.ostat as  ekint,\n     h.duerest,\n     h.duerest*o.ostat AS ekduerest,\n     h.dueinterestrest as dueinterestrest,\n     h.dueinterestrest*o.ostat as ekdueint,\n     h.penaltyrest ,                 \n     h.penaltyrest*o.ostat as ekpen,\n     h.givenamount ,\n     h.givenamount *o.ostat as  ekgivenamount,\n     h.pledgeprice,\n     h.stopcalcdate,\n     e1.percent,\n     e2.percent as duepercent,\n     acc.acc_no as contractaccno,\n     substr(acc.acc_no,9,5) as balaccno,\n     intacc.acc_no as interestaccno,\n     resacc.acc_no as reserveaccno,\n     dueacc.acc_no as duecontractaccno,\n     dueintacc.acc_no as dueinterestaccno,\n     dueresacc.acc_no as duereserveaccno ,\n     booroweracc.acc_no as booroweraccno,\n     boorowerrest.ostat as boorrest,\n     boorowerrest.ostat*o.ostat as eboorrest,\n     av.val_name,\n     l.name,\n     LastintPaydate.paydat as lastintpaydate ,dLastintPaydate.paydat as dlastintpaydate ,\n     LastMainPaydate.paydat as lastmainpaydate , dLastMainPaydate.paydat as dlastmainpaydate ,\n    -- cm_common.get_lastintpaydate (p.ID, :hdat) as lastintpaydate,\n    -- cm_common.get_lastmainpaydate (p.ID, :hdat) as lastmainpaydate,\n     restpr.principal ,\n     restpr.interest,\n     Paydat.paymentdate as  paymentdateofReportDat,\n     g.pledgename, \n     g.holdername, g.aftono,\n       g.registryno,\n       g.anyinfotodisting ,               \n     ( select trunc(MONTHS_BETWEEN(p.dateofconclusion,max(birthday))/12) from custinfo where IDCUST=p.boorowerid)yash,     \n       g.registryagency                             \n                       ,\n       g.registrydate                                \n                     ,(select name from cm_aim_cred where id=p.aim_id)aim,\n       g.insuranceamount  ,g.insuranceright ,\n                    \n       g.insurancedate , \n       --g.insuranceagency,                                   \n       l.boorowerid, (select name  from cm_partniyor where id=p.partid) part,\n       l.address, (select description from cm_usergroups where id=p.usrgroup) shert,(select name  from cm_qovluq where id=p.qovid) qovluq,\n       l.phonenumber,l.salary,   pl.description,     \n       ps.name as psname,acc.bal_cn1,\n       crdtypes.DESCRIPTION as credittype ,cm_common.get_monthpay(p.id) as monthpay,\n       ins.name as  insuranceagency,cm_common.get_custMONTHLYPROFIT(p.boorowerid) as MONTHLYPROFIT ,\n       CM_RPORT.get_cred(p.creditact) as \"Borcalanin sektoru\",CM_RPORT.get_actives(p.activities) as \"Borcalanin faliyyeti\",cat.description as \"Borcalanin faliyyet novu\",\n       CM_RPORT.get_vid_sob(p.activities_type)as \"Mulkiyyet novu\"/*,p.portfel*/,cm_credit.expert(p.EXPERTID) expert\nfrom cm_portfolio p,smart.filial_t f,\n     cm_history h,\n     cm_categories cat,CM_GUARANTOR g1,CM_GUARANTOR g2,CM_GUARANTOR g3,\n     cm_boorowerinfo l,\n     cm_guarantee g,\n     cm_insuranceagency ins,\n     cm_pledges pl,\n     cm_pledgsorts ps,\n     avalute av,\n     operkurs o,\n     cm_credittypes crdtypes, \n   cm_loanaccounts acc,\n   cm_intaccounts intacc,\n   cm_reserveaccounts resacc,\n   cm_dueloanaccounts dueacc ,\n   cm_dueintaccounts dueintacc ,\n   cm_dueresaccounts dueresacc  ,\n   cm_booroweraccounts booroweracc,\n   cm_boorowerrest boorowerrest,\n   cm_reserve_types e1,\n   cm_reserve_types e2 ,\n\n(SELECT 0 AS principal,0 AS interest, creditid\n  FROM (SELECT ID AS creditid\n          FROM cm_portfolio\n        MINUS\n        SELECT creditid\n          FROM cm_payment_schedule\n         WHERE paymentdate BETWEEN to_date(:bdat)\n                               AND to_date(:edat))\nUNION\nSELECT sum(principal),sum(interest), creditid\n  FROM cm_payment_schedule\n WHERE paymentdate BETWEEN to_date(:bdat)\n                       AND to_date(:edat)\n                       group by creditid) restpr,\n                       \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where PAYEDINTAMT<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where PAYEDINTAMT<>0  \n      and PAYDATE <= :hdat\n      group by creditid) LastintPaydate,\n\n     \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where payedamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where payedamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid) LastMainPaydate ,\n      \n                       \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where payeddueintamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where payeddueintamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid) dLastintPaydate,\n\n     \n      ((select \n          id as creditid,\n          null as paydat\n        from cm_portfolio\n       minus\n       select \n       creditid ,\n       null as paydat from cm_payments\n      where payeddueamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid)\n      union\n      select \n       creditid ,\n       max(PAYDATE) as paydat from cm_payments\n      where payeddueamt<>0  \n      and PAYDATE <= :hdat\n      group by creditid) dLastMainPaydate ,\n(SELECT creditid, NULL AS paymentdate\n  FROM (SELECT ID AS creditid\n          FROM cm_portfolio\n        MINUS\n        SELECT   creditid\n            FROM cm_payment_schedule\n           WHERE paymentdate BETWEEN TO_DATE (   '01'\n                                              || '-'\n                                              || TO_CHAR (TO_DATE (:hdat),\n                                                          'MON'\n                                                         )\n                                              || '-'\n                                              || TO_CHAR (TO_DATE (:hdat),\n                                                          'YYYY'\n                                                         )\n                                             )\n                                 AND LAST_DAY (TO_DATE (:hdat))\n        GROUP BY creditid)\nUNION\nSELECT creditid, MIN (paymentdate) AS paymentdate\n  FROM cm_payment_schedule\n WHERE paymentdate BETWEEN TO_DATE (   '01'\n                                    || '-'\n                                    || TO_CHAR (TO_DATE (:hdat), 'MON')\n                                    || '-'\n                                    || TO_CHAR (TO_DATE (:hdat), 'YYYY')\n                                   )\n                       AND LAST_DAY (TO_DATE (:hdat))\n                       group by creditid) Paydat     \n        \n\nwhere \n  h.creditid = p.id  and f.id=p.branchid  and p.id=g1.creditid(+) and g1.cardid(+)=1\n  and e1.id(+) = h.reserveid             and p.id=g2.creditid(+) and g2.cardid(+)=2\n  and e2.id(+) = h.duereserveid          and p.id=g3.creditid(+) and g3.cardid(+)=3\n  and h.hdate = :hdat\n  and cat.id = p.customertype\n  and p.id = l.creditid\n  and p.id = g.creditid(+)\n  and pl.id(+) = g.pledgeid\n  and ins.id(+) = g.insuranceagency\n  and ps.id(+) = g.pledgsorts\n  and crdtypes.id = p.credittype\n  and av.valute = p.currency\n  and o.dat = :hdat\n  and o.val_kod = p.currency\n  and  p.id = acc.creditid \n  and  p.id = intacc.creditid \n  and  p.id = resacc.creditid \n  and  p.id = dueacc.creditid  \n  and  p.id = dueintacc.creditid\n  and  p.id = dueresacc.creditid \n  and  p.id = booroweracc.creditid\n  and  p.id = boorowerrest.creditid\n  and restpr.creditid(+) = p.id\n  and LastintPaydate.creditid(+) = p.id\n  and LastMainPaydate.creditid(+) = p.id  and dLastintPaydate.creditid = p.id and dLastMainPaydate.creditid(+) = p.id\n  and p.id = Paydat.Creditid(+)\n -- and p.creditact=ca.id and ac.id =p.activities and p.activities_type=act.act_id\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ",
+   "variables": [
+    {
+     "name": "HDAT",
+     "type": "date"
+    },
+    {
+     "name": "BDAT",
+     "type": "date"
+    },
+    {
+     "name": "EDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "MISDmImpl"
+  },
+  {
+   "name": "CreditsDS",
+   "source": "TPeriodReportForm.CreditsDS",
+   "kind": "TOracleDataSet",
+   "sql": "select b.ID   from CM_PORTFOLIO b where  ((B.CLOSEDATE IS NULL) or (B.CLOSEDATE between :HDATE and :EDATE) /*(B.CLOSEDATE >=:HDATE)*/)\n\n\n ",
+   "variables": [
+    {
+     "name": "EDATE",
+     "type": "date"
+    },
+    {
+     "name": "HDATE",
+     "type": "date"
+    }
+   ],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "Currencys",
+   "source": "TPeriodReportForm.Currencys",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT valute,  valu_name\n  FROM AVALUTE\nORDER BY VALUTE",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "Branches",
+   "source": "TPeriodReportForm.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "UserGroups",
+   "source": "TPeriodReportForm.UserGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "Persons",
+   "source": "TPeriodReportForm.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "Categories",
+   "source": "TPeriodReportForm.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "PeriodReport"
+  },
+  {
+   "name": "ResultDS",
+   "source": "TPeriodReportForm.ResultDS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.numberofcredit, \n      r.*, \n      CM_AK_REPORTS.get_balcn(r.contractno) as balcn,\n       b.name,\n       h.descripion person,\n       g.description project,p.ANNUALYINTERESTRATE,\n       --f.name filial ,\n       get_filialname(p.branchid) filial,\n       V.Val_name,\n       p.DATEOFCONCLUSION,\n       p.DUEDATEFIRSTCONTRACT\n FROM CM_REPORT_SD1 r,\n      cm_boorowerinfo b,\n      cm_portfolio p,\n      cm_persons h,\n      cm_usergroups g,\n  --    sb_filial f,\n      AVALUTE V\n where \n      r.creditid = b.creditid\n   and r.creditid = p.id\n   and  v.Valute = p.Currency\n   and h.id = p.personaltype\n   and g.id = p.usrgroup\n --  and f.id = p.branchid  \n",
+   "variables": [],
+   "unit": "PeriodReport"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_AK_REPORTS",
+   "package": "CM_AK_REPORTS",
+   "mode": "named",
+   "source": "TPeriodReportForm.CM_AK_REPORTS",
+   "routines": [
+    {
+     "name": "insinfod",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

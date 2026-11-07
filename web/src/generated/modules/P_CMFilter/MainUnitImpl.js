@@ -1,0 +1,139 @@
+// Generated from MainUnitImpl.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("MainUnitImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "ExtCtrls", "StdCtrls", "Mask", "DBCtrlsEh", "ComCtrls", "CMCurrencyEdit", "DBLookupEh", "DBGridEh", "Variants", "CommonDecls", "SbSystem", "DataModuleImpl", "SBTranslateProc", "sboapiDataModuleImpl"]);
+  const C = [U];
+  U.defClass("TFilterMainForm", "TForm", {"panel1": {"name": "Panel1", "type": "TPanel"}, "groupbox1": {"name": "GroupBox1", "type": "TGroupBox"}, "groupbox2": {"name": "GroupBox2", "type": "TGroupBox"}, "checkbox1": {"name": "CheckBox1", "type": "TCheckBox"}, "groupbox3": {"name": "GroupBox3", "type": "TGroupBox"}, "panel2": {"name": "Panel2", "type": "TPanel"}, "groupbox4": {"name": "GroupBox4", "type": "TGroupBox"}, "checkbox4": {"name": "CheckBox4", "type": "TCheckBox"}, "groupbox5": {"name": "GroupBox5", "type": "TGroupBox"}, "groupbox6": {"name": "GroupBox6", "type": "TGroupBox"}, "panel5": {"name": "Panel5", "type": "TPanel"}, "groupbox7": {"name": "GroupBox7", "type": "TGroupBox"}, "checkbox7": {"name": "CheckBox7", "type": "TCheckBox"}, "groupbox8": {"name": "GroupBox8", "type": "TGroupBox"}, "checkbox9": {"name": "CheckBox9", "type": "TCheckBox"}, "groupbox9": {"name": "GroupBox9", "type": "TGroupBox"}, "checkbox8": {"name": "CheckBox8", "type": "TCheckBox"}, "panel9": {"name": "Panel9", "type": "TPanel"}, "groupbox10": {"name": "GroupBox10", "type": "TGroupBox"}, "checkbox10": {"name": "CheckBox10", "type": "TCheckBox"}, "button1": {"name": "Button1", "type": "TButton"}, "button2": {"name": "Button2", "type": "TButton"}, "button3": {"name": "Button3", "type": "TButton"}, "groupbox11": {"name": "GroupBox11", "type": "TGroupBox"}, "checkbox11": {"name": "CheckBox11", "type": "TCheckBox"}, "dblookupcomboboxeh1": {"name": "DBLookupComboboxEh1", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh2": {"name": "DBLookupComboboxEh2", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh3": {"name": "DBLookupComboboxEh3", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh4": {"name": "DBLookupComboboxEh4", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh5": {"name": "DBLookupComboboxEh5", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh6": {"name": "DBLookupComboboxEh6", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh7": {"name": "DBLookupComboboxEh7", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh8": {"name": "DBLookupComboboxEh8", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh9": {"name": "DBLookupComboboxEh9", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh10": {"name": "DBLookupComboboxEh10", "type": "TDBLookupComboboxEh"}, "dblookupcomboboxeh11": {"name": "DBLookupComboboxEh11", "type": "TDBLookupComboboxEh"}, "checkbox2": {"name": "CheckBox2", "type": "TCheckBox"}, "checkbox3": {"name": "CheckBox3", "type": "TCheckBox"}, "checkbox5": {"name": "CheckBox5", "type": "TCheckBox"}, "checkbox6": {"name": "CheckBox6", "type": "TCheckBox"}, "checkbox12": {"name": "CheckBox12", "type": "TCheckBox"}, "groupbox12": {"name": "GroupBox12", "type": "TGroupBox"}, "checkbox13": {"name": "CheckBox13", "type": "TCheckBox"}, "dblookupcomboboxeh12": {"name": "DBLookupComboboxEh12", "type": "TDBLookupComboboxEh"}, "groupbox13": {"name": "GroupBox13", "type": "TGroupBox"}, "startdateedit": {"name": "StartDateEdit", "type": "TDateTimePicker"}, "label1": {"name": "Label1", "type": "TLabel"}, "checkbox14": {"name": "CheckBox14", "type": "TCheckBox"}}, {});
+  U.init(async () => {
+    U.const("LoadingFailed", false);
+    U.var_("FilterMainForm", null, "TFilterMainForm");
+    U.var_("param", '', "String");
+  });
+  U.method("TFilterMainForm", "BuildFilterString", async function BuildFilterString(Self) {
+  const C = $.chain(Self, U);
+  const L0 = {result: ''};
+  L0["concatfilter"] = $.fn(async function ConcatFilter(p0, p1, p2, p3) {
+  const L1 = {"s": $.asRef(p0), "prefix": $.copyArg(p1), "checked": $.copyArg(p2), "keyvalue": $.copyArg(p3), result: undefined, "temp": ''};
+  await $.fixArgs(L1, ["prefix", "checked", "keyvalue"]);
+  if ($.truthy(L1["checked"])) {
+    if ($.truthy($.ne(L1["prefix"], ""))) {
+      L1["temp"] = $.add($.add($.add($.add("(", L1["prefix"]), "="), (await $.call(C, "VarToStr", [L1["keyvalue"]]))), ")");
+    } else {
+      L1["temp"] = $.add($.add("(", (await $.call(C, "VarToStr", [L1["keyvalue"]]))), ")");
+    }
+    if ($.truthy($.eq((await L1["s"].get()), ""))) {
+      await L1["s"].set(L1["temp"]);
+    } else {
+      await L1["s"].set($.add($.add((await L1["s"].get()), " and "), L1["temp"]));
+    }
+  }
+  return L1.result;
+});
+  L0["result"] = "";
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t1) => { L0["result"] = $t1; }), "CURRENCY", (await $.mv((await $.v(C, "CheckBox1")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh1")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t2) => { L0["result"] = $t2; }), "BRANCHID", (await $.mv((await $.v(C, "CheckBox2")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh2")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t3) => { L0["result"] = $t3; }), "USRGROUP", (await $.mv((await $.v(C, "CheckBox3")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh3")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t4) => { L0["result"] = $t4; }), "RESERVEID", (await $.mv((await $.v(C, "CheckBox4")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh4")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t5) => { L0["result"] = $t5; }), "AIM_ID", (await $.mv((await $.v(C, "CheckBox5")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh5")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t6) => { L0["result"] = $t6; }), "USID", (await $.mv((await $.v(C, "CheckBox6")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh6")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t7) => { L0["result"] = $t7; }), "PERSONALTYPE", (await $.mv((await $.v(C, "CheckBox7")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh7")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t8) => { L0["result"] = $t8; }), "CUSTOMERTYPE", (await $.mv((await $.v(C, "CheckBox8")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh8")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t9) => { L0["result"] = $t9; }), "CREDITTYPE", (await $.mv((await $.v(C, "CheckBox9")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh9")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t10) => { L0["result"] = $t10; }), "PLEDGEID", (await $.mv((await $.v(C, "CheckBox10")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh10")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t11) => { L0["result"] = $t11; }), "BOOROWERID", (await $.mv((await $.v(C, "CheckBox11")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh11")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t12) => { L0["result"] = $t12; }), "KR_STATUS", (await $.mv((await $.v(C, "CheckBox13")), "Checked")), (await $.mv((await $.v(C, "DBLookupComboboxEh12")), "KeyValue"))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t13) => { L0["result"] = $t13; }), "dateofconclusion", (await $.mv((await $.v(C, "CheckBox14")), "Checked")), (await $.call(C, "Trunc", [(await $.mv((await $.v(C, "StartDateEdit")), "DateTime"))]))])));
+  await $.stmt((await $.callv(L0["concatfilter"], [$.ref(async () => L0["result"], async ($t14) => { L0["result"] = $t14; }), "ID", (await $.mv((await $.v(C, "CheckBox12")), "Checked")), "select creditid from cm_payments where paydate=sbop.get_date"])));
+  return L0.result;
+}, {"params": [], "kind": "function", "ptypes": []});
+  U.method("TFilterMainForm", "FormCreate", async function FormCreate(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  try {
+    await $.set(C, "FilterDataModule", (await $.mcall((await $.v(C, "TFilterDataModule")), "Create", [Self])));
+  } catch ($t15) {
+    $.rethrowControl($t15);
+    $.handled($t15);
+    await $.set(C, "LoadingFailed", true);
+  }
+  await $.stmt((await $.mcall((await $.v(C, "SBTranslateProc")), "TranslateAllCompForms", [Self, (await $.mv((await $.v(C, "sboapiDataModule")), "OrPack_SL"))])));
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  U.method("TFilterMainForm", "FormDestroy", async function FormDestroy(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.mcall((await $.v(C, "FilterDataModule")), "Free", []);
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  U.func("InitPlugin", async function InitPlugin(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"s": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["s"]);
+  if ($.truthy($.not((await $.v(C, "LoadingFailed"))))) {
+    await $.mcall((await $.v(C, "FilterMainForm")), "Show", []);
+  }
+  return L0.result;
+}, {"params": ["S"], "kind": "procedure", "ptypes": ["String"]});
+  U.method("TFilterMainForm", "Button1Click", async function Button1Click(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  {
+    const $t16 = (await $.wobj(C, "CommonDBGrid"));
+    const $t17 = (await $.mv((await $.wv([$t16], "DataSource", C, false)), "DataSet"));
+    await $.wset([$t16, $t17], "Filter", (await $.wv([$t16, $t17], "BuildFilterString", C, false)), C);
+    await $.wset([$t16, $t17], "Filtered", (await $.wv([$t16, $t17], "False", C, false)), C);
+    await $.wset([$t16, $t17], "Filtered", (await $.wv([$t16, $t17], "True", C, false)), C);
+    await $.mcall((await $.wv([$t16, $t17], "SelectedRows", C, false)), "Clear", []);
+  }
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  U.method("TFilterMainForm", "Button2Click", async function Button2Click(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  {
+    const $t18 = (await $.wobj(C, "CommonDBGrid"));
+    const $t19 = (await $.mv((await $.wv([$t18], "DataSource", C, false)), "DataSet"));
+    await $.wset([$t18, $t19], "Filter", "", C);
+    await $.wset([$t18, $t19], "Filtered", (await $.wv([$t18, $t19], "False", C, false)), C);
+    await $.mcall((await $.wv([$t18, $t19], "SelectedRows", C, false)), "Clear", []);
+  }
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  U.method("TFilterMainForm", "Button3Click", async function Button3Click(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.stmt($.call(C, "Close", []));
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  U.method("TFilterMainForm", "FormKeyPress", async function FormKeyPress(Self, p0, p1) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), "key": $.asRef(p1), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  if ($.truthy($.eq((await $.call(C, "Ord", [(await L0["key"].get())])), (await $.v(C, "VK_ESCAPE"))))) {
+    await $.stmt($.call(C, "Close", []));
+    await L0["key"].set("\u0000");
+  }
+  return L0.result;
+}, {"params": ["Sender", "Key"], "kind": "procedure", "ptypes": ["TObject", "Char"]});
+  U.method("TFilterMainForm", "FormShow", async function FormShow(Self, p0) {
+  const C = $.chain(Self, U);
+  const L0 = {"sender": $.copyArg(p0), result: undefined};
+  await $.fixArgs(L0, ["sender"]);
+  await $.mset((await $.v(C, "StartDateEdit")), "DateTime", (await $.mv((await $.mv((await $.v(C, "FilterDataModule")), "sysdatTEK_DAT")), "AsDateTime")));
+  return L0.result;
+}, {"params": ["Sender"], "kind": "procedure", "ptypes": ["TObject"]});
+  U.setInitialization(async function __initialization(Self) {
+  const C = $.chain(Self, U);
+  const L0 = {result: undefined};
+  await $.set(C, "FilterMainForm", (await $.mcall((await $.v(C, "TFilterMainForm")), "Create", [(await $.v(C, "CommonApplication"))])));
+  return L0.result;
+});
+  return U;
+}

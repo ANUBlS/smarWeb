@@ -1,0 +1,95 @@
+{
+ "name": "P_cm_notes_report",
+ "caption": "",
+ "dir": "Packages/SB_Credit/cm_notes_report",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "OracleDataSet1",
+   "source": "TMainForm.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum rid, RowID , id,  creditid , (select name from user$ where id=usid) usname , dat  , text from cm_notes_report where\n(status=0 or status is null) and  creditid=:v_crid\norder by rownum ,id",
+   "variables": [
+    {
+     "name": "V_CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "MainUnit"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TFormMain_delivery.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum rid, RowID , id,  creditid , (select name from user$ where id=usid) usname , dat  , text from cm_notes_report where \nstatus in(1,2,3) and creditid=:v_crid\norder by rownum ,id",
+   "variables": [
+    {
+     "name": "V_CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "UnitFormMain_delivery"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage",
+   "package": "cm_credit",
+   "mode": "named",
+   "source": "TForm_delivery.OraclePackage",
+   "routines": [
+    {
+     "name": "Addcm_notes_report",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "OraclePackage1",
+   "package": "cm_credit",
+   "mode": "named",
+   "source": "TForm4.OraclePackage1",
+   "routines": [
+    {
+     "name": "Addcm_notes_report",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

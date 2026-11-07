@@ -1,0 +1,65 @@
+{
+ "name": "P_CM_AutoPayment",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_AutoPayment",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "AutoPaymentableLoans",
+   "source": "TAutoPymtDataMod.AutoPaymentableLoans",
+   "kind": "TOracleDataSet",
+   "sql": "/*select * from cm_active_credits p,cm_accounts a,provdoc pr where  p.id=a.creditid and a.booroweraccid=pr.kredit and pr.vid_op in(55,60)\nand cm_common.accountrest_get(a.booroweraccid)>0\nand AUTOPAYMENT = 1--ON\nand  dateofgrant+2<sbop.get_date\n*/\n/*SELECT *\n  FROM cm_active_credits p, cm_accounts a\n WHERE     p.id = a.creditid\n       AND p.dateofgrant + 10 < sbop.get_date\n       AND cm_utils.get_gecgun (p.id, sbop.get_date) < 21\n       AND cm_common.accountrest_get (a.booroweraccid) > 0\n     AND p.boorowerid not in(select boorowerid from cm_active_credits group by boorowerid having count(*)>1)*/\n\n/*For PSG*/\n  select p.id from cm_active_credits p,cm_accounts a ,cm_curr_state h\n  where  AUTOPAYMENT=1 and p.id=a.creditid and p.id=h.creditid\n  and cm_common.accountrest_get(a.booroweraccid)>0\n  AND p.dateofgrant + 5 < sbop.get_date",
+   "variables": [],
+   "unit": "AutoPymtDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_PAYMENT",
+   "package": "CM_PAYMENT",
+   "mode": "named",
+   "source": "TAutoPymtDataMod.CM_PAYMENT",
+   "routines": [
+    {
+     "name": "PayAuto",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

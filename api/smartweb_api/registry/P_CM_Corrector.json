@@ -1,0 +1,78 @@
+{
+ "name": "P_CM_Corrector",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Corrector",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CorrectData",
+   "source": "TCorrectorDataMod.CorrectData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT s.ROWID, cm_correct.crdnumber_get (creditid) AS num,\n       cm_correct.crdborrname_get (creditid) AS NAME,creditid, rest, interestrest,--iprest,ipintrest,\n       duerest, dueinterestrest, givenamount, obligation, penaltyrest\n  FROM cm_curr_state s where creditid in(select id from cm_active_credits)\norder by  :orderfield",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "CorrectorDataModule"
+  },
+  {
+   "name": "ods_user",
+   "source": "TCorrectorDataMod.ods_user",
+   "kind": "TOracleDataSet",
+   "sql": "select uid from dual",
+   "variables": [],
+   "unit": "CorrectorDataModule"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OracPakec",
+   "package": "",
+   "mode": "positional",
+   "source": "TCorrectorDataMod.OracPakec",
+   "routines": [
+    {
+     "name": "cm_history_audit",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

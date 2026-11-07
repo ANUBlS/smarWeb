@@ -1,0 +1,87 @@
+{
+ "name": "P_CM_Activate",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Activate",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditInfo",
+   "source": "TActvDataMod.CreditInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select\n  Name,\n  VAL_NAME,\n  Obligation,\n  PledgePrice\nfrom\n  CM_ACTIVE\nwhere ID=:ID",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ActvDataModuleImpl"
+  },
+  {
+   "name": "ActvInfo",
+   "source": "TActvDataMod.ActvInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select \n     ACTVDATE \n   from \n      CM_ACTV_TRANSACTIONS\nwhere CreditID=:CreditID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ActvDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "ActivationPckg",
+   "package": "CM_ACTIVATION",
+   "mode": "named",
+   "source": "TActvDataMod.ActivationPckg",
+   "routines": [
+    {
+     "name": "ActivateCredit",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CommitActivation",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

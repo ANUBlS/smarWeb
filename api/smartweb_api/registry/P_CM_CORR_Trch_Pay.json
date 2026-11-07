@@ -1,0 +1,103 @@
+{
+ "name": "P_CM_CORR_Trch_Pay",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_CORR_Trch_Pay",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Tranches",
+   "source": "TCorrectDatMod.Tranches",
+   "kind": "TOracleDataSet",
+   "sql": "select \n       tranchedate , \n       trancheamount\nfrom cm_tranches\nwhere creditid =:CrdID ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CorrectDatModImpl"
+  },
+  {
+   "name": "Payments",
+   "source": "TCorrectDatMod.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "select  id,\n        paydate , \n        payedamt , \n        payedintamt , \n        payeddueamt ,\n        payeddueintamt\nfrom cm_payments\nwhere creditid =:CrdID",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CorrectDatModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_CORR_TRCH_PAY",
+   "package": "CM_CORR_TRCH_PAY",
+   "mode": "positional",
+   "source": "TCorrectDatMod.CM_CORR_TRCH_PAY",
+   "routines": [
+    {
+     "name": "add_payments",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "add_tranches",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_payments",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "del_tranches",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_payments",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "edit_tranches",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

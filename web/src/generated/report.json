@@ -84,10 +84,10 @@
    "routines": 152,
    "failed": 0
   },
-  "CreditManager": {
-   "mainForm": "TFrmCreditManager",
-   "units": 6,
-   "routines": 106,
+  "XCreditsMgrSB": {
+   "mainForm": "TCreditsmgr_sb",
+   "units": 2,
+   "routines": 65,
    "failed": 0
   },
   "ContractCorrection": {
@@ -114,10 +114,10 @@
    "routines": 53,
    "failed": 0
   },
-  "CreditsArchive": {
-   "mainForm": "TFrmCreditsArcive",
-   "units": 1,
-   "routines": 58,
+  "XCreditArchive": {
+   "mainForm": "TFormArchiveCredit",
+   "units": 3,
+   "routines": 88,
    "failed": 0
   },
   "DepositsArchive": {
@@ -264,16 +264,16 @@
    "routines": 46,
    "failed": 0
   },
-  "XCreditsMgrSB": {
-   "mainForm": "TCreditsmgr_sb",
-   "units": 2,
-   "routines": 65,
+  "CreditManager": {
+   "mainForm": "TFrmCreditManager",
+   "units": 6,
+   "routines": 106,
    "failed": 0
   },
-  "XCreditArchive": {
-   "mainForm": "TFormArchiveCredit",
-   "units": 3,
-   "routines": 88,
+  "CreditsArchive": {
+   "mainForm": "TFrmCreditsArcive",
+   "units": 1,
+   "routines": 58,
    "failed": 0
   },
   "XGuaranty": {
@@ -888,6 +888,18 @@
    "routines": 13,
    "failed": 0
   },
+  "P_CM_Schedule": {
+   "mainForm": null,
+   "units": 12,
+   "routines": 72,
+   "failed": 0
+  },
+  "P_CMCrdFilter": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 9,
+   "failed": 0
+  },
   "P_FileReport": {
    "mainForm": null,
    "units": 18,
@@ -910,12 +922,6 @@
    "mainForm": null,
    "units": 5,
    "routines": 28,
-   "failed": 0
-  },
-  "P_CM_Schedule": {
-   "mainForm": null,
-   "units": 12,
-   "routines": 72,
    "failed": 0
   },
   "P_CM_Statement": {
@@ -1374,10 +1380,586 @@
    "routines": 11,
    "failed": 0
   },
-  "P_CMCrdFilter": {
+  "P_CM_Activate": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_cm_activits": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 23,
+   "failed": 0
+  },
+  "P_CM_ADM": {
+   "mainForm": null,
+   "units": 12,
+   "routines": 97,
+   "failed": 0
+  },
+  "P_CM_AdvancedInfo": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 18,
+   "failed": 0
+  },
+  "P_CM_AEBeforeOneDay": {
    "mainForm": null,
    "units": 1,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_CM_AK_Report": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_CM_AK_Reports": {
+   "mainForm": null,
+   "units": 42,
+   "routines": 76,
+   "failed": 0
+  },
+  "P_CM_Analysofcustomers": {
+   "mainForm": null,
+   "units": 10,
+   "routines": 81,
+   "failed": 0
+  },
+  "P_CM_AutoExpires": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 19,
+   "failed": 0
+  },
+  "P_CM_AutoExpiresAll": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 29,
+   "failed": 0
+  },
+  "P_CM_AutoPayment": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 11,
+   "failed": 0
+  },
+  "P_Cm_AutoReserve_Settings": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 18,
+   "failed": 0
+  },
+  "P_CM_Bali_Src": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_cm_bankset": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 2,
+   "failed": 0
+  },
+  "P_CM_BUSINESS_PLAN": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 28,
+   "failed": 0
+  },
+  "P_CM_CalcIntOB": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 22,
+   "failed": 0
+  },
+  "P_CM_CardPercentViewer": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 20,
+   "failed": 0
+  },
+  "P_CM_Control": {
+   "mainForm": null,
+   "units": 2,
    "routines": 9,
+   "failed": 0
+  },
+  "P_CM_CORR_Trch_Pay": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 28,
+   "failed": 0
+  },
+  "P_CM_Corrector": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 19,
+   "failed": 0
+  },
+  "P_CM_CorrectorCardPer": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_CM_Credit_Types": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 4,
+   "failed": 0
+  },
+  "P_CM_CreditArchViewer": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_CM_CreditCardSettings": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 23,
+   "failed": 0
+  },
+  "P_CM_CreditControl": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 5,
+   "failed": 0
+  },
+  "P_CM_Custominformesin": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_CM_Custsoccategories": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 5,
+   "failed": 0
+  },
+  "P_CM_DailyOper": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_CM_DailyReport": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_CM_DECA": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 21,
+   "failed": 0
+  },
+  "P_CM_DefIntCalc": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 20,
+   "failed": 0
+  },
+  "P_CM_Expire": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 16,
+   "failed": 0
+  },
+  "P_CM_FinishPeriodCredits": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 15,
+   "failed": 0
+  },
+  "P_CM_Fizler": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 4,
+   "failed": 0
+  },
+  "P_CM_FolderPlace": {
+   "mainForm": null,
+   "units": 15,
+   "routines": 84,
+   "failed": 0
+  },
+  "P_Cm_Guarantee_2": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 27,
+   "failed": 0
+  },
+  "P_CM_IM_Report": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 11,
+   "failed": 0
+  },
+  "P_CM_ImportPayments": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 9,
+   "failed": 0
+  },
+  "P_CM_InfoOfIntOutB": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 15,
+   "failed": 0
+  },
+  "P_cm_Intcorrection": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_CM_InterestCalculation": {
+   "mainForm": null,
+   "units": 7,
+   "routines": 40,
+   "failed": 0
+  },
+  "P_CM_InterestProg": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 13,
+   "failed": 0
+  },
+  "P_CM_IntPlaceOB": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_cm_inttrance": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 19,
+   "failed": 0
+  },
+  "P_CM_IP": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 33,
+   "failed": 0
+  },
+  "P_CM_IP2YM": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 6,
+   "failed": 0
+  },
+  "P_CM_ip_export": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 27,
+   "failed": 0
+  },
+  "P_CM_IP_Reports": {
+   "mainForm": null,
+   "units": 9,
+   "routines": 5,
+   "failed": 0
+  },
+  "P_CM_IP_Schedule": {
+   "mainForm": null,
+   "units": 10,
+   "routines": 51,
+   "failed": 0
+  },
+  "P_CM_IP_SETTINGS": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 4,
+   "failed": 0
+  },
+  "P_CM_LazyTransactions": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 25,
+   "failed": 0
+  },
+  "P_CM_Message": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 21,
+   "failed": 0
+  },
+  "P_CM_MonthsPay": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_CM_N2SD": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_CM_N3SD": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 15,
+   "failed": 0
+  },
+  "P_CM_noteMCB": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_CM_NOTES": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_cm_notes_report": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_cm_obl": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_CM_onclusion": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 76,
+   "failed": 0
+  },
+  "P_cm_Payandshd_rep": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_CM_PayGrantAmt": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_CM_PaymentReport": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_CM_PaymentScheduleRep": {
+   "mainForm": null,
+   "units": 9,
+   "routines": 50,
+   "failed": 0
+  },
+  "P_CM_PenatltySettings": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 17,
+   "failed": 0
+  },
+  "P_CM_pledge_guarantor": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 4,
+   "failed": 0
+  },
+  "P_CM_PledgsSorts": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_CM_Portfel": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 11,
+   "failed": 0
+  },
+  "P_CM_PortFel_Filials": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_CM_Portokol": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 19,
+   "failed": 0
+  },
+  "P_CM_Prolongation": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 21,
+   "failed": 0
+  },
+  "P_Cm_Pur_Report": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 14,
+   "failed": 0
+  },
+  "P_CM_RC_All": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 5,
+   "failed": 0
+  },
+  "P_CM_ReestrInfo": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_cm_RepCoefficient": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 13,
+   "failed": 0
+  },
+  "P_cm_RepOfRestandPlanRest": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 9,
+   "failed": 0
+  },
+  "P_CM_Report": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 31,
+   "failed": 0
+  },
+  "P_CM_ReReserves": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 6,
+   "failed": 0
+  },
+  "P_CM_Reserve_CN": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 6,
+   "failed": 0
+  },
+  "P_CM_ReserveInf": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 11,
+   "failed": 0
+  },
+  "P_CM_Reserves": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 5,
+   "failed": 0
+  },
+  "P_cm_restr": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_CM_RETSETTING": {
+   "mainForm": null,
+   "units": 6,
+   "routines": 31,
+   "failed": 0
+  },
+  "P_CM_RtlLizinq": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 5,
+   "failed": 0
+  },
+  "P_CM_SdNew": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 7,
+   "failed": 0
+  },
+  "P_CM_Search": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_CM_SelDate": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 5,
+   "failed": 0
+  },
+  "P_CM_SETUP": {
+   "mainForm": null,
+   "units": 20,
+   "routines": 118,
+   "failed": 0
+  },
+  "P_CM_StartReserve": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 6,
+   "failed": 0
+  },
+  "P_CM_TrancheCreditCards": {
+   "mainForm": null,
+   "units": 4,
+   "routines": 16,
+   "failed": 0
+  },
+  "P_CM_TurningAccounts": {
+   "mainForm": null,
+   "units": 1,
+   "routines": 8,
+   "failed": 0
+  },
+  "P_CM_Universal_Report": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 10,
+   "failed": 0
+  },
+  "P_CM_WRSETUP": {
+   "mainForm": null,
+   "units": 7,
+   "routines": 50,
+   "failed": 0
+  },
+  "P_CMFilter": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 12,
+   "failed": 0
+  },
+  "P_CMSYSTEM": {
+   "mainForm": null,
+   "units": 2,
+   "routines": 4,
+   "failed": 0
+  },
+  "P_CU_Report": {
+   "mainForm": null,
+   "units": 5,
+   "routines": 30,
+   "failed": 0
+  },
+  "P_Guarantee": {
+   "mainForm": null,
+   "units": 3,
+   "routines": 16,
    "failed": 0
   }
  },
@@ -1388,8 +1970,25 @@
   ],
   "co_settings_unit": [
    "P_Customers"
+  ],
+  "xlsexportcomp": [
+   "P_CM_AK_Reports"
+  ],
+  "xlsfile": [
+   "P_CM_AK_Reports"
+  ],
+  "actnman": [
+   "P_Cm_AutoReserve_Settings"
+  ],
+  "actnctrls": [
+   "P_Cm_AutoReserve_Settings"
   ]
  },
+ "emptySources": [
+  "Packages/SB_Credit/CM_BUSINESS_PLAN/BPLoader.pas",
+  "Packages/sboapi50/SBOConnectCached.pas",
+  "Packages/sboapi50/SBAppInfo.pas"
+ ],
  "plugins": {
   "P_CM_Conclusion": "Packages/SB_Credit/CM_Conclusion",
   "P_CU_Conclusion": "Packages/SB_Credit/CU_Conclusion",
@@ -1405,11 +2004,12 @@
   "P_TransInfoPack": "Packages/TransInfo",
   "P_SBDM_TransactionViewer": "DepositTeze/SBDM_TransactionViewer",
   "P_CM_Customer": "Packages/SB_Credit/CM_Customer",
+  "P_CM_Schedule": "Packages/SB_Credit/CM_Schedule",
+  "P_CMCrdFilter": "Packages/CM_Credit_filter",
   "P_FileReport": "Packages/Cards_New/FileReprt",
   "P_Cm_Guarantee": "Packages/Cm_NewGuarantee",
   "P_CM_Payment": "Packages/SB_Credit/CM_Payment",
   "P_CM_RETIL": "Packages/SB_Credit/CM_CREDRETEIL",
-  "P_CM_Schedule": "Packages/SB_Credit/CM_Schedule",
   "P_CM_Statement": "Packages/SB_Credit/CM_Statement",
   "P_CM_Tranche": "Packages/SB_Credit/CM_Tranche",
   "P_CM_WReport": "Packages/SB_Credit/CM_WReport",
@@ -1486,11 +2086,103 @@
   "P_CMAr_Search": "Packages/ArCive_Credit/CMAr_Search",
   "P_CMAr_Statement": "Packages/ArCive_Credit/CMAr_Statement",
   "P_CMArFilter": "Packages/ArCive_Credit/CMAr_Filter",
-  "P_CMCrdFilter": "Packages/CM_Credit_filter"
+  "P_CM_Activate": "Packages/SB_Credit/CM_Activate",
+  "P_cm_activits": "Packages/SB_Credit/cm_activites",
+  "P_CM_ADM": "Packages/SB_Credit/CM_ADM",
+  "P_CM_AdvancedInfo": "Packages/SB_Credit/CM_AdvencedInfo",
+  "P_CM_AEBeforeOneDay": "Packages/SB_Credit/CM_AEBeforeOneDay",
+  "P_CM_AK_Report": "Packages/SB_Credit/CM_AK_Report_",
+  "P_CM_AK_Reports": "Packages/SB_Credit/CM_AK_Reports",
+  "P_CM_Analysofcustomers": "Packages/SB_Credit/CM_Analysofcustomers",
+  "P_CM_AutoExpires": "Packages/SB_Credit/CM_AutoExpires",
+  "P_CM_AutoExpiresAll": "Packages/SB_Credit/CM_AutoExpiresAll",
+  "P_CM_AutoPayment": "Packages/SB_Credit/CM_AutoPayment",
+  "P_Cm_AutoReserve_Settings": "Packages/SB_Credit/CM_Auto_Rezerve_setting",
+  "P_CM_Bali_Src": "Packages/SB_Credit/CM_AutoPayment/CM_Balisrc",
+  "P_cm_bankset": "Packages/SB_Credit/CM_BANKSET",
+  "P_CM_BUSINESS_PLAN": "Packages/SB_Credit/CM_BUSINESS_PLAN",
+  "P_CM_CalcIntOB": "Packages/SB_Credit/CM_CalcInOutbalance",
+  "P_CM_CardPercentViewer": "Packages/SB_Credit/CM_CardPercentViewer",
+  "P_CM_Control": "Packages/SB_Credit/CM_Controls",
+  "P_CM_CORR_Trch_Pay": "Packages/SB_Credit/CM_CORR_Trch_Pay",
+  "P_CM_Corrector": "Packages/SB_Credit/CM_Corrector",
+  "P_CM_CorrectorCardPer": "Packages/SB_Credit/CM_CorrectorCardPer",
+  "P_CM_Credit_Types": "Packages/SB_Credit/CM_CREDIT_TYPES",
+  "P_CM_CreditArchViewer": "Packages/SB_Credit/CM_CreditArchViewer",
+  "P_CM_CreditCardSettings": "Packages/SB_Credit/CM_CreditCardSettings",
+  "P_CM_CreditControl": "Packages/SB_Credit/CM_CreditControl",
+  "P_CM_Custominformesin": "Packages/SB_Credit/CM_Custominformesin",
+  "P_CM_Custsoccategories": "Packages/SB_Credit/CM_Custsoccategories",
+  "P_CM_DailyOper": "Packages/SB_Credit/CM_DailyOper",
+  "P_CM_DailyReport": "Packages/SB_Credit/CM_DailyReport",
+  "P_CM_DECA": "Packages/SB_Credit/CM_DECA",
+  "P_CM_DefIntCalc": "Packages/SB_Credit/CM_DefInterestsCalc",
+  "P_CM_Expire": "Packages/SB_Credit/CM_Expire",
+  "P_CM_FinishPeriodCredits": "Packages/SB_Credit/CM_FinishPeriodCredits",
+  "P_CM_Fizler": "Packages/SB_Credit/cm_faizler",
+  "P_CM_FolderPlace": "Packages/SB_Credit/CM_FolderPlace",
+  "P_Cm_Guarantee_2": "Packages/SB_Credit/Cm_NewGuarantee",
+  "P_CM_IM_Report": "Packages/SB_Credit/YM_report",
+  "P_CM_ImportPayments": "Packages/SB_Credit/CM_ImportPayments",
+  "P_CM_InfoOfIntOutB": "Packages/SB_Credit/CM_InfoOfIntOutB",
+  "P_cm_Intcorrection": "Packages/SB_Credit/CM_interest_correction",
+  "P_CM_InterestCalculation": "Packages/SB_Credit/CM_InterestCalculation",
+  "P_CM_InterestProg": "Packages/SB_Credit/CM_Interestprog",
+  "P_CM_IntPlaceOB": "Packages/SB_Credit/CM_IntPlaceInOutBalance",
+  "P_cm_inttrance": "Packages/SB_Credit/cm_tranzaction",
+  "P_CM_IP": "Packages/SB_Credit/CM_IP",
+  "P_CM_IP2YM": "Packages/SB_Credit/CM_IP2YM",
+  "P_CM_ip_export": "Packages/SB_Credit/CM_ip_export",
+  "P_CM_IP_Reports": "Packages/SB_Credit/CM_IP_Reports",
+  "P_CM_IP_Schedule": "Packages/SB_Credit/CM_IP_Schedule",
+  "P_CM_IP_SETTINGS": "Packages/SB_Credit/CM_IP_SETTINGS",
+  "P_CM_LazyTransactions": "Packages/SB_Credit/CM_LazyTransactions",
+  "P_CM_Message": "Packages/SB_Credit/CM_Message",
+  "P_CM_MonthsPay": "Packages/SB_Credit/CM_months_Payment",
+  "P_CM_N2SD": "Packages/SB_Credit/CM_N2SD",
+  "P_CM_N3SD": "Packages/SB_Credit/CM_N3SD",
+  "P_CM_noteMCB": "Packages/SB_Credit/CM_noteMcb",
+  "P_CM_NOTES": "Packages/SB_Credit/cm_notes",
+  "P_cm_notes_report": "Packages/SB_Credit/cm_notes_report",
+  "P_cm_obl": "Packages/SB_Credit/cm_endobl",
+  "P_CM_onclusion": "Packages/SB_Credit/CM_Conclusion_",
+  "P_cm_Payandshd_rep": "Packages/SB_Credit/cm_ip_repSedule",
+  "P_CM_PayGrantAmt": "Packages/SB_Credit/CM_PayGrantAmount",
+  "P_CM_PaymentReport": "Packages/SB_Credit/CM_PaymentReport",
+  "P_CM_PaymentScheduleRep": "Packages/SB_Credit/CM_PaymentScheduleRep",
+  "P_CM_PenatltySettings": "Packages/SB_Credit/CM_PenatltySettings",
+  "P_CM_pledge_guarantor": "Packages/SB_Credit/CM_pledge_guarantor",
+  "P_CM_PledgsSorts": "Packages/SB_Credit/CM_PledgsSorts",
+  "P_CM_Portfel": "Packages/SB_Credit/CM_Portfel",
+  "P_CM_PortFel_Filials": "Packages/SB_Credit/CM_PortFel_Filial",
+  "P_CM_Portokol": "Packages/SB_Credit/CM_Protokol",
+  "P_CM_Prolongation": "Packages/SB_Credit/CM_Prolongation",
+  "P_Cm_Pur_Report": "Packages/SB_Credit/Purdensal_report",
+  "P_CM_RC_All": "Packages/SB_Credit/CM_RESERVES_ALL",
+  "P_CM_ReestrInfo": "Packages/SB_Credit/CM_ReestrInfo",
+  "P_cm_RepCoefficient": "Packages/SB_Credit/CM_coefficient",
+  "P_cm_RepOfRestandPlanRest": "Packages/SB_Credit/cm_RepOfRestandPlanRest",
+  "P_CM_Report": "Packages/SB_Credit/CM_Report",
+  "P_CM_ReReserves": "Packages/SB_Credit/CM_ReReserve",
+  "P_CM_Reserve_CN": "Packages/SB_Credit/CM_Reserve_Contr_New",
+  "P_CM_ReserveInf": "Packages/SB_Credit/CM_ReserveInf",
+  "P_CM_Reserves": "Packages/SB_Credit/CM_RESERVES_ALL/CM_Reserves",
+  "P_cm_restr": "Packages/SB_Credit/cm_rest",
+  "P_CM_RETSETTING": "Packages/SB_Credit/cm_retelsettinq",
+  "P_CM_RtlLizinq": "Packages/SB_Credit/CM_Lizing",
+  "P_CM_SdNew": "Packages/SB_Credit/CM_SdNew",
+  "P_CM_Search": "Packages/SB_Credit/CM_Search",
+  "P_CM_SelDate": "Packages/SB_Credit/CM_SelDate",
+  "P_CM_SETUP": "Packages/SB_Credit/CM_Setup",
+  "P_CM_StartReserve": "Packages/SB_Credit/CM_StartReserve",
+  "P_CM_TrancheCreditCards": "Packages/SB_Credit/CM_TrancheCreditCards",
+  "P_CM_TurningAccounts": "Packages/SB_Credit/CM_TurningAccounts",
+  "P_CM_Universal_Report": "Packages/SB_Credit/CM_UnversalReport",
+  "P_CM_WRSETUP": "Packages/SB_Credit/CM_WRSetup",
+  "P_CMFilter": "Packages/SB_Credit/CM_Filter",
+  "P_CMSYSTEM": "Packages/SB_Credit/CMSystem",
+  "P_CU_Report": "Packages/SB_Credit/CU_Report",
+  "P_Guarantee": "Packages/SB_Credit/CM_ guarantee"
  },
- "emptySources": [
-  "Packages/sboapi50/SBOConnectCached.pas",
-  "Packages/sboapi50/SBAppInfo.pas"
- ],
  "childModules": []
 }

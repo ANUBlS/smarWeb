@@ -39,6 +39,7 @@ export function fromMenuItems(items: TMenuItem[]): MenuSpec[] {
     caption: m.Caption.replace(/&(?!&)/g, ''),
     enabled: m.Enabled,
     checked: m.Checked,
+    icon: (m as any).iconUrl ? <img src={(m as any).iconUrl} width={16} height={16} alt="" /> : undefined,
     shortcut: shortcutText(m.ShortCut),
     children: m.items.length ? fromMenuItems(m.items) : undefined,
     onClick: m.items.length ? undefined : () => { void runGuarded(() => m.Click(), m.Name); },

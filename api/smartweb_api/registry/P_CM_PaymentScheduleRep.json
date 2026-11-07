@@ -1,0 +1,136 @@
+{
+ "name": "P_CM_PaymentScheduleRep",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_PaymentScheduleRep",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SystemState",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ScheduleData",
+   "source": "TScheduleDataModule.ScheduleData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT Z.RowID,Z.*\n  FROM CM_PAYMENTSCHEDULE Z\nWHERE Z.CREDITID=:CREDITID\nORDER BY PAYMENTDATE",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "repScheduleDataModuleImpl"
+  },
+  {
+   "name": "BoorowerInfo",
+   "source": "TScheduleDataModule.BoorowerInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   bi.NAME,\n   cm_common.AccountNumber_Get(a.booroweraccid) as custaccno,\n   cm_common.AccountNumber_Get(a.Loanaccid) as loanaccno ,\n   cm_common.accountrest_get(a.booroweraccid) as booroweraccrest,\n   a.booroweraccid\nFROM\n  CM_BOOROWERINFO bi, cm_accounts a\nWHERE bi.CreditID=:CREDITID\nand a.creditid = :CREDITID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "repScheduleDataModuleImpl"
+  },
+  {
+   "name": "CreditInfo",
+   "source": "TScheduleDataModule.CreditInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   A.ID , A.CURRENCY , A.CREDITLINEAMOUNT , A.ANNUALYINTERESTRATE , A.DATEOFCONCLUSION\n , A.DUEDATEFIRSTCONTRACT , \n   A.CREDITTYPE,\n   TRUNC (MONTHS_BETWEEN (A.DUEDATEFIRSTCONTRACT ,A.DATEOFCONCLUSION)) as period,\n   c.rest\nFROM\n   CM_ACTIVE_CREDITS A,\n   cm_curr_state c\nWHERE a.ID=:ID\nand c.creditid = :ID",
+   "variables": [
+    {
+     "name": "ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "repScheduleDataModuleImpl"
+  },
+  {
+   "name": "ExportData",
+   "source": "TScheduleDataModule.ExportData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  paymentdate, principal, interest,rest\n  FROM cm_paymentschedule\nwhere Creditid=:CREDITID\nORDER BY PAYMENTDATE",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "repScheduleDataModuleImpl"
+  },
+  {
+   "name": "BankInfo",
+   "source": "TScheduleDataModule.BankInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select BANK,logo from smart.bankinfo",
+   "variables": [],
+   "unit": "repScheduleDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_SCHEDULE",
+   "package": "CM_SCHEDULE",
+   "mode": "named",
+   "source": "TScheduleDataModule.CM_SCHEDULE",
+   "routines": [
+    {
+     "name": "ChangeSchedule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "InsertAnnutySchedule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "InsertEqualSchedule",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "inspaymentschedule",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

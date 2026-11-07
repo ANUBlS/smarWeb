@@ -1,0 +1,170 @@
+{
+ "name": "P_cm_activits",
+ "caption": "",
+ "dir": "Packages/SB_Credit/cm_activites",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "IEAccountList",
+   "source": "TFrmIEAddEdit.IEAccountList",
+   "kind": "TOracleDataSet",
+   "sql": "select* from (\nSELECT\n   id,Acc_No||'  '||Name Acc_No,Val_Acc,Name,FILIAL,bal_cn1\n  FROM ACCOUNT\n WHERE (bal_cn1 IN (SELECT accountnumber\n                           FROM smart.cm_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM smart.cm_accountgroups g\n                                            WHERE g.iname = 'IncExpAccounts')))\nand (Close_Dat is Null) and FILIAL in (select id from sb_filial)\nand FILIAL in(select id from filial)\nunion all\n\nSELECT\n   id,Acc_No||'  '||Name Acc_No,Val_Acc,Name,FILIAL,bal_cn1\n  FROM out_ACCOUNT\n WHERE (bal_cn1 IN (SELECT accountnumber\n                           FROM smart.cm_aginfo\n                          WHERE groupid = (SELECT g.id\n                                             FROM smart.cm_accountgroups g\n                                            WHERE g.iname = 'IncExpAccounts')))\nand (Close_Dat is Null) and FILIAL in (select id from sb_filial)\nand FILIAL in(select id from filial))\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "FrmIEAddEditImpl"
+  },
+  {
+   "name": "BranchList",
+   "source": "TFrmIEAddEdit.BranchList",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "FrmIEAddEditImpl"
+  },
+  {
+   "name": "CurrencyList",
+   "source": "TFrmIEAddEdit.CurrencyList",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT VAlute,Val_Name\n  FROM AVALUTE",
+   "variables": [],
+   "unit": "FrmIEAddEditImpl"
+  },
+  {
+   "name": "ods_meh",
+   "source": "TFrmIEAddEdit.ods_meh",
+   "kind": "TOracleDataSet",
+   "sql": "select*from cm_mehsul_links_settings",
+   "variables": [],
+   "unit": "FrmIEAddEditImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TActFrom.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* FROM smart.cm_creditcat a\nwhere \nvid_sob=:vid_sob\norder by id,kod",
+   "variables": [
+    {
+     "name": "VID_SOB",
+     "type": "integer"
+    }
+   ],
+   "unit": "actImpl"
+  },
+  {
+   "name": "OracleDataSet2",
+   "source": "TActFrom.OracleDataSet2",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* FROM smart.cm_activities  A\nWHERE \nACT_ID=:ACT_ID\norder by id ,bank_kod",
+   "variables": [
+    {
+     "name": "ACT_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "actImpl"
+  },
+  {
+   "name": "OracleDataSet3",
+   "source": "TActFrom.OracleDataSet3",
+   "kind": "TOracleDataSet",
+   "sql": "select C.Rowid,c.*\nfrom cm_Categories C\nwhere act_id=:act_id\norder by person\n\n\n\n\n\n\n/*SELECT ROWID,A.*   FROM creditsmgr.cm_activities_type A\nwhere \nact_type_id=:act_type_id\norder by act_id ,kod*/\n\n",
+   "variables": [
+    {
+     "name": "ACT_ID",
+     "type": "integer"
+    }
+   ],
+   "unit": "actImpl"
+  },
+  {
+   "name": "OracleDataSet4",
+   "source": "TActFrom.OracleDataSet4",
+   "kind": "TOracleDataSet",
+   "sql": "select rowid,a.* from smart.cm_vid_sob a\n\n\n/*select *from smart.vid_sob \nwhere kodu is not null\norder by id,name*/",
+   "variables": [],
+   "unit": "actImpl"
+  },
+  {
+   "name": "LinksData",
+   "source": "TActFrom.LinksData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, categoryid, description\n   FROM smart.cm_links\n where categoryid = :categoryid\nORDER BY id",
+   "variables": [
+    {
+     "name": "CATEGORYID",
+     "type": "float"
+    }
+   ],
+   "unit": "actImpl"
+  },
+  {
+   "name": "LinkValuesData",
+   "source": "TActFrom.LinkValuesData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT l.RowID,\n       l.linkid, \n       l.branchid, \n       l.currencyid, \n       l.accountid,\n       l.MEHSULID,m.name\n  FROM smart.cm_link_values l ,cm_mehsul_links_settings m\n  where  l.mehsulid=m.id(+) and linkid = :linkid\nORDER BY l.branchid,l.currencyid\n ",
+   "variables": [
+    {
+     "name": "LINKID",
+     "type": "float"
+    }
+   ],
+   "unit": "actImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_SETUP",
+   "package": "CM_SETUP",
+   "mode": "positional",
+   "source": "TActFrom.CM_SETUP",
+   "routines": [
+    {
+     "name": "CategoriesAdd",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CategoriesDelete",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "CategoriesEdit",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

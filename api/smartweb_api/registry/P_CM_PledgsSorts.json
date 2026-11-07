@@ -1,0 +1,52 @@
+{
+ "name": "P_CM_PledgsSorts",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_PledgsSorts",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Pledgsorts",
+   "source": "TfrmPledgsSorts.Pledgsorts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, name\n  FROM cm_pledgsorts",
+   "variables": [],
+   "unit": "frmPledgsSortsImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

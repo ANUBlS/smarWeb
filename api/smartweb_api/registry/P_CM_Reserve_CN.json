@@ -1,0 +1,60 @@
+{
+ "name": "P_CM_Reserve_CN",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Reserve_Contr_New",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [],
+ "packages": [
+  {
+   "component": "CM_RESERVE_COUNT_NEW",
+   "package": "CM_RESERVE_COUNT_NEW",
+   "mode": "positional",
+   "source": "TResevesDatMod.CM_RESERVE_COUNT_NEW",
+   "routines": [
+    {
+     "name": "percent_after_months",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reserve_contr_new",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

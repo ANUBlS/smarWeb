@@ -72,7 +72,8 @@ function popupOf(c: TControl): TPopupMenu | null {
 function onContext(c: TControl) {
   const pm = popupOf(c);
   if (!pm) return undefined;
-  return (e: React.MouseEvent) => { e.preventDefault(); pm.PopupComponent = c; run(pm.Popup(e.clientX, e.clientY), pm.Name); };
+  // the control's own menu; one without a menu leaves the click to its parent (WM_CONTEXTMENU), up to the form's
+  return (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); pm.PopupComponent = c; run(pm.Popup(e.clientX, e.clientY), pm.Name); };
 }
 function rootForm(c: TControl): TCustomForm | null {
   let x: TControl | null = c;
@@ -726,8 +727,11 @@ function ToolButtonView({ b, bar, style }: { b: TToolButton; bar?: TToolBar; sty
   const st = String(b.Style);
   if (st === 'tbsseparator' || st === 'tbsdivider') return <div className="tb-sep" style={{ marginLeft: Math.max(0, (b.Width || 8) / 2 - 4), marginRight: Math.max(0, (b.Width || 8) / 2 - 4) }} />;
   const a: any = b.Action;
-  const Ic = iconFor(a?.Name, b.Name, b.Caption, b.Hint) ?? (!b.Caption ? Circle : null);
-  const showCap = bar ? bar.ShowCaptions : !!b.Caption;
+  const img = (b as any).iconUrl as string | null | undefined;
+  const plug = img !== undefined;
+  const Ic = img ? null : iconFor(a?.Name, b.Name, b.Caption, b.Hint) ?? (!b.Caption ? Circle : null);
+  // a plugin button without an icon in its INI shows its caption (the desktop shows an empty button)
+  const showCap = (bar ? bar.ShowCaptions : !!b.Caption) || (plug && !img && !Ic && !!b.Caption);
   const capBelow = showCap && bar && !bar.List && bar.Height >= 34;
   const ref = useRef<HTMLButtonElement>(null);
   useLayoutEffect(() => { b.dom = ref.current; });
@@ -746,7 +750,7 @@ function ToolButtonView({ b, bar, style }: { b: TToolButton; bar?: TToolBar; sty
       <button ref={ref} className={`tb-btn${capBelow ? ' cap-below' : ''}${b.Down ? ' down' : ''}`} disabled={!b.Enabled} title={b.Hint || b.Caption}
         aria-pressed={st === 'tbscheck' ? b.Down : undefined} onClick={click} style={{ minWidth: bar && !showCap ? bar.ButtonWidth : undefined, ...fontStyle(b) }}
         onMouseDown={noFocus} tabIndex={-1}>
-        {Ic ? <span className="ic"><Ic size={capBelow ? 16 : 14} /></span> : null}
+        {img ? <img className="ic" src={img} width={16} height={16} alt="" /> : Ic ? <span className="ic"><Ic size={capBelow ? 16 : 14} /></span> : null}
         {showCap && b.Caption ? <span>{b.Caption.replace(/&(?!&)/g, '')}</span> : null}
       </button>
       {dd && (a || b.hasHandler('OnClick')) ? (
@@ -1016,7 +1020,7 @@ export function FormBody({ form, width, height }: { form: TCustomForm; width: nu
   useTick();
   form.rect = { left: 0, top: 0, width, height };
   return (
-    <div style={{ position: 'relative', width, height, ...bgStyleForm(form) }}>
+    <div style={{ position: 'relative', width, height, ...bgStyleForm(form) }} onContextMenu={onContext(form as unknown as TControl)}>
       <Children parent={form as unknown as TWinControl} width={width} height={height} />
     </div>
   );

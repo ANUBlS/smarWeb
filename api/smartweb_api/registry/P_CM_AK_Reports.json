@@ -1,0 +1,636 @@
+{
+ "name": "P_CM_AK_Reports",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_AK_Reports",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ResultDS",
+   "source": "TDMBC.ResultDS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*,cm_deca.get_custdateofbirth(c.id) birthday,(select name from user$ where id=p.usid) usname\n     , cm_ak_funcs.GetLMCount(f.creditid,4) \"Problem\"\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,p.annualypenaltyrate,p.closedate,p.komision,\n  case when s.sex=1 then\n 'Kisi' when s.sex=2 then 'Qadın' end as sex ,p.dateofconclusion, p.creditlineamount krxet ,pr.name adiyat,   \n(select name from cm_vid_sob where id=p.ACTIVITIES_TYPE)  as mulkiyyetn,\n(select name from cm_creditcat where id=p.CREDITACT) borcalansektor,\n(select description from cm_activities where id=p.ACTIVITIES) borcalaninfea,\n(select description from cm_categories where  id=p.customertype)borcalaninfn,\n(select description from cm_credittypes where id=p.credittype) kreditintipi,\n(select name from AGRO_KREDIT_TARGET where id in (select DEPEND_ID from AGRO_KREDIT_PURPOSE where id =f.purposeid)) as mehsul,\n(select name from cm_aim_cred where id =p.aim_id)as aim,cm_common.AccountNumber_Get(a.interestaccid) faizhes,cm_common.OutAccountNumber_Get(a.outinterestaccid) bkfaizhes\nFROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_portfolio p , CUSTOMERS c ,smart.prinad pr,cm_accounts a where f.CREDITID=s.CREDITID   and p.id=f.creditid and\n c.PRINAD_KOD=pr.id(+) and  p.BOOROWERID=c.id and p.id=a.creditid\n\n\n\n\nORDER BY\n  branch, district, village, boorowername\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*SELECT f.*\n     , cm_ak_funcs.getlmcount(f.creditid,4) pret\n     , cm_ak_funcs.getlmcount(f.creditid,6) idd\n     , cm_ak_funcs.getlmcount(f.creditid,7) qatn\n     , cm_ak_funcs.geticracount(f.creditid,7) icra\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kişi'  \nwhen s.sex=0 then 'Qadin'\n end as sex,cm_r\n\n  FROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_active_credits p,cm_categories c where f.CREDITID=s.CREDITID and p.CUSTOMERTYPE=c.id\n\n\n\nORDER BY\n  branch, district, village, boorowername*/\n ",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultGB",
+   "source": "TDMBC.ResultGB",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM (\nSELECT * FROM cm_report_f1 UNION\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n)\nORDER BY branch, district, village, boorowername",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDS2",
+   "source": "TDMBC.ResultDS2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM cm_report_f2\n\n\nORDER BY\n  branch, boorower",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "F2QisaDS",
+   "source": "TDMBC.F2QisaDS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   typeid, SUM (cntall) cntall, SUM (cntallpay) cntallpay\n       , SUM (cntyear) cntyear, SUM (cntmon) cntmon, SUM (givenall) givenall\n       , SUM (givenallcalc) givenallcalc, SUM (givenyear) givenyear\n       , SUM (givenyearcalc) givenyearcalc, SUM (givenmon) givenmon\n       , SUM (givenmoncalc) givenmoncalc, SUM (overmain) overmain\n       , SUM (overint) overint, SUM (overmainmon) overmainmon\n       , SUM (overintmon) overintmon, SUM (payedallmain) payedallmain\n       , SUM (payedallint) payedallint, SUM (payedyearmain) payedyearmain\n       , SUM (payedyearint) payedyearint, SUM (payedmonmain) payedmonmain\n       , SUM (payedmonint) payedmonint, SUM (debtmain) debtmain\n       , SUM (debtint) debtint, SUM (debtduemain) debtduemain\n       , SUM (debtdueint) debtdueint\n       , cm_ak_reports.datapercentdiv(SUM (PAYEDALLMAIN), SUM (OVERMAIN)) debtpercentmain\n       , cm_ak_reports.datapercentdiv(SUM (PAYEDALLINT), SUM (OVERINT)) debtpercentint\n    FROM cm_report_f2\n   WHERE typeid = 1\nGROUP BY typeid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "F2OrtaDS",
+   "source": "TDMBC.F2OrtaDS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   typeid, SUM (cntall) cntall, SUM (cntallpay) cntallpay\n       , SUM (cntyear) cntyear, SUM (cntmon) cntmon, SUM (givenall) givenall\n       , SUM (givenallcalc) givenallcalc, SUM (givenyear) givenyear\n       , SUM (givenyearcalc) givenyearcalc, SUM (givenmon) givenmon\n       , SUM (givenmoncalc) givenmoncalc, SUM (overmain) overmain\n       , SUM (overint) overint, SUM (overmainmon) overmainmon\n       , SUM (overintmon) overintmon, SUM (payedallmain) payedallmain\n       , SUM (payedallint) payedallint, SUM (payedyearmain) payedyearmain\n       , SUM (payedyearint) payedyearint, SUM (payedmonmain) payedmonmain\n       , SUM (payedmonint) payedmonint, SUM (debtmain) debtmain\n       , SUM (debtint) debtint, SUM (debtduemain) debtduemain\n       , SUM (debtdueint) debtdueint\n       , cm_ak_reports.datapercentdiv(SUM (PAYEDALLMAIN), SUM (OVERMAIN)) debtpercentmain\n       , cm_ak_reports.datapercentdiv(SUM (PAYEDALLINT), SUM (OVERINT)) debtpercentint\n    FROM cm_report_f2\n   WHERE typeid = 2\nGROUP BY typeid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "F2UzunDS",
+   "source": "TDMBC.F2UzunDS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   typeid, SUM (cntall) cntall, SUM (cntallpay) cntallpay\n       , SUM (cntyear) cntyear, SUM (cntmon) cntmon, SUM (givenall) givenall\n       , SUM (givenallcalc) givenallcalc, SUM (givenyear) givenyear\n       , SUM (givenyearcalc) givenyearcalc, SUM (givenmon) givenmon\n       , SUM (givenmoncalc) givenmoncalc, SUM (overmain) overmain\n       , SUM (overint) overint, SUM (overmainmon) overmainmon\n       , SUM (overintmon) overintmon, SUM (payedallmain) payedallmain\n       , SUM (payedallint) payedallint, SUM (payedyearmain) payedyearmain\n       , SUM (payedyearint) payedyearint, SUM (payedmonmain) payedmonmain\n       , SUM (payedmonint) payedmonint, SUM (debtmain) debtmain\n       , SUM (debtint) debtint, SUM (debtduemain) debtduemain\n       , SUM (debtdueint) debtdueint\n       , cm_ak_reports.datapercentdiv(SUM (PAYEDALLMAIN), SUM (OVERMAIN)) debtpercentmain\n       , cm_ak_reports.datapercentdiv(SUM (PAYEDALLINT), SUM (OVERINT)) debtpercentint\n    FROM cm_report_f2\n   WHERE typeid = 3\nGROUP BY typeid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDS3",
+   "source": "TDMBC.ResultDS3",
+   "kind": "TOracleDataSet",
+   "sql": "select * from (\nSELECT creditid, boorid, boorower, crdnum, branchid, branch, typeid, t.name purposeid, cntall, cntallpay, cntyear, cntmon, givenall,      givenallcalc, givenyear, givenyearcalc, givenmon, givenmoncalc,overmain, overint, payedallmain, payedallint, payedyearmain,payedyearint, payedmonmain, payedmonint, debtmain, debtint,debtduemain, debtdueint, debtpercentmain, debtpercentint FROM cm_report_f3 f, agro_kredit_target t where f.purposeid=t.id)\n\n\n\nORDER BY\n  :f1, boorower",
+   "variables": [
+    {
+     "name": "F1",
+     "type": "string"
+    }
+   ],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSBP",
+   "source": "TDMBC.ResultDSBP",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT r.creditid, d.ID districtid, d.NAME district, r.villageid\n     , v.NAME village, m.ID targetid, m.NAME target, r.purposeid\n     , p.NAME purposename, r.custid\n     , r.custname, r.credittypeid, t.typedesc, r.crdnum, r.firsttrchdate\n     , r.lastdate, r.projectcost, r.givencredit, r.untmeansofproduction\n     , r.untproduction, r.numberofproduction, r.production, r.boughtmaterial\n     , r.operationexpense, r.otherexpense, r.productioncost, r.productivity\n     , r.sumexpense, r.sumprofit, r.taxexpense, r.istehsaltype, r.galir\n     , r.manfaat, r.bpcreditpart\n  FROM cm_report_bp r\n     , agro_village v\n     , agro_region d\n     , cm_bp_types t\n     , agro_kredit_target m\n     , agro_kredit_purpose p\n WHERE r.villageid(+) = v.ID\n   AND v.depend_id = d.ID\n   AND r.credittypeid = t.ID\n   AND r.purposeid = p.ID\n   AND p.depend_id (+) = m.ID\n\n\n\n\n\n\nORDER BY districtid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "QUERYDS",
+   "source": "TDMBC.QUERYDS",
+   "kind": "TOracleDataSet",
+   "sql": "begin\ncm_ak_reports.insinfobp(15725);\nend;",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSTrouble",
+   "source": "TDMBC.ResultDSTrouble",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.creditid, t.branchid, d.ID districtid, d.NAME district, t.villageid, v.NAME village\n     , t.akpurposeid, p.name purpose, t.custid, t.custname, t.credittypeid, b.typedesc\n     , t.crdnum, t.firsttrchdate, t.lastdate, t.givenamount\n     , t.computedpercent, t.creddebtmaindebt, t.creddebtpercentdebt\n     , t.creddebtovermaindebt, t.creddebtoverpercentdebt, t.pokcurratio\n     , t.pokratiochange, t.pokpercent, t.pokosp, t.girovtorpaq\n     , t.girovtorpaqcost, t.girovev, t.girovevcost, t.girovother\n     , t.girovyekun, t.pretenziadate, t.iddiadate, t.measurespretenziacost\n     , t.measuresiddiacost, t.maindebtpretenzia, t.maindebtpretenziadate\n     , t.costafterpretenzia, t.maindebt\n  FROM cm_report_trouble t, agro_village v, agro_region d, cm_bp_types b, agro_kredit_purpose p\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.credittypeid = b.ID AND t.akpurposeid=p.id\nORDER BY branchid, districtid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSLYT",
+   "source": "TDMBC.ResultDSLYT",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_lastyeartrch t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid,villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSL5YP",
+   "source": "TDMBC.ResultDSL5YP",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_last5yearpay t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid,villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSL5YT",
+   "source": "TDMBC.ResultDSL5YT",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_last5yeartr t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid,villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSLYPS",
+   "source": "TDMBC.ResultDSLYPS",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n\n  FROM cm_report_lastyearmpays t, agro_village v, agro_region d, sb_filial b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND branchid=b.id\nORDER BY b.name, d.name, v.name, custname, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSMg",
+   "source": "TDMBC.ResultDSMg",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_mong t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid,villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDS2Full",
+   "source": "TDMBC.ResultDS2Full",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT r.*, d.name district, t.name target, b.typedesc\n  FROM cm_report_f2_full r, agro_region d, agro_kredit_purpose p, agro_kredit_target t, cm_bp_types b\n WHERE r.districtid=d.id(+) AND r.purposeid=p.id AND p.depend_id(+)=t.id AND r.typeid=b.id\n\n\n\nORDER BY\n  branchid, districtid, typeid, purposeid, village,boorid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDS2Type",
+   "source": "TDMBC.ResultDS2Type",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT r.*, d.name district, t.name target, b.typedesc\n  FROM cm_report_f2_full r, agro_region d, agro_kredit_purpose p, agro_kredit_target t, cm_bp_types b\n WHERE r.districtid=d.id(+) AND r.purposeid=p.id AND p.depend_id(+)=t.id AND r.typeid=b.id\n\n\n\nORDER BY\n  branchid, typeid, districtid, purposeid, village,boorid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDS2AboutTruoble",
+   "source": "TDMBC.ResultDS2AboutTruoble",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village, b.typedesc\n  FROM cm_report_abouttrouble t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid(+) = v.ID AND v.depend_id(+) = d.ID AND t.credittypeid = b.ID \nORDER BY branchid, districtid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSMeasures",
+   "source": "TDMBC.ResultDSMeasures",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village, b.typedesc\n  FROM cm_report_measures t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.credittypeid = b.ID \nORDER BY branchid, districtid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSProlongs",
+   "source": "TDMBC.ResultDSProlongs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village, b.typedesc\n  FROM cm_report_prolongations t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.credittypeid = b.ID \nORDER BY branchid, districtid, credittypeid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSYPays",
+   "source": "TDMBC.ResultDSYPays",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_lastyearpayments t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSAboutCrediting",
+   "source": "TDMBC.ResultDSAboutCrediting",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_aboutcrediting t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSCreditPaying",
+   "source": "TDMBC.ResultDSCreditPaying",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_creditpaying t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSWBMain",
+   "source": "TDMBC.ResultDSWBMain",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_worldbankmain t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSWBActive",
+   "source": "TDMBC.ResultDSWBActive",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_worldbankactive t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSMTr",
+   "source": "TDMBC.ResultDSMTr",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT t.*, d.ID districtid, d.NAME district, v.NAME village\n     , b.typedesc\n  FROM cm_report_lastyearmtr t, agro_village v, agro_region d, cm_bp_types b\n WHERE t.villageid = v.ID AND v.depend_id = d.ID AND t.typeid = b.ID\nORDER BY branchid, districtid, typeid, villageid, custid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSPurposes",
+   "source": "TDMBC.ResultDSPurposes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT r.*, d.name district, p.name purpose, t.name target, m.name mainpurp\n  FROM cm_report_f2_full r, agro_region d, agro_kredit_purpose p, agro_kredit_target t, agro_kredit_mainpurpose m\n WHERE r.districtid(+)=d.id AND r.purposeid=p.id AND p.depend_id(+)=t.id and t.depend_id(+)=m.id\n\n\n\nORDER BY\n  m.id, t.id, purposeid, village, boorid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDS3Full",
+   "source": "TDMBC.ResultDS3Full",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*, p.name purpose, t.id targetid, t.name target, m.id mainid, m.name mainpurp\n  FROM cm_report_f3_full f, agro_kredit_purpose p, agro_kredit_target t, agro_kredit_mainpurpose m\n  where purposeid=p.id and p.depend_id=t.id and t.depend_id=m.id\n\n\n\nORDER BY\n  m.id, t.id, purposeid, creditid",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDS3Filial",
+   "source": "TDMBC.ResultDS3Filial",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*, d.id did, d.name districtname \n  FROM cm_report_f3_full f, agro_village v, agro_region d\n  where villageid=v.id and v.depend_id=d.id\n\n\n\nORDER BY\n  branchid, d.name",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDS3Proj",
+   "source": "TDMBC.ResultDS3Proj",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*, d.id prid, d.description project\n  FROM cm_report_f3_full f, cm_active_credits v, cm_usergroups d\n  where creditid=v.id and v.usrgroup=d.id\n\n\n\nORDER BY\n  d.id",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSabLegM",
+   "source": "TDMBC.ResultDSabLegM",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT   l.*, v.NAME village, d.NAME district\n    FROM cm_report_ab_legal_m l, agro_village v, agro_region d\n   WHERE villageid = v.ID AND v.depend_id = d.ID\n\n\n\n\nORDER BY branch, district, village, boorower",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSProviz",
+   "source": "TDMBC.ResultDSProviz",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*, d.id did, d.name districtname \n  FROM CM_REPORT_PROVIZ f, agro_village v, agro_region d\n  where villageid=v.id and v.depend_id=d.id\n\n\n\nORDER BY\n  branchid, d.name",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSGrantYear",
+   "source": "TDMBC.ResultDSGrantYear",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*\n  FROM CM_REPORT_GRANTS f\n\n\n\nORDER BY\n  tecyear, tecname",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSGrantBranch",
+   "source": "TDMBC.ResultDSGrantBranch",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*\n  FROM CM_REPORT_GRANTS f\n\n\n\nORDER BY\n  branch, tecname",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "ResultDSGrantContract",
+   "source": "TDMBC.ResultDSGrantContract",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*, d.name disname\n  FROM CM_REPORT_GRANTS f, agro_village v, agro_region d\n  where villageid=v.id and v.depend_id=d.id\n\n\n\n\nORDER BY\n  branch, d.name, boorowername\n",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDMBC.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*\n     , cm_ak_funcs.GetLMCount(f.creditid,4) \"Problem\"\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kisi' when s.sex=2 then 'Qadın' end as sex ,p.dateofconclusion, p.creditlineamount krxet ,pr.name adiyat,   \n(select name from cm_vid_sob where id=p.ACTIVITIES_TYPE)  as mulkiyyetn,\n(select name from cm_creditcat where id=p.CREDITACT) borcalansektor,\n(select description from cm_activities where id=p.ACTIVITIES) borcalaninfea,\n(select description from cm_categories where  id=p.customertype)borcalaninfn,\n(select description from cm_credittypes where id=p.credittype) kreditintipi,\n(select name from AGRO_KREDIT_TARGET where id in (select DEPEND_ID from AGRO_KREDIT_PURPOSE where id =f.purposeid)) as mehsul\n,(select ANYINFOTODISTING from cm_guarantee where creditid=p.id) as girovtesvir, \n(select name from cm_aim_cred where id =p.aim_id)as aim,cm_common.AccountNumber_Get(a.interestaccid) faizhes,cm_common.OutAccountNumber_Get(a.outinterestaccid) bkfaizhes\nFROM f1 f,f2 s,cm_portfolio p , CUSTOMERS c ,smart.prinad pr,cm_accounts a where f.CREDITID=s.CREDITID   and p.id=f.creditid and\n c.PRINAD_KOD=pr.id and  p.BOOROWERID=c.id and p.id=a.creditid\n\n\n\n\nORDER BY\n  branch, district, village, boorowername\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*SELECT f.*\n     , cm_ak_funcs.getlmcount(f.creditid,4) pret\n     , cm_ak_funcs.getlmcount(f.creditid,6) idd\n     , cm_ak_funcs.getlmcount(f.creditid,7) qatn\n     , cm_ak_funcs.geticracount(f.creditid,7) icra\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kişi'  \nwhen s.sex=0 then 'Qadin'\n end as sex,cm_r\n\n  FROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_active_credits p,cm_categories c where f.CREDITID=s.CREDITID and p.CUSTOMERTYPE=c.id\n\n\n\nORDER BY\n  branch, district, village, boorowername*/\n ",
+   "variables": [],
+   "unit": "uBCDataModImpl"
+  },
+  {
+   "name": "CreditsDS",
+   "source": "TfrmBCFilter.CreditsDS",
+   "kind": "TOracleDataSet",
+   "sql": "select ID   from cm_portfolio\n\n\n",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Currencys",
+   "source": "TfrmBCFilter.Currencys",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT valute,  valu_name\n  FROM AVALUTE\nORDER BY VALUTE",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Branches",
+   "source": "TfrmBCFilter.Branches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM filial",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "UserGroups",
+   "source": "TfrmBCFilter.UserGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Persons",
+   "source": "TfrmBCFilter.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Categories",
+   "source": "TfrmBCFilter.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Customers",
+   "source": "TfrmBCFilter.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, id||'-'||name idname\n  FROM customers\norder by id",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Districts",
+   "source": "TfrmBCFilter.Districts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, id ||'-'||name idname\n  FROM agro_region\norder by id",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "CustNames",
+   "source": "TfrmBCFilter.CustNames",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name idname\n  FROM customers where id in(select boorowerid from cm_portfolio)\norder by name",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "RepForms",
+   "source": "TfrmBCFilter.RepForms",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_bc_reports order by id",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Periods",
+   "source": "TfrmBCFilter.Periods",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM cm_bp_purposes",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Statuses",
+   "source": "TfrmBCFilter.Statuses",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT 0 ID, 'Hesablanmayan' STATNAME\n  FROM dual\nunion\nSELECT 1, 'Hesablanan'\n  FROM dual",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "ODSMakeTemp",
+   "source": "TfrmBCFilter.ODSMakeTemp",
+   "kind": "TOracleDataSet",
+   "sql": "insert into agro_history\nselect * from cm_history where hdate=:enddat\n/\ninsert into agro_tranches\nselect * from cm_tranches tranchedate=:enddat\n/\ninsert into agro_payments\nselect * from cm_payments where paydate between :begdat and :enddat\n\n",
+   "variables": [
+    {
+     "name": "ENDDAT",
+     "type": "date"
+    },
+    {
+     "name": "BEGDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Types",
+   "source": "TfrmBCFilter.Types",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, id ||'-'||typedesc idname\n  FROM cm_bp_types\norder by id",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "Short",
+   "source": "TfrmBCFilter.Short",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT s.id, p.purposedesc||'-'||shortname as short, description\n  FROM cm_bp_sources s, cm_bp_purposes p\n  where purpid=p.id\n  order by short",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "GTypes",
+   "source": "TfrmBCFilter.GTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, name\n  FROM cm_ak_type",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "sysdat",
+   "source": "TfrmBCFilter.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  },
+  {
+   "name": "ResultDS_",
+   "source": "TfrmBCFilter.ResultDS_",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*\n     , cm_ak_funcs.getlmcount(f.creditid,4) pret\n     , cm_ak_funcs.getlmcount(f.creditid,6) idd\n     , cm_ak_funcs.getlmcount(f.creditid,7) qatn\n     , cm_ak_funcs.geticracount(f.creditid,7) icra\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kişi'  \nwhen s.sex=0 then 'Qadin'\n end as sex,cm_rport.get_vid_sob(p.activities_type) as\"Mülkiyyət növü\",cm_rport.get_cred(p.creditact)as \"Borcalanın sektoru\",\ncm_rport.get_actives(p.activities) as \"Borcalanın fəaliyyəti\",c.description  as \"Borcalanın fəaliyyət növü\"\n  FROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_active_credits p,cm_categories c where f.CREDITID=s.CREDITID and p.CUSTOMERTYPE=c.id  and p.id=f.creditid\n\n\n\nORDER BY\n  branch, district, village, boorowername\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*SELECT f.*\n     , cm_ak_funcs.getlmcount(f.creditid,4) pret\n     , cm_ak_funcs.getlmcount(f.creditid,6) idd\n     , cm_ak_funcs.getlmcount(f.creditid,7) qatn\n     , cm_ak_funcs.geticracount(f.creditid,7) icra\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kişi'  \nwhen s.sex=0 then 'Qadin'\n end as sex,cm_r\n\n  FROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_active_credits p,cm_categories c where f.CREDITID=s.CREDITID and p.CUSTOMERTYPE=c.id\n\n\n\nORDER BY\n  branch, district, village, boorowername*/",
+   "variables": [],
+   "unit": "uBriefCaseFilter"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_AK_REP",
+   "package": "CM_AK_REPORTS",
+   "mode": "positional",
+   "source": "TDMBC.CM_AK_REP",
+   "routines": [
+    {
+     "name": "gettableselect",
+     "call": "CallStringFunction"
+    },
+    {
+     "name": "ins_agro_bvalues",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ins_agro_projvalues",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ins_agro_values",
+     "call": "CallProcedure"
+    }
+   ]
+  },
+  {
+   "component": "CM_AK_REPORTS",
+   "package": "CM_AK_REPORTS",
+   "mode": "named",
+   "source": "TfrmBCFilter.CM_AK_REPORTS",
+   "routines": [
+    {
+     "name": "insinfoablegm",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfoaboutcrediting",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfoabouttrouble",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfobp",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfocreditpaying",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfof1",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfof2",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfof2_full",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfof3",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfof3_filial",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfof3_full",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfof3_proj",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfograntbranch",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfograntcontract",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfograntyear",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfolast5yearpayments",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfolast5yeartranches",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfolastyearmpays",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfolastyearpayments",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfolastyeartranches",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfomeasures",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfomong",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfomusttr",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfoprolong",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfoproviz",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfotrouble",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfoworldbankactive",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "insinfoworldbankmain",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

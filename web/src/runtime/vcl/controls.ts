@@ -10,6 +10,7 @@ import { TComponent, isStreaming } from './component';
 import { TStrings, TFont, TCanvas, TPicture, Indexed, TCollection, TCollectionItem } from './classes';
 import { colorValue } from './colors';
 import { todayDelphi, nowDelphi } from '../datetime';
+import { runPlugin, iconUrl, rsUnassigned, type PluginRec } from './plugins';
 
 const LINKABLE = ['caption', 'enabled', 'checked', 'visible', 'imageindex', 'hint'] as const;
 
@@ -1375,25 +1376,91 @@ export interface TBasicAction extends TComponent {
 /*
  * SmartBank plugin menus (Packages/VCL/PluginIni.pas, PluginToolBar.pas, PluginPopupMenu.pas).
  * Their buttons/items come from per-installation INI files next to SmartBank.exe
- * (CMToolBarTop.ini, CMPopupMenu.ini …) that are not part of the repository, so they load empty
- * — the state of a workstation without those files.
+ * (CMToolBarBootom.ini, CMPopupMenu.ini …) that are not part of the repository: they are read from
+ * web/bin (binfiles.ts); without the file the menu is empty, as on a workstation without it.
  */
 export class TMenuIni extends TComponent {
   IniLocation = '';
-  IniSection = 'Menu';
-  Active = false;
+  IniSection = '';
+  private _active = false;
   private _loc: unknown = null;
-  get Location() { if (!this._loc) { const f = new (getIniFile())(); f.Create(this.IniLocation); this._loc = f; } return this._loc; }
+  get Active() { return this._active; }
+  set Active(v: boolean) {
+    if (!isStreaming() && !!v !== this._active) this._loc = v ? this.openIni() : null;
+    this._active = !!v;
+  }
+  /** TIniFile created when the component is activated (nil before, as in PluginIni.pas). */
+  get Location() { return this._loc; }
+  Open() { this.Active = true; }
+  Close() { this.Active = false; }
+  private openIni() { const f = new (getIniFile())(); f.Create(this.IniLocation); return f; }
 }
 registerBuiltin('TMenuIni', TMenuIni);
 let iniCtor: any = null;
 function getIniFile() { return (iniCtor ??= getBuiltin('TIniFile')); }
 
+/** A plugin button: the package's caption as hint, its icon from the INI (Icon=). */
+export class TPluginToolButton extends TToolButton {
+  iconUrl: string | null = null;
+  override async Click() {
+    if (!this.Enabled || this.Style === 'tbsseparator') return;
+    auditClick(this as any);
+    const bar = this.Parent;
+    if (bar instanceof TPluginToolBar) await bar.pluginClick(this);
+  }
+}
+registerBuiltin('TPluginToolButton', TPluginToolButton);
+
 export class TPluginToolBar extends TToolBar {
   MenuIni: TMenuIni | null = null;
-  Active = false;
-  LoadPlugins() { /* no plugin INI in the web version */ }
-  UnLoadPlugins() { /* */ }
+  plugins: PluginRec[] = [];
+  private _active = false;
+  private pluginsCnt = 0;
+  get Active() { return this._active; }
+  set Active(v: boolean) {
+    if (!!v !== this._active && !isStreaming()) { if (v) this.LoadPlugins(); else this.UnLoadPlugins(); }
+    this._active = !!v;
+  }
+  LoadPlugins() {
+    const mi = this.MenuIni;
+    const ini = mi?.Location as any;
+    if (!mi || !ini) throw new PasException('EAccessViolation', `Access violation: ${this.Name}.MenuIni.Location is nil`, ['exception']);
+    const s = new TStrings();
+    ini.ReadSections(s);
+    const n = s.Count;
+    this.pluginsCnt = n - 1;
+    const made: TPluginToolButton[] = [];
+    for (let i = n - 1; i >= 0; i--) {
+      const sec = s.Get(i);
+      const caption = str(ini.ReadString(sec, 'Caption', rsUnassigned));
+      const b = new TPluginToolButton();
+      b.Create(this);
+      b.Tag = n - 1 - i;
+      if (caption !== '|') { b.Style = 'tbsbutton'; b.Width = 23; b.Caption = caption; b.Hint = caption; }
+      else { b.Style = 'tbsseparator'; b.Width = 8; }
+      b.iconUrl = iconUrl(str(ini.ReadString(sec, 'Icon', '')));
+      made.push(b);
+      this.plugins.push({ module: str(ini.ReadString(sec, 'Plugin', '')), param: str(ini.ReadString(sec, 'PluginParam', '')), handle: 0 });
+    }
+    // a button parented at run time goes in front of the existing ones (hence the reverse loop):
+    // the bar shows the sections in file order
+    made.reverse();
+    let x = 0;
+    for (const b of made) { b.setParent(this); b.Left = x; x += b.Width; }
+    this.children = [...made, ...this.children.filter((c) => !made.includes(c as TPluginToolButton))];
+    invalidate();
+  }
+  UnLoadPlugins() {
+    this.pluginsCnt = 0;
+    for (const b of this.children.filter((c) => c instanceof TToolButton)) { (b as TToolButton).setParent(null); (b as TToolButton).Free(); }
+    this.plugins = [];
+    invalidate();
+  }
+  /** OnToolButtonClick (assigned to every plugin button). */
+  async pluginClick(b: TToolButton) {
+    const rec = this.plugins[b.Tag];
+    if (rec) await runPlugin(this, rec);
+  }
 }
 registerBuiltin('TPluginToolBar', TPluginToolBar);
 

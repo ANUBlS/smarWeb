@@ -1,0 +1,215 @@
+{
+ "name": "P_CM_IP",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_IP",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CMHintBox",
+  "CMOracleAPIDataModuleImpl",
+  "CommonDecls",
+  "CurrencyToHRImpl",
+  "CurrencyToHR_Azeri_Impl",
+  "FrmChangePasswordImpl",
+  "FrmConnectionImpl",
+  "LogoutputImpl",
+  "OraLogon",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "SystemState",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODSReestrInfo",
+   "source": "TqrpReestrInfo.ODSReestrInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_ip_reestrinfo\nwhere creditid=:creditid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "uIPReestrReportImpl"
+  },
+  {
+   "name": "ODSYMInfo",
+   "source": "TqrpIPYM.ODSYMInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_ip_yminfo\nwhere creditid=:creditid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "uIPYMReportImpl"
+  },
+  {
+   "name": "ODSIPred",
+   "source": "TfrmIpPredMain.ODSIPred",
+   "kind": "TOracleDataSet",
+   "sql": "select i.rowid, i.* from cm_ip_info i\nwhere creditid=:creditid\norder by cardid",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "ODSTypes",
+   "source": "TfrmIpPredMain.ODSTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_ip_types\norder by id",
+   "variables": [],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "ODSInsurances",
+   "source": "TfrmIpPredMain.ODSInsurances",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_ip_insurances\norder by id",
+   "variables": [],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "ODSQiyms",
+   "source": "TfrmIpPredMain.ODSQiyms",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_ip_qiyms\norder by id",
+   "variables": [],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "ODSExec",
+   "source": "TfrmIpPredMain.ODSExec",
+   "kind": "TOracleDataSet",
+   "sql": "\nBEGIN\n\n  setalev(:CID);\n\nEND;",
+   "variables": [
+    {
+     "name": "CID",
+     "type": "integer"
+    }
+   ],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "ODSRegions",
+   "source": "TfrmIpPredMain.ODSRegions",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_ip_regions\norder by name",
+   "variables": [],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "ODSArazis",
+   "source": "TfrmIpPredMain.ODSArazis",
+   "kind": "TOracleDataSet",
+   "sql": "select 0 id, ' (YOX)' name from dual\nunion\nselect * from cm_ip_arazis\norder by name",
+   "variables": [],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "crdInf",
+   "source": "TfrmIpPredMain.crdInf",
+   "kind": "TOracleDataSet",
+   "sql": "select purposeofcredit from cm_portfolio where id=:crdid",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "buildingcomp",
+   "source": "TfrmIpPredMain.buildingcomp",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM cm_ip_buildingcomp a",
+   "variables": [],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "profit",
+   "source": "TfrmIpPredMain.profit",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM cm_ip_profit a",
+   "variables": [],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "reister",
+   "source": "TfrmIpPredMain.reister",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT a.id, a.name\n  FROM cm_ip_reister a",
+   "variables": [],
+   "unit": "uIpPredMainImpl"
+  },
+  {
+   "name": "ODSActiveCrd",
+   "source": "TfrmReestr.ODSActiveCrd",
+   "kind": "TOracleDataSet",
+   "sql": "select id, name, numberofcredit from cm_active\norder by 3",
+   "variables": [],
+   "unit": "uIpReestr"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OPKIP",
+   "package": "CM_IP",
+   "mode": "positional",
+   "source": "TfrmIpPredMain.OPKIP",
+   "routines": [
+    {
+     "name": "ipAddEditInfo",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ipaddnewcard",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "ipdeletecard",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "tmaddnewticket",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

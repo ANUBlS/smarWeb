@@ -1,0 +1,223 @@
+{
+ "name": "P_CM_AutoExpires",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_AutoExpires",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ExpiresData",
+   "source": "TDataModAE.ExpiresData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT * FROM CM_AUTO_EXPIRES\n--ORDER BY :ORDFLD",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "Payments",
+   "source": "TDataModAE.Payments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, creditid, paydate, payedamt, payedintamt, payeddueamt,\n       payeddueintamt, payedpenaltyamt\n  FROM cm_payments\nWHERE CreditID=:CrdID\nORDER BY PayDate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "Schedule",
+   "source": "TDataModAE.Schedule",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, creditid, paymentdate, principal, interest\n  FROM cm_payment_schedule\n WHERE CreditID=:CrdID\nORDER BY PaymentDate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "PaymentData",
+   "source": "TDataModAE.PaymentData",
+   "kind": "TOracleDataSet",
+   "sql": "select\np.id,b.name, \np.numberofcredit,\ncm_common.AccountNumber_Get(a.contractaccid) as acc_number,\nps.paymentdate,\nps.principal,\ncm_ak_reports.get_pay(ps.creditid,ps.paymentdate) as paymentamount,\ncm_ak_reports.get_payint(ps.creditid,ps.paymentdate) as PAYEDINTAMT,\ncm_ak_reports.get_monthpayment(ps.creditid,ps.paymentdate) as mounthpay \nFROM \ncm_boorowerinfo b,\ncm_active_credits p,\ncm_payment_schedule ps,\ncm_accounts a\nwhere\nb.creditid=p.id \nand p.id=ps.creditid \nand p.id=a.creditid\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by ps.paymentdate",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TDataModAE.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  name\n  FROM CUSTOMERS\nORDER BY NAME",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "BoorDSet",
+   "source": "TDataModAE.BoorDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select name from cm_boorowerinfo group by name order by name \n\n",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "AvalDSet",
+   "source": "TDataModAE.AvalDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT valute,valu_name\n  FROM avalute\n\n",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "FilialDSet",
+   "source": "TDataModAE.FilialDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM filial\n",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "PortDSet",
+   "source": "TDataModAE.PortDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT numberofcredit\n  FROM cm_active_credits\ngroup by numberofcredit\norder by numberofcredit\n",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "PReserves",
+   "source": "TDataModAE.PReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "DateDSet",
+   "source": "TDataModAE.DateDSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT tek_dat FROM sb_sysdat",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "Persons",
+   "source": "TDataModAE.Persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "Pledges",
+   "source": "TDataModAE.Pledges",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_pledges",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "SReserves",
+   "source": "TDataModAE.SReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY percent",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TDataModAE.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "UserGroups",
+   "source": "TDataModAE.UserGroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups\norder by description",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TDataModAE.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "AccDSet",
+   "source": "TDataModAE.AccDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select\ncm_common.AccountNumber_Get(a.contractaccid) as acc_number\nFROM \ncm_boorowerinfo b,\ncm_accounts a\nwhere\nb.creditid=a.creditid\norder by cm_common.AccountNumber_Get(a.contractaccid)",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  },
+  {
+   "name": "MusIdDSet",
+   "source": "TDataModAE.MusIdDSet",
+   "kind": "TOracleDataSet",
+   "sql": "select\nboorowerid\nFROM \ncm_active_credits\ngroup by boorowerid\norder by boorowerid",
+   "variables": [],
+   "unit": "AEDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_AUTO_EXPIRE",
+   "package": "CM_AUTO_EXPIRE",
+   "mode": "positional",
+   "source": "TDataModAE.CM_AUTO_EXPIRE",
+   "routines": [
+    {
+     "name": "ClearExpireMarks",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "PastDueLoan",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

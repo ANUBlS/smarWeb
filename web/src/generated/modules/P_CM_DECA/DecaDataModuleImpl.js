@@ -1,0 +1,13 @@
+// Generated from DecaDataModuleImpl.pas by pas2js — do not edit by hand; regenerate instead.
+/* eslint-disable */
+// @ts-nocheck
+
+export default function define($) {
+  const U = $.unit("DecaDataModuleImpl", ["Windows", "Messages", "SysUtils", "Classes", "Graphics", "Controls", "Forms", "Dialogs", "Db", "OracleData", "DBTables", "Oracle", "sboapiDataModuleImpl"]);
+  const C = [U];
+  U.defClass("TDecaDataModule", "TDataModule", {"datasrcdecadata": {"name": "DataSrcDecaData", "type": "TDataSource"}, "decatable_": {"name": "DecaTable_", "type": "TTable"}, "savedlg": {"name": "SaveDlg", "type": "TSaveDialog"}, "oracledataset1": {"name": "OracleDataSet1", "type": "TOracleDataSet"}, "decadata_tur": {"name": "DecaData_tur", "type": "TOracleDataSet"}, "tagsettings": {"name": "TagSettings", "type": "TOracleDataSet"}, "oracledataset2": {"name": "OracleDataSet2", "type": "TOracleDataSet"}, "tagsettingsfieldname": {"name": "TagSettingsFIELDNAME", "type": "TWideStringField"}, "tagsettingstagfirst": {"name": "TagSettingsTAGFIRST", "type": "TWideStringField"}, "tagsettingstaglast": {"name": "TagSettingsTAGLAST", "type": "TWideStringField"}, "tagsettingstagprefix": {"name": "TagSettingsTAGPREFIX", "type": "TWideStringField"}, "tagsettingstagsuffix": {"name": "TagSettingsTAGSUFFIX", "type": "TWideStringField"}, "tagsettingsalphafield": {"name": "TagSettingsALPHAFIELD", "type": "TFloatField"}, "tagsettingsfieldgroup": {"name": "TagSettingsFIELDGROUP", "type": "TFloatField"}, "tagsettingsnum": {"name": "TagSettingsNUM", "type": "TFloatField"}, "tagsettingsusefield": {"name": "TagSettingsUSEFIELD", "type": "TFloatField"}, "tagsettingsparentgroup": {"name": "TagSettingsPARENTGROUP", "type": "TFloatField"}, "oracledataset3": {"name": "OracleDataSet3", "type": "TOracleDataSet"}, "oracledataset5_aqrar": {"name": "OracleDataSet5_aqrar", "type": "TOracleDataSet"}, "decadata": {"name": "DecaData", "type": "TOracleDataSet"}, "decadata_clos": {"name": "DecaData_clos", "type": "TOracleDataSet"}, "decadata_aq": {"name": "DecaData_aq", "type": "TOracleDataSet"}, "oracledataset4": {"name": "OracleDataSet4", "type": "TOracleDataSet"}, "oracledataset5old": {"name": "OracleDataSet5old", "type": "TOracleDataSet"}, "oraclequery1": {"name": "OracleQuery1", "type": "TOracleQuery"}, "pg_pcustservice": {"name": "PG_PCustService", "type": "TOraclePackage"}, "oracledataset6": {"name": "OracleDataSet6", "type": "TOracleDataSet"}, "oracledataset5": {"name": "OracleDataSet5", "type": "TOracleDataSet"}, "portfolio": {"name": "Portfolio", "type": "TOracleDataSet"}}, {});
+  U.init(async () => {
+    U.var_("DecaDataModule", null, "TDecaDataModule");
+  });
+  return U;
+}

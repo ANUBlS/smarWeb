@@ -19,12 +19,12 @@ ACTIONS = {
     26: ('AboutBanks', 'Packages/AboutBanks'),
     27: ('LastRates', 'Packages/LastRates'),
     28: ('RepairNew', 'Packages/Repair New'),
-    29: ('CreditManager', 'Packages/CreditManager'),
+    29: ('XCreditsMgrSB', 'Packages/SB_Credit/Sm_creditsmgr'),  # the bank's SmartBank.ini: Kreditlərin idarə olunması = Creditsmgr.ocx (CM_* tables)
     30: ('ContractCorrection', 'Packages/SBCM_ContractCorrection'),
     31: ('MainFacilities', 'Packages/MainFacilities'),
     32: ('DepositManager', 'DepozitAqroinvest_neftfondu/DepositManager__'),
     33: ('DepositCorrection', 'DepositsManager/SBDM_DepositCorrection'),
-    34: ('CreditsArchive', 'Packages/SBCM_CreditsArchive'),
+    34: ('XCreditArchive', 'Packages/ArCive_Credit/Archve_Credit'),  # the bank's SmartBank.ini: Arxiv kreditlər = Archive_Credit.ocx
     35: ('DepositsArchive', 'Packages/SBDM_DepositsArchive'),
     36: ('SessionMgr', 'Packages/SessionMgr'),
     37: ('TransactionsReporter', 'Packages/TransactionsReporter'),

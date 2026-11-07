@@ -1,0 +1,126 @@
+{
+ "name": "P_CM_Expire",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Expire",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMCurrencyEdit",
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "LoanRest",
+   "source": "TExpireDataModule.LoanRest",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   C.REST , \n   CM_COMMON.AccountNumber_Get(D.LOANACCID) as ACC_NO\nFROM\n   CM_ACTIVE_CREDITS B\n , CM_CURR_STATE C\n , CM_ACCOUNTS D\nWHERE\n     (B.ID =:CreditID)\n AND (D.CREDITID =:CreditID)\n AND (C.CREDITID =:CreditID)",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpireDataModuleImpl"
+  },
+  {
+   "name": "DueRest",
+   "source": "TExpireDataModule.DueRest",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT\n   C.DUEREST , \n   CM_COMMON.AccountNumber_Get(D.DUELOANACCID) as ACC_NO\nFROM\n   CM_ACTIVE_CREDITS B\n , CM_CURR_STATE C\n , CM_ACCOUNTS D\nWHERE\n     (B.ID =:CreditID)\n AND (D.CREDITID =:CreditID)\n AND (C.CREDITID =:CreditID)",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpireDataModuleImpl"
+  },
+  {
+   "name": "SReserves",
+   "source": "TExpireDataModule.SReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent, description\n  FROM cm_reserves\nORDER BY Percent",
+   "variables": [],
+   "unit": "ExpireDataModuleImpl"
+  },
+  {
+   "name": "CreditInfo",
+   "source": "TExpireDataModule.CreditInfo",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n  RESERVEID ,\n DUERESERVEID ,\n NAME\nFROM CM_ACTIVE\nWHERE ID=:CREDITID ",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpireDataModuleImpl"
+  },
+  {
+   "name": "ExpireData",
+   "source": "TExpireDataModule.ExpireData",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, creditid, expdate, expamount, intrest\n  FROM cm_expires\n WHERE CreditID=:CreditID",
+   "variables": [
+    {
+     "name": "CREDITID",
+     "type": "integer"
+    }
+   ],
+   "unit": "ExpireDataModuleImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_EXPIRE",
+   "package": "CM_EXPIRE",
+   "mode": "named",
+   "source": "TExpireDataModule.CM_EXPIRE",
+   "routines": [
+    {
+     "name": "CommitExpire",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Expire_Add",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "Expire_Delete",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

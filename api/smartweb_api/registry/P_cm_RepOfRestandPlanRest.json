@@ -1,0 +1,137 @@
+{
+ "name": "P_cm_RepOfRestandPlanRest",
+ "caption": "",
+ "dir": "Packages/SB_Credit/cm_RepOfRestandPlanRest",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "ODFValute",
+   "source": "TdmRepPlan_Rest.ODFValute",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_avalute",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFReserves",
+   "source": "TdmRepPlan_Rest.ODFReserves",
+   "kind": "TOracleDataSet",
+   "sql": "select id,code,percent,description, percent||'% - '||description fulldesc from cm_reserves",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFPersons",
+   "source": "TdmRepPlan_Rest.ODFPersons",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_persons",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFPledges",
+   "source": "TdmRepPlan_Rest.ODFPledges",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_pledges",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFCategories",
+   "source": "TdmRepPlan_Rest.ODFCategories",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_categories",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFBranch",
+   "source": "TdmRepPlan_Rest.ODFBranch",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_filial",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFCustomers",
+   "source": "TdmRepPlan_Rest.ODFCustomers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from customers",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFCrdTypes",
+   "source": "TdmRepPlan_Rest.ODFCrdTypes",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_credittypes",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFUsers",
+   "source": "TdmRepPlan_Rest.ODFUsers",
+   "kind": "TOracleDataSet",
+   "sql": "select * from sb_user$",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "ODFUsrGroup",
+   "source": "TdmRepPlan_Rest.ODFUsrGroup",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_usergroups",
+   "variables": [],
+   "unit": "dmRepPlan_RestImpl"
+  },
+  {
+   "name": "R",
+   "source": "TdmRepPlan_Rest.R",
+   "kind": "TOracleDataSet",
+   "sql": "select   \n     p.numberofcredit,\n     h.rest,\n     h.interestrest,\n     cm_utils.Get_creditPlanPrincipal(p.id,:dat)+\n     cm_utils.Get_creditPlaninterest(p.id,:dat) as annutyamt,\n     cm_utils.get_PlanRest(p.id,:dat) as planrest,cm_utils.get_lastPaymentDate(p.id) as lastdat,\n     cm_utils.get_PlanRest(p.id,:dat) - h.rest as difrest,\n\t ugr.description \nfrom cm_portfolio p,\n     cm_history h,\n     cm_usergroups ugr\nwhere\n    p.id = h.creditid and\n    h.hdate = :dat and\n    p.usrgroup = ugr.id\n    \n    ",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "dmRepPlan_RestImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

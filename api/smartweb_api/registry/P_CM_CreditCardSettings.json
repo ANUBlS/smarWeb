@@ -1,0 +1,108 @@
+{
+ "name": "P_CM_CreditCardSettings",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_CreditCardSettings",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CMHintBox",
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "Categories",
+   "source": "TDMCardSeting.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "DMCardSettings"
+  },
+  {
+   "name": "cardsorts",
+   "source": "TDMCardSeting.cardsorts",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, name, description,calcmethod\n  FROM cm_calc_cardsorts\norder by id",
+   "variables": [],
+   "unit": "DMCardSettings"
+  },
+  {
+   "name": "cardsettings",
+   "source": "TDMCardSeting.cardsettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,cardid, beginperiod, endperiod, annualintrate, fixedday\n  FROM cm_calc_cardsettings\n\nwhere cardid = :cardid",
+   "variables": [
+    {
+     "name": "CARDID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMCardSettings"
+  },
+  {
+   "name": "cardcustsettings",
+   "source": "TDMCardSeting.cardcustsettings",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rowid,id, cardid, categoryid\n  FROM cm_calc_cardcustsettings\nwhere cardid = :cardid",
+   "variables": [
+    {
+     "name": "CARDID",
+     "type": "float"
+    }
+   ],
+   "unit": "DMCardSettings"
+  },
+  {
+   "name": "cardmethods",
+   "source": "TDMCardSeting.cardmethods",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_calc_cardmethods\norder by id",
+   "variables": [],
+   "unit": "DMCardSettings"
+  }
+ ],
+ "packages": [
+  {
+   "component": "cm_cards",
+   "package": "cm_cards",
+   "mode": "positional",
+   "source": "TDMCardSeting.cm_cards",
+   "routines": [
+    {
+     "name": "del_cards",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

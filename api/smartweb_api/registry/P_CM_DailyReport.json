@@ -1,0 +1,102 @@
+{
+ "name": "P_CM_DailyReport",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_DailyReport",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "FilialDataSet",
+   "source": "TFrmDaily.FilialDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT id, name\n    FROM filial",
+   "variables": [],
+   "unit": "DailyImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TFrmDaily.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select * from avalute",
+   "variables": [],
+   "unit": "DailyImpl"
+  },
+  {
+   "name": "sysdate",
+   "source": "TFrmDaily.sysdate",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "DailyImpl"
+  },
+  {
+   "name": "Main",
+   "source": "TFrmDaily.Main",
+   "kind": "TOracleDataSet",
+   "sql": "select rownum as c, f.name,b.name as borcalan,l.acc_no,p.numberofcredit,v.val_name,CM_RPORT.get_payment(p.id,:sysdat)as pay,\nCM_RPORT.get_payment(p.id,:sysdat)*t.ostat as payek,\ncase when CM_RPORT.get_payment(p.id,:sysdat)>0 then p.annualyinterestrate||' %'  else '0' end  as reate,\nCM_RPORT.get_Tranches(p.id,:sysdat) as kred_meb,\nCM_RPORT.get_Tranches(p.id,:sysdat) *t.ostat as kred_meb_ek,\ncase when CM_RPORT.get_Tranches(p.id,:sysdat)<>0 then p.annualyinterestrate||' %' else '0' end as gunver_faiz,\nh.rest, h.rest*t.ostat as guns_qaliqek,p.purposeofcredit,trunc(months_between(p.duedatefirstcontract,p.dateofconclusion))as month \nfrom \n smart.cm_portfolio p,filial f,cm_boorowerinfo b,cm_loanaccounts l,avalute v,smart.temprate t,cm_history h\n where p.branchid=f.id and \n b.creditid=p.id   and p.usrgroup not in(84,85) and\n l.creditid=p.id and  \n v.VALUTE=p.currency and\n t.val_kod =p.currency --and CM_RPORT.get_payment(p.id,:sysdat)>0\n and h.creditid=p.id and \n h.hdate=:sysdat and (CM_RPORT.get_payment(p.id,:sysdat)+CM_RPORT.get_Tranches(p.id,:sysdat))>0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norder by CM_RPORT.get_payment(p.id,:sysdat)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n \n\n\n\n\n \n",
+   "variables": [
+    {
+     "name": "SYSDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DailyImpl"
+  },
+  {
+   "name": "Rest",
+   "source": "TFrmDaily.Rest",
+   "kind": "TOracleDataSet",
+   "sql": "select sum(rest*k.ostat) as rest,sum( CM_RPORT.get_gununevqaliq((select max(dat) from smart.OPERKURS where dat<:dat),0,p.id))as AZN,\nsum(CM_RPORT.get_gununevqaliq((select max(dat) from smart.OPERKURS where dat<:dat),1,p.id)*k.ostat)as USD,sum(CM_RPORT.get_gununevqaliq((select max(dat) from smart.OPERKURS where dat<:dat),45,p.id)*k.ostat)as EUR,\nsum(CM_RPORT.get_Tranches(p.id,:dat ) *k.ostat)-sum(CM_RPORT.get_payment(p.id,:dat )*k.ostat) as ferq,\n(sum(rest*k.ostat) +(sum(CM_RPORT.get_Tranches(p.id,:dat ) *k.ostat)-sum(CM_RPORT.get_payment(p.id,:dat )*k.ostat))) as gununsonuna\n from cm_history h,cm_portfolio p,smart.OPERKURS k\nwhere hdate=(select max(hdate) from cm_history where hdate<=(select max(dat) from smart.OPERKURS where dat<:dat)) and p.usrgroup not in(84,85)\nand p.id=h.creditid and k.val_kod =p.currency and k.dat=(select max(dat) from smart.OPERKURS where dat<:dat)\n\n\n\n\n\n\n\n\n/*7**/\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DailyImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "CM_IP_REPORTS",
+   "mode": "positional",
+   "source": "TFrmDaily.OraclePackage1",
+   "routines": []
+  }
+ ],
+ "sql": []
+}

@@ -1,0 +1,73 @@
+{
+ "name": "P_CM_RC_All",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_RESERVES_ALL",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "CreditsInfo",
+   "source": "TRAllDatMod.CreditsInfo",
+   "kind": "TOracleDataSet",
+   "sql": "select ID , NumberOfCredit\n  from cm_active_credits\n --where currency <> 0",
+   "variables": [],
+   "unit": "RADatModImpl"
+  }
+ ],
+ "packages": [
+  {
+   "component": "CM_RESERVE_COUNT_NEW",
+   "package": "CM_RESERVE_COUNT_NEW",
+   "mode": "named",
+   "source": "TRAllDatMod.CM_RESERVE_COUNT_NEW",
+   "routines": [
+    {
+     "name": "percent_after_months_all",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "percent_after_months_pr_all",
+     "call": "CallProcedure"
+    },
+    {
+     "name": "reserve_contr_new",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

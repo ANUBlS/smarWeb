@@ -1,0 +1,189 @@
+{
+ "name": "P_CM_AutoExpiresAll",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_AutoExpiresAll",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {
+  "cm_payment.bpl": "P_CM_Payment",
+  "sb_general.bpl": "P_Sb_General"
+ },
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "DatSetExpCredits",
+   "source": "TDatModAex.DatSetExpCredits",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT p.ID, p.numberofcredit, p.currency, p.personaltype, p.customertype,\n       p.branchid, p.credittype, b.NAME, av.val_name,b.salary,(select max(paydate) from cm_payments where creditid=p.id) paydate,\n       cm_common.accountnumber_get (a.contractaccid) AS contractaccno,c.duerest,\n       cm_common.accountrest_get (a.booroweraccid) AS custaccrest,\n       cm_utils.Get_PlanPrincipal (p.ID, :PDAT) AS principal,\n          cm_utils.Get_PlanPrincipal(p.ID, :PDAT)\n       + c.interestrest+  c.penaltyrest AS sumamt ,\n        cm_utils.get_gecgun(p.ID, :PDAT) as expdatcount,\n       c.dueinterestrest+c.penaltyrest penaltyrest, c.reserveid, cm_utils.get_creditplanrest (p.ID, :PDAT) AS plr,\n       p.dateofconclusion as opendate,p.duedatefirstcontract as closedate,\n       p.annualyinterestrate, cm_common.get_AccountBalance(a.contractaccid) as BalaccNo, p.boorowerid ,b.PHONENUMBER,\ncase when p.duedatefirstcontract<:PDAT and nvl(p.duedatelastcontract,'01-jan-2002')<:PDAT \nthen 'Vaxt? bitib ' else ' - ' end as creditend,c.rest,c.interestrest,\ng1.guarantorname,g1.zaminwork1,g1.zamintel1,g1.zmtelmob1,\ng2.guarantorname name2,g2.zaminwork1 wr2,g2.zamintel1 evtel2,g2.zmtelmob1 mobtel2,\ng3.guarantorname name3,g3.zaminwork1 wr3,g3.zamintel1 evtel3,g3.zmtelmob1 mobtel3\n  FROM cm_active_credits p,\n       cm_boorowerinfo b,\n       cm_accounts a,CM_GUARANTOR g1,\n       cm_curr_state c,CM_GUARANTOR g2,CM_GUARANTOR g3,\n       avalute av\n       \n WHERE b.creditid = p.ID and p.id=g1.creditid(+) and g1.cardid(+)=1\n   AND a.creditid = p.ID and p.id=g2.creditid(+) and g2.cardid(+)=2\n   AND c.creditid = p.ID and p.id=g3.creditid(+) and g3.cardid(+)=3\n   AND av.valute = p.currency\n  -- AND abs((cm_utils.get_creditplanrest (p.ID, :PDAT+1) - (c.rest+c.duerest)))>=0.5\nand c.rest+c.duerest <> 0 and  cm_utils.get_gecgun(p.ID, :PDAT+1)>0\n--and  cm_utils.Get_PlanPrincipal (p.ID, :PDAT)>0\n--and p.intcalcmethod=0\nORDER BY :orderfield\n\n\n\n",
+   "variables": [
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    },
+    {
+     "name": "PDAT",
+     "type": "date"
+    }
+   ],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetPayments",
+   "source": "TDatModAex.DatSetPayments",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT paydate, \n       payedamt, \n       payedintamt, \n       payeddueamt,\n       payeddueintamt,\n       payedpenaltyamt\n  FROM cm_payments\nwhere creditid  = :CrdID\norder by paydate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetSchedule",
+   "source": "TDatModAex.DatSetSchedule",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT  paymentdate, \n        principal, \n        interest\n  FROM cm_payment_schedule\nwhere creditid = :CrdID\norder by paymentdate\n",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetTranches",
+   "source": "TDatModAex.DatSetTranches",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT \n      tranchedate, \n      trancheamount\n  FROM cm_tranches\nwhere creditid  =:CrdID\norder by tranchedate",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetInterests",
+   "source": "TDatModAex.DatSetInterests",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT hdate, \n       interest, \n       dueinterest, \n       nvl(penaltyinterest,0) as penaltyinterest\n  FROM cm_interests\nwhere CreditID = :CrdID\norder by hdate ",
+   "variables": [
+    {
+     "name": "CRDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetReserves",
+   "source": "TDatModAex.DatSetReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description||' - '||PERCENT as description\n  FROM cm_reserves",
+   "variables": [],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetCategories",
+   "source": "TDatModAex.DatSetCategories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetCreditTypes",
+   "source": "TDatModAex.DatSetCreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,   description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetValute",
+   "source": "TDatModAex.DatSetValute",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from avalute",
+   "variables": [],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetFilials",
+   "source": "TDatModAex.DatSetFilials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from filial",
+   "variables": [],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetPersons",
+   "source": "TDatModAex.DatSetPersons",
+   "kind": "TOracleDataSet",
+   "sql": "select id,descripion from cm_persons",
+   "variables": [],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "DatSetExpCredits_",
+   "source": "TDatModAex.DatSetExpCredits_",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    p.id,\n    p.numberofcredit,\n    p.currency, p.personaltype, p.customertype,p.branchid, p.credittype,\n    p.dateofconclusion as opendate,\n    p.duedatefirstcontract as closedate,\n    p.annualyinterestrate,p.boorowerid ,b.PHONENUMBER,b.salary,\n    lacc.acc_no as contractaccno,\n    cust.name,\n    p.dateofconclusion,\n    p.duedatefirstcontract,\n    p.duedatelastcontract,\n    expcrd.outdat,\n    psh.planrest, \n    expcrd.exdatcount,\n    av.val_name,\n    br.ostat as custaccrest,\n   /* case \n    when nvl(planpay.pay,0) - nvl(realpay.realpay,0)  <= 0 then 0  \n    else nvl(planpay.pay,0) - nvl(realpay.realpay,0) \n    end as principal,\n \n    case \n    when nvl(planpay.payint,0) - nvl(realpay.Realpayint,0)  <= 0 then 0  \n    else nvl(planpay.payint,0) - nvl(realpay.Realpayint,0)\n    end as interest,\n\n\n    case \n    when nvl(planpay.pay,0) - nvl(realpay.realpay,0) +\n    nvl(planpay.payint,0) - nvl(realpay.Realpayint,0)  <= 0 then 0  \n    else nvl(planpay.pay,0) - nvl(realpay.realpay,0) +\n    nvl(planpay.payint,0) - nvl(realpay.Realpayint,0)\n    end as sumamt,*/\n\n\n    \n       cm_utils.Get_PlanPrincipal (p.ID, :dat) AS principal,\n       cm_utils.Get_IntPlanPayment (p.ID) AS interest,\n         cm_utils.Get_PlanPrincipal(p.ID, :dat)\n       + cm_utils.Get_IntPlanPayment(p.ID) AS sumamt,\n    c.penaltyrest, \n    c.reserveid,  \n    cm_common.get_AccountBalance(a.contractaccid) as BalaccNo\nfrom\n   cm_portfolio p,\n   cm_loanaccounts lacc,\n   cm_sb_customers cust,\n   sb_avalute av,\n   cm_boorowerrest br,\n   cm_boorowerinfo b,\n   cm_curr_state c,\n   cm_accounts a,\n   \n (select \n   psh.creditid,\n   sum(psh.principal) as pay,\n   sum(psh.interest) as payint\n  from cm_payment_schedule psh \n  where psh.paymentdate<=:dat \ngroup by psh.creditid) planpay,\n\n(select \n   pay.creditid,\n   sum(pay.PAYEDAMT+pay.PAYEDDUEAMT) as Realpay,\n   sum(pay.PAYEDINTAMT+pay.PAYEDDUEINTAMT) as Realpayint\n  from cm_payments pay \ngroup by pay.creditid) realpay,\n      \n(select  creditid, null as outdat,0 as exdatcount from(\nselect id as creditid\nfrom   cm_portfolio\n\nminus\n\nselect psh.creditid\nfrom   cm_payment_schedule psh ,cm_curr_state cs\nwhere  psh.rest < (cs.rest+cs.duerest) and (cs.duerest+cs.rest - psh.rest >= 0.5) \nand psh.creditid = cs.creditid\nand psh.paymentdate <=:dat\ngroup by psh.creditid)\n\nunion\nselect psh.creditid,min(psh.paymentdate)  as outdat,cm_utils.bankdaysbetween (MIN (psh.paymentdate),\n                                   :dat\n                                  ) AS exdatcount\nfrom   cm_payment_schedule psh ,cm_curr_state cs\nwhere  psh.rest < cs.rest+cs.duerest and (cs.duerest+cs.rest - psh.rest >= 0.5) \nand psh.creditid = cs.creditid\nand psh.paymentdate <=:dat\ngroup by psh.creditid\n) expcrd , \n\n\n(SELECT  creditid, rest as planrest,principal, interest\n  FROM cm_payment_schedule where paymentdate = :dat\n  union\n   select  creditid , 0 as planrest, 0 as principal, 0 as interest from \n  (select id as creditid \n  from cm_portfolio\n  minus\n  SELECT  creditid\n  FROM cm_payment_schedule where paymentdate = :dat)) psh\n\nwhere p.id = lacc.creditid  and \n      p.boorowerid = cust.id and\n      p.id = c.creditid and\n      c.rest + c.duerest <> 0 and\n      p.id = psh.creditid and\n      br.creditid = p.id and\n      expcrd.creditid = p.id and \n      b.creditid = p.id and\n      a.creditid = p.id and \n      p.currency = av.valute and\n      p.id=planpay.creditid(+) and\n      p.id = realpay.creditid(+)\n      order by :ORDERFIELD\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "DAT",
+     "type": "date"
+    },
+    {
+     "name": "ORDERFIELD",
+     "type": "subst"
+    }
+   ],
+   "unit": "DatModAexUnitImpl"
+  },
+  {
+   "name": "OracleDataSet1",
+   "source": "TDatModAex.OracleDataSet1",
+   "kind": "TOracleDataSet",
+   "sql": "select\n    p.id,\n    p.numberofcredit,\n    p.currency, p.personaltype, p.customertype,p.branchid, p.credittype,\n    p.dateofconclusion as opendate,\n    p.duedatefirstcontract as closedate,\n    p.annualyinterestrate,p.boorowerid ,b.PHONENUMBER,\n    lacc.acc_no as contractaccno,\n    cust.name,\n    p.dateofconclusion,\n    p.duedatefirstcontract,\n    p.duedatelastcontract,\n    expcrd.outdat,\n    psh.planrest, \n    expcrd.exdatcount,\n    av.val_name,\n    br.ostat as custaccrest,\n       cm_utils.Get_PlanPrincipal (p.ID, :DAT) AS principal,\n       cm_utils.Get_IntPlanPayment (p.ID) AS interest,\n         cm_utils.Get_PlanPrincipal(p.ID, :DAT)\n       + cm_utils.Get_IntPlanPayment(p.ID) AS sumamt,\n    c.penaltyrest, \n    c.reserveid,  \n    cm_common.get_AccountBalance(a.contractaccid) as BalaccNo\nfrom\n   cm_portfolio p,\n   cm_loanaccounts lacc,\n   cm_sb_customers cust,\n   sb_avalute av,\n   cm_boorowerrest br,\n   cm_boorowerinfo b,\n   cm_curr_state c,\n   cm_accounts a,\n      \n(select  creditid, null as outdat,0 as exdatcount from(\nselect id as creditid\nfrom   cm_payment_schedule where paymentdate = :dat)/*\n\nminus  \n\nselect psh.creditid\nfrom   cm_payment_schedule psh ,cm_curr_state cs\nwhere  psh.rest < (cs.rest+cs.duerest) and (cs.duerest+cs.rest - psh.rest >= 1) \nand psh.creditid = cs.creditid\nand psh.paymentdate <=:dat\ngroup by psh.creditid)*/\n\nunion\nselect psh.creditid,min(psh.paymentdate)  as outdat,cm_utils.bankdaysbetween (MIN (psh.paymentdate),\n                                   :dat\n                                  ) AS exdatcount\nfrom   cm_payment_schedule psh ,cm_curr_state cs\nwhere  psh.rest < cs.rest+cs.duerest and (cs.duerest+cs.rest - psh.rest >= 2) \nand psh.creditid = cs.creditid\nand psh.paymentdate <=:dat\ngroup by psh.creditid\n) expcrd , \n\n\n(SELECT  creditid, rest as planrest,principal, interest\n  FROM cm_payment_schedule where paymentdate = :dat\n  union\n   select  creditid , 0 as planrest, 0 as principal, 0 as interest from \n  (select id as creditid \n  from cm_portfolio\n  minus\n  SELECT  creditid\n  FROM cm_payment_schedule where paymentdate = :dat)) psh\n\nwhere p.id = lacc.creditid  and \n      p.boorowerid = cust.id and\n      p.id = c.creditid and\n      c.rest + c.duerest <> 0 and\n      p.id = psh.creditid and\n      br.creditid = p.id and\n      expcrd.creditid = p.id and \n      b.creditid = p.id and\n      a.creditid = p.id and \n      p.currency = av.valute --and\n     -- abs(psh.planrest - c.rest)>=2 and\n     -- p.intcalcmethod=0 \n      ORDER BY :orderfield\n\n\n\n\n\n",
+   "variables": [],
+   "unit": "DatModAexUnitImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

@@ -515,6 +515,18 @@ export default [
   "source": "Packages/Cards_New/cards_azericard/cfile_addi.pas"
  },
  {
+  "unit": "cFileListComboBox",
+  "file": "cFileListComboBox",
+  "form": null,
+  "ok": 6,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TFileListComboBox"
+  ],
+  "source": "Packages/VCL/cFileListComboBox.pas"
+ },
+ {
   "unit": "cfilepas",
   "file": "cfilepas",
   "form": "Tcfile",
@@ -968,6 +980,18 @@ export default [
    "TTrViewForm"
   ],
   "source": "Packages/Cr_Credit/CR_COMMON/crTemporaryTransactionsViewFormImpl.pas"
+ },
+ {
+  "unit": "CtagoriesImpl",
+  "file": "CtagoriesImpl",
+  "form": "TFrmCatagories",
+  "ok": 6,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TFrmCatagories"
+  ],
+  "source": "Packages/SB_Credit/CM_AutoPayment/CM_Balisrc/CtagoriesImpl.pas"
  },
  {
   "unit": "cuCommonDataModuleImpl",
@@ -1617,6 +1641,18 @@ export default [
   "source": "Packages/PaymentDecree/inv_ArchiveImpl.pas"
  },
  {
+  "unit": "KeyListBox",
+  "file": "KeyListBox",
+  "form": null,
+  "ok": 4,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TKeyListBox"
+  ],
+  "source": "Packages/VCL/KeyListBox.pas"
+ },
+ {
   "unit": "klirinqUnit",
   "file": "klirinqUnit",
   "form": "TKlirinq_form",
@@ -2023,6 +2059,18 @@ export default [
    "TPostCommisionOnus"
   ],
   "source": "Packages/Cards_New/cards_azericard/PostCommisionOnusImpl.pas"
+ },
+ {
+  "unit": "ProgressFormImpl",
+  "file": "ProgressFormImpl",
+  "form": "TProgressForm",
+  "ok": 0,
+  "fail": 0,
+  "activeForm": null,
+  "classes": [
+   "TProgressForm"
+  ],
+  "source": "Packages/SB_Credit/CM_FolderPlace/ProgressFormImpl.pas"
  },
  {
   "unit": "qrp1",

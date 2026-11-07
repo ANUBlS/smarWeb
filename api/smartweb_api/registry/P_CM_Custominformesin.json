@@ -1,0 +1,144 @@
+{
+ "name": "P_CM_Custominformesin",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_Custominformesin",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "PersonelTypeDataSet",
+   "source": "TCustDataModu.PersonelTypeDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT *\n  FROM smart.avalute",
+   "variables": [],
+   "unit": "CustDataMod"
+  },
+  {
+   "name": "sysdat",
+   "source": "TCustDataModu.sysdat",
+   "kind": "TOracleDataSet",
+   "sql": "select * from smart.sysdat",
+   "variables": [],
+   "unit": "CustDataMod"
+  },
+  {
+   "name": "ResultDS2",
+   "source": "TCustDataModu.ResultDS2",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum sira,f.*,s.*,o.ostat,(select val_name from smart.avalute where valute=p.currency) val\n,p.dateofconclusion, p.creditlineamount krxet,\n trunc(months_between( p.duedatefirstcontract ,p.dateofconclusion)) muddet,p.duedatefirstcontract ,\ntrunc(months_between(duedatelastcontract,duedatefirstcontract)) plor,\n (select description from cm_credittypes where id=p.credittype) tip,\ncase when  f.DEBTMAIN<>0 then\n( (select round(INTEREST,2) from CM_INT_currSTATE where creditid=p.id)*360/f.DEBTMAIN)/(select tek_dat-pred_dat as  d from sb_sysdat)\nelse 0 end as krorafaiz    \n FROM cm_report_f1 f,cm_active_credits p,cm_payment_schedule_portfel s,smart.temprate o\nwhere f.creditid=p.id\nand s.creditid=p.id and o.val_kod=p.currency\nORDER BY\n  sira\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*SELECT f.*\n     , cm_ak_funcs.getlmcount(f.creditid,4) pret\n     , cm_ak_funcs.getlmcount(f.creditid,6) idd\n     , cm_ak_funcs.getlmcount(f.creditid,7) qatn\n     , cm_ak_funcs.geticracount(f.creditid,7) icra\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kişi'  \nwhen s.sex=0 then 'Qadin'\n end as sex,cm_r\n\n  FROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_active_credits p,cm_categories c where f.CREDITID=s.CREDITID and p.CUSTOMERTYPE=c.id\n\n\n\nORDER BY\n  branch, district, village, boorowername*/\n \n",
+   "variables": [],
+   "unit": "CustDataMod"
+  },
+  {
+   "name": "Main",
+   "source": "TCustDataModu.Main",
+   "kind": "TOracleDataSet",
+   "sql": "select id from cm_active_credits \nwhere boorowerid in( select boorowerid from cm_active_credits where id=:credid)\n\n\n\n\n\n\n\n\n\n",
+   "variables": [
+    {
+     "name": "CREDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustDataMod"
+  },
+  {
+   "name": "UsrGrpDataSet",
+   "source": "TCustDataModu.UsrGrpDataSet",
+   "kind": "TOracleDataSet",
+   "sql": "  SELECT *\n    FROM filial",
+   "variables": [],
+   "unit": "CustDataMod"
+  },
+  {
+   "name": "ResultDS1",
+   "source": "TCustDataModu.ResultDS1",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT rownum sira,f.*,(select val_name from smart.avalute where valute=p.currency) val\n,p.dateofconclusion, p.creditlineamount krxet,\n trunc(months_between( p.duedatefirstcontract ,p.dateofconclusion)) muddet,p.duedatefirstcontract ,\ntrunc(months_between(duedatelastcontract,duedatefirstcontract)) plor,\n(select description from cm_credittypes where id=p.credittype) tip ,\n(SELECT newammount  FROM cm_prolong_crammount where id in( SELECT max(id)  FROM cm_prolong_crammount where creditid=p.id )and creditid=p.id) sonmeb ,\ncase when  f.DEBTMAIN<>0 then\n( (select round(INTEREST,2) from CM_INT_currSTATE where creditid=p.id)*360/f.DEBTMAIN)/(select tek_dat-pred_dat as  d from sb_sysdat) \nelse 0 end as krorafaiz \n FROM cm_report_f1 f,cm_active_credits p\nwhere f.creditid=p.id\n\nORDER BY\n  sira\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*SELECT f.*\n     , cm_ak_funcs.getlmcount(f.creditid,4) pret\n     , cm_ak_funcs.getlmcount(f.creditid,6) idd\n     , cm_ak_funcs.getlmcount(f.creditid,7) qatn\n     , cm_ak_funcs.geticracount(f.creditid,7) icra\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kişi'  \nwhen s.sex=0 then 'Qadin'\n end as sex,cm_r\n\n  FROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_active_credits p,cm_categories c where f.CREDITID=s.CREDITID and p.CUSTOMERTYPE=c.id\n\n\n\nORDER BY\n  branch, district, village, boorowername*/\n ",
+   "variables": [],
+   "unit": "CustDataMod"
+  },
+  {
+   "name": "Person",
+   "source": "TCustDataModu.Person",
+   "kind": "TOracleDataSet",
+   "sql": "select personaltype from cm_active_credits \nwhere id=:credid",
+   "variables": [
+    {
+     "name": "CREDID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustDataMod"
+  },
+  {
+   "name": "ResultDS_por",
+   "source": "TCustDataModu.ResultDS_por",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT f.*\n     , cm_ak_funcs.GetLMCount(f.creditid,4) \"Проблем\"\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kişi' when s.sex=0 then 'Qadin' end as sex ,p.dateofconclusion, p.creditlineamount krxet ,pr.name adiyat,   \n(select name from cm_vid_sob where id=p.ACTIVITIES_TYPE)  \"Mülkiyyət növü\",\n(select name from cm_creditcat where id=p.CREDITACT) \"Borcalanın sektoru\",\n(select description from cm_activities where id=p.ACTIVITIES) \"Borcalanın fəaliyyəti\",\n(select description from cm_categories where  id=p.customertype)\"Borcalanın fəaliyyət növü\",\n(select description from cm_credittypes where id=p.credittype) \"Kreditin tipi\",\n(select name from AGRO_KREDIT_TARGET where id in (select DEPEND_ID from AGRO_KREDIT_PURPOSE where id =f.purposeid)) \"Məhsulun tipi\"\n FROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_portfolio p , CM_SB_CUSTOMERS c ,smart.prinad pr where f.CREDITID=s.CREDITID   and p.id=f.creditid and\n c.PRINAD_KOD=pr.id and  p.BOOROWERID=c.id\n\n\n\n\nORDER BY\n  branch, district, village, boorowername\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*SELECT f.*\n     , cm_ak_funcs.getlmcount(f.creditid,4) pret\n     , cm_ak_funcs.getlmcount(f.creditid,6) idd\n     , cm_ak_funcs.getlmcount(f.creditid,7) qatn\n     , cm_ak_funcs.geticracount(f.creditid,7) icra\n    ,s.paymentdate,s.principal,s.interest,s.principal+s.interest as cem,\n  case when s.sex=1 then\n 'Kişi'  \nwhen s.sex=0 then 'Qadin'\n end as sex,cm_r\n\n  FROM cm_report_f1 f,cm_payment_schedule_portfel s,cm_active_credits p,cm_categories c where f.CREDITID=s.CREDITID and p.CUSTOMERTYPE=c.id\n\n\n\nORDER BY\n  branch, district, village, boorowername*/\n ",
+   "variables": [],
+   "unit": "CustDataMod"
+  },
+  {
+   "name": "Browerinfo",
+   "source": "TCustDataModu.Browerinfo",
+   "kind": "TOracleDataSet",
+   "sql": "select * from cm_boorowerinfo\nwhere creditid=:crid",
+   "variables": [
+    {
+     "name": "CRID",
+     "type": "integer"
+    }
+   ],
+   "unit": "CustDataMod"
+  }
+ ],
+ "packages": [
+  {
+   "component": "OraclePackage1",
+   "package": "cm_ak_reports",
+   "mode": "named",
+   "source": "TCustDataModu.OraclePackage1",
+   "routines": [
+    {
+     "name": "insinfof1",
+     "call": "CallProcedure"
+    }
+   ]
+  }
+ ],
+ "sql": []
+}

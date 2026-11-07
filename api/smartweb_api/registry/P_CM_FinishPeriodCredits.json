@@ -1,0 +1,132 @@
+{
+ "name": "P_CM_FinishPeriodCredits",
+ "caption": "",
+ "dir": "Packages/SB_Credit/CM_FinishPeriodCredits",
+ "mainForm": null,
+ "plugin": true,
+ "plugins": {},
+ "lib": [
+  "CommonDecls",
+  "LogoutputImpl",
+  "OraVariables",
+  "SBAccount",
+  "SBAlert",
+  "SBAppInfo",
+  "SBCore",
+  "SBCustomer",
+  "SBDecls",
+  "SBInstallation",
+  "SBLogin",
+  "SBMessage",
+  "SBMessages",
+  "SBModules",
+  "SBOConnectCached",
+  "SBODecls",
+  "SBOInitPkg",
+  "SBOracleLogOn",
+  "SBOutput",
+  "SBSecurity",
+  "SBSessionMgr",
+  "SBSettings",
+  "SBSrvIntf",
+  "SBSystem",
+  "SBTransaction",
+  "SBUtils",
+  "TemporaryTransactionsViewFormImpl",
+  "UnitChangePasswordForm",
+  "UnitSBOraLogOn",
+  "sboapiDataModuleImpl"
+ ],
+ "datasets": [
+  {
+   "name": "valutes",
+   "source": "TdmFinishPeriodCredits.valutes",
+   "kind": "TOracleDataSet",
+   "sql": "select valute,valu_name from sb_avalute",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "Filials",
+   "source": "TdmFinishPeriodCredits.Filials",
+   "kind": "TOracleDataSet",
+   "sql": "select id,name from sb_filial",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "pledgs",
+   "source": "TdmFinishPeriodCredits.pledgs",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  description\n  FROM cm_pledges\norder by id",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "Categories",
+   "source": "TdmFinishPeriodCredits.Categories",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_categories",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "persons",
+   "source": "TdmFinishPeriodCredits.persons",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id,  descripion\n  FROM cm_persons",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "CreditTypes",
+   "source": "TdmFinishPeriodCredits.CreditTypes",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_credittypes",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "ReportData",
+   "source": "TdmFinishPeriodCredits.ReportData",
+   "kind": "TOracleDataSet",
+   "sql": "select \n     p.dateofconclusion as opendate,\n     nvl(p.duedatelastcontract,p.duedatefirstcontract) as closedate,\n     p.creditlineamount,\n     p.annualyinterestrate,\n     cust.name as custname,\n     cust.id as CustID,\n     cm_common.accountnumber_get(acc.contractaccid) as ContractAccNO,\n     cm_common.get_accountbalance(acc.contractaccid) as BalAcc  ,\n     h.rest,\n     h.interestrest,\n     h.duerest,\n     h.dueinterestrest,\n     h.stopcalcdate,\n     h.reserveid,\n     h.duereserveid,\n     cm_utils.Get_CreditPaymentgreatDate(p.id,p.duedatefirstcontract) as payamt\n   from cm_portfolio p,\n        cm_sb_customers cust,\n        cm_accounts acc,\n        cm_curr_state h\n   where \n      p.boorowerid = cust.id and\n      p.id = acc.creditid and\n      p.id  = h.creditid(+)  \n\n\n\n     ",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "Reserves",
+   "source": "TdmFinishPeriodCredits.Reserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent||' - '|| description as descr\n  FROM CM_RESERVES\n  order by id",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "DueReserves",
+   "source": "TdmFinishPeriodCredits.DueReserves",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, percent||' - '|| description as descr\n  FROM CM_RESERVES\n  order by id\n",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "usrgroups",
+   "source": "TdmFinishPeriodCredits.usrgroups",
+   "kind": "TOracleDataSet",
+   "sql": "SELECT id, description\n  FROM cm_usergroups",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  },
+  {
+   "name": "Customers",
+   "source": "TdmFinishPeriodCredits.Customers",
+   "kind": "TOracleDataSet",
+   "sql": "select id,\n       name,\n       id||' - '||name as Kod\nfrom\n   cm_sb_customers\nwhere  EXISTS  (select boorowerid from cm_portfolio) ",
+   "variables": [],
+   "unit": "dmFinishPeriodCreditsImpl"
+  }
+ ],
+ "packages": [],
+ "sql": []
+}

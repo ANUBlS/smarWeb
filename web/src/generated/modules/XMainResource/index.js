@@ -565,5 +565,9 @@ export default {
   "sboapiDataModuleImpl",
   "unitfilter"
  ],
- "plugins": {}
+ "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cm_schedule.bpl": "P_CM_Schedule",
+  "cmcrdfilter.bpl": "P_CMCrdFilter"
+ }
 };

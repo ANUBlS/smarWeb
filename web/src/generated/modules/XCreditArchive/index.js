@@ -74,12 +74,15 @@ export default {
   "sboapiDataModuleImpl"
  ],
  "plugins": {
+  "cm_conclusion.bpl": "P_CM_Conclusion",
+  "cm_schedule.bpl": "P_CM_Schedule",
   "cmar_conclusion.bpl": "P_CMAr_Conclusion",
   "cmar_guarantee.bpl": "P_CMAr_Guarantee",
   "cmar_payment.bpl": "P_CMAr_Payment",
   "cmar_schedule.bpl": "P_CMAr_Schedule",
   "cmar_search.bpl": "P_CMAr_Search",
   "cmar_statement.bpl": "P_CMAr_Statement",
-  "cmarfilter.bpl": "P_CMArFilter"
+  "cmarfilter.bpl": "P_CMArFilter",
+  "cmcrdfilter.bpl": "P_CMCrdFilter"
  }
 };
