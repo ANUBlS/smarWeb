@@ -67,6 +67,8 @@ export function audit(kind: AuditKind, msg: string, module?: string) {
   else if (!timer) timer = setTimeout(() => void flush(), 1500);
 }
 
+/** The module the current work belongs to (the one being created, else the active window's). */
+export function currentModule() { return safeModule(); }
 function safeModule() { if (creating.length) return creating[creating.length - 1]; try { return moduleResolver() || ''; } catch { return ''; } }
 
 /** While a module's form is being created (its OnCreate runs before it has a window), entries belong to

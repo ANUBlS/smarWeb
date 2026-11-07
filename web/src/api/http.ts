@@ -7,6 +7,8 @@ import type {
   PackageCallRequest, PackageCallResult, ApplyRecordRequest, ApplyRecordResult,
 } from './types';
 import { OracleError } from './types';
+import { logger } from '../runtime/log';
+import { currentModule } from '../runtime/audit';
 
 /** Set when the API answered 401 for this session; error boxes are not shown any more until the next logon. */
 export const sessionExpired = { value: false };
@@ -47,12 +49,37 @@ export class HttpOracleApi implements OracleApi {
     return res;
   }
   async logoff() { await this.post('/logoff'); this.session = null; }
-  query(r: QueryRequest) { return this.post<QueryResult>('/query', { ...r, fieldHints: undefined }); }
+  /** Çıxışlar → "Oracle sorğuları": every call with its module, dataset, rows and time; the SQL text at debug level. */
+  private async traced<T>(kind: string, source: string | undefined, sql: string | undefined, f: () => Promise<T>, info: (r: T) => string): Promise<T> {
+    const t0 = performance.now();
+    const who = `${currentModule() || '-'} | ${kind} ${source ?? ''}`;
+    try {
+      const r = await f();
+      logger.api(`${who} → ${info(r)} (${Math.round(performance.now() - t0)} ms)`);
+      if (sql) logger.debug(sql.trim().replace(/\s+/g, ' ').slice(0, 1000));
+      return r;
+    } catch (e) {
+      logger.api(`${who} ✗ ${(e as Error)?.message?.split('\n')[0] ?? e} (${Math.round(performance.now() - t0)} ms)`);
+      if (sql) logger.debug(sql.trim().replace(/\s+/g, ' ').slice(0, 1000));
+      throw e;
+    }
+  }
+  query(r: QueryRequest) {
+    return this.traced('query', r.source, r.sql, () => this.post<QueryResult>('/query', { ...r, fieldHints: undefined }),
+      (x) => `${x.rows?.length ?? 0} row(s)${x.more ? '+' : ''}`);
+  }
   fetchRows(cursorId: string, count: number) { return this.post<{ rows: unknown[][]; more: boolean }>('/fetch', { cursorId, count }); }
   async closeCursor(cursorId: string) { await this.post('/close-cursor', { cursorId }); }
-  execute(r: ExecuteRequest) { return this.post<ExecuteResult>('/execute', r); }
-  callPackage(r: PackageCallRequest) { return this.post<PackageCallResult>('/package', r); }
-  applyRecord(r: ApplyRecordRequest) { return this.post<ApplyRecordResult>('/apply-record', r); }
+  execute(r: ExecuteRequest) {
+    return this.traced('execute', r.source, r.sql, () => this.post<ExecuteResult>('/execute', r), (x) => `${x.rowsProcessed ?? 0} row(s) processed`);
+  }
+  callPackage(r: PackageCallRequest) {
+    return this.traced('package', `${r.source} ${r.package}.${r.name}`, undefined,
+      () => this.post<PackageCallResult>('/package', r), () => 'ok');
+  }
+  applyRecord(r: ApplyRecordRequest) {
+    return this.traced('apply', r.source, undefined, () => this.post<ApplyRecordResult>('/apply-record', r), () => 'ok');
+  }
   async commit() { await this.post('/commit'); }
   async rollback() { await this.post('/rollback'); }
   async savepoint(name: string) { await this.post('/savepoint', { name }); }
